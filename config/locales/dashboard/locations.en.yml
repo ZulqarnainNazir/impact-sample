@@ -1,0 +1,6 @@
+en:
+  dashboard:
+    locations:
+      update:
+        notice: Ok, your contact information was saved successfully.
+        alert: There was a problem saving your contact information.

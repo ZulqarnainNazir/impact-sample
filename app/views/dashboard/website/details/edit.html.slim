@@ -1,0 +1,21 @@
+- title 'Edit Website Details'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, @business
+  li.active Website Details
+
+br
+
+= form_for @website, url: [@business, :website_details], method: :put do |form|
+  = errors_for @website
+  .form-horizontal
+    .form-group
+      = form.label :subdomain, class: 'col-xs-12 col-sm-2 col-lg-1 control-label', style: 'text-align: left;'
+      .col-xs-8.col-sm-6.col-lg-4
+        = form.text_field :subdomain, value: @website.subdomain.present? ? @website.subdomain : @business.name.parameterize, class: 'form-control'
+      .col-xs-4.col-sm-4.col-lg-6
+        p.text-muted: em style="position:relative; top:7px; left: -20px" .#{Rails.application.secrets.host}
+  hr
+  br
+  = form.button 'Save Website Details', class: 'btn btn-primary'

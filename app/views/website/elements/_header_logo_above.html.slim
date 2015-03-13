@@ -1,0 +1,19 @@
+.container.header-logo-above
+  .navbar-header
+    span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
+      span.sr-only Toggle Navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    = link_to :root, class: 'navbar-brand' do
+      = image_tag business.logo.try(:attachment_url, :medium), alt: business.name
+  .navbar-right.vcard.navbar-vcard
+    p.h4.tel = location.phone_number
+    p.adr #{location.address_line_one} <br> #{location.address_line_two}
+.container
+  .navbar.navbar-logo-above class=website.header_class role="navigation"
+    #header-collapse.navbar-collapse.collapse
+      ul.nav.navbar-nav
+        li = link_to 'About', '#'
+        li = link_to 'Contact', '#'
+        li = link_to 'Events', '#'

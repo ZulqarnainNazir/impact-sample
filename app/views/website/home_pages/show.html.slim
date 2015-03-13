@@ -1,0 +1,21 @@
+- title @page.title
+
+.container
+  - if @page.hero?
+    .theme-hero
+      = render partial: "website/elements/hero_#{@page.hero_theme.underscore}",
+        locals: { title: @page.hero_title,
+          text: @page.hero_text,
+          button: @page.hero_button,
+          background: @page.hero_background }
+  - if @page.tagline?
+    .theme-tagline
+      = render partial: "website/elements/tagline_#{@page.tagline_theme.underscore}",
+        locals: { text: @page.tagline_text,
+          button: @page.tagline_button }
+  - if @page.layout?
+    = render partial: "website/elements/layout_#{@page.layout_theme.underscore}"
+    br
+- if @page.reviews?
+  .theme-reviews
+    = render partial: "website/elements/reviews_#{@page.reviews_theme.underscore}"

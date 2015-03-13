@@ -1,0 +1,16 @@
+.navbar.navbar-static-top class=website.header_class role="navigation"
+  .container
+    .navbar-header
+      span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
+        span.sr-only Toggle Navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+    #header-collapse.navbar-collapse.collapse
+      ul.nav.navbar-nav
+        li = link_to 'About', '#'
+        li = link_to 'Contact', '#'
+        li = link_to 'Events', '#'
+.container.header-logo-below
+  = link_to :root, class: 'navbar-brand' do
+    = image_tag business.logo.try(:attachment_url, :large), alt: business.name

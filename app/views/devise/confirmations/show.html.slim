@@ -1,0 +1,28 @@
+- title 'Confirm Your Account'
+
+= errors_for resource, message: 'There was a problem confirming your account.'
+.panel.panel-default
+  .panel-heading
+    h1.h3.panel-title Confirm Your Account
+  .panel-body
+    = form_for resource, as: resource_name, url: update_user_confirmation_path, html: { method: :patch } do |form|
+      = hidden_field_tag :confirmation_token, @confirmation_token
+      .form-group
+        => form.label :first_name, class: 'control-label'
+        = form.text_field :first_name, class: 'form-control'
+      .form-group
+        => form.label :last_name, class: 'control-label'
+        = form.text_field :last_name, class: 'form-control'
+      .form-group
+        => form.label :password, class: 'control-label'
+        = form.password_field :password, autocomplete: 'off', class: 'form-control'
+        p.help-block Must be at least eight (8) characters.
+      .form-group
+        => form.label :password_confirmation, class: 'control-label'
+        = form.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+      hr
+      .row
+        .col-sm-8.col-sm-offset-2
+          = form.button 'Set Password', class: 'btn btn-primary btn-block'
+  .panel-footer
+    = render 'devise/shared/links'

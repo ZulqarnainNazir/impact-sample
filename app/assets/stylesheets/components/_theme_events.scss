@@ -1,0 +1,148 @@
+@import url("http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,400italic");
+
+.theme-events {
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .events {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .event {
+    background-color: rgb(225, 225, 225);
+    padding: 0px;
+    margin: 0px 0px 20px;
+
+    @media (min-width: $screen-sm) {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 0px;
+    }
+
+    a {
+      color: $text-color;
+    }
+  }
+
+  .event-datetime {
+    font-family: 'Lato', sans-serif;
+    display: inline-block;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background-color: rgb(197, 44, 102);
+    padding: 5px;
+    text-align: center;
+    text-transform: uppercase;
+
+    @media (min-width: $screen-sm) {
+      float: left;
+    }
+
+    span {
+      display: none;
+    }
+
+    .day {
+      display: block;
+      font-size: 52px;
+      font-weight: 100;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .month {
+      display: block;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+    }
+  }
+
+  .event:nth-child(even) .event-datetime {
+    background-color: rgb(165, 82, 167);
+  }
+
+  .event-photo {
+    width: 100%;
+
+    @media (min-width: $screen-sm) {
+      float: right;
+    }
+  }
+
+  .event-info {
+    padding: 5px 0;
+    text-align: center;
+
+    @media (min-width: $screen-sm) {
+      overflow: hidden;
+      position: relative;
+      height: 82px;
+      text-align: left;
+      padding: 5px 10px;
+    }
+  }
+
+  .event-title,
+  .event-desc {
+    line-height: 1.4;
+    margin: 4px 0;
+  }
+
+  @media (min-width: $screen-sm) {
+    .event-datetime,
+    .event-photo {
+      width: 82px;
+      height: 82px;
+      padding: 0px;
+      margin: 0px;
+    }
+  }
+
+  .events-widget {
+    .event {
+      margin-bottom: 1px;
+    }
+
+    .event-datetime {
+      .day {
+        font-size: 40px;
+      }
+
+      .month {
+        font-size: 16px;
+      }
+    }
+
+    .event-datetime {
+      width: 64px;
+      height: 64px;
+      float: left;
+    }
+
+    .event-info {
+      height: 64px;
+      text-align: left;
+      padding: 5px 10px;
+      overflow: hidden;
+    }
+
+    .event-photo {
+      display: none;
+    }
+  }
+
+  .event-details {
+    line-height: 1.75;
+
+    .glyphicon {
+      margin-right: 10px;
+    }
+  }
+}

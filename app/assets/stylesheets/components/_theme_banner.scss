@@ -1,0 +1,23 @@
+.theme-banner {
+  background-color: #FBE8AA;
+  @media (min-width: $screen-sm-min) {
+    .col-sm-6:last-child {
+      text-align: right;
+    }
+  }
+  @media (max-width: $screen-xs-max) {
+    text-align: center;
+  }
+  h2 {
+    margin: 5px 0 0;
+  }
+  > div {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .checkbox {
+    margin: 0 20px 0 0;
+    vertical-align: middle;
+    display: inline-block;
+  }
+}

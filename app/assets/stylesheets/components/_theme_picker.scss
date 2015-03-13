@@ -1,0 +1,15 @@
+.theme-picker {
+  margin-right: 10px;
+  &:hover {
+    .btn.btn-default {
+      background-color: #E6E6E6 !important;
+      border-color: #ADADAD !important;
+    }
+  }
+  &:active {
+    .btn.btn-default {
+      outline: 0 none;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+    }
+  }
+}

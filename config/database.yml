@@ -1,0 +1,12 @@
+development:
+  adapter: postgresql
+  database: impact_development
+  encoding: unicode
+test:
+  adapter: postgresql
+  database: impact_test
+  encoding: unicode
+production:
+  adapter: postgresql
+  database: impact_production
+  encoding: unicode

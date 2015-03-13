@@ -1,0 +1,31 @@
+footer.site-footer.site-footer-columns
+  .site-footer-upper
+    .container
+      .row
+        .site-footer-column.col-sm-2.col-md-1
+          ul.list-inline.footer-social
+            li = link_to '#' do
+              i.fa.fa-facebook-square.fa-2x
+            li = link_to '#' do
+              i.fa.fa-twitter-square.fa-2x
+            li = link_to '#' do
+              i.fa.fa-google-plus-square.fa-2x
+            li = link_to '#' do
+              i.fa.fa-youtube-square.fa-2x
+            li = link_to '#' do
+              i.fa.fa-linkedin-square.fa-2x
+            li = link_to '#' do
+              i.fa.fa-envelope-square.fa-2x
+        .site-footer-column.col-sm-6.col-md-8
+          ul.list-unstyled.footer-links
+            li = link_to 'About', '#'
+            li = link_to 'Contact', '#'
+            li = link_to 'Events', '#'
+        .site-footer-column.col-sm-4.col-md-3.vcard
+          p.h3.fn.org = location.name
+          p.tel = location.phone_number
+          p.adr #{location.address_line_one} <br> #{location.address_line_two}
+          - if location.email?
+            p = link_to location.email, "mailto:#{location.email}", class: 'email'
+  .container.text-center
+    p.copyright &copy #{Time.zone.now.year} #{business.name}

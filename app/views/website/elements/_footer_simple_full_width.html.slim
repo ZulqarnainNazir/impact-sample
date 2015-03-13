@@ -1,0 +1,22 @@
+footer.site-footer.site-footer-simple
+  hr
+  .container
+    p.copyright &copy #{Time.zone.now.year} #{business.name}
+    ul.list-inline.footer-social
+      li: b Follow Us:
+      li = link_to '#' do
+        i.fa.fa-facebook-square.fa-2x
+      li = link_to '#' do
+        i.fa.fa-twitter-square.fa-2x
+      li = link_to '#' do
+        i.fa.fa-google-plus-square.fa-2x
+      li = link_to '#' do
+        i.fa.fa-youtube-square.fa-2x
+      li = link_to '#' do
+        i.fa.fa-linkedin-square.fa-2x
+      li = link_to '#' do
+        i.fa.fa-envelope-square.fa-2x
+    ul.list-inline.footer-links
+      li = link_to 'About', '#'
+      li = link_to 'Contact', '#'
+      li = link_to 'Events', '#'

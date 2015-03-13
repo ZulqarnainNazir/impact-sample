@@ -1,0 +1,8 @@
+tr
+  td = authorization.user.first_name
+  td = authorization.user.last_name
+  td = authorization.user.email
+  td = authorization.role.capitalize
+  td
+    .btn-group
+      = link_to 'Delete', [authorization.business, authorization], method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }

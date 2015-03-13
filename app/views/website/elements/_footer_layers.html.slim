@@ -1,0 +1,35 @@
+footer.site-footer.site-footer-layers
+  .site-footer-upper.text-center
+    .container
+      ul.list-inline.footer-social
+        li: b Follow Us:
+        li = link_to '#' do
+          i.fa.fa-facebook-square.fa-2x
+        li = link_to '#' do
+          i.fa.fa-twitter-square.fa-2x
+        li = link_to '#' do
+          i.fa.fa-google-plus-square.fa-2x
+        li = link_to '#' do
+          i.fa.fa-youtube-square.fa-2x
+        li = link_to '#' do
+          i.fa.fa-linkedin-square.fa-2x
+        li = link_to '#' do
+          i.fa.fa-envelope-square.fa-2x
+  .site-footer-middle
+    .container
+      ul.list-unstyled.footer-links
+        li = link_to 'About', '#'
+        li = link_to 'Contact', '#'
+        li = link_to 'Events', '#'
+  .site-footer-bottom
+    .container
+      .row.vcard
+        .col-sm-4
+          p.h4.fn.org = business.name
+          p.copyright &copy #{Time.zone.now.year} #{business.name}
+        .col-sm-4.footer-center
+          p.tel = location.phone_number
+          - if location.email?
+            = link_to location.email, "mailto:#{location.email}", class: 'email'
+        .col-sm-4.footer-right
+          p.adr #{location.address_line_one} <br> #{location.address_line_two}

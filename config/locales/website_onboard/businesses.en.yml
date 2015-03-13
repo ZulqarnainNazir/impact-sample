@@ -1,0 +1,9 @@
+en:
+  website_onboard:
+    businesses:
+      create:
+        notice: Ok, now let’s collect your business contact information.
+        alert: There was a problem saving your business details.
+      update:
+        notice: Ok, now let’s collect your business contact information.
+        alert: There was a problem saving your business details.

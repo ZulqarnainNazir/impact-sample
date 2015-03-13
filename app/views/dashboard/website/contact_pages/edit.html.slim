@@ -1,0 +1,61 @@
+- title 'Edit Website Contact Page'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, @business
+  li = link_to 'Website Pages', [@business, :website_pages]
+  li.active Contact Page
+
+br
+br
+
+= form_for @contact_page, url: [@business, :website_contact_page], method: :put do |form|
+  = errors_for @contact_page
+  .form-horizontal
+    .form-group
+      = form.label :title, class: 'col-sm-3 col-lg-1 control-label', style: 'text-align: left;'
+      .col-sm-6.col-lg-4
+        = form.text_field :title, value: @contact_page.title.present? ? @contact_page.title : "Contact #{@business.name}", class: 'form-control'
+  hr
+  .panel.panel-default.page-frame
+    .panel-heading
+      .form-inline
+        .form-group style="margin: 0"
+          = image_tag 'browser-buttons.png', alt: ''
+    .theme-designer
+      .theme-header
+        = react_component 'ThemeHeaderDesigner',
+          type: @website.header,
+          style: @website.header_style,
+          name: @business.name,
+          logoSmall: @business.logo.try(:attachment_url, :small),
+          logoMedium: @business.logo.try(:attachment_url, :medium),
+          logoLarge: @business.logo.try(:attachment_url, :large),
+          phoneNumber: @business.location.phone_number,
+          addressLineOne: @business.location.address_line_one,
+          addressLineTwo: @business.location.address_line_two
+      .panel-body.text-center
+        div style="background-color: #eee; border-radius: 5px; padding: 10em 5em; margin: 2em 0;"
+      .theme-footer
+        = react_component 'ThemeFooterDesigner',
+          type: @website.footer,
+          name: @business.name,
+          phoneNumber: @business.location.phone_number,
+          addressLineOne: @business.location.address_line_one,
+          addressLineTwo: @business.location.address_line_two
+    .panel-footer
+  hr
+  br
+  div
+    .btn-group
+      - if @contact_page.persisted?
+        = form.button 'Update Contact Page', class: 'btn btn-primary'
+        - unless @contact_page.active?
+          = form.button 'Update &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
+      - else
+        = form.button 'Add Contact Page', class: 'btn btn-primary'
+        = form.button 'Add &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
+
+- if @contact_page.active?
+  = form_for @contact_page, url: [@business, :website_contact_page], method: :delete, html: { class: 'pull-right', style: 'margin-top: -35px' } do |form|
+    = form.button 'Disable Page', class: 'btn btn-warning'

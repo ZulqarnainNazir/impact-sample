@@ -1,0 +1,22 @@
+.theme-tagline {
+  .tagline-left .btn {
+    margin-bottom: $line-height-computed;
+    @media (min-width: $grid-float-breakpoint) {
+      margin-left: 20px;
+      float: right;
+    }
+  }
+  .tagline-columns {
+    .img-responsive {
+      width: 100%;
+    }
+    p {
+      margin: ($line-height-computed * 1.25) 0;
+    }
+    @media (min-width: $screen-sm-min) {
+      .tagline-text {
+        min-height: 57px;
+      }
+    }
+  }
+}

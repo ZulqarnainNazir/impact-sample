@@ -1,0 +1,105 @@
+- title 'Edit Website Homepage'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, @business
+  li = link_to 'Website Pages', [@business, :website_pages]
+  li.active Homepage
+
+br
+br
+
+= form_for @home_page, url: [@business, :website_home_page], method: :put do |form|
+  = errors_for @home_page
+  .form-horizontal
+    .form-group
+      = form.label :title, class: 'col-sm-3 col-lg-1 control-label', style: 'text-align: left;'
+      .col-sm-6.col-lg-4
+        = form.text_field :title, value: @home_page.title.present? ? @home_page.title : @business.name, class: 'form-control'
+  hr
+  .panel.panel-default.page-frame
+    .panel-heading
+      .form-inline
+        .form-group style="margin: 0"
+          = image_tag 'browser-buttons.png', alt: ''
+    .theme-designer
+      .theme-header
+        = react_component 'ThemeHeaderDesigner',
+          type: @website.header,
+          style: @website.header_style,
+          name: @business.name,
+          logoSmall: @business.logo.try(:attachment_url, :small),
+          logoMedium: @business.logo.try(:attachment_url, :medium),
+          logoLarge: @business.logo.try(:attachment_url, :large),
+          phoneNumber: @business.location.phone_number,
+          addressLineOne: @business.location.address_line_one,
+          addressLineTwo: @business.location.address_line_two
+      .theme-hero
+        = form.fields_for :hero_background_placement, form.object.hero_background_placement || form.object.build_hero_background_placement do |placement_form|
+          = placement_form.fields_for :image, placement_form.object.image || placement_form.object.build_image do |image_form|
+            = placement_form.hidden_field :_destroy
+            = image_form.hidden_field :id, class: 'image_id'
+            = image_form.hidden_field :alt
+            = image_form.hidden_field :title
+            = image_form.hidden_field :attachment_cache_url
+            = image_form.hidden_field :attachment_content_type
+            = image_form.hidden_field :attachment_file_name
+            = image_form.hidden_field :attachment_file_size
+            - presigned_post = s3_presigned_post
+            = react_component 'ThemeHeroDesigner',
+              inputPrefix: 'home_page',
+              visible: @home_page.hero?,
+              type: @home_page.hero_theme,
+              title: @home_page.hero_title,
+              text: @home_page.hero_text,
+              background: @home_page.hero_background.try(:attachment_url),
+              button: @home_page.hero_button,
+              initialAlt: image_form.object.alt.to_s,
+              initialFileName: image_form.object.attachment_file_name.to_s,
+              initialFileSize: image_form.object.attachment_file_size.to_i,
+              initialFileType: image_form.object.attachment_content_type.to_s,
+              initialTitle: image_form.object.title.to_s,
+              initialUrl: image_form.object.attachment_url.to_s,
+              presignedPostFields: presigned_post.fields,
+              presignedPostHost: presigned_post.url.host,
+              presignedPostUrl: presigned_post.url.to_s
+      .theme-tagline
+        = react_component 'ThemeTaglineDesigner',
+          inputPrefix: 'home_page',
+          visible: @home_page.tagline?,
+          type: @home_page.tagline_theme,
+          text: @home_page.tagline_text,
+          button: @home_page.tagline_button
+      .theme-layout
+        = react_component 'ThemeLayoutDesigner',
+          inputPrefix: 'home_page',
+          visible: @home_page.layout?,
+          type: @home_page.layout_theme
+      .theme-reviews
+        = react_component 'ThemeReviewsDesigner',
+          inputPrefix: 'home_page',
+          visible: @home_page.reviews?,
+          type: @home_page.reviews_theme
+      .theme-footer
+        = react_component 'ThemeFooterDesigner',
+          type: @website.footer,
+          name: @business.name,
+          phoneNumber: @business.location.phone_number,
+          addressLineOne: @business.location.address_line_one,
+          addressLineTwo: @business.location.address_line_two
+    .panel-footer
+  hr
+  br
+  div
+    .btn-group
+      - if @home_page.persisted?
+        = form.button 'Update Homepage', class: 'btn btn-primary'
+        - unless @home_page.active?
+          = form.button 'Update &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
+      - else
+        = form.button 'Add Homepage', class: 'btn btn-primary'
+        = form.button 'Add &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
+
+- if @home_page.active?
+  = form_for @home_page, url: [@business, :website_home_page], method: :delete, html: { class: 'pull-right', style: 'margin-top: -35px' } do |form|
+    = form.button 'Disable Page', class: 'btn btn-warning'

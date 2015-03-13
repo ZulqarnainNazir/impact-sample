@@ -1,0 +1,122 @@
+- title 'IMPACT Marketing Suite'
+
+ol.breadcrumb
+  li = link_to icon('home'), :businesses
+  li.active = @business.name
+
+br
+- if @business.website
+  h2.h3 Preview Your Website
+  = link_to website_root_url(host: website_host(@business.website)), target: :_blank, class: 'btn btn-info' do
+    strong => website_root_url(host: website_host(@business.website))
+    i.fa.fa-external-link style="margin-left:5px"
+  hr
+h2.h3 What do you want do do?
+.row.dashboard-root-primary-panels
+  .col-sm-6.col-lg-3 style="pointer-events:none; opacity:0.4"
+    = link_to '#' do
+      .panel.panel-primary
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-edit.fa-5x
+            .col-xs-9.text-right
+              div style="font-size: 40px" 0
+              | Posts
+        .panel-footer.text-right
+          span.pull-left> Manage Content
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3 style="pointer-events:none; opacity:0.4"
+    = link_to '#' do
+      .panel.panel-success
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-group.fa-5x
+            .col-xs-9.text-right
+              div style="font-size: 40px" 0
+              | Allies
+        .panel-footer.text-right
+          span.pull-left> Manage Alliances
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [@business, :website_pages] do
+      .panel.panel-warning
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-sitemap.fa-5x
+            .col-xs-9.text-right
+              div style="font-size: 40px" 0
+              | Pages
+        .panel-footer.text-right
+          span.pull-left> Manage Website
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    .panel.panel-danger
+      = link_to [:edit, @business, :details] do
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-map-marker.fa-5x
+            .col-xs-9.text-right
+              | Manage Central <br> Business Data
+        .panel-footer.text-right
+          span.pull-left> Manage Business Data
+          i.fa.fa-arrow-circle-right
+hr
+h2.h3
+  ' Post new content
+  span.small Select post type
+.row.dashboard-root-secondary-panels style="pointer-events:none; opacity:0.4"
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to '#' do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-calendar.fa-4x
+        .panel-footer.text-right
+          span.pull-left> New Event
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to '#' do
+      .panel.panel-success
+        .panel-heading
+          i.fa.fa-ticket.fa-4x
+        .panel-footer.text-right
+          span.pull-left> New Offer
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to '#' do
+      .panel.panel-warning
+        .panel-heading
+          i.fa.fa-tasks.fa-4x
+        .panel-footer.text-right
+          span.pull-left> New Project
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to '#' do
+      .panel.panel-danger
+        .panel-heading
+          i.fa.fa-photo.fa-4x
+        .panel-footer.text-right
+          span.pull-left> New Gallery
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to '#' do
+      .panel.panel-success
+        .panel-heading
+          i.fa.fa-bullhorn.fa-4x
+        .panel-footer.text-right
+          span.pull-left> New Product
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to '#' do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-edit.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Custom Post
+          i.fa.fa-arrow-circle-right
+hr
+p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', '#', style: 'pointer-events:none; opacity:0.4'} if you don't see a match. 
+p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_pages]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your allies, the Locable Publisher Network, and any linked accounts.

@@ -1,0 +1,9 @@
+.reviews.reviews-columns
+  .container
+    #reviews-columns.carousel.slide data-ride="carousel"
+      .carousel-inner
+        = render 'example_columns_reviews'
+      = link_to '#reviews-columns', class: 'left carousel-control', role: 'button', data: { slide: 'prev' } do
+        span.glyphicon.glyphicon-chevron-left
+      = link_to '#reviews-columns', class: 'right carousel-control', role: 'button', data: { slide: 'next' } do
+        span.glyphicon.glyphicon-chevron-right

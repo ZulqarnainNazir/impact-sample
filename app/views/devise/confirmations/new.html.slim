@@ -1,0 +1,17 @@
+- title 'Resend Confirmation Instructions'
+
+= errors_for resource, message: 'There was a problem resending confirmation instructions.'
+.panel.panel-default
+  .panel-heading
+    h1.h3.panel-title Resend Confirmation Instructions
+  .panel-body
+    = form_for resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post } do |form|
+      .form-group
+        => form.label :email
+        = form.email_field :email, autofocus: true, class: 'form-control'
+      hr
+      .row
+        .col-sm-8.col-sm-offset-2
+          = form.button 'Resend Confirmation Instructions', class: 'btn btn-primary btn-block'
+  .panel-footer
+    = render 'devise/shared/links'

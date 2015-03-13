@@ -1,0 +1,17 @@
+- title 'Reset Password'
+
+= errors_for resource, message: 'There was a problem sending password reset instructions.'
+.panel.panel-default
+  .panel-heading
+    h1.h3.panel-title Reset Password
+  .panel-body
+    = form_for resource, as: resource_name, url: password_path(resource_name), html: { method: :post } do |form|
+      .form-group
+        => form.label :email
+        = form.email_field :email, autofocus: true, class: 'form-control'
+      hr
+      .row
+        .col-sm-8.col-sm-offset-2
+          = form.button 'Send Password Reset Instructions', class: 'btn btn-primary btn-block'
+  .panel-footer
+    = render 'devise/shared/links'

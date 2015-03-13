@@ -1,0 +1,6 @@
+en:
+  website_onboard:
+    locations:
+      update:
+        notice: Ok, now let’s setup your website design.
+        alert: There was a problem saving your contact information.

@@ -1,0 +1,12 @@
+- if notice
+  .alert.alert-success.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert" aria-label="Close"
+        span aria-hidden=true &times;
+      = notice
+      - flash[:notice] = nil
+- if alert
+  .alert.alert-warning.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert" aria-label="Close"
+        span aria-hidden=true &times;
+      = alert
+      - flash[:alert] = nil

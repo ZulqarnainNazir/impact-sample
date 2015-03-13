@@ -1,0 +1,35 @@
+en:
+  activerecord:
+    errors:
+      models:
+        business:
+          attributes:
+            category_ids:
+              blank: must include at least one selection
+        location:
+          attributes:
+            state:
+              inclusion: is not a valid US State
+        website:
+          attributes:
+            subdomain:
+              invalid: must contain only letters, numbers and hypens
+    attributes:
+      business:
+        category_ids: Categories
+        youtube_id: YouTube
+        google_plus_id: Google Plus
+        linkedin_id: LinkedIn
+      location:
+        name: Location Name
+        email: Email Address
+        zip_code: Zip Code
+        street1: Street Address
+        phone_number: Phone Number
+      page:
+        title: Page Title
+      user:
+        first_name: First Name
+        last_name: Last Name
+        password_confirmation: Password Confirmation
+        current_password: Current Password

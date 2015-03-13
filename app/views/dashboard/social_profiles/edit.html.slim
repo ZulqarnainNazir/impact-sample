@@ -1,0 +1,46 @@
+- title 'Edit Your Social Profiles'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, @business
+  li.active Social Profiles
+
+.row
+  .col-md-8
+    = errors_for @business
+    = form_for @business, url: [@business, :social_profiles] do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Edit Your Social Profiles
+        .panel-body
+          .form-group
+            = form.label :facebook_id, class: 'control-label' do
+              i.fa.fa-facebook-square>
+              = Business.human_attribute_name(:facebook_id)
+            = form.text_field :facebook_id, class: 'form-control'
+          hr
+          .form-group
+            = form.label :twitter_id, class: 'control-label'
+              i.fa.fa-twitter-square>
+              = Business.human_attribute_name(:twitter_id)
+            = form.text_field :twitter_id, class: 'form-control'
+          hr
+          .form-group
+            = form.label :google_plus_id, class: 'control-label'
+              i.fa.fa-google-plus-square>
+              = Business.human_attribute_name(:google_plus_id)
+            = form.text_field :google_plus_id, class: 'form-control'
+          hr
+          .form-group
+            = form.label :linkedin_id, class: 'control-label'
+              i.fa.fa-linkedin-square>
+              = Business.human_attribute_name(:linkedin_id)
+            = form.text_field :linkedin_id, class: 'form-control'
+          hr
+          .form-group
+            = form.label :youtube_id, class: 'control-label'
+              i.fa.fa-youtube-square>
+              = Business.human_attribute_name(:youtube_id)
+            = form.text_field :youtube_id, class: 'form-control'
+        .panel-footer.text-right
+          = form.button 'Save', class: 'btn btn-primary'

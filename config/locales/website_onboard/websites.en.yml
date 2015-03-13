@@ -1,0 +1,6 @@
+en:
+  website_onboard:
+    websites:
+      update:
+        notice: Looks great, now let’s setup your homepage.
+        alert: There was a problem saving your website design.

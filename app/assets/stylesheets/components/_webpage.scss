@@ -1,0 +1,21 @@
+.page-frame {
+  box-shadow: 0 0 1em rgba(0,0,0,0.1), 0 0 0.2em rgba(0,0,0,0.2);
+}
+
+.page-preview {
+  padding: 1em;
+  i.fa-4x {
+    display: inline-block;
+    height: 56px;
+  }
+  code {
+    display: inline-block;
+    margin: 1em 0 0;
+  }
+  h2 {
+    margin: 1em 0 0;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}

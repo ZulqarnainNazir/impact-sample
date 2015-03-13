@@ -1,0 +1,18 @@
+- title 'Add Your Business to the IMPACT Marketing Suite'
+
+.row
+  .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+    = errors_for @business
+    = form_for [:website_onboard, @business] do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Add Your Business to IMPACT
+        .panel-body
+          = render form
+        .panel-footer
+          => link_to :businesses, class: 'btn btn-default' do
+            i.fa.fa-close>
+            | Cancel
+          = form.button class: 'btn btn-primary pull-right' do
+            ' Continue
+            i.fa.fa-angle-double-right

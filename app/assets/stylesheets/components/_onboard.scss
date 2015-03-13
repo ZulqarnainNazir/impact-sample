@@ -1,0 +1,79 @@
+.onboard {
+  margin: 2em 0 4em;
+}
+
+.onboard-step {
+  padding: 0;
+  position: relative;
+  .progress {
+    position: relative;
+    border-radius: 0;
+    height: 8px;
+    box-shadow: none;
+    margin: 20px 0;
+  }
+  .progress-bar {
+    width: 0;
+    box-shadow: none;
+    background: #fbe8aa;
+  }
+  &.is-active .progress-bar {
+    width: 50%;
+  }
+  &.is-complete .progress-bar {
+    width: 100%;
+  }
+  &:first-child.is-active .progress-bar {
+    width: 0;
+  }
+  &:last-child.is-active .progress-bar {
+    width: 100%;
+  }
+  &.is-disabled .onboard-dot {
+    background-color: #f5f5f5;
+    &:after {
+      opacity: 0;
+    }
+  }
+  &:first-child .progress {
+    width: 50%;
+    left: 50%;
+  }
+  &:last-child .progress {
+    width: 50%;
+  }
+}
+
+.onboard-stepnum {
+  color: #777;
+  font-size: 14px;
+  height: 40px;
+  margin-bottom: 5px;
+  strong {
+    color: #000;
+  }
+}
+
+.onboard-dot {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: block;
+  background: #fbe8aa;
+  top: 63px;
+  left: 50%;
+  margin-top: -15px;
+  margin-left: -15px;
+  border-radius: 50%;
+}
+
+.onboard-dot:after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  background: #fbbd19;
+  border-radius: 50%;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}

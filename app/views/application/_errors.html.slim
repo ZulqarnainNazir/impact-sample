@@ -1,0 +1,12 @@
+.panel.panel-warning
+  - if message || alert
+    .panel-heading
+      - if message
+        strong = message
+      - else
+        strong = alert
+        - flash[:alert] = nil
+  .panel-body
+    ul style="padding-left:15px"
+      - error_messages.each do |error_message|
+        li = error_message

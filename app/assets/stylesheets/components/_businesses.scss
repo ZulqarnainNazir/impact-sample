@@ -1,0 +1,38 @@
+.businesses {
+  text-align: center;
+  .thumbnail {
+    height: 170px;
+    text-decoration: none;
+    .thumbnail {
+      background: #f8f8f8;
+      margin: 0 0 10px;
+      border: solid 1px #eee;
+      height: 120px;
+      padding: 0;
+    }
+  }
+  h2 {
+    font-size: 1.2em;
+    line-height: 1.35;
+    margin: 0 5px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .btn-block {
+    margin: 10px 0 0;
+  }
+  img {
+    width: 100%;
+  }
+  i.fa-plus {
+    font-size: 60px;
+    margin-top: 40px;
+    margin-bottom: 28px;
+  }
+  i.fa-photo {
+    color: #999;
+    font-size: 50px;
+    margin-top: 35px;
+  }
+}
+
