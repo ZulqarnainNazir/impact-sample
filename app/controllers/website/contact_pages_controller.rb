@@ -1,6 +1,6 @@
 class Website::ContactPagesController < Website::BaseController
   def show
-    @page = @website.active_contact_page
+    @page = @website.contact_page
 
     if !@page
       raise ActiveRecord::RecordNotFound

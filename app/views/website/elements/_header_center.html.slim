@@ -10,6 +10,9 @@
         = business.name
     #header-collapse.navbar-collapse.collapse
       ul.nav.navbar-nav.navbar-centered
-        li = link_to 'About', '#'
-        li = link_to 'Contact', '#'
-        li = link_to 'Events', '#'
+        - if about_page
+          li = link_to 'About', website_about_page_path
+        - if contact_page
+          li = link_to 'Contact', website_contact_page_path
+        - custom_pages.each do |page|
+          li = link_to page.name, website_custom_page_path(page.pathname)

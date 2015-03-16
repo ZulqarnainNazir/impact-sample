@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 12) do
+ActiveRecord::Schema.define(version: 13) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 12) do
     t.integer  "website_id",                  null: false
     t.boolean  "active",      default: false, null: false
     t.string   "type",                        null: false
-    t.string   "pathname",                    null: false
+    t.string   "pathname",    default: "",    null: false
     t.string   "title",                       null: false
     t.string   "description"
     t.json     "settings"
@@ -136,6 +136,23 @@ ActiveRecord::Schema.define(version: 12) do
 
   add_index "placements", ["image_id"], name: "index_placements_on_image_id", using: :btree
   add_index "placements", ["placer_type", "placer_id"], name: "index_placements_on_placer_type_and_placer_id", using: :btree
+
+  create_table "team_members", force: :cascade do |t|
+    t.integer  "business_id",    null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "title"
+    t.string   "description"
+    t.string   "facebook_id"
+    t.string   "google_plus_id"
+    t.string   "linkedin_id"
+    t.string   "twitter_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "team_members", ["business_id"], name: "index_team_members_on_business_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                          null: false
@@ -167,10 +184,11 @@ ActiveRecord::Schema.define(version: 12) do
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
   create_table "webhosts", force: :cascade do |t|
-    t.integer  "website_id", null: false
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "website_id",                 null: false
+    t.string   "name",                       null: false
+    t.boolean  "primary",    default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "webhosts", ["name"], name: "index_webhosts_on_name", unique: true, using: :btree

@@ -1,4 +1,9 @@
 - title @page.title
 
 .container
-  em.bg-danger TODO
+  .page-header
+    h1 Contact
+  .theme-contact
+    = render partial: "website/elements/contact_#{@page.contact_theme.underscore}", locals: { business: @business,
+      contact_page: @page,
+      location: @location }

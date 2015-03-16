@@ -13,9 +13,10 @@ br
   = errors_for @contact_page
   .form-horizontal
     .form-group
-      = form.label :title, class: 'col-sm-3 col-lg-1 control-label', style: 'text-align: left;'
+      = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
       .col-sm-6.col-lg-4
         = form.text_field :title, value: @contact_page.title.present? ? @contact_page.title : "Contact #{@business.name}", class: 'form-control'
+        p.help-block Important for SEO
   hr
   .panel.panel-default.page-frame
     .panel-heading
@@ -34,8 +35,16 @@ br
           phoneNumber: @business.location.phone_number,
           addressLineOne: @business.location.address_line_one,
           addressLineTwo: @business.location.address_line_two
-      .panel-body.text-center
-        div style="background-color: #eee; border-radius: 5px; padding: 10em 5em; margin: 2em 0;"
+      .theme-contact
+        = react_component 'ThemeContactDesigner',
+          inputPrefix: 'contact_page',
+          type: @contact_page.contact_theme,
+          name: @business.location.name,
+          email: @business.location.email,
+          phone_number: @business.location.phone_number,
+          address_line_one: @business.location.address_line_one,
+          address_line_two: @business.location.address_line_two,
+          text: @contact_page.text
       .theme-footer
         = react_component 'ThemeFooterDesigner',
           type: @website.footer,

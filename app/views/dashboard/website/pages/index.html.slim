@@ -10,7 +10,7 @@ ol.breadcrumb
     = link_to [:edit, @business, :website_home_page], class: 'page-preview thumbnail text-center' do
       i.fa.fa-home.fa-4x>
       h2.h3> Homepage
-      code => '/'
+      code = '/'
     p.text-right
       - unless @website.home_page.try(:active?)
         em.text-muted style="margin-right:15px; position:relative; top:2px" Disabled
@@ -21,7 +21,7 @@ ol.breadcrumb
     = link_to [:edit, @business, :website_about_page], class: 'page-preview thumbnail text-center' do
       i.fa.fa-question-circle.fa-4x>
       h2.h3> About
-      code => '/about'
+      code = '/about'
     p.text-right
       - unless @website.about_page.try(:active?)
         em.text-muted style="margin-right:15px; position:relative; top:2px" Disabled
@@ -32,7 +32,7 @@ ol.breadcrumb
     = link_to [:edit, @business, :website_contact_page], class: 'page-preview thumbnail text-center' do
       i.fa.fa-map-marker.fa-4x>
       h2.h3> Contact
-      code => '/about'
+      code = '/contact'
     p.text-right
       - unless @website.contact_page.try(:active?)
         em.text-muted style="margin-right:15px; position:relative; top:2px" Disabled
@@ -41,5 +41,10 @@ ol.breadcrumb
         i.fa.fa-external-link style="margin-left:5px"
   .col-sm-6.col-md-3
 hr
-h2.h3 Custom Pages
-p: em No custom pages found.
+h2.h3
+  ' Custom Pages
+  span.small = link_to 'Add a Page', :new_business_website_custom_page, class: 'btn btn-primary btn-xs', style: 'margin-left:10px; margin-top:-5px'
+- if @custom_pages.any?
+  = render @custom_pages
+- else
+  p: em No custom pages found.

@@ -1,0 +1,12 @@
+tr class=('is-appended' if webhost.new_record? && webhost.errors.empty? && webhost.name.blank?)
+  = website_form.fields_for :webhosts, webhost, child_index: (webhost.new_record? && webhost.errors.empty? && webhost.name.blank? ? 98765432101 : nil) do |form|
+    td
+      = form.label :primary, class: 'btn btn-default' do
+        => form.check_box :primary
+        | Primary?
+    td = form.text_field :name, placeholder: 'www.example.com', class: 'form-control'
+    td
+      = form.label :_destroy, class: 'btn btn-default' do
+        => form.check_box :_destroy
+        span.sr-only> Destroy
+        i.fa.fa-trash-o

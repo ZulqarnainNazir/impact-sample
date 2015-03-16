@@ -24,6 +24,10 @@ module ApplicationHelper
   end
 
   def website_host(website)
-    [website.subdomain, Rails.application.secrets.host].join('.')
+    if website.webhost
+      website.webhost.name
+    else
+      [website.subdomain, Rails.application.secrets.host].join('.')
+    end
   end
 end

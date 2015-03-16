@@ -11,9 +11,7 @@ class Website < ActiveRecord::Base
   has_one :active_about_page, -> { active }, class_name: AboutPage.name
   has_one :active_contact_page, -> { active }, class_name: ContactPage.name
 
-  accepts_nested_attributes_for :home_page
-  accepts_nested_attributes_for :about_page
-  accepts_nested_attributes_for :contact_page
+  accepts_nested_attributes_for :webhosts, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && a['name'].blank? || a['_destroy'].blank? }
 
   store_accessor :settings,
     :footer,
@@ -24,6 +22,13 @@ class Website < ActiveRecord::Base
   validates :header, presence: true, inclusion: { in: %w[inline center justify logoAbove logoAboveFullWidth logoBelow logoCenter] }
   validates :header_style, presence: true, inclusion: { in: %w[dark light transparent] }
   validates :subdomain, presence: true, length: { in: 3..30 }, format: { with: /\A[[a-z][0-9]\-]+\z/ }, uniqueness: { case_sensitive: false }
+  validates :webhosts, length: { maximum: 10 }
+
+  validate do
+    if webhosts.length > 1 && webhosts.select(&:primary?).length != 1
+      errors.add :webhosts, :invalid_primary
+    end
+  end
 
   def header_class
     case header_style
@@ -32,5 +37,9 @@ class Website < ActiveRecord::Base
     when 'light'
       'navbar-default'
     end
+  end
+
+  def webhost
+    webhosts.length > 1 ? webhosts.primary.first : webhosts.first
   end
 end

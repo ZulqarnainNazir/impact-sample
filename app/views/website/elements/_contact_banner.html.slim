@@ -1,0 +1,44 @@
+div style="margin-bottom:50px"
+  iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=195+Blue+Ravine+Road+%23100+Folsom%2C+CA+95630%0A&key=AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298"
+.row
+  .col-sm-4
+    ul.list-inline
+      - if business.facebook_id?
+        li = link_to "https://www.facebook.com/#{business.facebook_id}" do
+          i.fa.fa-facebook-square.fa-2x
+      - if business.twitter_id?
+        li = link_to "https://www.twitter.com/#{business.twitter_id}" do
+          i.fa.fa-twitter-square.fa-2x
+      - if business.google_plus_id?
+        li = link_to "https://plus.google.com/+#{business.google_plus_id}" do
+          i.fa.fa-google-plus-square.fa-2x
+      - if business.youtube_id?
+        li = link_to "https://www.youtube.com/user/#{business.youtube_id}" do
+          i.fa.fa-youtube-square.fa-2x
+      - if business.linkedin_id?
+        li = link_to "https://www.linkedin.com/in/#{business.linkedin_id}" do
+          i.fa.fa-linkedin-square.fa-2x
+      - if location.email?
+        li = link_to "mailto:#{location.email}" do
+          i.fa.fa-envelope-square.fa-2x
+    .vcard
+      h3.fn.org = location.name
+      p.tel = location.phone_number
+      p.adr
+        => location.address_line_one
+        br>
+        = location.address_line_two
+      p = link_to location.email, "mailto:#{location.email}", class: 'email'
+      p hours...
+  .col-sm-8
+    .form-group
+      label.control-label.sr-only for="name" Name
+      input#name.form-control type="text" name="name" placeholder="Name"
+    .form-group
+      label.control-label.sr-only for="email" Email
+      input#email.form-control type="email" name="email" placeholder="Email"
+    .form-group
+      label.control-label.sr-only for="message" Message
+      textarea#message.form-control name="message" placeholder="Message" rows="5"
+    .form-group
+      button.btn.btn-primary type="submit" Send Message

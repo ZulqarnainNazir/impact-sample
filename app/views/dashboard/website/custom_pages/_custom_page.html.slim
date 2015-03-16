@@ -1,0 +1,14 @@
+.col-sm-6.col-md-3
+  = link_to [:edit, custom_page.website.business, :website, custom_page], class: 'page-preview thumbnail text-center' do
+    i.fa.fa-file.fa-4x>
+    h2.h3 => custom_page.name
+    code
+      | /
+      = custom_page.pathname
+  p.text-right
+    - unless custom_page.try(:active?)
+      em.text-muted style="margin-right:15px; position:relative; top:2px" Disabled
+    = link_to website_custom_page_url(custom_page.pathname, host: website_host(custom_page.website)), target: :_blank, class: "btn btn-info btn-sm #{'disabled' unless custom_page.try(:persisted?)}" do
+      ' Preview
+      i.fa.fa-external-link style="margin-left:5px"
+

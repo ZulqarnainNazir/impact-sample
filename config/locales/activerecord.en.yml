@@ -10,10 +10,20 @@ en:
           attributes:
             state:
               inclusion: is not a valid US State
+        page:
+          attributes:
+            pathname:
+              invalid: must contain only letters, numbers, hyphens and underscores; forward slashes may be included in the middle of the pathname
+        webhost:
+          attributes:
+            name:
+              invalid: must be a valid hostname and not begin with "http://"
         website:
           attributes:
             subdomain:
               invalid: must contain only letters, numbers and hypens
+            webhosts:
+              invalid_primary: must contain a single primary domain
     attributes:
       business:
         category_ids: Categories
@@ -27,7 +37,9 @@ en:
         street1: Street Address
         phone_number: Phone Number
       page:
-        title: Page Title
+        name: Link Name
+        pathname: URL Slug
+        title: HTML Title
       user:
         first_name: First Name
         last_name: Last Name

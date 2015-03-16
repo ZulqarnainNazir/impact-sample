@@ -9,8 +9,21 @@
       = link_to :root, class: 'navbar-brand', style: "background-image: url('#{business.logo.try(:attachment_url, :small)}')" do
         = business.name
     #header-collapse.navbar-collapse.collapse
-      ul.nav.navbar-nav.navbar-left
-        li = link_to 'About', '#'
-        li = link_to 'Contact', '#'
-      ul.nav.navbar-nav.navbar-right
-        li = link_to 'Events', '#'
+      - pages = []
+      - pages.push [about_page.name, :website_about_page] if about_page
+      - pages.push [contact_page.name, :website_contact_page] if contact_page
+      - pages.push *custom_pages.map { |page| [page.name, website_custom_page_path(page.pathname)] }
+      - if pages.length.even?
+        ul.nav.navbar-nav.navbar-left
+          - pages[0..(pages.length / 2 - 1)].each do |name, location|
+            li = link_to name, location
+        ul.nav.navbar-nav.navbar-right
+          - pages[(pages.length / 2)..-1].each do |name, location|
+            li = link_to name, location
+      - else
+        ul.nav.navbar-nav.navbar-left
+          - pages[0..(pages.length / 2)].each do |name, location|
+            li = link_to name, location
+        ul.nav.navbar-nav.navbar-right
+          - pages[(pages.length / 2 + 1)..-1].each do |name, location|
+            li = link_to name, location

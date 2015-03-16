@@ -10,7 +10,19 @@ html lang="en"
     = javascript_include_tag 'application', data: { turbolinks_track: true }
   body
     .theme-header
-      = render partial: "website/elements/header_#{@website.header.underscore}", locals: { business: @business, location: @location, website: @website }
+      = render partial: "website/elements/header_#{@website.header.underscore}", locals: { business: @business,
+        location: @location,
+        website: @website,
+        home_page: @website.home_page,
+        about_page: @website.about_page,
+        contact_page: @website.contact_page,
+        custom_pages: @website.pages.custom }
     = yield
     .theme-footer
-      = render partial: "website/elements/footer_#{@website.footer.underscore}", locals: { business: @business, location: @location, website: @website }
+      = render partial: "website/elements/footer_#{@website.footer.underscore}", locals: { business: @business,
+        location: @location,
+        website: @website,
+        home_page: @website.home_page,
+        about_page: @website.about_page,
+        contact_page: @website.contact_page,
+        custom_pages: @website.pages.custom }

@@ -16,7 +16,7 @@ class WebsiteOnboard::HomePagesController < WebsiteOnboard::BaseController
   end
 
   def update
-    update_resource @home_page, home_page_params.merge(pathname: '/'), location: @business
+    update_resource @home_page, home_page_params.merge(pathname: ''), location: @business
   end
 
   private

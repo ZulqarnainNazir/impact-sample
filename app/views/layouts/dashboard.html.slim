@@ -78,6 +78,9 @@ html lang="en"
                     li = link_to [:edit, @business, :social_profiles] do
                       i.fa.fa-files-o>
                       | Social Profiles
+                    li = link_to [@business, :team_members] do
+                      i.fa.fa-users>
+                      | Team Members
                 li = link_to [@business, :authorizations] do
                   i.fa.fa-users>
                   | Manage Admins

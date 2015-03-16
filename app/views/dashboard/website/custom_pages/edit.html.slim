@@ -1,0 +1,18 @@
+- title 'Edit Page'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, @business
+  li = link_to 'Website Pages', [@business, :website_pages]
+  li.active Edit Page
+
+br
+br
+
+= form_for [@business, :website, @custom_page] do |form|
+  = errors_for @custom_page
+  = render form
+  hr
+  br
+  div
+    = form.button 'Update Page', class: 'btn btn-primary'

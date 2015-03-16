@@ -11,6 +11,7 @@ class Business < ActiveRecord::Base
   has_many :categories, through: :categorizations
 
   has_many :images
+  has_many :team_members, dependent: :destroy
 
   has_one :location
   has_one :website

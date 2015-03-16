@@ -7,9 +7,9 @@ class Dashboard::Website::ContactPagesController < Dashboard::Website::BaseContr
 
   def update
     if params[:publish]
-      update_resource @contact_page, contact_page_params.merge(active: true, pathname: '/contact'), location: [@business, :website_pages]
+      update_resource @contact_page, contact_page_params.merge(active: true, pathname: 'contact'), location: [@business, :website_pages]
     else
-      update_resource @contact_page, contact_page_params.merge(pathname: '/contact'), location: [@business, :website_pages]
+      update_resource @contact_page, contact_page_params.merge(pathname: 'contact'), location: [@business, :website_pages]
     end
   end
 
@@ -22,6 +22,8 @@ class Dashboard::Website::ContactPagesController < Dashboard::Website::BaseContr
   def contact_page_params
     params.require(:contact_page).permit(
       :title,
+      :text,
+      :contact_theme,
     )
   end
 end

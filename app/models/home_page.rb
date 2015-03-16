@@ -15,4 +15,8 @@ class HomePage < Page
   def reviews?
     reviews_visible == 'true'
   end
+
+  def name
+    'Homepage'
+  end
 end

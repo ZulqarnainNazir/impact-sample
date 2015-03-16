@@ -4,11 +4,19 @@
   = errors_for @website
   .form-horizontal
     .form-group
-      = form.label :subdomain, class: 'col-xs-12 col-sm-2 col-lg-1 control-label', style: 'text-align: left;'
-      .col-xs-8.col-sm-6.col-lg-4
-        = form.text_field :subdomain, value: @website.subdomain.present? ? @website.subdomain : @business.name.parameterize, class: 'form-control'
-      .col-xs-4.col-sm-4.col-lg-6
-        p.text-muted: em style="position:relative; top:7px; left: -20px" .#{Rails.application.secrets.host}
+      = form.label :subdomain, class: 'col-xs-12 col-sm-2 col-lg-2 control-label'
+      .col-xs-12.col-sm-6.col-lg-4
+        = form.text_field :subdomain, value: @website.subdomain.present? ? @website.subdomain : @business.name.parameterize, autocomplete: 'off', class: 'form-control js-subdomain-input'
+      .col-xs-12.col-sm-10.col-sm-offset-2.col-lg-10.col-lg-offset-2
+        p.help-block
+          | http://
+          strong.text-info.js-subdomain-label = @website.subdomain.present? ? @website.subdomain : @business.name.parameterize
+          | .#{Rails.application.secrets.host}
+    javascript:
+      $('.js-subdomain-label').text($('.js-subdomain-input').val())
+      $('.js-subdomain-input').on('input', function() {
+        $('.js-subdomain-label').text($('.js-subdomain-input').val());
+      });
   hr
   .panel.panel-default.page-frame
     .panel-heading

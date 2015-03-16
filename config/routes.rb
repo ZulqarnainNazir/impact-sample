@@ -1,12 +1,18 @@
 class PlatformConstraint
   def matches?(request)
-    request.subdomains.first == 'www' || request.subdomain.blank?
+    host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
+    blank_or_www_subdomain = request.subdomain.blank? || request.subdomains.first == 'www'
+
+    host_match && blank_or_www_subdomain
   end
 end
 
 class WebsiteConstraint
   def matches?(request)
-    request.subdomains.first != 'www' && request.subdomains.first.to_s.match(/[\w\-]+/)
+    host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
+    present_and_not_www_subdomain = request.subdomain.present? && request.subdomains.first != 'www'
+
+    !host_match || present_and_not_www_subdomain
   end
 end
 
@@ -38,6 +44,7 @@ Rails.application.routes.draw do
         resource :location, only: %i[edit update]
         resource :social_profiles, only: %i[edit update]
         resources :authorizations, only: %i[index new create destroy]
+        resources :team_members, only: %i[index new create edit update destroy]
 
         resource :website, only: %i[] do
           scope module: :website do
@@ -46,6 +53,7 @@ Rails.application.routes.draw do
             resource :details, only: %i[edit update]
             resource :home_page, only: %i[edit update destroy]
             resource :theme, only: %i[edit update]
+            resources :custom_pages, only: %i[new create edit update destroy]
             resources :pages, only: %i[index]
           end
         end
@@ -58,5 +66,7 @@ Rails.application.routes.draw do
 
     resource :about_page, path: 'about', only: %i[show]
     resource :contact_page, path: 'contact', only: %i[show]
+
+    get '*id', to: 'custom_pages#show', as: :custom_page
   end
 end

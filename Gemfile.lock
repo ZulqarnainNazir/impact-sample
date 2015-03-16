@@ -183,6 +183,12 @@ GEM
     formatador (0.2.5)
     globalid (0.3.3)
       activesupport (>= 4.1.0)
+    heroics (0.0.13)
+      erubis (~> 2.7.0)
+      excon
+      moneta
+      multi_json (>= 1.9.2)
+      netrc
     hike (1.2.3)
     hitimes (1.2.2)
     i18n (0.7.0)
@@ -213,10 +219,12 @@ GEM
       active_model-errors_details (~> 1.1)
       rails (~> 4.2)
     minitest (5.5.1)
+    moneta (0.8.0)
     multi_json (1.10.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
+    netrc (0.7.7)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     normalize-rails (3.0.1)
@@ -231,6 +239,8 @@ GEM
       rack
       rake (>= 0.8.1)
     pg (0.18.1)
+    platform-api (0.2.0)
+      heroics (~> 0.0.10)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.0)
@@ -347,6 +357,7 @@ DEPENDENCIES
   paperclip
   passenger
   pg
+  platform-api
   quiet_assets
   rails
   rails_12factor

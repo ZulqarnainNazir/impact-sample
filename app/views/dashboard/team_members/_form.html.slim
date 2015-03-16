@@ -1,0 +1,60 @@
+div
+  label Profile Image
+  = form.fields_for :team_member_profile_placement, form.object.team_member_profile_placement || form.object.build_team_member_profile_placement do |placement_form|
+    = placement_form.fields_for :image, placement_form.object.image || placement_form.object.build_image do |image_form|
+      = placement_form.hidden_field :_destroy
+      = image_form.hidden_field :id, class: 'image_id'
+      = image_form.hidden_field :alt
+      = image_form.hidden_field :title
+      = image_form.hidden_field :attachment_cache_url
+      = image_form.hidden_field :attachment_content_type
+      = image_form.hidden_field :attachment_file_name
+      = image_form.hidden_field :attachment_file_size
+      - presigned_post = s3_presigned_post
+      = react_component 'ImagePlacementFields',
+        initialAlt: image_form.object.alt.to_s,
+        initialFileName: image_form.object.attachment_file_name.to_s,
+        initialFileSize: image_form.object.attachment_file_size.to_i,
+        initialFileType: image_form.object.attachment_content_type.to_s,
+        initialTitle: image_form.object.title.to_s,
+        initialUrl: image_form.object.attachment_url(:small).to_s,
+        presignedPostFields: presigned_post.fields,
+        presignedPostHost: presigned_post.url.host,
+        presignedPostUrl: presigned_post.url.to_s
+hr
+.form-group
+  => form.label :first_name, class: 'control-label'
+  = form.text_field :first_name, class: 'form-control'
+.form-group
+  => form.label :last_name, class: 'control-label'
+  = form.text_field :last_name, class: 'form-control'
+.form-group
+  => form.label :email, class: 'control-label'
+  = form.email_field :email, class: 'form-control'
+.form-group
+  => form.label :title, class: 'control-label'
+  = form.text_field :title, class: 'form-control'
+.form-group
+  => form.label :description, class: 'control-label'
+  = form.text_area :description, rows: 5, class: 'form-control'
+hr
+.form-group
+  = form.label :facebook_id, class: 'control-label' do
+    i.fa.fa-facebook-square>
+    = Business.human_attribute_name(:facebook_id)
+  = form.text_field :facebook_id, class: 'form-control'
+.form-group
+  = form.label :twitter_id, class: 'control-label'
+    i.fa.fa-twitter-square>
+    = Business.human_attribute_name(:twitter_id)
+  = form.text_field :twitter_id, class: 'form-control'
+.form-group
+  = form.label :google_plus_id, class: 'control-label'
+    i.fa.fa-google-plus-square>
+    = Business.human_attribute_name(:google_plus_id)
+  = form.text_field :google_plus_id, class: 'form-control'
+.form-group
+  = form.label :linkedin_id, class: 'control-label'
+    i.fa.fa-linkedin-square>
+    = Business.human_attribute_name(:linkedin_id)
+  = form.text_field :linkedin_id, class: 'form-control'

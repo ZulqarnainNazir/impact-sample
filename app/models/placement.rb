@@ -14,4 +14,8 @@ class Placement < ActiveRecord::Base
   def logo
     { small: 'x40', medium: 'x60', large: 'x78' }
   end
+
+  def team_member_profile
+    { small: 'x165', large: 'x360' }
+  end
 end

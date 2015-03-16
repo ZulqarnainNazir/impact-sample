@@ -1,0 +1,15 @@
+.container
+  article
+    header.page-header
+      h1 About
+.container
+  article
+    .row
+      section.col-sm-4 style="margin-top: 40px"
+        - if background
+          = image_tag background.attachment_url, alt: background.alt, class: 'img-responsive', style: 'width: 100%'
+      section.col-sm-8
+        header.page-header
+          h2 = heading
+          p = subheading
+        p = text

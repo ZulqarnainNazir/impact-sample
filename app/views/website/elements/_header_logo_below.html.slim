@@ -8,9 +8,12 @@
         span.icon-bar
     #header-collapse.navbar-collapse.collapse
       ul.nav.navbar-nav
-        li = link_to 'About', '#'
-        li = link_to 'Contact', '#'
-        li = link_to 'Events', '#'
+        - if about_page
+          li = link_to 'About', website_about_page_path
+        - if contact_page
+          li = link_to 'Contact', website_contact_page_path
+        - custom_pages.each do |page|
+          li = link_to page.name, website_custom_page_path(page.pathname)
 .container.header-logo-below
   = link_to :root, class: 'navbar-brand' do
     = image_tag business.logo.try(:attachment_url, :large), alt: business.name

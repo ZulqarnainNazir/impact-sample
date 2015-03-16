@@ -4,7 +4,7 @@ class CreatePages < ActiveRecord::Migration
       t.references :website, index: true, null: false
       t.boolean :active, default: false, null: false
       t.string :type, null: false
-      t.string :pathname, null: false
+      t.string :pathname, default: '', null: false
       t.string :title, null: false
       t.string :description
       t.json :settings
