@@ -1,6 +1,9 @@
 ThemeContactRightDesigner = React.createClass
   render: ->
-    mapSrc = 'https://www.google.com/maps/embed/v1/place?q=195+Blue+Ravine+Road+%23100+Folsom%2C+CA+95630%0A&key=AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298'
+    mapAddress = this.props.address_line_one + ' ' + this.props.address_line_two
+    mapBase = 'https://www.google.com/maps/embed/v1/place'
+    mapKey = 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298'
+    mapSrc = "#{mapBase}?#{$.param(q: mapAddress, key: mapKey)}"
 
     `<div>
       <div className="row">
