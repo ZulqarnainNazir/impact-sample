@@ -44,7 +44,8 @@ br
           phone_number: @business.location.phone_number,
           address_line_one: @business.location.address_line_one,
           address_line_two: @business.location.address_line_two,
-          text: @contact_page.text
+          text: @contact_page.text,
+          openings: @business.location.openings.map(&:days_and_hours)
       .theme-footer
         = react_component 'ThemeFooterDesigner',
           type: @website.footer,

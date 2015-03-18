@@ -1,0 +1,35 @@
+.openings-associations {
+  width: 100%;
+  margin: 1em 0;
+  th, td {
+    padding: 0.1em;
+  }
+  th {
+    text-align: left;
+    &:last-child {
+      width: 3.4em;
+    }
+  }
+  th:nth-child(1),
+  th:nth-child(2) {
+    width: 50%;
+    min-width: 155px !important;
+  }
+  label[for*="_destroy"] {
+    margin-left: 1em;
+    i {
+      margin-left: 5px;
+    }
+  }
+  label.checkbox-toggle-active {
+    background-color: #ffa;
+  }
+  tr.will-destroy {
+    td:not(:last-of-type) {
+      opacity: 0.2;
+    }
+    label[for*="_destroy"] {
+      background-color: rgba(255,0,0,0.8);
+    }
+  }
+}

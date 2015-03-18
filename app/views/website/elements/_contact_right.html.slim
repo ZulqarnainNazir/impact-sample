@@ -27,6 +27,7 @@
         br>
         = location.address_line_two
       p = link_to location.email, "mailto:#{location.email}", class: 'email'
+      = render partial: 'website/elements/opening', collection: location.openings
     hr
     .form-group
       label.control-label.sr-only for="name" Name

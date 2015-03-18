@@ -29,7 +29,7 @@ div style="margin-bottom:50px"
         br>
         = location.address_line_two
       p = link_to location.email, "mailto:#{location.email}", class: 'email'
-      p hours...
+      = render partial: 'website/elements/opening', collection: location.openings
   .col-sm-8
     .form-group
       label.control-label.sr-only for="name" Name

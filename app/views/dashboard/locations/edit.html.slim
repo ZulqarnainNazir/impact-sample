@@ -19,6 +19,7 @@ ol.breadcrumb
           .form-group
             = form.label :email, class: 'control-label'
             = form.email_field :email, class: 'form-control'
+          hr
           .form-group
             = form.label :street1, class: 'control-label'
             = form.text_field :street1, class: 'form-control'
@@ -35,7 +36,7 @@ ol.breadcrumb
               .form-group
                 = form.label :zip_code, class: 'control-label'
                 = form.text_field :zip_code, class: 'form-control'
-          .checkbox.text-muted
+          .checkbox.text-muted.text-right
             = form.label :hide_address do
               => form.check_box :hide_address
               ' Hide Street Address from Public?
@@ -43,7 +44,7 @@ ol.breadcrumb
           .form-group
             = form.label :phone_number, class: 'control-label'
             = form.phone_field :phone_number, class: 'form-control'
-          .checkbox.text-muted
+          .checkbox.text-muted.text-right
             = form.label :hide_phone do
               => form.check_box :hide_phone
               ' Hide Phone Number from Public?

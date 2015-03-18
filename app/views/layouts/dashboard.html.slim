@@ -75,6 +75,10 @@ html lang="en"
                     li = link_to [:edit, @business, :location] do
                       i.fa.fa-map-marker>
                       | Contact Information
+                    - if @business.location.try(:persisted?)
+                      li = link_to [:edit, @business, :openings] do
+                        i.fa.fa-list>
+                        | Business Hours
                     li = link_to [:edit, @business, :social_profiles] do
                       i.fa.fa-files-o>
                       | Social Profiles

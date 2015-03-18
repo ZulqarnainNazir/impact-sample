@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       scope module: :dashboard do
         resource :details, only: %i[edit update]
         resource :location, only: %i[edit update]
+        resource :openings, only: %i[edit update]
         resource :social_profiles, only: %i[edit update]
         resources :authorizations, only: %i[index new create destroy]
         resources :team_members, only: %i[index new create edit update destroy]

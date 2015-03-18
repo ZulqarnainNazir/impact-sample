@@ -1,6 +1,10 @@
 class Location < ActiveRecord::Base
   belongs_to :business, touch: true
 
+  has_many :openings, dependent: :destroy
+
+  accepts_nested_attributes_for :openings, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && %w[opens_at closes_at sunday monday tuesday wendesday thursday friday saturday].all? { |at| a[at].blank? } || a['_destroy'].blank? }
+
   validates :city, presence: true
   validates :zip_code, presence: true
   validates :state, presence: true, inclusion: { in: UsStates.abbreviations }

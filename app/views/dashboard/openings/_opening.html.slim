@@ -1,0 +1,38 @@
+- appended = opening.new_record? && opening.errors.empty? && %i[opens_at closes_at sunday monday tuesday wednesday thursday friday saturday].all? { |a| opening.send(a).blank? }
+tr class=('is-appended' if appended)
+  = location_form.fields_for :openings, opening, child_index: (appended ? 98765432101 : nil) do |form|
+    td = form.time_select :opens_at, ampm: true, minute_step: 5, default: { hour: 8, min: 0 }, class: 'form-control'
+    td = form.time_select :closes_at, ampm: true, minute_step: 5, default: { hour: 17, min: 0 }, class: 'form-control'
+    td
+      = form.label :sunday, class: 'btn btn-sm btn-default checkbox-toggle' do
+        => form.check_box :sunday
+        | Su
+    td
+      = form.label :monday, class: 'btn btn-sm btn-default checkbox-toggle' do
+        => form.check_box :monday
+        | Mo
+    td
+      = form.label :tuesday, class: 'btn btn-sm btn-default checkbox-toggle' do
+        => form.check_box :tuesday
+        | Tu
+    td
+      = form.label :wednesday, class: 'btn btn-sm btn-default checkbox-toggle' do
+        => form.check_box :wednesday
+        | We
+    td
+      = form.label :thursday, class: 'btn btn-sm btn-default checkbox-toggle' do
+        => form.check_box :thursday
+        | Th
+    td
+      = form.label :friday, class: 'btn btn-sm btn-default checkbox-toggle' do
+        => form.check_box :friday
+        | Fr
+    td
+      = form.label :saturday, class: 'btn btn-sm btn-default checkbox-toggle' do
+        => form.check_box :saturday
+        | Sa
+    td
+      = form.label :_destroy, class: 'btn btn-sm btn-default' do
+        => form.check_box :_destroy
+        span.sr-only> Destroy
+        i.fa.fa-trash-o

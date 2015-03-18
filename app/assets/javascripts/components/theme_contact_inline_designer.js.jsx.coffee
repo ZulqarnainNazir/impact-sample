@@ -46,9 +46,9 @@ ThemeContactInlineDesigner = React.createClass
               {this.props.address_line_two}
             </p>
             <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
-            <p>hours...</p>
+            <ThemeOpeningsDesigner openings={this.props.openings} />
           </div>
-          <div style={{marginBottom: 50}}>
+          <div style={{marginTop: 20, marginBottom: 50}}>
             <iframe width="100%" height="200" frameBorder="0" style={{border: 0}} src={mapSrc} />
           </div>
         </div>

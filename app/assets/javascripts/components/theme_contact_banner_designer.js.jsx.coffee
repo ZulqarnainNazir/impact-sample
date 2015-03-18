@@ -28,7 +28,7 @@ ThemeContactBannerDesigner = React.createClass
               {this.props.address_line_two}
             </p>
             <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
-            <p>hours...</p>
+            <ThemeOpeningsDesigner openings={this.props.openings} />
           </div>
         </div>
         <div className="col-sm-8">
