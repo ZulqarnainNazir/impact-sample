@@ -40,7 +40,7 @@ ThemeTeamDesigner = React.createClass
           </div>
           <div className="col-sm-6">
             <div className="checkbox">
-              <label><input type="checkbox" checked={this.state.visible} onChange={this.toggleVisible} /> Visible?</label>
+              <label><input type="checkbox" checked={!this.state.visible} onChange={this.toggleVisible} /> Hide Element</label>
             </div>
             <span className="btn-group btn-group-sm">
               <span className="btn btn-default" onClick={this.prev}><i className="fa fa-caret-left"></i></span>

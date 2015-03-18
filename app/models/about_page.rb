@@ -14,11 +14,11 @@ class AboutPage < Page
   validates :team_theme, presence: true, inclusion: { in: %w[vertical horizontal] }, if: :team?
 
   def about?
-    about_visible == 'true'
+    about_visible != 'false'
   end
 
   def team?
-    team_visible == 'true'
+    team_visible != 'false'
   end
 
   def name

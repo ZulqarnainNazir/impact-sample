@@ -9,11 +9,11 @@ class HomePage < Page
   validates :reviews_theme, presence: true, inclusion: { in: %w[basicCarousel columnsCarousel] }, if: :reviews?
 
   def layout?
-    layout_visible == 'true'
+    layout_visible != 'false'
   end
 
   def reviews?
-    reviews_visible == 'true'
+    reviews_visible != 'false'
   end
 
   def name

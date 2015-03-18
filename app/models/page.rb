@@ -58,10 +58,10 @@ class Page < ActiveRecord::Base
   end
 
   def hero?
-    hero_visible == 'true'
+    hero_visible != 'false'
   end
 
   def tagline?
-    tagline_visible == 'true'
+    tagline_visible != 'false'
   end
 end
