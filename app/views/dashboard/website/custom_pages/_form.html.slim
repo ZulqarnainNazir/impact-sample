@@ -1,26 +1,48 @@
 .form-horizontal
   .form-group
-    = form.label :name, class: 'col-sm-3 col-lg-2 control-label'
+    = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
     .col-sm-6.col-lg-4
-      = form.text_field :name, class: 'form-control'
-      p.help-block Used on headers and footers.
+      = form.text_field :title, class: 'form-control js-title-input', data: { affects_pathname: form.object.pathname.blank?, affects_name: form.object.name.blank? }
+      p.help-block Important for SEO
   .form-group
     = form.label :pathname, class: 'col-sm-3 col-lg-2 control-label'
     .col-sm-6.col-lg-4
       = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input'
+    .col-sm-9.col-sm-offset-3.col-lg-10.col-lg-offset-2
       p.help-block
         = website_host(form.object.website)
         | /
         strong.text-info.js-pathname-label = form.object.pathname
   .form-group
-    = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
+    = form.label :name, class: 'col-sm-3 col-lg-2 control-label'
     .col-sm-6.col-lg-4
-      = form.text_field :title, class: 'form-control'
-      p.help-block Important for SEO
+      = form.text_field :name, class: 'form-control js-name-input'
+      p.help-block Used on headers and footers.
 javascript:
-  $('.js-pathname-label').text($('.js-pathname-input').val());
-  $('.js-pathname-input').on('input', function() {
-    $('.js-pathname-label').text($('.js-pathname-input').val());
+  var setPathname = function(inputVal) {
+    var pathnameVal = inputVal.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    $('.js-pathname-input').val(pathnameVal);
+    $('.js-pathname-label').text(pathnameVal);
+  }
+  var setName = function(inputVal) {
+    $('.js-name-input').val(inputVal);
+  }
+  $(document).on('input', '.js-title-input', function(e) {
+    if ($(this).data().affectsPathname == true) {
+      setPathname(e.target.value);
+    }
+    if ($(this).data().affectsName == true) {
+      setName(e.target.value);
+    }
+  });
+  $(document).on('input', '.js-pathname-input', function(e) {
+    setPathname(e.target.value);
+  });
+  $(document).on('keyup', '.js-pathname-input', function(e) {
+    $('.js-title-input').data().affectsPathname = e.target.value.length == 0;
+  });
+  $(document).on('keyup', '.js-name-input', function(e) {
+    $('.js-title-input').data().affectsName = e.target.value.length == 0;
   });
 hr
 .panel.panel-default.page-frame
