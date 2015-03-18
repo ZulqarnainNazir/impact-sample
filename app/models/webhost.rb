@@ -7,13 +7,10 @@ class Webhost < ActiveRecord::Base
     errors.add :name, :invalid if name && name.to_s.match(/\Ahttps?:/)
   end
 
+  before_update -> { !name_changed? }
+
   if ENV['HEROKU_APP_NAME'] && ENV['HEROKU_API_KEY']
     after_commit on: :create do
-      PlatformAPI.connect(ENV['HEROKU_API_KEY']).domain.create(ENV['HEROKU_APP_NAME'], hostname: name)
-    end
-
-    after_commit on: :update do
-      PlatformAPI.connect(ENV['HEROKU_API_KEY']).domain.delete(ENV['HEROKU_APP_NAME'], name_was)
       PlatformAPI.connect(ENV['HEROKU_API_KEY']).domain.create(ENV['HEROKU_APP_NAME'], hostname: name)
     end
 

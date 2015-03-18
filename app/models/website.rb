@@ -25,7 +25,7 @@ class Website < ActiveRecord::Base
   validates :webhosts, length: { maximum: 10 }
 
   validate do
-    if webhosts.length > 1 && webhosts.select(&:primary?).length != 1
+    if webhosts.reject(&:marked_for_destruction?).length > 1 && webhosts.reject(&:marked_for_destruction?).select(&:primary?).length != 1
       errors.add :webhosts, :invalid_primary
     end
   end
