@@ -1,4 +1,4 @@
-div
+.image-placement-fields
   label Profile Image
   = form.fields_for :team_member_profile_placement, form.object.team_member_profile_placement || form.object.build_team_member_profile_placement do |placement_form|
     = placement_form.fields_for :image, placement_form.object.image || placement_form.object.build_image do |image_form|

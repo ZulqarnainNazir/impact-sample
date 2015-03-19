@@ -1,0 +1,25 @@
+.row
+  .col-sm-4
+    .panel.panel-default.tagline.tagline-columns.text-center
+      .panel-body
+        h4 = title_01
+        - if background_01
+          p = image_tag background_01.try(:attachment_url), class: 'img-response', style: 'width:100%'
+        p.tagline-text = text_01
+        p = link_to button_01, '#', class: 'btn btn-primary'
+  .col-sm-4
+    .panel.panel-default.tagline.tagline-columns.text-center
+      .panel-body
+        h4 = title_02
+        - if background_02
+          p = image_tag background_02.try(:attachment_url), class: 'img-response', style: 'width:100%'
+        p.tagline-text = text_02
+        p = link_to button_02, '#', class: 'btn btn-primary'
+  .col-sm-4
+    .panel.panel-default.tagline.tagline-columns.text-center
+      .panel-body
+        h4 = title_03
+        - if background_03
+          p = image_tag background_03.try(:attachment_url), class: 'img-response', style: 'width:100%'
+        p.tagline-text = text_03
+        p = link_to button_03, '#', class: 'btn btn-primary'

@@ -62,10 +62,10 @@ ImagePlacementFields = React.createClass
     data.formData = formData
     data.submit()
     this.setState fileName: file.name, fileSize: file.size, fileType: file.type
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_content_type"]').val file.type
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_file_name"]').val file.name
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_file_size"]').val file.size
-    $(this.getDOMNode()).closest('form').find('input[name*="placement"][name*="_destroy"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_content_type"]').val file.type
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_file_name"]').val file.name
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_file_size"]').val file.size
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="placement"][name*="_destroy"]').val ''
 
   readTargetResult: (e) ->
     this.setState url: e.target.result
@@ -83,7 +83,7 @@ ImagePlacementFields = React.createClass
     if this.state.state is 'uploading'
       key = $(data.jqXHR.responseXML).find('Key').text()
       url = "//#{this.props.presignedPostHost}/#{key}"
-      $(this.getDOMNode()).closest('form').find('input[name*="attachment_cache_url"]').val url
+      $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_cache_url"]').val url
       this.setState state: 'cached'
       this.reenableFormButton()
 
@@ -104,22 +104,22 @@ ImagePlacementFields = React.createClass
     modal = $(this.refs.metaModal.refs.modal.getDOMNode())
     alt = modal.find('input[name="alt"]').val()
     title = modal.find('input[name="title"]').val()
-    $(this.getDOMNode()).closest('form').find('input[name*="alt"]').val alt
-    $(this.getDOMNode()).closest('form').find('input[name*="title"]').val title
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="alt"]').val alt
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="title"]').val title
     this.setState alt: alt, title: title
 
   reset: ->
     $(this.getDOMNode()).fileupload('destroy') if this.state.uploadXHR
-    $(this.getDOMNode()).closest('form').find('input[name*="id"].image_id').remove()
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_alt"]').val ''
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_title"]').val ''
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_cache_url"]').val ''
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_content_type"]').val ''
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_file_name"]').val ''
-    $(this.getDOMNode()).closest('form').find('input[name*="attachment_file_size"]').val ''
-    $(this.getDOMNode()).closest('form').find('input[name*="placement"][name*="_destroy"]').val '1'
-    $(this.getDOMNode()).closest('form').find('input[name*="alt"]').val ''
-    $(this.getDOMNode()).closest('form').find('input[name*="title"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="id"].image_id').remove()
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_alt"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_title"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_cache_url"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_content_type"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_file_name"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="attachment_file_size"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="placement"][name*="_destroy"]').val '1'
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="alt"]').val ''
+    $(this.getDOMNode()).closest('.image-placement-fields').find('input[name*="title"]').val ''
     this.setState state: 'empty', alt: '', title: '', fileName: '', fileSize: 0, fileType: '', uploadXHR: null, url: '', progress: 0, ->
       this.initializeFileUpload()
     recieve(null) for recieve in this.props.imageReceivers

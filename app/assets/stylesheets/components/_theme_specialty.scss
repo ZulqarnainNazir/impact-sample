@@ -1,0 +1,10 @@
+.theme-specialty {
+  .specialty-description {
+    -webkit-column-count: 2;
+       -moz-column-count: 2;
+            column-count: 2;
+    -webkit-column-gap: $grid-gutter-width;
+       -moz-column-gap: $grid-gutter-width;
+            column-gap: $grid-gutter-width;
+  }
+}

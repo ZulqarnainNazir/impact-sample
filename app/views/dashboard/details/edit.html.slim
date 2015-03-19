@@ -13,7 +13,7 @@ ol.breadcrumb
         .panel-heading
           h1.h4.panel-title Edit Your Business Details
         .panel-body
-          div
+          .image-placement-fields
             label Logo Image
             = form.fields_for :logo_placement, form.object.logo_placement || form.object.build_logo_placement do |placement_form|
               = placement_form.fields_for :image, placement_form.object.image || placement_form.object.build_image do |image_form|

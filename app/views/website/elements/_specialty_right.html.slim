@@ -1,0 +1,8 @@
+p.lead.text-center = heading
+p.specialty-description = subheading
+.row
+  .col-sm-7.col-md-6.pull-right
+    - if background
+      p = image_tag background.try(:attachment_url), class: 'img-responsive'
+  .col-sm-5.col-md-6
+    = text
