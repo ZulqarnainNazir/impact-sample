@@ -26,14 +26,6 @@ html lang="en"
                   i.fa.fa-tachometer>
                   | Dashboard
                 li
-                  span
-                    i.fa.fa-comments>
-                    ' CRM
-                  ul.list-unstyled
-                    li = link_to [@business, :contact_messages] do
-                      i.fa.fa-comments>
-                      | Submitted Forms
-                li
                   span style="pointer-events:none; opacity:0.4"
                     i.fa.fa-bar-chart>
                     ' Manage Content
@@ -72,6 +64,14 @@ html lang="en"
                 li = link_to '#', style: 'pointer-events:none; opacity:0.4' do
                   i.fa.fa-random>
                   | Manage Alliances
+                li
+                  span
+                    i.fa.fa-comments>
+                    ' CRM
+                  ul.list-unstyled
+                    li = link_to [@business, :contact_messages] do
+                      i.fa.fa-comments>
+                      | Submitted Forms
                 li class=('active' if %w[dashboard/details dashboard/locations dashboard/social_profiles].include?(controller_path))
                   span
                     i.fa.fa-database>
