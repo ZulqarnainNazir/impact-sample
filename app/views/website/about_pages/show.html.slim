@@ -1,6 +1,6 @@
 - title @page.title
 
-- if @page.about?
+- if @page.about? && @page.about_theme.present?
   .theme-about
     = render partial: "website/elements/about_#{@page.about_theme.underscore}",
       locals: { heading: @page.about_heading,
@@ -8,7 +8,7 @@
         text: @page.about_text,
         background: @page.about_background }
 .container
-  - if @page.team? && @team_members.any?
+  - if @page.team? && @page.team_theme.present? && @team_members.any?
     .theme-team
       = render partial: "website/elements/team_#{@page.team_theme.underscore}",
         locals: { team_members: @team_members }
