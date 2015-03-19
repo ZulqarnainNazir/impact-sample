@@ -1,0 +1,20 @@
+- title 'Contact Messages'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, @business
+  li.active Contact Messages
+
+- if @contact_messages.empty?
+  p: em No contact messages found.
+- else
+  .panel.panel-default
+    .table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th Name
+            th Email
+            th Message
+        tbody
+          = render @contact_messages

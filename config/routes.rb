@@ -45,6 +45,7 @@ Rails.application.routes.draw do
         resource :openings, only: %i[edit update]
         resource :social_profiles, only: %i[edit update]
         resources :authorizations, only: %i[index new create destroy]
+        resources :contact_messages, only: %i[index show]
         resources :team_members, only: %i[index new create edit update destroy]
 
         resource :website, only: %i[] do
@@ -66,7 +67,7 @@ Rails.application.routes.draw do
     root to: 'home_pages#show'
 
     resource :about_page, path: 'about', only: %i[show]
-    resource :contact_page, path: 'contact', only: %i[show]
+    resource :contact_page, path: 'contact', only: %i[show create]
 
     get '*id', to: 'custom_pages#show', as: :custom_page
   end

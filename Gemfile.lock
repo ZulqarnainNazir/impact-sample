@@ -32,7 +32,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
-    active_model-errors_details (1.1.0)
+    active_model-errors_details (1.1.1)
       activemodel (>= 4.0, < 5.0.0.alpha)
       activesupport
     activejob (4.2.0)
@@ -215,7 +215,7 @@ GEM
     mime-types (2.4.3)
     mini_magick (4.1.0)
     mini_portile (0.6.2)
-    minimalizer (0.0.1)
+    minimalizer (0.0.2)
       active_model-errors_details (~> 1.1)
       rails (~> 4.2)
     minitest (5.5.1)

@@ -1,0 +1,17 @@
+- title 'Contact Message'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, @business
+  li = link_to 'Contact Messages', [@business, :contact_messages]
+  li.active Message ##{@contact_message.id}
+
+hr
+
+dl.dl-horizontal
+  dt Name
+  dd = @contact_message.name
+  dt Email
+  dd = @contact_message.email
+  dt Message
+  dd = @contact_message.message

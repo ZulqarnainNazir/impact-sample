@@ -25,6 +25,9 @@ html lang="en"
                 li = link_to @business do
                   i.fa.fa-tachometer>
                   | Dashboard
+                li = link_to [@business, :contact_messages] do
+                  i.fa.fa-comments>
+                  | Contact Messages
                 li
                   span style="pointer-events:none; opacity:0.4"
                     i.fa.fa-bar-chart>

@@ -12,6 +12,7 @@ class Business < ActiveRecord::Base
 
   has_many :images
   has_many :team_members, dependent: :destroy
+  has_many :contact_messages, dependent: :destroy
 
   has_one :location
   has_one :website
