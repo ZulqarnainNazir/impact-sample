@@ -35,8 +35,3 @@
           subheading: @page.specialty_subheading,
           text: @page.specialty_text,
           background: @page.specialty_background }
-  - @page.blocks.each do |block|
-    .theme-block
-      = render partial: "website/elements/block_#{block.theme.underscore}",
-        locals: { text: block.text,
-          background: block.block_background }
