@@ -16,6 +16,6 @@
           li = link_to page.name, website_custom_page_path(page.pathname)
 .container.header-logo-below
   - if business.logo.present?
-    = link_to business.name, :root, class: 'navbar-brand navbar-brand-image', style: "background-image: url('#{business.logo.attachment_url(:large)}')" do
+    = link_to business.name, :root, class: 'navbar-brand navbar-brand-image', style: "background-image: url('#{business.logo.attachment_url(:large)}')"
   - else
     = link_to business.name, :root, class: 'navbar-brand'
