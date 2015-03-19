@@ -20,4 +20,16 @@
     vertical-align: middle;
     display: inline-block;
   }
+  a.small {
+    border-bottom: dotted 1px #555;
+    color: #555;
+    font-style: italic;
+    display: inline-block;
+    margin: 0 20px 0 0;
+    text-decoration: none;
+    vertical-align: middle;
+    &:hover {
+      color: #555;
+    }
+  }
 }

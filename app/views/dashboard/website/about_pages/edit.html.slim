@@ -70,7 +70,8 @@ br
           inputPrefix: 'about_page',
           visible: @about_page.team?,
           type: @about_page.team_theme,
-          teamMembers: @business.team_members.map(&:attributes_with_profile_and_name)
+          teamMembers: @business.team_members.map(&:attributes_with_profile_and_name),
+          teamMembersPath: business_team_members_path(@business)
     .panel-footer
   hr
   br

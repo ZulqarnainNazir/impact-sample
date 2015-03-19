@@ -42,6 +42,7 @@ ThemeTeamDesigner = React.createClass
             <div className="checkbox">
               <label><input type="checkbox" checked={!this.state.visible} onChange={this.toggleVisible} /> Hide Element</label>
             </div>
+            <a href={this.props.teamMembersPath} target="_blank" className="small">Edit Team Members</a>
             <span className="btn-group btn-group-sm">
               <span className="btn btn-default" onClick={this.prev}><i className="fa fa-caret-left"></i></span>
               <span className="btn btn-default" onClick={this.next}><i className="fa fa-caret-right"></i></span>
