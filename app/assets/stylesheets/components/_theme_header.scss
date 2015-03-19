@@ -4,7 +4,7 @@ $logo-desktop-width: $logo-mobile-width;
 $logo-desktop-height: $logo-mobile-height;
 
 .theme-header {
-  .navbar .navbar-brand {
+  .navbar-brand-image {
     text-indent: -100000px;
 
     width: ($logo-mobile-width + ($navbar-padding-horizontal * 2));
@@ -54,9 +54,12 @@ $logo-desktop-height: $logo-mobile-height;
       position: absolute;
       left: 50%;
       margin-left: -(($logo-mobile-width / 2) + $navbar-padding-horizontal);
+      text-align: center;
+      width: $logo-mobile-width;
 
       @media (min-width: $grid-float-breakpoint) {
         margin-left: -(($logo-desktop-width / 2) + $navbar-padding-horizontal);
+        width: $logo-desktop-width;
       }
     }
 

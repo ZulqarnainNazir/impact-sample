@@ -39,5 +39,9 @@ br
         emailAddress: @business.location.email
     .panel-footer
   hr
+  .form-group
+    => form.label :custom_css, 'For Advanced Users Only – Add Custom CSS to Apply Sitewide', class: 'control-label'
+    = form.text_area :custom_css, rows: 8, class: 'form-control'
+  hr
   br
   = form.button 'Save Website Theme', class: 'btn btn-primary'

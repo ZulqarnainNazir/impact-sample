@@ -4,7 +4,7 @@ class Dashboard::LocationsController < Dashboard::BaseController
   end
 
   def update
-    update_resource @location, location_params, location: @business
+    update_resource @location, location_params, location: [:edit, @business, :location]
   end
 
   private

@@ -35,9 +35,3 @@
           subheading: @page.specialty_subheading,
           text: @page.specialty_text,
           background: @page.specialty_background }
-  - if @page.layout?
-    = render partial: "website/elements/layout_#{@page.layout_theme.underscore}"
-    br
-- if @page.reviews?
-  .theme-reviews
-    = render partial: "website/elements/reviews_#{@page.reviews_theme.underscore}"

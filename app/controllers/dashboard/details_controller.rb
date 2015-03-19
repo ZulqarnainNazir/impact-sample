@@ -4,7 +4,7 @@ class Dashboard::DetailsController < Dashboard::BaseController
   end
 
   def update
-    update_resource @business, business_params, location: @business
+    update_resource @business, business_params, location: [:edit, @business, :details]
   end
 
   private

@@ -45,3 +45,5 @@ en:
         last_name: Last Name
         password_confirmation: Password Confirmation
         current_password: Current Password
+      website:
+        custom_css: Custom CSS

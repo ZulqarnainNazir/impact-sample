@@ -75,15 +75,4 @@ br
   hr
   br
   div
-    .btn-group
-      - if @about_page.persisted?
-        = form.button 'Update About Page', class: 'btn btn-primary'
-        - unless @about_page.active?
-          = form.button 'Update &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
-      - else
-        = form.button 'Add About Page', class: 'btn btn-primary'
-        = form.button 'Add &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
-
-- if @about_page.active?
-  = form_for @about_page, url: [@business, :website_about_page], method: :delete, html: { class: 'pull-right', style: 'margin-top: -35px' } do |form|
-    = form.button 'Disable Page', class: 'btn btn-warning'
+    = form.button 'Save About Page', class: 'btn btn-primary'

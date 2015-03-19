@@ -20,14 +20,22 @@ ThemeHeaderInlineDesigner = React.createClass
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#" style={{backgroundImage: this.backgroundImageCSS(this.props.logoSmall)}}>
-            {this.props.name}
-          </a>
+          {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id={this.props.collapseID}>
           <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-right" />
         </div>
       </div>
     </nav>`
+
+  renderNavbarBrand: ->
+    if this.props.logoSmall
+      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(this.props.logoSmall)}}>
+        {this.props.name}
+      </a>`
+    else
+      `<a className="navbar-brand" href="#">
+        {this.props.name}
+      </a>`
 
 window.ThemeHeaderInlineDesigner = ThemeHeaderInlineDesigner

@@ -28,10 +28,18 @@ ThemeHeaderLogoBelowDesigner = React.createClass
         </div>
       </nav>
       <div className="container header-logo-below">
-        <a className="navbar-brand" href="#">
-          <Image src={this.props.logoLarge} alt={this.props.name} />
-        </a>
+        {this.renderNavbarBrand()}
       </div>
     </div>`
+
+  renderNavbarBrand: ->
+    if this.props.logoLarge
+      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(this.props.logoLarge)}}>
+        {this.props.name}
+      </a>`
+    else
+      `<a className="navbar-brand" href="#">
+        {this.props.name}
+      </a>`
 
 window.ThemeHeaderLogoBelowDesigner = ThemeHeaderLogoBelowDesigner

@@ -14,6 +14,7 @@ class Website < ActiveRecord::Base
   accepts_nested_attributes_for :webhosts, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && a['name'].blank? || a['_destroy'].blank? }
 
   store_accessor :settings,
+    :custom_css,
     :footer,
     :header,
     :header_style

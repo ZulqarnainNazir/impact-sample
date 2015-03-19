@@ -8,7 +8,7 @@
     display: inline-block;
     height: 56px;
   }
-  code {
+  code, span {
     display: inline-block;
     margin: 1em 0 0;
   }
@@ -18,4 +18,9 @@
   &:hover {
     text-decoration: none;
   }
+}
+
+.page-preview-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
 }

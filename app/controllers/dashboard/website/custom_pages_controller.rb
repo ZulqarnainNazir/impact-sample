@@ -11,11 +11,11 @@ class Dashboard::Website::CustomPagesController < Dashboard::Website::BaseContro
   end
 
   def create
-    create_resource @custom_page, custom_page_params, location: [@business, :website_pages]
+    create_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page]
   end
 
   def update
-    update_resource @custom_page, custom_page_params, location: [@business, :website_pages]
+    update_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page]
   end
 
   private

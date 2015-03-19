@@ -41,10 +41,13 @@ ol.breadcrumb
         i.fa.fa-external-link style="margin-left:5px"
   .col-sm-6.col-md-3
 hr
-h2.h3
-  ' Custom Pages
-  span.small = link_to 'Add a Page', :new_business_website_custom_page, class: 'btn btn-primary btn-xs', style: 'margin-left:10px; margin-top:-5px'
-- if @custom_pages.any?
+br
+h2.h3 Custom Pages
+.row
   = render @custom_pages
-- else
-  p: em No custom pages found.
+  .col-sm-6.col-md-3
+    = link_to [:new, @business, :website_custom_page], class: 'page-preview thumbnail text-center' do
+      .page-preview-wrapper
+        i.fa.fa-plus.fa-4x>
+        h2.h3 New Page
+        span.text-muted Add a New Custom Page

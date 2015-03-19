@@ -4,7 +4,7 @@ class Dashboard::Website::DetailsController < Dashboard::Website::BaseController
   end
 
   def update
-    update_resource @website, website_params, location: @business do |success|
+    update_resource @website, website_params, location: [:edit, @business, :website_details] do |success|
       @website.webhosts.build unless success
     end
   end

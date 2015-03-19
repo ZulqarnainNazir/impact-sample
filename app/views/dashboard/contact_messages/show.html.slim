@@ -3,7 +3,7 @@
 ol.breadcrumb
   li = link_to icon('home'), :root
   li = link_to @business.name, @business
-  li = link_to 'Contact Messages', [@business, :contact_messages]
+  li = link_to 'Submitted Forms', [@business, :contact_messages]
   li.active Message ##{@contact_message.id}
 
 hr

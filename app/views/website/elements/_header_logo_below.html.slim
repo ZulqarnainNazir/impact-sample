@@ -15,5 +15,7 @@
         - custom_pages.each do |page|
           li = link_to page.name, website_custom_page_path(page.pathname)
 .container.header-logo-below
-  = link_to :root, class: 'navbar-brand' do
-    = image_tag business.logo.try(:attachment_url, :large), alt: business.name
+  - if business.logo.present?
+    = link_to business.name, :root, class: 'navbar-brand navbar-brand-image', style: "background-image: url('#{business.logo.attachment_url(:large)}')" do
+  - else
+    = link_to business.name, :root, class: 'navbar-brand'

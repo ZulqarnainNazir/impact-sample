@@ -1,6 +1,6 @@
 class Dashboard::SocialProfilesController < Dashboard::BaseController
   def update
-    update_resource @business, social_profile_params, location: @business
+    update_resource @business, social_profile_params, location: [:edit, @business, :social_profiles]
   end
 
   private

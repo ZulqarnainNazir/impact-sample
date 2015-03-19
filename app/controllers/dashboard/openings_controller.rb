@@ -9,7 +9,7 @@ class Dashboard::OpeningsController < Dashboard::BaseController
   end
 
   def update
-    update_resource @location, location_params, location: @business do |success|
+    update_resource @location, location_params, location: [:edit, @business, :openings] do |success|
       @location.openings.build unless success
     end
   end

@@ -57,15 +57,4 @@ br
   hr
   br
   div
-    .btn-group
-      - if @contact_page.persisted?
-        = form.button 'Update Contact Page', class: 'btn btn-primary'
-        - unless @contact_page.active?
-          = form.button 'Update &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
-      - else
-        = form.button 'Add Contact Page', class: 'btn btn-primary'
-        = form.button 'Add &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
-
-- if @contact_page.active?
-  = form_for @contact_page, url: [@business, :website_contact_page], method: :delete, html: { class: 'pull-right', style: 'margin-top: -35px' } do |form|
-    = form.button 'Disable Page', class: 'btn btn-warning'
+    = form.button 'Save Contact Page', class: 'btn btn-primary'

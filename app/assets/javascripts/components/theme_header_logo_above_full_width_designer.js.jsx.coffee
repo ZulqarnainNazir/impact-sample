@@ -1,4 +1,6 @@
 ThemeHeaderLogoAboveFullWidthDesigner = React.createClass
+  mixins: [BackgroundImageCSS]
+
   getDefaultProps: ->
     collapse = "collapse-#{parseInt(Math.random() * 1000000)}"
     collapseID: collapse
@@ -18,9 +20,7 @@ ThemeHeaderLogoAboveFullWidthDesigner = React.createClass
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">
-            <Image src={this.props.logoMedium} alt={this.props.name} />
-          </a>
+          {this.renderNavbarBrand()}
         </div>
         <div className="navbar-right vcard navbar-vcard">
           <p className="h4 tel">{this.props.phoneNumber}</p>
@@ -35,5 +35,15 @@ ThemeHeaderLogoAboveFullWidthDesigner = React.createClass
         </div>
       </nav>
     </div>`
+
+  renderNavbarBrand: ->
+    if this.props.logoMedium
+      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(this.props.logoMedium)}}>
+        {this.props.name}
+      </a>`
+    else
+      `<a className="navbar-brand" href="#">
+        {this.props.name}
+      </a>`
 
 window.ThemeHeaderLogoAboveFullWidthDesigner = ThemeHeaderLogoAboveFullWidthDesigner

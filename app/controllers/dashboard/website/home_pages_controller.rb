@@ -6,15 +6,7 @@ class Dashboard::Website::HomePagesController < Dashboard::Website::BaseControll
   end
 
   def update
-    if params[:publish]
-      update_resource @home_page, home_page_params.merge(active: true, pathname: ''), location: [@business, :website_pages]
-    else
-      update_resource @home_page, home_page_params.merge(pathname: ''), location: [@business, :website_pages]
-    end
-  end
-
-  def destroy
-    toggle_resource_boolean_off @home_page, :active, location: [@business, :website_pages]
+    update_resource @home_page, home_page_params.merge(pathname: ''), location: [:edit, @business, :website_home_page]
   end
 
   private

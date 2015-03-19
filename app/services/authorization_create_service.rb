@@ -23,7 +23,7 @@ class AuthorizationCreateService
     end
   end
 
-  def save
-    @authorization.save
+  def save(*args)
+    @authorization.save(*args)
   end
 end

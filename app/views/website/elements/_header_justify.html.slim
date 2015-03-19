@@ -6,8 +6,10 @@
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      = link_to :root, class: 'navbar-brand', style: "background-image: url('#{business.logo.try(:attachment_url, :small)}')" do
-        = business.name
+      - if business.logo.present?
+        = link_to business.name, :root, class: 'navbar-brand navbar-brand-image', style: "background-image: url('#{business.logo.attachment_url(:small)}')"
+      - else
+        = link_to business.name, :root, class: 'navbar-brand'
     #header-collapse.navbar-collapse.collapse
       ul.nav.navbar-nav.nav-justified
         - if about_page

@@ -190,15 +190,4 @@ br
   hr
   br
   div
-    .btn-group
-      - if @home_page.persisted?
-        = form.button 'Update Homepage', class: 'btn btn-primary'
-        - unless @home_page.active?
-          = form.button 'Update &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
-      - else
-        = form.button 'Add Homepage', class: 'btn btn-primary'
-        = form.button 'Add &amp; Publish'.html_safe, name: :publish, class: 'btn btn-success'
-
-- if @home_page.active?
-  = form_for @home_page, url: [@business, :website_home_page], method: :delete, html: { class: 'pull-right', style: 'margin-top: -35px' } do |form|
-    = form.button 'Disable Page', class: 'btn btn-warning'
+    = form.button 'Save Homepage', class: 'btn btn-primary'

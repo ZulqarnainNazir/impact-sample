@@ -8,6 +8,8 @@ html lang="en"
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
     = javascript_include_tag 'application', data: { turbolinks_track: true }
+    css:
+      #{@website.custom_css}
   body
     .theme-header
       = render partial: "website/elements/header_#{@website.header.underscore}", locals: { business: @business,

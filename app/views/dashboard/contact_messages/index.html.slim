@@ -3,10 +3,10 @@
 ol.breadcrumb
   li = link_to icon('home'), :root
   li = link_to @business.name, @business
-  li.active Contact Messages
+  li.active Submitted Forms
 
 - if @contact_messages.empty?
-  p: em No contact messages found.
+  p: em No submitted forms found.
 - else
   .panel.panel-default
     .table-responsive
