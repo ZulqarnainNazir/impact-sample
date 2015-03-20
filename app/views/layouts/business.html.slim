@@ -1,0 +1,120 @@
+doctype html
+html lang="en"
+  = render 'head'
+  body.dashboard-background style="margin-bottom:4em"
+    = render 'navbar'
+    .container
+      .row
+        .col-md-3.col-lg-2.dashboard-menu
+          = form_tag '#', method: :get do
+            .form-group
+              = label_tag :query, 'Query', class: 'sr-only'
+              .input-group
+                = text_field_tag :query, params[:query], class: 'form-control'
+                span.input-group-btn
+                  = button_tag icon('search'), class: 'btn btn-default'
+          .navbar
+            .navbar-header
+              span.navbar-toggle.collapsed data-toggle="collapse" data-target="#dashboard-collapse"
+                span.sr-only Toggle Dashboard Navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            #dashboard-collapse.collapse.navbar-collapse
+              ul.navbar-nav.list-unstyled
+                li = link_to [@business, :dashboard] do
+                  i.fa.fa-tachometer>
+                  | Dashboard
+                li
+                  span style="pointer-events:none; opacity:0.4"
+                    i.fa.fa-bar-chart>
+                    ' Manage Content
+                  ul.list-unstyled
+                    li = link_to '#' do
+                      i.fa.fa-sitemap>
+                      | Existing Content
+                    li.divider
+                    li = link_to '#' do
+                      i.fa.fa-edit>
+                      | New Post
+                    li = link_to '#' do
+                      i.fa.fa-calendar>
+                      | New Event
+                    li = link_to '#' do
+                      i.fa.fa-ticket>
+                      | New Offer
+                    li = link_to '#' do
+                      i.fa.fa-tasks>
+                      | New Before &amp; After
+                - if @business.website
+                  li class=('active' if controller_path.match(/\Abusinesses\/website/))
+                    span
+                      i.fa.fa-table>
+                      ' Manage Website
+                    ul.list-unstyled
+                      li = link_to [:edit, @business, :website_details] do
+                        i.fa.fa-list>
+                        | Basic Details
+                      li = link_to [@business, :website_pages] do
+                        i.fa.fa-sitemap>
+                        | Pages
+                      li = link_to [:edit, @business, :website_theme] do
+                        i.fa.fa-photo>
+                        | Theme &amp; Design
+                li = link_to '#', style: 'pointer-events:none; opacity:0.4' do
+                  i.fa.fa-random>
+                  | Manage Alliances
+                li class=('active' if controller_path.match(/\Abusinesses\/crm/))
+                  span
+                    i.fa.fa-comments>
+                    ' CRM
+                  ul.list-unstyled
+                    li = link_to [@business, :crm_contact_messages] do
+                      i.fa.fa-comments>
+                      | Submitted Forms
+                li class=('active' if controller_path.match(/\Abusinesses\/data/))
+                  span
+                    i.fa.fa-database>
+                    ' Business Data
+                  ul.list-unstyled
+                    li = link_to [:edit, @business, :data_details] do
+                      i.fa.fa-list-ul>
+                      | Basic Details
+                    li = link_to [:edit, @business, :data_location] do
+                      i.fa.fa-map-marker>
+                      | Contact Information
+                    - if @business.location.try(:persisted?)
+                      li = link_to [:edit, @business, :data_openings] do
+                        i.fa.fa-list>
+                        | Business Hours
+                    li = link_to [:edit, @business, :data_social_profiles] do
+                      i.fa.fa-files-o>
+                      | Social Profiles
+                    li = link_to [@business, :data_team_members] do
+                      i.fa.fa-users>
+                      | Team Members
+                li = link_to [@business, :authorizations] do
+                  i.fa.fa-users>
+                  | Manage Admins
+                li = link_to '#', style: 'pointer-events:none; opacity:0.4' do
+                  i.fa.fa-rocket>
+                  | Marketing
+                li 
+                  span style="pointer-events:none; opacity:0.4"
+                    i.fa.fa-files-o>
+                    ' Linked Accounts
+                  ul.list-unstyled
+                    li = link_to '#' do
+                      i.fa.fa-facebook-official>
+                      | Facebook
+                    li = link_to '#' do
+                      i.fa.fa-twitter-square>
+                      | Twitter
+        .col-md-9.col-lg-10.dashboard-content
+          .container style="background-color: #fff; padding-top: 15px; padding-bottom: 30px; width: auto;"
+            = render 'alerts'
+            = yield
+    javascript:
+      $('#dashboard-collapse span').click(function() {
+        $(this).closest('li').toggleClass('active')
+      });

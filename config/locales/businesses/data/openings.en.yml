@@ -1,0 +1,7 @@
+en:
+  businesses:
+    data:
+      openings:
+        update:
+          notice: Ok, your business hours were saved successfully.
+          alert: There was a problem saving your business hours.

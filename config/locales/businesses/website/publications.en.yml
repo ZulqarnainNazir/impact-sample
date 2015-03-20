@@ -1,0 +1,10 @@
+en:
+  businesses:
+    website:
+      publications:
+        create:
+          alert: There was a problem publishing the page.
+          notice: The page was published successfully.
+        destroy:
+          alert: There was a problem hiding the page.
+          notice: The page was hidden successfully.

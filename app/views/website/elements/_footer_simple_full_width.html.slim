@@ -3,7 +3,7 @@ footer.site-footer.site-footer-simple
   .container
     p.copyright &copy #{Time.zone.now.year} #{business.name}
     ul.list-inline.footer-social
-      - if location.email? || %i[facebook_id? twitter_id? google_plus_id? youtube_id? linkedin_id?].any? { |social| business.send(social) }
+      - if (location.email? && !location.hide_emai?) || %i[facebook_id? twitter_id? google_plus_id? youtube_id? linkedin_id?].any? { |social| business.send(social) }
         li: b Follow Us:
       - if business.facebook_id?
         li = link_to "https://www.facebook.com/#{business.facebook_id}" do
@@ -20,7 +20,7 @@ footer.site-footer.site-footer-simple
       - if business.linkedin_id?
         li = link_to "https://www.linkedin.com/in/#{business.linkedin_id}" do
           i.fa.fa-linkedin-square.fa-2x
-      - if location.email?
+      - if location.email? && !location.hide_email?
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
     ul.list-inline.footer-links

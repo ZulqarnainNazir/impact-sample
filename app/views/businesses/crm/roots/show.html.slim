@@ -1,0 +1,8 @@
+- title 'CRM'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li.active CRM
+
+p.bg-danger TODO

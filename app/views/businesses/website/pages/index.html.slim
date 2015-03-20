@@ -1,0 +1,109 @@
+- title 'Manage Website Pages'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Website', [@business, :website_root]
+  li.active Pages
+
+.row
+  .col-sm-6.col-md-3
+    - if @website.home_page
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_home_page] do
+          .panel-body.text-center
+            i.fa.fa-home.fa-4x>
+            h2.h3> Homepage
+            code = '/'
+        .panel-footer.text-right
+          - if @website.home_page.active?
+            = link_to business_website_page_publications_path(@business, @website.home_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
+              i.fa.fa-toggle-on>
+              | Active
+          - else
+            = link_to business_website_page_publications_path(@business, @website.home_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
+              i.fa.fa-toggle-off>
+              | Hidden
+          = link_to website_root_url(host: website_host(@website)), target: :_blank do
+            ' Preview
+            i.fa.fa-external-link style="margin-left:2px"
+    - else
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_home_page] do
+          .panel-body.text-center
+            i.fa.fa-home.fa-4x>
+            h2.h3>
+              ' Homepage
+              i.fa.fa-plus-circle
+            span.text-muted Add a Homepage
+  .col-sm-6.col-md-3
+    - if @website.about_page
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_about_page] do
+          .panel-body.text-center
+            i.fa.fa-question-circle.fa-4x>
+            h2.h3> About
+            code = '/about'
+        .panel-footer.text-right
+          - if @website.about_page.active?
+            = link_to business_website_page_publications_path(@business, @website.about_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
+              i.fa.fa-toggle-on>
+              | Active
+          - else
+            = link_to business_website_page_publications_path(@business, @website.about_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
+              i.fa.fa-toggle-off>
+              | Hidden
+          = link_to website_about_page_url(host: website_host(@website)), target: :_blank do
+            ' Preview
+            i.fa.fa-external-link style="margin-left:2px"
+    - else
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_about_page] do
+          .panel-body.text-center
+            i.fa.fa-question-circle.fa-4x>
+            h2.h3>
+              ' About
+              i.fa.fa-plus-circle
+            span.text-muted Add an About Page
+  .col-sm-6.col-md-3
+    - if @website.contact_page
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_contact_page] do
+          .panel-body.text-center
+            i.fa.fa-map-marker.fa-4x>
+            h2.h3> Contact
+            code = '/contact'
+        .panel-footer.text-right
+          - if @website.contact_page.active?
+            = link_to business_website_page_publications_path(@business, @website.contact_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
+              i.fa.fa-toggle-on>
+              | Active
+          - else
+            = link_to business_website_page_publications_path(@business, @website.contact_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
+              i.fa.fa-toggle-off>
+              | Hidden
+          = link_to website_contact_page_url(host: website_host(@website)), target: :_blank do
+            ' Preview
+            i.fa.fa-external-link style="margin-left:2px"
+    - else
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_contact_page] do
+          .panel-body.text-center
+            i.fa.fa-map-marker.fa-4x>
+            h2.h3>
+              ' Contact
+              i.fa.fa-plus-circle
+            span.text-muted Add a Contact Page
+hr
+h2.h3 Custom Pages
+.row
+  = render partial: 'custom_page', collection: @custom_pages
+  .col-sm-6.col-md-3
+    .panel.panel-default.page-preview
+      = link_to [:new, @business, :website_custom_page] do
+        .panel-body.text-center
+          i.fa.fa-file.fa-4x>
+          h2.h3>
+            ' Custom Page
+            i.fa.fa-plus-circle
+          span.text-muted Add a Custom Page

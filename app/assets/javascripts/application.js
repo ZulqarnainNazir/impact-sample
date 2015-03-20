@@ -14,6 +14,7 @@ Turbolinks.enableProgressBar();
 var ready = function() {
   $('.checkbox-toggle input:checked').closest('.checkbox-toggle').addClass('checkbox-toggle-active')
   $('.openings-associations').openingsAssociations();
+  $('.pages-associations').pagesAssociations();
   $('.webhosts-associations').webhostsAssociations();
 };
 

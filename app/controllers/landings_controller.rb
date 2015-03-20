@@ -3,7 +3,7 @@ class LandingsController < ApplicationController
     if current_user.businesses.any?
       redirect_to :businesses
     else
-      redirect_to :new_onboard_business
+      redirect_to :new_onboard_website_business
     end
   end
 end

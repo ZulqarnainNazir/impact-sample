@@ -1,0 +1,81 @@
+- title 'Edit Website About Page'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Website', [@business, :website_root]
+  li = link_to 'Pages', [@business, :website_pages]
+  li.active About Page
+
+br
+br
+
+= form_for @about_page, url: [@business, :website_about_page], method: :put do |form|
+  = errors_for @about_page
+  .form-horizontal
+    .form-group
+      = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
+      .col-sm-6.col-lg-4
+        = form.text_field :title, value: @about_page.title.present? ? @about_page.title : "About #{@business.name}", class: 'form-control'
+        p.help-block Important for SEO
+  hr
+  .panel.panel-default.page-frame
+    .panel-heading
+      .form-inline
+        .form-group style="margin: 0"
+          = image_tag 'browser-buttons.png', alt: ''
+    .theme-designer
+      .theme-header
+        = react_component 'ThemeHeaderDesigner',
+          type: @website.header,
+          style: @website.header_style,
+          name: @business.name,
+          logoSmall: @website.logo.try(:attachment_url, :small),
+          logoMedium: @website.logo.try(:attachment_url, :medium),
+          logoLarge: @website.logo.try(:attachment_url, :large),
+          phoneNumber: @business.location.phone_number,
+          addressLineOne: @business.location.address_line_one,
+          addressLineTwo: @business.location.address_line_two
+      .theme-about
+        .image-placement-fields
+          = form.fields_for :about_background_placement, form.object.about_background_placement || form.object.build_about_background_placement do |placement_form|
+            = placement_form.fields_for :image, placement_form.object.image || placement_form.object.build_image do |image_form|
+              = placement_form.hidden_field :_destroy
+              = image_form.hidden_field :id, class: 'image_id'
+              = image_form.hidden_field :alt
+              = image_form.hidden_field :title
+              = image_form.hidden_field :attachment_cache_url
+              = image_form.hidden_field :attachment_content_type
+              = image_form.hidden_field :attachment_file_name
+              = image_form.hidden_field :attachment_file_size
+              - presigned_post = s3_presigned_post
+              = react_component 'ThemeAboutDesigner',
+                inputPrefix: 'about_page',
+                visible: @about_page.about?,
+                type: @about_page.about_theme,
+                heading: @about_page.about_heading,
+                subheading: @about_page.about_subheading,
+                text: @about_page.about_text,
+                background: @about_page.about_background.try(:attachment_url),
+                initialAlt: image_form.object.alt.to_s,
+                initialFileName: image_form.object.attachment_file_name.to_s,
+                initialFileSize: image_form.object.attachment_file_size.to_i,
+                initialFileType: image_form.object.attachment_content_type.to_s,
+                initialTitle: image_form.object.title.to_s,
+                initialUrl: image_form.object.attachment_url.to_s,
+                presignedPostFields: presigned_post.fields,
+                presignedPostHost: presigned_post.url.host,
+                presignedPostUrl: presigned_post.url.to_s
+      .theme-team
+        = react_component 'ThemeTeamDesigner',
+          inputPrefix: 'about_page',
+          visible: @about_page.team?,
+          type: @about_page.team_theme,
+          teamMembers: @business.team_members.map(&:attributes_with_profile_and_name),
+          teamMembersPath: business_data_team_members_path(@business)
+    .panel-footer
+  hr
+  br
+  .row
+    .col-sm-4.col-sm-offset-4
+      = form.button 'Save Page', class: 'btn btn-block btn-lg btn-primary'

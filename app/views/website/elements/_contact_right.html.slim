@@ -16,20 +16,24 @@
       - if business.linkedin_id?
         li = link_to "https://www.linkedin.com/in/#{business.linkedin_id}" do
           i.fa.fa-linkedin-square.fa-2x
-      - if location.email?
+      - if location.email? && !location.hide_email?
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
     .vcard
       h3.fn.org = location.name
-      p.tel = location.phone_number
-      p.adr
-        => location.address_line_one
-        br>
-        = location.address_line_two
-      p = link_to location.email, "mailto:#{location.email}", class: 'email'
+      - if !location.hide_phone?
+        p.tel = location.phone_number
+      - if !location.hide_address?
+        p.adr
+          => location.address_line_one
+          br>
+          = location.address_line_two
+      - if location.email? && !location.hide_email?
+        p = link_to location.email, "mailto:#{location.email}", class: 'email'
       = render partial: 'website/elements/opening', collection: location.openings
     hr
     = render 'website/elements/contact_form'
   .col-sm-8
-    - map_params = { q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298' }.to_param
-    iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+    - if !location.hide_address?
+      - map_params = { q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298' }.to_param
+      iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"

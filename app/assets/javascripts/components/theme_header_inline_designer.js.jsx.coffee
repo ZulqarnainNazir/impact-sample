@@ -29,8 +29,9 @@ ThemeHeaderInlineDesigner = React.createClass
     </nav>`
 
   renderNavbarBrand: ->
-    if this.props.logoSmall
-      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(this.props.logoSmall)}}>
+    backgroundUrl = this.props.background or this.props.logoSmall
+    if backgroundUrl
+      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(backgroundUrl)}}>
         {this.props.name}
       </a>`
     else

@@ -37,8 +37,9 @@ ThemeHeaderLogoAboveFullWidthDesigner = React.createClass
     </div>`
 
   renderNavbarBrand: ->
-    if this.props.logoMedium
-      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(this.props.logoMedium)}}>
+    backgroundUrl = this.props.background or this.props.logoMedium
+    if backgroundUrl
+      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(backgroundUrl)}}>
         {this.props.name}
       </a>`
     else

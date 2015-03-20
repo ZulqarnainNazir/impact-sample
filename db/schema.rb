@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 14) do
+ActiveRecord::Schema.define(version: 15) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,15 +28,19 @@ ActiveRecord::Schema.define(version: 14) do
   add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id", using: :btree
 
   create_table "businesses", force: :cascade do |t|
-    t.string   "name",           null: false
+    t.string   "name",                       null: false
     t.string   "facebook_id"
     t.string   "google_plus_id"
     t.string   "linkedin_id"
     t.string   "twitter_id"
     t.string   "youtube_id"
     t.text     "description"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "tagline"
+    t.integer  "year_founded"
+    t.string   "website_url"
+    t.integer  "kind",           default: 0, null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -87,19 +91,22 @@ ActiveRecord::Schema.define(version: 14) do
   add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.integer  "business_id",                  null: false
-    t.string   "name",                         null: false
+    t.integer  "business_id",                           null: false
+    t.string   "name",                                  null: false
     t.string   "email"
-    t.string   "phone_number",                 null: false
-    t.string   "street1",                      null: false
+    t.string   "phone_number",                          null: false
+    t.string   "street1",                               null: false
     t.string   "street2"
-    t.string   "city",                         null: false
-    t.string   "state",                        null: false
-    t.string   "zip_code",                     null: false
-    t.boolean  "hide_address", default: false, null: false
-    t.boolean  "hide_phone",   default: false, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "city",                                  null: false
+    t.string   "state",                                 null: false
+    t.string   "zip_code",                              null: false
+    t.boolean  "hide_address",          default: false, null: false
+    t.boolean  "hide_phone",            default: false, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "hide_email",            default: false, null: false
+    t.boolean  "external_service_area", default: false, null: false
+    t.text     "service_area"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree

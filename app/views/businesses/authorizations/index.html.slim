@@ -1,0 +1,26 @@
+- title 'Manage Admins'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li.active Manage Authorizations
+
+.row
+  .col-md-8
+    .panel.panel-default
+      .panel-heading
+        = link_to [:new, @business, :authorization], class: 'btn btn-primary btn-xs pull-right' do
+          i.fa.fa-plus-circle>
+          ' Add a New User
+        h1.h3.panel-title Manage Authorized Users
+      .table-responsive
+        table.table.table-striped
+          thead
+            tr
+              th First Name
+              th Last Name
+              th Email Address
+              th Role
+              th Actions
+          tbody
+            = render @authorizations

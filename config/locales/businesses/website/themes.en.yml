@@ -1,0 +1,7 @@
+en:
+  businesses:
+    website:
+      themes:
+        update:
+          notice: Your website theme was saved successfully.
+          alert: There was a problem saving your website theme.

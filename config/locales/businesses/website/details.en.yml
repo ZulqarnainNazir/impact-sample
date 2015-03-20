@@ -1,0 +1,7 @@
+en:
+  businesses:
+    website:
+      details:
+        update:
+          notice: Your website details were saved successfully.
+          alert: There was a problem saving your website details.

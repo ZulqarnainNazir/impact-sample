@@ -1,0 +1,7 @@
+en:
+  businesses:
+    data:
+      social_profiles:
+        update:
+          notice: Ok, your social profiles were saved successfully.
+          alert: There was a problem saving your social profiles.

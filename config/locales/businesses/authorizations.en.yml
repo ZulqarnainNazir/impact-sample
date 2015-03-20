@@ -1,0 +1,9 @@
+en:
+  businesses:
+    authorizations:
+      create:
+        notice: The user was successfully invited.
+        alert: There was a problem inviting the user.
+      destroy:
+        notice: The user was successfully removed.
+        alert: There was a problem removing the user.

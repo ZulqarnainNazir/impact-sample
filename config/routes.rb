@@ -26,39 +26,48 @@ Rails.application.routes.draw do
 
     devise_for :users, controllers: { confirmations: 'devise/custom_confirmations' }
 
-    namespace :alliance_onboard do
-      # TODO
-    end
-
-    namespace :website_onboard do
-      resources :businesses, only: %i[new create edit update destroy] do
-        resource :location, only: %i[edit update]
-        resource :website, only: %i[edit update]
-        resource :home_page, only: %i[edit update]
+    namespace :onboard do
+      namespace :website do
+        resources :businesses, only: %i[new create edit update destroy] do
+          resource :location, only: %i[edit update]
+          resource :website, only: %i[edit update]
+          resource :pages, only: %i[edit update]
+        end
       end
     end
 
-    resources :businesses, only: %i[index show] do
-      scope module: :dashboard do
-        resource :details, only: %i[edit update]
-        resource :location, only: %i[edit update]
-        resource :openings, only: %i[edit update]
-        resource :social_profiles, only: %i[edit update]
-        resources :authorizations, only: %i[index new create destroy]
-        resources :contact_messages, only: %i[index show]
-        resources :team_members, only: %i[index new create edit update destroy]
+    resources :businesses, only: %i[index] do
+      scope module: :businesses do
+        resource :dashboard, path: '', only: %i[show]
 
-        resource :website, only: %i[] do
-          scope module: :website do
-            resource :about_page, only: %i[edit update destroy]
-            resource :contact_page, only: %i[edit update destroy]
-            resource :details, only: %i[edit update]
-            resource :home_page, only: %i[edit update destroy]
-            resource :theme, only: %i[edit update]
-            resources :custom_pages, only: %i[new create edit update destroy]
-            resources :pages, only: %i[index]
+        namespace :data do
+          root to: 'roots#show'
+          resource :details, only: %i[edit update]
+          resource :location, only: %i[edit update]
+          resource :openings, only: %i[edit update]
+          resource :social_profiles, only: %i[edit update]
+          resources :team_members, only: %i[index new create edit update destroy]
+        end
+
+        namespace :crm do
+          root to: 'roots#show'
+          resources :contact_messages, path: 'submitted_forms', only: %i[index show]
+        end
+
+        namespace :website do
+          root to: 'roots#show'
+          resource :about_page, only: %i[edit update]
+          resource :contact_page, only: %i[edit update]
+          resource :details, only: %i[edit update]
+          resource :home_page, only: %i[edit update]
+          resource :theme, only: %i[edit update]
+          resources :custom_pages, only: %i[new create edit update]
+          resources :pages, only: %i[index] do
+            resource :publications, only: %i[create destroy]
           end
         end
+
+        resources :authorizations, path: 'admins', only: %i[index new create destroy]
       end
     end
   end

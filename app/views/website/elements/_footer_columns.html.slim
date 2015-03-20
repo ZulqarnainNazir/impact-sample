@@ -19,7 +19,7 @@ footer.site-footer.site-footer-columns
             - if business.linkedin_id?
               li = link_to "https://www.linkedin.com/in/#{business.linkedin_id}" do
                 i.fa.fa-linkedin-square.fa-2x
-            - if location.email?
+            - if location.email? && !location.hide_email?
               li = link_to "mailto:#{location.email}" do
                 i.fa.fa-envelope-square.fa-2x
         .site-footer-column.col-sm-6.col-md-8
@@ -32,9 +32,11 @@ footer.site-footer.site-footer-columns
               li = link_to page.name, website_custom_page_path(page.pathname)
         .site-footer-column.col-sm-4.col-md-3.vcard
           p.h3.fn.org = location.name
-          p.tel = location.phone_number
-          p.adr #{location.address_line_one} <br> #{location.address_line_two}
-          - if location.email?
+          - if !location.hide_phone?
+            p.tel = location.phone_number
+          - if !location.hide_address?
+            p.adr #{location.address_line_one} <br> #{location.address_line_two}
+          - if location.email? && !location.hide_email?
             p = link_to location.email, "mailto:#{location.email}", class: 'email'
   .container.text-center
     p.copyright &copy #{Time.zone.now.year} #{business.name}

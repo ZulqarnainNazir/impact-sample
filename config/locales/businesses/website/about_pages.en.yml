@@ -1,0 +1,7 @@
+en:
+  businesses:
+    website:
+      about_pages:
+        update:
+          notice: Your about page was saved successfully.
+          alert: There was a problem saving your about page.

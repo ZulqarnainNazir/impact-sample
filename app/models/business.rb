@@ -1,6 +1,4 @@
 class Business < ActiveRecord::Base
-  include PlacedImageConcern
-
   has_many :authorizations, dependent: :destroy
   has_many :users, through: :authorizations
 
@@ -17,7 +15,10 @@ class Business < ActiveRecord::Base
   has_one :location
   has_one :website
 
-  has_placed_image :logo
+  enum kind: {
+    traditional_business: 0,
+    group_or_cause: 1,
+  }
 
   validates :category_ids, presence: true
   validates :name, presence: true

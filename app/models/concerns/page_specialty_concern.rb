@@ -1,6 +1,8 @@
 module PageSpecialtyConcern
   extend ActiveSupport::Concern
 
+  THEMES = %w[left right]
+
   included do
     has_placed_image :specialty_background
 
@@ -12,7 +14,11 @@ module PageSpecialtyConcern
       :specialty_text,
       :specialty_button
 
-    validates :specialty_theme, presence: true, inclusion: { in: %w[left right] }, if: :specialty?
+    validates :specialty_theme, presence: true, inclusion: { in: THEMES }
+
+    before_validation do
+      self.specialty_theme = THEMES.first unless THEMES.include?(specialty_theme)
+    end
 
     def specialty?
       specialty_visible != 'false'

@@ -1,6 +1,8 @@
 module PageCtaConcern
   extend ActiveSupport::Concern
 
+  THEMES = %w[simple]
+
   included do
     has_placed_image :cta_background_01
     has_placed_image :cta_background_02
@@ -19,7 +21,11 @@ module PageCtaConcern
       :cta_text_03,
       :cta_button_03
 
-    validates :cta_theme, presence: true, inclusion: { in: %w[simple] }, if: :cta?
+    validates :cta_theme, presence: true, inclusion: { in: THEMES }
+
+    before_validation do
+      self.cta_theme = THEMES.first unless THEMES.include?(cta_theme)
+    end
 
     def cta?
       cta_visible != 'false'

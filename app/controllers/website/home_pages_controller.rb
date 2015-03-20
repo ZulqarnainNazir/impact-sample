@@ -1,10 +1,10 @@
 class Website::HomePagesController < Website::BaseController
-  def show
+  before_action do
     @page = @website.home_page
 
     if !@page
       raise ActiveRecord::RecordNotFound
-    elsif !@page.active? && @business.owners.include?(current_user)
+    elsif !@page.active? && !@business.owners.include?(current_user)
       raise ActiveRecord::RecordNotFound
     end
   end

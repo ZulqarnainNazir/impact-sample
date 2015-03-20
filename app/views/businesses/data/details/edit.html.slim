@@ -1,0 +1,55 @@
+- title 'Edit Your Business Details'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Business Data', [@business, :data_root]
+  li.active Basic Details
+
+.row
+  .col-md-8
+    = errors_for @business
+    = form_for @business, url: [@business, :data_details] do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Edit Your Business Details
+        .panel-body
+          br
+          .text-center
+            .center-block
+              .btn-group.js-business-kind
+                => form.label :kind_traditional_business, class: 'btn btn-default' do
+                  => form.radio_button :kind, :traditional_business, style: 'margin-right: 5px'
+                  | Business or Non-Profit
+                = form.label :kind_group_or_cause, class: 'btn btn-default' do
+                  => form.radio_button :kind, :group_or_cause, style: 'margin-right: 5px'
+                  | Cause, Group, Artist or Band
+          javascript:
+            $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+            $('.js-business-kind input[type="radio"]').change(function() {
+              $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+              $('.js-business-kind input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default');
+            });
+          hr
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :description, class: 'control-label'
+            = form.text_area :description, rows: 6, class: 'form-control'
+          hr
+          .form-group
+            = form.label :tagline, class: 'control-label'
+            = form.text_field :tagline, class: 'form-control'
+          .form-group
+            = form.label :year_founded, class: 'control-label'
+            = form.text_field :year_founded, class: 'form-control'
+          .form-group
+            = form.label :website_url, class: 'control-label'
+            = form.text_field :website_url, class: 'form-control'
+          hr
+          .form-group
+            = form.label :category_ids, class: 'control-label'
+            = form.select :category_ids, options_from_collection_for_select(Category.alphabetical, 'id', 'name', form.object.categories.map(&:id)), {}, multiple: true, class: 'form-control', style: 'height:12em'
+        .panel-footer.text-right
+          = form.button 'Save', class: 'btn btn-primary'

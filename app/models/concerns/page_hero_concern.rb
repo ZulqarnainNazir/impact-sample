@@ -1,6 +1,8 @@
 module PageHeroConcern
   extend ActiveSupport::Concern
 
+  THEMES = %w[fullImage fullImageRight fullImageRightWell fullImageRightWellDark fullImageRightForm splitImage splitVideo]
+
   included do
     has_placed_image :hero_background
 
@@ -12,7 +14,11 @@ module PageHeroConcern
       :hero_text,
       :hero_button
 
-    validates :hero_theme, presence: true, inclusion: { in: %w[fullImage fullImageRight fullImageRightWell fullImageRightWellDark fullImageRightForm splitImage splitVideo] }, if: :hero?
+    validates :hero_theme, presence: true, inclusion: { in: THEMES }
+
+    before_validation do
+      self.hero_theme = THEMES.first unless THEMES.include?(hero_theme)
+    end
 
     def hero?
       hero_visible != 'false'

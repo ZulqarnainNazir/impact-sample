@@ -27,15 +27,18 @@ en:
     attributes:
       business:
         category_ids: Categories
-        youtube_id: YouTube
         google_plus_id: Google Plus
         linkedin_id: LinkedIn
+        website_url: Website URL
+        year_founded: Year Founded
+        youtube_id: YouTube
       location:
         name: Location Name
         email: Email Address
         zip_code: Zip Code
         street1: Street Address
         phone_number: Phone Number
+        service_area: Service Area
       page:
         name: Link Name
         pathname: URL Slug

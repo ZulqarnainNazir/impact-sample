@@ -1,0 +1,8 @@
+- title 'Website'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li.active Manage Website
+
+p.bg-danger TODO

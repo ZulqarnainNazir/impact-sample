@@ -1,4 +1,6 @@
 class Website < ActiveRecord::Base
+  include PlacedImageConcern
+
   belongs_to :business, touch: true
 
   has_many :pages, dependent: :destroy
@@ -11,6 +13,12 @@ class Website < ActiveRecord::Base
   has_one :active_about_page, -> { active }, class_name: AboutPage.name
   has_one :active_contact_page, -> { active }, class_name: ContactPage.name
 
+  has_placed_image :logo
+
+  accepts_nested_attributes_for :home_page, allow_destroy: true, reject_if: proc { |a| a['_destroy'] == '1' }
+  accepts_nested_attributes_for :about_page, allow_destroy: true, reject_if: proc { |a| a['_destroy'] == '1' }
+  accepts_nested_attributes_for :contact_page, allow_destroy: true, reject_if: proc { |a| a['_destroy'] == '1' }
+  accepts_nested_attributes_for :pages, allow_destroy: true, reject_if: proc { |a| a['title'].blank? || a['_destroy'] == '1' }
   accepts_nested_attributes_for :webhosts, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && a['name'].blank? || a['_destroy'].blank? }
 
   store_accessor :settings,

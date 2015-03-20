@@ -73,7 +73,7 @@ ThemeCtaDesigner = React.createClass
           </div>
           <div className="col-sm-6">
             <div className="checkbox">
-              <label><input type="checkbox" checked={this.state.visible} onChange={this.toggleVisible} /> Visible?</label>
+              <label><input type="checkbox" checked={!this.state.visible} onChange={this.toggleVisible} /> Hide Element</label>
             </div>
           </div>
         </div>

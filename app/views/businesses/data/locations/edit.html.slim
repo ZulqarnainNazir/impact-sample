@@ -1,0 +1,76 @@
+- title 'Edit Contact Information'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Business Data', [@business, :data_root]
+  li.active Contact Information
+
+.row
+  .col-md-8
+    = errors_for @location
+    = form_for @location, url: [@business, :data_location], method: :put do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Edit Your Business Contact Information
+        .panel-body
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, value: @location.name.present? ? @location.name : @business.name, class: 'form-control'
+          hr
+          .form-group
+            = form.label :street1, class: 'control-label'
+            = form.text_field :street1, class: 'form-control'
+            = form.text_field :street2, class: 'form-control', style: 'margin-top: 5px'
+          .form-group
+            = form.label :city, class: 'control-label'
+            = form.text_field :city, class: 'form-control'
+          .row
+            .col-sm-8
+              .form-group
+                = form.label :state, class: 'control-label'
+                = form.select :state, options_for_select(UsStates.to_a, form.object.state), { prompt: '– Select State –' }, class: 'form-control'
+            .col-sm-4
+              .form-group
+                = form.label :zip_code, class: 'control-label'
+                = form.text_field :zip_code, class: 'form-control'
+          .checkbox.text-muted.text-right
+            = form.label :hide_address do
+              => form.check_box :hide_address
+              ' Hide Street Address from Public?
+          hr
+          .form-group
+            = form.label :phone_number, class: 'control-label'
+            = form.phone_field :phone_number, class: 'form-control'
+          .checkbox.text-muted.text-right
+            = form.label :hide_phone do
+              => form.check_box :hide_phone
+              ' Hide Phone Number from Public?
+          hr
+          .form-group
+            = form.label :email, class: 'control-label'
+            = form.email_field :email, class: 'form-control'
+          .checkbox.text-muted.text-right
+            = form.label :hide_email do
+              => form.check_box :hide_email
+              ' Hide Email Address from Public?
+          hr
+          .checkbox.text-muted.js-external-service-area
+            = form.label :external_service_area do
+              => form.check_box :external_service_area
+              ' Does this location have an offsite service area?
+          .form-group.js-service-area
+            br
+            = form.label :service_area, class: 'control-label'
+            = form.text_area :service_area, rows: 4, class: 'form-control'
+          javascript:
+            if ($('.js-external-service-area input:checked').length > 0) {
+              $('.js-service-area').show();
+            } else {
+              $('.js-service-area').hide();
+            }
+            $('.js-external-service-area input').change(function() {
+              $('.js-service-area').toggle();
+            });
+        .panel-footer
+          = form.button 'Save', class: 'btn btn-primary'

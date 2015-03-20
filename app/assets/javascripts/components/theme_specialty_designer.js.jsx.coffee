@@ -51,7 +51,7 @@ ThemeSpecialtyDesigner = React.createClass
           </div>
           <div className="col-sm-6">
             <div className="checkbox">
-              <label><input type="checkbox" checked={this.state.visible} onChange={this.toggleVisible} /> Visible?</label>
+              <label><input type="checkbox" checked={!this.state.visible} onChange={this.toggleVisible} /> Hide Element</label>
             </div>
             <span ref="backgroundPicker" className="btn-group btn-group-sm theme-picker" onClick={this.toggleBackgroundPicker}>
               <span className="btn btn-default" style={{backgroundColor: 'white', borderColor: 'rgba(0,0,0,0.2)', height: 30}}>

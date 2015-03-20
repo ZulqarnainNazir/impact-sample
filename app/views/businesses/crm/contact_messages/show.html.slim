@@ -1,0 +1,18 @@
+- title 'Submitted Forms'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li = link_to 'Submitted Forms', [@business, :crm_contact_messages]
+  li.active Message ##{@contact_message.id}
+
+hr
+
+dl.dl-horizontal
+  dt Name
+  dd = @contact_message.name
+  dt Email
+  dd = @contact_message.email
+  dt Message
+  dd = @contact_message.message

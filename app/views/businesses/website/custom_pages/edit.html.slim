@@ -1,0 +1,20 @@
+- title 'Edit Page'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Website', [@business, :website_root]
+  li = link_to 'Pages', [@business, :website_pages]
+  li.active Edit Page
+
+br
+br
+
+= form_for [@business, :website, @custom_page] do |form|
+  = errors_for @custom_page
+  = render form
+  hr
+  br
+  .row
+    .col-sm-4.col-sm-offset-4
+      = form.button 'Save Page', class: 'btn btn-block btn-lg btn-primary'

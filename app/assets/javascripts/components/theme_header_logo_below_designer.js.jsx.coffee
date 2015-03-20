@@ -33,8 +33,9 @@ ThemeHeaderLogoBelowDesigner = React.createClass
     </div>`
 
   renderNavbarBrand: ->
-    if this.props.logoLarge
-      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(this.props.logoLarge)}}>
+    backgroundUrl = this.props.background or this.props.logoLarge
+    if backgroundUrl
+      `<a className="navbar-brand navbar-brand-image" href="#" style={{backgroundImage: this.backgroundImageCSS(backgroundUrl)}}>
         {this.props.name}
       </a>`
     else

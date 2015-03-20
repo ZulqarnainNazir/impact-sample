@@ -1,0 +1,22 @@
+- title 'Edit Team Member'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Business Data', [@business, :data_root]
+  li = link_to 'Team Members', [@business, :data_team_members]
+  li.active Edit Team Member
+
+.row
+  .col-md-8
+    = errors_for @team_member
+    = form_for [@business, :data, @team_member] do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h3.panel-title Edit Team Member
+        .panel-body
+          = render form
+          div
+            hr
+            => form.button 'Update Team Member', class: 'btn btn-primary pull-right'
+            = link_to 'Cancel', [@business, :data_team_members], class: 'btn btn-link'
