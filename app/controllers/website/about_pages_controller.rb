@@ -4,7 +4,7 @@ class Website::AboutPagesController < Website::BaseController
 
     if !@page
       raise ActiveRecord::RecordNotFound
-    elsif !@page.active? && !@business.owners.include?(current_user)
+    elsif !@page.active? && !@business.owners.include?(current_user) && false
       raise ActiveRecord::RecordNotFound
     else
       @team_members = @business.team_members
