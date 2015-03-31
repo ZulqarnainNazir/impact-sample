@@ -1,37 +1,14 @@
 - title @page.title
 
 .container
-  - if @page.hero? && @page.hero_theme.present?
-    .theme-hero
-      = render partial: "website/elements/hero_#{@page.hero_theme.underscore}",
-        locals: { title: @page.hero_title,
-          text: @page.hero_text,
-          button: @page.hero_button,
-          background: @page.hero_background }
-  - if @page.tagline? && @page.tagline_theme.present?
-    .theme-tagline
-      = render partial: "website/elements/tagline_#{@page.tagline_theme.underscore}",
-        locals: { text: @page.tagline_text,
-          button: @page.tagline_button }
-  - if @page.cta? && @page.cta_theme.present?
-    .theme-cta
-      = render partial: "website/elements/cta_#{@page.cta_theme.underscore}",
-        locals: { title_01: @page.cta_title_01,
-          text_01: @page.cta_text_01,
-          button_01: @page.cta_button_01,
-          background_01: @page.cta_background_01,
-          title_02: @page.cta_title_02,
-          text_02: @page.cta_text_02,
-          button_02: @page.cta_button_02,
-          background_02: @page.cta_background_02,
-          title_03: @page.cta_title_03,
-          text_03: @page.cta_text_03,
-          button_03: @page.cta_button_03,
-          background_03: @page.cta_background_03 }
-  - if @page.specialty? && @page.specialty_theme.present?
-    .theme-specialty
-      = render partial: "website/elements/specialty_#{@page.specialty_theme.underscore}",
-        locals: { heading: @page.specialty_heading,
-          subheading: @page.specialty_subheading,
-          text: @page.specialty_text,
-          background: @page.specialty_background }
+  - if @page.hero_block
+    = render @page.hero_block
+  - if @page.tagline_block
+    = render @page.tagline_block
+  - if @page.call_to_action_blocks.any?
+    .row
+      = render @page.call_to_action_blocks
+  - if @page.specialty_block
+    = render @page.specialty_block
+  - if @page.content_blocks.any?
+    = render @page.content_blocks

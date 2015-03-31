@@ -4,14 +4,17 @@ UnorderedList = React.createClass
   propTypes:
     items: React.PropTypes.arrayOf(
       React.PropTypes.shape
-        id: React.PropTypes.string.isRequired
-        content: React.PropTypes.string.isRequired)
+        id: React.PropTypes.number.isRequired
+        name: React.PropTypes.string.isRequired)
+
+  getDefaultProps: ->
+    items: []
 
   items: ->
     this.props.items.map (item) ->
       `<li key={item.id}>
         <a href="#" onClick={this.preventDefault}>
-          {item.content}
+          {item.name}
         </a>
       </li>`
 

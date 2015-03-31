@@ -19,9 +19,9 @@ ThemeFooterColumnsDesigner = React.createClass
             </div>
             <div className="site-footer-column col-sm-4 col-md-3 vcard">
               <p className="h3 fn org">{this.props.name}</p>
-              <p className="tel">{this.props.phoneNumber}</p>
-              <p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>
-              <p><a className="email" href="#">{this.props.emailAddress}</a></p>
+              <p className="tel">{this.props.phone}</p>
+              <p className="adr">{this.props.address_line_one} <br /> {this.props.address_line_two}</p>
+              <p><a className="email" href="#">{this.props.email}</a></p>
             </div>
           </div>
         </div>

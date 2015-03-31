@@ -6,7 +6,7 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
   end
 
   def update
-    update_resource @contact_page, contact_page_params.merge(pathname: 'contact'), location: [:edit, @business, :website_contact_page]
+    update_resource @contact_page, contact_page_params, location: [:edit, @business, :website_contact_page]
   end
 
   private
@@ -14,8 +14,20 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
   def contact_page_params
     params.require(:contact_page).permit(
       :title,
-      :text,
-      :contact_theme,
+      blocks_attributes: [
+        :id,
+        :type,
+        :theme,
+        :style,
+        :heading,
+        :subheading,
+        :text,
+        :label,
+        :_destroy,
+      ],
+    ).deep_merge(
+      pathname: 'contact',
+      name: 'Contact',
     )
   end
 end

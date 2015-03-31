@@ -1,0 +1,2 @@
+class ContactBlock < Block
+end

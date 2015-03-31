@@ -20,6 +20,11 @@ module PlacedImageConcern
       define_method "#{placement_name}_attributes=" do |attributes = {}|
         super attributes.merge(placer: self, context: association_name)
       end
+
+      define_method "#{association_name}_url" do |*args|
+        placement = send(placement_name)
+        placement.send(:attachment_url, *args) if placement
+      end
     end
   end
 end

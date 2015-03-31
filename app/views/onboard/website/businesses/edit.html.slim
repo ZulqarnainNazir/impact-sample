@@ -1,4 +1,4 @@
-- title 'Add Your Business to the IMPACT Marketing Suite'
+- title 'Edit Business Details'
 
 .row
   .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
@@ -6,9 +6,69 @@
     = form_for [:onboard_website, @business] do |form|
       .panel.panel-default
         .panel-heading
-          h1.h4.panel-title Add Your Business to IMPACT
+          h1.h4.panel-title Edit Business Details
         .panel-body
-          = render form
+          br
+          .text-center
+            .center-block
+              .btn-group.js-business-kind
+                => form.label :kind_traditional_business, class: 'btn btn-default' do
+                  => form.radio_button :kind, :traditional_business, style: 'margin-right: 5px'
+                  | Business or Non-Profit
+                = form.label :kind_group_or_cause, class: 'btn btn-default' do
+                  => form.radio_button :kind, :group_or_cause, style: 'margin-right: 5px'
+                  | Cause, Group, Artist or Band
+          javascript:
+            $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+            $('.js-business-kind input[type="radio"]').change(function() {
+              $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+              $('.js-business-kind input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default');
+            });
+          hr
+          .image-placement-fields
+            = form.fields_for :logo_placement, form.object.logo_placement || form.object.build_logo_placement do |placement_form|
+              = placement_form.fields_for :image, placement_form.object.image || placement_form.object.build_image do |image_form|
+                = placement_form.hidden_field :_destroy
+                = image_form.hidden_field :id, class: 'image_id'
+                = image_form.hidden_field :alt
+                = image_form.hidden_field :title
+                = image_form.hidden_field :attachment_cache_url
+                = image_form.hidden_field :attachment_content_type
+                = image_form.hidden_field :attachment_file_name
+                = image_form.hidden_field :attachment_file_size
+                - presigned_post = s3_presigned_post
+                = react_component 'ImagePlacementFields',
+                  inputPrefix: 'business',
+                  initialAlt: image_form.object.alt.to_s,
+                  initialFileName: image_form.object.attachment_file_name.to_s,
+                  initialFileSize: image_form.object.attachment_file_size.to_i,
+                  initialFileType: image_form.object.attachment_content_type.to_s,
+                  initialTitle: image_form.object.title.to_s,
+                  initialUrl: image_form.object.attachment_url.to_s,
+                  presignedPostFields: presigned_post.fields,
+                  presignedPostHost: presigned_post.url.host,
+                  presignedPostUrl: presigned_post.url.to_s
+          hr
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :description, class: 'control-label'
+            = form.text_area :description, rows: 6, class: 'form-control'
+          hr
+          .form-group
+            = form.label :tagline, class: 'control-label'
+            = form.text_field :tagline, class: 'form-control'
+          .form-group
+            = form.label :year_founded, class: 'control-label'
+            = form.text_field :year_founded, class: 'form-control'
+          .form-group
+            = form.label :website_url, class: 'control-label'
+            = form.text_field :website_url, class: 'form-control'
+          hr
+          .form-group
+            = form.label :category_ids, class: 'control-label'
+            = form.select :category_ids, options_from_collection_for_select(Category.alphabetical, 'id', 'name', form.object.categories.map(&:id)), {}, multiple: true, class: 'form-control', style: 'height:12em'
         .panel-footer.clearfix
           => link_to [:onboard_website, @business], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
             i.fa.fa-trash>

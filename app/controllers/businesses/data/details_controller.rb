@@ -18,6 +18,27 @@ class Businesses::Data::DetailsController < Businesses::BaseController
       :website_url,
       :year_founded,
       category_ids: [],
+      logo_placement_attributes: [
+        :id,
+        :_destroy,
+        image_attributes: [
+          :id,
+          :alt,
+          :title,
+          :attachment_cache_url,
+          :attachment_content_type,
+          :attachment_file_name,
+          :attachment_file_size,
+          :_destroy,
+        ],
+      ],
+    ).deep_merge(
+      logo_placement_attributes: {
+        image_attributes: {
+          user: current_user,
+          business: @business,
+        },
+      },
     )
   end
 end

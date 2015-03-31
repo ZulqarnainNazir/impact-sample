@@ -1,0 +1,9 @@
+.webpage-specialty
+  p.lead.text-center = specialty_block.heading_html
+  hr
+  .row
+    .col-sm-7.col-md-6 class=('pull-right' if specialty_block.theme == 'right')
+      - if specialty_block.specialty_block_image
+        = image_tag specialty_block.specialty_block_image.attachment_url, class: 'img-responsive thumbnail'
+    .col-sm-5.col-md-6
+      p = specialty_block.text_html

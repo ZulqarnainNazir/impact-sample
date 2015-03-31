@@ -1,0 +1,128 @@
+$logo-mobile-width: 190px;
+$logo-mobile-height: 40px;
+$logo-desktop-width: $logo-mobile-width;
+$logo-desktop-height: $logo-mobile-height;
+
+.webpage-header {
+  .navbar-brand-image {
+    text-indent: -100000px;
+
+    width: ($logo-mobile-width + ($navbar-padding-horizontal * 2));
+    height: (20px + ($navbar-padding-vertical * 2));
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: $logo-mobile-width $logo-mobile-height;
+
+    @media (min-width: $grid-float-breakpoint) {
+      background-position: center center;
+      background-size: $logo-desktop-width $logo-desktop-height;
+      width: ($logo-desktop-width + ($navbar-padding-horizontal * 2));
+    }
+  }
+
+  @media (min-width: $grid-float-breakpoint) {
+    .header-centered .navbar-brand {
+      position: absolute;
+    }
+
+    .navbar-centered {
+      margin: 0 auto;
+      display: table;
+      table-layout: fixed;
+      float:none;
+    }
+
+    .header-justified {
+      display: table;
+
+      .navbar-header,
+      .navbar-collapse {
+        display: table-cell !important;
+      }
+    }
+
+    .navbar .nav-justified > li {
+      float: none;
+    }
+  }
+
+  .header-centered-logo {
+    > .container .navbar-brand,
+    > .container-fluid .navbar-brand,
+    .navbar-brand {
+      position: absolute;
+      left: 50%;
+      margin-left: -(($logo-mobile-width / 2) + $navbar-padding-horizontal);
+      text-align: center;
+      width: $logo-mobile-width;
+
+      @media (min-width: $grid-float-breakpoint) {
+        margin-left: -(($logo-desktop-width / 2) + $navbar-padding-horizontal);
+        width: $logo-desktop-width;
+      }
+    }
+
+    @media (min-width: $grid-float-breakpoint) {
+      .navbar-left {
+        position: absolute;
+        right: 50%;
+        margin-right: (($logo-desktop-width / 2) + $navbar-padding-horizontal);
+      }
+
+      .navbar-right {
+        position: absolute;
+        left: 50%;
+        margin-left: (($logo-desktop-width / 2) + $navbar-padding-horizontal);
+      }
+    }
+  }
+
+  .header-logo-above {
+    .navbar-toggle {
+      border-color: $navbar-default-toggle-border-color;
+      &:hover,
+      &:focus {
+        background-color: $navbar-default-toggle-hover-bg;
+      }
+      .icon-bar {
+        background-color: $navbar-default-toggle-icon-bar-bg;
+      }
+    }
+
+    @media (min-width: $grid-float-breakpoint) {
+      .navbar-brand img {
+        height: 60px;
+        width: auto;
+      }
+    }
+  }
+
+  .navbar-logo-above {
+    min-height: 0;
+  }
+
+  @media (min-width: $grid-float-breakpoint) {
+    .navbar-vcard {
+      margin-right: $navbar-padding-horizontal;
+    }
+  }
+
+  .header-logo-below {
+    .navbar-brand {
+      display: block;
+      margin: 0 auto;
+      max-width: 400px;
+      height: auto;
+      float: none;
+      text-align: center;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    margin-bottom: $navbar-margin-bottom;
+  }
+}

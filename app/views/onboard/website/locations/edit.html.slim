@@ -2,15 +2,15 @@
 
 .row
   .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
-    = errors_for @location
-    = form_for @location, url: [:onboard_website, @business, :location], method: :put do |form|
+    = errors_for @business.location
+    = form_for @business.location, url: [:onboard_website, @business, :location], method: :put do |form|
       .panel.panel-default
         .panel-heading
           h1.h4.panel-title Tell Us About Your Business Location
         .panel-body
           .form-group
             = form.label :name, class: 'control-label'
-            = form.text_field :name, value: @location.name.present? ? @location.name : @business.name, class: 'form-control'
+            = form.text_field :name, value: form.object.name.present? ? form.object.name : @business.name, class: 'form-control'
           hr
           .form-group
             = form.label :street1, class: 'control-label'
@@ -70,7 +70,7 @@
           => link_to [:edit_onboard_website, @business], class: 'btn btn-default' do
             i.fa.fa-angle-left>
             | Back
-          - if @location.persisted?
+          - if @business.location.persisted?
             => link_to [:edit_onboard_website, @business, :website], class: 'btn btn-default' do
               ' Skip
               i.fa.fa-angle-right

@@ -1,0 +1,31 @@
+.webpage-designer {
+  margin: 50px 0;
+}
+
+.webpage-block {
+  position: relative;
+  margin: 20px 0;
+  .container {
+    width: auto;
+  }
+}
+
+.webpage-add {
+  border: dashed 1px #ccc;
+  border-radius: 2px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  @extend .lead;
+}
+
+.webpage-block-options {
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  z-index: 1030;
+}
+
+.webpage-submit {
+  margin: 50px 0;
+}

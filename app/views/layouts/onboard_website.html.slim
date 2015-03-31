@@ -18,12 +18,12 @@ html lang="en"
                 .onboard-stepnum = content_tag (controller_name == 'locations' ? :strong : :span), 'Contact<br>Information'.html_safe
                 .progress: .progress-bar
                 span.onboard-dot
-              .col-xs-3.onboard-step class=(controller_name == 'websites' ? 'is-active' : (controller_name == 'pages' ? 'is-complete' : 'is-disabled'))
+              .col-xs-3.onboard-step class=(controller_name == 'websites' ? 'is-active' : (controller_name == 'themes' ? 'is-complete' : 'is-disabled'))
                 .onboard-stepnum = content_tag (controller_name == 'websites' ? :strong : :span), 'Setup<br>Website'.html_safe
                 .progress: .progress-bar
                 span.onboard-dot
-              .col-xs-3.onboard-step class=(controller_name == 'pages' ? 'is-active' : 'is-disabled')
-                .onboard-stepnum = content_tag (controller_name == 'pages' ? :strong : :span), 'Add<br>Pages'.html_safe
+              .col-xs-3.onboard-step class=(controller_name == 'themes' ? 'is-active' : 'is-disabled')
+                .onboard-stepnum = content_tag (controller_name == 'themes' ? :strong : :span), 'Theme &amp;<br>Design'.html_safe
                 .progress: .progress-bar
                 span.onboard-dot
       = yield

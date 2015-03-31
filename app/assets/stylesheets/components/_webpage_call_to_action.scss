@@ -1,0 +1,17 @@
+.webpage-call-to-action {
+  .cta-columns {
+    .img-responsive {
+      width: 100%;
+    }
+
+    p {
+      margin: ($line-height-computed * 1.25) 0;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      .cta-text {
+        min-height: 57px;
+      }
+    }
+  }
+}

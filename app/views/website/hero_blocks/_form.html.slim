@@ -1,0 +1,13 @@
+.jumbotron.hero-full.hero-dark style="background-image: url('#{block.hero_block_imgae.try(:attachment_url)}')"
+  .row
+    .col-sm-6.col-sm-offset-6.col-md-5.col-md-offset-7
+      .well
+        h1 = block.heading_html
+        .form-group
+          = label_tag :name, 'Name', class: 'control-label'
+          = text_field_tag :name, '', class: 'form-control'
+        .form-group
+          = label_tag :email, 'Email', class: 'control-label'
+          = text_field_tag :email, '', class: 'form-control'
+        .form-group
+          = button_tag block.link_label, class: 'btn btn-primary btn-lg', role: 'button'

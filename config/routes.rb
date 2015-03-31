@@ -29,9 +29,10 @@ Rails.application.routes.draw do
     namespace :onboard do
       namespace :website do
         resources :businesses, only: %i[new create edit update destroy] do
+          post :import, on: :collection
           resource :location, only: %i[edit update]
           resource :website, only: %i[edit update]
-          resource :pages, only: %i[edit update]
+          resource :theme, only: %i[edit update]
         end
       end
     end
@@ -51,7 +52,7 @@ Rails.application.routes.draw do
 
         namespace :crm do
           root to: 'roots#show'
-          resources :contact_messages, path: 'submitted_forms', only: %i[index show]
+          resources :contact_messages, path: 'submitted-forms', only: %i[index show]
         end
 
         namespace :website do
@@ -62,11 +63,12 @@ Rails.application.routes.draw do
           resource :home_page, only: %i[edit update]
           resource :theme, only: %i[edit update]
           resources :custom_pages, only: %i[new create edit update]
-          resources :pages, only: %i[index] do
+          resources :webpages, only: %i[index] do
             resource :publications, only: %i[create destroy]
           end
         end
 
+        resource :marketing, only: %i[show]
         resources :authorizations, path: 'admins', only: %i[index new create destroy]
       end
     end

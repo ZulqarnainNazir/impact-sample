@@ -16,6 +16,8 @@ class Image < ActiveRecord::Base
 
   before_validation do
     self.attachment_updated_at = Time.zone.now if attachment_cache_url_changed? && attachment_cache_url?
+    self.attachment_content_type ||= Paperclip::ContentTypeDetector.new(attachment_file_name).detect
+    self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
   end
 
   after_commit do

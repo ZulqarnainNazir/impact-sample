@@ -14,6 +14,7 @@ gem 'jbuilder'
 gem 'jquery-fileupload-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'koala'
 gem 'mini_magick'
 gem 'minimalizer'
 gem 'normalize-rails'
@@ -31,6 +32,7 @@ gem 'uglifier'
 
 group :development, :test do
   gem 'dotenv-rails'
+  gem 'erd'
   gem 'spring'
 end
 

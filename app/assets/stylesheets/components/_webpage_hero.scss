@@ -1,0 +1,27 @@
+.webpage-hero {
+  h1 {
+    font-size: $font-size-h2;
+  }
+  .hero-full {
+    background-size: cover;
+    background-position: center center;
+
+    &.hero-dark {
+      color: #fff;
+    }
+
+    .well {
+      background-color: rgba($well-bg, 0.75);
+      color: $text-color;
+    }
+
+    .well-dark {
+      background-color: rgba(0,0,0,0.75);
+      color: #fff;
+      border-color: #222;
+    }
+    .carousel-caption {
+      background: rgba(0,0,0,0.5);
+    }
+  }
+}

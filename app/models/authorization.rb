@@ -10,7 +10,21 @@ class Authorization < ActiveRecord::Base
 
   accepts_nested_attributes_for :user, reject_if: :all_blank
 
-  after_commit do
+  before_validation on: :invite do
+    existing_user = User.find_by_email(user.try(:email))
+
+    if existing_user
+      self.user = existing_user
+    else
+      self.user.tap do |user|
+        def user.password_required?
+          false
+        end
+      end
+    end
+  end
+
+  after_save on: :invite do
     AuthorizationsMailer.owner_welcome(self).deliver_later(wait: 10.seconds)
   end
 

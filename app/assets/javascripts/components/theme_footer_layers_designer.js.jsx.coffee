@@ -27,11 +27,11 @@ ThemeFooterLayersDesigner = React.createClass
               <p className="copyright">© 2015 {this.props.name}</p>
             </div>
             <div className="col-sm-4 footer-center">
-              <span className="tel">{this.props.phoneNumber}</span> <br />
-              <a href="#">{this.props.emailAddress}</a>
+              <span className="tel">{this.props.phone}</span> <br />
+              <a href="#">{this.props.email}</a>
             </div>
             <div className="col-sm-4 footer-right">
-              <p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>
+              <p className="adr">{this.props.address_line_one} <br /> {this.props.address_line_two}</p>
             </div>
           </div>
         </div>

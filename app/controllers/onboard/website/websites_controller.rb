@@ -1,20 +1,14 @@
 class Onboard::Website::WebsitesController < Onboard::Website::BaseController
   before_action do
     @business = current_user.businesses.find(params[:business_id])
-  end
 
-  before_action do
-    if !@business.location
-      redirect_to [:edit_onboard_website, @business, :location]
+    unless @business.location && @business.website
+      redirect_to [@website, :dashboard], alert: 'No Location or Website Found'
     end
   end
 
-  before_action do
-    @website = @business.website || @business.build_website
-  end
-
   def update
-    update_resource @website, website_params, location: [:edit_onboard_website, @business, :pages]
+    update_resource @business.website, website_params, context: :setup, location: [:edit_onboard_website, @business, :theme]
   end
 
   private
@@ -22,29 +16,35 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
   def website_params
     params.require(:website).permit(
       :subdomain,
-      :header,
-      :header_style,
-      :footer,
-      logo_placement_attributes: [
-        :id,
+      home_page_attributes: [
         :_destroy,
-        image_attributes: [
-          :id,
-          :alt,
-          :title,
-          :attachment_cache_url,
-          :attachment_content_type,
-          :attachment_file_name,
-          :attachment_file_size,
-          :_destroy,
-        ],
+      ],
+      about_page_attributes: [
+        :_destroy,
+      ],
+      contact_page_attributes: [
+        :_destroy,
+      ],
+      webpages_attributes: [
+        :type,
+        :title,
+        :_destroy,
       ],
     ).deep_merge(
-      logo_placement_attributes: {
-        image_attributes: {
-          user: current_user,
-          business: @business,
-        },
+      home_page_attributes: {
+        name: 'Homepage',
+        pathname: '',
+        title: @business.name,
+      },
+      about_page_attributes: {
+        name: 'About',
+        pathname: 'about',
+        title: "About #{@business.name}",
+      },
+      contact_page_attributes: {
+        name: 'Contact',
+        pathname: 'contact',
+        title: "Contact #{@business.name}",
       },
     )
   end

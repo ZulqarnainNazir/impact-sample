@@ -11,23 +11,13 @@ html lang="en"
     css:
       #{@website.custom_css}
   body
-    .theme-header
-      = render partial: "website/elements/header_#{@website.header.underscore}", locals: { business: @business,
-        location: @location,
-        website: @website,
-        home_page: @website.home_page,
-        about_page: @website.about_page,
-        contact_page: @website.contact_page,
-        custom_pages: @website.pages.custom }
+    - if @website.header_block
+      .webpage-header
+        = render @website.header_block
     = yield
-    .theme-footer
-      = render partial: "website/elements/footer_#{@website.footer.underscore}", locals: { business: @business,
-        location: @location,
-        website: @website,
-        home_page: @website.home_page,
-        about_page: @website.about_page,
-        contact_page: @website.contact_page,
-        custom_pages: @website.pages.custom }
+    - if @website.footer_block
+      .webpage-footer
+        = render @website.footer_block
     .theme-impact
       = link_to 'http://impact.locable.com', target: :_blank do
         = image_tag 'impact-footer.png', alt: 'IMPACT Marketing Suite for Local Businesses'

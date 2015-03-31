@@ -3,7 +3,7 @@ class CreateWebsites < ActiveRecord::Migration
     create_table :websites do |t|
       t.references :business, index: true, null: false
       t.string :subdomain, null: false
-      t.json :settings
+      t.text :custom_css
       t.timestamps null: false
     end
 

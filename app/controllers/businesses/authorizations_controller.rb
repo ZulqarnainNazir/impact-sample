@@ -1,7 +1,6 @@
 class Businesses::AuthorizationsController < Businesses::BaseController
   before_action only: new_actions do
-    @authorization = Authorization.new
-    @authorization.build_user
+    @authorization = @business.authorizations.new
   end
 
   before_action only: member_actions do
@@ -19,7 +18,7 @@ class Businesses::AuthorizationsController < Businesses::BaseController
   end
 
   def create
-    create_resource AuthorizationCreateService.new(@business, @authorization), authorization_params, location: [@business, :authorizations]
+    create_resource [@business, @authorization], authorization_params, context: :invite, location: [@business, :authorizations]
   end
 
   def destroy

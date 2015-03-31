@@ -1,0 +1,22 @@
+.col-sm-6.col-md-3
+  .panel.panel-default.page-preview
+    = link_to [:edit, custom_page.website.business, :website, custom_page] do
+      .panel-body.text-center
+        .page-preview-wrapper
+          i.fa.fa-file.fa-4x>
+          h2.h3 => custom_page.name
+          code
+            | /
+            = custom_page.pathname
+    .panel-footer.text-right
+      - if custom_page.active?
+        = link_to business_website_webpage_publications_path(@business, custom_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
+          i.fa.fa-toggle-on>
+          | Active
+      - else
+        = link_to business_website_webpage_publications_path(@business, custom_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
+          i.fa.fa-toggle-off>
+          | Hidden
+      = link_to website_custom_page_url(custom_page.pathname, host: website_host(@website)), target: :_blank do
+        ' Preview
+        i.fa.fa-external-link style="margin-left:2px"

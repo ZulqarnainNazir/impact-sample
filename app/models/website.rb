@@ -1,54 +1,78 @@
 class Website < ActiveRecord::Base
-  include PlacedImageConcern
-
   belongs_to :business, touch: true
 
-  has_many :pages, dependent: :destroy
-  has_many :webhosts, dependent: :destroy
+  with_options as: :frame do
+    has_one :header_block
+    has_one :footer_block
+  end
 
-  has_one :home_page
-  has_one :about_page
-  has_one :contact_page
-  has_one :active_home_page, -> { active }, class_name: HomePage.name
-  has_one :active_about_page, -> { active }, class_name: AboutPage.name
-  has_one :active_contact_page, -> { active }, class_name: ContactPage.name
+  with_options dependent: :destroy do
+    has_many :webhosts
+    has_many :webpages
+    has_one :about_page
+    has_one :contact_page
+    has_one :home_page
+  end
 
-  has_placed_image :logo
+  accepts_nested_attributes_for :business
+  accepts_nested_attributes_for :header_block
+  accepts_nested_attributes_for :footer_block
 
-  accepts_nested_attributes_for :home_page, allow_destroy: true, reject_if: proc { |a| a['_destroy'] == '1' }
-  accepts_nested_attributes_for :about_page, allow_destroy: true, reject_if: proc { |a| a['_destroy'] == '1' }
-  accepts_nested_attributes_for :contact_page, allow_destroy: true, reject_if: proc { |a| a['_destroy'] == '1' }
-  accepts_nested_attributes_for :pages, allow_destroy: true, reject_if: proc { |a| a['title'].blank? || a['_destroy'] == '1' }
-  accepts_nested_attributes_for :webhosts, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && a['name'].blank? || a['_destroy'].blank? }
+  with_options allow_destroy: true do
+    accepts_nested_attributes_for :home_page,     reject_if: proc { |a| a['_destroy'] == '1' }
+    accepts_nested_attributes_for :about_page,    reject_if: proc { |a| a['_destroy'] == '1' }
+    accepts_nested_attributes_for :contact_page,  reject_if: proc { |a| a['_destroy'] == '1' }
+    accepts_nested_attributes_for :webhosts,      reject_if: proc { |a| a['_destroy'] == '1' || a['id'].nil? && a['name'].blank? }
+    accepts_nested_attributes_for :webpages,      reject_if: proc { |a| a['_destroy'] == '1' || a['title'].blank? }
+  end
 
-  store_accessor :settings,
-    :custom_css,
-    :footer,
-    :header,
-    :header_style
-
-  validates :footer, presence: true, inclusion: { in: %w[simple simpleFullWidth columns layers] }
-  validates :header, presence: true, inclusion: { in: %w[inline center justify logoAbove logoAboveFullWidth logoBelow logoCenter] }
-  validates :header_style, presence: true, inclusion: { in: %w[dark light transparent] }
-  validates :subdomain, presence: true, length: { in: 3..30 }, format: { with: /\A[[a-z][0-9]\-]+\z/ }, uniqueness: { case_sensitive: false }
-  validates :webhosts, length: { maximum: 10 }
+  validates :subdomain,
+    exclusion: { in: %w[www] },
+    format: { with: /\A[[a-z][0-9]\-]+\z/ },
+    length: { in: 3..30 },
+    presence: true,
+    uniqueness: { case_sensitive: false }
+  validates :webhosts,
+    length: { maximum: 10 }
 
   validate do
-    if webhosts.reject(&:marked_for_destruction?).length > 1 && webhosts.reject(&:marked_for_destruction?).select(&:primary?).length != 1
+    future_webhosts = webhosts.reject(&:marked_for_destruction?)
+    future_primary_webhosts = future_webhosts.select(&:primary?)
+
+    if future_webhosts.length > 1 && future_primary_webhosts.length != 1
       errors.add :webhosts, :invalid_primary
     end
   end
 
-  def header_class
-    case header_style
-    when 'dark'
-      'navbar-inverse'
-    when 'light'
-      'navbar-default'
+  def self.available_subdomain(subdomain)
+    subdomain = subdomain.gsub(/'/, '').parameterize
+
+    if exists?(subdomain: subdomain)
+      n = 1
+      while exists?(subdomain: "#{subdomain}-#{n}") do
+        n += 1
+      end
+      "#{subdomain}-#{n}"
+    else
+      subdomain
     end
   end
 
   def webhost
-    webhosts.length > 1 ? webhosts.primary.first : webhosts.first
+    webhosts.primary.any? ? webhosts.primary.first : webhosts.first
+  end
+
+  def default_header_block_attributes(business)
+    {
+    }.reject do |key, value|
+      value.blank?
+    end
+  end
+
+  def default_footer_block_attributes(business)
+    {
+    }.reject do |key, value|
+      value.blank?
+    end
   end
 end

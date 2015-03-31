@@ -25,5 +25,7 @@ module Impact
         bucket: Rails.application.secrets.aws_s3_bucket,
       }
     }
+
+    config.react.addons = true
   end
 end

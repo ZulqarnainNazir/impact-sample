@@ -1,5 +1,26 @@
-.page-frame {
-  box-shadow: 0 0 1em rgba(0,0,0,0.1), 0 0 0.2em rgba(0,0,0,0.2);
+.page-designer {
+  margin: 50px 0;
+}
+
+.page-block {
+  position: relative;
+  margin: 20px 0;
+}
+
+.page-add {
+  border: dashed 1px #ccc;
+  border-radius: 2px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  @extend .lead;
+}
+
+.page-options {
+  position: absolute;
+  z-index: 1;
+  top: -15px;
+  right: -10px;
 }
 
 .pages-associations {

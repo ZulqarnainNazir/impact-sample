@@ -1,0 +1,13 @@
+= website_form.fields_for :webpages, webpage, child_index: (webpage.new_record? && webpage.errors.empty? && webpage.title.blank? ? 98765432101 : nil) do |form|
+  .panel.panel-default class=('is-appended' if webpage.new_record? && webpage.errors.empty? && webpage.title.blank?)
+    .panel-sidebar
+      = form.label :_destroy, class: 'btn btn-default' do
+        => form.check_box :_destroy
+        span.sr-only> Destroy
+        i.fa.fa-trash-o
+    .panel-body
+      = form.hidden_field :type, value: 'CustomPage'
+      h2.h4.with-input
+        i.fa.fa-file-o>
+        span.input-container
+          = form.text_field :title, class: 'form-control'

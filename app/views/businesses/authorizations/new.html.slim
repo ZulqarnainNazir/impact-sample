@@ -17,7 +17,7 @@ ol.breadcrumb
           .form-group
             => form.label :role
             = form.select :role, options_for_select(Authorization.roles.keys.map { |k| [k.humanize, k] }), {}, class: 'form-control'
-          = form.fields_for :user do |form|
+          = form.fields_for :user, @authorization.user || @authorization.build_user do |form|
             .form-group
               => form.label :first_name, class: 'control-label'
               = form.text_field :first_name, class: 'form-control'

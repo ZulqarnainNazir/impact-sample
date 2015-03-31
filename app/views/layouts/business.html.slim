@@ -55,7 +55,7 @@ html lang="en"
                       li = link_to [:edit, @business, :website_details] do
                         i.fa.fa-list>
                         | Basic Details
-                      li = link_to [@business, :website_pages] do
+                      li = link_to [@business, :website_webpages] do
                         i.fa.fa-sitemap>
                         | Pages
                       li = link_to [:edit, @business, :website_theme] do
@@ -96,7 +96,7 @@ html lang="en"
                 li = link_to [@business, :authorizations] do
                   i.fa.fa-users>
                   | Manage Admins
-                li = link_to '#', style: 'pointer-events:none; opacity:0.4' do
+                li = link_to [@business, :marketing]
                   i.fa.fa-rocket>
                   | Marketing
                 li 

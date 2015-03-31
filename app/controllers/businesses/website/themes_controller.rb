@@ -10,30 +10,8 @@ class Businesses::Website::ThemesController < Businesses::Website::BaseControlle
   def website_params
     params.require(:website).permit(
       :custom_css,
-      :header,
-      :header_style,
-      :footer,
-      logo_placement_attributes: [
-        :id,
-        :_destroy,
-        image_attributes: [
-          :id,
-          :alt,
-          :title,
-          :attachment_cache_url,
-          :attachment_content_type,
-          :attachment_file_name,
-          :attachment_file_size,
-          :_destroy,
-        ],
-      ],
-    ).deep_merge(
-      logo_placement_attributes: {
-        image_attributes: {
-          user: current_user,
-          business: @business,
-        },
-      },
+      header_block_attributes: block_attributes,
+      footer_block_attributes: block_attributes,
     )
   end
 end

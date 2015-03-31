@@ -27,20 +27,43 @@ ActiveRecord::Schema.define(version: 15) do
   add_index "authorizations", ["business_id"], name: "index_authorizations_on_business_id", using: :btree
   add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id", using: :btree
 
+  create_table "blocks", force: :cascade do |t|
+    t.integer  "frame_id",                          null: false
+    t.string   "frame_type",                        null: false
+    t.integer  "link_id"
+    t.string   "link_type"
+    t.string   "type",                              null: false
+    t.string   "theme"
+    t.string   "style"
+    t.string   "link_label"
+    t.text     "heading"
+    t.text     "subheading"
+    t.text     "text"
+    t.text     "link_external_url"
+    t.boolean  "link_target_blank", default: false, null: false
+    t.boolean  "link_no_follow",    default: false, null: false
+    t.integer  "link_version",      default: 0,     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
+  add_index "blocks", ["link_type", "link_id"], name: "index_blocks_on_link_type_and_link_id", using: :btree
+
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                       null: false
+    t.string   "tagline"
+    t.string   "website_url"
     t.string   "facebook_id"
     t.string   "google_plus_id"
     t.string   "linkedin_id"
     t.string   "twitter_id"
     t.string   "youtube_id"
     t.text     "description"
+    t.integer  "kind",           default: 0, null: false
+    t.integer  "year_founded"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.string   "tagline"
-    t.integer  "year_founded"
-    t.string   "website_url"
-    t.integer  "kind",           default: 0, null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -91,22 +114,24 @@ ActiveRecord::Schema.define(version: 15) do
   add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.integer  "business_id",                           null: false
-    t.string   "name",                                  null: false
-    t.string   "email"
-    t.string   "phone_number",                          null: false
-    t.string   "street1",                               null: false
+    t.integer  "business_id",                                                    null: false
+    t.string   "name",                                                           null: false
+    t.string   "street1"
     t.string   "street2"
-    t.string   "city",                                  null: false
-    t.string   "state",                                 null: false
-    t.string   "zip_code",                              null: false
-    t.boolean  "hide_address",          default: false, null: false
-    t.boolean  "hide_phone",            default: false, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.boolean  "hide_email",            default: false, null: false
-    t.boolean  "external_service_area", default: false, null: false
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip_code"
+    t.string   "phone_number"
+    t.string   "email"
     t.text     "service_area"
+    t.boolean  "hide_address",                                   default: false, null: false
+    t.boolean  "hide_phone",                                     default: false, null: false
+    t.boolean  "hide_email",                                     default: false, null: false
+    t.boolean  "external_service_area",                          default: false, null: false
+    t.decimal  "latitude",              precision: 10, scale: 6
+    t.decimal  "longitude",             precision: 10, scale: 6
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
@@ -128,26 +153,12 @@ ActiveRecord::Schema.define(version: 15) do
 
   add_index "openings", ["location_id"], name: "index_openings_on_location_id", using: :btree
 
-  create_table "pages", force: :cascade do |t|
-    t.integer  "website_id",                  null: false
-    t.boolean  "active",      default: false, null: false
-    t.string   "type",                        null: false
-    t.string   "pathname",    default: "",    null: false
-    t.string   "title",                       null: false
-    t.string   "description"
-    t.json     "settings"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-  end
-
-  add_index "pages", ["website_id", "pathname"], name: "index_pages_on_website_id_and_pathname", unique: true, using: :btree
-  add_index "pages", ["website_id"], name: "index_pages_on_website_id", using: :btree
-
   create_table "placements", force: :cascade do |t|
     t.integer  "placer_id",                null: false
     t.string   "placer_type",              null: false
     t.integer  "image_id",                 null: false
     t.string   "context",     default: "", null: false
+    t.string   "style",       default: "", null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
@@ -212,10 +223,24 @@ ActiveRecord::Schema.define(version: 15) do
   add_index "webhosts", ["name"], name: "index_webhosts_on_name", unique: true, using: :btree
   add_index "webhosts", ["website_id"], name: "index_webhosts_on_website_id", using: :btree
 
+  create_table "webpages", force: :cascade do |t|
+    t.integer "website_id",                  null: false
+    t.boolean "active",      default: false, null: false
+    t.string  "type",                        null: false
+    t.string  "pathname",    default: "",    null: false
+    t.string  "name",                        null: false
+    t.string  "title",                       null: false
+    t.string  "description"
+    t.text    "custom_css"
+  end
+
+  add_index "webpages", ["website_id", "pathname"], name: "index_webpages_on_website_id_and_pathname", unique: true, using: :btree
+  add_index "webpages", ["website_id"], name: "index_webpages_on_website_id", using: :btree
+
   create_table "websites", force: :cascade do |t|
     t.integer  "business_id", null: false
     t.string   "subdomain",   null: false
-    t.json     "settings"
+    t.text     "custom_css"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

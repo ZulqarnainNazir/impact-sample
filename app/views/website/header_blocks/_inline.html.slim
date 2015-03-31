@@ -1,0 +1,20 @@
+.navbar.navbar-static-top class=block.css_class role="navigation"
+  .container
+    .navbar-header
+      span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
+        span.sr-only Toggle Navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      - if business.logo.present?
+        = link_to business.name, :root, class: 'navbar-brand navbar-brand-image', style: "background-image: url('#{business.logo.attachment_url(:small)}')"
+      - else
+        = link_to business.name, :root, class: 'navbar-brand'
+    #header-collapse.navbar-collapse.collapse
+      ul.nav.navbar-nav.navbar-right
+        - if website.about_page
+          li = link_to 'About', website_about_page_path
+        - if website.contact_page
+          li = link_to 'Contact', website_contact_page_path
+        - website.webpages.custom.each do |webpage|
+          li = link_to webpage.name, website_custom_page_path(webpage.pathname)

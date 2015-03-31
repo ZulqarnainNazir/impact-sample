@@ -16,6 +16,7 @@ var ready = function() {
   $('.openings-associations').openingsAssociations();
   $('.pages-associations').pagesAssociations();
   $('.webhosts-associations').webhostsAssociations();
+  $('.webpage-designer').webpageDesigner();
 };
 
 $(document).ready(ready);
