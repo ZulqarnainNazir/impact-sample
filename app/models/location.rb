@@ -7,6 +7,13 @@ class Location < ActiveRecord::Base
 
   validates :state, inclusion: { in: UsStates.abbreviations }, allow_blank: true
 
+  def attributes_with_address
+    attributes.merge(
+      address_line_one: address_line_one,
+      address_line_two: address_line_two,
+    )
+  end
+
   def address_line_one
     [street1, street2].reject(&:blank?).join(', ')
   end

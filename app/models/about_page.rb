@@ -4,7 +4,7 @@ class AboutPage < Webpage
     has_one :team_block
   end
 
-  with_options allow_destroy: true do
+  with_options allow_destroy: true, reject_if: :all_blank do
     accepts_nested_attributes_for :about_block
     accepts_nested_attributes_for :team_block
   end
@@ -20,6 +20,8 @@ class AboutPage < Webpage
       theme: 'left',
       heading: business.name,
       text: business.description,
-    }
+    }.reject do |key, value|
+      value.blank?
+    end
   end
 end

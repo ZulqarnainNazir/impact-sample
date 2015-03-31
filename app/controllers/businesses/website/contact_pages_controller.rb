@@ -14,17 +14,7 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
   def contact_page_params
     params.require(:contact_page).permit(
       :title,
-      blocks_attributes: [
-        :id,
-        :type,
-        :theme,
-        :style,
-        :heading,
-        :subheading,
-        :text,
-        :label,
-        :_destroy,
-      ],
+      contact_block_attributes: block_attributes,
     ).deep_merge(
       pathname: 'contact',
       name: 'Contact',

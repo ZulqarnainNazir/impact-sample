@@ -19,7 +19,7 @@
       - if location.email? && !location.hide_email?
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
-    p = contact_page.text_html
+    p = block.text_html
     = render 'form'
   .col-sm-6
     .vcard

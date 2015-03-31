@@ -1,0 +1,12 @@
+.container
+  article
+    header.page-header
+      h1 About
+- if block.about_block_image
+  = image_tag block.about_block_image.attachment_url, alt: block.about_block_image.alt, class: 'img-responsive', style: 'width: 100%'
+.container
+  article
+    header.page-header
+      h2 = block.heading_html
+      p = block.subheading_html
+    p = block.text_html

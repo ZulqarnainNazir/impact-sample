@@ -98,6 +98,10 @@ class Block < ActiveRecord::Base
     heading.html_safe
   end
 
+  def subheading_html
+    subheading.html_safe
+  end
+
   def text_html
     text.html_safe
   end

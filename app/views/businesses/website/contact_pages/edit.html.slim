@@ -7,4 +7,17 @@ ol.breadcrumb
   li = link_to 'Webpages', [@business, :website_webpages]
   li.active Contact Page
 
-= react_component 'ContactPage', render(partial: 'contact_page', locals: { page: @contact_page }, formats: 'json')
+.webpage-designer data-input-prefix="contact_page"
+  = form_for @contact_page, url: [@business, :website_contact_page] do |form|
+    = errors_for @contact_page
+    .form-horizontal
+      .form-group
+        = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
+        .col-sm-6.col-lg-4
+          = form.text_field :title, class: 'form-control'
+          p.help-block Important for SEO
+    = react_component 'ContactPage', render(partial: 'contact_page', object: @contact_page, locals: { business: @business }, formats: 'json')
+    .webpage-submit
+      .row
+        .col-sm-4.col-sm-offset-4
+          button.btn.btn-block.btn-lg.btn-primary Save Page

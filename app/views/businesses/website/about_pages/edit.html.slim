@@ -7,4 +7,17 @@ ol.breadcrumb
   li = link_to 'Webpages', [@business, :website_webpages]
   li.active About Page
 
-= react_component 'AboutPage', render(partial: 'about_page', locals: { page: @about_page }, formats: 'json')
+.webpage-designer data-input-prefix="about_page"
+  = form_for @about_page, url: [@business, :website_about_page] do |form|
+    = errors_for @about_page
+    .form-horizontal
+      .form-group
+        = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
+        .col-sm-6.col-lg-4
+          = form.text_field :title, class: 'form-control'
+          p.help-block Important for SEO
+    = react_component 'AboutPage', render(partial: 'about_page', object: @about_page, locals: { business: @business }, formats: 'json')
+    .webpage-submit
+      .row
+        .col-sm-4.col-sm-offset-4
+          button.btn.btn-block.btn-lg.btn-primary Save Page

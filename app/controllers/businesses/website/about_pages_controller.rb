@@ -12,19 +12,18 @@ class Businesses::Website::AboutPagesController < Businesses::Website::BaseContr
   private
 
   def about_page_params
+    basic_about_page_params.tap do |page_params|
+      if page_params[:about_block_attributes]
+        page_params[:about_block_attributes].merge! image_business: @business, image_user: current_user
+      end
+    end
+  end
+
+  def basic_about_page_params
     params.require(:about_page).permit(
       :title,
-      blocks_attributes: [
-        :id,
-        :type,
-        :theme,
-        :style,
-        :heading,
-        :subheading,
-        :text,
-        :label,
-        :_destroy,
-      ],
+      about_block_attributes: block_attributes,
+      team_block_attributes: block_attributes,
     ).deep_merge(
       pathname: 'about',
       name: 'About',
