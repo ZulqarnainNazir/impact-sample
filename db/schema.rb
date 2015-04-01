@@ -167,7 +167,8 @@ ActiveRecord::Schema.define(version: 15) do
   add_index "placements", ["placer_type", "placer_id"], name: "index_placements_on_placer_type_and_placer_id", using: :btree
 
   create_table "team_members", force: :cascade do |t|
-    t.integer  "business_id",    null: false
+    t.integer  "business_id",                null: false
+    t.integer  "position",       default: 0
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
@@ -177,8 +178,8 @@ ActiveRecord::Schema.define(version: 15) do
     t.string   "google_plus_id"
     t.string   "linkedin_id"
     t.string   "twitter_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "team_members", ["business_id"], name: "index_team_members_on_business_id", using: :btree

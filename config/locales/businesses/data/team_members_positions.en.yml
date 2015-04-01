@@ -1,0 +1,7 @@
+en:
+  businesses:
+    data:
+      team_members_positions:
+        update:
+          notice: The team members were successfully sorted.
+          alert: There was a problem sorting the team members.

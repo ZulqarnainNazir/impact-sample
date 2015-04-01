@@ -5,6 +5,7 @@ AboutBlockHandlers =
 
   getInitialState: ->
     aboutBlock: this.aboutBlockInitial()
+    aboutBlockImages: []
 
   aboutBlockInputs: ->
     if this.props.initialAboutBlock and this.state.aboutBlock
@@ -62,7 +63,10 @@ AboutBlockHandlers =
 
   aboutBlockImageLibraryProps: ->
     visible: this.state.aboutBlock and this.state.aboutBlock.displayImageLibrary
+    loaded: this.state.aboutBlock and this.state.aboutBlock.imageLibraryLoaded
     hide: this.aboutBlockUpdate.bind(null, displayImageLibrary: false)
+    add: this.aboutBlockImageLibraryAdd
+    images: this.state.aboutBlockImages
 
   aboutBlockInputHeadingProps: ->
     id: this.aboutBlockID('heading')
@@ -80,7 +84,7 @@ AboutBlockHandlers =
     init: this.aboutBlockImageInit
     id: this.aboutBlockID
     name: this.aboutBlockName
-    showImageLibrary: this.aboutBlockUpdate.bind(null, displayImageLibrary: true)
+    showImageLibrary: this.aboutBlockShowImageLibrary
     alt: this.state.aboutBlock.image_alt
     image_id: this.state.aboutBlock.image_id
     image_placement_id: this.state.aboutBlock.image_placement_id
@@ -122,6 +126,7 @@ AboutBlockHandlers =
     image_progress: 0
     image_state: 'empty'
     displayImageLibrary: false
+    imageLibraryLoaded: false
     heading: 'Heading'
     subheading: 'Subheading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -144,9 +149,15 @@ AboutBlockHandlers =
       $(this.state.aboutBlock.upload_xhr.getDOMNode()).fileupload('destroy')
     this.aboutBlockSave $set: null, callback
 
+  aboutBlockShowImageLibrary: (event) ->
+    event.preventDefault() if event
+    this.aboutBlockUpdate displayImageLibrary: true, null, this.aboutBlockImageLibraryStart
+
   aboutBlockSwapForm: () ->
     if this.state.aboutBlock.image_temp_cache_url and this.state.aboutBlock.image_temp_cache_url.length > 0
       this.aboutBlockUpdate
+        image_id: this.state.aboutBlock.image_temp_id
+        image_temp_id: null
         image_url: this.state.aboutBlock.image_temp_cache_url
         image_cache_url: this.state.aboutBlock.image_temp_cache_url
         image_temp_cache_url: null
@@ -171,7 +182,8 @@ AboutBlockHandlers =
 
   aboutBlockResetForm: () ->
     attributes =
-      image_temp_cache__url: null
+      image_temp_id: null
+      image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
       image_temp_file_type: null
@@ -220,6 +232,31 @@ AboutBlockHandlers =
       this.setState updated, callback
     else
       this.setState updated
+
+  aboutBlockImageLibraryStart: ->
+    unless this.state.aboutBlock.imageLibraryLoaded
+      $.get this.props.imagesPath, this.aboutBlockImageLibraryLoad
+
+  aboutBlockImageLibraryLoad: (data) ->
+    changes =
+      aboutBlock:
+        $merge:
+          imageLibraryLoaded: true
+      aboutBlockImages:
+        $set: data.images
+    this.setState React.addons.update(this.state, changes)
+
+  aboutBlockImageLibraryAdd: (image) ->
+    this.aboutBlockInputSetVal 'image_alt', image.image_alt
+    this.aboutBlockInputSetVal 'image_title', image.image_title
+    this.aboutBlockUpdate
+      displayImageLibrary: false
+      image_state: 'attached'
+      image_temp_id: image.image_id
+      image_temp_cache_url: image.image_url
+      image_temp_file_name: image.image_file_name
+      image_temp_file_size: image.image_file_size
+      image_temp_file_type: image.image_file_type
 
   aboutBlockInputGetVal: (name) ->
     $('#' + this.aboutBlockID(name)).val()

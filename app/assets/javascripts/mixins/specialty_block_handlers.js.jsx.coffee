@@ -5,6 +5,7 @@ SpecialtyBlockHandlers =
 
   getInitialState: ->
     specialtyBlock: this.specialtyBlockInitial()
+    specialtyBlockImages: []
 
   specialtyBlockInputs: ->
     if this.props.initialSpecialtyBlock and this.state.specialtyBlock
@@ -61,7 +62,10 @@ SpecialtyBlockHandlers =
 
   specialtyBlockImageLibraryProps: ->
     visible: this.state.specialtyBlock and this.state.specialtyBlock.displayImageLibrary
+    loaded: this.state.specialtyBlock and this.state.specialtyBlock.imageLibraryLoaded
     hide: this.specialtyBlockUpdate.bind(null, displayImageLibrary: false)
+    add: this.specialtyBlockImageLibraryAdd
+    images: this.state.specialtyBlockImages
 
   specialtyBlockInputHeadingProps: ->
     id: this.specialtyBlockID('heading')
@@ -73,7 +77,7 @@ SpecialtyBlockHandlers =
     init: this.specialtyBlockImageInit
     id: this.specialtyBlockID
     name: this.specialtyBlockName
-    showImageLibrary: this.specialtyBlockUpdate.bind(null, displayImageLibrary: true)
+    showImageLibrary: this.specialtyBlockShowImageLibrary
     alt: this.state.specialtyBlock.image_alt
     image_id: this.state.specialtyBlock.image_id
     image_placement_id: this.state.specialtyBlock.image_placement_id
@@ -115,6 +119,7 @@ SpecialtyBlockHandlers =
     image_progress: 0
     image_state: 'empty'
     displayImageLibrary: false
+    imageLibraryLoaded: false
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
@@ -136,9 +141,15 @@ SpecialtyBlockHandlers =
       $(this.state.specialtyBlock.upload_xhr.getDOMNode()).fileupload('destroy')
     this.specialtyBlockSave $set: null, callback
 
+  specialtyBlockShowImageLibrary: (event) ->
+    event.preventDefault() if event
+    this.specialtyBlockUpdate displayImageLibrary: true, null, this.specialtyBlockImageLibraryStart
+
   specialtyBlockSwapForm: () ->
     if this.state.specialtyBlock.image_temp_cache_url and this.state.specialtyBlock.image_temp_cache_url.length > 0
       this.specialtyBlockUpdate
+        image_id: this.state.specialtyBlock.image_temp_id
+        image_temp_id: null
         image_url: this.state.specialtyBlock.image_temp_cache_url
         image_cache_url: this.state.specialtyBlock.image_temp_cache_url
         image_temp_cache_url: null
@@ -161,7 +172,8 @@ SpecialtyBlockHandlers =
 
   specialtyBlockResetForm: () ->
     attributes =
-      image_temp_cache__url: null
+      image_temp_id: null
+      image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
       image_temp_file_type: null
@@ -209,6 +221,31 @@ SpecialtyBlockHandlers =
       this.setState updated, callback
     else
       this.setState updated
+
+  specialtyBlockImageLibraryStart: ->
+    unless this.state.specialtyBlock.imageLibraryLoaded
+      $.get this.props.imagesPath, this.specialtyBlockImageLibraryLoad
+
+  specialtyBlockImageLibraryLoad: (data) ->
+    changes =
+      specialtyBlock:
+        $merge:
+          imageLibraryLoaded: true
+      specialtyBlockImages:
+        $set: data.images
+    this.setState React.addons.update(this.state, changes)
+
+  specialtyBlockImageLibraryAdd: (image) ->
+    this.specialtyBlockInputSetVal 'image_alt', image.image_alt
+    this.specialtyBlockInputSetVal 'image_title', image.image_title
+    this.specialtyBlockUpdate
+      displayImageLibrary: false
+      image_state: 'attached'
+      image_temp_id: image.image_id
+      image_temp_cache_url: image.image_url
+      image_temp_file_name: image.image_file_name
+      image_temp_file_size: image.image_file_size
+      image_temp_file_type: image.image_file_type
 
   specialtyBlockInputGetVal: (name) ->
     $('#' + this.specialtyBlockID(name)).val()

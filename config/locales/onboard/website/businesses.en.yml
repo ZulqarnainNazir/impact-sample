@@ -5,6 +5,9 @@ en:
         create:
           notice: Ok, now let’s collect your business contact information.
           alert: There was a problem saving your business details.
+        import:
+          notice: Ok, now let’s collect your business contact information.
+          alert: There was a problem importing your business details.
         update:
           notice: Ok, now let’s collect your business contact information.
           alert: There was a problem saving your business details.

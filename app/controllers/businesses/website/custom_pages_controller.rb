@@ -46,6 +46,8 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
   def basic_custom_page_params
     params.require(:custom_page).permit(
       :title,
+      :pathname,
+      :name,
       hero_block_attributes: block_attributes,
       specialty_block_attributes: block_attributes,
       tagline_block_attributes: block_attributes,

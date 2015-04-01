@@ -5,6 +5,7 @@ HeroBlockHandlers =
 
   getInitialState: ->
     heroBlock: this.heroBlockInitial()
+    heroBlockImage: []
 
   heroBlockInputs: ->
     if this.props.initialHeroBlock and this.state.heroBlock
@@ -62,7 +63,10 @@ HeroBlockHandlers =
 
   heroBlockImageLibraryProps: ->
     visible: this.state.heroBlock and this.state.heroBlock.displayImageLibrary
+    loaded: this.state.heroBlock and this.state.heroBlock.imageLibraryLoaded
     hide: this.heroBlockUpdate.bind(null, displayImageLibrary: false)
+    add: this.heroBlockImageLibraryAdd
+    images: this.state.heroBlockImages
 
   heroBlockInputHeadingProps: ->
     id: this.heroBlockID('heading')
@@ -74,7 +78,7 @@ HeroBlockHandlers =
     init: this.heroBlockImageInit
     id: this.heroBlockID
     name: this.heroBlockName
-    showImageLibrary: this.heroBlockUpdate.bind(null, displayImageLibrary: true)
+    showImageLibrary: this.heroBlockShowImageLibrary
     alt: this.state.heroBlock.image_alt
     image_id: this.state.heroBlock.image_id
     image_placement_id: this.state.heroBlock.image_placement_id
@@ -133,6 +137,7 @@ HeroBlockHandlers =
     link_target_blank: false
     link_no_follow: false
     displayImageLibrary: false
+    imageLibraryLoaded: false
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
@@ -148,6 +153,10 @@ HeroBlockHandlers =
     event.preventDefault() if event
     this.heroBlockSave $merge: attributes, callback
 
+  heroBlockShowImageLibrary: (event) ->
+    event.preventDefault() if event
+    this.heroBlockUpdate displayImageLibrary: true, null, this.heroBlockImageLibraryStart
+
   heroBlockRemove: (event, callback) ->
     event.preventDefault() if event
     if this.state.heroBlock.upload_xhr
@@ -157,6 +166,8 @@ HeroBlockHandlers =
   heroBlockSwapForm: () ->
     if this.state.heroBlock.image_temp_cache_url and this.state.heroBlock.image_temp_cache_url.length > 0
       this.heroBlockUpdate
+        image_id: this.state.heroBlock.image_temp_id
+        image_temp_id: null
         image_url: this.state.heroBlock.image_temp_cache_url
         image_cache_url: this.state.heroBlock.image_temp_cache_url
         image_temp_cache_url: null
@@ -193,7 +204,8 @@ HeroBlockHandlers =
 
   heroBlockResetForm: () ->
     attributes =
-      image_temp_cache__url: null
+      image_temp_id: null
+      image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
       image_temp_file_type: null
@@ -248,6 +260,31 @@ HeroBlockHandlers =
       this.setState updated, callback
     else
       this.setState updated
+
+  heroBlockImageLibraryStart: ->
+    unless this.state.heroBlock.imageLibraryLoaded
+      $.get this.props.imagesPath, this.heroBlockImageLibraryLoad
+
+  heroBlockImageLibraryLoad: (data) ->
+    changes =
+      heroBlock:
+        $merge:
+          imageLibraryLoaded: true
+      heroBlockImages:
+        $set: data.images
+    this.setState React.addons.update(this.state, changes)
+
+  heroBlockImageLibraryAdd: (image) ->
+    this.heroBlockInputSetVal 'image_alt', image.image_alt
+    this.heroBlockInputSetVal 'image_title', image.image_title
+    this.heroBlockUpdate
+      displayImageLibrary: false
+      image_state: 'attached'
+      image_temp_id: image.image_id
+      image_temp_cache_url: image.image_url
+      image_temp_file_name: image.image_file_name
+      image_temp_file_size: image.image_file_size
+      image_temp_file_type: image.image_file_type
 
   heroBlockInputGetVal: (name) ->
     $('#' + this.heroBlockID(name)).val()

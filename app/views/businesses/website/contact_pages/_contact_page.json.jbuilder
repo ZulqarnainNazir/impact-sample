@@ -6,6 +6,8 @@ s3_presigned_post.tap do |presigned_post|
   json.presignedPostFields presigned_post.fields
 end
 
+json.imagesPath business_images_path(business)
+
 json.business business
 json.location business.location.try(:attributes_with_address)
 json.openings business.location.openings

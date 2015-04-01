@@ -201,7 +201,7 @@ CallToActionBlocksHandlers =
 
   callToActionBlockResetForm: (block) ->
     attributes =
-      image_temp_cache__url: null
+      image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
       image_temp_file_type: null

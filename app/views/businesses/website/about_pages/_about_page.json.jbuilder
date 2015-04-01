@@ -6,6 +6,8 @@ s3_presigned_post.tap do |presigned_post|
   json.presignedPostFields presigned_post.fields
 end
 
+json.imagesPath business_images_path(business)
+
 json.teamMembers business.team_members.map(&:attributes_with_profile_and_name)
 json.teamMembersPath business_data_team_members_path(business)
 

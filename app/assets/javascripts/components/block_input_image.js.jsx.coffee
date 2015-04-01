@@ -30,7 +30,7 @@ BlockInputImage = React.createClass
     label: 'Image'
 
   componentDidMount: ->
-    this.props.init(this) if this.props.state is 'empty'
+    this.props.init(this) if this.props.state is 'empty' or this.props.state is 'attached'
 
   progressWidthCSS: ->
     "#{this.props.progress}%"
@@ -57,12 +57,12 @@ BlockInputImage = React.createClass
       "#{Math.floor(this.props.file_size / 1000)}KB"
 
   url: ->
-    if this.props.attached_url and this.props.attached_url.length > 0
-      this.props.attached_url
-    else if this.props.temp_cache_url and this.props.temp_cache_url.length > 0
+    if this.props.temp_cache_url and this.props.temp_cache_url.length > 0
       this.props.temp_cache_url
     else if this.props.cache_url and this.props.cache_url.length > 0
       this.props.cache_url
+    else if this.props.attached_url and this.props.attached_url.length > 0
+      this.props.attached_url
     else ''
 
   render: ->
@@ -121,12 +121,12 @@ BlockInputImage = React.createClass
     if this.props.state is 'uploading' or this.props.state is 'finishing' or this.props.state is 'attached'
       `<div>
         <div className="form-group">
-          <label htmlFor={this.props.id('alt')} className="control-label"><code>ALT</code> Attribute</label>
-          <input id={this.props.id('alt')} name={this.props.name('image_alt')} type="text" defaultValue={this.props.alt} className="form-control" />
+          <label htmlFor={this.props.id('image_alt')} className="control-label"><code>ALT</code> Attribute</label>
+          <input id={this.props.id('image_alt')} name={this.props.name('image_alt')} type="text" defaultValue={this.props.alt} className="form-control" />
         </div>
         <div className="form-group">
-          <label htmlFor={this.props.id('title')} className="control-label"><code>Title</code> Attribute</label>
-          <input id={this.props.id('title')} name={this.props.name('image_title')} type="text" defaultValue={this.props.title} className="form-control" />
+          <label htmlFor={this.props.id('image_title')} className="control-label"><code>Title</code> Attribute</label>
+          <input id={this.props.id('image_title')} name={this.props.name('image_title')} type="text" defaultValue={this.props.title} className="form-control" />
         </div>
       </div>`
 

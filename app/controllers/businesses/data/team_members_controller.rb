@@ -8,11 +8,11 @@ class Businesses::Data::TeamMembersController < Businesses::BaseController
   end
 
   def index
-    @team_members = @business.team_members.alphabetical
+    @team_members = @business.team_members
   end
 
   def create
-    create_resource @team_member, team_member_params, location: [@business, :data_team_members]
+    create_resource @team_member, team_member_params.merge(position: @business.team_members.count), location: [@business, :data_team_members]
   end
 
   def update

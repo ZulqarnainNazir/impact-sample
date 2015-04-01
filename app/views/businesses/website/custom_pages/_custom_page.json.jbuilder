@@ -6,6 +6,8 @@ s3_presigned_post.tap do |presigned_post|
   json.presignedPostFields presigned_post.fields
 end
 
+json.imagesPath business_images_path(business)
+
 json.internalWebpages business.website.webpages.select(:id, :name)
 
 json.initialCallToActionBlocks  custom_page.call_to_action_blocks.map(&:react_attributes)

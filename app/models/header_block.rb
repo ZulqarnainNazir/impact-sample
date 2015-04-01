@@ -9,7 +9,7 @@ class HeaderBlock < Block
   def react_attributes(business)
     super(header_block_image).merge(
       name: business.name,
-      pages: business.website.webpages.select(:id, :name),
+      pages: business.website.webpages.where.not(type: 'HomePage').select(:id, :name),
       logoSmall: business.logo.try(:attachment_url, :small),
       logoMedium: business.logo.try(:attachment_url, :medium),
       logoLarge: business.logo.try(:attachment_url, :large),

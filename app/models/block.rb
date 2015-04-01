@@ -44,21 +44,33 @@ class Block < ActiveRecord::Base
   end
 
   def image_accessor_attributes
-    {
+    accessor_attributes = {
       id: image_placement_id,
       _destroy: image_placement_destroy,
       image_attributes: {
-        id: image_id,
         alt: image_alt,
         title: image_title,
-        attachment_cache_url: image_cache_url,
-        attachment_file_name: image_file_name,
-        attachment_file_size: image_file_size,
-        attachment_content_type: image_content_type,
-        user: image_user,
-        business: image_business,
       }
     }
+
+    if image_id.present?
+      accessor_attributes.deep_merge(
+        image_id: image_id,
+        image_attributes: {
+          id: image_id,
+        }
+      )
+    else
+      accessor_attributes.deep_merge(
+        image_attributes: {
+          attachment_file_name: image_file_name,
+          attachment_file_size: image_file_size,
+          attachment_content_type: image_content_type,
+          user: image_user,
+          business: image_business,
+        }
+      )
+    end
   end
 
   def react_attributes(image = nil, placement = nil)
@@ -95,15 +107,15 @@ class Block < ActiveRecord::Base
   end
 
   def heading_html
-    heading.html_safe
+    heading.try(:html_safe)
   end
 
   def subheading_html
-    subheading.html_safe
+    subheading.try(:html_safe)
   end
 
   def text_html
-    text.html_safe
+    text.try(:html_safe)
   end
 
   def button?

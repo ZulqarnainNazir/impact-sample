@@ -1,1 +1,1 @@
-= render partial: "website/header_blocks/#{header_block.theme}", object: header_block, as: :block, locals: { business: header_block.frame.business, website: header_block.frame }
+= render partial: "website/header_blocks/#{header_block.theme}", object: header_block, as: :block, locals: { business: header_block.frame.business, website: header_block.frame, location: header_block.frame.business.location }

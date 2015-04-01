@@ -1,4 +1,8 @@
 tr
+  td
+    = hidden_field_tag "team_members_positions[#{team_member.id}]", team_member.position
+    .btn.btn-default.btn-xs
+      i.fa.fa-reorder
   td = team_member.first_name
   td = team_member.last_name
   td = team_member.email

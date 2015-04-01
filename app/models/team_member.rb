@@ -5,8 +5,8 @@ class TeamMember < ActiveRecord::Base
 
   has_placed_image :team_member_profile
 
-  def self.alphabetical
-    order('LOWER(last_name) ASC, LOWER(first_name) ASC')
+  def self.default_scope
+    order(position: :asc)
   end
 
   def attributes_with_profile_and_name

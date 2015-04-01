@@ -14,13 +14,30 @@ ol.breadcrumb
           i.fa.fa-plus-circle>
           ' Add a New Team Member
         h1.h3.panel-title Manage Team Members
-      .table-responsive
-        table.table.table-striped
-          thead
-            tr
-              th First Name
-              th Last Name
-              th Email Address
-              th Actions
-          tbody
-            = render @team_members
+      = form_tag [@business, :data_team_members_positions], method: :patch do
+        .table-responsive
+          table.table.table-striped style="margin-bottom:0; padding:10px 0;"
+            thead
+              tr
+                th
+                th First Name
+                th Last Name
+                th Email Address
+                th Actions
+            tbody.js-sortable
+              = render @team_members
+javascript:
+  $('tbody.js-sortable').sortable({
+    containment: 'parent',
+    cursor: 'movement',
+    forcePlaceholderSize: true,
+    forceHelperSize: true,
+    placeholder: 'table-placeholder',
+    items: '> tr',
+    update: function(event, ui) {
+      $('tbody.js-sortable').find('tr').each(function(i) {
+        $(this).find('input').val(i);
+      });
+      $('tbody.js-sortable').closest('form').submit();
+    }
+  });

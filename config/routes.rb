@@ -47,6 +47,7 @@ Rails.application.routes.draw do
           resource :location, only: %i[edit update]
           resource :openings, only: %i[edit update]
           resource :social_profiles, only: %i[edit update]
+          resource :team_members_positions, only: %i[edit update]
           resources :team_members, only: %i[index new create edit update destroy]
         end
 
@@ -70,6 +71,7 @@ Rails.application.routes.draw do
 
         resource :marketing, only: %i[show]
         resources :authorizations, path: 'admins', only: %i[index new create destroy]
+        resources :images, only: %i[index]
       end
     end
   end

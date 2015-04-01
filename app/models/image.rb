@@ -37,7 +37,11 @@ class Image < ActiveRecord::Base
   end
 
   def styles
-    placements.map(&:styles).reject(&:blank?).inject({}, &:merge)
+    placements.map(&:styles).reject(&:blank?).push(default_styles).inject({}, &:merge)
+  end
+
+  def default_styles
+    { thumbnail: '160x160#' }
   end
 
   def business=(*args)
@@ -46,5 +50,18 @@ class Image < ActiveRecord::Base
 
   def user=(*args)
     user.present? ? user : super(*args)
+  end
+
+  def react_attributes
+    {
+      image_id: id,
+      image_alt: alt,
+      image_title: title,
+      image_url: attachment_url,
+      image_thumbnail_url: attachment_url(:thumbnail),
+      image_file_name: attachment_file_name,
+      image_file_size: attachment_file_size,
+      image_file_type: attachment_content_type,
+    }
   end
 end
