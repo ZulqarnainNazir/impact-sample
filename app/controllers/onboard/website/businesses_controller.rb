@@ -16,7 +16,9 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def import
-    create_resource @business, facebook_params, context: :onboard_website, location: [:edit_onboard_website, @business]
+    create_resource @business, facebook_params, context: :onboard_website, location: [:edit_onboard_website, @business] do |success|
+      FacebookPhotosImportJob.perform_later(@business, current_user) if success
+    end
   end
 
   def update
@@ -76,7 +78,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     page = graph.get_object(params[:facebook_id]).with_indifferent_access
     picture = graph.get_object("#{params[:facebook_id]}/picture").try(:with_indifferent_access)
     picture ||= graph.get_object("#{params[:facebook_id]}/photos").try(:[], 0)
-    picture_url = picture['picture']
+    picture_url = picture['source']
     picture_name = File.basename(URI.parse(picture['source']).path) rescue nil
     {
       description: page[:description],
