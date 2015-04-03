@@ -1,5 +1,8 @@
 /*
  *= require normalize-rails
  *= require jquery-ui
+ *= require bootstrap-select
+ *= require jquery.minicolors
+ *= require bootstrap-wysihtml5
  *= require ./base
  */

@@ -5,6 +5,8 @@ HeroBlock = React.createClass
     blockEditor: React.PropTypes.object
     blockImageLibrary: React.PropTypes.object
     blockInputHeading: React.PropTypes.object
+    blockInputColor: React.PropTypes.object
+    blockInputStyle: React.PropTypes.object
     blockInputImage: React.PropTypes.object
     blockInputLink: React.PropTypes.object
     blockInputText: React.PropTypes.object
@@ -24,6 +26,18 @@ HeroBlock = React.createClass
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <div className={this.props.blockInputsClassName}>
+            <div className="row">
+              <div className="col-sm-4">
+                <BlockInputStyle {...this.props.blockInputStyle} />
+              </div>
+              <div className="col-sm-4">
+                <BlockInputColor {...this.props.blockInputBackgroundColor} />
+              </div>
+              <div className="col-sm-4">
+                <BlockInputColor {...this.props.blockInputForegroundColor} />
+              </div>
+            </div>
+            <hr />
             <BlockInputImage {...this.props.blockInputImage} />
             <hr />
             <BlockInputText {...this.props.blockInputHeading} />

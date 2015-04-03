@@ -67,7 +67,10 @@ CallToActionBlocksHandlers =
 
   callToActionBlockImageLibraryProps: (block) ->
     visible: block and block.displayImageLibrary
+    loaded: block and block.imageLibraryLoaded
     hide: this.callToActionBlockUpdate.bind(null, block, displayImageLibrary: false)
+    add: this.callToActionBlockImageLibraryAdd.bind(null, block)
+    images: block.images
 
   callToActionBlockInputHeadingProps: (block) ->
     id: this.callToActionBlockID(block, 'heading')
@@ -79,7 +82,7 @@ CallToActionBlocksHandlers =
     init: this.callToActionBlockImageInit.bind(null, block)
     id: this.callToActionBlockID.bind(null, block)
     name: this.callToActionBlockName.bind(null, block)
-    showImageLibrary: this.callToActionBlockUpdate.bind(null, block, displayImageLibrary: true)
+    showImageLibrary: this.callToActionBlockShowImageLibrary.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
@@ -119,6 +122,7 @@ CallToActionBlocksHandlers =
     value: block.text
     label: 'Text'
     rows: 4
+    wysiwyg: true
 
   callToActionBlockOptionsProps: (block) ->
     visible: this.state.editing
@@ -137,6 +141,8 @@ CallToActionBlocksHandlers =
     link_target_blank: false
     link_no_follow: false
     displayImageLibrary: false
+    imageLibraryLoaded: false
+    images: []
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
@@ -154,6 +160,12 @@ CallToActionBlocksHandlers =
     foundBlock = this.state.callToActionBlocks.filter(blockFilter)[0]
     this.callToActionBlocksSave $splice: [[this.state.callToActionBlocks.indexOf(foundBlock), 1, $.extend({}, foundBlock, attributes)]], callback
 
+  callToActionBlockShowImageLibrary: (block, event) ->
+    event.preventDefault() if event
+    blockFilter = (b) -> b.key == block.key
+    foundBlock = this.state.callToActionBlocks.filter(blockFilter)[0]
+    this.callToActionBlockUpdate block, displayImageLibrary: true, null, this.callToActionBlockImageLibraryStart.bind(null, block)
+
   callToActionBlockRemove: (block, event, callback) ->
     event.preventDefault() if event
     blockFilter = (b) -> b.key == block.key
@@ -165,6 +177,7 @@ CallToActionBlocksHandlers =
   callToActionBlockSwapForm: (block) ->
     if block.image_temp_cache_url and block.image_temp_cache_url.length > 0
       this.callToActionBlockUpdate block,
+        image_id: block.image_temp_id
         image_url: block.image_temp_cache_url
         image_cache_url: block.image_temp_cache_url
         image_temp_cache_url: null
@@ -225,7 +238,8 @@ CallToActionBlocksHandlers =
     this.callToActionBlockInputSetVal block, 'link_target_blank', block.link_target_blank
     this.callToActionBlockInputSetVal block, 'link_no_follow', block.link_no_follow
     this.callToActionBlockInputSetVal block, 'heading', block.heading
-    this.callToActionBlockInputSetVal block, 'block, text', block.text
+    if $('#' + this.callToActionBlockID(block, 'text')).data('wysihtml5')
+      $('#' + this.callToActionBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
 
   callToActionBlockImageInit: (block, component) ->
     unless block.upload_xhr
@@ -250,6 +264,25 @@ CallToActionBlocksHandlers =
       this.setState updated, callback
     else
       this.setState updated
+
+  callToActionBlockImageLibraryStart: (block) ->
+    unless block.imageLibraryLoaded
+      $.get this.props.imagesPath, this.callToActionBlockImageLibraryLoad.bind(null, block)
+
+  callToActionBlockImageLibraryLoad: (block, data) ->
+    this.callToActionBlockUpdate block, imageLibraryLoaded: true, images: data.images
+
+  callToActionBlockImageLibraryAdd: (block, image) ->
+    this.callToActionBlockInputSetVal block, 'image_alt', image.image_alt
+    this.callToActionBlockInputSetVal block, 'image_title', image.image_title
+    this.callToActionBlockUpdate block,
+      displayImageLibrary: false
+      image_state: 'attached'
+      image_temp_id: image.image_id
+      image_temp_cache_url: image.image_url
+      image_temp_file_name: image.image_file_name
+      image_temp_file_size: image.image_file_size
+      image_temp_file_type: image.image_file_type
 
   callToActionBlockInputGetVal: (block, name) ->
     $('#' + this.callToActionBlockID(block, name)).val()

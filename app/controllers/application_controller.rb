@@ -40,6 +40,8 @@ class ApplicationController < ActionController::Base
       :link_external_url,
       :link_no_follow,
       :link_target_blank,
+      :background_color,
+      :foreground_color,
       :_destroy,
     ]
   end

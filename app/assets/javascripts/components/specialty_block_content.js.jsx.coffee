@@ -13,7 +13,7 @@ SpecialtyBlockContent = React.createClass
           {this.renderImage()}
         </div>
         <div className="col-sm-5 col-md-6">
-          {this.props.text}
+          <p dangerouslySetInnerHTML={{__html: this.props.text}} />
         </div>
       </div>
     </div>`

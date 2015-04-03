@@ -109,6 +109,7 @@ AboutBlockHandlers =
     value: this.state.aboutBlock.text
     label: 'Text'
     rows: 4
+    wysiwyg: true
 
   aboutBlockOptionsProps: ->
     visible: this.state.editing
@@ -201,7 +202,8 @@ AboutBlockHandlers =
     this.aboutBlockInputSetVal 'image_title', this.state.aboutBlock.image_title
     this.aboutBlockInputSetVal 'heading', this.state.aboutBlock.heading
     this.aboutBlockInputSetVal 'subheading', this.state.aboutBlock.subheading
-    this.aboutBlockInputSetVal 'text', this.state.aboutBlock.text
+    if $('#' + this.aboutBlockID('text')).data('wysihtml5')
+      $('#' + this.aboutBlockID('text')).data('wysihtml5').editor.setValue(this.state.aboutBlock.text)
 
   aboutBlockImageInit: (component) ->
     unless this.state.aboutBlock.upload_xhr

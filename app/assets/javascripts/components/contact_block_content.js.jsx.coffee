@@ -10,7 +10,7 @@ ContactBlockContent = React.createClass
 
   renderText: ->
     if this.props.text and this.props.text.length > 0
-      `<p className="lead">{this.props.text}</p>`
+      `<p className="lead" dangerouslySetInnerHTML={{__html: this.props.text}} />`
 
   renderRight: ->
     `<div>

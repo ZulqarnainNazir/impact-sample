@@ -106,26 +106,35 @@ class Block < ActiveRecord::Base
     )
   end
 
+  def link_external_url=(value)
+    if value.to_s.match(/\Ahttp/)
+      super(value.to_s)
+    else
+      super("http://#{value}")
+    end
+  end
+
   def heading_html
-    heading.try(:html_safe)
+    heading
   end
 
   def subheading_html
-    subheading.try(:html_safe)
+    subheading
   end
 
   def text_html
-    text.try(:html_safe)
+    Sanitize.fragment(text.to_s, Sanitize::Config::BASIC).html_safe
   end
 
   def button?
-    link_version != 'link_none' && link_label? && (link || link_external_url?)
+    (link_version == 'link_internal' && link_label? && link.present?) ||
+    (link_version == 'link_external' && link_label? && link_external_url?)
   end
 
   def link_location
-    if link
-      Rails.application.routes.url_helpers.website_custom_page_path(link.pathname)
-    else
+    if link_version == 'link_internal'
+      link.pathname.blank? ? '/' : Rails.application.routes.url_helpers.website_custom_page_path(link.pathname)
+    elsif link_version == 'link_external'
       link_external_url
     end
   end

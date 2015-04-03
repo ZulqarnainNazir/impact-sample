@@ -65,13 +65,16 @@ ContentBlocksHandlers =
 
   contentBlockImageLibraryProps: (block) ->
     visible: block and block.displayImageLibrary
+    loaded: block and block.imageLibraryLoaded
     hide: this.contentBlockUpdate.bind(null, block, displayImageLibrary: false)
+    add: this.contentBlockImageLibraryAdd.bind(null, block)
+    images: block.images
 
   contentBlockInputImageProps: (block) ->
     init: this.contentBlockImageInit.bind(null, block)
     id: this.contentBlockID.bind(null, block)
     name: this.contentBlockName.bind(null, block)
-    showImageLibrary: this.contentBlockUpdate.bind(null, block, displayImageLibrary: true)
+    showImageLibrary: this.contentBlockShowImageLibrary.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
@@ -96,6 +99,7 @@ ContentBlocksHandlers =
     value: block.text
     label: 'Text'
     rows: 4
+    wysiwyg: true
 
   contentBlockOptionsProps: (block) ->
     visible: this.state.editing
@@ -115,6 +119,8 @@ ContentBlocksHandlers =
     image_progress: 0
     image_state: 'empty'
     displayImageLibrary: false
+    imageLibraryLoaded: false
+    images: []
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
       quis sem suscipit tristique. Nunc convallis lorem ut sagittis faucibus.'
@@ -131,6 +137,12 @@ ContentBlocksHandlers =
     foundBlock = this.state.contentBlocks.filter(blockFilter)[0]
     this.contentBlocksSave $splice: [[this.state.contentBlocks.indexOf(foundBlock), 1, $.extend({}, foundBlock, attributes)]], callback
 
+  contentBlockShowImageLibrary: (block, event) ->
+    event.preventDefault() if event
+    blockFilter = (b) -> b.key == block.key
+    foundBlock = this.state.contentBlocks.filter(blockFilter)[0]
+    this.contentBlockUpdate block, displayImageLibrary: true, null, this.contentBlockImageLibraryStart.bind(null, block)
+
   contentBlockRemove: (block, event, callback) ->
     event.preventDefault() if event
     blockFilter = (b) -> b.key == block.key
@@ -142,6 +154,7 @@ ContentBlocksHandlers =
   contentBlockSwapForm: (block) ->
     if block.image_temp_cache_url and block.image_temp_cache_url.length > 0
       this.contentBlockUpdate block,
+        image_id: block.image_temp_id
         image_url: block.image_temp_cache_url
         image_cache_url: block.image_temp_cache_url
         image_temp_cache_url: null
@@ -178,7 +191,8 @@ ContentBlocksHandlers =
     this.contentBlockUpdate block, attributes, null, callback
     this.contentBlockInputSetVal block, 'image_alt', block.image_alt
     this.contentBlockInputSetVal block, 'image_title', block.image_title
-    this.contentBlockInputSetVal block, 'block, text', block.text
+    if $('#' + this.contentBlockID(block, 'text')).data('wysihtml5')
+      $('#' + this.contentBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
 
   contentBlockImageInit: (block, component) ->
     unless block.upload_xhr
@@ -209,6 +223,25 @@ ContentBlocksHandlers =
       this.setState updated, callback
     else
       this.setState updated
+
+  contentBlockImageLibraryStart: (block) ->
+    unless block.imageLibraryLoaded
+      $.get this.props.imagesPath, this.contentBlockImageLibraryLoad.bind(null, block)
+
+  contentBlockImageLibraryLoad: (block, data) ->
+    this.contentBlockUpdate block, imageLibraryLoaded: true, images: data.images
+
+  contentBlockImageLibraryAdd: (block, image) ->
+    this.contentBlockInputSetVal block, 'image_alt', image.image_alt
+    this.contentBlockInputSetVal block, 'image_title', image.image_title
+    this.contentBlockUpdate block,
+      displayImageLibrary: false
+      image_state: 'attached'
+      image_temp_id: image.image_id
+      image_temp_cache_url: image.image_url
+      image_temp_file_name: image.image_file_name
+      image_temp_file_size: image.image_file_size
+      image_temp_file_type: image.image_file_type
 
   contentBlockThemes: ['left', 'right']
 

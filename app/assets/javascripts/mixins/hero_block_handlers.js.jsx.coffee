@@ -5,7 +5,7 @@ HeroBlockHandlers =
 
   getInitialState: ->
     heroBlock: this.heroBlockInitial()
-    heroBlockImage: []
+    heroBlockImages: []
 
   heroBlockInputs: ->
     if this.props.initialHeroBlock and this.state.heroBlock
@@ -24,6 +24,9 @@ HeroBlockHandlers =
       blockEditor: this.heroBlockEditorProps()
       blockImageLibrary: this.heroBlockImageLibraryProps()
       blockInputHeading: this.heroBlockInputHeadingProps()
+      blockInputBackgroundColor: this.heroBlockInputBackgroundColorProps()
+      blockInputForegroundColor: this.heroBlockInputForegroundColorProps()
+      blockInputStyle: this.heroBlockInputStyleProps()
       blockInputImage: this.heroBlockInputImageProps()
       blockInputLink: this.heroBlockInputLinkProps()
       blockInputText: this.heroBlockInputTextProps()
@@ -74,6 +77,28 @@ HeroBlockHandlers =
     value: this.state.heroBlock.heading
     label: 'Heading'
 
+  heroBlockInputForegroundColorProps: ->
+    id: this.heroBlockID('foreground_color')
+    name: this.heroBlockName('foreground_color')
+    value: this.state.heroBlock.foreground_color
+    label: 'Foreground Color'
+
+  heroBlockInputBackgroundColorProps: ->
+    id: this.heroBlockID('background_color')
+    name: this.heroBlockName('background_color')
+    value: this.state.heroBlock.background_color
+    label: 'Background Color'
+
+  heroBlockInputStyleProps: ->
+    id: this.heroBlockID('style')
+    name: this.heroBlockName('style')
+    value: this.state.heroBlock.style
+    label: 'Background Style'
+    options: [
+      { value: 'light', label: 'Light', },
+      { value: 'dark', label: 'Dark', },
+    ]
+
   heroBlockInputImageProps: ->
     init: this.heroBlockImageInit
     id: this.heroBlockID
@@ -118,6 +143,7 @@ HeroBlockHandlers =
     value: this.state.heroBlock.text
     label: 'Text'
     rows: 4
+    wysiwyg: true
 
   heroBlockOptionsProps: ->
     visible: this.state.editing
@@ -134,6 +160,7 @@ HeroBlockHandlers =
   heroBlockDefaultProps: ->
     image_progress: 0
     image_state: 'empty'
+    style: 'light'
     link_target_blank: false
     link_no_follow: false
     displayImageLibrary: false
@@ -187,6 +214,9 @@ HeroBlockHandlers =
         link_target_blank: this.heroBlockInputGetVal('link_target_blank')
         link_no_follow: this.heroBlockInputGetVal('link_no_follow')
         heading: this.heroBlockInputGetVal('heading')
+        background_color: this.heroBlockInputGetVal('background_color')
+        foreground_color: this.heroBlockInputGetVal('foreground_color')
+        style: this.heroBlockInputGetVal('style')
         text: this.heroBlockInputGetVal('text')
     else
       this.heroBlockUpdate
@@ -200,6 +230,9 @@ HeroBlockHandlers =
         link_target_blank: this.heroBlockInputGetVal('link_target_blank')
         link_no_follow: this.heroBlockInputGetVal('link_no_follow')
         heading: this.heroBlockInputGetVal('heading')
+        background_color: this.heroBlockInputGetVal('background_color')
+        foreground_color: this.heroBlockInputGetVal('foreground_color')
+        style: this.heroBlockInputGetVal('style')
         text: this.heroBlockInputGetVal('text')
 
   heroBlockResetForm: () ->
@@ -229,7 +262,11 @@ HeroBlockHandlers =
     this.heroBlockInputSetVal 'link_target_blank', this.state.heroBlock.link_target_blank
     this.heroBlockInputSetVal 'link_no_follow', this.state.heroBlock.link_no_follow
     this.heroBlockInputSetVal 'heading', this.state.heroBlock.heading
-    this.heroBlockInputSetVal 'text', this.state.heroBlock.text
+    this.heroBlockInputSetVal 'background_color', this.state.heroBlock.background_color
+    this.heroBlockInputSetVal 'foreground_color', this.state.heroBlock.foreground_color
+    this.heroBlockInputSetVal 'style', this.state.heroBlock.style
+    if $('#' + this.heroBlockID('text')).data('wysihtml5')
+      $('#' + this.heroBlockID('text')).data('wysihtml5').editor.setValue(this.state.heroBlock.text)
 
   heroBlockImageInit: (component) ->
     unless this.state.heroBlock.upload_xhr

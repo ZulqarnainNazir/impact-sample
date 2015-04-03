@@ -13,7 +13,7 @@
     p.h4.tel = location.phone_number
     p.adr #{location.address_line_one} <br> #{location.address_line_two}
 .container
-  .navbar.navbar-logo-above class=block.css_class role="navigation"
+  .navbar.navbar-logo-above class=block.css_class role="navigation" style="background-color: #{block.background_color}; color: #{block.foreground_color}"
     #header-collapse.navbar-collapse.collapse
       ul.nav.navbar-nav
         - if website.about_page

@@ -9,6 +9,9 @@ html lang="en"
     = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
     = javascript_include_tag 'application', data: { turbolinks_track: true }
     css:
+      .webpage-header .navbar-nav a {
+        color: #{@website.header_block.try(:foreground_color)} !important;
+      }
       #{@website.custom_css}
   body
     - if @website.header_block

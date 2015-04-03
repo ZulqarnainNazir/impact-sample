@@ -5,6 +5,7 @@ HeaderBlockHandlers =
 
   getInitialState: ->
     headerBlock: this.headerBlockInitial()
+    headerBlockImages: []
 
   headerBlockInputs: ->
     if this.props.initialHeaderBlock and this.state.headerBlock
@@ -19,9 +20,17 @@ HeaderBlockHandlers =
 
   headerBlockProps: ->
     if this.state.headerBlock
-      block: $.extend({}, this.state.headerBlock, { editing: this.state.editing, dropZoneClassName: this.headerBlockDropZoneClassName() })
+      block: $.extend({}, this.state.headerBlock, { editing: this.state.editing })
+      blockEditor: this.headerBlockEditorProps()
+      blockInputBackgroundColor: this.headerBlockInputBackgroundColorProps()
+      blockInputForegroundColor: this.headerBlockInputForegroundColorProps()
+      blockInputStyle: this.headerBlockInputStyleProps()
       blockOptions: this.headerBlockOptionsProps()
+      editing: this.state.editing
       name: this.headerBlockName
+    else
+      blockAdd: this.headerBlockAddProps()
+      editing: this.state.editing
 
   # PRIVATE LEVEL 1
 
@@ -35,8 +44,38 @@ HeaderBlockHandlers =
   headerBlockName: (name) ->
     "header_block_attributes[#{name}]"
 
-  headerBlockDropZoneClassName: ->
-    'header-block-drop-zone'
+  headerBlockAddProps: ->
+    visible: !this.state.headerBlock
+    onClick: this.headerBlockAdd
+    content: 'Add a Header Block'
+
+  headerBlockEditorProps: ->
+    id: 'header-block-editor'
+    title: 'Edit Header Block Details'
+    swapForm: this.headerBlockSwapForm
+    resetForm: this.headerBlockResetForm
+
+  headerBlockInputBackgroundColorProps: ->
+    id: this.headerBlockID('background_color')
+    name: this.headerBlockName('background_color')
+    value: this.state.headerBlock.background_color
+    label: 'Custom Background Color'
+
+  headerBlockInputForegroundColorProps: ->
+    id: this.headerBlockID('foreground_color')
+    name: this.headerBlockName('foreground_color')
+    value: this.state.headerBlock.foreground_color
+    label: 'Custom Foreground Color'
+
+  headerBlockInputStyleProps: ->
+    id: this.headerBlockID('style')
+    name: this.headerBlockName('style')
+    value: this.state.headerBlock.style
+    label: 'Navbar Style'
+    options: [
+      { value: 'light', label: 'Light', },
+      { value: 'dark', label: 'Dark', },
+    ]
 
   headerBlockOptionsProps: ->
     visible: this.state.editing
@@ -44,16 +83,33 @@ HeaderBlockHandlers =
     next: this.headerBlockNextTheme
     editorTarget: '#header-block-editor'
     editLabel: 'Edit Details'
-    removeLabel: 'Remove Header Block'
+    onEdit: this.headerBlockEdit
 
   # PRIVATE LEVEL 2
 
   headerBlockDefaultProps: ->
-    {}
+    style: 'dark'
+
+  headerBlockAdd: (event, callback) ->
+    event.preventDefault() if event
+    this.headerBlockSave $set: $.extend({}, this.headerBlockDefaultProps(), (this.props.defaultHeaderBlockAttributes or {})), callback
+
+  headerBlockEdit: ->
 
   headerBlockUpdate: (attributes, event, callback) ->
     event.preventDefault() if event
     this.headerBlockSave $merge: attributes, callback
+
+  headerBlockSwapForm: () ->
+    this.headerBlockUpdate
+      background_color: this.headerBlockInputGetVal('background_color')
+      foreground_color: this.headerBlockInputGetVal('foreground_color')
+      style: this.headerBlockInputGetVal('style')
+
+  headerBlockResetForm: () ->
+    this.headerBlockInputSetVal 'background_color', this.state.headerBlock.background_color
+    this.headerBlockInputSetVal 'foreground_color', this.state.headerBlock.foreground_color
+    this.headerBlockInputSetVal 'style', this.state.headerBlock.style
 
   headerBlockPrevTheme: ->
     this.headerBlockUpdate theme: this.prevItem(this.headerBlockThemes, this.state.headerBlock.theme)
@@ -69,6 +125,12 @@ HeaderBlockHandlers =
       this.setState updated, callback
     else
       this.setState updated
+
+  headerBlockInputGetVal: (name) ->
+    $('#' + this.headerBlockID(name)).val()
+
+  headerBlockInputSetVal: (name, value) ->
+    $('#' + this.headerBlockID(name)).val(value)
 
   headerBlockThemes: ['inline', 'center', 'justify', 'logo_above', 'logo_above_full_width', 'logo_below', 'logo_center']
 

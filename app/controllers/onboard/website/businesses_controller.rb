@@ -16,8 +16,12 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def import
-    create_resource @business, facebook_params, context: :onboard_website, location: [:edit_onboard_website, @business] do |success|
-      FacebookPhotosImportJob.perform_later(@business, current_user) if success
+    begin
+      create_resource @business, facebook_params, context: :onboard_website, location: [:edit_onboard_website, @business] do |success|
+        FacebookPhotosImportJob.perform_later(@business, current_user) if success
+      end
+    rescue
+      redirect_to :new_onboard_website_business, alert: 'Sorry, looks like that Facebook URL didn’t work, please try another.'
     end
   end
 

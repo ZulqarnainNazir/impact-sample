@@ -22,7 +22,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
       <div className="row">
         <div className="col-sm-6 col-sm-offset-6 col-md-5 col-md-offset-7">
           <div className="well well-dark">
@@ -38,7 +38,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
       <div className="row">
         <div className="col-sm-6 col-sm-offset-6 col-md-5 col-md-offset-7">
           <div className="well">
@@ -54,7 +54,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-split"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className}>
+    `<div className={className} style={{backgroundColor: this.props.background_color}}>
       <div className="row">
         <div className="col-sm-6 col-md-7">
           <iframe width="560" height="315" src="https://www.youtube.com/embed/wyFat0rZTKg" frameBorder="0" allowFullScreen></iframe>
@@ -71,7 +71,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-split"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className}>
+    `<div className={className} style={{backgroundColor: this.props.background_color}}>
       <div className="row">
         <div className="col-sm-6 col-md-7">
           {this.renderImage()}
@@ -88,7 +88,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
       <div className="row">
         <div className="col-sm-6 col-sm-offset-6 col-md-5 col-md-offset-7">
           {this.renderHeading()}
@@ -102,7 +102,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
       {this.renderHeading()}
       {this.renderText()}
       {this.renderButton()}
@@ -112,7 +112,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
       <div className="row">
         <div className="col-sm-6 col-sm-offset-6 col-md-5 col-md-offset-7">
           <div className="well">
@@ -133,7 +133,7 @@ HeroBlockContent = React.createClass
 
   renderHeading: ->
     if this.props.heading and this.props.heading.length > 0
-      `<h1>{this.props.heading}</h1>`
+      `<h1 style={{color: this.props.foreground_color}}>{this.props.heading}</h1>`
 
   renderImage: ->
     if this.props.image_url and this.props.image_url.length > 0
@@ -145,7 +145,7 @@ HeroBlockContent = React.createClass
 
   renderText: ->
     if this.props.text and this.props.text.length > 0
-      `<p>{this.props.text}</p>`
+      `<p style={{color: this.props.foreground_color}} dangerouslySetInnerHTML={{__html: this.props.text}} />`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0

@@ -102,6 +102,7 @@ SpecialtyBlockHandlers =
     value: this.state.specialtyBlock.text
     label: 'Text'
     rows: 4
+    wysiwyg: true
 
   specialtyBlockOptionsProps: ->
     visible: this.state.editing
@@ -190,7 +191,8 @@ SpecialtyBlockHandlers =
     this.specialtyBlockInputSetVal 'image_alt', this.state.specialtyBlock.image_alt
     this.specialtyBlockInputSetVal 'image_title', this.state.specialtyBlock.image_title
     this.specialtyBlockInputSetVal 'heading', this.state.specialtyBlock.heading
-    this.specialtyBlockInputSetVal 'text', this.state.specialtyBlock.text
+    if $('#' + this.specialtyBlockID('text')).data('wysihtml5')
+      $('#' + this.specialtyBlockID('text')).data('wysihtml5').editor.setValue(this.state.specialtyBlock.text)
 
   specialtyBlockImageInit: (component) ->
     unless this.state.specialtyBlock.upload_xhr

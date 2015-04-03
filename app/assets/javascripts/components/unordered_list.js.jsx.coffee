@@ -11,12 +11,14 @@ UnorderedList = React.createClass
     items: []
 
   items: ->
-    this.props.items.map (item) ->
-      `<li key={item.id}>
-        <a href="#" onClick={this.preventDefault}>
-          {item.name}
-        </a>
-      </li>`
+    this.props.items.map this.renderItem
+    
+  renderItem: (item) ->
+    `<li key={item.id}>
+      <a href="#" onClick={this.preventDefault} style={{color: this.props.color}}>
+        {item.name}
+      </a>
+    </li>`
 
   render: ->
     `<ul className={this.props.className}>

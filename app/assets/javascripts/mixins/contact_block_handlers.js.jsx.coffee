@@ -51,6 +51,7 @@ ContactBlockHandlers =
     value: this.state.contactBlock.text
     label: 'Text'
     rows: 4
+    wysiwyg: true
 
   contactBlockOptionsProps: ->
     visible: this.state.editing
@@ -89,7 +90,8 @@ ContactBlockHandlers =
 
   contactBlockResetForm: () ->
     this.contactBlockInputSetVal 'heading', this.state.contactBlock.heading
-    this.contactBlockInputSetVal 'text', this.state.contactBlock.text
+    if $('#' + this.contactBlockID('text')).data('wysihtml5')
+      $('#' + this.contactBlockID('text')).data('wysihtml5').editor.setValue(this.state.contactBlock.text)
 
   contactBlockPrevTheme: ->
     this.contactBlockUpdate theme: this.prevItem(this.contactBlockThemes, this.state.contactBlock.theme)

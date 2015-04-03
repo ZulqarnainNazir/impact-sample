@@ -56,7 +56,7 @@ BlockInputLink = React.createClass
         <div className="radio">
           <label>
             <input ref="internal" type="radio" name={this.props.name('link_version')} value="link_internal" defaultChecked={this.props.checkedInternal} />
-            Link to an internal IMPACT webpage
+            Link to an internal webpage on your site
           </label>
         </div>
         <div className="radio">

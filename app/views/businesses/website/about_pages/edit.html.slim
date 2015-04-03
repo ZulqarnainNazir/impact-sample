@@ -8,7 +8,7 @@ ol.breadcrumb
   li.active About Page
 
 .webpage-designer data-input-prefix="about_page"
-  = form_for @about_page, url: [@business, :website_about_page] do |form|
+  = form_for @about_page, url: [@business, :website_about_page], method: :patch do |form|
     = errors_for @about_page
     .form-horizontal
       .form-group

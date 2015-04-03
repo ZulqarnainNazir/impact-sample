@@ -6,7 +6,7 @@
   article
     .row
       section.col-sm-4 style="margin-top: 40px"
-        - if about_block_image.background
+        - if block.about_block_image
           = image_tag block.about_block_image.attachment_url, alt: block.about_block_image.alt, class: 'img-responsive', style: 'width: 100%'
       section.col-sm-8
         header.page-header

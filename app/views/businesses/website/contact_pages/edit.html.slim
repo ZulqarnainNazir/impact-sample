@@ -8,7 +8,7 @@ ol.breadcrumb
   li.active Contact Page
 
 .webpage-designer data-input-prefix="contact_page"
-  = form_for @contact_page, url: [@business, :website_contact_page] do |form|
+  = form_for @contact_page, url: [@business, :website_contact_page], method: :patch do |form|
     = errors_for @contact_page
     .form-horizontal
       .form-group

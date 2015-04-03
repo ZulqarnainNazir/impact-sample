@@ -36,8 +36,8 @@ BlockImageLibrary = React.createClass
     this.props.images.map this.renderImage
 
   renderImage: (image) ->
-    `<div key={image.image_id} className="col-sm-2">
-      <img onClick={this.props.add.bind(null, image)} src={image.image_thumbnail_url} alt={image.image_alt} title={image.image_title} className="thumbnail" style={{width: '100%', cursor: 'pointer'}} />
+    `<div key={image.image_id} className="col-xs-2">
+      <img onClick={this.props.add.bind(null, image)} src={image.image_thumbnail_url} alt={image.image_alt} title={image.image_title} className="thumbnail" style={{width: 90, height: 90, cursor: 'pointer'}} />
     </div>`
 
 window.BlockImageLibrary = BlockImageLibrary

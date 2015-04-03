@@ -9,7 +9,7 @@ AboutBlockContent = React.createClass
         this.renderBanner()
 
   renderLeft: ->
-    `<div>
+    `<div style={{marginLeft: -15, marginRight: -15}}>
       <div className="container">
         <article>
           <header className="page-header">
@@ -22,7 +22,6 @@ AboutBlockContent = React.createClass
           <div className="row">
             <section className="col-sm-4" style={{marginTop: 40}}>
               {this.renderImage()}
-              <img className="img-responsive" style={{width: '100%'}} src={this.props.background} />
             </section>
             <section className="col-sm-8">
               <header className="page-header">
@@ -37,7 +36,7 @@ AboutBlockContent = React.createClass
     </div>`
 
   renderBanner: ->
-    `<div>
+    `<div style={{marginLeft: -15, marginRight: -15}}>
       <div className="container">
         <article>
           <header className="page-header">
@@ -67,11 +66,11 @@ AboutBlockContent = React.createClass
 
   renderText: ->
     if this.props.text and this.props.text.length > 0
-      `<p>{this.props.text}</p>`
+      `<p dangerouslySetInnerHTML={{__html: this.props.text}} />`
 
   renderImage: ->
     if this.props.image_url and this.props.image_url.length > 0
-      `<img className="img-responsive" src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} />`
+      `<img className="img-responsive" src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} style={{width: '100%'}}/>`
     else if this.props.editing
       `<div>
         <ImageEmpty />

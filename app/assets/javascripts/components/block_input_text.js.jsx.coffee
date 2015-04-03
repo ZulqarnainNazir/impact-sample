@@ -7,6 +7,18 @@ BlockInputText = React.createClass
     id: React.PropTypes.string.isRequired
     rows: React.PropTypes.number
     value: React.PropTypes.string
+    wysiwyg: React.PropTypes.bool
+
+  componentDidMount: ->
+    if this.props.wysiwyg
+      $(this.refs.textarea.getDOMNode()).wysihtml5
+        toolbar:
+          fa: true
+          'font-styles': false
+          link: false
+          image: false
+          blockquote: false
+          size: 'sm'
 
   render: ->
     `<div className="form-group">
@@ -16,7 +28,7 @@ BlockInputText = React.createClass
 
   renderInput: ->
     if this.props.rows
-      `<textarea id={this.props.id} name={this.props.name} rows={this.props.rows} className="form-control" defaultValue={this.props.value} />`
+      `<textarea ref="textarea" id={this.props.id} name={this.props.name} rows={this.props.rows} className="form-control" defaultValue={this.props.value} />`
     else
       `<input id={this.props.id} name={this.props.name} type="text" className="form-control" defaultValue={this.props.value} />`
 

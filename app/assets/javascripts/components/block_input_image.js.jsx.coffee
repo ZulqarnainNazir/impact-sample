@@ -91,7 +91,7 @@ BlockInputImage = React.createClass
           <input type="hidden" name={this.props.name('image_file_size')} value={this.props.file_size} />
           <input type="hidden" name={this.props.name('image_content_type')} value={this.props.file_type} />
           <div className="thumbnail"><img style={{width: '100%'}} src={this.url()} /></div>
-          <div><strong>{this.fileName()}</strong></div>
+          <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.fileName()}</strong></div>
           <div>{this.fileType()} – {this.fileSize()}</div>
         </div>
       </div>`
@@ -134,12 +134,16 @@ BlockInputImage = React.createClass
     if this.props.state is 'empty' or this.props.state is 'failed' or this.props.state is 'attached'
       `<div>
         <input type="file" className="hidden" ref="fileInput" />
-        <span onClick={this.triggerFileInput} className="btn btn-sm btn-default">
-          <i className="fa fa-cloud-upload" /> Upload New Image
+        <span className="btn-group btn-group-sm">
+          <span onClick={this.triggerFileInput} className="btn btn-default">
+            <i className="fa fa-cloud-upload" /> Upload Image
+          </span>
+          <span onClick={this.props.showImageLibrary} className="btn btn-default">
+            <i className="fa fa-th" /> Browse Library
+          </span>
         </span>
-        <span className="text-muted" style={{marginLeft: 10, marginRight: 10}}>or</span>
-        <span onClick={this.props.showImageLibrary} className="btn btn-sm btn-default">
-          <i className="fa fa-th" /> Browse Image Library
+        <span className="btn btn-sm btn-danger pull-right">
+          <i className="fa fa-close" /> Remove
         </span>
       </div>`
 

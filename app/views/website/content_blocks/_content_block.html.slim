@@ -1,14 +1,16 @@
 .webpage-content
   .row
-    .col-sm-6
-      - if content_block.theme == 'left'
+    - if content_block.theme == 'left'
+      .col-sm-8
         p = content_block.text_html
-      - else
+    - else
+      .col-sm-4
         - if content_block.content_block_image
           = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
-    .col-sm-6
-      - if content_block.theme == 'left'
+    - if content_block.theme == 'left'
+      .col-sm-4
         - if content_block.content_block_image
           = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
-      - else
+    - else
+      .col-sm-8
         p = content_block.text_html

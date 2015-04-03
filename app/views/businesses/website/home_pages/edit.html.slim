@@ -8,7 +8,7 @@ ol.breadcrumb
   li.active Homepage
 
 .webpage-designer data-input-prefix="home_page"
-  = form_for @home_page, url: [@business, :website_home_page] do |form|
+  = form_for @home_page, url: [@business, :website_home_page], method: :patch do |form|
     = errors_for @home_page
     .form-horizontal
       .form-group
