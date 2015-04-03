@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
       :link_target_blank,
       :background_color,
       :foreground_color,
+      :spoof,
       :_destroy,
     ]
   end

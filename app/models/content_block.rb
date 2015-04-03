@@ -5,6 +5,10 @@ class ContentBlock < Block
     self.content_block_image_placement_attributes = image_accessor_attributes if image_accessors?
   end
 
+  def self.default_scope
+    order(created_at: :asc)
+  end
+
   def react_attributes
     super(content_block_image, content_block_image_placement)
   end

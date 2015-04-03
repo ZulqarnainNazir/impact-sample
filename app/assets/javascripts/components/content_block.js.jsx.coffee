@@ -21,6 +21,7 @@ ContentBlock = React.createClass
         <ContentBlockContent {...this.props.block} />
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
+          <input type="hidden" name={this.props.name('spoof')} value={Math.random()} />
           <div className={this.props.blockInputsClassName}>
             <BlockInputImage {...this.props.blockInputImage} />
             <hr />

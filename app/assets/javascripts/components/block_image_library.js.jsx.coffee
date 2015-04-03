@@ -26,6 +26,7 @@ BlockImageLibrary = React.createClass
     if this.props.loaded
       `<div className="row row-narrow">
         {this.renderImages()}
+        {this.renderMoreButton()}
       </div>`
     else
       `<div className="text-center" style={{marginTop: 50, marginBottom: 50}}>
@@ -39,5 +40,13 @@ BlockImageLibrary = React.createClass
     `<div key={image.image_id} className="col-xs-2">
       <img onClick={this.props.add.bind(null, image)} src={image.image_thumbnail_url} alt={image.image_alt} title={image.image_title} className="thumbnail" style={{width: 90, height: 90, cursor: 'pointer'}} />
     </div>`
+
+  renderMoreButton: ->
+    if this.props.more
+      `<div className="row text-center">
+        <div className="col-sm-4 col-sm-offset-4">
+          <div onClick={this.props.loadMore} className="btn btn-block btn-default">Load More</div>
+        </div>
+      </div>`
 
 window.BlockImageLibrary = BlockImageLibrary

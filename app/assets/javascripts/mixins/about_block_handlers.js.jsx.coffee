@@ -64,6 +64,8 @@ AboutBlockHandlers =
   aboutBlockImageLibraryProps: ->
     visible: this.state.aboutBlock and this.state.aboutBlock.displayImageLibrary
     loaded: this.state.aboutBlock and this.state.aboutBlock.imageLibraryLoaded
+    more: this.state.aboutBlock and !this.state.aboutBlock.imageLibraryLoadedAll
+    loadMore: this.aboutBlockImageLibraryMore
     hide: this.aboutBlockUpdate.bind(null, displayImageLibrary: false)
     add: this.aboutBlockImageLibraryAdd
     images: this.state.aboutBlockImages
@@ -85,9 +87,12 @@ AboutBlockHandlers =
     id: this.aboutBlockID
     name: this.aboutBlockName
     showImageLibrary: this.aboutBlockShowImageLibrary
+    removeImage: this.aboutBlockRemoveImage
     alt: this.state.aboutBlock.image_alt
     image_id: this.state.aboutBlock.image_id
     image_placement_id: this.state.aboutBlock.image_placement_id
+    image_placement_destroy: this.state.aboutBlock.image_placement_destroy
+    image_temp_placement_destroy: this.state.aboutBlock.image_temp_placement_destroy
     attached_url: this.state.aboutBlock.image_url
     cache_url: this.state.aboutBlock.image_cache_url
     temp_cache_url: this.state.aboutBlock.image_temp_cache_url
@@ -128,6 +133,7 @@ AboutBlockHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryPage: 1
     heading: 'Heading'
     subheading: 'Subheading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -154,11 +160,26 @@ AboutBlockHandlers =
     event.preventDefault() if event
     this.aboutBlockUpdate displayImageLibrary: true, null, this.aboutBlockImageLibraryStart
 
+  aboutBlockRemoveImage: (event) ->
+    event.preventDefault() if event
+    this.aboutBlockUpdate
+      image_state: 'empty'
+      image_temp_id: null
+      image_temp_placement_destroy: '1'
+      image_temp_cache_url: null
+      image_temp_file_name: null
+      image_temp_file_size: null
+      image_temp_file_type: null
+    this.aboutBlockInputSetVal 'image_alt', ''
+    this.aboutBlockInputSetVal 'image_title', ''
+
   aboutBlockSwapForm: () ->
-    if this.state.aboutBlock.image_temp_cache_url and this.state.aboutBlock.image_temp_cache_url.length > 0
+    if (this.state.aboutBlock.image_temp_placement_destroy and this.state.aboutBlock.image_temp_placement_destroy is '1') or (this.state.aboutBlock.image_temp_cache_url and this.state.aboutBlock.image_temp_cache_url.length > 0)
       this.aboutBlockUpdate
         image_id: this.state.aboutBlock.image_temp_id
         image_temp_id: null
+        image_placement_destroy: this.state.aboutBlock.image_temp_placement_destroy
+        image_temp_placement_destroy: null
         image_url: this.state.aboutBlock.image_temp_cache_url
         image_cache_url: this.state.aboutBlock.image_temp_cache_url
         image_temp_cache_url: null
@@ -184,6 +205,7 @@ AboutBlockHandlers =
   aboutBlockResetForm: () ->
     attributes =
       image_temp_id: null
+      image_temp_placement_destroy: null
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
@@ -237,28 +259,35 @@ AboutBlockHandlers =
 
   aboutBlockImageLibraryStart: ->
     unless this.state.aboutBlock.imageLibraryLoaded
-      $.get this.props.imagesPath, this.aboutBlockImageLibraryLoad
+      $.get "#{this.props.imagesPath}?page=#{this.state.aboutBlock.imageLibraryPage}", this.aboutBlockImageLibraryLoad
+
+  aboutBlockImageLibraryMore: ->
+    unless this.state.aboutBlock.imageLibraryLoadedAll
+      $.get "#{this.props.imagesPath}?page=#{this.state.aboutBlock.imageLibraryPage}", this.aboutBlockImageLibraryLoad
 
   aboutBlockImageLibraryLoad: (data) ->
     changes =
       aboutBlock:
         $merge:
           imageLibraryLoaded: true
+          imageLibraryPage: this.state.aboutBlock.imageLibraryPage + 1
+          imageLibraryLoadedAll: data.images.length < 48
       aboutBlockImages:
-        $set: data.images
+        $push: data.images
     this.setState React.addons.update(this.state, changes)
 
   aboutBlockImageLibraryAdd: (image) ->
-    this.aboutBlockInputSetVal 'image_alt', image.image_alt
-    this.aboutBlockInputSetVal 'image_title', image.image_title
     this.aboutBlockUpdate
       displayImageLibrary: false
       image_state: 'attached'
       image_temp_id: image.image_id
+      image_temp_placement_destroy: ''
       image_temp_cache_url: image.image_url
       image_temp_file_name: image.image_file_name
       image_temp_file_size: image.image_file_size
       image_temp_file_type: image.image_file_type
+    this.aboutBlockInputSetVal 'image_alt', image.image_alt
+    this.aboutBlockInputSetVal 'image_title', image.image_title
 
   aboutBlockInputGetVal: (name) ->
     $('#' + this.aboutBlockID(name)).val()
@@ -308,9 +337,13 @@ AboutBlockHandlers =
 
   aboutBlockImageRead: (file, event) ->
     this.aboutBlockUpdate
+      image_temp_id: null
+      image_temp_placement_destroy: null
       image_temp_cache_url: event.target.result
       image_temp_file_name: file.name
       image_temp_file_size: file.size
       image_temp_file_type: file.type
+    this.aboutBlockInputSetVal 'image_alt', image.image_alt
+    this.aboutBlockInputSetVal 'image_title', image.image_title
 
 window.AboutBlockHandlers = AboutBlockHandlers

@@ -53,7 +53,7 @@ ContentBlocksHandlers =
     "content-blocks-#{block.key}-drop-zone"
 
   contentBlockAddProps: ->
-    visible: this.state.editing and this.state.contentBlocks.length < 3
+    visible: this.state.editing and this.state.contentBlocks.length < 100
     onClick: this.contentBlockAdd
     content: 'Add a Content Block'
 
@@ -66,6 +66,8 @@ ContentBlocksHandlers =
   contentBlockImageLibraryProps: (block) ->
     visible: block and block.displayImageLibrary
     loaded: block and block.imageLibraryLoaded
+    more: block and !block.imageLibraryLoadedAll
+    loadMore: this.contentBlockImageLibraryMore.bind(null, block)
     hide: this.contentBlockUpdate.bind(null, block, displayImageLibrary: false)
     add: this.contentBlockImageLibraryAdd.bind(null, block)
     images: block.images
@@ -75,9 +77,12 @@ ContentBlocksHandlers =
     id: this.contentBlockID.bind(null, block)
     name: this.contentBlockName.bind(null, block)
     showImageLibrary: this.contentBlockShowImageLibrary.bind(null, block)
+    removeImage: this.contentBlockRemoveImage.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_destroy: block.image_placement_destroy
+    image_temp_placement_destroy: block.image_temp_placement_destroy
     attached_url: block.image_url
     cache_url: block.image_cache_url
     temp_cache_url: block.image_temp_cache_url
@@ -120,6 +125,7 @@ ContentBlocksHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryPage: 1
     images: []
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
@@ -151,10 +157,26 @@ ContentBlocksHandlers =
       $(foundBlock.upload_xhr.getDOMNode()).fileupload('destroy')
     this.contentBlocksSave $splice: [[this.state.contentBlocks.indexOf(foundBlock), 1]], callback
 
+  contentBlockRemoveImage: (block, event) ->
+    event.preventDefault() if event
+    this.contentBlockUpdate block,
+      image_state: 'empty'
+      image_temp_id: null
+      image_temp_placement_destroy: '1'
+      image_temp_cache_url: null
+      image_temp_file_name: null
+      image_temp_file_size: null
+      image_temp_file_type: null
+    this.contentBlockInputSetVal block, 'image_alt', ''
+    this.contentBlockInputSetVal block, 'image_title', ''
+
   contentBlockSwapForm: (block) ->
-    if block.image_temp_cache_url and block.image_temp_cache_url.length > 0
+    if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       this.contentBlockUpdate block,
         image_id: block.image_temp_id
+        image_temp_id: null
+        image_placement_destroy: block.image_temp_placement_destroy
+        image_temp_placement_destroy: null
         image_url: block.image_temp_cache_url
         image_cache_url: block.image_temp_cache_url
         image_temp_cache_url: null
@@ -175,6 +197,8 @@ ContentBlocksHandlers =
 
   contentBlockResetForm: (block) ->
     attributes =
+      image_temp_id: null
+      image_temp_placement_destroy: null
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
@@ -226,22 +250,31 @@ ContentBlocksHandlers =
 
   contentBlockImageLibraryStart: (block) ->
     unless block.imageLibraryLoaded
-      $.get this.props.imagesPath, this.contentBlockImageLibraryLoad.bind(null, block)
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.contentBlockImageLibraryLoad.bind(null, block)
+
+  contentBlockImageLibraryMore: (block) ->
+    unless block.imageLibraryLoadedAll
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.contentBlockImageLibraryLoad.bind(null, block)
 
   contentBlockImageLibraryLoad: (block, data) ->
-    this.contentBlockUpdate block, imageLibraryLoaded: true, images: data.images
+    this.contentBlockUpdate block,
+      imageLibraryLoaded: true
+      imageLibraryLoadedAll: data.images.length < 48
+      imageLibraryPage: block.imageLibraryPage + 1
+      images: block.images.concat data.images
 
   contentBlockImageLibraryAdd: (block, image) ->
-    this.contentBlockInputSetVal block, 'image_alt', image.image_alt
-    this.contentBlockInputSetVal block, 'image_title', image.image_title
     this.contentBlockUpdate block,
       displayImageLibrary: false
       image_state: 'attached'
       image_temp_id: image.image_id
+      image_temp_placement_destroy: null
       image_temp_cache_url: image.image_url
       image_temp_file_name: image.image_file_name
       image_temp_file_size: image.image_file_size
       image_temp_file_type: image.image_file_type
+    this.contentBlockInputSetVal block, 'image_alt', image.image_alt
+    this.contentBlockInputSetVal block, 'image_title', image.image_title
 
   contentBlockThemes: ['left', 'right']
 
@@ -305,9 +338,13 @@ ContentBlocksHandlers =
     blockFilter = (b) -> b.key == block.key
     foundBlock = this.state.contentBlocks.filter(blockFilter)[0]
     this.contentBlockUpdate foundBlock,
+      image_temp_id: null
+      image_temp_placement_destroy: null
       image_temp_cache_url: event.target.result
       image_temp_file_name: file.name
       image_temp_file_size: file.size
       image_temp_file_type: file.type
+    this.contentBlockInputSetVal block, 'image_alt', ''
+    this.contentBlockInputSetVal block, 'image_title', ''
 
 window.ContentBlocksHandlers = ContentBlocksHandlers

@@ -3,7 +3,7 @@ class Businesses::ImagesController < Businesses::BaseController
     @images = Image.
       includes(:placements).
       where('business_id = ? OR user_id = ?', @business.id, current_user.id).
-      order('created_at DESC').
+      order(created_at: :desc).
       page(params[:page]).
       per(48)
   end

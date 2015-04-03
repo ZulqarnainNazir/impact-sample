@@ -68,6 +68,8 @@ CallToActionBlocksHandlers =
   callToActionBlockImageLibraryProps: (block) ->
     visible: block and block.displayImageLibrary
     loaded: block and block.imageLibraryLoaded
+    more: block and !block.imageLibraryLoadedAll
+    loadMore: this.callToActionBlockImageLibraryMore.bind(null, block)
     hide: this.callToActionBlockUpdate.bind(null, block, displayImageLibrary: false)
     add: this.callToActionBlockImageLibraryAdd.bind(null, block)
     images: block.images
@@ -83,9 +85,12 @@ CallToActionBlocksHandlers =
     id: this.callToActionBlockID.bind(null, block)
     name: this.callToActionBlockName.bind(null, block)
     showImageLibrary: this.callToActionBlockShowImageLibrary.bind(null, block)
+    removeImage: this.callToActionBlockRemoveImage.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_destroy: block.image_placement_destroy
+    image_temp_placement_destroy: block.image_temp_placement_destroy
     attached_url: block.image_url
     cache_url: block.image_cache_url
     temp_cache_url: block.image_temp_cache_url
@@ -142,6 +147,7 @@ CallToActionBlocksHandlers =
     link_no_follow: false
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryPage: 1
     images: []
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -174,10 +180,26 @@ CallToActionBlocksHandlers =
       $(foundBlock.upload_xhr.getDOMNode()).fileupload('destroy')
     this.callToActionBlocksSave $splice: [[this.state.callToActionBlocks.indexOf(foundBlock), 1]], callback
 
+  callToActionBlockRemoveImage: (block, event) ->
+    event.preventDefault() if event
+    this.callToActionBlockUpdate block,
+      image_state: 'empty'
+      image_temp_id: null
+      image_temp_placement_destroy: '1'
+      image_temp_cache_url: null
+      image_temp_file_name: null
+      image_temp_file_size: null
+      image_temp_file_type: null
+    this.callToActionBlockInputSetVal block, 'image_alt', ''
+    this.callToActionBlockInputSetVal block, 'image_title', ''
+
   callToActionBlockSwapForm: (block) ->
-    if block.image_temp_cache_url and block.image_temp_cache_url.length > 0
+    if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       this.callToActionBlockUpdate block,
         image_id: block.image_temp_id
+        image_temp_id: null
+        image_placement_destroy: block.image_temp_placement_destroy
+        image_temp_placement_destroy: null
         image_url: block.image_temp_cache_url
         image_cache_url: block.image_temp_cache_url
         image_temp_cache_url: null
@@ -214,6 +236,8 @@ CallToActionBlocksHandlers =
 
   callToActionBlockResetForm: (block) ->
     attributes =
+      image_temp_id: null
+      image_temp_placement_destroy: null
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
@@ -267,22 +291,31 @@ CallToActionBlocksHandlers =
 
   callToActionBlockImageLibraryStart: (block) ->
     unless block.imageLibraryLoaded
-      $.get this.props.imagesPath, this.callToActionBlockImageLibraryLoad.bind(null, block)
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.callToActionBlockImageLibraryLoad.bind(null, block)
+
+  callToActionBlockImageLibraryMore: (block) ->
+    unless block.imageLibraryLoadedAll
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.callToActionBlockImageLibraryLoad.bind(null, block)
 
   callToActionBlockImageLibraryLoad: (block, data) ->
-    this.callToActionBlockUpdate block, imageLibraryLoaded: true, images: data.images
+    this.callToActionBlockUpdate block,
+      imageLibraryLoaded: true
+      imageLibraryLoadedAll: data.images.length < 48
+      imageLibraryPage: block.imageLibraryPage + 1
+      images: block.images.concat data.images
 
   callToActionBlockImageLibraryAdd: (block, image) ->
-    this.callToActionBlockInputSetVal block, 'image_alt', image.image_alt
-    this.callToActionBlockInputSetVal block, 'image_title', image.image_title
     this.callToActionBlockUpdate block,
       displayImageLibrary: false
       image_state: 'attached'
       image_temp_id: image.image_id
+      image_temp_placement_destroy: null
       image_temp_cache_url: image.image_url
       image_temp_file_name: image.image_file_name
       image_temp_file_size: image.image_file_size
       image_temp_file_type: image.image_file_type
+    this.callToActionBlockInputSetVal block, 'image_alt', image.image_alt
+    this.callToActionBlockInputSetVal block, 'image_title', image.image_title
 
   callToActionBlockInputGetVal: (block, name) ->
     $('#' + this.callToActionBlockID(block, name)).val()
@@ -344,9 +377,13 @@ CallToActionBlocksHandlers =
     blockFilter = (b) -> b.key == block.key
     foundBlock = this.state.callToActionBlocks.filter(blockFilter)[0]
     this.callToActionBlockUpdate foundBlock,
+      image_temp_id: null
+      image_temp_placement_destroy: null
       image_temp_cache_url: event.target.result
       image_temp_file_name: file.name
       image_temp_file_size: file.size
       image_temp_file_type: file.type
+    this.callToActionBlockInputSetVal block, 'image_alt', ''
+    this.callToActionBlockInputSetVal block, 'image_title', ''
 
 window.CallToActionBlocksHandlers = CallToActionBlocksHandlers

@@ -63,6 +63,7 @@ class Block < ActiveRecord::Base
     else
       accessor_attributes.deep_merge(
         image_attributes: {
+          attachment_cache_url: image_cache_url,
           attachment_file_name: image_file_name,
           attachment_file_size: image_file_size,
           attachment_content_type: image_content_type,

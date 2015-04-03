@@ -11,6 +11,8 @@ BlockInputImage = React.createClass
     state: React.PropTypes.string
     image_id: React.PropTypes.number
     image_placement_id: React.PropTypes.number
+    image_placement_destroy: React.PropTypes.string
+    image_temp_placement_destroy: React.PropTypes.string
     title: React.PropTypes.string
     attached_url: React.PropTypes.string
     cache_url: React.PropTypes.string
@@ -70,6 +72,7 @@ BlockInputImage = React.createClass
       <label className="control-label">{this.props.label}</label>
       <input type="hidden" name={this.props.name('image_id')} value={this.props.image_id} />
       <input type="hidden" name={this.props.name('image_placement_id')} value={this.props.image_placement_id} />
+      <input type="hidden" name={this.props.name('image_placement_destroy')} value={this.props.image_placement_destroy} />
       <div className="row">
         <div className="col-sm-4">
           {this.renderImage()}
@@ -83,7 +86,7 @@ BlockInputImage = React.createClass
     </div>`
 
   renderImage: ->
-    if this.url()
+    if this.props.image_temp_placement_destroy != '1' and this.url() and this.url().length > 0
       `<div className={this.props.dropZoneClassName}>
         <div className="small">
           <input type="hidden" name={this.props.name('image_cache_url')} value={this.props.cache_url} />
@@ -142,7 +145,7 @@ BlockInputImage = React.createClass
             <i className="fa fa-th" /> Browse Library
           </span>
         </span>
-        <span className="btn btn-sm btn-danger pull-right">
+        <span onClick={this.props.removeImage} className="btn btn-sm btn-danger pull-right">
           <i className="fa fa-close" /> Remove
         </span>
       </div>`
