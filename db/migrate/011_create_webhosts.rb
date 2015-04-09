@@ -4,6 +4,7 @@ class CreateWebhosts < ActiveRecord::Migration
       t.references :website, index: true, null: false
       t.string :name, null: false
       t.boolean :primary, default: false, null: false
+      t.json :settings
       t.timestamps null: false
     end
 

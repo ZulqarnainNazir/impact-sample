@@ -11,6 +11,7 @@ class CreateOpenings < ActiveRecord::Migration
       t.boolean :thursday, default: false, null: false
       t.boolean :friday, default: false, null: false
       t.boolean :saturday, default: false, null: false
+      t.json :settings
       t.timestamps null: false
     end
   end

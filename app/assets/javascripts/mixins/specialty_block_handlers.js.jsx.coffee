@@ -63,8 +63,8 @@ SpecialtyBlockHandlers =
   specialtyBlockImageLibraryProps: ->
     visible: this.state.specialtyBlock and this.state.specialtyBlock.displayImageLibrary
     loaded: this.state.specialtyBlock and this.state.specialtyBlock.imageLibraryLoaded
-    more: this.state.heroBlock and !this.state.heroBlock.imageLibraryLoadedAll
-    loadMore: this.heroBlockImageLibraryMore
+    more: this.state.specialtyBlock and !this.state.specialtyBlock.imageLibraryLoadedAll
+    loadMore: this.specialtspecialtyckImageLibraryMore
     hide: this.specialtyBlockUpdate.bind(null, displayImageLibrary: false)
     add: this.specialtyBlockImageLibraryAdd
     images: this.state.specialtyBlockImages
@@ -248,18 +248,18 @@ SpecialtyBlockHandlers =
 
   specialtyBlockImageLibraryStart: ->
     unless this.state.specialtyBlock.imageLibraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{this.state.heroBlock.imageLibraryPage}", this.heroBlockImageLibraryLoad
+      $.get "#{this.props.imagesPath}?page=#{this.state.specialtyBlock.imageLibraryPage}", this.specialtyBlockImageLibraryLoad
 
   specialtyBlockImageLibraryMore: ->
     unless this.state.specialtyBlock.imageLibraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{this.state.heroBlock.imageLibraryPage}", this.heroBlockImageLibraryLoad
+      $.get "#{this.props.imagesPath}?page=#{this.state.specialtyBlock.imageLibraryPage}", this.specialtyBlockImageLibraryLoad
 
   specialtyBlockImageLibraryLoad: (data) ->
     changes =
       specialtyBlock:
         $merge:
           imageLibraryLoaded: true
-          imageLibraryPage: this.state.heroBlock.imageLibraryPage + 1
+          imageLibraryPage: this.state.specialtyBlock.imageLibraryPage + 1
           imageLibraryLoadedAll: data.images.length < 48
       specialtyBlockImages:
         $push: data.images

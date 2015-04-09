@@ -4,6 +4,7 @@ class CreateWebsites < ActiveRecord::Migration
       t.references :business, index: true, null: false
       t.string :subdomain, null: false
       t.text :custom_css
+      t.json :settings
       t.timestamps null: false
     end
 

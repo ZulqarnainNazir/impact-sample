@@ -6,7 +6,3 @@ test:
   adapter: postgresql
   database: impact_test
   encoding: unicode
-production:
-  adapter: postgresql
-  database: impact_production
-  encoding: unicode

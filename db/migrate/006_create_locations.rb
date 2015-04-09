@@ -17,6 +17,7 @@ class CreateLocations < ActiveRecord::Migration
       t.boolean :external_service_area, default: false, null: false
       t.decimal :latitude, precision: 10, scale: 6
       t.decimal :longitude, precision: 10, scale: 6
+      t.json :settings
       t.timestamps null: false
     end
   end

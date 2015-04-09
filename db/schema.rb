@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 17) do
+ActiveRecord::Schema.define(version: 15) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.integer  "business_id", null: false
     t.integer  "user_id",     null: false
     t.integer  "role",        null: false
+    t.json     "settings"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -43,10 +44,10 @@ ActiveRecord::Schema.define(version: 17) do
     t.boolean  "link_target_blank", default: false, null: false
     t.boolean  "link_no_follow",    default: false, null: false
     t.integer  "link_version",      default: 0,     null: false
+    t.string   "spoof"
+    t.json     "settings"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.json     "settings"
-    t.string   "spoof"
   end
 
   add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.text     "description"
     t.integer  "kind",           default: 0, null: false
     t.integer  "year_founded"
+    t.json     "settings"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
@@ -71,6 +73,7 @@ ActiveRecord::Schema.define(version: 17) do
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "pathname",   null: false
+    t.json     "settings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -80,6 +83,7 @@ ActiveRecord::Schema.define(version: 17) do
   create_table "categorizations", force: :cascade do |t|
     t.integer  "business_id", null: false
     t.integer  "category_id", null: false
+    t.json     "settings"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -92,6 +96,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.string   "name",        null: false
     t.string   "email",       null: false
     t.text     "message",     null: false
+    t.json     "settings"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -108,6 +113,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.string   "attachment_file_name"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
+    t.json     "settings"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
@@ -132,6 +138,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.boolean  "external_service_area",                          default: false, null: false
     t.decimal  "latitude",              precision: 10, scale: 6
     t.decimal  "longitude",             precision: 10, scale: 6
+    t.json     "settings"
     t.datetime "created_at",                                                     null: false
     t.datetime "updated_at",                                                     null: false
   end
@@ -149,6 +156,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.boolean  "thursday",    default: false, null: false
     t.boolean  "friday",      default: false, null: false
     t.boolean  "saturday",    default: false, null: false
+    t.json     "settings"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
@@ -161,6 +169,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.integer  "image_id",                 null: false
     t.string   "context",     default: "", null: false
     t.string   "style",       default: "", null: false
+    t.json     "settings"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
@@ -180,6 +189,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.string   "google_plus_id"
     t.string   "linkedin_id"
     t.string   "twitter_id"
+    t.json     "settings"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
@@ -206,6 +216,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
+    t.json     "settings"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -219,6 +230,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.integer  "website_id",                 null: false
     t.string   "name",                       null: false
     t.boolean  "primary",    default: false, null: false
+    t.json     "settings"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
@@ -234,6 +246,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.string  "name",                        null: false
     t.string  "title",                       null: false
     t.string  "description"
+    t.json    "settings"
     t.text    "custom_css"
   end
 
@@ -244,6 +257,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.integer  "business_id", null: false
     t.string   "subdomain",   null: false
     t.text     "custom_css"
+    t.json     "settings"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

@@ -5,6 +5,7 @@ class CreatePlacements < ActiveRecord::Migration
       t.references :image, index: true, null: false
       t.string :context, default: '', null: false
       t.string :style, default: '', null: false
+      t.json :settings
       t.timestamps null: false
     end
   end

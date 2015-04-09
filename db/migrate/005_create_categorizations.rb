@@ -3,6 +3,7 @@ class CreateCategorizations < ActiveRecord::Migration
     create_table :categorizations do |t|
       t.references :business, index: true, null: false
       t.references :category, index: true, null: false
+      t.json :settings
       t.timestamps null: false
     end
   end

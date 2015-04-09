@@ -12,6 +12,7 @@ class CreateBusinesses < ActiveRecord::Migration
       t.text :description
       t.integer :kind, default: 0, null: false
       t.integer :year_founded
+      t.json :settings
       t.timestamps null: false
     end
   end

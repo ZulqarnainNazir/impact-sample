@@ -24,6 +24,7 @@ Rails.application.configure do
     authentication: :login,
   }
 
+  # Memcached
   if [ENV['MEMCACHEDCLOUD_SERVERS'], ENV['MEMCACHEDCLOUD_USERNAME'], ENV['MEMCACHEDCLOUD_PASSWORD']].all?(&:present?)
     config.cache_store = :mem_cache_store, ENV['MEMCACHEDCLOUD_SERVERS'].split(','), {
       username: ENV['MEMCACHEDCLOUD_USERNAME'],
@@ -31,6 +32,7 @@ Rails.application.configure do
     }
   end
 
+  # Paperclip
   config.paperclip_defaults[:url] = ':s3_alias_url'
   config.paperclip_defaults[:s3_host_alias] = Rails.application.secrets.aws_cloudfront_host
 end

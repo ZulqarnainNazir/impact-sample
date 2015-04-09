@@ -14,6 +14,8 @@ class CreateBlocks < ActiveRecord::Migration
       t.boolean :link_target_blank, default: false, null: false
       t.boolean :link_no_follow, default: false, null: false
       t.integer :link_version, default: 0, null: false
+      t.string :spoof
+      t.json :settings
       t.timestamps null: false
     end
   end

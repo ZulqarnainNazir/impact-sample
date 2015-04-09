@@ -3,6 +3,7 @@ class CreateCategories < ActiveRecord::Migration
     create_table :categories do |t|
       t.string :name, null: false
       t.string :pathname, null: false
+      t.json :settings
       t.timestamps null: false
     end
 

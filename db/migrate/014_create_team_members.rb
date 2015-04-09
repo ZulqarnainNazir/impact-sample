@@ -12,6 +12,7 @@ class CreateTeamMembers < ActiveRecord::Migration
       t.string :google_plus_id
       t.string :linkedin_id
       t.string :twitter_id
+      t.json :settings
       t.timestamps null: false
     end
   end

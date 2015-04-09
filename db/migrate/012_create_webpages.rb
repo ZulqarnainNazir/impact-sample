@@ -8,6 +8,7 @@ class CreateWebpages < ActiveRecord::Migration
       t.string :name, null: false
       t.string :title, null: false
       t.string :description
+      t.json :settings
       t.text :custom_css
     end
 

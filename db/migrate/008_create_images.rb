@@ -10,6 +10,7 @@ class CreateImages < ActiveRecord::Migration
       t.string :attachment_file_name
       t.integer :attachment_file_size
       t.datetime :attachment_updated_at
+      t.json :settings
       t.timestamps null: false
     end
   end

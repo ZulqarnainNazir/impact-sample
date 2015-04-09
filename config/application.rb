@@ -17,6 +17,7 @@ module Impact
     config.session_store :cookie_store, key: '_impact_session'
     config.time_zone = 'Pacific Time (US & Canada)'
 
+    # Paperclip
     config.paperclip_defaults = {
       storage: :s3,
       path: ':class/:id/:attachment-:style-:attachment_timestamp-:filename',
@@ -26,6 +27,7 @@ module Impact
       }
     }
 
+    # React
     config.react.addons = true
   end
 end

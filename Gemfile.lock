@@ -95,9 +95,9 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    dotenv (2.0.0)
-    dotenv-rails (2.0.0)
-      dotenv (= 2.0.0)
+    dotenv (2.0.1)
+    dotenv-rails (2.0.1)
+      dotenv (= 2.0.1)
     erd (0.3.2)
       nokogiri
       rails-erd (>= 0.4.5)
