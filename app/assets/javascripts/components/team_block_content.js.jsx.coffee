@@ -55,7 +55,7 @@ TeamBlockContent = React.createClass
         </ul>
       </div>
       <div className="col-xs-12 col-sm-6 col-md-7 team-member-bio">
-        <p>{member.description}</p>
+        <div dangerouslySetInnerHTML={{__html: member.description}} />
       </div>
     </div>`
 
@@ -70,7 +70,7 @@ TeamBlockContent = React.createClass
         {this.renderLinkedinProfile(member.linkedin_id)}
       </ul>
       <div className="team-member-bio">
-        <p>{member.description}</p>
+        <div dangerouslySetInnerHTML={{__html: member.description}} />
       </div>
     </div>`
 

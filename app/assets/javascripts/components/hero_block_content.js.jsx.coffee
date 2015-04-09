@@ -145,7 +145,7 @@ HeroBlockContent = React.createClass
 
   renderText: ->
     if this.props.text and this.props.text.length > 0
-      `<p style={{color: this.props.foreground_color}} dangerouslySetInnerHTML={{__html: this.props.text}} />`
+      `<div style={{color: this.props.foreground_color}} dangerouslySetInnerHTML={{__html: this.props.text}} />`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0

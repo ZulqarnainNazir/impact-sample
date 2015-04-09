@@ -20,6 +20,7 @@ var ready = function() {
   $('.pages-associations').pagesAssociations();
   $('.webhosts-associations').webhostsAssociations();
   $('.webpage-designer').webpageDesigner();
+  $('.wysihtml-editor').wysihtmlEditor();
 };
 
 $(document).ready(ready);

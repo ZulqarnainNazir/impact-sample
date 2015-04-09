@@ -11,14 +11,7 @@ BlockInputText = React.createClass
 
   componentDidMount: ->
     if this.props.wysiwyg
-      $(this.refs.textarea.getDOMNode()).wysihtml5
-        toolbar:
-          fa: true
-          'font-styles': false
-          link: false
-          image: false
-          blockquote: false
-          size: 'sm'
+      $(this.refs.textarea.getDOMNode()).wysihtmlEditor()
 
   render: ->
     `<div className="form-group">
