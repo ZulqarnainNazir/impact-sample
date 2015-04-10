@@ -21,7 +21,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         FacebookPhotosImportJob.perform_later(@business, current_user) if success
       end
     rescue
-      redirect_to :new_onboard_website_business, alert: 'Sorry, looks like that Facebook URL didn’t work, please try another.'
+      redirect_to :new_onboard_website_business, alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
     end
   end
 
