@@ -76,12 +76,13 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def facebook_params
+    facebook_id = params[:facebook_id].split('/').last
     oauth = Koala::Facebook::OAuth.new(Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, nil)
     token = oauth.get_app_access_token
     graph = Koala::Facebook::API.new(token)
-    page = graph.get_object(params[:facebook_id]).with_indifferent_access
-    picture = graph.get_object("#{params[:facebook_id]}/picture").try(:with_indifferent_access)
-    picture ||= graph.get_object("#{params[:facebook_id]}/photos").try(:[], 0)
+    page = graph.get_object(facebook_id).with_indifferent_access
+    picture = graph.get_object("#{facebook_id}/picture").try(:with_indifferent_access)
+    picture ||= graph.get_object("#{facebook_id}/photos").try(:[], 0)
     picture_url = picture['source']
     picture_name = File.basename(URI.parse(picture['source']).path) rescue nil
     {
@@ -90,7 +91,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       tagline: page[:about],
       website_url: page[:website],
       year_founded: page[:founded],
-      facebook_id: params[:facebook_id],
+      facebook_id: facebook_id,
       logo_placement_attributes: {
         image_attributes: {
           attachment_cache_url: picture_url,

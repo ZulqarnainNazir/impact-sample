@@ -45,7 +45,7 @@ class Website < ActiveRecord::Base
   end
 
   def self.available_subdomain(subdomain)
-    subdomain = subdomain.gsub(/'/, '').parameterize[0..28]
+    subdomain = subdomain.gsub(/'/, '').parameterize[0..26]
 
     if exists?(subdomain: subdomain)
       n = 1
