@@ -5,6 +5,23 @@ $.fn.wysihtmlEditor = ->
     editor = $(editor)
 
     wysihtmlEditorTemplates =
+      editorHeadings: ->
+        """
+        <li class="dropdown">
+          <a aria-expanded="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="fa fa-font"></span>
+            <span class="current-font">Normal text</span>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="p" tabindex="-1">Normal text</a></li>
+            <li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" tabindex="-1">Heading 2</a></li>
+            <li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" tabindex="-1">Heading 3</a></li>
+            <li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h4" tabindex="-1">Heading 4</a></li>
+          </ul>
+        </li>
+        """
+
       editorEmphasis: ->
         """
         <li>
@@ -63,6 +80,7 @@ $.fn.wysihtmlEditor = ->
         link: false
         image: false
         'font-styles': false
+        editorHeadings: true
         editorEmphasis: true
         editorBlockquote: true
         editorLists: true
