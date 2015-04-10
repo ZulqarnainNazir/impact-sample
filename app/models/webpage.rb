@@ -1,5 +1,5 @@
 class Webpage < ActiveRecord::Base
-  attr_accessor :image_business, :image_user
+  attr_accessor :image_business, :image_user, :cached_webpages
 
   belongs_to :website, touch: true
 

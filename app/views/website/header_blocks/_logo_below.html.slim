@@ -8,12 +8,17 @@
         span.icon-bar
     #header-collapse.navbar-collapse.collapse
       ul.nav.navbar-nav
-        - if website.about_page
-          li = link_to 'About', website_about_page_path
-        - if website.contact_page
-          li = link_to 'Contact', website_contact_page_path
-        - website.webpages.custom.each do |webpage|
-          li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+        - website.header_pages.each do |webpage|
+          - if webpage.cached_webpages.any?
+            li.dropdown
+              = link_to website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+                => webpage.name
+                span.caret
+              ul.dropdown-menu
+                - webpage.cached_webpages.each do |webpage|
+                  li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+          - else
+            li = link_to webpage.name, website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
 .container.header-logo-below
   - if business.logo.present?
     = link_to image_tag(business.logo.attachment_url(:large), alt: business.name), :root, class: 'navbar-brand navbar-brand-image'

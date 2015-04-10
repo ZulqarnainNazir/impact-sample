@@ -75,4 +75,61 @@ class Website < ActiveRecord::Base
       value.blank?
     end
   end
+
+  def header_pages
+    if header_menu.blank?
+      webpages.where.not(type: 'HomePage').map do |root|
+        root.cached_webpages = []
+        root
+      end
+    else
+      menu = header_menu || []
+      root_ids = menu.select { |p| p['parent_id'].nil? }.map { |p| p['id'] }
+      roots = webpages.where.not(type: 'HomePage').where(id: root_ids).sort do |ap, bp|
+        am = menu.find { |p| p['id'].to_i == ap.id }
+        bm = menu.find { |p| p['id'].to_i == bp.id }
+        am['position'] <=> bm['position']
+      end
+      roots.map do |root|
+        children_ids = menu.select { |p| p['parent_id'].to_i == root.id }.map { |p| p['id'] }
+        children = webpages.where.not(type: 'HomePage').where(id: children_ids)
+        root.cached_webpages = children.sort do |ap, bp|
+          am = menu.find { |p| p['id'].to_i == ap.id }
+          bm = menu.find { |p| p['id'].to_i == bp.id }
+          am['position'] <=> bm['position']
+        end
+        root
+      end
+    end
+  end
+
+  def footer_pages
+    if footer_menu.blank?
+      webpages.where.not(type: 'HomePage')
+    else
+      menu = footer_menu || []
+      footer_ids = menu.select { |p| p['parent_id'].nil? }.map { |p| p['id'] }
+      webpages.where.not(type: 'HomePage').where(id: footer_ids).sort do |ap, bp|
+        am = menu.find { |p| p['id'].to_i == ap.id }
+        bm = menu.find { |p| p['id'].to_i == bp.id }
+        am['position'] <=> bm['position']
+      end
+    end
+  end
+
+  def header_excluded_pages
+    if header_menu.blank?
+      []
+    else
+      webpages.where.not(type: 'HomePage', id: header_menu.map { |p| p['id'] })
+    end
+  end
+
+  def footer_excluded_pages
+    if footer_menu.blank?
+      []
+    else
+      webpages.where.not(type: 'HomePage', id: footer_menu.map { |p| p['id'] })
+    end
+  end
 end

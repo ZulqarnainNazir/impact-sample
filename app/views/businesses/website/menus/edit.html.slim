@@ -1,0 +1,55 @@
+- title 'Edit Navigation Menus'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Website', [@business, :website_root]
+  li.active Navigation Menus
+
+br
+
+= errors_for @website
+.menus-sortable
+  = form_for @website, url: [@business, :website_menus], method: :patch do |form|
+    = form.hidden_field :header_menu
+    = form.hidden_field :footer_menu
+    .row
+      .col-sm-6
+        p: strong Header Menu
+        .panel.panel-default
+          .panel-body
+            ol.menus-sortable-header
+              - @website.header_pages.each do |webpage|
+                li id="header_#{webpage.id}"
+                  div = webpage.name
+                  ol
+                    - webpage.cached_webpages.each do |webpage|
+                      li id="header_#{webpage.id}"
+                        div = webpage.name
+      .col-sm-6
+        p.text-muted Pages Not Displayed in the Header Menu
+        .well.well-sm
+          ol.menus-sortable-header-excluded
+            - @website.header_excluded_pages.each do |webpage|
+              li id="header_#{webpage.id}"
+                div = webpage.name
+    .row
+      .col-sm-6
+        p: strong Footer Menu
+        .panel.panel-default
+          .panel-body
+            ol.menus-sortable-footer
+              - @website.footer_pages.each do |webpage|
+                li id="footer_#{webpage.id}"
+                  div = webpage.name
+      .col-sm-6
+        p.text-muted Pages Not Displayed in the Footer Menu
+        .well.well-sm
+          ol.menus-sortable-footer-excluded
+            - @website.footer_excluded_pages.each do |webpage|
+              li id="footer_#{webpage.id}"
+                div = webpage.name
+    hr
+    .row
+      .col-sm-4.col-sm-offset-4
+        = form.button 'Save Navigation Menus', class: 'btn btn-block btn-primary'

@@ -1,0 +1,7 @@
+en:
+  businesses:
+    website:
+      menus:
+        update:
+          notice: Your website menus were saved successfully.
+          alert: There was a problem saving your website menus.

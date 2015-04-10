@@ -24,11 +24,7 @@ footer.site-footer.site-footer-columns
                 i.fa.fa-envelope-square.fa-2x
         .site-footer-column.col-sm-6.col-md-8
           ul.list-unstyled.footer-links
-            - if website.about_page
-              li = link_to 'About', website_about_page_path
-            - if website.contact_page
-              li = link_to 'Contact', website_contact_page_path
-            - website.webpages.custom.each do |webpage|
+            - website.footer_pages.each do |webpage|
               li = link_to webpage.name, website_custom_page_path(webpage.pathname)
         .site-footer-column.col-sm-4.col-md-3.vcard
           p.h3.fn.org = location.name

@@ -24,9 +24,5 @@ footer.site-footer.site-footer-simple
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
     ul.list-inline.footer-links
-      - if website.about_page
-        li = link_to 'About', website_about_page_path
-      - if website.contact_page
-        li = link_to 'Contact', website_contact_page_path
-      - website.webpages.custom.each do |webpage|
+      - website.footer_pages.each do |webpage|
         li = link_to webpage.name, website_custom_page_path(webpage.pathname)
