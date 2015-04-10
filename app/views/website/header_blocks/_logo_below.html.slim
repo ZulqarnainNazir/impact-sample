@@ -18,7 +18,7 @@
                 - webpage.cached_webpages.each do |webpage|
                   li = link_to webpage.name, website_custom_page_path(webpage.pathname)
           - else
-            li = link_to webpage.name, website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+            li = link_to webpage.name, website_custom_page_path(webpage.pathname)
 .container.header-logo-below
   - if business.logo.present?
     = link_to image_tag(business.logo.attachment_url(:large), alt: business.name), :root, class: 'navbar-brand navbar-brand-image'
