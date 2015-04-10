@@ -16,11 +16,11 @@
         ul.nav.navbar-nav.navbar-left style="margin-right: 40px"
           - webpages[0..(webpages.length / 2 - 1)].each do |webpage|
             - if webpage.cached_webpages.any?
-              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
                 = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+                  => webpage.name
                   span.caret
-                ul.dropdown-menu.pull-right
+                ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else
@@ -28,11 +28,11 @@
         ul.nav.navbar-nav.navbar-right style="margin-left: 40px"
           - webpages[(webpages.length / 2)..-1].each do |webpage|
             - if webpage.cached_webpages.any?
-              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
                 = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+                  => webpage.name
                   span.caret
-                ul.dropdown-menu.pull-right
+                ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else
@@ -41,11 +41,11 @@
         ul.nav.navbar-nav.navbar-left style="margin-right: 40px"
           - webpages[0..(webpages.length / 2)].each do |webpage|
             - if webpage.cached_webpages.any?
-              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
                 = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+                  => webpage.name
                   span.caret
-                ul.dropdown-menu.pull-right
+                ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else
@@ -54,11 +54,11 @@
         ul.nav.navbar-nav.navbar-right style="margin-left: 40px"
           - webpages[(webpages.length / 2 + 1)..-1].each do |webpage|
             - if webpage.cached_webpages.any?
-              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
                 = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+                  => webpage.name
                   span.caret
-                ul.dropdown-menu.pull-right
+                ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else
