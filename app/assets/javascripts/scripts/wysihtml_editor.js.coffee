@@ -29,7 +29,6 @@ $.fn.wysihtmlEditor = ->
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="bold" title="Bold – CTRL+B" tabindex="-1"><span class="fa fa-bold"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="italic" title="Italic – CTRL+I" tabindex="-1"><span class="fa fa-italic"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="underline" title="Underline – CTRL+U" tabindex="-1"><span class="fa fa-underline"></span></a>
-            <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="small" title="Small – CTRL+S" tabindex="-1"><span class="fa fa-text-height"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="superscript" title="Superscript" tabindex="-1"><span class="fa fa-superscript"></span></a>
           </div>
         </li>
