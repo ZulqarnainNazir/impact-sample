@@ -16,23 +16,23 @@
         ul.nav.navbar-nav.navbar-left style="margin-right: 40px"
           - webpages[0..(webpages.length / 2 - 1)].each do |webpage|
             - if webpage.cached_webpages.any?
+              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
-                = link_to website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
-                  => webpage.name
+                = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
                   span.caret
-                ul.dropdown-menu
+                ul.dropdown-menu.pull-right
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else
-              li = link_to webpage.name, website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
+              li = link_to webpage.name, webpage.name, website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
         ul.nav.navbar-nav.navbar-right style="margin-left: 40px"
           - webpages[(webpages.length / 2)..-1].each do |webpage|
             - if webpage.cached_webpages.any?
+              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
-                = link_to website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
-                  => webpage.name
+                = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
                   span.caret
-                ul.dropdown-menu
+                ul.dropdown-menu.pull-right
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else
@@ -41,11 +41,11 @@
         ul.nav.navbar-nav.navbar-left style="margin-right: 40px"
           - webpages[0..(webpages.length / 2)].each do |webpage|
             - if webpage.cached_webpages.any?
+              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
-                = link_to website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
-                  => webpage.name
+                = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
                   span.caret
-                ul.dropdown-menu
+                ul.dropdown-menu.pull-right
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else
@@ -54,11 +54,11 @@
         ul.nav.navbar-nav.navbar-right style="margin-left: 40px"
           - webpages[(webpages.length / 2 + 1)..-1].each do |webpage|
             - if webpage.cached_webpages.any?
+              li.dropdown-sibling = link_to webpage.name, website_custom_page_path(webpage.pathname)
               li.dropdown
-                = link_to website_custom_page_path(webpage.pathname), class: 'dropdown-toggle', data: { toggle: 'dropdown' }
-                  => webpage.name
+                = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }
                   span.caret
-                ul.dropdown-menu
+                ul.dropdown-menu.pull-right
                   - webpage.cached_webpages.each do |webpage|
                     li = link_to webpage.name, website_custom_page_path(webpage.pathname)
             - else

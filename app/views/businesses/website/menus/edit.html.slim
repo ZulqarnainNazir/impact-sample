@@ -13,42 +13,63 @@ br
   = form_for @website, url: [@business, :website_menus], method: :patch do |form|
     = form.hidden_field :header_menu
     = form.hidden_field :footer_menu
+    h2.h4 Header Menu
     .row
       .col-sm-6
-        p: strong Header Menu
+        p.small Customizing your navigation: Drag up and down to reorder navigation. Drag a page to the right to create or join the sub-menu of the page above it.
         .panel.panel-default
           .panel-body
             ol.menus-sortable-header
               - @website.header_pages.each do |webpage|
                 li id="header_#{webpage.id}"
-                  div = webpage.name
+                  div
+                    i.fa.fa-reorder>
+                    => webpage.name
+                    i.fa.fa-minus-circle.menus-sortable-remove.pull-right
                   ol
                     - webpage.cached_webpages.each do |webpage|
                       li id="header_#{webpage.id}"
-                        div = webpage.name
+                        div
+                          i.fa.fa-reorder>
+                          => webpage.name
+                          i.fa.fa-minus-circle.menus-sortable-remove.pull-right
       .col-sm-6
-        p.text-muted Pages Not Displayed in the Header Menu
+        p.small <br> Pages Not Displayed in the Header Menu
         .well.well-sm
+          p.text-muted style=('display: none' if @website.header_excluded_pages.any?)
+            em None
           ol.menus-sortable-header-excluded
             - @website.header_excluded_pages.each do |webpage|
               li id="header_#{webpage.id}"
-                div = webpage.name
+                div
+                  i.fa.fa-reorder>
+                  => webpage.name
+                  i.fa.fa-minus-circle.menus-sortable-remove.pull-right
+    h2.h4 Footer Menu
     .row
       .col-sm-6
-        p: strong Footer Menu
+        p.small Customizing your navigation: Drag up and down to reorder navigation.
         .panel.panel-default
           .panel-body
             ol.menus-sortable-footer
               - @website.footer_pages.each do |webpage|
                 li id="footer_#{webpage.id}"
-                  div = webpage.name
+                  div
+                    i.fa.fa-reorder>
+                    => webpage.name
+                    i.fa.fa-minus-circle.menus-sortable-remove.pull-right
       .col-sm-6
-        p.text-muted Pages Not Displayed in the Footer Menu
+        p.small Pages Not Displayed in the Footer Menu
         .well.well-sm
+          p.text-muted style=('display: none' if @website.footer_excluded_pages.any?)
+            em None
           ol.menus-sortable-footer-excluded
             - @website.footer_excluded_pages.each do |webpage|
               li id="footer_#{webpage.id}"
-                div = webpage.name
+                div
+                  i.fa.fa-reorder>
+                  => webpage.name
+                  i.fa.fa-minus-circle.menus-sortable-remove.pull-right
     hr
     .row
       .col-sm-4.col-sm-offset-4

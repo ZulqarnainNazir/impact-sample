@@ -19,6 +19,6 @@ class Location < ActiveRecord::Base
   end
 
   def address_line_two
-    "#{city}, #{state} #{zip_code}"
+    [[city, state].reject(&:blank?).join(', '), zip_code].reject(&:blank?).join(' ')
   end
 end
