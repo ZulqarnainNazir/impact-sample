@@ -99,9 +99,10 @@ html lang="en"
                     li = link_to [@business, :data_team_members] do
                       i.fa.fa-users>
                       | Team Members
-                li = link_to [@business, :authorizations] do
-                  i.fa.fa-users>
-                  | Manage Admins
+                - current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
+                  li = link_to [@business, :authorizations] do
+                    i.fa.fa-users>
+                    | Manage Admins
                 li = link_to [@business, :marketing]
                   i.fa.fa-rocket>
                   | Marketing

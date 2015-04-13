@@ -1,10 +1,11 @@
 class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   before_action only: new_actions + %i[import] do
-    @business = Business.new(owners: [current_user])
+    @business = Business.new
+    @business.owners = [current_user] unless current_user.super_user?
   end
 
   before_action only: member_actions do
-    @business = current_user.businesses.find(params[:id])
+    @business = current_user.authorized_businesses.find(params[:id])
   end
 
   before_action only: %i[create update] do

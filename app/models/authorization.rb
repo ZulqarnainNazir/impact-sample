@@ -2,7 +2,7 @@ class Authorization < ActiveRecord::Base
   belongs_to :business
   belongs_to :user
 
-  enum role: { owner: 0 }
+  enum role: { owner: 0, manager: 1 }
 
   validates :business, presence: true
   validates :role, presence: true

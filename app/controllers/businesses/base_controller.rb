@@ -3,6 +3,6 @@ class Businesses::BaseController < ApplicationController
   layout 'business'
 
   before_action do
-    @business = current_user.businesses.find(params[:business_id])
+    @business = current_user.authorized_businesses.find(params[:business_id])
   end
 end

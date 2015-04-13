@@ -1,4 +1,10 @@
 class Businesses::AuthorizationsController < Businesses::BaseController
+  before_action do
+    unless current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
+      redirect_to [@business, :dashboard], alert: 'You are not authorized to manage that information.'
+    end
+  end
+
   before_action only: new_actions do
     @authorization = @business.authorizations.new
   end

@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  def authorized_businesses
+    super_user ? Business.all : businesses
+  end
+
   # Send Devise mailers later via ActiveJob.
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later(wait: 2.seconds)
