@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  store_accessor :settings, :custom_domains
+
   has_many :authorizations, dependent: :destroy
   has_many :businesses, through: :authorizations
 

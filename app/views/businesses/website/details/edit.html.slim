@@ -23,16 +23,21 @@ br
             strong.text-info.js-subdomain-label = form.object.subdomain
             | .#{Rails.application.secrets.host}
         hr
-        h2.h4 Custom Domains
-        p Add a custom domain! Ensure one domain is "Primary" if adding multiple domains; all others will redirect to the primary domain.
-        table.webhosts-associations
-          thead
-            tr
-              th style="width:100px" Name
-              th style="width:100%"
-              th
-          tbody
-            = render partial: 'webhost', collection: @website.webhosts, locals: { website_form: form }
+        - if current_user.super_user? || current_user.custom_domains == 'true'
+          h2.h4 Custom Domains
+          p Add a custom domain! Ensure one domain is "Primary" if adding multiple domains; all others will redirect to the primary domain.
+          table.webhosts-associations
+            thead
+              tr
+                th style="width:100px" Name
+                th style="width:100%"
+                th
+            tbody
+              = render partial: 'webhost', collection: @website.webhosts, locals: { website_form: form }
+        - else
+          p: em
+            => link_to 'Contact Us', 'mailto:impactupgrade@locable.com'
+            | to add custom domains to your plan.
       .panel-footer.text-right
         = form.button 'Save Website Details', class: 'btn btn-primary'
 javascript:

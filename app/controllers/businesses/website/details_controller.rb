@@ -12,14 +12,20 @@ class Businesses::Website::DetailsController < Businesses::Website::BaseControll
   private
 
   def website_params
-    params.require(:website).permit(
-      :subdomain,
-      webhosts_attributes: [
-        :id,
-        :name,
-        :primary,
-        :_destroy,
-      ]
-    )
+    if current_user.super_user? || current_user.custom_domains == 'true'
+      params.require(:website).permit(
+        :subdomain,
+        webhosts_attributes: [
+          :id,
+          :name,
+          :primary,
+          :_destroy,
+        ]
+      )
+    else
+      params.require(:website).permit(
+        :subdomain,
+      )
+    end
   end
 end
