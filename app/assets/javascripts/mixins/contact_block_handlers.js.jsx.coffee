@@ -114,6 +114,6 @@ ContactBlockHandlers =
   contactBlockInputSetVal: (name, value) ->
     $('#' + this.contactBlockID(name)).val(value)
 
-  contactBlockThemes: ['right', 'banner', 'inline']
+  contactBlockThemes: ['right', 'banner', 'inline', 'content']
 
 window.ContactBlockHandlers = ContactBlockHandlers
