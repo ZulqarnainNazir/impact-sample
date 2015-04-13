@@ -1,4 +1,5 @@
 = form_for @contact_message, url:  website_contact_page_path do |form|
+  = form.text_field :honey, style: 'margin-left: -10000px'
   .form-group
     = form.label :name, class: 'control-label sr-only'
     = form.text_field :name, placeholder: 'Name', class: 'form-control'

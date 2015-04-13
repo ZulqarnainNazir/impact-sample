@@ -22,6 +22,7 @@ class Website::ContactPagesController < Website::BaseController
       :name,
       :email,
       :message,
+      :honey,
     )
   end
 end
