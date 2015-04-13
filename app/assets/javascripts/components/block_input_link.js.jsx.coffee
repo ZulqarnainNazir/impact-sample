@@ -20,6 +20,7 @@ BlockInputLink = React.createClass
     version: 'link_none'
     target_blank: false
     no_follow: false
+    label: 'Learn More'
 
   componentDidMount: ->
     if $(this.getDOMNode()).find('input[type="radio"]:checked').length is 0

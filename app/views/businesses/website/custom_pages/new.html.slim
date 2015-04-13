@@ -30,6 +30,12 @@ ol.breadcrumb
         .col-sm-6.col-lg-4
           = form.text_field :name, class: 'form-control js-name-input'
           p.help-block Used on headers and footers.
+    - if @custom_page.persisted?
+      .row
+        .col-sm-offset-3.col-lg-offset-2
+          p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@custom_page.pathname, host: website_host(@business.website)), target: :_blank do
+            ' Preview Saved Webpage
+            i.fa.fa-external-link style="margin-left:2px"
     javascript:
       var setPathname = function(inputVal) {
         var pathnameVal = inputVal.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
@@ -56,7 +62,6 @@ ol.breadcrumb
       $(document).on('keyup', '.js-name-input', function(e) {
         $('.js-title-input').data().affectsName = e.target.value.length == 0;
       });
-    hr
     = react_component 'CustomPage', render(partial: 'custom_page', object: @custom_page, locals: { business: @business }, formats: 'json')
     .webpage-submit
       .row

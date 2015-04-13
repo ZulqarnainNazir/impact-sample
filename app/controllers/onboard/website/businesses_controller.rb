@@ -76,7 +76,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def facebook_params
-    facebook_id = params[:facebook_id].split('/').last
+    facebook_id = params[:facebook_id].to_s.split('/').last.split('?').first
     oauth = Koala::Facebook::OAuth.new(Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, nil)
     token = oauth.get_app_access_token
     graph = Koala::Facebook::API.new(token)

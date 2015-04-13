@@ -8,7 +8,7 @@ html lang="en"
         .col-lg-10.col-lg-offset-1
           .text-center
             = render 'alerts'
-            p.lead Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices pellentesque maximus. Aliquam id sollicitudin massa, nec mollis turpis.
+            p.lead = content_for(:onboard_instructions) || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices pellentesque maximus. Aliquam id sollicitudin massa, nec mollis turpis.'
             .row.onboard
               .col-xs-3.onboard-step class=(controller_name == 'businesses' ? 'is-active' : 'is-complete')
                 .onboard-stepnum = content_tag (controller_name == 'businesses' ? :strong : :span), 'Business<br>Details'.html_safe

@@ -47,7 +47,7 @@ ol.breadcrumb
               = Business.human_attribute_name(:linkedin_id)
             = form.text_field :linkedin_id, autocomplete: 'off', class: 'form-control js-linkedin-input'
             p.help-block
-              | https://www.linkedin.com/in/
+              | https://www.linkedin.com/
               strong.text-info.js-linkedin-label = form.object.linkedin_id
           hr
           .form-group
@@ -58,6 +58,42 @@ ol.breadcrumb
             p.help-block
               | https://www.youtube.com/user/
               strong.text-info.js-youtube-label = form.object.youtube_id
+          hr
+          .form-group
+            = form.label :pinterest_id, class: 'control-label'
+              i.fa.fa-pinterest-square>
+              = Business.human_attribute_name(:pinterest_id)
+            = form.text_field :pinterest_id, autocomplete: 'off', class: 'form-control js-pinterest-input'
+            p.help-block
+              | https://www.pinterest.com/
+              strong.text-info.js-pinterest-label = form.object.pinterest_id
+          hr
+          .form-group
+            = form.label :instagram_id, class: 'control-label'
+              i.fa.fa-instagram>
+              = Business.human_attribute_name(:instagram_id)
+            = form.text_field :instagram_id, autocomplete: 'off', class: 'form-control js-instagram-input'
+            p.help-block
+              | https://www.instagram.com/
+              strong.text-info.js-instagram-label = form.object.instagram_id
+          hr
+          .form-group
+            = form.label :yelp_id, class: 'control-label'
+              i.fa.fa-yelp>
+              = Business.human_attribute_name(:yelp_id)
+            = form.text_field :yelp_id, autocomplete: 'off', class: 'form-control js-yelp-input'
+            p.help-block
+              | https://www.yelp.com/biz/
+              strong.text-info.js-yelp-label = form.object.yelp_id
+          hr
+          .form-group
+            = form.label :citysearch_id, class: 'control-label'
+              i.fa.fa-square>
+              = Business.human_attribute_name(:citysearch_id)
+            = form.text_field :citysearch_id, autocomplete: 'off', class: 'form-control js-citysearch-input'
+            p.help-block
+              | https://www.citysearch.com/
+              strong.text-info.js-citysearch-label = form.object.citysearch_id
         .panel-footer.text-right
           = form.button 'Save', class: 'btn btn-primary'
 javascript:
@@ -80,4 +116,20 @@ javascript:
   $('.js-youtube-label').text($('.js-youtube-input').val());
   $('.js-youtube-input').on('input', function(e) {
     $('.js-youtube-label').text(e.target.value);
+  });
+  $('.js-pinterest-label').text($('.js-pinterest-input').val());
+  $('.js-pinterest-input').on('input', function(e) {
+    $('.js-pinterest-label').text(e.target.value);
+  });
+  $('.js-instagram-label').text($('.js-instagram-input').val());
+  $('.js-instagram-input').on('input', function(e) {
+    $('.js-instagram-label').text(e.target.value);
+  });
+  $('.js-yelp-label').text($('.js-yelp-input').val());
+  $('.js-yelp-input').on('input', function(e) {
+    $('.js-yelp-label').text(e.target.value);
+  });
+  $('.js-citysearch-label').text($('.js-citysearch-input').val());
+  $('.js-citysearch-input').on('input', function(e) {
+    $('.js-citysearch-label').text(e.target.value);
   });

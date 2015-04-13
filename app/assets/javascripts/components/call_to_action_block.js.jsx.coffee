@@ -17,9 +17,11 @@ CallToActionBlock = React.createClass
 
   render: ->
     `<div key={this.props.block.key} className="col-sm-4">
-      <div className="webpage-block webpage-call-to-action">
+      <div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
-        <CallToActionBlockContent {...this.props.block} />
+        <div className="webpage-call-to-action">
+          <CallToActionBlockContent {...this.props.block} />
+        </div>
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <input type="hidden" name={this.props.name('spoof')} value={Math.random()} />

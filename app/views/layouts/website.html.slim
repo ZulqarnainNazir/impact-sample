@@ -17,10 +17,11 @@ html lang="en"
     - if @website.header_block
       .webpage-header
         = render @website.header_block
-    = yield
+    .webpage-wrapper
+      = yield
     - if @website.footer_block
       .webpage-footer
         = render @website.footer_block
-    .theme-impact
+    .webpage-impact
       = link_to 'http://impact.locable.com', target: :_blank do
         = image_tag 'impact-footer.png', alt: 'IMPACT Marketing Suite for Local Businesses'

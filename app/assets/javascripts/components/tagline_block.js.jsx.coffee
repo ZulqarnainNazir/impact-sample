@@ -15,9 +15,11 @@ TaglineBlock = React.createClass
 
   render: ->
     if this.props.block
-      `<div className="webpage-block webpage-tagline">
+      `<div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
-        <TaglineBlockContent {...this.props.block} />
+        <div className="webpage-tagline">
+          <TaglineBlockContent {...this.props.block} />
+        </div>
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <div className={this.props.blockInputsClassName}>

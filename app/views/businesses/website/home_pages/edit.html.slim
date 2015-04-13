@@ -14,8 +14,14 @@ ol.breadcrumb
       .form-group
         = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
         .col-sm-6.col-lg-4
-          = form.text_field :title, class: 'form-control'
+          = form.text_field :title, value: form.object.title.present? ? form.object.title : @business.name, class: 'form-control'
           p.help-block Important for SEO
+    - if @home_page.persisted?
+      .row
+        .col-sm-offset-3.col-lg-offset-2
+          p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_root_url(host: website_host(@business.website)), target: :_blank do
+            ' Preview Saved Webpage
+            i.fa.fa-external-link style="margin-left:2px"
     = react_component 'HomePage', render(partial: 'home_page', object: @home_page, locals: { business: @business }, formats: 'json')
     .webpage-submit
       .row

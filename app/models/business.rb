@@ -64,4 +64,12 @@ class Business < ActiveRecord::Base
   def self.alphabetical
     order('LOWER(name) ASC')
   end
+
+  def website_url=(value)
+    if value.to_s.match(/\Ahttp/)
+      super(value.to_s)
+    else
+      super("http://#{value}")
+    end
+  end
 end

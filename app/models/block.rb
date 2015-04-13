@@ -124,7 +124,7 @@ class Block < ActiveRecord::Base
   end
 
   def text_html
-    Sanitize.fragment(text.to_s, Sanitize::Config::BASIC).html_safe
+    Sanitize.fragment(text.to_s, Sanitize::Config::RELAXED).html_safe
   end
 
   def button?

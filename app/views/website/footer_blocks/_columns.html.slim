@@ -5,20 +5,32 @@ footer.site-footer.site-footer-columns
         .site-footer-column.col-sm-2.col-md-1
           ul.list-inline.footer-social
             - if business.facebook_id?
-              li = link_to "https://www.facebook.com/#{business.facebook_id}" do
+              li = link_to "https://www.facebook.com/#{business.facebook_id}", target: :_blank do
                 i.fa.fa-facebook-square.fa-2x
             - if business.twitter_id?
-              li = link_to "https://www.twitter.com/#{business.twitter_id}" do
+              li = link_to "https://www.twitter.com/#{business.twitter_id}", target: :_blank do
                 i.fa.fa-twitter-square.fa-2x
             - if business.google_plus_id?
-              li = link_to "https://plus.google.com/+#{business.google_plus_id}" do
+              li = link_to "https://plus.google.com/+#{business.google_plus_id}", target: :_blank do
                 i.fa.fa-google-plus-square.fa-2x
             - if business.youtube_id?
-              li = link_to "https://www.youtube.com/user/#{business.youtube_id}" do
+              li = link_to "https://www.youtube.com/user/#{business.youtube_id}", target: :_blank do
                 i.fa.fa-youtube-square.fa-2x
             - if business.linkedin_id?
-              li = link_to "https://www.linkedin.com/in/#{business.linkedin_id}" do
+              li = link_to "https://www.linkedin.com/#{business.linkedin_id}", target: :_blank do
                 i.fa.fa-linkedin-square.fa-2x
+            - if business.pinterest_id?
+              li = link_to "https://www.pinterest.com/#{business.pinterest_id}", target: :_blank do
+                i.fa.fa-pinterest-square.fa-2x
+            - if business.instagram_id?
+              li = link_to "https://www.instagram.com/#{business.instagram_id}", target: :_blank do
+                i.fa.fa-instagram.fa-2x
+            - if business.yelp_id?
+              li = link_to "https://www.yelp.com/biz/#{business.yelp_id}", target: :_blank do
+                i.fa.fa-yelp.fa-2x
+            - if business.citysearch_id?
+              li = link_to "https://www.citysearch.com/#{business.citysearch_id}", target: :_blank do
+                i.fa.fa-square.fa-2x
             - if location.email? && !location.hide_email?
               li = link_to "mailto:#{location.email}" do
                 i.fa.fa-envelope-square.fa-2x

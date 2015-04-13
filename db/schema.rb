@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 16) do
+ActiveRecord::Schema.define(version: 17) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,10 @@ ActiveRecord::Schema.define(version: 16) do
     t.json     "settings"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "citysearch_id"
+    t.string   "instagram_id"
+    t.string   "pinterest_id"
+    t.string   "yelp_id"
   end
 
   create_table "categories", force: :cascade do |t|

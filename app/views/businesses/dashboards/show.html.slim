@@ -47,8 +47,8 @@ h2.h3 What do you want do do?
             .col-xs-3
               i.fa.fa-sitemap.fa-5x
             .col-xs-9.text-right
-              div style="font-size: 40px" = (@business.website.pages.count rescue 0)
-              - if (@business.website.pages.count rescue 0) == 1
+              div style="font-size: 40px" = (@business.website.webpages.count rescue 0)
+              - if (@business.website.webpages.count rescue 0) == 1
                 | Page
               - else
                 | Pages

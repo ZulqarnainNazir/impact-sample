@@ -20,9 +20,11 @@ HeroBlock = React.createClass
 
   render: ->
     if this.props.block
-      `<div className="webpage-block webpage-hero">
+      `<div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
-        <HeroBlockContent {...this.props.block} />
+        <div className="webpage-hero">
+          <HeroBlockContent {...this.props.block} />
+        </div>
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <div className={this.props.blockInputsClassName}>
