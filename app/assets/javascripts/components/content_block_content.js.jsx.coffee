@@ -2,16 +2,23 @@ ContentBlockContent = React.createClass
   mixins: [BackgroundImageCSS]
 
   render: ->
-    `<div className="row">
-      {this.renderLeft()}
-      {this.renderRight()}
-    </div>`
+    if this.props.theme is 'full'
+      `<div className="row">
+        <div className="col-sm-12">
+          {this.renderText()}
+        </div>
+      </div>`
+    else
+      `<div className="row">
+        {this.renderLeft()}
+        {this.renderRight()}
+      </div>`
 
   renderLeft: ->
-    if this.props.theme is 'left' then this.renderText() else this.renderImage()
+    if this.props.theme is 'left' then this.renderTextColumn() else this.renderImage()
 
   renderRight: ->
-    if this.props.theme is 'left' then this.renderImage() else this.renderText()
+    if this.props.theme is 'left' then this.renderImage() else this.renderTextColumn()
 
   renderImage: ->
     if this.props.image_url and this.props.image_url.length > 0
@@ -23,10 +30,13 @@ ContentBlockContent = React.createClass
         <ImageEmpty />
       </div>`
 
+  renderTextColumn: ->
+    `<div className="col-sm-8">
+      {this.renderText()}
+    </div>`
+
   renderText: ->
     if this.props.text and this.props.text.length > 0
-      `<div className="col-sm-8">
-        <p dangerouslySetInnerHTML={{__html: this.props.text}} />
-      </div>`
+      `<div dangerouslySetInnerHTML={{__html: this.props.text}} />`
 
 window.ContentBlockContent = ContentBlockContent

@@ -1,16 +1,20 @@
 .webpage-content
   .row
-    - if content_block.theme == 'left'
-      .col-sm-8
-        p = content_block.text_html
+    - if content_block.theme == 'full'
+      .col-sm-12
+        = content_block.text_html
     - else
-      .col-sm-4
-        - if content_block.content_block_image
-          = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
-    - if content_block.theme == 'left'
-      .col-sm-4
-        - if content_block.content_block_image
-          = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
-    - else
-      .col-sm-8
-        p = content_block.text_html
+      - if content_block.theme == 'left'
+        .col-sm-8
+          = content_block.text_html
+      - else
+        .col-sm-4
+          - if content_block.content_block_image
+            = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
+      - if content_block.theme == 'left'
+        .col-sm-4
+          - if content_block.content_block_image
+            = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
+      - else
+        .col-sm-8
+          = content_block.text_html

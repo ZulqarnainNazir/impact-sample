@@ -276,7 +276,7 @@ ContentBlocksHandlers =
     this.contentBlockInputSetVal block, 'image_alt', image.image_alt
     this.contentBlockInputSetVal block, 'image_title', image.image_title
 
-  contentBlockThemes: ['left', 'right']
+  contentBlockThemes: ['left', 'right', 'full']
 
   contentBlockInputGetVal: (block, name) ->
     $('#' + this.contentBlockID(block, name)).val()
