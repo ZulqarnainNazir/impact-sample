@@ -1,0 +1,22 @@
+- title 'Edit Meta/SEO'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Website', [@business, :website_root]
+  li.active Meta/SEO
+
+br
+
+.col-md-8
+  = errors_for @website
+  = form_for @website, url: [@business, :website_meta], method: :patch do |form|
+    .panel.panel-default
+      .panel-heading
+        h1.h4.panel-title Edit Your Website Meta/SEO Details
+      .panel-body
+        .form-group
+          = form.label :google_analytics_id, class: 'control-label'
+          = form.text_field :google_analytics_id, class: 'form-control'
+      .panel-footer.text-right
+        = form.button 'Save Website Meta/SEO', class: 'btn btn-primary'

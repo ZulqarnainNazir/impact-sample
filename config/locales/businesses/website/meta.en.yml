@@ -1,0 +1,7 @@
+en:
+  businesses:
+    website:
+      meta:
+        update:
+          notice: Your website meta/SEO was saved successfully.
+          alert: There was a problem saving your website meta/SEO.

@@ -50,3 +50,4 @@ en:
         current_password: Current Password
       website:
         custom_css: Custom CSS
+        google_analytics_id: Google Analytics ID

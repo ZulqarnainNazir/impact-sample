@@ -55,6 +55,9 @@ html lang="en"
                       li = link_to [:edit, @business, :website_details] do
                         i.fa.fa-list>
                         | Basic Details
+                      li = link_to [:edit, @business, :website_meta] do
+                        i.fa.fa-sliders>
+                        | Meta/SEO
                       li = link_to [@business, :website_webpages] do
                         i.fa.fa-sitemap>
                         | Pages

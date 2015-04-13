@@ -1,4 +1,6 @@
 class Website < ActiveRecord::Base
+  store_accessor :settings, :google_analytics_id
+
   belongs_to :business, touch: true
 
   with_options as: :frame do

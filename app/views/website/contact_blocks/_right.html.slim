@@ -32,16 +32,16 @@
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
     .vcard
-      h3.fn.org = location.name
+      h3.fn.org itemprop="name" = location.name
       - if !location.hide_phone?
-        p.tel = location.phone_number
+        p.tel itemprop="telephone" = location.phone_number
       - if !location.hide_address?
-        p.adr
+        p.adr itemprop="address"
           => location.address_line_one
           br>
           = location.address_line_two
       - if location.email? && !location.hide_email?
-        p = link_to location.email, "mailto:#{location.email}", class: 'email'
+        p = link_to location.email, "mailto:#{location.email}", class: 'email', itemprop: 'email'
       = render partial: 'opening', collection: location.openings
     hr
     = render 'form'
