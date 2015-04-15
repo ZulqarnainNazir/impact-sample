@@ -4,7 +4,8 @@ class Website < ActiveRecord::Base
     :foreground_color,
     :link_color,
     :google_analytics_id,
-    :head_injection
+    :head_injection,
+    :footer_injection
 
   belongs_to :business, touch: true
 

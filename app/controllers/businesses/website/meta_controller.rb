@@ -9,6 +9,7 @@ class Businesses::Website::MetaController < Businesses::Website::BaseController
     params.require(:website).permit(
       :google_analytics_id,
       :head_injection,
+      :footer_injection,
     )
   end
 end

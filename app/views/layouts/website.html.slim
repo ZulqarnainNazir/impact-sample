@@ -66,3 +66,4 @@ html lang="en"
     .webpage-impact
       = link_to 'http://impact.locable.com', target: :_blank do
         = image_tag 'impact-footer.png', alt: 'IMPACT Marketing Suite for Local Businesses'
+    = @website.footer_injection.try(:html_safe)
