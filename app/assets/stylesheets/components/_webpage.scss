@@ -4,13 +4,20 @@
 
 .webpage-block {
   position: relative;
-  margin: 20px 0;
   .container {
     width: auto;
   }
+  hr,
+  .page-header {
+    border-color: rgba(0,0,0,0.1);
+  }
+}
+.webpage-block + .webpage-block {
+  margin-top: 20px;
 }
 
 .webpage-add {
+  position: relative;
   border: dashed 1px #ccc;
   border-radius: 2px;
   padding: 20px;

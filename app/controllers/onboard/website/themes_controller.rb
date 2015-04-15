@@ -15,6 +15,9 @@ class Onboard::Website::ThemesController < Onboard::Website::BaseController
 
   def theme_params
     params.require(:website).permit(
+      :background_color,
+      :foreground_color,
+      :link_color,
       header_block_attributes: block_attributes,
       footer_block_attributes: block_attributes,
     )

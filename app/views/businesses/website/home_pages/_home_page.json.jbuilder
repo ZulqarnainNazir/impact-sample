@@ -1,5 +1,9 @@
 json.browserButtonsSrc image_path('browser-buttons.png')
 
+json.defaultBackgroundColor home_page.website.background_color
+json.defaultForegroundColor home_page.website.foreground_color
+json.defaultLinkColor home_page.website.link_color
+
 s3_presigned_post.tap do |presigned_post|
   json.presignedPostHost presigned_post.url.host
   json.presignedPostURL presigned_post.url.to_s

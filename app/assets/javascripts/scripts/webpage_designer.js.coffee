@@ -11,7 +11,11 @@ $.fn.webpageDesigner = ->
 
       if inputPrefix
         $('.webpage-fields *[name]').each ->
-          nameParts = $(this).prop('name').split('[')
-          nameParts[0] = nameParts[0] + '['
-          nameParts.unshift(inputPrefix)
-          $(this).prop 'name', nameParts.join('[')
+          name = $(this).prop('name')
+          if name.match(/\[/)
+            nameParts = name.split('[')
+            nameParts[0] = nameParts[0] + '['
+            nameParts.unshift(inputPrefix)
+            $(this).prop 'name', nameParts.join('[')
+          else
+            $(this).prop 'name', "#{inputPrefix}[#{name}]"

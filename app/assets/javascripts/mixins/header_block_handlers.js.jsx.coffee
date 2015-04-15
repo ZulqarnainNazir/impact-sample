@@ -5,7 +5,6 @@ HeaderBlockHandlers =
 
   getInitialState: ->
     headerBlock: this.headerBlockInitial()
-    headerBlockImages: []
 
   headerBlockInputs: ->
     if this.props.initialHeaderBlock and this.state.headerBlock
@@ -22,8 +21,6 @@ HeaderBlockHandlers =
     if this.state.headerBlock
       block: $.extend({}, this.state.headerBlock, { editing: this.state.editing })
       blockEditor: this.headerBlockEditorProps()
-      blockInputBackgroundColor: this.headerBlockInputBackgroundColorProps()
-      blockInputForegroundColor: this.headerBlockInputForegroundColorProps()
       blockInputStyle: this.headerBlockInputStyleProps()
       blockOptions: this.headerBlockOptionsProps()
       editing: this.state.editing
@@ -54,18 +51,6 @@ HeaderBlockHandlers =
     title: 'Edit Header Block Details'
     swapForm: this.headerBlockSwapForm
     resetForm: this.headerBlockResetForm
-
-  headerBlockInputBackgroundColorProps: ->
-    id: this.headerBlockID('background_color')
-    name: this.headerBlockName('background_color')
-    value: this.state.headerBlock.background_color
-    label: 'Custom Background Color'
-
-  headerBlockInputForegroundColorProps: ->
-    id: this.headerBlockID('foreground_color')
-    name: this.headerBlockName('foreground_color')
-    value: this.state.headerBlock.foreground_color
-    label: 'Custom Foreground Color'
 
   headerBlockInputStyleProps: ->
     id: this.headerBlockID('style')
@@ -102,13 +87,9 @@ HeaderBlockHandlers =
 
   headerBlockSwapForm: () ->
     this.headerBlockUpdate
-      background_color: this.headerBlockInputGetVal('background_color')
-      foreground_color: this.headerBlockInputGetVal('foreground_color')
       style: this.headerBlockInputGetVal('style')
 
   headerBlockResetForm: () ->
-    this.headerBlockInputSetVal 'background_color', this.state.headerBlock.background_color
-    this.headerBlockInputSetVal 'foreground_color', this.state.headerBlock.foreground_color
     this.headerBlockInputSetVal 'style', this.state.headerBlock.style
 
   headerBlockPrevTheme: ->

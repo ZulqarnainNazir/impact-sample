@@ -9,8 +9,38 @@ html lang="en"
     = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
     = javascript_include_tag 'application', data: { turbolinks_track: true }
     css:
-      .webpage-header .navbar-nav a {
-        color: #{@website.header_block.try(:foreground_color)} !important;
+      body {
+        background-color: #{@website.background_color};
+        color: #{@website.foreground_color};
+      }
+      .webpage-background a {
+        color: #{@website.link_color};
+      }
+      .webpage-footer .site-footer-simple {
+        color: #{@website.foreground_color};
+      }
+      .webpage-footer .site-footer-simple a,
+      .webpage-footer .site-footer-simple a:hover {
+        color: #{@website.link_color} !important;
+      }
+      .webpage-header .navbar {
+        background-color: #{@website.header_block.try(:background_color)};
+        color: #{@website.header_block.try(:foreground_color)};
+      }
+      .webpage-header .navbar a,
+      .webpage-header .navbar a:hover {
+        color: #{@website.header_block.try(:link_color)} !important;
+      }
+      .webpage-footer .site-footer-columns .site-footer-upper,
+      .webpage-footer .site-footer-layers {
+        background-color: #{@website.footer_block.try(:background_color)};
+        color: #{@website.footer_block.try(:foreground_color)};
+      }
+      .webpage-footer .site-footer-columns .site-footer-upper a,
+      .webpage-footer .site-footer-columns .site-footer-upper a:hover,
+      .webpage-footer .site-footer-layers a,
+      .webpage-footer .site-footer-layers a:hover {
+        color: #{@website.footer_block.try(:link_color)} !important;
       }
       #{@website.custom_css}
   body

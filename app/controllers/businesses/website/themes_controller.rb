@@ -10,6 +10,9 @@ class Businesses::Website::ThemesController < Businesses::Website::BaseControlle
   def website_params
     params.require(:website).permit(
       :custom_css,
+      :background_color,
+      :foreground_color,
+      :link_color,
       header_block_attributes: block_attributes,
       footer_block_attributes: block_attributes,
     )

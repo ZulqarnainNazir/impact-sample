@@ -10,7 +10,7 @@
 //= require jquery-fileupload/basic
 //= require jquery.minicolors
 //= require bootstrap-wysihtml5
-//= require plugins/nested_sortable
+//= require_tree ./plugins
 //= require_tree ./scripts
 
 Turbolinks.enableProgressBar();

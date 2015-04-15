@@ -1,5 +1,5 @@
 class HeaderBlock < Block
-  store_accessor :settings, :background_color, :foreground_color
+  store_accessor :settings, :background_color, :foreground_color, :link_color
 
   has_placed_image :header_block_image
 
@@ -11,9 +11,10 @@ class HeaderBlock < Block
 
   def react_attributes(business)
     super(header_block_image).merge(
-      name: business.name,
       background_color: background_color,
       foreground_color: foreground_color,
+      link_color: link_color,
+      name: business.name,
       pages: business.website.webpages.where.not(type: 'HomePage').select(:id, :name),
       logoSmall: business.logo.try(:attachment_url, :small),
       logoMedium: business.logo.try(:attachment_url, :medium),

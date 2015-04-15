@@ -3,8 +3,6 @@ HeaderBlock = React.createClass
     block: React.PropTypes.object
     blockAdd: React.PropTypes.object
     blockEditor: React.PropTypes.object
-    blockInputBackgroundColor: React.PropTypes.object
-    blockInputForegroundColor: React.PropTypes.object
     blockInputStyle: React.PropTypes.object
     blockOptions: React.PropTypes.object
     editing: React.PropTypes.bool
@@ -15,20 +13,12 @@ HeaderBlock = React.createClass
 
   render: ->
     if this.props.block
-      `<div className="webpage-block webpage-header">
+      `<div className="webpage-block webpage-header" style={{marginTop: 0}}>
         <BlockOptions {...this.props.blockOptions} />
         <HeaderBlockContent {...this.props.block} />
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <BlockInputStyle {...this.props.blockInputStyle} />
-          <div className="row">
-            <div className="col-sm-6">
-              <BlockInputColor {...this.props.blockInputBackgroundColor} />
-            </div>
-            <div className="col-sm-6">
-              <BlockInputColor {...this.props.blockInputForegroundColor} />
-            </div>
-          </div>
         </BlockEditor>
       </div>`
     else if this.props.editing

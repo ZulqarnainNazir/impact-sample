@@ -16,9 +16,11 @@ ContentBlock = React.createClass
 
   render: ->
     `<div key={this.props.block.key}>
-      <div className="webpage-block webpage-content">
+      <div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
-        <ContentBlockContent {...this.props.block} />
+        <div className="webpage-content">
+          <ContentBlockContent {...this.props.block} />
+        </div>
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <input type="hidden" name={this.props.name('spoof')} value={Math.random()} />

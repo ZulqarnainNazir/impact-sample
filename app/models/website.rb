@@ -1,5 +1,9 @@
 class Website < ActiveRecord::Base
-  store_accessor :settings, :google_analytics_id
+  store_accessor :settings,
+    :background_color,
+    :foreground_color,
+    :link_color,
+    :google_analytics_id
 
   belongs_to :business, touch: true
 

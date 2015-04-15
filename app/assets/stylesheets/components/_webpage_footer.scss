@@ -1,4 +1,8 @@
 .webpage-footer {
+  hr,
+  .page-header {
+    border-color: rgba(0,0,0,0.1);
+  }
   .site-footer-simple {
     text-align: center;
     .footer-social {
@@ -20,14 +24,11 @@
   }
 
   .site-footer-columns {
-    $footer-bg: $navbar-inverse-bg;
     $footer-color: lighten($navbar-inverse-color, 10%);
-    $footer-border: $navbar-inverse-border;
     $footer-link-color: $link-color;
-    $footer-link-hover-color: lighten($footer-link-color, 10%);
     .site-footer-upper {
-      background: $footer-bg;
-      border-top: 1px solid $footer-border;
+      background: $navbar-inverse-bg;
+      border-top: 1px solid rgba(0,0,0,0.1);
       color: $footer-color;
       padding-top: 40px;
       .site-footer-column {
@@ -35,7 +36,6 @@
       }
       a {
         &, &:link, &:visited  { color: $footer-link-color; }
-        &:hover               { color: $footer-link-hover-color; }
       }
     }
     .fn {
@@ -75,21 +75,16 @@
   }
 
   .site-footer-layers {
-    $footer-bg: $navbar-inverse-bg;
     $footer-color: lighten($navbar-inverse-color, 10%);
-    $footer-border: $navbar-inverse-border;
     $footer-link-color: $link-color;
-    $footer-link-hover-color: lighten($footer-link-color, 10%);
-    background: $footer-bg;
-    border-top: 1px solid $footer-border;
+    background: $navbar-inverse-bg;
+    border-top: 1px solid rgba(0,0,0,0.1);
     color: $footer-color;
     a {
       &, &:link, &:visited  { color: $footer-link-color; }
-      &:hover               { color: $footer-link-hover-color; }
     }
-    .site-footer-upper,
-    .site-footer-bottom {
-      background: lighten($footer-bg, 10%);
+    .site-footer-middle {
+      background: rgba(0,0,0,0.1);
     }
     .site-footer-upper,
     .site-footer-middle,

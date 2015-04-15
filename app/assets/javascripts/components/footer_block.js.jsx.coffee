@@ -9,7 +9,7 @@ FooterBlock = React.createClass
 
   render: ->
     if this.props.block
-      `<div className="webpage-block webpage-footer">
+      `<div className="webpage-block webpage-footer" style={{marginBottom: 0}}>
         <BlockOptions {...this.props.blockOptions} />
         <div className="webpage-fields">
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />

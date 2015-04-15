@@ -19,7 +19,7 @@ FooterBlockHandlers =
 
   footerBlockProps: ->
     if this.state.footerBlock
-      block: $.extend({}, this.state.footerBlock, { editing: this.state.editing, dropZoneClassName: this.footerBlockDropZoneClassName() })
+      block: $.extend({}, this.state.footerBlock, { editing: this.state.editing })
       blockOptions: this.footerBlockOptionsProps()
       name: this.footerBlockName
 
@@ -34,9 +34,6 @@ FooterBlockHandlers =
 
   footerBlockName: (name) ->
     "footer_block_attributes[#{name}]"
-
-  footerBlockDropZoneClassName: ->
-    'footer-block-drop-zone'
 
   footerBlockOptionsProps: ->
     visible: this.state.editing

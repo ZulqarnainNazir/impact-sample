@@ -36,7 +36,7 @@ HeaderBlockContent = React.createClass
       $(this.refs.image.getDOMNode()).find('.navbar-brand').css 'margin-left', "-#{image.width() / 2}px"
 
   renderLogoCenter: ->
-    `<nav className={this.navbarClassName('navbar-static-top header-centered-logo')} role="navigation" style={{backgroundColor: this.props.background_color, color: this.props.foreground_color}}>
+    `<nav className={this.navbarClassName('navbar-static-top header-centered-logo')} role="navigation">
       <div className="container">
         <div className="navbar-header">
           {this.renderCollapseButton()}
@@ -52,13 +52,13 @@ HeaderBlockContent = React.createClass
 
   renderLogoBelow: ->
     `<div>
-      <nav className={this.navbarClassName('navbar-static-top')} role="navigation" style={{backgroundColor: this.props.background_color, color: this.props.foreground_color}}>
+      <nav className={this.navbarClassName('navbar-static-top')} role="navigation">
         <div className="container">
           <div className="navbar-header">
             {this.renderCollapseButton()}
           </div>
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
-            <UnorderedList items={this.props.pages} className="nav navbar-nav" color={this.props.foreground_color} color={this.props.foreground_color} />
+            <UnorderedList items={this.props.pages} className="nav navbar-nav" />
           </div>
         </div>
       </nav>
@@ -79,10 +79,10 @@ HeaderBlockContent = React.createClass
           <p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>
         </div>
       </div>
-      <nav className={this.navbarClassName('navbar-static-top navbar-logo-above')} role="navigation" style={{backgroundColor: this.props.background_color, color: this.props.foreground_color}}>
+      <nav className={this.navbarClassName('navbar-static-top navbar-logo-above')} role="navigation">
         <div className="container">
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
-            <UnorderedList items={this.props.pages} className="nav navbar-nav" color={this.props.foreground_color} />
+            <UnorderedList items={this.props.pages} className="nav navbar-nav" />
           </div>
         </div>
       </nav>
@@ -101,49 +101,49 @@ HeaderBlockContent = React.createClass
         </div>
       </div>
       <div className="container">
-        <nav className={this.navbarClassName('navbar-logo-above')} role="navigation" style={{backgroundColor: this.props.background_color, color: this.props.foreground_color}}>
+        <nav className={this.navbarClassName('navbar-logo-above')} role="navigation">
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
-            <UnorderedList items={this.props.pages} className="nav navbar-nav" color={this.props.foreground_color} />
+            <UnorderedList items={this.props.pages} className="nav navbar-nav" />
           </div>
         </nav>
       </div>
     </div>`
 
   renderJustify: ->
-    `<nav className={this.navbarClassName('navbar-static-top header-justified')} role="navigation" style={{backgroundColor: this.props.background_color, color: this.props.foreground_color}}>
+    `<nav className={this.navbarClassName('navbar-static-top header-justified')} role="navigation">
       <div className="container">
         <div className="navbar-header">
           {this.renderCollapseButton()}
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-justified" color={this.props.foreground_color} />
+          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-justified" />
         </div>
       </div>
     </nav>`
 
   renderInline: ->
-    `<nav className={this.navbarClassName('navbar-static-top')} role="navigation" style={{backgroundColor: this.props.background_color, color: this.props.foreground_color}}>
+    `<nav className={this.navbarClassName('navbar-static-top')} role="navigation">
       <div className="container">
         <div className="navbar-header">
           {this.renderCollapseButton()}
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-right" color={this.props.foreground_color} />
+          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-right" />
         </div>
       </div>
     </nav>`
 
   renderCenter: ->
-    `<nav className={this.navbarClassName('navbar-static-top header-centered')} role="navigation" style={{backgroundColor: this.props.background_color, color: this.props.foreground_color}}>
+    `<nav className={this.navbarClassName('navbar-static-top header-centered')} role="navigation">
       <div className="container">
         <div className="navbar-header">
           {this.renderCollapseButton()}
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-centered" color={this.props.foreground_color} />
+          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-centered" />
         </div>
       </div>
     </nav>`
@@ -182,9 +182,9 @@ HeaderBlockContent = React.createClass
       leftPages = this.props.pages.slice(0, i)
       rightPages = this.props.pages.slice(i, this.props.pages.length)
       if leftPages.length > 0
-        result.push `<UnorderedList key="left" ref="leftNavbar" items={leftPages} className="nav navbar-nav navbar-left" color={this.props.foreground_color} />`
+        result.push `<UnorderedList key="left" ref="leftNavbar" items={leftPages} className="nav navbar-nav navbar-left" />`
       if rightPages.length > 0
-        result.push `<UnorderedList key="right" ref="rightNavbar" items={rightPages} className="nav navbar-nav navbar-right" color={this.props.foreground_color} />`
+        result.push `<UnorderedList key="right" ref="rightNavbar" items={rightPages} className="nav navbar-nav navbar-right" />`
     result
 
 window.HeaderBlockContent = HeaderBlockContent
