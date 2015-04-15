@@ -8,6 +8,7 @@ class Businesses::Website::MetaController < Businesses::Website::BaseController
   def meta_params
     params.require(:website).permit(
       :google_analytics_id,
+      :head_injection,
     )
   end
 end

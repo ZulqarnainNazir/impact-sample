@@ -18,5 +18,9 @@ br
         .form-group
           = form.label :google_analytics_id, class: 'control-label'
           = form.text_field :google_analytics_id, class: 'form-control'
+        .form-group
+          = form.label :head_injection, class: 'control-label'
+          = form.text_area :head_injection, rows: 8, class: 'form-control'
+          p.help-block Use this field to inject code into the <code>HEAD</code> section of your website.
       .panel-footer.text-right
         = form.button 'Save Website Meta/SEO', class: 'btn btn-primary'

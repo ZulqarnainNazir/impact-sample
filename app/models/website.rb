@@ -3,7 +3,8 @@ class Website < ActiveRecord::Base
     :background_color,
     :foreground_color,
     :link_color,
-    :google_analytics_id
+    :google_analytics_id,
+    :head_injection
 
   belongs_to :business, touch: true
 

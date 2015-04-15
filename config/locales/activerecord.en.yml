@@ -51,3 +51,4 @@ en:
       website:
         custom_css: Custom CSS
         google_analytics_id: Google Analytics ID
+        head_injection: HTML Head Injection
