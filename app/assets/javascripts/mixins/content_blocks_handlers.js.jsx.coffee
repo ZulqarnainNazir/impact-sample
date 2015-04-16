@@ -289,7 +289,7 @@ ContentBlocksHandlers =
     foundBlock = this.state.contentBlocks.filter(blockFilter)[0]
     file = data.files[0]
     reader = new FileReader()
-    reader.onload = this.contentBlockImageRead.bind(null, block, file)
+    reader.onload = this.contentBlockImageRead.bind(null, foundBlock, file)
     reader.readAsDataURL file
     formData = this.props.presignedPostFields
     formData['Content-Type'] = file.type
@@ -344,7 +344,7 @@ ContentBlocksHandlers =
       image_temp_file_name: file.name
       image_temp_file_size: file.size
       image_temp_file_type: file.type
-    this.contentBlockInputSetVal block, 'image_alt', ''
-    this.contentBlockInputSetVal block, 'image_title', ''
+    this.contentBlockInputSetVal foundBlock, 'image_alt', ''
+    this.contentBlockInputSetVal foundBlock, 'image_title', ''
 
 window.ContentBlocksHandlers = ContentBlocksHandlers

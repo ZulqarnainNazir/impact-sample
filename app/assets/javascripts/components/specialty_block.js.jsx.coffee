@@ -1,7 +1,6 @@
 SpecialtyBlock = React.createClass
   propTypes:
     block: React.PropTypes.object
-    blockAdd: React.PropTypes.object
     blockEditor: React.PropTypes.object
     blockImageLibrary: React.PropTypes.object
     blockInputHeading: React.PropTypes.object
@@ -16,8 +15,8 @@ SpecialtyBlock = React.createClass
     true
 
   render: ->
-    if this.props.block
-      `<div className="webpage-block">
+    `<div key={this.props.block.key}>
+      <div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
         <div className="webpage-specialty">
           <SpecialtyBlockContent {...this.props.block} />
@@ -32,9 +31,7 @@ SpecialtyBlock = React.createClass
           </div>
           <BlockImageLibrary {...this.props.blockImageLibrary} />
         </BlockEditor>
-      </div>`
-    else if this.props.editing
-      `<BlockAdd {...this.props.blockAdd} />`
-    else `<div />`
+      </div>
+    </div>`
 
 window.SpecialtyBlock = SpecialtyBlock

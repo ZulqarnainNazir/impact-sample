@@ -5,9 +5,9 @@ HomePage = React.createClass
   mixins: [
     PrevNext,
     HeroBlockHandlers,
-    TaglineBlockHandlers,
+    TaglineBlocksHandlers,
     CallToActionBlocksHandlers,
-    SpecialtyBlockHandlers,
+    SpecialtyBlocksHandlers,
     ContentBlocksHandlers,
   ]
 
@@ -54,15 +54,15 @@ HomePage = React.createClass
         <div className="panel-body" style={{position: 'relative'}}>
           <div className="webpage-background" style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 0}} />
           <HeroBlock {...this.heroBlockProps()} />
-          <TaglineBlock {...this.taglineBlockProps()} />
+          <TaglineBlocks {...this.taglineBlocksProps()} />
           <CallToActionBlocks {...this.callToActionBlocksProps()} />
-          <SpecialtyBlock {...this.specialtyBlockProps()} />
+          <SpecialtyBlocks {...this.specialtyBlocksProps()} />
           <ContentBlocks {...this.contentBlocksProps()} />
           <div className="webpage-fields">
             {this.heroBlockInputs()}
-            {this.taglineBlockInputs()}
+            {this.taglineBlocksInputs()}
             {this.callToActionBlocksInputs()}
-            {this.specialtyBlockInputs()}
+            {this.specialtyBlocksInputs()}
             {this.contentBlocksInputs()}
           </div>
         </div>

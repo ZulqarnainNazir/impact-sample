@@ -5,7 +5,7 @@
     = errors_for @business.website
     = react_component 'Theme', render(partial: 'theme', locals: { business: @business, website: @business.website }, formats: 'json')
     div style="margin-top: 40px"
-      => link_to [:edit_onboard_website, @business, :location], class: 'btn btn-default' do
+      => link_to [:edit_onboard_website, @business, :website], class: 'btn btn-default' do
         i.fa.fa-angle-left>
         | Back
       = form.button class: 'btn btn-primary pull-right' do

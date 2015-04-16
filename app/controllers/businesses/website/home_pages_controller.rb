@@ -17,8 +17,10 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
         page_params[:hero_block_attributes].merge! image_business: @business, image_user: current_user
       end
 
-      if page_params[:specialty_block_attributes]
-        page_params[:specialty_block_attributes].merge! image_business: @business, image_user: current_user
+      if page_params[:specialty_blocks_attributes] && page_params[:specialty_blocks_attributes].kind_of?(Hash)
+        page_params[:specialty_blocks_attributes].each do |key, attributes|
+          attributes.merge! image_business: @business, image_user: current_user
+        end
       end
 
       if page_params[:call_to_action_blocks_attributes] && page_params[:call_to_action_blocks_attributes].kind_of?(Hash)
@@ -39,8 +41,8 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
     params.require(:home_page).permit(
       :title,
       hero_block_attributes: block_attributes,
-      specialty_block_attributes: block_attributes,
-      tagline_block_attributes: block_attributes,
+      specialty_blocks_attributes: block_attributes,
+      tagline_blocks_attributes: block_attributes,
       call_to_action_blocks_attributes: block_attributes,
       content_blocks_attributes: block_attributes,
     ).deep_merge(

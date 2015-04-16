@@ -3,13 +3,13 @@
 
 .container
   - if @page.hero_block
-    = render @page.hero_block
-  - if @page.tagline_block
-    = render @page.tagline_block
+    = render @page.hero_blocks.any?
+  - if @page.tagline_blocks.any?
+    = render @page.tagline_blocks
   - if @page.call_to_action_blocks.any?
     .row
       = render @page.call_to_action_blocks
-  - if @page.specialty_block
-    = render @page.specialty_block
+  - if @page.specialty_blocks.any?
+    = render @page.specialty_blocks
   - if @page.content_blocks.any?
     = render @page.content_blocks

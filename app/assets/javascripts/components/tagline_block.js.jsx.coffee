@@ -1,7 +1,6 @@
 TaglineBlock = React.createClass
   propTypes:
     block: React.PropTypes.object
-    blockAdd: React.PropTypes.object
     blockEditor: React.PropTypes.object
     blockInputLink: React.PropTypes.object
     blockInputText: React.PropTypes.object
@@ -14,8 +13,8 @@ TaglineBlock = React.createClass
     true
 
   render: ->
-    if this.props.block
-      `<div className="webpage-block">
+    `<div key={this.props.block.key}>
+      <div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
         <div className="webpage-tagline">
           <TaglineBlockContent {...this.props.block} />
@@ -28,9 +27,7 @@ TaglineBlock = React.createClass
             <BlockInputLink {...this.props.blockInputLink} />
           </div>
         </BlockEditor>
-      </div>`
-    else if this.props.editing
-      `<BlockAdd {...this.props.blockAdd} />`
-    else `<div />`
+      </div>
+    </div>`
 
 window.TaglineBlock = TaglineBlock
