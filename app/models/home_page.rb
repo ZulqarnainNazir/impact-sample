@@ -33,7 +33,6 @@ class HomePage < Webpage
 
   def default_tagline_block_attributes(business)
     {
-      theme: 'left',
       text: business.tagline,
     }.reject do |key, value|
       value.blank?
