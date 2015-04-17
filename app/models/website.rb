@@ -47,7 +47,7 @@ class Website < ActiveRecord::Base
     future_webhosts = webhosts.reject(&:marked_for_destruction?)
     future_primary_webhosts = future_webhosts.select(&:primary?)
 
-    if future_webhosts.length > 1 && future_primary_webhosts.length != 1
+    if future_primary_webhosts.length > 1
       errors.add :webhosts, :invalid_primary
     end
   end

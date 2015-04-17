@@ -23,7 +23,7 @@ en:
             subdomain:
               invalid: must contain only letters, numbers and hypens
             webhosts:
-              invalid_primary: must contain a single primary domain
+              invalid_primary: must contain at most a single primary domain
     attributes:
       business:
         category_ids: Categories

@@ -25,7 +25,7 @@ br
         hr
         - if current_user.super_user? || current_user.custom_domains == 'true'
           h2.h4 Custom Domains
-          p Add a custom domain! Ensure one domain is "Primary" if adding multiple domains; all others will redirect to the primary domain.
+          p Add a custom domain! Optionally select one domain to be primary, ensuring all other domains redirect to that one.
           table.webhosts-associations
             thead
               tr
