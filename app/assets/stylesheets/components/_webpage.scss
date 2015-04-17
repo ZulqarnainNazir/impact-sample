@@ -36,3 +36,17 @@
 .webpage-submit {
   margin: 50px 0;
 }
+
+.webpage-sortable {
+}
+
+.webpage-container {
+  position: relative;
+}
+
+.webpage-container-handle {
+  position: absolute;
+  top: 0;
+  left: -45px;
+  cursor: move;
+}

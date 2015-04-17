@@ -14,6 +14,31 @@ CustomPage = React.createClass
   getInitialState: ->
     editing: true
 
+   componentDidMount: ->
+    $('.webpage-sortable').sortable
+      axis: 'y'
+      container: '.webpage-sortable'
+      expandOnHover: 400
+      forceHelperSize: true
+      forcePlaceholderSize: true
+      handle: '.webpage-container-handle'
+      helper: 'clone'
+      items: '.webpage-container'
+      opacity: 0.5
+      placeholder: 'placeholder'
+      revert: 100
+      startCollapsed: false
+      tabSize: 20
+      tolerance: 'pointer'
+      update: this.sortBlockTypes
+
+  sortBlockTypes: (event, ui) ->
+    $('#block_type_order').val this.blockTypeOrder().get().join(',')
+
+  blockTypeOrder: ->
+    $('.webpage-sortable .webpage-container').map ->
+      $(this).data().type
+
   toggleEditing: ->
     this.setState editing: !this.state.editing
 
@@ -53,12 +78,11 @@ CustomPage = React.createClass
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
         <div className="panel-body" style={{position: 'relative'}}>
           <div className="webpage-background" style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 0}} />
-          <HeroBlock {...this.heroBlockProps()} />
-          <TaglineBlocks {...this.taglineBlocksProps()} />
-          <CallToActionBlocks {...this.callToActionBlocksProps()} />
-          <SpecialtyBlocks {...this.specialtyBlocksProps()} />
-          <ContentBlocks {...this.contentBlocksProps()} />
+          <div className="webpage-sortable">
+            {this.renderBlocks()}
+          </div>
           <div className="webpage-fields">
+            <input type="hidden" id="block_type_order" name="block_type_order" value={this.props.blockTypeOrder} />
             {this.heroBlockInputs()}
             {this.taglineBlocksInputs()}
             {this.callToActionBlocksInputs()}
@@ -68,5 +92,22 @@ CustomPage = React.createClass
         </div>
       </BrowserPanel>
     </div>`
+
+  renderBlocks: ->
+    this.props.blockTypeOrder.split(',').map this.renderBlock
+
+  renderBlock: (type) ->
+    console.log type
+    switch type
+      when 'hero'
+        `<HeroBlock {...this.heroBlockProps()} />`
+      when 'tagline'
+        `<TaglineBlocks {...this.taglineBlocksProps()} />`
+      when 'call_to_action'
+        `<CallToActionBlocks {...this.callToActionBlocksProps()} />`
+      when 'specialty'
+        `<SpecialtyBlocks {...this.specialtyBlocksProps()} />`
+      when 'content'
+        `<ContentBlocks {...this.contentBlocksProps()} />`
 
 window.CustomPage = CustomPage

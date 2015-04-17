@@ -9,7 +9,8 @@ ContentBlocks = React.createClass
     true
 
   render: ->
-    `<div>
+    `<div className="webpage-container" data-type="content">
+      <i className="fa fa-reorder webpage-container-handle" />
       {this.renderBlocks()}
       {this.renderBlockAdd()}
     </div>`

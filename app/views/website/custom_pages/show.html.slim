@@ -2,14 +2,21 @@
 - description @page.description
 
 .container
-  - if @page.hero_block
-    = render @page.hero_blocks.any?
-  - if @page.tagline_blocks.any?
-    = render @page.tagline_blocks
-  - if @page.call_to_action_blocks.any?
-    .row
-      = render @page.call_to_action_blocks
-  - if @page.specialty_blocks.any?
-    = render @page.specialty_blocks
-  - if @page.content_blocks.any?
-    = render @page.content_blocks
+  - @page.block_types.each do |block_type|
+    - case block_type
+    - when 'hero'
+      - if @page.hero_block
+        = render @page.hero_blocks.any?
+    - when 'tagline'
+      - if @page.tagline_blocks.any?
+        = render @page.tagline_blocks
+    - when 'call_to_action'
+      - if @page.call_to_action_blocks.any?
+        .row
+          = render @page.call_to_action_blocks
+    - when 'specialty'
+      - if @page.specialty_blocks.any?
+        = render @page.specialty_blocks
+    - when 'content'
+      - if @page.content_blocks.any?
+        = render @page.content_blocks

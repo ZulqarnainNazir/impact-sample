@@ -1,5 +1,7 @@
 class Webpage < ActiveRecord::Base
   attr_accessor :image_business, :image_user, :cached_webpages
+  
+  store_accessor :settings, :block_type_order
 
   belongs_to :website, touch: true
 
@@ -25,5 +27,13 @@ class Webpage < ActiveRecord::Base
 
   def home_page?
     type == 'HomePage'
+  end
+
+  def block_types
+    order = block_type_order.to_s.split(',')
+    %w[hero tagline call_to_action specialty content].each do |type|
+      order << type unless order.include?(type)
+    end
+    order
   end
 end

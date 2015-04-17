@@ -9,9 +9,12 @@ CallToActionBlocks = React.createClass
     true
 
   render: ->
-    `<div className="row">
-      {this.renderBlocks()}
-      {this.renderBlockAdd()}
+    `<div className="webpage-container" data-type="call_to_action">
+      <i className="fa fa-reorder webpage-container-handle" />
+      <div className="row">
+        {this.renderBlocks()}
+        {this.renderBlockAdd()}
+      </div>
     </div>`
 
   renderBlocks: ->

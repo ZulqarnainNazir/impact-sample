@@ -14,6 +14,8 @@ json.imagesPath business_images_path(business)
 
 json.internalWebpages business.website.webpages.select(:id, :name)
 
+json.blockTypeOrder home_page.block_types.join(',')
+
 json.initialCallToActionBlocks  home_page.call_to_action_blocks.map(&:react_attributes)
 json.initialContentBlocks       home_page.content_blocks.map(&:react_attributes)
 json.initialHeroBlock           home_page.hero_block.try(:react_attributes)

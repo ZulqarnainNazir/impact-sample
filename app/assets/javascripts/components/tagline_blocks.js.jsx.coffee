@@ -9,7 +9,8 @@ TaglineBlocks = React.createClass
     true
 
   render: ->
-    `<div>
+    `<div className="webpage-container" data-type="tagline">
+      <i className="fa fa-reorder webpage-container-handle" />
       {this.renderBlocks()}
       {this.renderBlockAdd()}
     </div>`

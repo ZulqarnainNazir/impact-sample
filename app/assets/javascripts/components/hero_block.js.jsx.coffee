@@ -19,6 +19,12 @@ HeroBlock = React.createClass
     true
 
   render: ->
+    `<div className="webpage-container" data-type="hero">
+      <i className="fa fa-reorder webpage-container-handle" />
+      {this.renderInterior()}
+    </div>`
+
+  renderInterior: ->
     if this.props.block
       `<div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
@@ -52,6 +58,5 @@ HeroBlock = React.createClass
       </div>`
     else if this.props.editing
       `<BlockAdd {...this.props.blockAdd} />`
-    else `<div />`
 
 window.HeroBlock = HeroBlock
