@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   # Customize redirect location for newly signed-up and signed-in users.
   def after_sign_in_path_for(user)
-    user.businesses.any? ? :businesses : :new_onboard_website_business
+    user.authorized_businesses.any? ? :businesses : :new_onboard_website_business
   end
 
   def block_attributes

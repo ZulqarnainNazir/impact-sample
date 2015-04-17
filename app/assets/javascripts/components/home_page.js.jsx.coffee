@@ -82,7 +82,8 @@ HomePage = React.createClass
             {this.renderBlocks()}
           </div>
           <div className="webpage-fields">
-            <input type="hidden" id="block_type_order" name="block_type_order" value={this.props.blockTypeOrder} />
+            <input type="hidden" id="block_type_order" name="block_type_order" defaultValue={this.props.blockTypeOrder} />
+            <input type="hidden" id="call_to_action_blocks_per_row" name="call_to_action_blocks_per_row" value={this.state.callToActionBlocksPerRow} />
             {this.heroBlockInputs()}
             {this.taglineBlocksInputs()}
             {this.callToActionBlocksInputs()}
@@ -97,17 +98,16 @@ HomePage = React.createClass
     this.props.blockTypeOrder.split(',').map this.renderBlock
 
   renderBlock: (type) ->
-    console.log type
     switch type
       when 'hero'
-        `<HeroBlock {...this.heroBlockProps()} />`
+        `<HeroBlock key="hero" {...this.heroBlockProps()} />`
       when 'tagline'
-        `<TaglineBlocks {...this.taglineBlocksProps()} />`
+        `<TaglineBlocks key="tagline" {...this.taglineBlocksProps()} />`
       when 'call_to_action'
-        `<CallToActionBlocks {...this.callToActionBlocksProps()} />`
+        `<CallToActionBlocks key="call_to_action" {...this.callToActionBlocksProps()} />`
       when 'specialty'
-        `<SpecialtyBlocks {...this.specialtyBlocksProps()} />`
+        `<SpecialtyBlocks key="specialty" {...this.specialtyBlocksProps()} />`
       when 'content'
-        `<ContentBlocks {...this.contentBlocksProps()} />`
+        `<ContentBlocks key="content" {...this.contentBlocksProps()} />`
 
 window.HomePage = HomePage

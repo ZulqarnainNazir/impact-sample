@@ -3,8 +3,12 @@ CallToActionBlocksHandlers =
     initialCallToActionBlocks: React.PropTypes.array
     defaultCallToActionBlockAttributes: React.PropTypes.object
 
+  getDefaultProps: ->
+    initialCallToActionBlocksPerRow: 3
+
   getInitialState: ->
     callToActionBlocks: this.props.initialCallToActionBlocks.map(this.callToActionBlockInitial)
+    callToActionBlocksPerRow: parseInt(this.props.initialCallToActionBlocksPerRow) or 3
 
   callToActionBlocksInputs: ->
     this.props.initialCallToActionBlocks.map this.callToActionBlockInputs
@@ -26,8 +30,10 @@ CallToActionBlocksHandlers =
   callToActionBlocksProps: ->
     blockProps: this.state.callToActionBlocks.map(this.callToActionBlockProps)
     blockAdd: this.callToActionBlockAddProps()
+    maximum: this.state.callToActionBlocksPerRow
+    updateMaximum: this.updateCallToActionBlocksPerRow
 
-  callToActionBlockProps: (block) ->
+  callToActionBlockProps: (block, index) ->
     block: $.extend({}, block, { editing: this.state.editing, dropZoneClassName: this.callToActionBlockDropZoneClassName(block) })
     blockEditor: this.callToActionBlockEditorProps(block)
     blockImageLibrary: this.callToActionBlockImageLibraryProps(block)
@@ -38,7 +44,9 @@ CallToActionBlocksHandlers =
     blockOptions: this.callToActionBlockOptionsProps(block)
     blockInputsClassName: if block and block.displayImageLibrary then 'hide' else ''
     editing: this.state.editing
+    maximum: this.state.callToActionBlocksPerRow
     name: this.callToActionBlockName.bind(null, block)
+    index: index
 
   # PRIVATE LEVEL 1
 
@@ -54,8 +62,16 @@ CallToActionBlocksHandlers =
   callToActionBlockDropZoneClassName: (block) ->
     "call-to-action-blocks-#{block.key}-drop-zone"
 
+  updateCallToActionBlocksPerRow: ->
+    if this.state.callToActionBlocksPerRow is 3
+      this.setState callToActionBlocksPerRow: 4
+    else if this.state.callToActionBlocksPerRow is 4
+      this.setState callToActionBlocksPerRow: 2
+    else
+      this.setState callToActionBlocksPerRow: 3
+
   callToActionBlockAddProps: ->
-    visible: this.state.editing and this.state.callToActionBlocks.length < 3
+    visible: this.state.editing and this.state.callToActionBlocks.length < this.state.callToActionBlocksPerRow
     onClick: this.callToActionBlockAdd
     content: 'Add a Call to Action Block'
 

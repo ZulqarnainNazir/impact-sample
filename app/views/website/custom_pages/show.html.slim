@@ -6,14 +6,14 @@
     - case block_type
     - when 'hero'
       - if @page.hero_block
-        = render @page.hero_blocks.any?
+        = render @page.hero_block
     - when 'tagline'
       - if @page.tagline_blocks.any?
         = render @page.tagline_blocks
     - when 'call_to_action'
       - if @page.call_to_action_blocks.any?
         .row
-          = render @page.call_to_action_blocks
+          = render @page.call_to_action_blocks.limit(@page.call_to_action_blocks_per_row.to_i > 0 ? @page.call_to_action_blocks_per_row.to_i : 3)
     - when 'specialty'
       - if @page.specialty_blocks.any?
         = render @page.specialty_blocks

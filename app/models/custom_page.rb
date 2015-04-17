@@ -1,4 +1,6 @@
 class CustomPage < Webpage
+  store_accessor :settings, :call_to_action_blocks_per_row
+
   with_options as: :frame, dependent: :destroy do
     has_many :call_to_action_blocks
     has_many :content_blocks

@@ -16,7 +16,7 @@ CallToActionBlock = React.createClass
     true
 
   render: ->
-    `<div key={this.props.block.key} className="col-sm-4">
+    `<div key={this.props.block.key} className={this.columnClass()} style={{display: this.columnDisplay()}}>
       <div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
         <div className="webpage-call-to-action">
@@ -37,5 +37,18 @@ CallToActionBlock = React.createClass
         </BlockEditor>
       </div>
     </div>`
+
+  columnClass: ->
+    if this.props.maximum is 4
+      'col-sm-3'
+    else if this.props.maximum is 2
+      'col-sm-6'
+    else
+      'col-sm-4'
+
+  columnDisplay: ->
+    if this.props.index > this.props.maximum - 1
+      'none'
+    else 'block'
 
 window.CallToActionBlock = CallToActionBlock

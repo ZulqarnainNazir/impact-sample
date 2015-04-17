@@ -51,6 +51,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
       :pathname,
       :name,
       :block_type_order,
+      :call_to_action_blocks_per_row,
       hero_block_attributes: block_attributes,
       specialty_blocks_attributes: block_attributes,
       tagline_blocks_attributes: block_attributes,

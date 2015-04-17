@@ -1,5 +1,8 @@
-.webpage-call-to-action
-  .col-sm-4
+- className = 'col-sm-4'
+- className = 'col-sm-3' if call_to_action_block.frame.try(:call_to_action_blocks_per_row).to_i == 4
+- className = 'col-sm-6' if call_to_action_block.frame.try(:call_to_action_blocks_per_row).to_i == 2
+div class=className
+  .webpage-call-to-action
     .panel.panel-default.tagline.tagline-columns.text-center
       .panel-body
         h4 = call_to_action_block.heading_html
