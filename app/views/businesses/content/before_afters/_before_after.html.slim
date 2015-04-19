@@ -1,0 +1,21 @@
+.feed-item.feed-before_after
+  .feed-item-meta
+    => icon 'tasks'
+    strong> Before &amp; After
+    span.pull-right
+      span.text-muted> Posted #{time_ago_in_words before_after.created_at} ago
+      span.btn-group.btn-group-sm style="margin-left:8px"
+        = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
+        = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  h2.h3 = before_after.title
+  - if before_after.before_image || before_after.after_image
+    .row style="margin-top: 20px"
+      .col-sm-6
+        - if before_after.before_image
+          h3.h4 Before
+          = image_tag before_after.before_image.attachment_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
+      .col-sm-6
+        - if before_after.after_image
+          h3.h4 After
+          = image_tag before_after.after_image.attachment_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
+  = before_after.description_html

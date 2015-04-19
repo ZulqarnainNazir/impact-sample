@@ -1,0 +1,9 @@
+.feed-item.feed-post
+  .feed-item-meta
+    => icon 'edit'
+    strong> Post
+    span.pull-right
+      span.text-muted Posted #{time_ago_in_words post.created_at} ago
+  h2 = post.title
+  = post.description_html
+| CONTENT_FEED_ITEM_END

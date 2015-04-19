@@ -1,0 +1,8 @@
+- title 'Content'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li.active Manage Content
+
+p.bg-warning Coming Soon - Please use the navigation on the left to manage your business content.

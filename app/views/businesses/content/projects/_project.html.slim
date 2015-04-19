@@ -1,0 +1,11 @@
+.feed-item.feed-project
+  .feed-item-meta
+    => icon 'briefcase'
+    strong> Project
+    span.pull-right
+      span.text-muted> Posted #{time_ago_in_words project.created_at} ago
+      span.btn-group.btn-group-sm style="margin-left:8px"
+        = link_to icon('pencil'), [:edit, @business, :content, project], class: 'btn btn-default'
+        = link_to icon('trash'), [@business, :content, project], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  h2 = project.title
+  = project.description_html

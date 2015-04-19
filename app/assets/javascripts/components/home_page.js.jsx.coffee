@@ -9,6 +9,7 @@ HomePage = React.createClass
     CallToActionBlocksHandlers,
     SpecialtyBlocksHandlers,
     ContentBlocksHandlers,
+    FeedBlockHandlers,
   ]
 
   getInitialState: ->
@@ -89,6 +90,7 @@ HomePage = React.createClass
             {this.callToActionBlocksInputs()}
             {this.specialtyBlocksInputs()}
             {this.contentBlocksInputs()}
+            {this.feedBlockInputs()}
           </div>
         </div>
       </BrowserPanel>
@@ -109,5 +111,7 @@ HomePage = React.createClass
         `<SpecialtyBlocks key="specialty" {...this.specialtyBlocksProps()} />`
       when 'content'
         `<ContentBlocks key="content" {...this.contentBlocksProps()} />`
+      when 'feed'
+        `<FeedBlock key="feed" {...this.feedBlockProps()} />`
 
 window.HomePage = HomePage

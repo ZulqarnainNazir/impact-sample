@@ -6,6 +6,10 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
 
   before_action do
     @home_page = @website.home_page || @website.build_home_page
+    feed_record_arrays = %i[before_afters galleries offers posts projects].map do |association|
+      @business.send(association).order(created_at: :desc).limit(20)
+    end.inject(&:+).sort_by(&:created_at).reverse
+    @feed_items = Kaminari.paginate_array(feed_record_arrays).page(params[:page]).per(20)
   end
 
   def update
@@ -24,6 +28,7 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
       tagline_blocks_attributes: block_attributes,
       call_to_action_blocks_attributes: block_attributes.push(call_to_action_block_image_placement_attributes: placement_attributes),
       content_blocks_attributes: block_attributes.push(content_block_image_placement_attributes: placement_attributes),
+      feed_block_attributes: block_attributes.push(:items_limit),
     ).deep_merge(
       pathname: '',
       name: 'Homepage',

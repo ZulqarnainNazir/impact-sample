@@ -14,6 +14,9 @@
       ul ul {
         display: none;
       }
+      li.list-divider {
+        border-top: dotted 1px #ddd;
+      }
       a, span {
         text-decoration: none;
         color: $link-color;

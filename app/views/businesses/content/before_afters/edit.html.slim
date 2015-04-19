@@ -1,0 +1,12 @@
+- title 'Edit Business Before &amp; After'.html_safe
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li = link_to 'Existing Content', [@business, :content_feed]
+  li.active Edit Before &amp; After
+
+= errors_for @before_after
+= form_for @before_after, url: [@business, :content, @before_after] do |form|
+  = render form

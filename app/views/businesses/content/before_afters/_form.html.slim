@@ -1,0 +1,32 @@
+.form-group
+  = form.label :title, class: 'control-label'
+  = form.text_field :title, class: 'form-control'
+.row
+  .col-sm-6
+    .panel.panel-default
+      .panel-body
+        = react_component 'ImagePlacement',
+          imagesPath: business_images_path(form.object.business),
+          inputPrefix: 'before_after[before_image_placement_attributes]',
+          label: 'Before Image',
+          placement: form.object.before_image_placement_json,
+          presignedPost: s3_presigned_post_hash,
+          buttonsSize: 'small'
+  .col-sm-6
+    .panel.panel-default
+      .panel-body
+        = react_component 'ImagePlacement',
+          imagesPath: business_images_path(form.object.business),
+          inputPrefix: 'before_after[after_image_placement_attributes]',
+          label: 'After Image',
+          placement: form.object.after_image_placement_json,
+          presignedPost: s3_presigned_post_hash,
+          buttonsSize: 'small'
+.form-group
+  = form.label :description, class: 'control-label'
+  = form.text_area :description, rows: 4, class: 'form-control wysihtml-editor'
+hr
+.row
+  .col-sm-4
+    .form-group.text-center
+      = form.button 'Save Before &amp; After'.html_safe, class: 'btn btn-block btn-primary'

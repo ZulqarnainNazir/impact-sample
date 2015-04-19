@@ -1,0 +1,12 @@
+- title 'Edit Business Offer'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li = link_to 'Existing Content', [@business, :content_feed]
+  li.active Edit Offer
+
+= errors_for @offer
+= form_for @offer, url: [@business, :content, @offer] do |form|
+  = render form

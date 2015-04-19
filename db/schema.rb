@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 18) do
+ActiveRecord::Schema.define(version: 25) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 18) do
 
   add_index "authorizations", ["business_id"], name: "index_authorizations_on_business_id", using: :btree
   add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id", using: :btree
+
+  create_table "before_afters", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "title",       null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
 
   create_table "blocks", force: :cascade do |t|
     t.integer  "frame_id",                          null: false
@@ -107,6 +117,26 @@ ActiveRecord::Schema.define(version: 18) do
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
 
+  create_table "galleries", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "title",       null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
+
+  create_table "gallery_images", force: :cascade do |t|
+    t.integer  "gallery_id",              null: false
+    t.text     "description"
+    t.integer  "position",    default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "gallery_images", ["gallery_id"], name: "index_gallery_images_on_gallery_id", using: :btree
+
   create_table "images", force: :cascade do |t|
     t.integer  "business_id",             null: false
     t.integer  "user_id",                 null: false
@@ -149,6 +179,17 @@ ActiveRecord::Schema.define(version: 18) do
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
 
+  create_table "offers", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "title",       null: false
+    t.text     "offer",       null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
+
   create_table "openings", force: :cascade do |t|
     t.integer  "location_id",                 null: false
     t.time     "opens_at"
@@ -180,6 +221,36 @@ ActiveRecord::Schema.define(version: 18) do
 
   add_index "placements", ["image_id"], name: "index_placements_on_image_id", using: :btree
   add_index "placements", ["placer_type", "placer_id"], name: "index_placements_on_placer_type_and_placer_id", using: :btree
+
+  create_table "posts", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "title",       null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
+
+  create_table "project_images", force: :cascade do |t|
+    t.integer  "project_id",              null: false
+    t.text     "description"
+    t.integer  "position",    default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "project_images", ["project_id"], name: "index_project_images_on_project_id", using: :btree
+
+  create_table "projects", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "title",       null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "projects", ["business_id"], name: "index_projects_on_business_id", using: :btree
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false

@@ -1,0 +1,8 @@
+.feed-item.feed-project
+  .feed-item-meta
+    => icon 'briefcase'
+    strong> Project
+    span.pull-right
+      span.text-muted Posted #{time_ago_in_words project.created_at} ago
+  h2 = project.title
+  = project.description_html

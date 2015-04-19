@@ -13,8 +13,8 @@ br
   hr
 h2.h3 What do you want do do?
 .row.dashboard-root-primary-panels
-  .col-sm-6.col-lg-3 style="pointer-events:none; opacity:0.4"
-    = link_to '#' do
+  .col-sm-6.col-lg-3
+    = link_to [@business, :content_feed] do
       .panel.panel-primary
         .panel-heading
           .row
@@ -71,8 +71,8 @@ hr
 h2.h3
   ' Post new content
   span.small Select post type
-.row.dashboard-root-secondary-panels style="pointer-events:none; opacity:0.4"
-  .col-sm-6.col-md-4.col-lg-2
+.row.dashboard-root-secondary-panels
+  .col-sm-6.col-md-4.col-lg-2 style="pointer-events:none; opacity:0.4"
     = link_to '#' do
       .panel.panel-primary
         .panel-heading
@@ -81,15 +81,15 @@ h2.h3
           span.pull-left> New Event
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to '#' do
+    = link_to [:new, @business, :content_gallery] do
       .panel.panel-success
         .panel-heading
-          i.fa.fa-ticket.fa-4x
+          i.fa.fa-photo.fa-4x
         .panel-footer.text-right
-          span.pull-left> New Offer
+          span.pull-left> New Gallery
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to '#' do
+    = link_to [:new, @business, :content_project] do
       .panel.panel-warning
         .panel-heading
           i.fa.fa-tasks.fa-4x
@@ -97,29 +97,29 @@ h2.h3
           span.pull-left> New Project
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to '#' do
+    = link_to [:new, @business, :content_offer] do
       .panel.panel-danger
         .panel-heading
-          i.fa.fa-photo.fa-4x
+          i.fa.fa-ticket.fa-4x
         .panel-footer.text-right
-          span.pull-left> New Gallery
+          span.pull-left> New Offer
           i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
-    = link_to '#' do
-      .panel.panel-success
+  .col-sm-6.col-md-4.col-lg-2 style="pointer-events:none; opacity:0.4"
+    = link_to '#'  do
+      .panel.panel-primary
         .panel-heading
           i.fa.fa-bullhorn.fa-4x
         .panel-footer.text-right
-          span.pull-left> New Product
+          span.pull-left> Product
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to '#' do
-      .panel.panel-primary
+    = link_to [:new, @business, :content_post] do
+      .panel.panel-success
         .panel-heading
           i.fa.fa-edit.fa-4x
         .panel-footer.text-right
           span.pull-left> Custom Post
           i.fa.fa-arrow-circle-right
 hr
-p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', '#', style: 'pointer-events:none; opacity:0.4'} if you don't see a match. 
+p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post]} if you don't see a match.
 p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your allies, the Locable Publisher Network, and any linked accounts.

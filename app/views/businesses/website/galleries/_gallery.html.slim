@@ -1,0 +1,9 @@
+.feed-item.feed-gallery
+  .feed-item-meta
+    => icon 'photo'
+    strong> Gallery
+    span.pull-right
+      span.text-muted Posted #{time_ago_in_words gallery.created_at} ago
+  h2 = gallery.title
+  = gallery.description_html
+| CONTENT_FEED_ITEM_END

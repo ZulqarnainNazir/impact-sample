@@ -53,8 +53,8 @@ TeamBlockHandlers =
     visible: this.state.editing
     prev: this.teamBlockPrevTheme
     next: this.teamBlockNextTheme
-    removeLabel: 'Remove About Block'
-    onRemove: this.aboutBlockRemove
+    removeLabel: 'Remove Team Block'
+    onRemove: this.teamBlockRemove
   # PRIVATE LEVEL 2
 
   teamBlockDefaultProps: ->

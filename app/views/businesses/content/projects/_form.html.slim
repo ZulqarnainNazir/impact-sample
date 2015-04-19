@@ -1,0 +1,13 @@
+.row
+  .col-sm-8
+    .form-group
+      = form.label :title, class: 'control-label'
+      = form.text_field :title, class: 'form-control'
+    .form-group
+      = form.label :description, class: 'control-label'
+      = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor'
+hr
+.row
+  .col-sm-4
+    .form-group.text-center
+      = form.button 'Save Project', class: 'btn btn-block btn-primary'

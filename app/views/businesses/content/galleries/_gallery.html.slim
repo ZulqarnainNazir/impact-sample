@@ -1,0 +1,11 @@
+.feed-item.feed-gallery
+  .feed-item-meta
+    => icon 'photo'
+    strong> Gallery
+    span.pull-right
+      span.text-muted> Posted #{time_ago_in_words gallery.created_at} ago
+      span.btn-group.btn-group-sm style="margin-left:8px"
+        = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
+        = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  h2 = gallery.title
+  = gallery.description_html

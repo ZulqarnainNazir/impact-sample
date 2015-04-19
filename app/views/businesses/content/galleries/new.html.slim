@@ -1,0 +1,11 @@
+- title 'New Business Gallery'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li.active New Gallery
+
+= errors_for @gallery
+= form_for @gallery, url: [@business, :content_galleries] do |form|
+  = render form

@@ -6,7 +6,7 @@ html lang="en"
     .container
       .row
         .col-md-3.col-lg-2.dashboard-menu
-          = form_tag '#', method: :get do
+          = form_tag [@business, :content_feed], method: :get do
             .form-group
               = label_tag :query, 'Query', class: 'sr-only'
               .input-group
@@ -25,27 +25,29 @@ html lang="en"
                 li = link_to [@business, :dashboard] do
                   i.fa.fa-tachometer>
                   | Dashboard
-                li
-                  span style="pointer-events:none; opacity:0.4"
+                li class=('active' if controller_path.match(/\Abusinesses\/content/))
+                  span
                     i.fa.fa-bar-chart>
                     ' Manage Content
                   ul.list-unstyled
-                    li = link_to '#' do
+                    li = link_to [@business, :content_feed] do
                       i.fa.fa-sitemap>
                       | Existing Content
-                    li.divider
-                    li = link_to '#' do
-                      i.fa.fa-edit>
-                      | New Post
-                    li = link_to '#' do
-                      i.fa.fa-calendar>
-                      | New Event
-                    li = link_to '#' do
-                      i.fa.fa-ticket>
-                      | New Offer
-                    li = link_to '#' do
+                    li.list-divider = link_to [:new, @business, :content_gallery] do
+                      i.fa.fa-photo>
+                      | New Gallery
+                    li = link_to [:new, @business, :content_project] do
+                      i.fa.fa-briefcase>
+                      | New Project
+                    li = link_to [:new, @business, :content_before_after] do
                       i.fa.fa-tasks>
                       | New Before &amp; After
+                    li = link_to [:new, @business, :content_offer] do
+                      i.fa.fa-ticket>
+                      | New Offer
+                    li = link_to [:new, @business, :content_post] do
+                      i.fa.fa-edit>
+                      | Custom Post
                 - if @business.website
                   li class=('active' if controller_path.match(/\Abusinesses\/website/))
                     span

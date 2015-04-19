@@ -41,6 +41,16 @@ Rails.application.routes.draw do
       scope module: :businesses do
         resource :dashboard, path: '', only: %i[show]
 
+        namespace :content do
+          root to: 'roots#show'
+          resource :feed, only: %i[show]
+          resources :posts, only: %i[new create edit update destroy]
+          resources :galleries, only: %i[new create edit update destroy]
+          resources :projects, only: %i[new create edit update destroy]
+          resources :before_afters, only: %i[new create edit update destroy]
+          resources :offers, only: %i[new create edit update destroy]
+        end
+
         namespace :data do
           root to: 'roots#show'
           resource :details, only: %i[edit update]

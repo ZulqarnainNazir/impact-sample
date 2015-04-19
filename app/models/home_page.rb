@@ -7,6 +7,7 @@ class HomePage < Webpage
     has_many :specialty_blocks
     has_many :tagline_blocks
     has_one :hero_block
+    has_one :feed_block
   end
 
   with_options allow_destroy: true, reject_if: :all_blank do
@@ -15,12 +16,14 @@ class HomePage < Webpage
     accepts_nested_attributes_for :specialty_blocks
     accepts_nested_attributes_for :call_to_action_blocks
     accepts_nested_attributes_for :content_blocks
+    accepts_nested_attributes_for :feed_block
   end
 
   before_validation on: :setup do
     if website.business
       self.hero_block_attributes = default_hero_block_attributes(website.business)
       self.tagline_blocks_attributes = [default_tagline_block_attributes(website.business)]
+      self.feed_block_attributes = { spoof: true }
     end
   end
 

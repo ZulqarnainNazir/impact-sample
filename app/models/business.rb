@@ -5,8 +5,13 @@ class Business < ActiveRecord::Base
 
   with_options dependent: :destroy do
     has_many :authorizations
+    has_many :before_afters
     has_many :categorizations
     has_many :contact_messages
+    has_many :galleries
+    has_many :offers
+    has_many :posts
+    has_many :projects
     has_many :team_members
     has_many :users
     has_one :location

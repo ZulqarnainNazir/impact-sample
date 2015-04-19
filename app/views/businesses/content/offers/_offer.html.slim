@@ -1,0 +1,15 @@
+.feed-item.feed-offer
+  .feed-item-meta
+    => icon 'ticket'
+    strong> Offer
+    span.pull-right
+      span.text-muted> Posted #{time_ago_in_words offer.created_at} ago
+      span.btn-group.btn-group-sm style="margin-left:8px"
+        = link_to icon('pencil'), [:edit, @business, :content, offer], class: 'btn btn-default'
+        = link_to icon('trash'), [@business, :content, offer], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  .panel.panel-default
+    .panel-heading
+      h2.panel-title = offer.title
+    .panel-body
+      span.btn.btn-lg.btn-primary.pull-right = offer.offer
+      = offer.description_html

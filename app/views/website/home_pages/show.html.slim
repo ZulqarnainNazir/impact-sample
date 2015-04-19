@@ -19,3 +19,6 @@
     - when 'content'
       - if @page.content_blocks.any?
         = render @page.content_blocks
+    - when 'feed'
+      - if @page.feed_block
+        = render @feed_items

@@ -35,7 +35,7 @@ class Webpage < ActiveRecord::Base
 
   def block_types
     order = block_type_order.to_s.split(',')
-    %w[hero tagline call_to_action specialty content].each do |type|
+    %w[hero tagline call_to_action specialty content feed].each do |type|
       order << type unless order.include?(type)
     end
     order

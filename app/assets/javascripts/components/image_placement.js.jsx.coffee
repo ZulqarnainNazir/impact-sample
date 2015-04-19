@@ -5,6 +5,7 @@ ImagePlacement = React.createClass
     label: React.PropTypes.string.isRequired
     placement: React.PropTypes.object.isRequired
     presignedPost: React.PropTypes.object.isRequired
+    buttonsSize: React.PropTypes.string
 
   getInitialState: ->
     imageAlt: this.props.placement.image.alt
@@ -100,14 +101,16 @@ ImagePlacement = React.createClass
 
   renderButtons: ->
     if this.state.uploadState is 'empty' or this.state.uploadState is 'failed' or this.state.uploadState is 'attached'
+      uploadLabel = if this.props.buttonsSize is 'small' then 'Upload' else 'Upload Image'
+      browseLabel = if this.props.buttonsSize is 'small' then 'Browse' else 'Browse Library'
       `<div>
         <input type="file" className="hidden" ref="fileInput" />
         <span className="btn-group btn-group-sm">
           <span onClick={this.triggerFileInput} className="btn btn-default">
-            <i className="fa fa-cloud-upload" /> Upload Image
+            <i className="fa fa-cloud-upload" /> {uploadLabel}
           </span>
           <span onClick={this.loadInitialLibraryImages} className="btn btn-default" data-toggle="modal" data-target={'#' + this.id('library')}>
-            <i className="fa fa-th" /> Browse Library
+            <i className="fa fa-th" /> {browseLabel}
           </span>
         </span>
         <span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">

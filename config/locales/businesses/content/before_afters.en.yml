@@ -1,0 +1,13 @@
+en:
+  businesses:
+    content:
+      before_afters:
+        create:
+          notice: Your Before & After was added successfully.
+          alert: There was a problem saving your before & after.
+        update:
+          notice: Your Before & After was updated successfully.
+          alert: There was a problem saving your Before & After.
+        destroy:
+          notice: Your Before & After was deleted successfully.
+          alert: There was a problem removing your Before & After.

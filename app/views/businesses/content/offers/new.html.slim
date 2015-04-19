@@ -1,0 +1,11 @@
+- title 'New Business Offer'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li.active New Offer
+
+= errors_for @offer
+= form_for @offer, url: [@business, :content_offers] do |form|
+  = render form

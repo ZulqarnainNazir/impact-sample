@@ -1,0 +1,13 @@
+en:
+  businesses:
+    content:
+      posts:
+        create:
+          notice: Your Post was added successfully.
+          alert: There was a problem saving your Post.
+        update:
+          notice: Your Post was updated successfully.
+          alert: There was a problem saving your Post.
+        destroy:
+          notice: Your Post was deleted successfully.
+          alert: There was a problem removing your Post.
