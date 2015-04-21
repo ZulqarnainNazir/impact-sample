@@ -1,6 +1,6 @@
 .row
   .col-sm-4
-    .list-inline
+    ul.list-inline
       - if business.facebook_id?
         li = link_to "https://www.facebook.com/#{business.facebook_id}", target: :_blank do
           i.fa.fa-facebook-square.fa-2x

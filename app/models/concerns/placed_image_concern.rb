@@ -3,27 +3,60 @@ module PlacedImageConcern
 
   class_methods do
     def has_placed_image(association_name)
+      association_name = association_name.to_sym
       placement_name = "#{association_name}_placement".to_sym
 
       has_one placement_name, -> { where(context: association_name) }, as: :placer, class_name: Placement.name, dependent: :destroy
       has_one association_name, through: placement_name, source: :image
 
-      rejection_proc = proc do |attributes|
-        attributes.all? do |k, v|
-          k == '_destroy' || k == 'placer' || k == 'context' || v.blank? ||
-            (k == 'image_attributes' && v.all? { |k, v| k == '_destroy' || k == 'business' || k == 'user' || v.blank? })
+      accepts_nested_attributes_for placement_name, allow_destroy: true, reject_if: :all_blank
+
+      define_method "#{placement_name}_attributes=" do |attr = {}|
+        attr = attr.with_indifferent_access
+        if attr[:image_id].present?
+          super(
+            id: attr[:id],
+            placer: self,
+            context: association_name,
+            image_id: attr[:image_id],
+            image_attributes: {
+              id: attr[:image_id],
+              alt: attr[:image_alt],
+              title: attr[:image_title],
+            },
+            _destroy: attr[:_destroy],
+          )
+        elsif attr[:image_attachment_cache_url].present?
+          super(
+            id: attr[:id],
+            placer: self,
+            context: association_name,
+            image_attributes: {
+              alt: attr[:image_alt],
+              title: attr[:image_title],
+              attachment_cache_url: attr[:image_attachment_cache_url],
+              attachment_content_type: attr[:image_attachment_content_type],
+              attachment_file_name: attr[:image_attachment_file_name],
+              attachment_file_size: attr[:image_attachment_file_size],
+              business: attr[:image_business],
+              user: attr[:image_user],
+            },
+            _destroy: attr[:_destroy],
+          )
+        elsif attr[:id].present?
+          super(
+            id: attr[:id],
+            placer: self,
+            context: association_name,
+            _destroy: attr[:_destroy],
+          )
         end
       end
 
-      accepts_nested_attributes_for placement_name, allow_destroy: true, reject_if: rejection_proc
-
-      define_method "#{placement_name}_attributes=" do |attributes = {}|
-        super attributes.merge(placer: self, context: association_name)
-      end
-
-      define_method "#{association_name}_url" do |*args|
-        placement = send(placement_name)
-        placement.send(:attachment_url, *args) if placement
+      define_method "#{placement_name}_json" do |*args|
+        placement = send(placement_name) || send("build_#{placement_name}")
+        placement.build_image unless placement.image
+        placement.as_json(include: { image: { methods: :attachment_url }})
       end
     end
   end

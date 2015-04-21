@@ -59,6 +59,7 @@ TeamBlockHandlers =
 
   teamBlockDefaultProps: ->
     teamMembers: this.props.teamMembers
+    theme: 'vertical'
 
   teamBlockAdd: (event, callback) ->
     event.preventDefault() if event

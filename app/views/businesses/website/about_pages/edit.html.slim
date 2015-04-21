@@ -22,7 +22,18 @@ ol.breadcrumb
           p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@about_page.pathname, host: website_host(@business.website)), target: :_blank do
             ' Preview Saved Webpage
             i.fa.fa-external-link style="margin-left:2px"
-    = react_component 'AboutPage', render(partial: 'about_page', object: @about_page, locals: { business: @business }, formats: 'json')
+    = react_component 'AboutPage',
+      browserButtonsSrc: image_path('browser-buttons.png'),
+      defaultBackgroundColor: form.object.website.background_color,
+      defaultForegroundColor: form.object.website.foreground_color,
+      defaultLinkColor: form.object.website.link_color,
+      presignedPost: s3_presigned_post_hash,
+      imagesPath: business_images_path(form.object.website.business),
+      teamMembers: form.object.website.business.team_members.as_json(methods: %i[name small_profile_url large_profile_url]),
+      teamMembersPath: business_data_team_members_path(form.object.website.business),
+      initialAboutBlock: form.object.about_block.try(:as_block_json, form.object.about_block.try(:about_block_image_placement)),
+      defaultAboutBlockAttributes: form.object.default_about_block_attributes(form.object.website.business),
+      initialTeamBlock: form.object.website.business.team_members.any? ? form.object.team_block.try(:as_block_json) : nil
     .webpage-submit
       .row
         .col-sm-4.col-sm-offset-4

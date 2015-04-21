@@ -6,14 +6,6 @@ class HeroBlock < Block
   before_validation do
     self.theme = 'left' unless theme?
     self.style = 'light' unless style?
-    self.hero_block_image_placement_attributes = image_accessor_attributes if image_accessors?
-  end
-
-  def react_attributes
-    super(hero_block_image, hero_block_image_placement).merge(
-      background_color: background_color,
-      foreground_color: foreground_color,
-    )
   end
 
   def css_class

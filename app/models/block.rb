@@ -1,20 +1,6 @@
 class Block < ActiveRecord::Base
   include PlacedImageConcern
 
-  attr_accessor(
-    :image_placement_id,
-    :image_placement_destroy,
-    :image_id,
-    :image_cache_url,
-    :image_alt,
-    :image_title,
-    :image_file_name,
-    :image_file_size,
-    :image_content_type,
-    :image_business,
-    :image_user,
-  )
-
   enum link_version: {
     link_none: 0,
     link_internal: 1,
@@ -27,116 +13,57 @@ class Block < ActiveRecord::Base
   validates :theme, presence: true
   validates :type, presence: true, exclusion: { in: %w[Block] }
 
-  def image_accessors?
-    [
-      :image_placement_id,
-      :image_placement_destroy,
-      :image_id,
-      :image_cache_url,
-      :image_alt,
-      :image_title,
-      :image_file_name,
-      :image_file_size,
-      :image_content_type,
-    ].any? do |attr|
-      send(attr).present?
-    end
-  end
-
-  def image_accessor_attributes
-    accessor_attributes = {
-      id: image_placement_id,
-      _destroy: image_placement_destroy,
-      image_attributes: {
-        alt: image_alt,
-        title: image_title,
-      }
-    }
-
-    if image_id.present?
-      accessor_attributes.deep_merge(
-        image_id: image_id,
-        image_attributes: {
-          id: image_id,
-        }
-      )
-    else
-      accessor_attributes.deep_merge(
-        image_attributes: {
-          attachment_cache_url: image_cache_url,
-          attachment_file_name: image_file_name,
-          attachment_file_size: image_file_size,
-          attachment_content_type: image_content_type,
-          user: image_user,
-          business: image_business,
-        }
-      )
-    end
-  end
-
-  def react_attributes(image = nil, placement = nil)
-    if image && image.is_a?(Image)
-      attributes.merge(
-        image_id: image.id,
-        image_placement_id: placement.id,
-        image_alt: image.alt,
-        image_title: image.title,
-        image_url: image.attachment_url,
-        image_cache_url: image_cache_url || image.attachment_cache_url,
-        image_file_name: image_file_name || image.attachment_file_name,
-        image_file_size: image_file_size || image.attachment_file_size,
-        image_file_type: image_content_type || image.attachment_content_type,
-        image_state: 'attached',
-      )
-    elsif image_cache_url.present?
-      attributes.merge(
-        image_url: image_cache_url,
-        image_cache_url: image_cache_url,
-        image_file_name: image_file_name,
-        image_file_size: image_file_size,
-        image_file_type: image_content_type,
-        image_state: 'attached',
-      )
-    else
-      attributes.merge(
-        image_state: 'empty',
-      )
-    end.merge(
-      key: (rand * 10 ** 10).to_i,
-      link_version: link_version,
-    )
-  end
-
-  def link_external_url=(value)
-    if value.to_s.match(/\Ahttp/)
-      super(value.to_s)
-    else
-      super("http://#{value}")
-    end
+  def key
+    (SecureRandom.random_number*10**20).to_i
   end
 
   def heading_html
-    heading
+    Sanitize.fragment(heading.to_s, Sanitize::Config::RESTRICTED).html_safe
   end
 
   def subheading_html
-    subheading
+    Sanitize.fragment(subheading.to_s, Sanitize::Config::RESTRICTED).html_safe
   end
 
   def text_html
     Sanitize.fragment(text.to_s, Sanitize::Config::RELAXED).html_safe
   end
 
-  def button?
-    (link_version == 'link_internal' && link_label? && link.present?) ||
-    (link_version == 'link_external' && link_label? && link_external_url?)
+  def link?
+    (link_internal? && link_label? && link.present?) ||
+    (link_external? && link_label? && link_external_url?)
+  end
+
+  def link_external_url=(value)
+    value.to_s.match(/\Ahttp/) ? super(value.to_s) : super("http://#{value}")
   end
 
   def link_location
-    if link_version == 'link_internal'
+    if link_internal?
       link.pathname.blank? ? '/' : Rails.application.routes.url_helpers.website_custom_page_path(link.pathname)
-    elsif link_version == 'link_external'
+    elsif link_external?
       link_external_url
+    end
+  end
+
+  def as_block_json(placement = nil, *args)
+    if placement.present? && placement.image.present?
+      as_json(*args).merge(
+        image_placement_id: placement.id,
+        image_id: placement.image.id,
+        image_alt: placement.image.alt,
+        image_cache_url: placement.image.attachment_cache_url,
+        image_content_type: placement.image.attachment_content_type,
+        image_file_name: placement.image.attachment_file_name,
+        image_file_size: placement.image.attachment_file_size,
+        image_title: placement.image.title,
+        image_url: placement.image.attachment_url,
+        image_state: 'attached',
+      )
+    else
+      as_json(*args).merge(
+        image_state: 'empty',
+      )
     end
   end
 end

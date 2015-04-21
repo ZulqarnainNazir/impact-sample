@@ -1,4 +1,6 @@
 class Onboard::Website::BusinessesController < Onboard::Website::BaseController
+  include PlacementAttributesConcern
+
   before_action only: new_actions + %i[import] do
     @business = Business.new
     @business.owners = [current_user] unless current_user.super_user?
@@ -52,26 +54,11 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       :website_url,
       :year_founded,
       category_ids: [],
-      logo_placement_attributes: [
-        :id,
-        :_destroy,
-        image_attributes: [
-          :id,
-          :alt,
-          :title,
-          :attachment_cache_url,
-          :attachment_content_type,
-          :attachment_file_name,
-          :attachment_file_size,
-          :_destroy,
-        ],
-      ],
+      logo_placement_attributes: placement_attributes,
     ).deep_merge(
       logo_placement_attributes: {
-        image_attributes: {
-          user: current_user,
-          business: @business,
-        },
+        image_user: current_user,
+        image_business: @business,
       },
     )
   end
@@ -94,12 +81,10 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       year_founded: page[:founded],
       facebook_id: facebook_id,
       logo_placement_attributes: {
-        image_attributes: {
-          attachment_cache_url: picture_url,
-          attachment_file_name: picture_name,
-          user: current_user,
-          business: @business,
-        },
+        image_attachment_cache_url: picture_url,
+        image_attachment_file_name: picture_name,
+        image_user: current_user,
+        image_business: @business,
       },
       location_attributes: {
         name: page[:location].try(:[], :name),
@@ -129,11 +114,9 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
             heading: page[:name],
             text: page[:description],
             hero_block_image_placement_attributes: {
-              image_attributes: {
-                attachment_cache_url: page[:cover].try(:[], :source),
-                user: current_user,
-                business: @business,
-              },
+              image_attachment_cache_url: page[:cover].try(:[], :source),
+              image_user: current_user,
+              image_business: @business,
             },
           },
         },

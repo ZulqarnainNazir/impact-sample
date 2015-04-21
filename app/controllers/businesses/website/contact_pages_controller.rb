@@ -1,4 +1,6 @@
 class Businesses::Website::ContactPagesController < Businesses::Website::BaseController
+  include BlockAttributesConcern
+
   layout 'application'
 
   before_action do

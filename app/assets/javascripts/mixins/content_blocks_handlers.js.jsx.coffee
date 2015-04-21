@@ -46,8 +46,14 @@ ContentBlocksHandlers =
   contentBlockID: (block, name) ->
     "content-blocks-#{block.key}-attributes-#{name}"
 
+  contentBlockPlacementID: (block, name) ->
+    "content-blocks-#{block.key}-content-block-image-placement-attributes-#{name}"
+
   contentBlockName: (block, name) ->
     "content_blocks_attributes[#{block.key}][#{name}]"
+
+  contentBlockPlacementName: (block, name) ->
+    "content_blocks_attributes[#{block.key}][content_block_image_placement_attributes][#{name}]"
 
   contentBlockDropZoneClassName: (block) ->
     "content-blocks-#{block.key}-drop-zone"
@@ -75,7 +81,7 @@ ContentBlocksHandlers =
   contentBlockInputImageProps: (block) ->
     init: this.contentBlockImageInit.bind(null, block)
     id: this.contentBlockID.bind(null, block)
-    name: this.contentBlockName.bind(null, block)
+    name: this.contentBlockPlacementName.bind(null, block)
     showImageLibrary: this.contentBlockShowImageLibrary.bind(null, block)
     removeImage: this.contentBlockRemoveImage.bind(null, block)
     alt: block.image_alt
@@ -91,10 +97,10 @@ ContentBlocksHandlers =
     state: block.image_state
     file_name: block.image_file_name
     file_size: block.image_file_size
-    file_type: block.image_file_type
+    content_type: block.image_content_type
     temp_file_name: block.image_temp_file_name
     temp_file_size: block.image_temp_file_size
-    temp_file_type: block.image_temp_file_type
+    temp_content_type: block.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.contentBlockDropZoneClassName(block)
 
@@ -166,9 +172,9 @@ ContentBlocksHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
-    this.contentBlockInputSetVal block, 'image_alt', ''
-    this.contentBlockInputSetVal block, 'image_title', ''
+      image_temp_content_type: null
+    this.contentBlockPlacementInputSetVal block, 'image_alt', ''
+    this.contentBlockPlacementInputSetVal block, 'image_title', ''
 
   contentBlockSwapForm: (block) ->
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
@@ -184,15 +190,15 @@ ContentBlocksHandlers =
         image_temp_file_name: null
         image_file_size: block.image_temp_file_size
         image_temp_file_size: null
-        image_file_type: block.image_temp_file_type
-        image_temp_file_type: null
-        image_alt: this.contentBlockInputGetVal(block, 'image_alt')
-        image_title: this.contentBlockInputGetVal(block, 'image_title')
+        image_content_type: block.image_temp_content_type
+        image_temp_content_type: null
+        image_alt: this.contentBlockPlacementInputGetVal(block, 'image_alt')
+        image_title: this.contentBlockPlacementInputGetVal(block, 'image_title')
         text: this.contentBlockInputGetVal(block, 'text')
     else
       this.contentBlockUpdate block,
-        image_alt: this.contentBlockInputGetVal(block, 'image_alt')
-        image_title: this.contentBlockInputGetVal(block, 'image_title')
+        image_alt: this.contentBlockPlacementInputGetVal(block, 'image_alt')
+        image_title: this.contentBlockPlacementInputGetVal(block, 'image_title')
         text: this.contentBlockInputGetVal(block, 'text')
 
   contentBlockResetForm: (block) ->
@@ -202,7 +208,7 @@ ContentBlocksHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
+      image_temp_content_type: null
     callback = null
     if block.upload_xhr
       $(block.upload_xhr.getDOMNode()).fileupload('destroy')
@@ -213,8 +219,8 @@ ContentBlocksHandlers =
     else
       attributes.image_state = 'empty'
     this.contentBlockUpdate block, attributes, null, callback
-    this.contentBlockInputSetVal block, 'image_alt', block.image_alt
-    this.contentBlockInputSetVal block, 'image_title', block.image_title
+    this.contentBlockPlacementInputSetVal block, 'image_alt', block.image_alt
+    this.contentBlockPlacementInputSetVal block, 'image_title', block.image_title
     if $('#' + this.contentBlockID(block, 'text')).data('wysihtml5')
       $('#' + this.contentBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
 
@@ -267,14 +273,14 @@ ContentBlocksHandlers =
     this.contentBlockUpdate block,
       displayImageLibrary: false
       image_state: 'attached'
-      image_temp_id: image.image_id
+      image_temp_id: image.id
       image_temp_placement_destroy: null
-      image_temp_cache_url: image.image_url
-      image_temp_file_name: image.image_file_name
-      image_temp_file_size: image.image_file_size
-      image_temp_file_type: image.image_file_type
-    this.contentBlockInputSetVal block, 'image_alt', image.image_alt
-    this.contentBlockInputSetVal block, 'image_title', image.image_title
+      image_temp_cache_url: image.attachment_url
+      image_temp_file_name: image.attachment_file_name
+      image_temp_file_size: image.attachment_file_size
+      image_temp_content_type: image.attachment_content_type
+    this.contentBlockPlacementInputSetVal block, 'image_alt', image.alt
+    this.contentBlockPlacementInputSetVal block, 'image_title', image.title
 
   contentBlockThemes: ['left', 'right', 'full']
 
@@ -283,6 +289,12 @@ ContentBlocksHandlers =
 
   contentBlockInputSetVal: (block, name, value) ->
     $('#' + this.contentBlockID(block, name)).val(value)
+
+  contentBlockPlacementInputGetVal: (block, name) ->
+    $('#' + this.contentBlockPlacementID(block, name)).val()
+
+  contentBlockPlacementInputSetVal: (block, name, value) ->
+    $('#' + this.contentBlockPlacementID(block, name)).val(value)
 
   contentBlockImageAdd: (block, event, data) ->
     blockFilter = (b) -> b.key == block.key
@@ -343,8 +355,8 @@ ContentBlocksHandlers =
       image_temp_cache_url: event.target.result
       image_temp_file_name: file.name
       image_temp_file_size: file.size
-      image_temp_file_type: file.type
-    this.contentBlockInputSetVal foundBlock, 'image_alt', ''
-    this.contentBlockInputSetVal foundBlock, 'image_title', ''
+      image_temp_content_type: file.type
+    this.contentBlockPlacementInputSetVal foundBlock, 'image_alt', ''
+    this.contentBlockPlacementInputSetVal foundBlock, 'image_title', ''
 
 window.ContentBlocksHandlers = ContentBlocksHandlers

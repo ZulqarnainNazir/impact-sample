@@ -19,10 +19,10 @@ BlockInputImage = React.createClass
     temp_cache_url: React.PropTypes.string
     file_name: React.PropTypes.string
     file_size: React.PropTypes.number
-    file_type: React.PropTypes.string
+    content_type: React.PropTypes.string
     temp_file_name: React.PropTypes.string
     temp_file_size: React.PropTypes.number
-    temp_file_type: React.PropTypes.string
+    temp_content_type: React.PropTypes.string
     label: React.PropTypes.string
     dropZoneClassName: React.PropTypes.string
 
@@ -47,10 +47,10 @@ BlockInputImage = React.createClass
       this.props.file_name
 
   fileType: ->
-    if this.props.temp_file_type and this.props.temp_file_type.length > 0
-      this.props.temp_file_type
+    if this.props.temp_content_type and this.props.temp_content_type.length > 0
+      this.props.temp_content_type
     else
-      this.props.file_type
+      this.props.content_type
 
   fileSize: ->
     if this.props.temp_file_size
@@ -70,9 +70,9 @@ BlockInputImage = React.createClass
   render: ->
     `<div className="form-group">
       <label className="control-label">{this.props.label}</label>
+      <input type="hidden" name={this.props.name('id')} value={this.props.image_placement_id} />
+      <input type="hidden" name={this.props.name('_destroy')} value={this.props.image_placement_destroy} />
       <input type="hidden" name={this.props.name('image_id')} value={this.props.image_id} />
-      <input type="hidden" name={this.props.name('image_placement_id')} value={this.props.image_placement_id} />
-      <input type="hidden" name={this.props.name('image_placement_destroy')} value={this.props.image_placement_destroy} />
       <div className="row">
         <div className="col-sm-4">
           {this.renderImage()}
@@ -89,10 +89,10 @@ BlockInputImage = React.createClass
     if this.props.image_temp_placement_destroy != '1' and this.url() and this.url().length > 0
       `<div className={this.props.dropZoneClassName}>
         <div className="small">
-          <input type="hidden" name={this.props.name('image_cache_url')} value={this.props.cache_url} />
-          <input type="hidden" name={this.props.name('image_file_name')} value={this.props.file_name} />
-          <input type="hidden" name={this.props.name('image_file_size')} value={this.props.file_size} />
-          <input type="hidden" name={this.props.name('image_content_type')} value={this.props.file_type} />
+          <input type="hidden" name={this.props.name('image_attachment_cache_url')} value={this.props.cache_url} />
+          <input type="hidden" name={this.props.name('image_attachment_content_type')} value={this.props.content_type} />
+          <input type="hidden" name={this.props.name('image_attachment_file_name')} value={this.props.file_name} />
+          <input type="hidden" name={this.props.name('image_attachment_file_size')} value={this.props.file_size} />
           <div className="thumbnail"><img style={{width: '100%'}} src={this.url()} /></div>
           <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.fileName()}</strong></div>
           <div>{this.fileType()} – {this.fileSize()}</div>

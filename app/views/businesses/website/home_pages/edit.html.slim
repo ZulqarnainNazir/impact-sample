@@ -22,7 +22,23 @@ ol.breadcrumb
           p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_root_url(host: website_host(@business.website)), target: :_blank do
             ' Preview Saved Webpage
             i.fa.fa-external-link style="margin-left:2px"
-    = react_component 'HomePage', render(partial: 'home_page', object: @home_page, locals: { business: @business }, formats: 'json')
+    = react_component 'HomePage',
+      browserButtonsSrc: image_path('browser-buttons.png'),
+      defaultBackgroundColor: form.object.website.background_color,
+      defaultForegroundColor: form.object.website.foreground_color,
+      defaultLinkColor: form.object.website.link_color,
+      presignedPost: s3_presigned_post_hash,
+      imagesPath: business_images_path(form.object.website.business),
+      internalWebpages: form.object.website.webpages.select(:id, :name),
+      blockTypeOrder: form.object.block_types.join(','),
+      initialCallToActionBlocksPerRow: form.object.call_to_action_blocks_per_row,
+      initialHeroBlock: form.object.hero_block.try(:as_block_json, form.object.hero_block.try(:hero_block_image_placement), methods: %i[key background_color foreground_color]),
+      initialTaglineBlocks: form.object.tagline_blocks.as_json(methods: %i[key]),
+      initialCallToActionBlocks: form.object.call_to_action_blocks.map { |b| b.as_block_json(b.call_to_action_block_image_placement, methods: %i[key]) },
+      initialSpecialtyBlocks: form.object.specialty_blocks.map { |b| b.as_block_json(b.specialty_block_image_placement, methods: %i[key]) },
+      initialContentBlocks: form.object.content_blocks.map { |b| b.as_block_json(b.content_block_image_placement, methods: %i[key]) },
+      defaultHeroBlockAttributes: form.object.default_hero_block_attributes(form.object.website.business),
+      defaultTaglineBlockAttributes: form.object.default_tagline_block_attributes(form.object.website.business)
     .webpage-submit
       .row
         .col-sm-4.col-sm-offset-4

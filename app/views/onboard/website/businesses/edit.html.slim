@@ -25,29 +25,12 @@
               $('.js-business-kind input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default');
             });
           hr
-          .image-placement-fields
-            = form.fields_for :logo_placement, form.object.logo_placement || form.object.build_logo_placement do |placement_form|
-              = placement_form.fields_for :image, placement_form.object.image || placement_form.object.build_image do |image_form|
-                = placement_form.hidden_field :_destroy
-                = image_form.hidden_field :id, class: 'image_id'
-                = image_form.hidden_field :alt
-                = image_form.hidden_field :title
-                = image_form.hidden_field :attachment_cache_url
-                = image_form.hidden_field :attachment_content_type
-                = image_form.hidden_field :attachment_file_name
-                = image_form.hidden_field :attachment_file_size
-                - presigned_post = s3_presigned_post
-                = react_component 'ImagePlacementFields',
-                  inputPrefix: 'business',
-                  initialAlt: image_form.object.alt.to_s,
-                  initialFileName: image_form.object.attachment_file_name.to_s,
-                  initialFileSize: image_form.object.attachment_file_size.to_i,
-                  initialFileType: image_form.object.attachment_content_type.to_s,
-                  initialTitle: image_form.object.title.to_s,
-                  initialUrl: image_form.object.attachment_url.to_s,
-                  presignedPostFields: presigned_post.fields,
-                  presignedPostHost: presigned_post.url.host,
-                  presignedPostUrl: presigned_post.url.to_s
+          = react_component 'ImagePlacement',
+            imagesPath: business_images_path(form.object),
+            inputPrefix: 'business[logo_placement_attributes]',
+            label: 'Logo Image',
+            placement: form.object.logo_placement_json,
+            presignedPost: s3_presigned_post_hash
           hr
           .form-group
             = form.label :name, class: 'control-label'

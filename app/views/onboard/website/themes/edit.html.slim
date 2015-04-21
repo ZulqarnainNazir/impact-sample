@@ -3,7 +3,15 @@
 .webpage-designer data-input-prefix="website"
   = form_for @business.website, url: [:onboard_website, @business, :theme], method: :patch do |form|
     = errors_for @business.website
-    = react_component 'Theme', render(partial: 'theme', locals: { business: @business, website: @business.website }, formats: 'json')
+    = react_component 'Theme',
+      browserButtonsSrc: image_path('browser-buttons.png'),
+      defaultBackgroundColor: form.object.background_color,
+      defaultForegroundColor: form.object.foreground_color,
+      defaultLinkColor: form.object.link_color,
+      initialHeaderBlock: form.object.header_block.try(:as_theme_json, form.object.business),
+      initialFooterBlock: form.object.footer_block.try(:as_theme_json, form.object.business),
+      defaultHeaderBlockAttributes: form.object.default_header_block_attributes(form.object.business),
+      defaultFooterBlockAttributes: form.object.default_footer_block_attributes(form.object.business)
     div style="margin-top: 40px"
       => link_to [:edit_onboard_website, @business, :website], class: 'btn btn-default' do
         i.fa.fa-angle-left>

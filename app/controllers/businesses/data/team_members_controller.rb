@@ -1,4 +1,6 @@
 class Businesses::Data::TeamMembersController < Businesses::BaseController
+  include PlacementAttributesConcern
+
   before_action only: new_actions do
     @team_member = @business.team_members.new
   end
@@ -36,26 +38,11 @@ class Businesses::Data::TeamMembersController < Businesses::BaseController
       :google_plus_id,
       :linkedin_id,
       :twitter_id,
-      team_member_profile_placement_attributes: [
-        :id,
-        :_destroy,
-        image_attributes: [
-          :id,
-          :alt,
-          :title,
-          :attachment_cache_url,
-          :attachment_content_type,
-          :attachment_file_name,
-          :attachment_file_size,
-          :_destroy,
-        ],
-      ],
+      team_member_profile_placement_attributes: placement_attributes,
     ).deep_merge(
       team_member_profile_placement_attributes: {
-        image_attributes: {
-          user: current_user,
-          business: @business,
-        },
+        image_user: current_user,
+        image_business: @business,
       },
     )
   end

@@ -25,6 +25,10 @@ class Webpage < ActiveRecord::Base
     where(type: 'CustomPage')
   end
 
+  def cached_webpages_json
+    cached_webpages.as_json
+  end
+
   def home_page?
     type == 'HomePage'
   end

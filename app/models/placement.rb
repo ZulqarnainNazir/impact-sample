@@ -7,8 +7,12 @@ class Placement < ActiveRecord::Base
   validates :placer, presence: true
   validates :image, presence: true
 
+  after_save do
+    ImageAttachmentReprocessJob.perform_later(image) if image && image_id_changed?
+  end
+
   def styles
-    context.present? && respond_to?(context) ? send(context) : {}
+    context? && respond_to?(context) ? send(context) : {}
   end
 
   def logo

@@ -1,4 +1,6 @@
 class Onboard::Website::ThemesController < Onboard::Website::BaseController
+  include BlockAttributesConcern
+
   before_action do
     @business = current_user.authorized_businesses.find(params[:business_id])
 

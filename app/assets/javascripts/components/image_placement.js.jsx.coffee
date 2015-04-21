@@ -1,26 +1,29 @@
 ImagePlacement = React.createClass
   propTypes:
-    label: React.PropTypes.string
-    inputPrefix: React.PropTypes.string
-    imagesPath: React.PropTypes.string
+    imagesPath: React.PropTypes.string.isRequired
+    inputPrefix: React.PropTypes.string.isRequired
+    label: React.PropTypes.string.isRequired
+    placement: React.PropTypes.object.isRequired
+    presignedPost: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    imagePlacementID: this.props.initialPlacementID
-    imagePlacementDestroy: this.props.initialPlacementDestroy
-    imageID: this.props.initialImageID
-    imageURL: this.props.initialImageURL
-    imageAlt: this.props.initialImageAlt
-    imageTitle: this.props.initialImageTitle
-    imageContentType: this.props.initialImageContentType
-    imageFileName: this.props.initialImageFileName
-    imageFileSize: this.props.initialImageFileSize
+    imageAlt: this.props.placement.image.alt
+    imageAttachmentCacheURL: this.props.placement.image.attachment_cache_url
+    imageAttachmentContentType: this.props.placement.image.attachment_content_type
+    imageAttachmentFileName: this.props.placement.image.attachment_file_name
+    imageAttachmentFileSize: this.props.placement.image.attachment_file_size
+    imageAttachmentURL: this.props.placement.image.attachment_url
+    imageID: this.props.placement.image.id
+    imageTitle: this.props.placement.image.title
     libraryImages: []
     libraryLoaded: false
     libraryLoadedAll: false
     libraryPage: 1
     libraryVisible: false
-    uploadState: 'empty'
+    placementDestroy: null
+    placementID: this.props.placement.id
     uploadProgress: 0
+    uploadState: if this.props.placement.image.attachment_url and this.props.placement.image.attachment_url.length > 0 then 'attached' else 'empty'
     uploadXHR: null
 
   componentDidMount: ->
@@ -29,9 +32,9 @@ ImagePlacement = React.createClass
   render: ->
     `<div className="form-group">
       <label className="control-label">{this.props.label}</label>
+      <input type="hidden" name={this.name('id')} value={this.state.placementID} />
+      <input type="hidden" name={this.name('_destroy')} value={this.state.placementDestroy} />
       <input type="hidden" name={this.name('image_id')} value={this.state.imageID} />
-      <input type="hidden" name={this.name('image_placement_id')} value={this.state.imagePlacementID} />
-      <input type="hidden" name={this.name('image_placement_destroy')} value={this.state.imagePlacementDestroy} />
       <div className="row">
         <div className="col-sm-4">
           {this.renderImage()}
@@ -46,18 +49,18 @@ ImagePlacement = React.createClass
     </div>`
 
   renderImage: ->
-    if this.state.imagePlacementDestroy != '1' and this.state.imageURL and this.state.imageURL.length > 0
+    if this.state.placementDestroy != '1' and this.imageURL()
       `<div className={this.name('dropzone')}>
         <div className="small">
-          <input type="hidden" name={this.name('image_cache_url')} value={this.state.imageURL} />
-          <input type="hidden" name={this.name('image_file_name')} value={this.state.fileName} />
-          <input type="hidden" name={this.name('image_file_size')} value={this.state.fileSize} />
-          <input type="hidden" name={this.name('image_content_type')} value={this.state.contentType} />
+          <input type="hidden" name={this.name('image_attachment_cache_url')} value={this.state.imageAttachmentCacheURL} />
+          <input type="hidden" name={this.name('image_attachment_content_type')} value={this.state.imageAttachmentContentType} />
+          <input type="hidden" name={this.name('image_attachment_file_name')} value={this.state.imageAttachmentFileName} />
+          <input type="hidden" name={this.name('image_attachment_file_size')} value={this.state.imageAttachmentFileSize} />
           <div className="thumbnail">
-            <img style={{width: '100%'}} src={this.state.imageURL} />
+            <img style={{width: '100%'}} src={this.imageURL()} alt={this.state.imageAlt} title={this.state.imageTitle} />
           </div>
-          <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.imageFileName}</strong></div>
-          <div>{this.state.imageContentType} – {this.state.imageFileSize / 100}KB</div>
+          <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.imageAttachmentFileName}</strong></div>
+          <div>{this.state.imageAttachmentContentType} – {this.state.imageAttachmentFileSize / 100}KB</div>
         </div>
       </div>`
     else
@@ -142,8 +145,8 @@ ImagePlacement = React.createClass
     this.state.libraryImages.map this.renderLibraryImage
 
   renderLibraryImage: (image) ->
-    `<div key={image.image_id} className="col-xs-2">
-      <img onClick={this.selectImage.bind(null, image)} src={image.image_thumbnail_url} alt={image.image_alt} title={image.image_title} className="thumbnail" style={{width: 90, height: 90, cursor: 'pointer'}} data-dismiss="modal" />
+    `<div key={image.id} className="col-xs-2">
+      <img onClick={this.selectImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{width: 90, height: 90, cursor: 'pointer'}} data-dismiss="modal" />
     </div>`
 
   renderLibraryMoreButton: ->
@@ -158,12 +161,11 @@ ImagePlacement = React.createClass
     unless this.state.uploadXHR
       uploadXHR = $(this.getDOMNode()).fileupload
         dataType: 'XML'
-        url: this.props.presignedPostURL
-        formData: this.props.presignedPostFields
+        url: this.props.presignedPost.url
+        formData: this.props.presignedPost.fields
         paramName: 'file'
         dropZone: ".#{this.name('dropzone')}"
         add: this.uploadAdd
-        start: this.uploadStart
         progress: this.uploadProgress
         done: this.uploadDone
         fail: this.uploadFail
@@ -186,53 +188,63 @@ ImagePlacement = React.createClass
 
   selectImage: (image) ->
     this.setState
+      imageAlt: image.alt
+      imageAttachmentCacheURL: null
+      imageAttachmentContentType: image.attachment_content_type
+      imageAttachmentFileName: image.attachment_file_name
+      imageAttachmentFileSize: image.attachment_file_size
+      imageAttachmentURL: image.attachment_url
+      imageID: image.id
+      imageTitle: image.title
       libraryVisible: false
+      placementDestroy: ''
       uploadState: 'attached'
-      imageID: image.image_id
-      imagePlacementDestroy: ''
-      imageURL: image.image_url
-      imageContentType: image.image_file_type
-      imageFileName: image.image_file_name
-      imageFileSize: image.image_file_size
+    $('#' + this.id('image_alt')).val(image.alt)
+    $('#' + this.id('image_title')).val(image.title)
 
   removeImage: (event) ->
     event.preventDefault()
     this.state.uploadXHR.fileupload('destroy') if this.state.uploadXHR
     this.setState
-      imagePlacementDestroy: '1'
-      imageID: null
-      imageURL: null
       imageAlt: null
+      imageAttachmentCacheURL: null
+      imageAttachmentContentType: null
+      imageAttachmentFileName: null
+      imageAttachmentFileSize: null
+      imageAttachmentURL: null
+      imageID: null
       imageTitle: null
-      imageContentType: null
-      imageFileName: null
-      imageFileSize: null
-      uploadState: 'empty'
+      placementDestroy: '1'
       uploadProgress: 0
+      uploadState: 'empty'
       uploadXHR: null
+    $('#' + this.id('image_alt')).val('')
+    $('#' + this.id('image_title')).val('')
 
   uploadAdd: (event, data) ->
     file = data.files[0]
     reader = new FileReader()
     reader.onload = this.uploadRead.bind(null, file)
     reader.readAsDataURL file
-    formData = this.props.presignedPostFields
+    formData = this.props.presignedPost.fields
     formData['Content-Type'] = file.type
     data.formData = formData
     data.submit()
 
   uploadRead: (file, event) ->
     this.setState
+      imageAlt: ''
+      imageAttachmentCacheURL: event.target.result
+      imageAttachmentContentType: file.type
+      imageAttachmentFileName: file.name
+      imageAttachmentFileSize: file.size
+      imageAttachmentURL: null
       imageID: null
-      imagePlacementDestroy: null
-      imageURL: event.target.result
-      imageContentType: file.type
-      imageFileName: file.name
-      imageFileSize: file.size
-
-  uploadStart: (event) ->
-    this.setState
+      imageTitle: ''
+      placementDestroy: null
       uploadState: 'uploading'
+    $('#' + this.id('image_alt')).val('')
+    $('#' + this.id('image_title')).val('')
 
   uploadProgress: (event, data) ->
     if this.state.uploadState is 'uploading'
@@ -242,7 +254,7 @@ ImagePlacement = React.createClass
   uploadDone: (event, data) ->
     if this.state.uploadState is 'uploading'
       this.setState
-        imageURL: "//#{this.props.presignedPostHost}/#{$(data.jqXHR.responseXML).find('Key').text()}"
+        imageAttachmentCacheURL: "//#{this.props.presignedPost.host}/#{$(data.jqXHR.responseXML).find('Key').text()}"
         uploadState: 'finishing'
       setTimeout this.uploadFinish, 500
 
@@ -250,8 +262,8 @@ ImagePlacement = React.createClass
     if this.state.uploadState is 'finishing'
       this.state.uploadXHR.fileupload('destroy')
       attributes =
-        uploadState: 'attached',
         uploadProgress: 0
+        uploadState: 'attached',
         uploadXHR: null
       this.setState attributes, this.initializeFileUpload
 
@@ -261,10 +273,16 @@ ImagePlacement = React.createClass
         uploadState: 'failed'
 
   id: (value) ->
-    "#{this.props.inputPrefix}_#{value}"
+    "#{this.props.inputPrefix.replace('[', '').replace(']', '')}_#{value}".replace(/__/, '_')
 
   name: (value) ->
     "#{this.props.inputPrefix}[#{value}]"
+
+  imageURL: ->
+    if this.state.imageAttachmentCacheURL and this.state.imageAttachmentCacheURL.length > 0
+      this.state.imageAttachmentCacheURL
+    else if this.state.imageAttachmentURL and this.state.imageAttachmentURL.length > 0
+      this.state.imageAttachmentURL
 
   progressWidthPercentage: ->
     "#{this.state.uploadProgress}%"

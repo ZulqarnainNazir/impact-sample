@@ -9,15 +9,15 @@ class TeamMember < ActiveRecord::Base
     order(position: :asc)
   end
 
-  def attributes_with_profile_and_name
-    attributes.merge(
-      name: name,
-      small_profile_url: team_member_profile.try(:attachment_url, :small),
-      large_profile_url: team_member_profile.try(:attachment_url, :large),
-    )
-  end
-
   def name
     [first_name, last_name].reject(&:blank?).join(' ')
+  end
+
+  def small_profile_url
+    team_member_profile.try(:attachment_url, :small)
+  end
+
+  def large_profile_url
+    team_member_profile.try(:attachment_url, :large)
   end
 end

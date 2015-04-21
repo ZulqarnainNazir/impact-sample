@@ -17,7 +17,6 @@ class AboutPage < Webpage
 
   def default_about_block_attributes(business)
     {
-      theme: 'left',
       heading: business.name,
       text: business.description,
     }.reject do |key, value|

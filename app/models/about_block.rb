@@ -3,10 +3,5 @@ class AboutBlock < Block
 
   before_validation do
     self.theme = 'banner' unless theme?
-    self.about_block_image_placement_attributes = image_accessor_attributes if image_accessors?
-  end
-
-  def react_attributes
-    super(about_block_image, about_block_image_placement)
   end
 end

@@ -13,7 +13,6 @@ class ContactPage < Webpage
 
   def default_contact_block_attributes(business)
     {
-      theme: 'right',
       text: business.description,
     }.reject do |key, value|
       value.blank?

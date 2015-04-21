@@ -47,8 +47,14 @@ HeroBlockHandlers =
   heroBlockID: (name) ->
     "hero-block-attributes-#{name}"
 
+  heroBlockPlacementID: (name) ->
+    "hero-block-attributes-hero-block-image-placement-attributes-#{name}"
+
   heroBlockName: (name) ->
     "hero_block_attributes[#{name}]"
+
+  heroBlockPlacementName: (name) ->
+    "hero_block_attributes[hero_block_image_placement_attributes][#{name}]"
 
   heroBlockDropZoneClassName: ->
     'hero-block-drop-zone'
@@ -104,7 +110,7 @@ HeroBlockHandlers =
   heroBlockInputImageProps: ->
     init: this.heroBlockImageInit
     id: this.heroBlockID
-    name: this.heroBlockName
+    name: this.heroBlockPlacementName
     showImageLibrary: this.heroBlockShowImageLibrary
     removeImage: this.heroBlockRemoveImage
     alt: this.state.heroBlock.image_alt
@@ -120,10 +126,10 @@ HeroBlockHandlers =
     state: this.state.heroBlock.image_state
     file_name: this.state.heroBlock.image_file_name
     file_size: parseInt(this.state.heroBlock.image_file_size)
-    file_type: this.state.heroBlock.image_file_type
+    content_type: this.state.heroBlock.image_content_type
     temp_file_name: this.state.heroBlock.image_temp_file_name
     temp_file_size: parseInt(this.state.heroBlock.image_temp_file_size)
-    temp_file_type: this.state.heroBlock.image_temp_file_type
+    temp_content_type: this.state.heroBlock.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.heroBlockDropZoneClassName()
 
@@ -205,9 +211,9 @@ HeroBlockHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
-    this.heroBlockInputSetVal 'image_alt', ''
-    this.heroBlockInputSetVal 'image_title', ''
+      image_temp_content_type: null
+    this.heroBlockPlacementInputSetVal 'image_alt', ''
+    this.heroBlockPlacementInputSetVal 'image_title', ''
 
   heroBlockSwapForm: () ->
     if (this.state.heroBlock.image_temp_placement_destroy and this.state.heroBlock.image_temp_placement_destroy is '1') or (this.state.heroBlock.image_temp_cache_url and this.state.heroBlock.image_temp_cache_url.length > 0)
@@ -223,10 +229,10 @@ HeroBlockHandlers =
         image_temp_file_name: null
         image_file_size: this.state.heroBlock.image_temp_file_size
         image_temp_file_size: null
-        image_file_type: this.state.heroBlock.image_temp_file_type
-        image_temp_file_type: null
-        image_alt: this.heroBlockInputGetVal('image_alt')
-        image_title: this.heroBlockInputGetVal('image_title')
+        image_content_type: this.state.heroBlock.image_temp_content_type
+        image_temp_content_type: null
+        image_alt: this.heroBlockPlacementInputGetVal('image_alt')
+        image_title: this.heroBlockPlacementInputGetVal('image_title')
         link_version: $("input[name=\"#{this.heroBlockName('link_version')}\"]:checked").val()
         link_label: this.heroBlockInputGetVal('link_label')
         link_id: this.heroBlockInputGetVal('link_id')
@@ -241,8 +247,8 @@ HeroBlockHandlers =
         text: this.heroBlockInputGetVal('text')
     else
       this.heroBlockUpdate
-        image_alt: this.heroBlockInputGetVal('image_alt')
-        image_title: this.heroBlockInputGetVal('image_title')
+        image_alt: this.heroBlockPlacementInputGetVal('image_alt')
+        image_title: this.heroBlockPlacementInputGetVal('image_title')
         link_version: $("input[name=\"#{this.heroBlockName('link_version')}\"]:checked").val()
         link_label: this.heroBlockInputGetVal('link_label')
         link_id: parseInt(this.heroBlockInputGetVal('link_id'))
@@ -263,7 +269,7 @@ HeroBlockHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
+      image_temp_content_type: null
     callback = null
     if this.state.heroBlock.upload_xhr
       $(this.state.heroBlock.upload_xhr.getDOMNode()).fileupload('destroy')
@@ -274,8 +280,8 @@ HeroBlockHandlers =
     else
       attributes.image_state = 'empty'
     this.heroBlockUpdate attributes, null, callback
-    this.heroBlockInputSetVal 'image_alt', this.state.heroBlock.image_alt
-    this.heroBlockInputSetVal 'image_title', this.state.heroBlock.image_title
+    this.heroBlockPlacementInputSetVal 'image_alt', this.state.heroBlock.image_alt
+    this.heroBlockPlacementInputSetVal 'image_title', this.state.heroBlock.image_title
     this.heroBlockInputSetVal 'link_version', this.state.heroBlock.link_version
     this.heroBlockInputSetVal 'link_label', this.state.heroBlock.link_label
     this.heroBlockInputSetVal 'link_id', this.state.heroBlock.link_id
@@ -343,20 +349,26 @@ HeroBlockHandlers =
     this.heroBlockUpdate
       displayImageLibrary: false
       image_state: 'attached'
-      image_temp_id: image.image_id
+      image_temp_id: image.id
       image_temp_placement_destroy: ''
-      image_temp_cache_url: image.image_url
-      image_temp_file_name: image.image_file_name
-      image_temp_file_size: image.image_file_size
-      image_temp_file_type: image.image_file_type
-    this.heroBlockInputSetVal 'image_alt', image.image_alt
-    this.heroBlockInputSetVal 'image_title', image.image_title
+      image_temp_cache_url: image.attachment_url
+      image_temp_file_name: image.attachment_file_name
+      image_temp_file_size: image.attachment_file_size
+      image_temp_content_type: image.attachment_content_type
+    this.heroBlockPlacementInputSetVal 'image_alt', image.alt
+    this.heroBlockPlacementInputSetVal 'image_title', image.title
 
   heroBlockInputGetVal: (name) ->
     $('#' + this.heroBlockID(name)).val()
 
   heroBlockInputSetVal: (name, value) ->
     $('#' + this.heroBlockID(name)).val(value)
+
+  heroBlockPlacementInputGetVal: (name) ->
+    $('#' + this.heroBlockPlacementID(name)).val()
+
+  heroBlockPlacementInputSetVal: (name, value) ->
+    $('#' + this.heroBlockPlacementID(name)).val(value)
 
   heroBlockThemes: ['left', 'right', 'well', 'well_dark', 'form', 'split_image', 'split_video']
 
@@ -405,8 +417,8 @@ HeroBlockHandlers =
       image_temp_cache_url: event.target.result
       image_temp_file_name: file.name
       image_temp_file_size: file.size
-      image_temp_file_type: file.type
-    this.heroBlockInputSetVal 'image_alt', ''
-    this.heroBlockInputSetVal 'image_title', ''
+      image_temp_content_type: file.type
+    this.heroBlockPlacementInputSetVal 'image_alt', ''
+    this.heroBlockPlacementInputSetVal 'image_title', ''
 
 window.HeroBlockHandlers = HeroBlockHandlers

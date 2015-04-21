@@ -47,8 +47,14 @@ SpecialtyBlocksHandlers =
   specialtyBlockID: (block, name) ->
     "specialty-blocks-#{block.key}-attributes-#{name}"
 
+  specialtyBlockPlacementID: (block, name) ->
+    "specialty-blocks-#{block.key}-specialty-block-image-placement-attributes-#{name}"
+
   specialtyBlockName: (block, name) ->
     "specialty_blocks_attributes[#{block.key}][#{name}]"
+
+  specialtyBlockPlacementName: (block, name) ->
+    "specialty_blocks_attributes[#{block.key}][specialty_block_image_placement_attributes][#{name}]"
 
   specialtyBlockDropZoneClassName: (block) ->
     "specialty-block-#{block.key}-drop-zone"
@@ -76,7 +82,7 @@ SpecialtyBlocksHandlers =
   specialtyBlockInputImageProps: (block) ->
     init: this.specialtyBlockImageInit.bind(null, block)
     id: this.specialtyBlockID.bind(null, block)
-    name: this.specialtyBlockName.bind(null, block)
+    name: this.specialtyBlockPlacementName.bind(null, block)
     showImageLibrary: this.specialtyBlockShowImageLibrary.bind(null, block)
     removeImage: this.specialtyBlockRemoveImage.bind(null, block)
     alt: block.image_alt
@@ -92,10 +98,10 @@ SpecialtyBlocksHandlers =
     state: block.image_state
     file_name: block.image_file_name
     file_size: block.image_file_size
-    file_type: block.image_file_type
+    content_type: block.image_content_type
     temp_file_name: block.image_temp_file_name
     temp_file_size: block.image_temp_file_size
-    temp_file_type: block.image_temp_file_type
+    temp_content_type: block.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.specialtyBlockDropZoneClassName(block)
 
@@ -167,9 +173,9 @@ SpecialtyBlocksHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
-    this.specialtyBlockInputSetVal block, 'image_alt', ''
-    this.specialtyBlockInputSetVal block, 'image_title', ''
+      image_temp_content_type: null
+    this.specialtyBlockPlacementInputSetVal block, 'image_alt', ''
+    this.specialtyBlockPlacementInputSetVal block, 'image_title', ''
 
   specialtyBlockShowImageLibrary: (block, event) ->
     event.preventDefault() if event
@@ -191,16 +197,16 @@ SpecialtyBlocksHandlers =
         image_temp_file_name: null
         image_file_size: block.image_temp_file_size
         image_temp_file_size: null
-        image_file_type: block.image_temp_file_type
-        image_temp_file_type: null
-        image_alt: this.specialtyBlockInputGetVal(block, 'image_alt')
-        image_title: this.specialtyBlockInputGetVal(block, 'image_title')
+        image_content_type: block.image_temp_content_type
+        image_temp_content_type: null
+        image_alt: this.specialtyBlockPlacementInputGetVal(block, 'image_alt')
+        image_title: this.specialtyBlockPlacementInputGetVal(block, 'image_title')
         heading: this.specialtyBlockInputGetVal(block, 'heading')
         text: this.specialtyBlockInputGetVal(block, 'text')
     else
       this.specialtyBlockUpdate block,
-        image_alt: this.specialtyBlockInputGetVal(block, 'image_alt')
-        image_title: this.specialtyBlockInputGetVal(block, 'image_title')
+        image_alt: this.specialtyBlockPlacementInputGetVal(block, 'image_alt')
+        image_title: this.specialtyBlockPlacementInputGetVal(block, 'image_title')
         heading: this.specialtyBlockInputGetVal(block, 'heading')
         text: this.specialtyBlockInputGetVal(block, 'text')
 
@@ -211,7 +217,7 @@ SpecialtyBlocksHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
+      image_temp_content_type: null
     callback = null
     if block.upload_xhr
       $(block.upload_xhr.getDOMNode()).fileupload('destroy')
@@ -222,8 +228,8 @@ SpecialtyBlocksHandlers =
     else
       attributes.image_state = 'empty'
     this.specialtyBlockUpdate block, attributes, null, callback
-    this.specialtyBlockInputSetVal block, 'image_alt', block.image_alt
-    this.specialtyBlockInputSetVal block, 'image_title', block.image_title
+    this.specialtyBlockPlacementInputSetVal block, 'image_alt', block.image_alt
+    this.specialtyBlockPlacementInputSetVal block, 'image_title', block.image_title
     this.specialtyBlockInputSetVal block, 'heading', block.heading
     if $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5')
       $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
@@ -277,20 +283,26 @@ SpecialtyBlocksHandlers =
     this.specialtyBlockUpdate block,
       displayImageLibrary: false
       image_state: 'attached'
-      image_temp_id: image.image_id
+      image_temp_id: image.id
       image_temp_placement_destroy: null
-      image_temp_cache_url: image.image_url
-      image_temp_file_name: image.image_file_name
-      image_temp_file_size: image.image_file_size
-      image_temp_file_type: image.image_file_type
-    this.specialtyBlockInputSetVal block, 'image_alt', image.image_alt
-    this.specialtyBlockInputSetVal block, 'image_title', image.image_title
+      image_temp_cache_url: image.attachment_url
+      image_temp_file_name: image.attachment_file_name
+      image_temp_file_size: image.attachment_file_size
+      image_temp_content_type: image.attachment_content_type
+    this.specialtyBlockPlacementInputSetVal block, 'image_alt', image.alt
+    this.specialtyBlockPlacementInputSetVal block, 'image_title', image.title
 
   specialtyBlockInputGetVal: (block, name) ->
     $('#' + this.specialtyBlockID(block, name)).val()
 
   specialtyBlockInputSetVal: (block, name, value) ->
     $('#' + this.specialtyBlockID(block, name)).val(value)
+
+  specialtyBlockPlacementInputGetVal: (block, name) ->
+    $('#' + this.specialtyBlockPlacementID(block, name)).val()
+
+  specialtyBlockPlacementInputSetVal: (block, name, value) ->
+    $('#' + this.specialtyBlockPlacementID(block, name)).val(value)
 
   specialtyBlockThemes: ['left', 'right']
 
@@ -353,8 +365,8 @@ SpecialtyBlocksHandlers =
       image_temp_cache_url: event.target.result
       image_temp_file_name: file.name
       image_temp_file_size: file.size
-      image_temp_file_type: file.type
-    this.specialtyBlockInputSetVal foundBlock, 'image_alt', ''
-    this.specialtyBlockInputSetVal foundBlock, 'image_title', ''
+      image_temp_content_type: file.type
+    this.specialtyBlockPlacementInputSetVal foundBlock, 'image_alt', ''
+    this.specialtyBlockPlacementInputSetVal foundBlock, 'image_title', ''
 
 window.SpecialtyBlocksHandlers = SpecialtyBlocksHandlers

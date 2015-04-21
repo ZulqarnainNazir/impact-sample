@@ -5,17 +5,14 @@ class FooterBlock < Block
     self.theme = 'simple' unless theme?
   end
 
-  def react_attributes(business)
-    super.merge(
-      background_color: background_color,
-      foreground_color: foreground_color,
-      link_color: link_color,
+  def as_theme_json(business)
+    as_json(methods: %i[background_color foreground_color link_color]).merge(
       name: business.name,
-      pages: business.website.webpages.select(:id, :name),
+      pages: business.website.footer_pages.as_json,
       email: business.location.try(:email),
       phone: business.location.try(:phone),
-      address_line_one: business.location.try(:address_line_one),
-      address_line_two: business.location.try(:address_line_two),
+      addressLineOne: business.location.try(:address_line_one),
+      addressLineTwo: business.location.try(:address_line_two),
     )
   end
 end

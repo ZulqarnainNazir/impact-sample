@@ -44,8 +44,14 @@ AboutBlockHandlers =
   aboutBlockID: (name) ->
     "about-block-attributes-#{name}"
 
+  aboutBlockPlacementID: (name) ->
+    "about-block-attributes-about-block-image-placement-attributes-#{name}"
+
   aboutBlockName: (name) ->
     "about_block_attributes[#{name}]"
+
+  aboutBlockPlacementName: (name) ->
+    "about_block_attributes[about_block_image_placement_attributes][#{name}]"
 
   aboutBlockDropZoneClassName: ->
     'about-block-drop-zone'
@@ -85,7 +91,7 @@ AboutBlockHandlers =
   aboutBlockInputImageProps: ->
     init: this.aboutBlockImageInit
     id: this.aboutBlockID
-    name: this.aboutBlockName
+    name: this.aboutBlockPlacementName
     showImageLibrary: this.aboutBlockShowImageLibrary
     removeImage: this.aboutBlockRemoveImage
     alt: this.state.aboutBlock.image_alt
@@ -101,10 +107,10 @@ AboutBlockHandlers =
     state: this.state.aboutBlock.image_state
     file_name: this.state.aboutBlock.image_file_name
     file_size: parseInt(this.state.aboutBlock.image_file_size)
-    file_type: this.state.aboutBlock.image_file_type
+    content_type: this.state.aboutBlock.image_content_type
     temp_file_name: this.state.aboutBlock.image_temp_file_name
     temp_file_size: parseInt(this.state.aboutBlock.image_temp_file_size)
-    temp_file_type: this.state.aboutBlock.image_temp_file_type
+    temp_content_type: this.state.aboutBlock.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.aboutBlockDropZoneClassName()
 
@@ -169,9 +175,9 @@ AboutBlockHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
-    this.aboutBlockInputSetVal 'image_alt', ''
-    this.aboutBlockInputSetVal 'image_title', ''
+      image_temp_content_type: null
+    this.aboutBlockPlacementInputSetVal 'image_alt', ''
+    this.aboutBlockPlacementInputSetVal 'image_title', ''
 
   aboutBlockSwapForm: () ->
     if (this.state.aboutBlock.image_temp_placement_destroy and this.state.aboutBlock.image_temp_placement_destroy is '1') or (this.state.aboutBlock.image_temp_cache_url and this.state.aboutBlock.image_temp_cache_url.length > 0)
@@ -187,17 +193,17 @@ AboutBlockHandlers =
         image_temp_file_name: null
         image_file_size: this.state.aboutBlock.image_temp_file_size
         image_temp_file_size: null
-        image_file_type: this.state.aboutBlock.image_temp_file_type
-        image_temp_file_type: null
-        image_alt: this.aboutBlockInputGetVal('image_alt')
-        image_title: this.aboutBlockInputGetVal('image_title')
+        image_content_type: this.state.aboutBlock.image_temp_content_type
+        image_temp_content_type: null
+        image_alt: this.aboutBlockPlacementInputGetVal('image_alt')
+        image_title: this.aboutBlockPlacementInputGetVal('image_title')
         heading: this.aboutBlockInputGetVal('heading')
         subheading: this.aboutBlockInputGetVal('subheading')
         text: this.aboutBlockInputGetVal('text')
     else
       this.aboutBlockUpdate
-        image_alt: this.aboutBlockInputGetVal('image_alt')
-        image_title: this.aboutBlockInputGetVal('image_title')
+        image_alt: this.aboutBlockPlacementInputGetVal('image_alt')
+        image_title: this.aboutBlockPlacementInputGetVal('image_title')
         heading: this.aboutBlockInputGetVal('heading')
         subheading: this.aboutBlockInputGetVal('subheading')
         text: this.aboutBlockInputGetVal('text')
@@ -209,7 +215,7 @@ AboutBlockHandlers =
       image_temp_cache_url: null
       image_temp_file_name: null
       image_temp_file_size: null
-      image_temp_file_type: null
+      image_temp_content_type: null
     callback = null
     if this.state.aboutBlock.upload_xhr
       $(this.state.aboutBlock.upload_xhr.getDOMNode()).fileupload('destroy')
@@ -220,8 +226,8 @@ AboutBlockHandlers =
     else
       attributes.image_state = 'empty'
     this.aboutBlockUpdate attributes, null, callback
-    this.aboutBlockInputSetVal 'image_alt', this.state.aboutBlock.image_alt
-    this.aboutBlockInputSetVal 'image_title', this.state.aboutBlock.image_title
+    this.aboutBlockPlacementInputSetVal 'image_alt', this.state.aboutBlock.image_alt
+    this.aboutBlockPlacementInputSetVal 'image_title', this.state.aboutBlock.image_title
     this.aboutBlockInputSetVal 'heading', this.state.aboutBlock.heading
     this.aboutBlockInputSetVal 'subheading', this.state.aboutBlock.subheading
     if $('#' + this.aboutBlockID('text')).data('wysihtml5')
@@ -280,20 +286,26 @@ AboutBlockHandlers =
     this.aboutBlockUpdate
       displayImageLibrary: false
       image_state: 'attached'
-      image_temp_id: image.image_id
+      image_temp_id: image.id
       image_temp_placement_destroy: ''
-      image_temp_cache_url: image.image_url
-      image_temp_file_name: image.image_file_name
-      image_temp_file_size: image.image_file_size
-      image_temp_file_type: image.image_file_type
-    this.aboutBlockInputSetVal 'image_alt', image.image_alt
-    this.aboutBlockInputSetVal 'image_title', image.image_title
+      image_temp_cache_url: image.attachment_url
+      image_temp_file_name: image.attachment_file_name
+      image_temp_file_size: image.attachment_file_size
+      image_temp_content_type: image.attachment_content_type
+    this.aboutBlockPlacementInputSetVal 'image_alt', image.alt
+    this.aboutBlockPlacementInputSetVal 'image_title', image.title
 
   aboutBlockInputGetVal: (name) ->
     $('#' + this.aboutBlockID(name)).val()
 
   aboutBlockInputSetVal: (name, value) ->
     $('#' + this.aboutBlockID(name)).val(value)
+
+  aboutBlockPlacementInputGetVal: (name) ->
+    $('#' + this.aboutBlockPlacementID(name)).val()
+
+  aboutBlockPlacementInputSetVal: (name, value) ->
+    $('#' + this.aboutBlockPlacementID(name)).val(value)
 
   aboutBlockThemes: ['banner', 'left']
 
@@ -342,8 +354,8 @@ AboutBlockHandlers =
       image_temp_cache_url: event.target.result
       image_temp_file_name: file.name
       image_temp_file_size: file.size
-      image_temp_file_type: file.type
-    this.aboutBlockInputSetVal 'image_alt', image.image_alt
-    this.aboutBlockInputSetVal 'image_title', image.image_title
+      image_temp_content_type: file.type
+    this.aboutBlockPlacementInputSetVal 'image_alt', ''
+    this.aboutBlockPlacementInputSetVal 'image_title', ''
 
 window.AboutBlockHandlers = AboutBlockHandlers
