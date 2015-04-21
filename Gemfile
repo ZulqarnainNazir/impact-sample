@@ -16,6 +16,7 @@ gem 'bootstrap-wysihtml5-rails'
 gem 'coffee-rails'
 gem 'devise'
 gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 gem 'font-awesome-sass'
 gem 'jbuilder'
 gem 'jquery-fileupload-rails'
@@ -46,6 +47,7 @@ group :development, :test do
 end
 
 group :production do
+  gem 'bonsai-elasticsearch-rails'
   gem 'dalli'
   gem 'newrelic_rpm'
   gem 'passenger'
