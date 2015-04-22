@@ -1,0 +1,40 @@
+.project-image-fields {
+  @include clearfix;
+  position: relative;
+  padding-right: 70px;
+  padding-top: 1em;
+  margin: 1em 0;
+  border-top: solid 1px #eee;
+  .project-image-fields-warning {
+    display: none;
+  }
+  &.will-destroy {
+    .project-image-fields-warning {
+      display: block;
+    }
+    .project-image-fields-content {
+      display: none;
+    }
+    .project-image-fields-remove label {
+      background-color: red;
+    }
+  }
+}
+
+.project-image-fields-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  .btn-default {
+    border-color: #eee;
+    border-top: none;
+    border-radius: 0;
+  }
+}
+
+.project-image-fields-warning {
+  margin-top: 1em;
+}

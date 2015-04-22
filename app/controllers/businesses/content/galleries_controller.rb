@@ -1,4 +1,6 @@
 class Businesses::Content::GalleriesController < Businesses::Content::BaseController
+  include PlacementAttributesConcern
+
   before_action only: new_actions do
     @gallery = @business.galleries.new
   end
@@ -33,6 +35,11 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       ],
     ).tap do |safe_params|
       merge_placement_image_attributes_array safe_params[:gallery_images_attributes], :gallery_image_placement_attributes
+      if safe_params[:gallery_images_attributes]
+        safe_params[:gallery_images_attributes].each do |_, attr|
+          attr.merge! gallery: @gallery
+        end
+      end
     end
   end
 end

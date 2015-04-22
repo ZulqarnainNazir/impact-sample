@@ -50,7 +50,8 @@ HomePage = React.createClass
     .webpage-tagline,
     .webpage-call-to-action,
     .webpage-specialty,
-    .webpage-content {
+    .webpage-content,
+    .webpage-feed {
       background-color: #{this.props.defaultBackgroundColor};
       color: #{this.props.defaultForegroundColor};
     }
@@ -68,7 +69,8 @@ HomePage = React.createClass
     .webpage-tagline a,
     .webpage-call-to-action a,
     .webpage-specialty a,
-    .webpage-content a {
+    .webpage-content a,
+    .webpage-feed a {
       color: #{this.props.defaultLinkColor};
     }
     """

@@ -4,5 +4,6 @@
  *= require bootstrap-select
  *= require jquery.minicolors
  *= require bootstrap-wysihtml5
+ *= require_tree ./plugins
  *= require ./base
  */

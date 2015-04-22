@@ -6,6 +6,6 @@ class FeedBlock < Block
   end
 
   def items_limit
-    super.to_i > 0 ? super.to_i : 20
+    super.to_i > 0 ? super.to_i : 10
   end
 end

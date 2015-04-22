@@ -15,8 +15,16 @@ class Placement < ActiveRecord::Base
     context? && respond_to?(context) ? send(context) : {}
   end
 
+  def gallery_image
+    { gallery_image: '200x200^' }
+  end
+
   def logo
     { small: 'x40', medium: 'x60', large: 'x78' }
+  end
+
+  def project_image
+    { project_image: 'x300' }
   end
 
   def team_member_profile

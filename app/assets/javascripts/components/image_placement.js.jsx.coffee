@@ -1,11 +1,30 @@
 ImagePlacement = React.createClass
   propTypes:
-    imagesPath: React.PropTypes.string.isRequired
     inputPrefix: React.PropTypes.string.isRequired
+    imagesPath: React.PropTypes.string.isRequired
     label: React.PropTypes.string.isRequired
-    placement: React.PropTypes.object.isRequired
     presignedPost: React.PropTypes.object.isRequired
-    buttonsSize: React.PropTypes.string
+
+    placement: React.PropTypes.shape(
+      id: React.PropTypes.number
+      _destroy: React.PropTypes.string
+      image: React.PropTypes.shape(
+        id: React.PropTypes.number
+        alt: React.PropTypes.string
+        title: React.PropTypes.string
+        attachment_cache_url: React.PropTypes.string
+        attachment_content_type: React.PropTypes.string
+        attachment_file_name: React.PropTypes.string
+        attachment_file_size: React.PropTypes.string
+        attachment_url: React.PropTypes.string
+      ).isRequired
+    ).isRequired
+
+    buttonSize: React.PropTypes.string
+    buttonRemove: React.PropTypes.bool
+
+  getDefaultProps: ->
+    buttonRemove: true
 
   getInitialState: ->
     imageAlt: this.props.placement.image.alt
@@ -21,7 +40,7 @@ ImagePlacement = React.createClass
     libraryLoadedAll: false
     libraryPage: 1
     libraryVisible: false
-    placementDestroy: null
+    placementDestroy: this.props.placement.destroy
     placementID: this.props.placement.id
     uploadProgress: 0
     uploadState: if this.props.placement.image.attachment_url and this.props.placement.image.attachment_url.length > 0 then 'attached' else 'empty'
@@ -101,8 +120,8 @@ ImagePlacement = React.createClass
 
   renderButtons: ->
     if this.state.uploadState is 'empty' or this.state.uploadState is 'failed' or this.state.uploadState is 'attached'
-      uploadLabel = if this.props.buttonsSize is 'small' then 'Upload' else 'Upload Image'
-      browseLabel = if this.props.buttonsSize is 'small' then 'Browse' else 'Browse Library'
+      uploadLabel = if this.props.buttonSize is 'small' then 'Upload' else 'Upload Image'
+      browseLabel = if this.props.buttonSize is 'small' then 'Browse' else 'Browse Library'
       `<div>
         <input type="file" className="hidden" ref="fileInput" />
         <span className="btn-group btn-group-sm">
@@ -113,10 +132,14 @@ ImagePlacement = React.createClass
             <i className="fa fa-th" /> {browseLabel}
           </span>
         </span>
-        <span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
-          <i className="fa fa-close" /> Remove
-        </span>
+        {this.renderButtonRemove()}
       </div>`
+
+  renderButtonRemove: ->
+    if this.props.buttonRemove
+      `<span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
+        <i className="fa fa-close" /> Remove
+      </span>`
 
   renderLibrary: ->
     `<div id={this.id('library')} className="modal fade">
@@ -276,7 +299,7 @@ ImagePlacement = React.createClass
         uploadState: 'failed'
 
   id: (value) ->
-    "#{this.props.inputPrefix.replace('[', '').replace(']', '')}_#{value}".replace(/__/, '_')
+    "#{this.props.inputPrefix.replace(/[\[\]]/g, '_').replace(/__/g, '_').replace(/\A_/, '').replace(/_\z/, '')}_#{value}"
 
   name: (value) ->
     "#{this.props.inputPrefix}[#{value}]"

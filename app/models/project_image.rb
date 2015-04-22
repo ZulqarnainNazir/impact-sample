@@ -6,6 +6,7 @@ class ProjectImage < ActiveRecord::Base
   has_placed_image :project_image
 
   validates :project, presence: true
+  validates :project_image_placement, presence: true
 
   def description_html
     Sanitize.fragment(description.to_s, Sanitize::Config::RELAXED).html_safe

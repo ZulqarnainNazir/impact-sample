@@ -9,3 +9,11 @@
         = link_to icon('trash'), [@business, :content, project], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   h2 = project.title
   = project.description_html
+  - project.project_images.each do |project_image|
+    - image = project_image.project_image
+    .media
+      .media-left
+        = link_to image.attachment_url, class: 'thumbnail', style: 'max-width: 300px', data: { toggle: 'lightbox', gallery: "project_#{project.id}", title: image.alt? ? image.alt : project.title } do
+          = image_tag image.attachment_url(:project_image), alt: image.alt, title: image.title
+      .media-body
+        p: em = project_image.description

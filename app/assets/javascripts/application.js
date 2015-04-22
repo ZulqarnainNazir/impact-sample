@@ -16,13 +16,19 @@
 Turbolinks.enableProgressBar();
 
 var ready = function() {
-  $('.checkbox-toggle input:checked').closest('.checkbox-toggle').addClass('checkbox-toggle-active')
+  $('.checkbox-toggle input:checked').closest('.checkbox-toggle').addClass('checkbox-toggle-active');
+  $('.gallery-images-associations').galleryImagesAssociations();
   $('.openings-associations').openingsAssociations();
   $('.menus-sortable').menusSortable();
   $('.pages-associations').pagesAssociations();
+  $('.project-images-associations').projectImagesAssociations();
   $('.webhosts-associations').webhostsAssociations();
   $('.webpage-designer').webpageDesigner();
   $('.wysihtml-editor').wysihtmlEditor();
+  $('*[data-toggle=lightbox]').click(function(e) {
+    e.preventDefault();
+    $(this).ekkoLightbox();
+  });
 };
 
 $(document).ready(ready);

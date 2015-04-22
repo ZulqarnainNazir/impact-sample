@@ -35,6 +35,11 @@ class Businesses::Content::ProjectsController < Businesses::Content::BaseControl
       ],
     ).tap do |safe_params|
       merge_placement_image_attributes_array safe_params[:project_images_attributes], :project_image_placement_attributes
+      if safe_params[:project_images_attributes]
+        safe_params[:project_images_attributes].each do |_, attr|
+          attr.merge! project: @project
+        end
+      end
     end
   end
 end

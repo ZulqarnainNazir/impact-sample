@@ -18,7 +18,7 @@ FeedBlockHandlers =
 
   feedBlockProps: ->
     if this.state.feedBlock
-      block: $.extend({}, this.state.feedBlock, { editing: this.state.editing, items: this.props.feedItems })
+      block: $.extend({}, this.state.feedBlock, { editing: this.state.editing })
       blockEditor: this.feedBlockEditorProps()
       blockInputItemsLimit: this.feedBlockInputItemsLimitProps()
       blockOptions: this.feedBlockOptionsProps()
