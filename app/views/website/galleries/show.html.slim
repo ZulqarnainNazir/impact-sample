@@ -8,6 +8,7 @@
   .page-header
     h1 = @gallery.title
   = @gallery.description_html
+  p.help-block Click images below to view larger:
   .row
     - @gallery.gallery_images.each do |gallery_image|
       - image = gallery_image.gallery_image

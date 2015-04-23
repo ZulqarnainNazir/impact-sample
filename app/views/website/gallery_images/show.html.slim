@@ -13,12 +13,13 @@
       - image = @gallery_image.gallery_image
       = image_tag image.attachment_url(:gallery_image_large), alt: image.alt, title: image.title, class: 'img-responsive'
     .col-md-4
-      hr
+      - if @gallery_image.title?
+        hr
       - if @gallery_image.description?
         p = @gallery_image.description
         hr
       h2.h4 More Images
-      p.text-center.help-block Click images below to view larger:
+      p.help-block Click images below to view larger:
       .row.row-collapse
         - @gallery.gallery_images.each do |gallery_image|
           - image = gallery_image.gallery_image
