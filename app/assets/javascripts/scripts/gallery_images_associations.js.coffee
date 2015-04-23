@@ -30,14 +30,21 @@ $.fn.galleryImagesAssociations = ->
         galleryImage = $(appendedGalleryImage.clone()[0].outerHTML.replace(/98765432101/g, galleryImageKey))
         galleryImage.attr 'id', galleryImageID
         associations.append galleryImage
-        galleryImageID
+        unmountedReactComponents = galleryImage.find('[data-react-unmounted-class]')
+        unmountedReactComponents.attr 'data-react-class', unmountedReactComponents.data().reactUnmountedClass
+        window.ReactRailsUJS.mountComponents "##{galleryImageID}"
 
       # Trigger the append page function when the add page element is clicked.
       addGalleryImage.on 'click', (e) ->
         e.preventDefault()
-        galleryImageID = appendGalleryImage()
-        window.ReactRailsUJS.mountComponents "##{galleryImageID}"
+        appendGalleryImage()
 
       # Trigger the append page function immediately if there are no exsting rows.
       if associations.find('.gallery-image-fields').length is 0
         appendGalleryImage()
+
+    # Mount all existing gallery images.
+    unmountedExistingReactComponents = associations.find('.gallery-image-fields:not(.is-appended) [data-react-unmounted-class]')
+    if unmountedExistingReactComponents.length > 0
+      unmountedExistingReactComponents.attr 'data-react-class', unmountedExistingReactComponents.data().reactUnmountedClass
+      window.ReactRailsUJS.mountComponents '.gallery-image-fields:not(.is-appended)'

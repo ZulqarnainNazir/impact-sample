@@ -7,7 +7,8 @@
       = form.label :description, class: 'control-label'
       = form.text_area :description, rows: 3, class: 'form-control wysihtml-editor'
 .gallery-images-associations
-  = render partial: 'businesses/content/gallery_images/form', collection: form.object.gallery_images + [form.object.gallery_images.build], as: :gallery_image, locals: { gallery_form: form }
+  - form.object.gallery_images.build
+  = render partial: 'businesses/content/gallery_images/form', collection: form.object.gallery_images, as: :gallery_image, locals: { gallery_form: form }
 hr
 .row
   .col-sm-4

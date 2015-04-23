@@ -16,6 +16,7 @@
 Turbolinks.enableProgressBar();
 
 var ready = function() {
+  window['rangy'].initialized = false;
   $('.checkbox-toggle input:checked').closest('.checkbox-toggle').addClass('checkbox-toggle-active');
   $('.gallery-images-associations').galleryImagesAssociations();
   $('.openings-associations').openingsAssociations();
@@ -31,9 +32,4 @@ var ready = function() {
   });
 };
 
-$(document).ready(ready);
-$(document).on('page:load', ready);
-
-$(document).on('page:load', function() {
-  window['rangy'].initialized = false;
-});
+$(document).on('ready page:load', ready);
