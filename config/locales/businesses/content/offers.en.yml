@@ -5,9 +5,9 @@ en:
         create:
           notice: Your Offer was added successfully.
           alert: There was a problem saving your Offer.
-        create:
+        update:
           notice: Your Offer was updated successfully.
           alert: There was a problem saving your Offer.
-        create:
+        destroy:
           notice: Your Offer was deleted successfully.
           alert: There was a problem removing your Offer.

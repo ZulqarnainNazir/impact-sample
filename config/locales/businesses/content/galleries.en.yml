@@ -5,9 +5,9 @@ en:
         create:
           notice: Your Gallery was added successfully.
           alert: There was a problem saving your Gallery.
-        create:
+        update:
           notice: Your Gallery was updated successfully.
           alert: There was a problem saving your Gallery.
-        create:
+        destroy:
           notice: Your Gallery was deleted successfully.
           alert: There was a problem removing your gallery.
