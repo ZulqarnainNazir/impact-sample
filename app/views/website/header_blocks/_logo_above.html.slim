@@ -24,6 +24,6 @@
                 span.caret
               ul.dropdown-menu
                 - webpage.cached_webpages.each do |webpage|
-                  li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+                  li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
           - else
             li = link_to webpage.name, website_custom_page_path(webpage.pathname)

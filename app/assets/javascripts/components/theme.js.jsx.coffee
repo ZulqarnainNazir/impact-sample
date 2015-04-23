@@ -108,10 +108,10 @@ Theme = React.createClass
     $('#link_color').val('').minicolors('destroy')
     $('#' + this.headerBlockID('background_color')).val(colors[2]).minicolors('destroy')
     $('#' + this.headerBlockID('foreground_color')).val(colors[3]).minicolors('destroy')
-    $('#' + this.headerBlockID('link_color')).val('').minicolors('destroy')
+    $('#' + this.headerBlockID('link_color')).val(colors[3]).minicolors('destroy')
     $('#' + this.footerBlockID('background_color')).val(colors[2]).minicolors('destroy')
     $('#' + this.footerBlockID('foreground_color')).val(colors[3]).minicolors('destroy')
-    $('#' + this.footerBlockID('link_color')).val('').minicolors('destroy')
+    $('#' + this.footerBlockID('link_color')).val(colors[3]).minicolors('destroy')
     changes =
       background_color:
         $set: colors[0]
@@ -123,12 +123,12 @@ Theme = React.createClass
         $merge:
           background_color: colors[2]
           foreground_color: colors[3]
-          link_color: ''
+          link_color: colors[3]
       footerBlock:
         $merge:
           background_color: colors[2]
           foreground_color: colors[3]
-          link_color: ''
+          link_color: colors[3]
     this.setState React.addons.update(this.state, changes), this.setupMinicolors
 
   toggleEditing: ->

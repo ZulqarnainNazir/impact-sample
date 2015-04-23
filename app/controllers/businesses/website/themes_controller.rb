@@ -1,4 +1,6 @@
 class Businesses::Website::ThemesController < Businesses::Website::BaseController
+  include BlockAttributesConcern
+
   layout 'application'
 
   def update

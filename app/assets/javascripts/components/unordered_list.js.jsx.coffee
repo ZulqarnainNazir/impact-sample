@@ -32,7 +32,7 @@ UnorderedList = React.createClass
 
   renderSubItem: (item) ->
     `<li key={item.id}>
-      <a href="#" onClick={this.preventDefault} style={{color: this.props.color}}>
+      <a href="#" onClick={this.preventDefault} style={{color: '#000 !important'}}>
         {item.name}
       </a>
     </li>`

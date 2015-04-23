@@ -22,7 +22,7 @@
                   span.caret
                 ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
             - else
               li = link_to webpage.name, website_custom_page_path(webpage.pathname)
         ul.nav.navbar-nav.navbar-right style="margin-left: 40px"
@@ -34,7 +34,7 @@
                   span.caret
                 ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
             - else
               li = link_to webpage.name, website_custom_page_path(webpage.pathname)
       - else
@@ -47,7 +47,7 @@
                   span.caret
                 ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
             - else
               li = link_to webpage.name, website_custom_page_path(webpage.pathname)
 
@@ -60,7 +60,7 @@
                   span.caret
                 ul.dropdown-menu
                   - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
             - else
               li = link_to webpage.name, website_custom_page_path(webpage.pathname)
 javascript:
