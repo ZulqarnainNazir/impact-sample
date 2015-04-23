@@ -1,0 +1,8 @@
+- title @page.title
+
+.container
+  .page-header
+    h1 Blog
+  = page_entries_info @feed_items
+  = render @feed_items
+  = paginate @feed_items

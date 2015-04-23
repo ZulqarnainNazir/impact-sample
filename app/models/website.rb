@@ -18,6 +18,7 @@ class Website < ActiveRecord::Base
     has_many :webhosts
     has_many :webpages
     has_one :about_page
+    has_one :blog_page
     has_one :contact_page
     has_one :home_page
   end
@@ -29,6 +30,7 @@ class Website < ActiveRecord::Base
   with_options allow_destroy: true do
     accepts_nested_attributes_for :home_page,     reject_if: proc { |a| a['_destroy'] == '1' }
     accepts_nested_attributes_for :about_page,    reject_if: proc { |a| a['_destroy'] == '1' }
+    accepts_nested_attributes_for :blog_page,     reject_if: proc { |a| a['_destroy'] == '1' }
     accepts_nested_attributes_for :contact_page,  reject_if: proc { |a| a['_destroy'] == '1' }
     accepts_nested_attributes_for :webhosts,      reject_if: proc { |a| a['_destroy'] == '1' || a['id'].nil? && a['name'].blank? }
     accepts_nested_attributes_for :webpages,      reject_if: proc { |a| a['_destroy'] == '1' || a['title'].blank? }

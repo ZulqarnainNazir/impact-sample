@@ -40,6 +40,17 @@
                 h2.h4
                   i.fa.fa-question-circle>
                   span About Page
+          = form.fields_for :blog_page, @business.website.blog_page || @business.website.build_blog_page do |blog_page|
+            .panel.panel-default
+              .panel-sidebar
+                = blog_page.label :_destroy, class: 'btn btn-default' do
+                  => blog_page.check_box :_destroy
+                  span.sr-only> Destroy
+                  i.fa.fa-trash-o
+              .panel-body
+                h2.h4
+                  i.fa.fa-rss-square>
+                  span Blog Page
           = form.fields_for :contact_page, @business.website.contact_page || @business.website.build_contact_page do |contact_page|
             .panel.panel-default
               .panel-sidebar

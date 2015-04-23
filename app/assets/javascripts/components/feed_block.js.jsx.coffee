@@ -28,7 +28,13 @@ FeedBlock = React.createClass
           <BlockInputNumber {...this.props.blockInputItemsLimit} />
         </BlockEditor>
       </div>`
+    else if this.props.editing and !this.props.blog
+      `<div className="webpage-add">
+        <a href={this.props.blogPath} target="_blank">Add a Blog Page to Embed a Feed Block</a>
+      </div>`
     else if this.props.editing
       `<BlockAdd {...this.props.blockAdd} />`
+    else
+      `<div />`
 
 window.FeedBlock = FeedBlock

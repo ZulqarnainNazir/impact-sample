@@ -1,0 +1,7 @@
+en:
+  businesses:
+    website:
+      blog_pages:
+        update:
+          notice: Your blog page was saved successfully.
+          alert: There was a problem saving your blog page.

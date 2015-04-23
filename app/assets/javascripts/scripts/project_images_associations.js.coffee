@@ -36,7 +36,7 @@ $.fn.projectImagesAssociations = ->
       addProjectImage.on 'click', (e) ->
         e.preventDefault()
         projectImageID = appendProjectImage()
-        window.ReactRailsUJS.mountComponents()
+        window.ReactRailsUJS.mountComponents "##{projectImageID}"
 
       # Trigger the append page function immediately if there are no exsting rows.
       if associations.find('.project-image-fields').length is 0

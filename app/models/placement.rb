@@ -16,7 +16,7 @@ class Placement < ActiveRecord::Base
   end
 
   def gallery_image
-    { gallery_image: '200x200^' }
+    { gallery_image: '200x200#' }
   end
 
   def logo

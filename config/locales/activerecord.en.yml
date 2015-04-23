@@ -25,6 +25,8 @@ en:
             webhosts:
               invalid_primary: must contain at most a single primary domain
     attributes:
+      blog_page:
+        per_page: Items Per Page
       business:
         category_ids: Categories
         google_plus_id: Google Plus

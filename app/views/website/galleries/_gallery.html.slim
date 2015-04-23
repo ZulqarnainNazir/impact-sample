@@ -6,11 +6,11 @@
       span.text-muted Posted #{time_ago_in_words gallery.created_at} ago
   h2 = gallery.title
   = gallery.description_html
-  - gallery.gallery_images.in_groups_of(4).each do |gallery_images|
+  - gallery.gallery_images.in_groups_of(6).each do |gallery_images|
     .row
       - gallery_images.compact.each do |gallery_image|
         - image = gallery_image.gallery_image
-        .col-sm-3
-          = link_to image.attachment_url, class: 'thumbnail', style: 'max-width: 300px; margin-bottom: 0', data: { toggle: 'lightbox', gallery: "gallery_#{gallery.id}", title: image.alt? ? image.alt : gallery.title } do
+        .col-sm-2
+          = link_to image.attachment_url, class: 'thumbnail', style: 'max-width: 200px; margin-bottom: 0', data: { toggle: 'lightbox', gallery: "gallery_#{gallery.id}", title: image.alt? ? image.alt : gallery.title } do
             = image_tag image.attachment_url(:gallery_image), alt: image.alt, title: image.title
           p: em = gallery_image.description

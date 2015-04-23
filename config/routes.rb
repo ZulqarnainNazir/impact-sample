@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         namespace :website do
           root to: 'roots#show'
           resource :about_page, only: %i[edit update]
+          resource :blog_page, only: %i[edit update]
           resource :contact_page, only: %i[edit update]
           resource :details, only: %i[edit update]
           resource :home_page, only: %i[edit update]
@@ -92,6 +93,7 @@ Rails.application.routes.draw do
     root to: 'home_pages#show'
 
     resource :about_page, path: 'about', only: %i[show]
+    resource :blog_page, path: 'blog', only: %i[show]
     resource :contact_page, path: 'contact', only: %i[show create]
 
     get '*id', to: 'custom_pages#show', as: :custom_page

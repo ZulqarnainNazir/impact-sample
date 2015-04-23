@@ -17,7 +17,7 @@ FeedBlockHandlers =
       `<div />`
 
   feedBlockProps: ->
-    if this.state.feedBlock
+    if this.props.blog and this.state.feedBlock
       block: $.extend({}, this.state.feedBlock, { editing: this.state.editing })
       blockEditor: this.feedBlockEditorProps()
       blockInputItemsLimit: this.feedBlockInputItemsLimitProps()
@@ -27,6 +27,8 @@ FeedBlockHandlers =
     else
       blockAdd: this.feedBlockAddProps()
       editing: this.state.editing
+      blog: this.props.blog
+      blogPath: this.props.blogPath
 
   # PRIVATE LEVEL 1
 

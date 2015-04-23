@@ -30,6 +30,8 @@ ol.breadcrumb
       presignedPost: s3_presigned_post_hash,
       imagesPath: business_images_path(form.object.website.business),
       internalWebpages: form.object.website.webpages.select(:id, :name),
+      blog: !!form.object.website.blog_page,
+      blogPath: url_for([:edit, form.object.website.business, :website_blog_page]),
       blockTypeOrder: form.object.block_types.join(','),
       initialCallToActionBlocksPerRow: form.object.call_to_action_blocks_per_row,
       initialHeroBlock: form.object.hero_block.try(:as_block_json, form.object.hero_block.try(:hero_block_image_placement), methods: %i[key background_color foreground_color]),

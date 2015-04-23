@@ -36,7 +36,7 @@ $.fn.galleryImagesAssociations = ->
       addGalleryImage.on 'click', (e) ->
         e.preventDefault()
         galleryImageID = appendGalleryImage()
-        window.ReactRailsUJS.mountComponents()
+        window.ReactRailsUJS.mountComponents "##{galleryImageID}"
 
       # Trigger the append page function immediately if there are no exsting rows.
       if associations.find('.gallery-image-fields').length is 0

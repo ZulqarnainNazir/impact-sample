@@ -22,6 +22,9 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
       about_page_attributes: [
         :_destroy,
       ],
+      blogt_page_attributes: [
+        :_destroy,
+      ],
       contact_page_attributes: [
         :_destroy,
       ],
@@ -40,6 +43,11 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
         name: 'About',
         pathname: 'about',
         title: "About #{@business.name}",
+      },
+      blog_page_attributes: {
+        name: 'Blog',
+        pathname: 'blog',
+        title: "#{@business.name} Blog",
       },
       contact_page_attributes: {
         name: 'Contact',
