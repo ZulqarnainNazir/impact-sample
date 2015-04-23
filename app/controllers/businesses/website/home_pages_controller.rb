@@ -6,7 +6,7 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
 
   before_action do
     @home_page = @website.home_page || @website.build_home_page
-    feed_record_arrays = %i[before_afters galleries offers posts projects].map do |association|
+    feed_record_arrays = %i[before_afters galleries offers posts].map do |association|
       @business.send(association).order(created_at: :desc).limit(20)
     end.inject(&:+).sort_by(&:created_at).reverse
     @feed_items = Kaminari.paginate_array(feed_record_arrays).page(params[:page]).per(20)

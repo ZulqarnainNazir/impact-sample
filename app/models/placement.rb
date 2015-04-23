@@ -23,10 +23,6 @@ class Placement < ActiveRecord::Base
     { small: 'x40', medium: 'x60', large: 'x78' }
   end
 
-  def project_image
-    { project_image: 'x300' }
-  end
-
   def team_member_profile
     { small: 'x165', large: 'x360' }
   end

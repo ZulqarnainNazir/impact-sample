@@ -30,11 +30,11 @@ class Businesses::Content::FeedsController < Businesses::Content::BaseController
   end
 
   def classes
-    [BeforeAfter, Gallery, Offer, Post, Project]
+    [BeforeAfter, Gallery, Offer, Post]
   end
 
   def record_arrays
-    %i[before_afters galleries offers posts projects].map do |association|
+    %i[before_afters galleries offers posts].map do |association|
       @business.send(association).order(created_at: :desc).limit(20)
     end.inject(&:+).sort_by(&:created_at).reverse
   end

@@ -9,7 +9,7 @@ class Website::HomePagesController < Website::BaseController
     end
 
     if @website.blog_page && @page.feed_block
-      feed_record_arrays = %i[before_afters galleries offers posts projects].map do |association|
+      feed_record_arrays = %i[before_afters galleries offers posts].map do |association|
         @business.send(association).order(created_at: :desc).limit(@page.feed_block.items_limit)
       end.inject(&:+).sort_by(&:created_at).reverse
 

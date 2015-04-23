@@ -22,7 +22,6 @@ var ready = function() {
   $('.openings-associations').openingsAssociations();
   $('.menus-sortable').menusSortable();
   $('.pages-associations').pagesAssociations();
-  $('.project-images-associations').projectImagesAssociations();
   $('.webhosts-associations').webhostsAssociations();
   $('.webpage-designer').webpageDesigner();
   $('.wysihtml-editor').wysihtmlEditor();

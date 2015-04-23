@@ -46,7 +46,6 @@ Rails.application.routes.draw do
           resource :feed, only: %i[show]
           resources :posts, only: %i[new create edit update destroy]
           resources :galleries, only: %i[new create edit update destroy]
-          resources :projects, only: %i[new create edit update destroy]
           resources :before_afters, only: %i[new create edit update destroy]
           resources :offers, only: %i[new create edit update destroy]
         end
@@ -102,7 +101,6 @@ Rails.application.routes.draw do
     end
     resources :offers, only: %i[show]
     resources :posts, only: %i[show]
-    resources :projects, only: %i[show]
 
     get '*id', to: 'custom_pages#show', as: :custom_page
   end

@@ -11,7 +11,6 @@ class Business < ActiveRecord::Base
     has_many :galleries
     has_many :offers
     has_many :posts
-    has_many :projects
     has_many :team_members
     has_many :users
     has_one :location
@@ -71,7 +70,7 @@ class Business < ActiveRecord::Base
   end
 
   def feed_items_count
-    before_afters.count + galleries.count + offers.count + posts.count + projects.count
+    before_afters.count + galleries.count + offers.count + posts.count
   end
 
   def website_url=(value)
