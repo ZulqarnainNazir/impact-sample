@@ -17,7 +17,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     update_resource @gallery, gallery_params, location: [@business, :content_feed]
   end
 
-  def update
+  def destroy
     destroy_resource @gallery, location: [@business, :content_feed]
   end
 
