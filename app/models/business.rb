@@ -70,6 +70,10 @@ class Business < ActiveRecord::Base
     order('LOWER(name) ASC')
   end
 
+  def feed_items_count
+    before_afters.count + galleries.count + offers.count + posts.count + projects.count
+  end
+
   def website_url=(value)
     if value.to_s.match(/\Ahttp/)
       super(value.to_s)

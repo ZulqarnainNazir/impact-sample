@@ -21,8 +21,11 @@ h2.h3 What do you want do do?
             .col-xs-3
               i.fa.fa-edit.fa-5x
             .col-xs-9.text-right
-              div style="font-size: 40px" 0
-              | Posts
+              div style="font-size: 40px" = @business.feed_items_count
+              - if @business.feed_items_count == 1
+                | Post
+              - else
+                | Posts
         .panel-footer.text-right
           span.pull-left> Manage Content
           i.fa.fa-arrow-circle-right
