@@ -12,6 +12,9 @@
       .row
         .col-sm-5
           .form-group
+            = form.label :title, class: 'control-label'
+            = form.text_field :title, class: 'form-control'
+          .form-group
             = form.label :description, class: 'control-label'
             = form.text_area :description, rows: 4, class: 'form-control'
         .col-sm-7

@@ -1,19 +1,17 @@
 - title @gallery.title
 
 .container
-  .feed-item.feed-gallery
-    .feed-item-meta
-      => icon 'photo'
-      strong> Gallery
-      span.pull-right
-        span.text-muted Posted #{time_ago_in_words @gallery.created_at} ago
-    h2 = @gallery.title
-    = @gallery.description_html
-    - @gallery.gallery_images.in_groups_of(6).each do |gallery_images|
-      .row
-        - gallery_images.compact.each do |gallery_image|
-          - image = gallery_image.gallery_image
-          .col-sm-2
-            = link_to image.attachment_url, class: 'thumbnail', style: 'max-width: 200px; margin-bottom: 0', data: { toggle: 'lightbox', gallery: "gallery_#{@gallery.id}", title: image.alt? ? image.alt : @gallery.title } do
-              = image_tag image.attachment_url(:gallery_image), alt: image.alt, title: image.title
-            p: em = gallery_image.description
+  .page-header
+    h1 = @gallery.title
+  = @gallery.description_html
+  .row
+    - @gallery.gallery_images.each do |gallery_image|
+      - image = gallery_image.gallery_image
+      .col-sm-3.col-lg-2
+        = link_to [:website, @gallery, gallery_image], class: 'gallery-item' do
+            figure
+              .gallery-item-image style="background-image:url('#{image.attachment_url(:gallery_image)}')"
+                = image_tag image.attachment_url(:gallery_image), alt: image.alt, title: image.title, class: 'img-responsive'
+              figcaption.gallery-item-caption
+                h4.truncate = gallery_image.title
+                .gallery-item-text-truncate: p = gallery_image.description

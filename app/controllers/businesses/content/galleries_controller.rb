@@ -29,6 +29,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       :description,
       gallery_images_attributes: [
         :id,
+        :title,
         :description,
         :_destroy,
         gallery_image_placement_attributes: placement_attributes,

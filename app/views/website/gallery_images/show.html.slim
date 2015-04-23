@@ -1,0 +1,21 @@
+- title "#{@gallery_image.title} – #{@gallery.title}"
+
+.container
+  .row
+    .col-xs-12.col-md-4.pull-right
+      h1.h2 = @gallery_image.title
+    .col-md-8.gallery-item-page-image
+      - image = @gallery_image.gallery_image
+      = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'img-responsive'
+    .col-md-4
+      hr
+      p = @gallery_image.description
+      hr
+      h2.h4 More Images
+      .row.row-collapse
+        - @gallery.gallery_images.each do |gallery_image|
+          - image = gallery_image.gallery_image
+          .col-xs-3.col-sm-2.col-md-3
+            = link_to [:website, @gallery, gallery_image], class: 'gallery-item-page-thumb' do
+              .gallery-item-image style="background-image:url('#{image.attachment_url(:gallery_image)}')"
+                = image_tag image.attachment_url(:gallery_image), alt: image.alt, title: image.title, class: 'img-responsive'
