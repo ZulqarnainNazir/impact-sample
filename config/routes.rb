@@ -96,7 +96,7 @@ Rails.application.routes.draw do
     resource :contact_page, path: 'contact', only: %i[show create]
 
     resources :before_afters, only: %i[show]
-    resources :galleries, only: %i[show] do
+    resources :galleries, only: %i[index show] do
       resources :gallery_images, only: %i[show]
     end
     resources :offers, only: %i[show]

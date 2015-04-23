@@ -7,7 +7,7 @@
         span.icon-bar
         span.icon-bar
       - if business.logo.present?
-        = link_to image_tag(business.logo.attachment_url(:small), alt: business.name), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
+        = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
       - else
         = link_to business.name, :root, class: 'navbar-brand', style: 'margin-left: -20px;'
     #header-collapse.navbar-collapse.collapse

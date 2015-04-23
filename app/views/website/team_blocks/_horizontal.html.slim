@@ -7,7 +7,7 @@
     - team_members.each do |member|
       .team-member.col-sm-4
         - if member.team_member_profile
-          p = image_tag member.team_member_profile.attachment_url(:large), alt: member.team_member_profile.alt, class: 'img-responsive', style: 'width: 100%'
+          p = image_tag member.team_member_profile.attachment_url(:team_member_profile_large), alt: member.team_member_profile.alt, class: 'img-responsive', style: 'width: 100%'
         h4 = member.name
         p = member.title
         - if member.email?

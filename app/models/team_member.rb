@@ -14,10 +14,10 @@ class TeamMember < ActiveRecord::Base
   end
 
   def small_profile_url
-    team_member_profile.try(:attachment_url, :small)
+    team_member_profile.try(:attachment_url, :team_member_profile_small)
   end
 
   def large_profile_url
-    team_member_profile.try(:attachment_url, :large)
+    team_member_profile.try(:attachment_url, :team_member_profile_large)
   end
 end

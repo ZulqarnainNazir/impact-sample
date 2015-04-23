@@ -16,14 +16,25 @@ class Placement < ActiveRecord::Base
   end
 
   def gallery_image
-    { gallery_image: '200x200#' }
+    {
+      gallery_small: '200x200#',
+      gallery_large: '800x800',
+    }
   end
 
   def logo
-    { small: 'x40', medium: 'x60', large: 'x78' }
+    {
+      logo_small: 'x40',
+      logo_medium: 'x60',
+      logo_large: 'x78',
+      logo_square: '200x200#',
+    }
   end
 
   def team_member_profile
-    { small: 'x165', large: 'x360' }
+    {
+      team_member_profile_small: 'x165',
+      team_member_profile_large: 'x360',
+    }
   end
 end

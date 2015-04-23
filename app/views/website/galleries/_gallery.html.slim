@@ -11,8 +11,8 @@
       .col-sm-3.col-lg-2
         = link_to [:website, gallery, gallery_image], class: 'gallery-item' do
             figure
-              .gallery-item-image style="background-image:url('#{image.attachment_url(:gallery_image)}')"
-                = image_tag image.attachment_url(:gallery_image), alt: image.alt, title: image.title, class: 'img-responsive'
+              .gallery-item-image style="background-image:url('#{image.attachment_url(:gallery_image_small)}')"
+                = image_tag image.attachment_url(:gallery_image_small), alt: image.alt, title: image.title, class: 'img-responsive'
               figcaption.gallery-item-caption
                 h4.truncate = gallery_image.title
                 .gallery-item-text-truncate: p = gallery_image.description

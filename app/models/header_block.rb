@@ -12,9 +12,9 @@ class HeaderBlock < Block
     as_json(methods: %i[background_color foreground_color link_color]).merge(
       name: business.name,
       pages: business.website.header_pages.as_json(methods: %i[cached_webpages_json]),
-      logoSmall: business.logo.try(:attachment_url, :small),
-      logoMedium: business.logo.try(:attachment_url, :medium),
-      logoLarge: business.logo.try(:attachment_url, :large),
+      logoSmall: business.logo.try(:attachment_url, :logo_small),
+      logoMedium: business.logo.try(:attachment_url, :logo_medium),
+      logoLarge: business.logo.try(:attachment_url, :logo_large),
     )
   end
 
