@@ -22,7 +22,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
       about_page_attributes: [
         :_destroy,
       ],
-      blogt_page_attributes: [
+      blog_page_attributes: [
         :_destroy,
       ],
       contact_page_attributes: [
