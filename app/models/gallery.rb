@@ -8,6 +8,7 @@ class Gallery < ActiveRecord::Base
 
   accepts_nested_attributes_for :gallery_images, allow_destroy: true, reject_if: proc { |a|
     a['_destroy'] == '1' || (
+      a['title'].blank? &&
       a['description'].blank? &&
       a['gallery_image_placement_attributes'].kind_of?(Hash) &&
       a['gallery_image_placement_attributes'].select { |k,_| !%w[image_business image_user].include?(k) }.values.all?(&:blank?)

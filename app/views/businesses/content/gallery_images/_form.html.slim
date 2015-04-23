@@ -1,6 +1,6 @@
 - image_placement_json = gallery_image.gallery_image_placement_json.with_indifferent_access
 - image_json = image_placement_json[:image]
-- appended = gallery_image.new_record? && gallery_image.errors.empty? && gallery_image.description.blank? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
+- appended = gallery_image.new_record? && gallery_image.errors.empty? && gallery_image.description.blank? && gallery_image.title.blank? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
 = gallery_form.fields_for :gallery_images, gallery_image, child_index: appended ? 98765432101 : nil do |form|
   .gallery-image-fields class=('is-appended' if appended)
     .gallery-image-fields-remove
