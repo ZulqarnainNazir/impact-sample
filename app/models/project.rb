@@ -20,4 +20,8 @@ class Project < ActiveRecord::Base
   def description_html
     Sanitize.fragment(description.to_s, Sanitize::Config::RELAXED).html_safe
   end
+
+  def to_param
+    "#{id}-#{title}".parameterize
+  end
 end
