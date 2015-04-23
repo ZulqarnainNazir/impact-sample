@@ -17,8 +17,8 @@ class Placement < ActiveRecord::Base
 
   def gallery_image
     {
-      gallery_small: '200x200#',
-      gallery_large: '800x800',
+      gallery_image_small: '200x200#',
+      gallery_image_large: '800x800',
     }
   end
 
