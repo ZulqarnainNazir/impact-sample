@@ -4,7 +4,7 @@
     strong> Project
     span.pull-right
       span.text-muted Posted #{time_ago_in_words project.created_at} ago
-  h2 = project.title
+  h2 = link_to project.title, [:website, project]
   = project.description_html
   - project.project_images.each do |project_image|
     - image = project_image.project_image

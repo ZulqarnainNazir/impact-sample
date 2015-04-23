@@ -96,6 +96,12 @@ Rails.application.routes.draw do
     resource :blog_page, path: 'blog', only: %i[show]
     resource :contact_page, path: 'contact', only: %i[show create]
 
+    resources :before_afters, only: %i[show]
+    resources :galleries, only: %i[show]
+    resources :offers, only: %i[show]
+    resources :posts, only: %i[show]
+    resources :projects, only: %i[show]
+
     get '*id', to: 'custom_pages#show', as: :custom_page
   end
 end

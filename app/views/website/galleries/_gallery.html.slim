@@ -4,7 +4,7 @@
     strong> Gallery
     span.pull-right
       span.text-muted Posted #{time_ago_in_words gallery.created_at} ago
-  h2 = gallery.title
+  h2 = link_to gallery.title, [:website, gallery]
   = gallery.description_html
   - gallery.gallery_images.in_groups_of(6).each do |gallery_images|
     .row

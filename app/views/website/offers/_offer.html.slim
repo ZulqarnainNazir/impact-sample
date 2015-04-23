@@ -6,7 +6,7 @@
       span.text-muted Posted #{time_ago_in_words offer.created_at} ago
   .panel.panel-default
     .panel-heading
-      h2.panel-title = offer.title
+      h2.panel-title = link_to offer.title, [:website, offer]
     .panel-body
       span.btn.btn-lg.btn-primary.pull-right = offer.offer
       = offer.description_html

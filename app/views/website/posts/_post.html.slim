@@ -4,5 +4,5 @@
     strong> Post
     span.pull-right
       span.text-muted Posted #{time_ago_in_words post.created_at} ago
-  h2 = post.title
+  h2 = link_to post.title, [:website, post]
   = post.description_html
