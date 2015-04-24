@@ -43,11 +43,13 @@ Rails.application.routes.draw do
 
         namespace :content do
           root to: 'roots#show'
+          resource :images_upload, only: %i[new create]
           resource :feed, only: %i[show]
-          resources :posts, only: %i[new create edit update destroy]
-          resources :galleries, only: %i[new create edit update destroy]
           resources :before_afters, only: %i[new create edit update destroy]
+          resources :galleries, only: %i[new create edit update destroy]
+          resources :images, only: %i[index edit update destroy]
           resources :offers, only: %i[new create edit update destroy]
+          resources :posts, only: %i[new create edit update destroy]
         end
 
         namespace :data do

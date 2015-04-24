@@ -1,0 +1,60 @@
+- title 'Edit Image'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li = link_to 'Media Manager', [@business, :content_images]
+  li.active Edit Image
+
+= errors_for @image
+= form_for @image, url: [@business, :content, @image] do |form|
+  .row
+    .col-sm-6
+      = image_tag @image.attachment_url, alt: @image.alt, title: @image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
+      .small style="overflow:hidden; text-overflow: ellipsis; margin: -15px 0 15px"
+        strong => @image.attachment_file_name
+        br>
+        => @image.attachment_content_type
+        ' –
+        = number_to_human_size @image.attachment_file_size
+      .small
+        ' Uploaded
+        strong => time_ago_in_words @image.created_at
+        ' ago by
+        - if @image.user
+          strong => @image.user.email
+        - else
+          em> User ##{@image.user_id}"
+        ' at
+        - if @image.business
+          strong = link_to [@image.business, :dashboard], target: :_blank do
+            => @image.business.name
+            i.fa.fa-external-link
+        - else
+          em Business ##{@image.business_id}"
+      hr
+      h2.h4 #{icon 'photo'} Image Placements
+      - if @image.placements.empty?
+        p
+          em> No image placements found.
+          = link_to 'Delete', [@business, :content, @image], method: :delete, class: 'btn btn-xs btn-danger', style: 'margin-left: 10px', data: { confirm: 'Are you sure?' }
+      - else
+        ul.list-unstyled
+          - @image.placements.each do |placement|
+            li: em = placement.context
+    .col-sm-6
+      .form-group
+        = form.label :alt, class: 'control-label' do
+          code> ALT
+          | HTML Attribute
+        = form.text_field :alt, class: 'form-control'
+        p.help-block This attribute defines the alternative text describing the image. Users will see this displayed if the image URL is wrong, the image is not in one of the supported formats, or if the image is not yet downloaded.
+      .form-group
+        = form.label :title, class: 'control-label' do
+          code> TITLE
+          | HTML Attribute
+        = form.text_field :title, class: 'form-control'
+        p.help-block Text to be displayed in a tooltip when hovering over the element.
+      div style="margin-top:10px"
+        = form.button 'Save Image Attributes', class: 'btn btn-primary'

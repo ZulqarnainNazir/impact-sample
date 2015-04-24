@@ -1,0 +1,10 @@
+en:
+  businesses:
+    content:
+      images:
+        update:
+          notice: The image was updated successfully.
+          alert: There was a problem saving the image.
+        destroy:
+          notice: The image was deleted successfully.
+          alert: There was a problem removing the image.

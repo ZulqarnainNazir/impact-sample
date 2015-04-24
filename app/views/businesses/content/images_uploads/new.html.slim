@@ -1,0 +1,13 @@
+- title 'Bulk Upload'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li.active Media Manager
+
+ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
+  li = link_to 'Existing Images', [@business, :content_images]
+  li.active = link_to 'Bulk Upload', '#'
+
+p.bg-warning TODO

@@ -45,6 +45,9 @@ html lang="en"
                     li = link_to [:new, @business, :content_post] do
                       i.fa.fa-edit>
                       | Custom Post
+                    li.list-divider = link_to [@business, :content_images] do
+                      i.fa.fa-photo>
+                      | Media Manager
                 - if @business.website
                   li class=('active' if controller_path.match(/\Abusinesses\/website/))
                     span
