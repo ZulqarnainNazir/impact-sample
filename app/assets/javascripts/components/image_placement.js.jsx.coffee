@@ -193,6 +193,7 @@ ImagePlacement = React.createClass
         dropZone: "##{this.id('dropzone')}"
         add: this.uploadAdd
         progress: this.uploadProgress
+        always: this.uploadAlways
         done: this.uploadDone
         fail: this.uploadFail
       this.setState uploadXHR: uploadXHR
@@ -248,6 +249,7 @@ ImagePlacement = React.createClass
     $('#' + this.id('image_title')).val('')
 
   uploadAdd: (event, data) ->
+    this.disableClosestFormButton()
     file = data.files[0]
     reader = new FileReader()
     reader.onload = this.uploadRead.bind(null, file)
@@ -276,6 +278,9 @@ ImagePlacement = React.createClass
     if this.state.uploadState is 'uploading'
       this.setState
         uploadProgress: parseInt(data.loaded / data.total * 100, 10)
+
+  uploadAlways: ->
+    this.enableClosestFormButton()
 
   uploadDone: (event, data) ->
     if this.state.uploadState is 'uploading'
@@ -315,5 +320,15 @@ ImagePlacement = React.createClass
 
   triggerFileInput: ->
     $(this.refs.fileInput.getDOMNode()).click()
+
+  disableClosestFormButton: ->
+    formButton = $(this.getDOMNode()).closest('form').find('button[type="submit"]')
+    formButton.removeClass('btn-primary').addClass('disabled btn-default')
+    formButton.prepend($('<i class="fa fa-spinner fa-spin" style="margin-right:5px"></i>'))
+
+  enableClosestFormButton: ->
+    formButton = $(this.getDOMNode()).closest('form').find('button[type="submit"]')
+    formButton.removeClass('disabled btn-default').addClass('btn-primary')
+    formButton.find('i').remove()
 
 window.ImagePlacement = ImagePlacement
