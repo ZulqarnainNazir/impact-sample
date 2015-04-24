@@ -70,7 +70,7 @@ ImagePlacement = React.createClass
 
   renderImage: ->
     if this.state.placementDestroy != '1' and this.imageURL()
-      `<div className={this.name('dropzone')}>
+      `<div id={this.id('dropzone')}>
         <div className="small">
           <input type="hidden" name={this.name('image_attachment_cache_url')} value={this.state.imageAttachmentCacheURL} />
           <input type="hidden" name={this.name('image_attachment_content_type')} value={this.state.imageAttachmentContentType} />
@@ -84,7 +84,7 @@ ImagePlacement = React.createClass
         </div>
       </div>`
     else
-      `<div className={this.name('dropzone')}>
+      `<div id={this.id('dropzone')}>
         <ImageEmpty padding="20" />
       </div>`
 
@@ -190,7 +190,7 @@ ImagePlacement = React.createClass
         url: this.props.presignedPost.url
         formData: this.props.presignedPost.fields
         paramName: 'file'
-        dropZone: ".#{this.name('dropzone')}"
+        dropZone: "##{this.id('dropzone')}"
         add: this.uploadAdd
         progress: this.uploadProgress
         done: this.uploadDone
