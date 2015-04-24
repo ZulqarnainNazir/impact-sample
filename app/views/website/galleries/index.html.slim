@@ -5,8 +5,9 @@
     li = link_to icon('home'), :website_root
     li.active Galleries
   .page-header
-    h1 Browse Galleries 
-      .small Click to view all images in a gallery
+    h1
+      Browse Galleries 
+      span.small Click to view all images in a gallery
   .row
     - @galleries.each do |gallery|
       - image = gallery.gallery_images.first.try(:gallery_image)
