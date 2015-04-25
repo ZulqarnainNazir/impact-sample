@@ -12,3 +12,5 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
 
 .row.row-narrow
   = render partial: 'image', collection: @images, locals: { business: @business }
+hr
+= paginate @images
