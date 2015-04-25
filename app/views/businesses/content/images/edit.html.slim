@@ -34,15 +34,22 @@ ol.breadcrumb
         - else
           em Business ##{@image.business_id}"
       hr
-      h2.h4 #{icon 'photo'} Image Placements
+      h2.h4 #{icon 'photo'} Where This Image Currently Appears
       - if @image.placements.empty?
         p
           em> No image placements found.
-          = link_to 'Delete', [@business, :content, @image], method: :delete, class: 'btn btn-xs btn-danger', style: 'margin-left: 10px', data: { confirm: 'Are you sure?' }
+          = link_to 'Delete Image', [@business, :content, @image], method: :delete, class: 'btn btn-xs btn-danger', style: 'margin-left: 10px', data: { confirm: 'Are you sure?' }
       - else
         ul.list-unstyled
           - @image.placements.each do |placement|
-            li: em = placement.context
+            li
+              - if placement.placer_location.present?
+                = link_to placement.placer_location, target: :_blank do
+                  => "#{placement.placer_type} (#{placement.context})"
+                  i.fa.fa-external-link
+              - else
+                em => "#{placement.placer_type} (#{placement.context})"
+        .small Want to delete this image? You must make sure it’s not being used first.
     .col-sm-6
       .form-group
         = form.label :alt, class: 'control-label' do
