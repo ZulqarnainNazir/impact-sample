@@ -11,7 +11,7 @@
       h1.h2 = @gallery_image.title
     .col-md-8.gallery-item-page-image
       - image = @gallery_image.gallery_image
-      = image_tag image.attachment_url(:gallery_image_large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover, max-height:700px'
+      = image_tag image.attachment_url(:gallery_image_large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
     .col-md-4
       - if @gallery_image.title?
         hr
