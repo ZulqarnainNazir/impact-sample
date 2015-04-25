@@ -12,7 +12,7 @@ BlockInputNumber = React.createClass
   render: ->
     `<div className="form-group">
       <label htmlFor={this.props.id} className="control-label">{this.props.label}</label>
-      <input id={this.props.id} name={this.props.name} type="number" min={this.pros.min} max={this.props.max} className="form-control" defaultValue={this.props.value} />
+      <input id={this.props.id} name={this.props.name} type="number" min={this.props.min} max={this.props.max} className="form-control" defaultValue={this.props.value} />
     </div>`
 
 window.BlockInputNumber = BlockInputNumber
