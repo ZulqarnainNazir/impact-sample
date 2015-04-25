@@ -6,17 +6,19 @@
     li = link_to 'Galleries', :website_galleries
     li.active = @gallery.title
   .page-header
-    h1 = @gallery.title
+    h1
+      => @gallery.title
+      span.small Click to View All #{pluralize @gallery.gallery_images.count, 'Pic'}
+      span.small.pull-right
+        span.small style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.created_at} ago
   = @gallery.description_html
-  p.help-block Click images below to view larger:
-  .row
+  .row.row-narrow
     - @gallery.gallery_images.each do |gallery_image|
       - image = gallery_image.gallery_image
-      .col-sm-3.col-lg-2
+      .col-xs-3.col-lg-2
         = link_to [:website, @gallery, gallery_image], class: 'gallery-item' do
             figure
               .gallery-item-image style="background-image:url('#{image.attachment_url(:gallery_image_small)}')"
                 = image_tag image.attachment_url(:gallery_image_small), alt: image.alt, title: image.title, class: 'img-responsive'
               figcaption.gallery-item-caption
-                h4.truncate = gallery_image.title
-                .gallery-item-text-truncate: p = gallery_image.description
+                h4.truncate = image.title

@@ -25,8 +25,6 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
 
   def gallery_params
     params.require(:gallery).permit(
-      :title,
-      :description,
       gallery_images_attributes: [
         :id,
         :title,

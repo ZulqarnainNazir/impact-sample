@@ -58,6 +58,8 @@ FeedBlockHandlers =
     name: this.feedBlockName('items_limit')
     value: this.state.feedBlock.items_limit
     label: 'Items Limit'
+    min: 4
+    max: 20
 
   feedBlockOptionsProps: ->
     visible: this.state.editing
@@ -70,7 +72,7 @@ FeedBlockHandlers =
   # PRIVATE LEVEL 2
 
   feedBlockDefaultProps: ->
-    items_limit: 20
+    items_limit: 10
 
   feedBlockAdd: (event, callback) ->
     event.preventDefault() if event

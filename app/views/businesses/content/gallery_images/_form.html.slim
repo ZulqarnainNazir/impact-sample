@@ -9,22 +9,13 @@
         span.sr-only> Destroy
         i.fa.fa-trash-o
     .gallery-image-fields-content
-      .row
-        .col-sm-5
-          .form-group
-            = form.label :title, class: 'control-label'
-            = form.text_field :title, class: 'form-control'
-          .form-group
-            = form.label :description, class: 'control-label'
-            = form.text_area :description, rows: 4, class: 'form-control'
-        .col-sm-7
-          = react_unmounted_component 'ImagePlacement',
-            inputPrefix: "gallery[gallery_images_attributes][#{form.options[:child_index]}][gallery_image_placement_attributes]",
-            imagesPath: business_images_path(gallery_form.object.business),
-            label: 'Image',
-            presignedPost: s3_presigned_post_hash,
-            placement: form.object.gallery_image_placement_json,
-            buttonSize: 'small',
-            buttonRemove: false
+      = react_unmounted_component 'ImagePlacement',
+        inputPrefix: "gallery[gallery_images_attributes][#{form.options[:child_index]}][gallery_image_placement_attributes]",
+        imagesPath: business_images_path(gallery_form.object.business),
+        label: 'Image',
+        presignedPost: s3_presigned_post_hash,
+        placement: form.object.gallery_image_placement_json,
+        buttonSize: 'small',
+        buttonRemove: false
     .gallery-image-fields-warning.text-muted
       p: em Gallery Image will be removed upon Save

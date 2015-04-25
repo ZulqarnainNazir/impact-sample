@@ -1,11 +1,10 @@
 class FeedBlock < Block
   store_accessor :settings, :items_limit
 
-  before_validation do
-    self.theme = 'default'
-  end
+  validates :items_limit, presence: true, numericality: { greater_than: 3, less_than: 21 }
 
-  def items_limit
-    super.to_i > 0 ? super.to_i : 10
+  before_validation do
+    self.items_limit = 10 unless items_limit.present?
+    self.theme = 'default'
   end
 end
