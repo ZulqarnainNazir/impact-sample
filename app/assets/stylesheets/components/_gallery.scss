@@ -20,7 +20,7 @@
 }
 
 .gallery-item-caption {
-  padding: ($panel-body-padding / 2) $panel-body-padding;
+  padding: ($panel-body-padding / 2) 5px;
   margin-bottom: $line-height-computed;
   .truncate {
     white-space: nowrap;
