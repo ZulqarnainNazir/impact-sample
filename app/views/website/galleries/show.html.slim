@@ -12,7 +12,7 @@
       span.small.pull-right
         span.small style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.created_at} ago
   = @gallery.description_html
-  .row.row-narrow
+  .row.row-narrow style="margin-top:15px"
     - @gallery.gallery_images.each do |gallery_image|
       - image = gallery_image.gallery_image
       .col-xs-3.col-lg-2
