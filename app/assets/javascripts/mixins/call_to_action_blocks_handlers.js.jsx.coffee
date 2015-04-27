@@ -127,6 +127,7 @@ CallToActionBlocksHandlers =
     temp_content_type: block.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.callToActionBlockDropZoneClassName(block)
+    bulkUploadPath: this.props.bulkUploadPath
 
   callToActionBlockInputLinkProps: (block) ->
     id: this.callToActionBlockID.bind(null, block)

@@ -29,6 +29,7 @@ ol.breadcrumb
       defaultLinkColor: form.object.website.link_color,
       presignedPost: s3_presigned_post_hash,
       imagesPath: business_images_path(form.object.website.business),
+      bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       teamMembers: form.object.website.business.team_members.as_json(methods: %i[name small_profile_url large_profile_url]),
       teamMembersPath: business_data_team_members_path(form.object.website.business),
       initialAboutBlock: form.object.about_block.try(:as_block_json, form.object.about_block.try(:about_block_image_placement)),

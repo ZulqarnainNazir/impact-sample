@@ -16,7 +16,7 @@ ImagePlacement = React.createClass
         attachment_content_type: React.PropTypes.string
         attachment_file_name: React.PropTypes.string
         attachment_file_size: React.PropTypes.string
-        attachment_url: React.PropTypes.string
+        attachment_thumbnail_url: React.PropTypes.string
       ).isRequired
     ).isRequired
 
@@ -32,7 +32,7 @@ ImagePlacement = React.createClass
     imageAttachmentContentType: this.props.placement.image.attachment_content_type
     imageAttachmentFileName: this.props.placement.image.attachment_file_name
     imageAttachmentFileSize: this.props.placement.image.attachment_file_size
-    imageAttachmentURL: this.props.placement.image.attachment_url
+    imageAttachmentURL: this.props.placement.image.attachment_thumbnail_url
     imageID: this.props.placement.image.id
     imageTitle: this.props.placement.image.title
     libraryImages: []
@@ -43,7 +43,7 @@ ImagePlacement = React.createClass
     placementDestroy: this.props.placement.destroy
     placementID: this.props.placement.id
     uploadProgress: 0
-    uploadState: if this.props.placement.image.attachment_url and this.props.placement.image.attachment_url.length > 0 then 'attached' else 'empty'
+    uploadState: if this.props.placement.image.attachment_thumbnail_url and this.props.placement.image.attachment_thumbnail_url.length > 0 then 'attached' else 'empty'
     uploadXHR: null
 
   componentDidMount: ->
@@ -133,6 +133,7 @@ ImagePlacement = React.createClass
           </span>
         </span>
         {this.renderButtonRemove()}
+        {this.renderBulkUploadLink()}
       </div>`
 
   renderButtonRemove: ->
@@ -140,6 +141,10 @@ ImagePlacement = React.createClass
       `<span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
         <i className="fa fa-close" /> Remove
       </span>`
+
+  renderBulkUploadLink: ->
+    if this.props.bulkUploadPath and this.props.bulkUploadPath.length > 0
+      `<p className="small" style={{marginTop: 10}}>Have a lot of images to add? <a href={this.props.bulkUploadPath} target="_blank">Try Bulk Upload</a></p>`
 
   renderLibrary: ->
     `<div id={this.id('library')} className="modal fade">
@@ -220,7 +225,7 @@ ImagePlacement = React.createClass
       imageAttachmentContentType: image.attachment_content_type
       imageAttachmentFileName: image.attachment_file_name
       imageAttachmentFileSize: image.attachment_file_size
-      imageAttachmentURL: image.attachment_url
+      imageAttachmentURL: image.attachment_thumbnail_url
       imageID: image.id
       imageTitle: image.title
       libraryVisible: false

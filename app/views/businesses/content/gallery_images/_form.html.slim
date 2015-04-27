@@ -15,6 +15,7 @@
         label: 'Image',
         presignedPost: s3_presigned_post_hash,
         placement: form.object.gallery_image_placement_json,
+        bulkUploadPath: new_business_content_images_upload_path(gallery_form.object.business),
         buttonSize: 'small',
         buttonRemove: false
     .gallery-image-fields-warning.text-muted

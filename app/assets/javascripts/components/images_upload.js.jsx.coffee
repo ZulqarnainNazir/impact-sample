@@ -30,13 +30,11 @@ ImagesUpload = React.createClass
       `<div>
         <input type="file" className="hidden" ref="fileInput" multiple />
         <div className="row">
-          <div className="col-sm-3">
+          <div className="col-sm-4 col-sm-offset-4">
             <div onClick={this.triggerFileInput} className="btn btn-block btn-primary" style={{marginRight: 20}}><i className="fa fa-plus-circle"></i> Choose Images</div>
           </div>
-          <div className="col-sm-9">
-            <div className="images-upload-dropzone text-muted text-center" style={{border: 'dashed 1px #bbb', borderRadius: 2, padding: '8px 20px'}}>Or drop images here to begin bulk upload.</div>
-          </div>
         </div>
+        <div className="images-upload-dropzone text-muted text-center" style={{border: 'dashed 1px #bbb', borderRadius: 2, fontSize: 18, margin: '40px 0', padding: '40px 20px'}}>Or drop images here to begin bulk upload.</div>
       </div>`
 
   renderUploads: ->

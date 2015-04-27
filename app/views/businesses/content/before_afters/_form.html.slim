@@ -11,6 +11,7 @@
           label: 'Before Image',
           placement: form.object.before_image_placement_json,
           presignedPost: s3_presigned_post_hash,
+          bulkUploadPath: new_business_content_images_upload_path(form.object.business),
           buttonSize: 'small'
   .col-sm-6
     .panel.panel-default
@@ -21,6 +22,7 @@
           label: 'After Image',
           placement: form.object.after_image_placement_json,
           presignedPost: s3_presigned_post_hash,
+          bulkUploadPath: new_business_content_images_upload_path(form.object.business),
           buttonSize: 'small'
 .form-group
   = form.label :description, class: 'control-label'

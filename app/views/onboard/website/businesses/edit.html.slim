@@ -30,7 +30,8 @@
             inputPrefix: 'business[logo_placement_attributes]',
             label: 'Logo Image',
             placement: form.object.logo_placement_json,
-            presignedPost: s3_presigned_post_hash
+            presignedPost: s3_presigned_post_hash,
+            bulkUploadPath: new_business_content_images_upload_path(form.object)
           hr
           .form-group
             = form.label :name, class: 'control-label'

@@ -148,6 +148,11 @@ BlockInputImage = React.createClass
         <span onClick={this.props.removeImage} className="btn btn-sm btn-danger pull-right">
           <i className="fa fa-close" /> Remove
         </span>
+        {this.renderBulkUploadLink()}
       </div>`
+
+  renderBulkUploadLink: ->
+    if this.props.bulkUploadPath and this.props.bulkUploadPath.length > 0
+      `<p className="small" style={{marginTop: 10}}>Have a lot of images to add? <a href={this.props.bulkUploadPath} target="_blank">Try Bulk Upload</a></p>`
 
 window.BlockInputImage = BlockInputImage

@@ -104,6 +104,7 @@ SpecialtyBlocksHandlers =
     temp_content_type: block.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.specialtyBlockDropZoneClassName(block)
+    bulkUploadPath: this.props.bulkUploadPath
 
   specialtyBlockInputHeadingProps: (block) ->
     id: this.specialtyBlockID(block, 'heading')

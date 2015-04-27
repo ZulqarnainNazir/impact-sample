@@ -39,9 +39,9 @@ $.fn.galleryImagesAssociations = ->
         e.preventDefault()
         appendGalleryImage()
 
-      # Trigger the append page function immediately if there are no exsting rows.
-      if associations.find('.gallery-image-fields').length is 0
-        appendGalleryImage()
+      # Ensure there are six gallery images.
+      if associations.find('.gallery-image-fields').length < 6
+        appendGalleryImage() for [1..(6 - associations.find('.gallery-image-fields').length)]
 
     # Mount all existing gallery images.
     unmountedExistingReactComponents = associations.find('.gallery-image-fields:not(.is-appended) [data-react-unmounted-class]')

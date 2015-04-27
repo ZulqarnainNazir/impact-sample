@@ -56,7 +56,7 @@ module PlacedImageConcern
       define_method "#{placement_name}_json" do |*args|
         placement = send(placement_name) || send("build_#{placement_name}")
         placement.build_image unless placement.image
-        placement.as_json(include: { image: { methods: :attachment_url }})
+        placement.as_json(include: { image: { methods: :attachment_thumbnail_url }})
       end
     end
   end

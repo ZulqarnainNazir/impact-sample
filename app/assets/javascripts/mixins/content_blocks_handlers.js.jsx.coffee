@@ -103,6 +103,7 @@ ContentBlocksHandlers =
     temp_content_type: block.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.contentBlockDropZoneClassName(block)
+    bulkUploadPath: this.props.bulkUploadPath
 
   contentBlockInputTextProps: (block) ->
     id: this.contentBlockID(block, 'text')

@@ -48,6 +48,6 @@ class Image < ActiveRecord::Base
   private
 
   def default_styles
-    { thumbnail: '160x160#' }
+    { thumbnail: '260x260#' }
   end
 end

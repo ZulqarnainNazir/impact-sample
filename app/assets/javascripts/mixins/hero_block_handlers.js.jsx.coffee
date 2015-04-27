@@ -132,6 +132,7 @@ HeroBlockHandlers =
     temp_content_type: this.state.heroBlock.image_temp_content_type
     label: 'Background Image'
     dropZoneClassName: this.heroBlockDropZoneClassName()
+    bulkUploadPath: this.props.bulkUploadPath
 
   heroBlockInputLinkProps: ->
     id: this.heroBlockID
