@@ -6,6 +6,7 @@ ruby '2.2.0'
 gem 'kaminari'
 gem 'kaminari-bootstrap'
 
+gem 'ancestry'
 gem 'asset_sync'
 gem 'autoprefixer-rails'
 gem 'aws-sdk-v1'

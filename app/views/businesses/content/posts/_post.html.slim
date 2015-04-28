@@ -8,4 +8,4 @@
         = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   h2 = post.title
-  = post.description_html
+  = truncate post.sections_content, length: 500

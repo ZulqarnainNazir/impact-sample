@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 27) do
+ActiveRecord::Schema.define(version: 28) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,19 @@ ActiveRecord::Schema.define(version: 27) do
   add_index "placements", ["image_id"], name: "index_placements_on_image_id", using: :btree
   add_index "placements", ["placer_type", "placer_id"], name: "index_placements_on_placer_type_and_placer_id", using: :btree
 
+  create_table "post_sections", force: :cascade do |t|
+    t.integer  "post_id"
+    t.text     "heading",    null: false
+    t.text     "content"
+    t.text     "ancestry"
+    t.integer  "kind",       null: false
+    t.integer  "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "post_sections", ["post_id"], name: "index_post_sections_on_post_id", using: :btree
+
   create_table "posts", force: :cascade do |t|
     t.integer  "business_id", null: false
     t.text     "title",       null: false
@@ -324,4 +337,5 @@ ActiveRecord::Schema.define(version: 27) do
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
+  add_foreign_key "post_sections", "posts"
 end

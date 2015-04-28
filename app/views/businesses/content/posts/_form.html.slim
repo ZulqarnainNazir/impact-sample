@@ -1,13 +1,9 @@
-.row
-  .col-sm-8
-    .form-group
-      = form.label :title, class: 'control-label'
-      = form.text_field :title, class: 'form-control'
-    .form-group
-      = form.label :description, class: 'control-label'
-      = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor'
+.form-group
+  = form.label :title, class: 'control-label'
+  = form.text_field :title, class: 'form-control'
+ol.post-sections-associations
+  = render partial: 'businesses/content/post_sections/form', collection: form.object.arranged_sections + [form.object.post_sections.build], as: :post_section, locals: { post_form: form }
 hr
 .row
-  .col-sm-4
-    .form-group.text-center
-      = form.button 'Save Post', class: 'btn btn-block btn-primary'
+  .col-sm-4.col-sm-offset-4
+    = form.button 'Save Post', class: 'btn btn-block btn-primary'

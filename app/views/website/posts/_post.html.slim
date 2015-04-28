@@ -5,4 +5,4 @@
     span.pull-right
       span.text-muted Posted #{time_ago_in_words post.created_at} ago
   h2 = link_to post.title, [:website, post]
-  = post.description_html
+  = truncate post.sections_content, length: 500

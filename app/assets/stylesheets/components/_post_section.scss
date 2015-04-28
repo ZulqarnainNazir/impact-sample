@@ -1,0 +1,80 @@
+.post-sections-associations {
+  margin: 1em 0;
+  padding: 0;
+  list-style: none;
+  ol, ul {
+    margin: 1em 0;
+    list-style: none;
+  }
+  ul.wysihtml5-toolbar {
+    margin: 0 0 0.5em;
+  }
+}
+
+.post-section-fields {
+  @include clearfix;
+  position: relative;
+  margin: 1em 0;
+  display: block;
+  .post-section-fields-warning {
+    display: none;
+  }
+  &.will-destroy {
+    .post-section-fields-warning {
+      display: block;
+    }
+    .panel-heading {
+      display: none;
+    }
+    .post-section-fields-content {
+      display: none;
+    }
+    .panel-footer label.btn {
+      background-color: rgba(255,0,0,0.8);
+    }
+  }
+  &.image_right {
+  }
+  &.image_left {
+    .col-sm-7 {
+      float: right;
+    }
+  }
+  &.full_text {
+    .col-sm-5 {
+      display: none;
+    }
+    .col-sm-7 {
+      width: 100%;
+      iframe {
+        width: 100%;
+      }
+    }
+  }
+  &.full_image {
+    .col-sm-7 {
+      display: none;
+    }
+    .col-sm-5 {
+      width: 100%;
+    }
+  }
+  .panel-footer {
+    padding: 0;
+    label.btn {
+      border: none;
+      border-radius: 0;
+      border-left: solid 1px #ddd;
+    }
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+  }
+}
+
+.post-section-handle {
+  position: absolute;
+  top: 0.5em;
+  left: -2em;
+  cursor: pointer;
+}
