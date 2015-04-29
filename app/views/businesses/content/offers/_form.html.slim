@@ -4,12 +4,12 @@
       = form.label :title, 'Title *', class: 'control-label'
       = form.text_field :title, class: 'form-control'
   .col-sm-4.text-right style="margin-top:28px"
-    span.btn-group.btn-group-sm>
+    span.offer-row-kind> style="margin-right:5px" = form.object.kind.try(:titleize) || 'Image Left'
+    span.btn-group.btn-group-sm
       span.btn.btn-default.offer-row-switch
         i.fa.fa-caret-left
       span.btn.btn-default.offer-row-switch
         i.fa.fa-caret-right
-    span.offer-row-kind style="margin-left:5px" = form.object.kind.try(:titleize) || 'Image Left'
 hr
 .offer-row class=(form.object.kind || 'image_left')
   = form.hidden_field :kind
@@ -62,8 +62,10 @@ javascript:
     if ($('.offer-row').hasClass('image_left')) {
       $('.offer-row').removeClass('image_left').addClass('image_right');
       $('.offer-row-kind').text('Image Right');
+      $('.offer-row input[name*="kind"]').val('image_right');
     } else {
       $('.offer-row').removeClass('image_right').addClass('image_left');
       $('.offer-row-kind').text('Image Left');
+      $('.offer-row input[name*="kind"]').val('image_left');
     }
   });

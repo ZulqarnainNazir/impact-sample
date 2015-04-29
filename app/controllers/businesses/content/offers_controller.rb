@@ -40,6 +40,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
 
   def offer_params
     params.require(:offer).permit(
+      :kind,
       :description,
       :offer,
       :offer_code,
