@@ -6,10 +6,20 @@
       span.text-muted> Posted #{time_ago_in_words offer.created_at} ago
       span.btn-group.btn-group-sm style="margin-left:8px"
         = link_to icon('pencil'), [:edit, @business, :content, offer], class: 'btn btn-default'
+        = link_to icon('copy'), [:clone, @business, :content, offer], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, offer], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-  .panel.panel-default
-    .panel-heading
-      h2.panel-title = offer.title
-    .panel-body
-      span.btn.btn-lg.btn-primary.pull-right = offer.offer
-      = offer.description_html
+  h2 = offer.title
+  .offer-row class=(offer.kind || 'image_left')
+    .row
+      .col-sm-6.offer-col-image
+        - image = offer.offer_image
+        = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+      .col-sm-6
+        div style="margin:10px 0"
+          = offer.offer_html
+        - if offer.valid_until?
+          p.lead
+            ' Offer Valid Until
+            strong = offer.valid_until.strftime('%B %e, %Y')
+        div style="margin:10px 0"
+          = offer.description_html

@@ -48,7 +48,9 @@ Rails.application.routes.draw do
           resources :before_afters, only: %i[new create edit update destroy]
           resources :galleries, only: %i[new create edit update destroy]
           resources :images, only: %i[index edit update destroy]
-          resources :offers, only: %i[new create edit update destroy]
+          resources :offers, only: %i[new create edit update destroy] do
+            get :clone, on: :member
+          end
           resources :posts, only: %i[new create edit update destroy]
         end
 

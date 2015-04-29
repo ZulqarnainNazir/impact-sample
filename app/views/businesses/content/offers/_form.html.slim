@@ -1,17 +1,69 @@
 .row
   .col-sm-8
     .form-group
-      = form.label :title, class: 'control-label'
+      = form.label :title, 'Title *', class: 'control-label'
       = form.text_field :title, class: 'form-control'
-    .form-group
-      = form.label :offer, class: 'control-label'
-      = form.text_field :offer, class: 'form-control'
-      p.help-block For example, "20% Off", "Free Admission", etc...
-    .form-group
-      = form.label :description, class: 'control-label'
-      = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor'
+  .col-sm-4.text-right style="margin-top:28px"
+    span.btn-group.btn-group-sm>
+      span.btn.btn-default.offer-row-switch
+        i.fa.fa-caret-left
+      span.btn.btn-default.offer-row-switch
+        i.fa.fa-caret-right
+    span.offer-row-kind style="margin-left:5px" = form.object.kind.try(:titleize) || 'Image Left'
+hr
+.offer-row class=(form.object.kind || 'image_left')
+  = form.hidden_field :kind
+  .row
+    .col-sm-6.offer-col-image
+      = react_component 'ImagePlacement',
+        imagesPath: business_images_path(form.object.business),
+        inputPrefix: 'offer[offer_image_placement_attributes]',
+        label: '',
+        placement: form.object.offer_image_placement_json,
+        presignedPost: s3_presigned_post_hash,
+        bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+        buttonSize: 'small',
+        buttonRemove: false
+    .col-sm-6
+      .form-group
+        = form.label :offer, 'Describe the Discount *', class: 'control-label'
+        = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor'
+      .form-horizontal.text-right style="margin:20px 0"
+        .form-group
+          = form.label :valid_until, 'Valid Until', class: 'col-sm-6'
+          .col-sm-6
+            = form.text_field :valid_until, class: 'form-control', data: { provide: 'datepicker' }
+      .form-group
+        = form.label :description, 'Describe what‘s included with this offer and the benefits of purchasing the offer *', class: 'control-label'
+        = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor'
+      .form-horizontal.text-right style="margin:20px 0"
+        .form-group
+          = form.label :offer_code, 'Offer Code', class: 'col-sm-6'
+          .col-sm-6
+            = form.text_field :offer_code, class: 'form-control'
 hr
 .row
-  .col-sm-4
+  .col-sm-10.col-sm-offset-1
+    .form-group
+      = form.label :terms, 'Terms and Conditions – The Fine Print and Limitations *', class: 'control-label'
+      = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor'
+    br
+    .form-group
+      = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
+      = form.file_field :coupon
+hr
+.row
+  .col-sm-4.col-sm-offset-4
     .form-group.text-center
       = form.button 'Save Offer', class: 'btn btn-block btn-primary'
+
+javascript:
+  $('.offer-row-switch').on('click', function(event) {
+    if ($('.offer-row').hasClass('image_left')) {
+      $('.offer-row').removeClass('image_left').addClass('image_right');
+      $('.offer-row-kind').text('Image Right');
+    } else {
+      $('.offer-row').removeClass('image_right').addClass('image_left');
+      $('.offer-row-kind').text('Image Left');
+    }
+  });

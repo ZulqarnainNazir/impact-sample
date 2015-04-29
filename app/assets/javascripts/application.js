@@ -7,6 +7,7 @@
 //= require components
 //= require bootstrap-sprockets
 //= require bootstrap-select
+//= require bootstrap-datepicker
 //= require jquery-fileupload/basic
 //= require jquery.minicolors
 //= require bootstrap-wysihtml5

@@ -8,7 +8,7 @@ $.fn.wysihtmlEditor = ->
       editorHeadings: ->
         """
         <li class="dropdown">
-          <a aria-expanded="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <a aria-expanded="true" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="fa fa-font"></span>
             <span class="current-font">Normal text</span>
             <b class="caret"></b>
@@ -25,7 +25,7 @@ $.fn.wysihtmlEditor = ->
       editorEmphasis: ->
         """
         <li>
-          <div class="btn-group">
+          <div class="btn-group btn-group-sm">
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="bold" title="Bold – CTRL+B" tabindex="-1"><span class="fa fa-bold"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="italic" title="Italic – CTRL+I" tabindex="-1"><span class="fa fa-italic"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="underline" title="Underline – CTRL+U" tabindex="-1"><span class="fa fa-underline"></span></a>
@@ -37,14 +37,14 @@ $.fn.wysihtmlEditor = ->
       editorBlockquote: ->
         """
         <li>
-          <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" tabindex="-1"><span class="fa fa-quote-left"></span></a>
+          <a unselectable="on" href="javascript:;" class="btn btn-sm btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" tabindex="-1"><span class="fa fa-quote-left"></span></a>
         </li>
         """
 
       editorLists: ->
         """
         <li>
-          <div class="btn-group">
+          <div class="btn-group btn-group-sm">
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="insertUnorderedList" title="Unordered List" tabindex="-1"><span class="fa fa-list-ul"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="insertOrderedList" title="Ordered List" tabindex="-1"><span class="fa fa-list-ol"></span></a>
           </div>
@@ -54,7 +54,7 @@ $.fn.wysihtmlEditor = ->
       editorAlignment: ->
         """
         <li>
-          <div class="btn-group">
+          <div class="btn-group btn-group-sm">
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="justifyLeft" title="Align Left" tabindex="-1"><span class="fa fa-align-left"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="justifyCenter" title="Align Center" tabindex="-1"><span class="fa fa-align-center"></span></a>
             <a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="justifyRight" title="Align Right" tabindex="-1"><span class="fa fa-align-right"></span></a>

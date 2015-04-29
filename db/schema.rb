@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 28) do
+ActiveRecord::Schema.define(version: 29) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,12 +181,20 @@ ActiveRecord::Schema.define(version: 28) do
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
 
   create_table "offers", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.text     "title",       null: false
-    t.text     "offer",       null: false
+    t.integer  "business_id",                     null: false
+    t.text     "title",                           null: false
+    t.text     "offer",                           null: false
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "kind",                default: 0, null: false
+    t.date     "valid_until"
+    t.text     "offer_code"
+    t.text     "terms"
+    t.text     "coupon_content_type"
+    t.text     "coupon_file_name"
+    t.integer  "coupon_file_size"
+    t.datetime "coupon_updated_at"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
