@@ -80,7 +80,7 @@ ImagePlacement = React.createClass
             <img style={{width: '100%'}} src={this.imageURL()} alt={this.state.imageAlt} title={this.state.imageTitle} />
           </div>
           <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.imageAttachmentFileName}</strong></div>
-          <div>{this.state.imageAttachmentContentType} – {this.state.imageAttachmentFileSize / 100}KB</div>
+          <div>{this.state.imageAttachmentContentType} – {this.state.imageAttachmentFileSize / 1000}KB</div>
         </div>
       </div>`
     else
