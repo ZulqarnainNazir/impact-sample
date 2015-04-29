@@ -25,6 +25,10 @@ class Image < ActiveRecord::Base
     ImageCacheTransferJob.perform_later(self) if attachment_cache_url?
   end
 
+  after_post_process do
+    update_column :cached_styles, styles.keys
+  end
+
   def attachment_url?
     attachment_cache_url? || attachment?
   end
@@ -33,7 +37,11 @@ class Image < ActiveRecord::Base
     if attachment_cache_url?
       attachment_cache_url
     elsif attachment?
-      attachment.url(style)
+      if style && cached_styles && cached_styles.include?(style.to_s)
+        attachment.url(style)
+      else
+        attachment.url
+      end
     end
   end
 

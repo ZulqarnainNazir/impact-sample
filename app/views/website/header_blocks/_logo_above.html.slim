@@ -6,7 +6,7 @@
       span.icon-bar
       span.icon-bar
     - if business.logo.present?
-      = link_to image_tag(business.logo.attachment_url(:logo_medium), alt: business.name), :root, class: 'navbar-brand navbar-brand-image'
+      = link_to image_tag(business.logo.attachment_url(:logo_medium), alt: business.name, style: 'height: 60px'), :root, class: 'navbar-brand navbar-brand-image'
     - else
       = link_to business.name, :root, class: 'navbar-brand'
   .navbar-right.vcard.navbar-vcard
