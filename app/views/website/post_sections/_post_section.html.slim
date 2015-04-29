@@ -16,7 +16,7 @@
     .col-sm-5
       - image = post_section.post_section_image
       - if image
-        = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+        = image_tag image.attachment_url(:post_section_half), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
 - elsif post_section.full_text?
   = post_section.content_html
 - elsif post_section.full_image?

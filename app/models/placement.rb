@@ -77,4 +77,16 @@ class Placement < ActiveRecord::Base
       team_member_profile_large: 'x360',
     }
   end
+
+  def post_section_image
+    {
+      post_section_half: 'x500',
+    }
+  end
+
+  def offer_image
+    {
+      offer_half: 'x600',
+    }
+  end
 end
