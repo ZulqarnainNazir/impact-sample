@@ -1,12 +1,13 @@
 - image_placement_json = post_section.post_section_image_placement_json.with_indifferent_access
 - image_json = image_placement_json[:image]
 - appended = post_section.new_record? && post_section.errors.empty? && post_section.heading.blank? && post_section.content.blank? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
-li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind || 'image_right'].reject(&:blank?).join(' ') data-id=post_section.id
+li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind || 'image_right'].reject(&:blank?).join(' ') data-key=post_section.key
   .post-section-tolerance
     i.fa.fa-reorder.post-section-handle
     = post_form.fields_for :post_sections, post_section, child_index: appended ? 98765432101 : nil do |form|
+      = form.hidden_field :key
+      = form.hidden_field :parent_key
       = form.hidden_field :kind
-      = form.hidden_field :parent_id
       = form.hidden_field :position
       .panel.panel-default
         .panel-heading

@@ -61,9 +61,9 @@ $.fn.postSectionsAssociations = ->
       item = $(item)
       item.find('> .post-section-tolerance > input[name*="position"]').val(i)
       if parent
-        item.find('> .post-section-tolerance > input[name*="parent_id"]').val(parent.data().id)
+        item.find('> .post-section-tolerance > input[name*="parent_key"]').val(parent.data().key)
       else
-        item.find('> .post-section-tolerance > input[name*="parent_id"]').val('')
+        item.find('> .post-section-tolerance > input[name*="parent_key"]').val('')
       item.find('> ol > li').each (i, child) ->
         updateAssociationsFields(i, child, item)
 
@@ -81,9 +81,9 @@ $.fn.postSectionsAssociations = ->
     associations.nestedSortable
       expandOnHover: 400
       forcePlaceholderSize: true
-      handle: '.post-section-handle'
+      handle: '> .post-section-tolerance > .post-section-handle'
       helper: 'clone'
-      items: '> .post-section-fields'
+      items: '.post-section-fields'
       maxLevels: 3
       opacity: 0.5
       placeholder: 'placeholder'
@@ -101,43 +101,43 @@ $.fn.postSectionsAssociations = ->
       fields = $(e.target).closest('.post-section-fields')
       if fields.hasClass('full_image')
         fields.removeClass('full_image').addClass('full_text')
-        fields.find('iframe').width fields.width() - 60
-        fields.find('.post-section-fields-kind').text 'Full Text'
-        fields.find('input[name*="kind"]').val('full_text')
+        fields.find('> .post-section-tolerance iframe').width fields.width() - 60
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Full Text'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('full_text')
       else if fields.hasClass('full_text')
         fields.removeClass('full_text').addClass('image_left')
-        fields.find('iframe').width fields.find('.col-sm-7').width() - 26
-        fields.find('.post-section-fields-kind').text 'Image Left'
-        fields.find('input[name*="kind"]').val('image_left')
+        fields.find('> .post-section-tolerance iframe').width fields.find('.col-sm-7').width() - 26
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Image Left'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('image_left')
       else if fields.hasClass('image_left')
         fields.removeClass('image_left').addClass('image_right')
-        fields.find('iframe').width fields.find('.col-sm-7').width() - 26
-        fields.find('.post-section-fields-kind').text 'Image Right'
-        fields.find('input[name*="kind"]').val('image_right')
+        fields.find('> .post-section-tolerance iframe').width fields.find('.col-sm-7').width() - 26
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Image Right'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('image_right')
       else
         fields.removeClass('image_right').addClass('full_image')
-        fields.find('.post-section-fields-kind').text 'Full Image'
-        fields.find('input[name*="kind"]').val('full_image')
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Full Image'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('full_image')
 
     # Cycle through the next post section kinds.
     associations.on 'click', '.post-section-fields-next', (e) ->
       fields = $(e.target).closest('.post-section-fields')
       if fields.hasClass('image_right')
         fields.removeClass('image_right').addClass('image_left')
-        fields.find('iframe').width fields.find('.col-sm-7').width() - 26
-        fields.find('.post-section-fields-kind').text 'Image Left'
-        fields.find('input[name*="kind"]').val('image_left')
+        fields.find('> .post-section-tolerance iframe').width fields.find('.col-sm-7').width() - 26
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Image Left'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('image_left')
       else if fields.hasClass('image_left')
         fields.removeClass('image_left').addClass('full_text')
-        fields.find('iframe').width fields.width() - 60
-        fields.find('.post-section-fields-kind').text 'Full Text'
-        fields.find('input[name*="kind"]').val('full_text')
+        fields.find('> .post-section-tolerance iframe').width fields.width() - 60
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Full Text'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('full_text')
       else if fields.hasClass('full_text')
         fields.removeClass('full_text').addClass('full_image')
-        fields.find('.post-section-fields-kind').text 'Full Image'
-        fields.find('input[name*="kind"]').val('full_image')
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Full Image'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('full_image')
       else
         fields.removeClass('full_image').addClass('image_right')
-        fields.find('iframe').width fields.find('.col-sm-7').width() - 26
-        fields.find('.post-section-fields-kind').text 'Image Right'
-        fields.find('input[name*="kind"]').val('image_right')
+        fields.find('> .post-section-tolerance iframe').width fields.find('.col-sm-7').width() - 26
+        fields.find('> .post-section-tolerance .post-section-fields-kind').text 'Image Right'
+        fields.find('> .post-section-tolerance input[name*="kind"]').val('image_right')

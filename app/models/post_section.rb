@@ -1,7 +1,7 @@
 class PostSection < ActiveRecord::Base
   include PlacedImageConcern
 
-  attr_accessor :cached_children
+  attr_accessor :cached_children, :key, :parent_key
 
   enum kind: {
     image_right: 0,

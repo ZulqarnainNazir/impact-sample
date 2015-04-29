@@ -12,11 +12,15 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def create
-    create_resource @post, post_params, location: [@business, :content_feed]
+    create_resource @post, post_params, location: [@business, :content_feed] do |success|
+      fix_post_section_parent_ids(@post.post_sections) if success
+    end
   end
 
   def update
-    update_resource @post, post_params, location: [@business, :content_feed]
+    update_resource @post, post_params, location: [@business, :content_feed] do |success|
+      fix_post_section_parent_ids(@post.post_sections) if success
+    end
   end
 
   def destroy
@@ -30,8 +34,9 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       :title,
       post_sections_attributes: [
         :id,
+        :key,
+        :parent_key,
         :kind,
-        :parent_id,
         :position,
         :heading,
         :content,
@@ -44,6 +49,19 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         safe_params[:post_sections_attributes].each do |_, attr|
           attr.merge! post: @post
         end
+      end
+    end
+  end
+
+  def fix_post_section_parent_ids(sections)
+    sections.each do |section|
+      if section.parent_key.present?
+        parent = sections.find { |s| s.key == section.parent_key }
+        if parent
+          section.update! parent_id: parent.id
+        end
+      else
+        section.update! parent_id: nil
       end
     end
   end

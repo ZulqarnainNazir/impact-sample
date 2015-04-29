@@ -24,6 +24,29 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def keyed_arranged_sections
+    sections = post_sections.to_a
+
+    sections.each do |section|
+      if section.key.blank?
+        section.key = SecureRandom.uuid
+      end
+    end
+
+    sections.each do |section|
+      if section.parent_key.blank?
+        parent = sections.find { |s| s.persisted? && s.id == section.parent_id }
+        section.parent_key = parent.key if parent
+      end
+    end
+
+    roots = sections.select do |section|
+      section.parent_key.blank?
+    end
+
+    add_keyed_cached_children roots, sections
+  end
+
   def to_param
     "#{id}-#{title}".parameterize
   end
@@ -40,7 +63,23 @@ class Post < ActiveRecord::Base
     Sanitize.fragment(content)
   end
 
+  def sections_image
+    find_sections_image post_sections.arrange(order: :position)
+  end
+
   private
+
+  def add_keyed_cached_children(sections, all_sections)
+    sections.map do |section|
+      children = all_sections.select do |s|
+        s.parent_key == section.key
+      end
+      section.cached_children = add_keyed_cached_children(children, all_sections)
+      section
+    end.sort do |a, b|
+      a.position.to_i <=> b.position.to_i
+    end
+  end
 
   def add_cached_children(section, arrangement)
     section.cached_children = arrangement.keys
@@ -62,6 +101,13 @@ class Post < ActiveRecord::Base
     sections.each do |section, children|
       content << " #{section.content} "
       add_sections_content(content, children)
+    end
+  end
+
+  def find_sections_image(sections)
+    sections.each do |section, children|
+      return section.post_section_image if section.post_section_image.present?
+      find_sections_image(children)
     end
   end
 end
