@@ -26,7 +26,19 @@ class Business < ActiveRecord::Base
 
   accepts_nested_attributes_for :location
   accepts_nested_attributes_for :website
-  accepts_nested_attributes_for :lines, allow_destroy: true, reject_if: :all_blank
+
+  accepts_nested_attributes_for :lines, allow_destroy: true, reject_if: proc { |a|
+    a['_destroy'] == '1' || (
+      a['title'].blank? &&
+      a['description'].blank? &&
+      a['line_attributes'].kind_of?(Hash) && a['line_attributes'].all { |_, b|
+        b['_destroy'] == '1' || (
+          b['line_image_placement_attributes'].kind_of?(Hash) &&
+          b['line_image_placement_attributes'].select { |k,_| !%w[image_business image_user].include?(k) }.values.all?(&:blank?)
+        )
+      }
+    )
+  }
 
   enum kind: {
     traditional_business: 0,

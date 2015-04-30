@@ -5,11 +5,11 @@ $.fn.linesAssociations = ->
     associations = $(associations)
 
     # Add "will-destroy" class to all checked destroy inputs.
-    associations.find('input[name*="_destroy"]:checked').closest('.line-fields').addClass('will-destroy')
+    associations.find('input[name*="_destroy"]:checked').closest('.line-fields, .line-image-fields').addClass('will-destroy')
 
     # Toggle "will-destroy" class on every change of destroy inputs.
     associations.on 'change', 'input[name*="_destroy"]', ->
-      $(this).closest('.line-fields').toggleClass('will-destroy')
+      $(this).closest('.line-fields, .line-image-fields').toggleClass('will-destroy')
 
     # Remove all newly appended lines, retaining the last.
     appendedLine = associations.find('.line-fields.is-appended').remove().last()
