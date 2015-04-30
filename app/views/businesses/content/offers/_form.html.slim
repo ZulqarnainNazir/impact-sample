@@ -40,13 +40,13 @@ hr
         .form-group
           = form.label :offer_code, 'Offer Code', class: 'col-sm-6'
           .col-sm-6
-            = form.text_field :offer_code, class: 'form-control', :placeholder => 'Option'
+            = form.text_field :offer_code, class: 'form-control', :placeholder => 'Optional'
 hr
 .row
   .col-sm-10.col-sm-offset-1
     .form-group
       = form.label :terms, 'Terms and Conditions – The Fine Print and Limitations *', class: 'control-label'
-      = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor', :placeholder => 'Describe any limitations such as: May not be combined with other offers, only valid on certain products etc.'
+      = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor', :placeholder => 'Describe any limitations such as may not be combined with other offers, only valid on certain products etc.'
     br
     .form-group
       = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
