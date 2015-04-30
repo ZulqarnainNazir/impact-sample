@@ -35,7 +35,7 @@ class Business < ActiveRecord::Base
 
   validates :name, presence: true
 
-  with_options unless: -> { validation_context.to_sym == :onboard_website } do
+  with_options unless: -> { validation_context.to_s.match(/\Aonboard_website/) } do
     validates :category_ids, presence: true
   end
 

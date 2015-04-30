@@ -4,13 +4,16 @@
     .line-fields-content
       .form-group
         = form.label :type, 'Select Product/Service', class: 'control-label'
-        = form.select :type, options_for_select([['Product', 'ProductLine'], ['Service', 'ServiceLine']], form.object.type), {}, class: 'form-control'
+        = form.select :type, options_for_select([['Product', 'ProductLine'], ['Service', 'ServiceLine']], line.type), {}, class: 'form-control'
       .form-group
         = form.label :title, 'Summarize the product/service line', class: 'control-label'
         = form.text_field :title, class: 'form-control'
       .form-group
         = form.label :description, 'Describe the product/service line in more detail (brands, sizes, styles, uses, materials, etc)', class: 'control-label'
         = form.text_area :description, rows: 6, class: 'form-control'
+      .line-images-associations
+        - line.line_images.build
+        = render partial: 'onboard/website/line_images/form', collection: line.line_images, as: :line_image, locals: { business_form: business_form, line_form: form }
     .clearfix
       .line-fields-remove.pull-right
         = form.label :_destroy, class: 'btn btn-default' do

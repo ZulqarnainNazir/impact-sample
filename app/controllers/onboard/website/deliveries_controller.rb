@@ -8,7 +8,7 @@ class Onboard::Website::DeliveriesController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business, delivery_params, location: [:edit_onboard_website, @business, :customers]
+    update_resource @business, delivery_params, context: :onboard_website_continuation, location: [:edit_onboard_website, @business, :customers]
   end
 
   private
