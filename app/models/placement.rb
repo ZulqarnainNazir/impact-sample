@@ -66,7 +66,8 @@ class Placement < ActiveRecord::Base
     {
       logo_small: 'x40',
       logo_medium: 'x60',
-      logo_large: 'x78',
+      logo_large: 'x125',
+      logo_jumbo: 'x200',
       logo_square: '200x200#',
     }
   end

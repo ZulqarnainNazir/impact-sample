@@ -1,5 +1,5 @@
 class HeaderBlock < Block
-  store_accessor :settings, :background_color, :foreground_color, :link_color
+  store_accessor :settings, :background_color, :foreground_color, :link_color, :logo_height
 
   has_placed_image :header_block_image
 
@@ -9,12 +9,13 @@ class HeaderBlock < Block
   end
 
   def as_theme_json(business)
-    as_json(methods: %i[background_color foreground_color link_color]).merge(
+    as_json(methods: %i[background_color foreground_color link_color logo_height]).merge(
       name: business.name,
       pages: business.website.header_pages.as_json(methods: %i[cached_webpages_json]),
       logoSmall: business.logo.try(:attachment_url, :logo_small),
       logoMedium: business.logo.try(:attachment_url, :logo_medium),
       logoLarge: business.logo.try(:attachment_url, :logo_large),
+      logoJumbo: business.logo.try(:attachment_url, :logo_jumbo),
     )
   end
 

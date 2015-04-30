@@ -38,7 +38,7 @@ HeaderBlockContent = React.createClass
   renderLogoCenter: ->
     `<nav className={this.navbarClassName('navbar-static-top header-centered-logo')} role="navigation">
       <div className="container">
-        <div className="navbar-header">
+        <div className="navbar-header" style={{minHeight: parseInt(this.props.logo_height) + 20}}>
           {this.renderCollapseButton()}
           <div ref="image">
             {this.renderNavbarBrand()}
@@ -138,7 +138,7 @@ HeaderBlockContent = React.createClass
   renderCenter: ->
     `<nav className={this.navbarClassName('navbar-static-top header-centered')} role="navigation">
       <div className="container">
-        <div className="navbar-header">
+        <div className="navbar-header" style={{minHeight: parseInt(this.props.logo_height) + 20}}>
           {this.renderCollapseButton()}
           {this.renderNavbarBrand()}
         </div>
@@ -155,12 +155,22 @@ HeaderBlockContent = React.createClass
     className
 
   renderNavbarBrand: (size) ->
-    image = if size is 'large' and this.props.logoLarge and this.props.logoLarge.length > 0
-      `<img src={this.props.logoLarge} alt={this.props.name} style={{height: 78}} />`
+    if this.props.logo_height and parseInt(this.props.logo_height) > 0
+      if parseInt(this.props.logo_height) > 125
+        size = 'jumbo'
+      else if parseInt(this.props.logo_height) > 60
+        size = 'large'
+      else if parseInt(this.props.logo_height) > 40
+        size = 'medium'
+
+    image = if size is 'jumbo' and this.props.logoJumbo and this.props.logoJumbo.length > 0
+      `<img src={this.props.logoJumbo} alt={this.props.name} style={{height: this.props.logo_height, maxHeight: 200}} />`
+    else if size is 'large' and this.props.logoLarge and this.props.logoLarge.length > 0
+      `<img src={this.props.logoLarge} alt={this.props.name} style={{height: this.props.logo_height, maxHeight: 125}} />`
     else if size is 'medium' and this.props.logoMedium and this.props.logoMedium.length > 0
-      `<img src={this.props.logoMedium} alt={this.props.name} style={{height: 60}} />`
+      `<img src={this.props.logoMedium} alt={this.props.name} style={{height: this.props.logo_height, maxHeight: 60}} />`
     else if this.props.logoSmall and this.props.logoSmall.length > 0
-      `<img src={this.props.logoSmall} alt={this.props.name} style={{height: 40}} />`
+      `<img src={this.props.logoSmall} alt={this.props.name} style={{height: this.props.logo_height, maxHeight: 40}} />`
 
     if image
       `<a className="navbar-brand navbar-brand-image" href="#">{image}</a>`

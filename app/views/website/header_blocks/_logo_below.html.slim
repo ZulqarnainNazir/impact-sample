@@ -21,6 +21,15 @@
             li = link_to webpage.name, website_custom_page_path(webpage.pathname)
 .container.header-logo-below
   - if business.logo.present?
-    = link_to image_tag(business.logo.attachment_url(:logo_large), alt: business.name, style: 'height: 78px'), :root, class: 'navbar-brand navbar-brand-image'
+    - if block.logo_height.present? && block.logo_height.to_i > 125
+      = link_to image_tag(business.logo.attachment_url(:logo_jumbo), alt: business.name, style: "height: #{block.logo_height}px; max-height: 200px"), :root, class: 'navbar-brand navbar-brand-image'
+    - elsif block.logo_height.present? && block.logo_height.to_i > 60
+      = link_to image_tag(business.logo.attachment_url(:logo_large), alt: business.name, style: "height: #{block.logo_height}px; max-height: 125px"), :root, class: 'navbar-brand navbar-brand-image'
+    - elsif block.logo_height.present? && block.logo_height.to_i > 40
+      = link_to image_tag(business.logo.attachment_url(:logo_medium), alt: business.name, style: "height: #{block.logo_height}px; max-height: 60px"), :root, class: 'navbar-brand navbar-brand-image'
+    - elsif block.logo_height.present? && block.logo_height.to_i > 0
+      = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: "height: #{block.logo_height}px; max-height: 40px"), :root, class: 'navbar-brand navbar-brand-image'
+    - else
+      = link_to image_tag(business.logo.attachment_url(:logo_large), alt: business.name, style: 'height: 78px'), :root, class: 'navbar-brand navbar-brand-image'
   - else
     = link_to business.name, :root, class: 'navbar-brand'

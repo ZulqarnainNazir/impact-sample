@@ -22,6 +22,7 @@ HeaderBlockHandlers =
       block: $.extend({}, this.state.headerBlock, { editing: this.state.editing })
       blockEditor: this.headerBlockEditorProps()
       blockInputStyle: this.headerBlockInputStyleProps()
+      blockInputNumber: this.headerBlockInputNumberProps()
       blockOptions: this.headerBlockOptionsProps()
       editing: this.state.editing
       name: this.headerBlockName
@@ -62,6 +63,12 @@ HeaderBlockHandlers =
       { value: 'dark', label: 'Dark', },
     ]
 
+  headerBlockInputNumberProps: ->
+    id: this.headerBlockID('logo_height')
+    name: this.headerBlockName('logo_height')
+    value: this.state.headerBlock.logo_height
+    label: 'Custom Logo Height (Pixels)'
+
   headerBlockOptionsProps: ->
     visible: this.state.editing
     prev: this.headerBlockPrevTheme
@@ -88,9 +95,11 @@ HeaderBlockHandlers =
   headerBlockSwapForm: () ->
     this.headerBlockUpdate
       style: this.headerBlockInputGetVal('style')
+      logo_height: this.headerBlockInputGetVal('logo_height')
 
   headerBlockResetForm: () ->
     this.headerBlockInputSetVal 'style', this.state.headerBlock.style
+    this.headerBlockInputSetVal 'logo_height', this.state.headerBlock.logo_height
 
   headerBlockPrevTheme: ->
     this.headerBlockUpdate theme: this.prevItem(this.headerBlockThemes, this.state.headerBlock.theme)

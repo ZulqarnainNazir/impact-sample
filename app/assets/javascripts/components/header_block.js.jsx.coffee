@@ -4,6 +4,7 @@ HeaderBlock = React.createClass
     blockAdd: React.PropTypes.object
     blockEditor: React.PropTypes.object
     blockInputStyle: React.PropTypes.object
+    blockInputNumber: React.PropTypes.object
     blockOptions: React.PropTypes.object
     editing: React.PropTypes.bool
 
@@ -19,6 +20,7 @@ HeaderBlock = React.createClass
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <BlockInputStyle {...this.props.blockInputStyle} />
+          <BlockInputNumber {...this.props.blockInputNumber} />
         </BlockEditor>
       </div>`
     else if this.props.editing

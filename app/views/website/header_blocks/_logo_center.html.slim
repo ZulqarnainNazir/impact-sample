@@ -1,13 +1,22 @@
 .navbar.navbar-static-top.header-centered-logo class=block.css_class role="navigation" style="background-color: #{block.background_color}; color: #{block.foreground_color}"
   .container
-    .navbar-header
+    .navbar-header style="min-height: #{block.logo_height.to_i + 20}px"
       span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
         span.sr-only Toggle Navigation
         span.icon-bar
         span.icon-bar
         span.icon-bar
       - if business.logo.present?
-        = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: 'height: 40px'), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
+        - if block.logo_height.present? && block.logo_height.to_i > 125
+          = link_to image_tag(business.logo.attachment_url(:logo_jumbo), alt: business.name, style: "height: #{block.logo_height}px; max-height: 200px"), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
+        - elsif block.logo_height.present? && block.logo_height.to_i > 60
+          = link_to image_tag(business.logo.attachment_url(:logo_large), alt: business.name, style: "height: #{block.logo_height}px; max-height: 125px"), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
+        - elsif block.logo_height.present? && block.logo_height.to_i > 40
+          = link_to image_tag(business.logo.attachment_url(:logo_medium), alt: business.name, style: "height: #{block.logo_height}px; max-height: 60px"), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
+        - elsif block.logo_height.present? && block.logo_height.to_i > 0
+          = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: "height: #{block.logo_height}px; max-height: 40px"), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
+        - else
+          = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: 'height: 40px'), :root, class: 'navbar-brand navbar-brand-image', style: 'margin-left: -20px;'
       - else
         = link_to business.name, :root, class: 'navbar-brand', style: 'margin-left: -20px;'
     #header-collapse.navbar-collapse.collapse

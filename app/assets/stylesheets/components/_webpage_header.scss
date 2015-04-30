@@ -18,7 +18,7 @@
     }
   }
   .navbar-brand-image {
-    height: 40px;
+    height: auto;
     margin-top: -10px;
     display: inline-block;
     img {
@@ -83,7 +83,7 @@
   }
   .header-logo-above {
     .navbar-brand-image {
-      height: 60px;
+      height: auto;
       margin: 15px 0;
       padding: 0;
     }
@@ -110,7 +110,7 @@
     text-align: center;
     .navbar-brand-image {
       margin: 5px 0 0;
-      height: 78px;
+      height: auto;
       float: none;
       padding: 0;
     }
