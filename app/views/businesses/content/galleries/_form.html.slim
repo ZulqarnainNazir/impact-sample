@@ -2,10 +2,10 @@
   .col-sm-8
     .form-group
       = form.label :title, class: 'control-label'
-      = form.text_field :title, class: 'form-control'
+      = form.text_field :title, class: 'form-control', :placeholder => 'Add a brief 4-10 word label for your gallery.'
     .form-group
       = form.label :description, class: 'control-label'
-      = form.text_area :description, rows: 3, class: 'form-control wysihtml-editor'
+      = form.text_area :description, rows: 3, class: 'form-control wysihtml-editor', :placeholder => 'Describe what the gallery is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the gallery is about.'
 .gallery-images-associations
   - form.object.gallery_images.build
   = render partial: 'businesses/content/gallery_images/form', collection: form.object.gallery_images, as: :gallery_image, locals: { gallery_form: form }
