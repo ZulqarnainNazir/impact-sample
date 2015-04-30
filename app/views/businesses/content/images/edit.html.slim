@@ -61,7 +61,7 @@ ol.breadcrumb
         = form.label :title, class: 'control-label' do
           code> TITLE
           | HTML Attribute
-        = form.text_field :title, class: 'form-control'
-        p.help-block Text to be displayed in a tooltip when hovering over the element.
+        = form.text_field :title, class: 'form-control', :placeholder => 'Add a description of the image. Can be more than 1 sentence.'
+        p.help-block Text to be used as the caption (when present) and displayed in a tooltip when hovering over the element.
       div style="margin-top:10px"
         = form.button 'Save Image Attributes', class: 'btn btn-primary'
