@@ -2,7 +2,7 @@
   .col-sm-8
     .form-group
       = form.label :title, 'Title *', class: 'control-label'
-      = form.text_field :title, class: 'form-control'
+      = form.text_field :title, class: 'form-control', :placeholder => 'Add your big bold offer title, should be 8-15 words in most cases.'
   .col-sm-4.text-right style="margin-top:28px"
     span.offer-row-kind> style="margin-right:5px" = form.object.kind.try(:titleize) || 'Image Left'
     span.btn-group.btn-group-sm
@@ -27,7 +27,7 @@ hr
     .col-sm-6
       .form-group
         = form.label :offer, 'Describe the Discount *', class: 'control-label'
-        = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor'
+        = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor', :placeholder => 'Add more details about the offer. Remember, you're selling what makes this OFFER great.'
       .form-horizontal.text-right style="margin:20px 0"
         .form-group
           = form.label :valid_until, 'Valid Until', class: 'col-sm-6'
@@ -35,18 +35,18 @@ hr
             = form.text_field :valid_until, class: 'form-control', data: { provide: 'datepicker' }
       .form-group
         = form.label :description, 'Describe what‘s included with this offer and the benefits of purchasing the offer *', class: 'control-label'
-        = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor'
+        = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor', :placeholder => 'Here you should describe what's include and why your product or service is great. Highlight a benefit or two.'
       .form-horizontal.text-right style="margin:20px 0"
         .form-group
           = form.label :offer_code, 'Offer Code', class: 'col-sm-6'
           .col-sm-6
-            = form.text_field :offer_code, class: 'form-control'
+            = form.text_field :offer_code, class: 'form-control', :placeholder => 'Option'
 hr
 .row
   .col-sm-10.col-sm-offset-1
     .form-group
       = form.label :terms, 'Terms and Conditions – The Fine Print and Limitations *', class: 'control-label'
-      = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor'
+      = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor', :placeholder => 'Describe any limitations such as: May not be combined with other offers, only valid on certain products etc.'
     br
     .form-group
       = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
