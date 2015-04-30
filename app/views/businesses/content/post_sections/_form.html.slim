@@ -12,14 +12,14 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
       .panel.panel-default
         .panel-heading
           = form.label :heading, class: 'control-label sr-only'
-          = form.text_field :heading, class: 'form-control', :placeholder => 'Add a descriptive section label.'
+          = form.text_field :heading, class: 'form-control', placeholder: 'Add a descriptive section label.'
         .panel-body
           .post-section-fields-content
             .row.clearfix
               .col-sm-7
                 .form-group
                   = form.label :content, class: 'control-label sr-only'
-                  = form.text_area :content, rows: 6, class: 'form-control', :placeholder => 'Add your section content here - try a short paragraph or two.'
+                  = form.text_area :content, rows: 6, class: 'form-control', placeholder: 'Add your section content here - try a short paragraph or two.'
               .col-sm-5
                 .center-block
                   = react_unmounted_component 'ImagePlacement',
