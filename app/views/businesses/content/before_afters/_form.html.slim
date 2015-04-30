@@ -1,6 +1,6 @@
 .form-group
   = form.label :title, class: 'control-label'
-  = form.text_field :title, class: 'form-control', :placeholder => 'Add a 5-12 description of what you're comparing in your post.'
+  = form.text_field :title, class: 'form-control', :placeholder => 'Add a 5-12 word description of what you're comparing in your post.'
 .row
   .col-sm-6
     .panel.panel-default
@@ -26,7 +26,7 @@
           buttonSize: 'small'
 .form-group
   = form.label :description, class: 'control-label'
-  = form.text_area :description, rows: 4, class: 'form-control wysihtml-editor', :placeholder => 'Use the body of this post to describe how you achieved what people can see in the comparison above, what the benefits are and how the client feels about it.'
+  = form.text_area :description, rows: 4, class: 'form-control wysihtml-editor', :placeholder => 'Describe how you achieved what's in the comparison above, the benefits and how the client feels about it.'
 hr
 .row
   .col-sm-4
