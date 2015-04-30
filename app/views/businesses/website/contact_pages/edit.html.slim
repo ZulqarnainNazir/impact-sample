@@ -33,7 +33,7 @@ ol.breadcrumb
       business: form.object.website.business,
       location: form.object.website.business.try(:location).try(:attributes_with_address),
       openings: form.object.website.business.try(:location).try(:openings),
-      initialContactBlock: form.object.contact_block.as_json,
+      initialContactBlock: form.object.contact_block.as_json || {},
       defaultContactBlockAttributes: form.object.default_contact_block_attributes(form.object.website.business)
     .webpage-submit
       .row
