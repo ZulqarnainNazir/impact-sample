@@ -1,0 +1,7 @@
+en:
+  onboard:
+    website:
+      products:
+        update:
+          notice: Ok, now let’s describe how you deliver your products and services.
+          alert: There was a problem saving your products and services.

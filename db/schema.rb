@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 30) do
+ActiveRecord::Schema.define(version: 32) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 30) do
   add_index "blocks", ["link_type", "link_id"], name: "index_blocks_on_link_type_and_link_id", using: :btree
 
   create_table "businesses", force: :cascade do |t|
-    t.string   "name",                       null: false
+    t.string   "name",                              null: false
     t.string   "tagline"
     t.string   "website_url"
     t.string   "facebook_id"
@@ -73,15 +73,19 @@ ActiveRecord::Schema.define(version: 30) do
     t.string   "twitter_id"
     t.string   "youtube_id"
     t.text     "description"
-    t.integer  "kind",           default: 0, null: false
+    t.integer  "kind",                  default: 0, null: false
     t.integer  "year_founded"
     t.json     "settings"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "citysearch_id"
     t.string   "instagram_id"
     t.string   "pinterest_id"
     t.string   "yelp_id"
+    t.text     "values"
+    t.text     "history"
+    t.text     "vision"
+    t.text     "community_involvement"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -156,6 +160,23 @@ ActiveRecord::Schema.define(version: 30) do
 
   add_index "images", ["business_id"], name: "index_images_on_business_id", using: :btree
   add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
+
+  create_table "lines", force: :cascade do |t|
+    t.integer  "business_id"
+    t.text     "type",                 null: false
+    t.text     "title",                null: false
+    t.text     "description"
+    t.text     "delivery_experience"
+    t.text     "delivery_process"
+    t.text     "uniqueness"
+    t.text     "customer_description"
+    t.text     "customer_problem"
+    t.text     "customer_benefit"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "lines", ["business_id"], name: "index_lines_on_business_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.integer  "business_id",                                                    null: false
@@ -346,5 +367,6 @@ ActiveRecord::Schema.define(version: 30) do
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
+  add_foreign_key "lines", "businesses"
   add_foreign_key "post_sections", "posts"
 end

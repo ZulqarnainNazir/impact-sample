@@ -8,7 +8,7 @@ class Onboard::Website::LocationsController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business.location, location_params, location: [:edit_onboard_website, @business, :website]
+    update_resource @business.location, location_params, location: [:edit_onboard_website, @business, :products]
   end
 
   private
@@ -28,6 +28,19 @@ class Onboard::Website::LocationsController < Onboard::Website::BaseController
       :hide_phone,
       :external_service_area,
       :service_area,
+      openings_attributes: [
+        :id,
+        :opens_at,
+        :closes_at,
+        :sunday,
+        :monday,
+        :tuesday,
+        :wednesday,
+        :thursday,
+        :friday,
+        :saturday,
+        :_destroy,
+      ]
     )
   end
 end

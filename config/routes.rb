@@ -31,6 +31,10 @@ Rails.application.routes.draw do
         resources :businesses, only: %i[new create edit update destroy] do
           post :import, on: :collection
           resource :location, only: %i[edit update]
+          resource :products, only: %i[edit update]
+          resource :delivery, only: %i[edit update]
+          resource :customers, only: %i[edit update]
+          resource :details, only: %i[edit update]
           resource :website, only: %i[edit update]
           resource :theme, only: %i[edit update]
         end

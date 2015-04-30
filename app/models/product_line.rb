@@ -1,0 +1,2 @@
+class ProductLine < Line
+end

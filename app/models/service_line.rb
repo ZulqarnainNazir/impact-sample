@@ -1,0 +1,2 @@
+class ServiceLine < Line
+end

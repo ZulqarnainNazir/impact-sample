@@ -1,0 +1,7 @@
+en:
+  onboard:
+    website:
+      customers:
+        update:
+          notice: Ok, now let’s learn about your business values and vision.
+          alert: There was a problem saving your customer information.

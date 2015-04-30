@@ -1,0 +1,27 @@
+.line-fields {
+  @include clearfix;
+  position: relative;
+  padding-bottom: 1em;
+  margin: 1em 0;
+  border-bottom: solid 1px #eee;
+  .line-fields-warning {
+    display: none;
+  }
+  &.will-destroy {
+    .line-fields-warning {
+      display: block;
+    }
+    .line-fields-content {
+      display: none;
+    }
+    .line-fields-remove label {
+      background-color: red;
+    }
+  }
+}
+
+.line-fields-remove {
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+}

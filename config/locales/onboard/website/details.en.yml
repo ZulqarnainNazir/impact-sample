@@ -1,0 +1,7 @@
+en:
+  onboard:
+    website:
+      details:
+        update:
+          notice: Ok, now let’s setup your website.
+          alert: There was a problem saving your business details.

@@ -20,8 +20,9 @@ var ready = function() {
   window['rangy'].initialized = false;
   $('.checkbox-toggle input:checked').closest('.checkbox-toggle').addClass('checkbox-toggle-active');
   $('.gallery-images-associations').galleryImagesAssociations();
-  $('.openings-associations').openingsAssociations();
+  $('.lines-associations').linesAssociations();
   $('.menus-sortable').menusSortable();
+  $('.openings-associations').openingsAssociations();
   $('.pages-associations').pagesAssociations();
   $('.post-sections-associations').postSectionsAssociations();
   $('.webhosts-associations').webhostsAssociations();
@@ -31,6 +32,7 @@ var ready = function() {
     e.preventDefault();
     $(this).ekkoLightbox();
   });
+  $('[data-toggle="tooltip"]').tooltip();
 };
 
 $(document).on('ready page:load', ready);

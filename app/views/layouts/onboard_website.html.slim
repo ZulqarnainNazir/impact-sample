@@ -4,26 +4,40 @@ html lang="en"
   body style="margin-bottom:4em"
     = render 'navbar'
     .container style="padding-top: 40px"
-      .row
-        .col-lg-10.col-lg-offset-1
-          .text-center
-            = render 'alerts'
-            p.lead = content_for(:onboard_instructions) || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices pellentesque maximus. Aliquam id sollicitudin massa, nec mollis turpis.'
-            .row.onboard
-              .col-xs-3.onboard-step class=(controller_name == 'businesses' ? 'is-active' : 'is-complete')
-                .onboard-stepnum = content_tag (controller_name == 'businesses' ? :strong : :span), 'Business<br>Details'.html_safe
-                .progress: .progress-bar
-                span.onboard-dot
-              .col-xs-3.onboard-step class=(controller_name == 'locations' ? 'is-active' : (controller_name == 'businesses' ? 'is-disabled' : 'is-complete'))
-                .onboard-stepnum = content_tag (controller_name == 'locations' ? :strong : :span), 'Contact<br>Information'.html_safe
-                .progress: .progress-bar
-                span.onboard-dot
-              .col-xs-3.onboard-step class=(controller_name == 'websites' ? 'is-active' : (controller_name == 'themes' ? 'is-complete' : 'is-disabled'))
-                .onboard-stepnum = content_tag (controller_name == 'websites' ? :strong : :span), 'Setup<br>Website'.html_safe
-                .progress: .progress-bar
-                span.onboard-dot
-              .col-xs-3.onboard-step class=(controller_name == 'themes' ? 'is-active' : 'is-disabled')
-                .onboard-stepnum = content_tag (controller_name == 'themes' ? :strong : :span), 'Theme &amp;<br>Design'.html_safe
-                .progress: .progress-bar
-                span.onboard-dot
+      .text-center
+        = render 'alerts'
+        p.lead = content_for(:onboard_instructions) || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices pellentesque maximus. Aliquam id sollicitudin massa, nec mollis turpis.'
+        .row.onboard
+          .onboard-step class=(controller_name == 'businesses' ? 'is-active' : 'is-complete')
+            .onboard-stepnum = content_tag (controller_name == 'businesses' ? :strong : :span), 'Business<br>Details'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
+          .onboard-step class=(controller_name == 'locations' ? 'is-active' : (controller_name == 'businesses' ? 'is-disabled' : 'is-complete'))
+            .onboard-stepnum = content_tag (controller_name == 'locations' ? :strong : :span), 'Contact<br>Information'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
+          .onboard-step class=(controller_name == 'products' ? 'is-active' : (%w[businesses locations].include?(controller_name) ? 'is-disabled' : 'is-complete'))
+            .onboard-stepnum = content_tag (controller_name == 'products' ? :strong : :span), 'Products &amp;<br>Services'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
+          .onboard-step class=(controller_name == 'deliveries' ? 'is-active' : (%w[businesses locations products].include?(controller_name) ? 'is-disabled' : 'is-complete'))
+            .onboard-stepnum = content_tag (controller_name == 'deliveries' ? :strong : :span), 'Delivery<br>Information'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
+          .onboard-step class=(controller_name == 'customers' ? 'is-active' : (%w[themes websites details].include?(controller_name) ? 'is-complete' : 'is-disabled'))
+            .onboard-stepnum = content_tag (controller_name == 'customers' ? :strong : :span), 'Customer<br>Information'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
+          .onboard-step class=(controller_name == 'details' ? 'is-active' : (%w[themes websites].include?(controller_name) ? 'is-complete' : 'is-disabled'))
+            .onboard-stepnum = content_tag (controller_name == 'details' ? :strong : :span), 'Community &amp;<br>Values'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
+          .onboard-step class=(controller_name == 'websites' ? 'is-active' : (controller_name == 'themes' ? 'is-complete' : 'is-disabled'))
+            .onboard-stepnum = content_tag (controller_name == 'websites' ? :strong : :span), 'Setup<br>Website'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
+          .onboard-step class=(controller_name == 'themes' ? 'is-active' : 'is-disabled')
+            .onboard-stepnum = content_tag (controller_name == 'themes' ? :strong : :span), 'Theme &amp;<br>Design'.html_safe
+            .progress: .progress-bar
+            span.onboard-dot
       = yield

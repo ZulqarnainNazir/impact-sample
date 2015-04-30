@@ -1,0 +1,21 @@
+- appended = line.new_record? && line.errors.empty? && line.title.blank? && line.description.blank?
+= business_form.fields_for :lines, line, child_index: appended ? 98765432101 : nil do |form|
+  .line-fields class=('is-appended' if appended)
+    .line-fields-content
+      .form-group
+        = form.label :type, 'Select Product/Service', class: 'control-label'
+        = form.select :type, options_for_select([['Product', 'ProductLine'], ['Service', 'ServiceLine']], form.object.type), {}, class: 'form-control'
+      .form-group
+        = form.label :title, 'Summarize the product/service line', class: 'control-label'
+        = form.text_field :title, class: 'form-control'
+      .form-group
+        = form.label :description, 'Describe the product/service line in more detail (brands, sizes, styles, uses, materials, etc)', class: 'control-label'
+        = form.text_area :description, rows: 6, class: 'form-control'
+    .clearfix
+      .line-fields-remove.pull-right
+        = form.label :_destroy, class: 'btn btn-default' do
+          => form.check_box :_destroy
+          span.sr-only> Remove
+          i.fa.fa-trash-o
+      .line-fields-warning.text-muted
+        p: em Product/Service Line will be removed upon Save

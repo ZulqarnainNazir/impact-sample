@@ -9,6 +9,7 @@ class Business < ActiveRecord::Base
     has_many :categorizations
     has_many :contact_messages
     has_many :galleries
+    has_many :lines
     has_many :offers
     has_many :posts
     has_many :team_members
@@ -25,6 +26,7 @@ class Business < ActiveRecord::Base
 
   accepts_nested_attributes_for :location
   accepts_nested_attributes_for :website
+  accepts_nested_attributes_for :lines, allow_destroy: true, reject_if: :all_blank
 
   enum kind: {
     traditional_business: 0,

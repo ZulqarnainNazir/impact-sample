@@ -1,0 +1,23 @@
+- title 'Tell us about your products and services'
+
+.row
+  .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+    = errors_for @business
+    = form_for @business, url: [:onboard_website, @business, :products], method: :put do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Tell us about your products and services
+        .panel-body
+          .lines-associations
+            - form.object.lines.build
+            = render partial: 'onboard/website/lines/form', collection: form.object.lines, as: :line, locals: { business_form: form }
+        .panel-footer
+          => link_to [:edit_onboard_website, @business, :location], class: 'btn btn-default' do
+            i.fa.fa-angle-left>
+            | Back
+          => link_to [:edit_onboard_website, @business, :delivery], class: 'btn btn-default' do
+            ' Skip
+            i.fa.fa-angle-right
+          = form.button class: 'btn btn-primary pull-right' do
+            ' Continue
+            i.fa.fa-angle-double-right

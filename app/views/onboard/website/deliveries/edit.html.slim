@@ -1,0 +1,30 @@
+- title 'How do you deliver your products and services'
+
+.row
+  .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+    = errors_for @business
+    = form_for @business, url: [:onboard_website, @business, :delivery], method: :put do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title How do you deliver your products and services
+        .panel-body
+          = form.fields_for :lines do |line_form|
+            .form-group
+              = line_form.label :delivery_experience, "What is the experience like for #{line_form.object.title}", class: 'control-label'
+              = line_form.text_area :delivery_experience, rows: 6, class: 'form-control wysihtml-editor'
+            .form-group
+              = line_form.label :delivery_process, class: 'control-label' do
+                ' Describe the general process from first contact to final delivery for #{line_form.object.title}
+                i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Describe for instance whether it’s a one-time purchase or recurring, how long the process takes in calendar days, what the process looks like while they’re there i.e. initial inspection, installation, final inspection or shop, order, fit & delivery vs quick purchase"
+              = line_form.text_area :delivery_process, rows: 6, class: 'form-control wysihtml-editor'
+            hr
+        .panel-footer
+          => link_to [:edit_onboard_website, @business, :products], class: 'btn btn-default' do
+            i.fa.fa-angle-left>
+            | Back
+          => link_to [:edit_onboard_website, @business, :customers], class: 'btn btn-default' do
+            ' Skip
+            i.fa.fa-angle-right
+          = form.button class: 'btn btn-primary pull-right' do
+            ' Continue
+            i.fa.fa-angle-double-right

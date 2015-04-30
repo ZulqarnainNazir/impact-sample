@@ -1,0 +1,7 @@
+en:
+  onboard:
+    website:
+      deliveries:
+        update:
+          notice: Ok, now let’s learn about your ideal customers.
+          alert: There was a problem saving your delivery information.
