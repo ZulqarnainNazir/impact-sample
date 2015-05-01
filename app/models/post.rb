@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
   validates :title, presence: true
 
   def published_on=(value)
-    if value.is_a?(String)
+    if value.to_s.split('/').length == 3
       values = value.split('/')
       values = values[-1..-1] + values[0..-2]
       super(Date.parse(values.join('/')))
