@@ -11,6 +11,14 @@ FeedBlock = React.createClass
     # this.props.block is nextProps.block and this.props.editing is nextProps.editing
     true
 
+  componentDidMount: ->
+    $(this.refs.widths.getDOMNode()).find('input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary')
+    $(this.refs.widths.getDOMNode()).find('input[type="radio"]').change this.toggleRadios
+
+  toggleRadios: ->
+    $(this.refs.widths.getDOMNode()).find('input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary')
+    $(this.refs.widths.getDOMNode()).find('input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default')
+
   render: ->
     `<div className="webpage-container" data-type="feed">
       <i className="fa fa-reorder webpage-container-handle" />
@@ -18,6 +26,13 @@ FeedBlock = React.createClass
     </div>`
 
   renderInterior: ->
+    if this.props.block.width is 'full'
+      sidebarWidthDefaultChecked = false
+      fullWidthDefaultChecked = true
+    else
+      sidebarWidthDefaultChecked = true
+      fullWidthDefaultChecked = false
+
     if this.props.block
       `<div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
@@ -25,6 +40,18 @@ FeedBlock = React.createClass
           <FeedBlockContent {...this.props.block} />
         </div>
         <BlockEditor {...this.props.blockEditor}>
+          <div className="text-center">
+            <div className="center-block">
+              <div ref="widths" className="btn-group">
+                <label className="btn btn-default">
+                  <input id={this.props.id('width_sidebar')} name={this.props.name('width')} value="sidebar" type="radio" style={{marginRight: 5}} defaultChecked={sidebarWidthDefaultChecked} /> Two-Thirds Width
+                </label>
+                <label className="btn btn-default">
+                  <input id={this.props.id('width_full')} name={this.props.name('width')} value="full" type="radio" style={{marginRight: 5}} defaultChecked={fullWidthDefaultChecked} /> Full Width
+                </label>
+              </div>
+            </div>
+          </div>
           <BlockInputNumber {...this.props.blockInputItemsLimit} />
         </BlockEditor>
       </div>`

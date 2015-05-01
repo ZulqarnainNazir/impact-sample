@@ -22,6 +22,20 @@ css:
         .col-sm-6.col-lg-4
           = form.text_field :title, value: form.object.title.present? ? form.object.title : "#{@business.name} Blog", class: 'form-control'
           p.help-block Important for SEO
+      .form-group
+        = form.label :per_page, class: 'col-sm-3 col-lg-2 control-label'
+        .col-sm-6.col-lg-4
+          = form.text_field :per_page, class: 'form-control'
+      .form-group style="margin-top:30px"
+        strong.col-sm-3.col-lg-2.control-label Blog Width
+        .col-sm-6.col-lg-4
+          .btn-group.js-blog-width
+            => form.label :width_sidebar, class: 'btn btn-default' do
+              => form.radio_button :width, :sidebar, style: 'margin-right: 5px'
+              | Two-Thirds Width
+            = form.label :width_full, class: 'btn btn-default' do
+              => form.radio_button :width, :full, class: 'js-blog-full-width', style: 'margin-right: 5px'
+              | Full Width
     - if @blog_page.persisted?
       .row
         .col-sm-offset-3.col-lg-offset-2
@@ -34,12 +48,7 @@ css:
       .panel-body style="position:relative"
         .webpage-background style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 0"
         .row
-          .col-sm-4.col-sm-offset-4
-            .form-group
-              = form.label :per_page, class: 'control-label'
-              = form.number_field :per_page, class: 'form-control'
-        .row
-          .col-sm-8.col-sm-offset-2.webpage-background
+          .webpage-background.js-blog class=(@blog_page.width == 'full' ? 'col-sm-12' : 'col-sm-8')
             .text-center style="background-color: rgba(0,0,0,0.1); border-radius: 5px; padding: 5em 5em; margin: 2em 0; position: relative; z-index: 1"
               span style="font-size: 30px" Blog Feed Content Goes Here
       .panel-footer
@@ -47,3 +56,14 @@ css:
       .row
         .col-sm-4.col-sm-offset-4
           button.btn.btn-block.btn-lg.btn-primary Save Page
+javascript:
+  $('.js-blog-width input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+  $('.js-blog-width input[type="radio"]').change(function() {
+    $('.js-blog-width input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+    $('.js-blog-width input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default');
+    if ($('.js-blog-full-width:checked').length == 1) {
+      $('.js-blog').removeClass('col-sm-8').addClass('col-sm-12');
+    } else {
+      $('.js-blog').removeClass('col-sm-12').addClass('col-sm-8');
+    }
+  });

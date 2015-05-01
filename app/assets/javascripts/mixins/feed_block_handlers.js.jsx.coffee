@@ -24,6 +24,7 @@ FeedBlockHandlers =
       blockOptions: this.feedBlockOptionsProps()
       editing: this.state.editing
       name: this.feedBlockName
+      id: this.feedBlockID
     else
       blockAdd: this.feedBlockAddProps()
       editing: this.state.editing
@@ -89,9 +90,12 @@ FeedBlockHandlers =
   feedBlockSwapForm: () ->
     this.feedBlockUpdate
       items_limit: this.feedBlockInputGetVal('items_limit')
+      width: $('#' + this.feedBlockID('width_sidebar')).closest('div').find('input[type="radio"]:checked').val()
 
   feedBlockResetForm: () ->
     this.feedBlockInputSetVal 'items_limit', this.state.feedBlock.items_limit
+    $('#' + this.feedBlockID('width_sidebar')).prop 'checked', (this.state.feedBlock.width is not 'full')
+    $('#' + this.feedBlockID('width_full')).prop 'checked', (this.state.feedBlock.width is 'full')
 
   # PRIVATE LEVEL 3
 

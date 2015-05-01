@@ -15,6 +15,7 @@ class Businesses::Website::BlogPagesController < Businesses::Website::BaseContro
     params.require(:blog_page).permit(
       :title,
       :per_page,
+      :width,
     ).deep_merge(
       pathname: 'blog',
       name: 'Blog',

@@ -28,7 +28,7 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
       tagline_blocks_attributes: block_attributes,
       call_to_action_blocks_attributes: block_attributes.push(call_to_action_block_image_placement_attributes: placement_attributes),
       content_blocks_attributes: block_attributes.push(content_block_image_placement_attributes: placement_attributes),
-      feed_block_attributes: block_attributes.push(:items_limit),
+      feed_block_attributes: block_attributes.push(:items_limit, :width),
     ).deep_merge(
       pathname: '',
       name: 'Homepage',

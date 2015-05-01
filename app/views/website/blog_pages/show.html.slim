@@ -4,5 +4,7 @@
   .page-header
     h1 Blog
   = page_entries_info @feed_items
-  = render @feed_items
+  .row
+    div class=(@page.width == 'full' ? 'col-sm-12' : 'col-sm-8')
+      = render @feed_items
   = paginate @feed_items

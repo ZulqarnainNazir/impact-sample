@@ -40,7 +40,7 @@ ol.breadcrumb
       initialCallToActionBlocks: form.object.call_to_action_blocks.map { |b| b.as_block_json(b.call_to_action_block_image_placement, methods: %i[key]) },
       initialSpecialtyBlocks: form.object.specialty_blocks.map { |b| b.as_block_json(b.specialty_block_image_placement, methods: %i[key]) },
       initialContentBlocks: form.object.content_blocks.map { |b| b.as_block_json(b.content_block_image_placement, methods: %i[key]) },
-      initialFeedBlock: form.object.feed_block.try(:as_json, methods: %i[key items_limit]),
+      initialFeedBlock: form.object.feed_block.try(:as_json, methods: %i[key items_limit width]),
       defaultHeroBlockAttributes: form.object.default_hero_block_attributes(form.object.website.business),
       defaultTaglineBlockAttributes: form.object.default_tagline_block_attributes(form.object.website.business)
     .webpage-submit
