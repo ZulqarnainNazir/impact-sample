@@ -1,4 +1,10 @@
 .webpage-header {
+  position: relative;
+  .webpage-header-label {
+    position: absolute;
+    top: -37px;
+    right: 10px;
+  }
   hr,
   .page-header {
     border-color: rgba(0,0,0,0.1);

@@ -15,6 +15,7 @@ HeaderBlock = React.createClass
   render: ->
     if this.props.block
       `<div className="webpage-block webpage-header" style={{marginTop: 0}}>
+        <span className="webpage-header-label text-muted small">{this.props.theme}</span>
         <BlockOptions {...this.props.blockOptions} />
         <HeaderBlockContent {...this.props.block} />
         <BlockEditor {...this.props.blockEditor}>

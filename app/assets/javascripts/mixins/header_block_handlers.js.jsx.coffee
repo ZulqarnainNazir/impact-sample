@@ -26,6 +26,7 @@ HeaderBlockHandlers =
       blockOptions: this.headerBlockOptionsProps()
       editing: this.state.editing
       name: this.headerBlockName
+      theme: this.headerBlockThemeName(this.state.headerBlock.theme)
     else
       blockAdd: this.headerBlockAddProps()
       editing: this.state.editing
@@ -41,6 +42,16 @@ HeaderBlockHandlers =
 
   headerBlockName: (name) ->
     "header_block_attributes[#{name}]"
+
+  headerBlockThemeName: (theme) ->
+    switch theme
+      when 'center' then 'Center'
+      when 'justify' then 'Justify'
+      when 'logo_above' then 'Logo Above'
+      when 'logo_above_full_width' then 'Logo Above Full Width'
+      when 'logo_below' then 'Logo Below'
+      when 'logo_center' then 'Logo Center'
+      else 'Inline'
 
   headerBlockAddProps: ->
     visible: !this.state.headerBlock
