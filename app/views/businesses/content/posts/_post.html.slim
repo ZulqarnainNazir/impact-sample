@@ -3,7 +3,12 @@
     => icon 'edit'
     strong> Post
     span.pull-right
-      span.text-muted> Posted #{time_ago_in_words post.created_at} ago
+      - if post.published_on? && post.published_on > Time.zone.now
+        span.text-muted> Will Post #{time_ago_in_words post.published_on} from now
+      - elsif post.published_on?
+        span.text-muted> Posted #{time_ago_in_words post.published_on} ago
+      - else
+        span.text-muted> Posted #{time_ago_in_words post.created_at} ago
       span.btn-group.btn-group-sm style="margin-left:8px"
         = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }

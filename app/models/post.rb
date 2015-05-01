@@ -18,6 +18,16 @@ class Post < ActiveRecord::Base
   validates :business, presence: true
   validates :title, presence: true
 
+  def published_on=(value)
+    if value.is_a?(String)
+      values = value.split('/')
+      values = values[-1..-1] + values[0..-2]
+      super(Date.parse(values.join('/')))
+    else
+      super
+    end
+  end
+
   def arranged_sections
     post_sections.arrange(order: :position).map do |section, arrangement|
       add_cached_children(section, arrangement)
@@ -109,5 +119,6 @@ class Post < ActiveRecord::Base
       return section.post_section_image if section.post_section_image.present?
       find_sections_image(children)
     end
+    nil
   end
 end

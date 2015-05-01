@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 33) do
+ActiveRecord::Schema.define(version: 34) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -276,11 +276,12 @@ ActiveRecord::Schema.define(version: 33) do
   add_index "post_sections", ["post_id"], name: "index_post_sections_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.text     "title",       null: false
+    t.integer  "business_id",  null: false
+    t.text     "title",        null: false
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.date     "published_on"
   end
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree

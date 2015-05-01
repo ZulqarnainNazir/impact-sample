@@ -1,6 +1,12 @@
-.form-group
-  = form.label :title, class: 'control-label'
-  = form.text_field :title, class: 'form-control', placeholder: 'Add a descriptive 5-12 word title for your post'
+.row
+  .col-sm-8
+    .form-group
+      = form.label :title, class: 'control-label'
+      = form.text_field :title, class: 'form-control', placeholder: 'Add a descriptive 5-12 word title for your post'
+  .col-sm-4
+    .form-group
+      = form.label :published_on, class: 'control-label'
+      = form.text_field :published_on, value: form.object.published_on.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
 ol.post-sections-associations
   - form.object.post_sections.build
   = render partial: 'businesses/content/post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form }

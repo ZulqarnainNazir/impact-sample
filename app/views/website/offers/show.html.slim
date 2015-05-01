@@ -7,6 +7,8 @@
       strong> Offer
       span.pull-right
         span.text-muted Posted #{time_ago_in_words @offer.created_at} ago
+  - if @offer.valid_until? && @offer.valid_until < Time.zone.now
+    p.lead style="color:red" OFFER EXPIRED
   h2 = @offer.title
   .offer-row class=(@offer.kind || 'image_left')
     .row

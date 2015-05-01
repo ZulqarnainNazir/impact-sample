@@ -24,6 +24,16 @@ class Offer < ActiveRecord::Base
   validates :title, presence: true
   validates :offer_image_placement, presence: true
 
+  def valid_until=(value)
+    if value.is_a?(String)
+      values = value.split('/')
+      values = values[-1..-1] + values[0..-2]
+      super(Date.parse(values.join('/')))
+    else
+      super
+    end
+  end
+
   def description_html
     Sanitize.fragment(description.to_s, Sanitize::Config::RELAXED).html_safe
   end

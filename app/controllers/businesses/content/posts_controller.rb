@@ -32,6 +32,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   def post_params
     params.require(:post).permit(
       :title,
+      :published_on,
       post_sections_attributes: [
         :id,
         :key,

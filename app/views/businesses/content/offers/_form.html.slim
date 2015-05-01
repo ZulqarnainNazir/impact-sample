@@ -30,15 +30,15 @@ hr
         = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Add more details about the offer. Remember, you’re selling what makes this OFFER great.'
       .form-horizontal.text-right style="margin:20px 0"
         .form-group
-          = form.label :valid_until, 'Valid Until', class: 'col-sm-6'
+          = form.label :valid_until, 'Valid Until', class: 'col-sm-6 control-label'
           .col-sm-6
-            = form.text_field :valid_until, class: 'form-control', data: { provide: 'datepicker' }
+            = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
       .form-group
         = form.label :description, 'Describe what‘s included with this offer and the benefits of purchasing the offer *', class: 'control-label'
         = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor', placeholder: 'Here you should describe what’s include and why your product or service is great. Highlight a benefit or two.'
       .form-horizontal.text-right style="margin:20px 0"
         .form-group
-          = form.label :offer_code, 'Offer Code', class: 'col-sm-6'
+          = form.label :offer_code, 'Offer Code', class: 'col-sm-6 control-label'
           .col-sm-6
             = form.text_field :offer_code, class: 'form-control', placeholder: 'Optional'
 hr
