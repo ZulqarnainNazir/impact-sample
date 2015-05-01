@@ -24,3 +24,5 @@
         .row
           div class=(@page.feed_block.width == 'full' ? 'col-sm-12' : 'col-sm-8')
             = render @feed_items
+            - if @feed_items.any?
+              p = link_to 'View All', :website_blog_page, class: 'btn btn-default'

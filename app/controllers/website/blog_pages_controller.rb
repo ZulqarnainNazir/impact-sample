@@ -11,7 +11,7 @@ class Website::BlogPagesController < Website::BaseController
         @business.send(association).order(created_at: :desc).limit(@page.per_page)
       end.inject(&:+).sort_by(&:created_at).reverse
 
-      @feed_items = Kaminari.paginate_array(feed_record_arrays).page(1).per(@page.per_page)
+      @feed_items = Kaminari.paginate_array(feed_record_arrays).page(params[:page]).per(@page.per_page)
     end
   end
 end
