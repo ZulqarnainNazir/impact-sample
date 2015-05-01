@@ -117,7 +117,7 @@ HeaderBlockContent = React.createClass
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-justified" />
+          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-justified" lineHeight={parseInt(this.props.logo_height - 10)} />
         </div>
       </div>
     </nav>`
@@ -130,7 +130,7 @@ HeaderBlockContent = React.createClass
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-right" />
+          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-right" lineHeight={parseInt(this.props.logo_height - 10)} />
         </div>
       </div>
     </nav>`
@@ -143,7 +143,7 @@ HeaderBlockContent = React.createClass
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-centered" />
+          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-centered" lineHeight={parseInt(this.props.logo_height - 10)} />
         </div>
       </div>
     </nav>`
@@ -192,9 +192,9 @@ HeaderBlockContent = React.createClass
       leftPages = this.props.pages.slice(0, i)
       rightPages = this.props.pages.slice(i, this.props.pages.length)
       if leftPages.length > 0
-        result.push `<UnorderedList key="left" ref="leftNavbar" items={leftPages} className="nav navbar-nav navbar-left" />`
+        result.push `<UnorderedList key="left" ref="leftNavbar" items={leftPages} className="nav navbar-nav navbar-left" lineHeight={parseInt(this.props.logo_height - 10)} />`
       if rightPages.length > 0
-        result.push `<UnorderedList key="right" ref="rightNavbar" items={rightPages} className="nav navbar-nav navbar-right" />`
+        result.push `<UnorderedList key="right" ref="rightNavbar" items={rightPages} className="nav navbar-nav navbar-right" lineHeight={parseInt(this.props.logo_height - 10)} />`
     result
 
 window.HeaderBlockContent = HeaderBlockContent

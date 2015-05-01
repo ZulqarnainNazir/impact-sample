@@ -2,6 +2,7 @@ UnorderedList = React.createClass
   mixins: [PreventDefault]
 
   propTypes:
+    lineHeight: React.PropTypes.number
     items: React.PropTypes.arrayOf(
       React.PropTypes.shape
         id: React.PropTypes.number.isRequired
@@ -16,7 +17,7 @@ UnorderedList = React.createClass
   renderItem: (item) ->
     if item.cached_webpages_json and item.cached_webpages_json.length > 0
       `<li key={item.id} className="dropdown">
-        <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+        <a href="#" className="dropdown-toggle" data-toggle="dropdown" style={this.style()}>
           {item.name} <span className="caret"> </span>
         </a>
         <ul className="dropdown-menu">
@@ -25,7 +26,7 @@ UnorderedList = React.createClass
       </li>`
     else
       `<li key={item.id}>
-        <a href="#" onClick={this.preventDefault} style={{color: this.props.color}}>
+        <a href="#" onClick={this.preventDefault} style={this.style({color: this.props.color})}>
           {item.name}
         </a>
       </li>`
@@ -41,5 +42,11 @@ UnorderedList = React.createClass
     `<ul className={this.props.className}>
       {this.items()}
     </ul>`
+
+  style: (defaults) ->
+    if this.props.lineHeight and this.props.lineHeight > 20
+      $.extend {}, defaults, lineHeight: "#{this.props.lineHeight}px"
+    else
+      defaults
 
 window.UnorderedList = UnorderedList
