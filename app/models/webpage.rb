@@ -1,7 +1,7 @@
 class Webpage < ActiveRecord::Base
   attr_accessor :image_business, :image_user, :cached_webpages
   
-  store_accessor :settings, :block_type_order
+  store_accessor :settings, :block_type_order, :external_line_id
 
   belongs_to :website, touch: true
 

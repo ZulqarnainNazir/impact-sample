@@ -31,7 +31,7 @@ class Business < ActiveRecord::Base
     a['_destroy'] == '1' || (
       a['title'].blank? &&
       a['description'].blank? &&
-      a['line_attributes'].kind_of?(Hash) && a['line_attributes'].all { |_, b|
+      a['line_images_attributes'].kind_of?(Hash) && a['line_images_attributes'].all? { |_, b|
         b['_destroy'] == '1' || (
           b['line_image_placement_attributes'].kind_of?(Hash) &&
           b['line_image_placement_attributes'].select { |k,_| !%w[image_business image_user].include?(k) }.values.all?(&:blank?)
@@ -47,7 +47,7 @@ class Business < ActiveRecord::Base
 
   validates :name, presence: true
 
-  with_options unless: -> { validation_context.to_s.match(/\Aonboard_website/) } do
+  with_options unless: -> { validation_context.to_s.match(/\Aonboard_website/) || validation_context.to_sym == :related_associations } do
     validates :category_ids, presence: true
   end
 

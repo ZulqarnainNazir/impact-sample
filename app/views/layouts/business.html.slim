@@ -98,6 +98,19 @@ html lang="en"
                     li = link_to [:edit, @business, :data_social_profiles] do
                       i.fa.fa-files-o>
                       | Social Profiles
+                    li = link_to [:edit, @business, :data_lines] do
+                      i.fa.fa-cubes>
+                      | Product/Service Lines
+                    - if @business.lines.any?
+                      li = link_to [:edit, @business, :data_delivery] do
+                        i.fa.fa-truck>
+                        | Delivery Information
+                      li = link_to [:edit, @business, :data_customers] do
+                        i.fa.fa-briefcase>
+                        | Customer Information
+                    li = link_to [:edit, @business, :data_values] do
+                      i.fa.fa-heart>
+                      | Community &amp; Values
                     li = link_to [@business, :data_team_members] do
                       i.fa.fa-users>
                       | Team Members

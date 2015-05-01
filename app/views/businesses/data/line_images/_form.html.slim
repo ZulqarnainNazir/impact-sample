@@ -1,0 +1,22 @@
+- image_placement_json = line_image.line_image_placement_json.with_indifferent_access
+- image_json = image_placement_json[:image]
+- appended = line_image.new_record? && line_image.errors.empty? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
+= line_form.fields_for :line_images, line_image, child_index: appended ? 98765432102 : nil do |form|
+  .line-image-fields class=('is-appended' if appended)
+    .line-image-fields-remove
+      = form.label :_destroy, class: 'btn btn-default' do
+        => form.check_box :_destroy
+        span.sr-only> Remove
+        i.fa.fa-trash-o
+    .line-image-fields-content
+      = react_unmounted_component 'ImagePlacement',
+        inputPrefix: "business[lines_attributes][#{line_form.options[:child_index]}][line_images_attributes][#{form.options[:child_index]}][line_image_placement_attributes]",
+        imagesPath: business_images_path(business_form.object),
+        label: 'Image',
+        presignedPost: s3_presigned_post_hash,
+        placement: form.object.line_image_placement_json,
+        bulkUploadPath: new_business_content_images_upload_path(business_form.object),
+        buttonSize: 'small',
+        buttonRemove: false
+    .line-image-fields-warning.text-muted
+      p: em Image will be removed upon Save

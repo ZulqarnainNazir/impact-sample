@@ -31,10 +31,10 @@ Rails.application.routes.draw do
         resources :businesses, only: %i[new create edit update destroy] do
           post :import, on: :collection
           resource :location, only: %i[edit update]
-          resource :products, only: %i[edit update]
+          resource :lines, only: %i[edit update]
           resource :delivery, only: %i[edit update]
           resource :customers, only: %i[edit update]
-          resource :details, only: %i[edit update]
+          resource :values, only: %i[edit update]
           resource :website, only: %i[edit update]
           resource :theme, only: %i[edit update]
         end
@@ -60,11 +60,15 @@ Rails.application.routes.draw do
 
         namespace :data do
           root to: 'roots#show'
+          resource :customers, only: %i[edit update]
+          resource :delivery, only: %i[edit update]
           resource :details, only: %i[edit update]
+          resource :lines, only: %i[edit update]
           resource :location, only: %i[edit update]
           resource :openings, only: %i[edit update]
           resource :social_profiles, only: %i[edit update]
           resource :team_members_positions, only: %i[edit update]
+          resource :values, only: %i[edit update]
           resources :team_members, only: %i[index new create edit update destroy]
         end
 

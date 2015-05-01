@@ -1,4 +1,4 @@
-class Onboard::Website::DetailsController < Onboard::Website::BaseController
+class Onboard::Website::ValuesController < Onboard::Website::BaseController
   before_action do
     @business = current_user.authorized_businesses.find(params[:business_id])
 
@@ -8,12 +8,12 @@ class Onboard::Website::DetailsController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business, details_params, context: :onboard_website_continuation, location: [:edit_onboard_website, @business, :website]
+    update_resource @business, values_params, context: :related_associations, location: [:edit_onboard_website, @business, :website]
   end
 
   private
 
-  def details_params
+  def values_params
     params.require(:business).permit(
       :values,
       :history,

@@ -8,7 +8,7 @@ class Onboard::Website::LocationsController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business.location, location_params, location: [:edit_onboard_website, @business, :products]
+    update_resource @business.location, location_params, location: [:edit_onboard_website, @business, :lines]
   end
 
   private

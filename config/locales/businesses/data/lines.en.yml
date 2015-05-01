@@ -1,0 +1,7 @@
+en:
+  businesses:
+    data:
+      lines:
+        update:
+          notice: Ok, your business product and service lines were saved successfully.
+          alert: There was a problem saving your business product and service lines.

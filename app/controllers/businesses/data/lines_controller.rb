@@ -1,21 +1,13 @@
-class Onboard::Website::ProductsController < Onboard::Website::BaseController
+class Businesses::Data::LinesController < Businesses::BaseController
   include PlacementAttributesConcern
 
-  before_action do
-    @business = current_user.authorized_businesses.find(params[:business_id])
-
-    unless @business.location && @business.website
-      redirect_to [@business, :dashboard], alert: 'No Location or Website Found'
-    end
-  end
-
   def update
-    update_resource @business, product_params, context: :onboard_website_continuation, location: [:edit_onboard_website, @business, :delivery]
+    update_resource @business, lines_params, context: :related_associations, location: [:edit, @business, :data_lines]
   end
 
   private
 
-  def product_params
+  def lines_params
     params.require(:business).permit(
       lines_attributes: [
         :id,

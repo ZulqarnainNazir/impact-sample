@@ -83,7 +83,7 @@
             i.fa.fa-angle-left>
             | Back
           - if @business.location.persisted?
-            => link_to [:edit_onboard_website, @business, :products], class: 'btn btn-default' do
+            => link_to [:edit_onboard_website, @business, :lines], class: 'btn btn-default' do
               ' Skip
               i.fa.fa-angle-right
           = form.button class: 'btn btn-primary pull-right' do

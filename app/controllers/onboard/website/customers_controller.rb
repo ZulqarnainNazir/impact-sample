@@ -5,10 +5,14 @@ class Onboard::Website::CustomersController < Onboard::Website::BaseController
     unless @business.location && @business.website
       redirect_to [@business, :dashboard], alert: 'No Location or Website Found'
     end
+
+    unless @business.lines.any?
+      redirect_to [:edit_onboard_website, @business, :values]
+    end
   end
 
   def update
-    update_resource @business, customer_params, context: :onboard_website_continuation, location: [:edit_onboard_website, @business, :details]
+    update_resource @business, customer_params, context: :related_associations, location: [:edit_onboard_website, @business, :values]
   end
 
   private

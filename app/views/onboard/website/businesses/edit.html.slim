@@ -53,6 +53,79 @@
           .form-group
             = form.label :category_ids, class: 'control-label'
             = form.select :category_ids, options_from_collection_for_select(Category.alphabetical, 'id', 'name', form.object.categories.map(&:id)), {}, multiple: true, class: 'form-control', style: 'height:12em'
+          hr
+          .form-group
+            = form.label :facebook_id, class: 'control-label' do
+              i.fa.fa-facebook-square>
+              = Business.human_attribute_name(:facebook_id)
+            = form.text_field :facebook_id, autocomplete: 'off', class: 'form-control js-facebook-input'
+            p.help-block
+              | https://www.facebook.com/
+              strong.text-info.js-facebook-label = form.object.facebook_id
+          .form-group
+            = form.label :twitter_id, class: 'control-label'
+              i.fa.fa-twitter-square>
+              = Business.human_attribute_name(:twitter_id)
+            = form.text_field :twitter_id, autocomplete: 'off', class: 'form-control js-twitter-input'
+            p.help-block
+              | https://www.twitter.com/
+              strong.text-info.js-twitter-label = form.object.twitter_id
+          .form-group
+            = form.label :google_plus_id, class: 'control-label'
+              i.fa.fa-google-plus-square>
+              = Business.human_attribute_name(:google_plus_id)
+            = form.text_field :google_plus_id, autocomplete: 'off', class: 'form-control js-google-plus-input'
+            p.help-block
+              | https://plus.google.com/+
+              strong.text-info.js-google-plus-label = form.object.google_plus_id
+          .form-group
+            = form.label :linkedin_id, class: 'control-label'
+              i.fa.fa-linkedin-square>
+              = Business.human_attribute_name(:linkedin_id)
+            = form.text_field :linkedin_id, autocomplete: 'off', class: 'form-control js-linkedin-input'
+            p.help-block
+              | https://www.linkedin.com/
+              strong.text-info.js-linkedin-label = form.object.linkedin_id
+          .form-group
+            = form.label :youtube_id, class: 'control-label'
+              i.fa.fa-youtube-square>
+              = Business.human_attribute_name(:youtube_id)
+            = form.text_field :youtube_id, autocomplete: 'off', class: 'form-control js-youtube-input'
+            p.help-block
+              | https://www.youtube.com/user/
+              strong.text-info.js-youtube-label = form.object.youtube_id
+          .form-group
+            = form.label :pinterest_id, class: 'control-label'
+              i.fa.fa-pinterest-square>
+              = Business.human_attribute_name(:pinterest_id)
+            = form.text_field :pinterest_id, autocomplete: 'off', class: 'form-control js-pinterest-input'
+            p.help-block
+              | https://www.pinterest.com/
+              strong.text-info.js-pinterest-label = form.object.pinterest_id
+          .form-group
+            = form.label :instagram_id, class: 'control-label'
+              i.fa.fa-instagram>
+              = Business.human_attribute_name(:instagram_id)
+            = form.text_field :instagram_id, autocomplete: 'off', class: 'form-control js-instagram-input'
+            p.help-block
+              | https://www.instagram.com/
+              strong.text-info.js-instagram-label = form.object.instagram_id
+          .form-group
+            = form.label :yelp_id, class: 'control-label'
+              i.fa.fa-yelp>
+              = Business.human_attribute_name(:yelp_id)
+            = form.text_field :yelp_id, autocomplete: 'off', class: 'form-control js-yelp-input'
+            p.help-block
+              | https://www.yelp.com/biz/
+              strong.text-info.js-yelp-label = form.object.yelp_id
+          .form-group
+            = form.label :citysearch_id, class: 'control-label'
+              i.fa.fa-square>
+              = Business.human_attribute_name(:citysearch_id)
+            = form.text_field :citysearch_id, autocomplete: 'off', class: 'form-control js-citysearch-input'
+            p.help-block
+              | https://www.citysearch.com/
+              strong.text-info.js-citysearch-label = form.object.citysearch_id
         .panel-footer.clearfix
           => link_to [:onboard_website, @business], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
             i.fa.fa-trash>
@@ -63,3 +136,40 @@
           = form.button class: 'btn btn-primary pull-right' do
             ' Continue
             i.fa.fa-angle-double-right
+javascript:
+  $('.js-facebook-label').text($('.js-facebook-input').val());
+  $('.js-facebook-input').on('input', function(e) {
+    $('.js-facebook-label').text(e.target.value);
+  });
+  $('.js-twitter-label').text($('.js-twitter-input').val());
+  $('.js-twitter-input').on('input', function(e) {
+    $('.js-twitter-label').text(e.target.value);
+  });
+  $('.js-google-plus-label').text($('.js-google-plus-input').val());
+  $('.js-google-plus-input').on('input', function(e) {
+    $('.js-google-plus-label').text(e.target.value);
+  });
+  $('.js-linkedin-label').text($('.js-linkedin-input').val());
+  $('.js-linkedin-input').on('input', function(e) {
+    $('.js-linkedin-label').text(e.target.value);
+  });
+  $('.js-youtube-label').text($('.js-youtube-input').val());
+  $('.js-youtube-input').on('input', function(e) {
+    $('.js-youtube-label').text(e.target.value);
+  });
+  $('.js-pinterest-label').text($('.js-pinterest-input').val());
+  $('.js-pinterest-input').on('input', function(e) {
+    $('.js-pinterest-label').text(e.target.value);
+  });
+  $('.js-instagram-label').text($('.js-instagram-input').val());
+  $('.js-instagram-input').on('input', function(e) {
+    $('.js-instagram-label').text(e.target.value);
+  });
+  $('.js-yelp-label').text($('.js-yelp-input').val());
+  $('.js-yelp-input').on('input', function(e) {
+    $('.js-yelp-label').text(e.target.value);
+  });
+  $('.js-citysearch-label').text($('.js-citysearch-input').val());
+  $('.js-citysearch-input').on('input', function(e) {
+    $('.js-citysearch-label').text(e.target.value);
+  });

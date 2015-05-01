@@ -3,7 +3,7 @@
 .row
   .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
     = errors_for @business
-    = form_for @business, url: [:onboard_website, @business, :products], method: :put do |form|
+    = form_for @business, url: [:onboard_website, @business, :lines], method: :put do |form|
       .panel.panel-default
         .panel-heading
           h1.h4.panel-title Tell us about your products and services
@@ -15,7 +15,7 @@
           => link_to [:edit_onboard_website, @business, :location], class: 'btn btn-default' do
             i.fa.fa-angle-left>
             | Back
-          => link_to [:edit_onboard_website, @business, :delivery], class: 'btn btn-default' do
+          => link_to [:edit_onboard_website, @business, (@business.lines.select(&:persisted?).any? ? :delivery : :values)], class: 'btn btn-default' do
             ' Skip
             i.fa.fa-angle-right
           = form.button class: 'btn btn-primary pull-right' do

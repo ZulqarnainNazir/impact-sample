@@ -1,0 +1,7 @@
+en:
+  businesses:
+    data:
+      deliveries:
+        update:
+          notice: Ok, your business delivery information was saved successfully.
+          alert: There was a problem saving your business delivery information.

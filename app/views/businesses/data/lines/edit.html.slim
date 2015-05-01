@@ -1,0 +1,21 @@
+- title 'Tell us about your products and services'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Business Data', [@business, :data_root]
+  li.active Product/Service Lines
+
+.row
+  .col-md-8
+    = errors_for @business
+    = form_for @business, url: [@business, :data_lines] do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Tell us about your products and services
+        .panel-body
+          .lines-associations
+            - form.object.lines.build
+            = render partial: 'businesses/data/lines/form', collection: form.object.lines, as: :line, locals: { business_form: form }
+        .panel-footer.text-right
+          = form.button 'Save', class: 'btn btn-primary'

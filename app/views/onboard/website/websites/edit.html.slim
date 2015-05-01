@@ -4,73 +4,37 @@
   .row
     .col-sm-6.col-sm-offset-3
       = errors_for @business.website
-      .form-group
-        = form.label :subdomain, class: 'control-label'
-        = form.text_field :subdomain, value: @business.website.subdomain.present? ? @business.website.subdomain : @business.name.gsub(/'/, '').parameterize, autocomplete: 'off', class: 'form-control js-subdomain-input'
-        p.help-block
+      p
+        ' Based on the information you provided, we‘ve created a website for you at
+        code>
           | http://
-          strong.text-info.js-subdomain-label = @business.website.subdomain.present? ? @business.website.subdomain : @business.name.gsub(/'/, '').parameterize
+          strong.text-info = @business.website.subdomain.present? ? @business.website.subdomain : Website.available_subdomain(@business.name)
           | .#{Rails.application.secrets.host}
-      javascript:
-        $('.js-subdomain-label').text($('.js-subdomain-input').val())
-        $('.js-subdomain-input').on('input', function() {
-          $('.js-subdomain-label').text($('.js-subdomain-input').val());
-        });
-      hr
+        | and used your information to create
+      div style="margin:2em"
+        div Homepage
+        div About
+        div Blog
+        div Contact
+        - @business.lines.limit(6).each do |line|
+          div = line.title
+        - if @business.lines.count > 6
+          div and #{pluralize (@business.lines.count - 6), 'more page'}
+        - if @business.website.webpages.map(&:blocks).flatten.count > 0
+          br
+          div And #{pluralize @business.website.webpages.map(&:blocks).flatten.count, 'different content post'}
+      p You can edit or delete these pages and content at any time, would you like to create any additional pages now? Don’t worry you can add pages at any time.
+      br
       .row.pages-associations
-          = form.fields_for :home_page, @business.website.home_page || @business.website.build_home_page do |home_page|
-            .panel.panel-default
-              .panel-sidebar
-                = home_page.label :_destroy, class: 'btn btn-default' do
-                  => home_page.check_box :_destroy
-                  span.sr-only> Destroy
-                  i.fa.fa-trash-o
-              .panel-body
-                h2.h4
-                  i.fa.fa-home>
-                  span Homepage
-          = form.fields_for :about_page, @business.website.about_page || @business.website.build_about_page do |about_page|
-            .panel.panel-default
-              .panel-sidebar
-                = about_page.label :_destroy, class: 'btn btn-default' do
-                  => about_page.check_box :_destroy
-                  span.sr-only> Destroy
-                  i.fa.fa-trash-o
-              .panel-body
-                h2.h4
-                  i.fa.fa-question-circle>
-                  span About Page
-          = form.fields_for :blog_page, @business.website.blog_page || @business.website.build_blog_page do |blog_page|
-            .panel.panel-default
-              .panel-sidebar
-                = blog_page.label :_destroy, class: 'btn btn-default' do
-                  => blog_page.check_box :_destroy
-                  span.sr-only> Destroy
-                  i.fa.fa-trash-o
-              .panel-body
-                h2.h4
-                  i.fa.fa-rss-square>
-                  span Blog Page
-          = form.fields_for :contact_page, @business.website.contact_page || @business.website.build_contact_page do |contact_page|
-            .panel.panel-default
-              .panel-sidebar
-                = contact_page.label :_destroy, class: 'btn btn-default' do
-                  => contact_page.check_box :_destroy
-                  span.sr-only> Destroy
-                  i.fa.fa-trash-o
-              .panel-body
-                h2.h4
-                  i.fa.fa-map-marker>
-                  span Contact Page
           h2.h4 Custom Pages
           br
           .page-associations-container
-            = render partial: 'webpage', collection: @business.website.webpages.where(type: 'CustomPage') + [@business.website.webpages.build], locals: { website_form: form }
+            = render partial: 'webpage', collection: @business.website.webpages.where(type: 'CustomPage').reject { |page| page.external_line_id.present? } + [@business.website.webpages.build], locals: { website_form: form }
   .row
     .col-sm-8.col-sm-offset-2
       hr
       div
-        => link_to [:edit_onboard_website, @business, :details], class: 'btn btn-default' do
+        => link_to [:edit_onboard_website, @business, :values], class: 'btn btn-default' do
           i.fa.fa-angle-left>
           | Back
         => link_to [:edit_onboard_website, @business, :theme], class: 'btn btn-default' do
