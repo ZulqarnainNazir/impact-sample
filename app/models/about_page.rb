@@ -15,6 +15,13 @@ class AboutPage < Webpage
     end
   end
 
+  def blocks_count
+    [
+      about_block,
+      team_block,
+    ].count
+  end
+
   def default_about_block_attributes(business)
     {
       heading: business.name,

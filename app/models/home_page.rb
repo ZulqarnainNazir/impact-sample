@@ -27,6 +27,16 @@ class HomePage < Webpage
     end
   end
 
+  def blocks_count
+    [
+      hero_block,
+      tagline_blocks,
+      call_to_action_blocks,
+      specialty_blocks,
+      content_blocks,
+    ].flatten.count
+  end
+
   def default_hero_block_attributes(business)
     {
       heading: business.name,

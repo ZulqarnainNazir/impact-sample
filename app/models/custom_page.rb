@@ -16,4 +16,14 @@ class CustomPage < Webpage
     accepts_nested_attributes_for :call_to_action_blocks
     accepts_nested_attributes_for :content_blocks
   end
+
+  def blocks_count
+    [
+      hero_block,
+      tagline_blocks,
+      call_to_action_blocks,
+      specialty_blocks,
+      content_blocks,
+    ].flatten.count
+  end
 end

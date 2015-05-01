@@ -20,9 +20,10 @@
           div = line.title
         - if @business.lines.count > 6
           div and #{pluralize (@business.lines.count - 6), 'more page'}
-        - if @business.website.webpages.map(&:blocks).flatten.count > 0
+        - blocks_count = @business.website.webpages.map(&:blocks_count).inject(&:+)
+        - if blocks_count > 0
           br
-          div And #{pluralize @business.website.webpages.map(&:blocks).flatten.count, 'different content post'}
+          div ...and #{pluralize blocks_count, 'different content post'}
       p You can edit or delete these pages and content at any time, would you like to create any additional pages now? Don’t worry you can add pages at any time.
       br
       .row.pages-associations

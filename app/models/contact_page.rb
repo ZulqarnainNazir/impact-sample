@@ -11,6 +11,12 @@ class ContactPage < Webpage
     end
   end
 
+  def blocks_count
+    [
+      contact_block,
+    ].count
+  end
+
   def default_contact_block_attributes(business)
     {
       text: business.description,

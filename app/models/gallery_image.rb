@@ -5,6 +5,5 @@ class GalleryImage < ActiveRecord::Base
 
   has_placed_image :gallery_image
 
-  validates :gallery, presence: true
   validates :gallery_image_placement, presence: true
 end

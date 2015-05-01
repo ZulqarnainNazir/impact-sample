@@ -12,12 +12,14 @@ FeedBlock = React.createClass
     true
 
   componentDidMount: ->
-    $(this.refs.widths.getDOMNode()).find('input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary')
-    $(this.refs.widths.getDOMNode()).find('input[type="radio"]').change this.toggleRadios
+    $(this).on 'change', 'input[type="radio"]', this.toggleRadios
+
+  componentDidUpdate: ->
+    this.toggleRadios()
 
   toggleRadios: ->
-    $(this.refs.widths.getDOMNode()).find('input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary')
-    $(this.refs.widths.getDOMNode()).find('input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default')
+    $(this).find('input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary')
+    $(this).find('input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default')
 
   render: ->
     `<div className="webpage-container" data-type="feed">
@@ -26,14 +28,14 @@ FeedBlock = React.createClass
     </div>`
 
   renderInterior: ->
-    if this.props.block.width is 'full'
-      sidebarWidthDefaultChecked = false
-      fullWidthDefaultChecked = true
-    else
-      sidebarWidthDefaultChecked = true
-      fullWidthDefaultChecked = false
-
     if this.props.block
+      if this.props.block.width is 'full'
+        sidebarWidthDefaultChecked = false
+        fullWidthDefaultChecked = true
+      else
+        sidebarWidthDefaultChecked = true
+        fullWidthDefaultChecked = false
+
       `<div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
         <div className="webpage-feed">
@@ -42,7 +44,7 @@ FeedBlock = React.createClass
         <BlockEditor {...this.props.blockEditor}>
           <div className="text-center">
             <div className="center-block">
-              <div ref="widths" className="btn-group">
+              <div className="btn-group">
                 <label className="btn btn-default">
                   <input id={this.props.id('width_sidebar')} name={this.props.name('width')} value="sidebar" type="radio" style={{marginRight: 5}} defaultChecked={sidebarWidthDefaultChecked} /> Two-Thirds Width
                 </label>

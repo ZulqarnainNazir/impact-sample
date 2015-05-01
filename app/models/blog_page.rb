@@ -7,6 +7,10 @@ class BlogPage < Webpage
     self.per_page = 10 unless per_page.present?
   end
 
+  def blocks_count
+    0
+  end
+
   def width
     super == 'full' ? 'full' : 'sidebar'
   end

@@ -3,9 +3,9 @@ class Webpage < ActiveRecord::Base
   
   store_accessor :settings, :block_type_order, :external_line_id
 
-  belongs_to :website, touch: true
-
   has_many :blocks, as: :link
+
+  belongs_to :website, touch: true
 
   validates :pathname, uniqueness: { scope: :website, case_sensitive: false }
   validates :pathname, absence: true, if: :home_page?
