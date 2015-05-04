@@ -1,5 +1,5 @@
 class ImageCacheTransferJob < ActiveJob::Base
-  queue_as :default
+  queue_as :image
 
   def perform(image)
     if image.attachment_cache_url?
