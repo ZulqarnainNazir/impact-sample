@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.0'
+ruby '2.2.2'
 
 # Must be loaded before "elasticsearch-model"
 gem 'kaminari'
@@ -34,7 +34,7 @@ gem 'pg'
 gem 'platform-api'
 gem 'quiet_assets'
 gem 'rails'
-gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
+gem 'react-rails'
 gem 'sanitize'
 gem 'sass-rails'
 gem 'sidekiq'
