@@ -100,7 +100,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business.website, website_params, context: :setup, location: [:edit_onboard_website, @business, :theme]
+    update_resource @business.website, website_params, location: [:edit_onboard_website, @business, :theme]
   end
 
   private

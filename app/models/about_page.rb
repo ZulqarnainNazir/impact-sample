@@ -9,8 +9,8 @@ class AboutPage < Webpage
     accepts_nested_attributes_for :team_block
   end
 
-  before_validation on: :setup do
-    if website.business
+  before_validation do
+    if website && website.business && !about_block
       self.about_block_attributes = default_about_block_attributes(website.business)
     end
   end
