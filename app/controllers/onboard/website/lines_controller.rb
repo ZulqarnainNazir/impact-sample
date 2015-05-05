@@ -29,7 +29,7 @@ class Onboard::Website::LinesController < Onboard::Website::BaseController
         ],
       ],
     ).tap do |safe_params|
-      if safe_params[:line_attributes]
+      if safe_params[:lines_attributes]
         safe_params[:lines_attributes].each do |_, attr|
           merge_placement_image_attributes_array attr[:line_images_attributes], :line_image_placement_attributes
         end
