@@ -10,9 +10,9 @@
             = webpage.pathname
     .panel-footer.text-right
       - if webpage.active?
-        p.pull-left.text-success Published
+        p.pull-left.text-success.small: strong Published
       - else
-        p.pull-left.text-muted Draft
+        p.pull-left.text-muted.small Draft
       .btn-group.btn-group-xs
         - if webpage.active?
           = link_to 'Make Draft', business_website_webpage_publications_path(business, webpage), method: :delete, class: 'btn btn-default'
