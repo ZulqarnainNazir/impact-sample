@@ -1,0 +1,7 @@
+en:
+  businesses:
+    websites:
+      webpages:
+        destroy:
+          notice: The webpage was deleted successfully.
+          alert: There was a problem deleting the webpage.

@@ -1,0 +1,26 @@
+.col-sm-6.col-md-3
+  .panel.panel-default.page-preview
+    = link_to [:edit, business, :website, webpage] do
+      .panel-body.text-center
+        .page-preview-wrapper
+          i.fa.fa-file.fa-4x>
+          h2.h3 => webpage.name
+          code
+            | /
+            = webpage.pathname
+    .panel-footer.text-right
+      - if webpage.active?
+        p.pull-left.text-success Published
+      - else
+        p.pull-left.text-muted Draft
+      .btn-group.btn-group-xs
+        - if webpage.active?
+          = link_to 'Make Draft', business_website_webpage_publications_path(business, webpage), method: :delete, class: 'btn btn-default'
+        - else
+          = link_to 'Publish', business_website_webpage_publications_path(business, webpage), method: :create, class: 'btn btn-success'
+        = link_to 'Delete', business_website_webpage_path(business, webpage), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  .text-right.small
+    - webpage_url = webpage.pathname? ? website_custom_page_url(webpage.pathname, host: website_host(website)) : website_root_url(host: website_host(website))
+    = link_to webpage_url, target: :_blank do
+      ' Preview
+      i.fa.fa-external-link style="margin-left:2px"

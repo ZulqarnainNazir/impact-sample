@@ -7,27 +7,10 @@ ol.breadcrumb
   li.active Webpages
 
 .row
-  .col-sm-6.col-md-3
-    - if @website.home_page
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_home_page] do
-          .panel-body.text-center
-            i.fa.fa-home.fa-4x>
-            h2.h3> Homepage
-            code = '/'
-        .panel-footer.text-right
-          - if @website.home_page.active?
-            = link_to business_website_webpage_publications_path(@business, @website.home_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
-              i.fa.fa-toggle-on>
-              | Active
-          - else
-            = link_to business_website_webpage_publications_path(@business, @website.home_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
-              i.fa.fa-toggle-off>
-              | Hidden
-          = link_to website_root_url(host: website_host(@website)), target: :_blank do
-            ' Preview
-            i.fa.fa-external-link style="margin-left:2px"
-    - else
+  - if @website.home_page
+    = render partial: 'webpage', object: @website.home_page, locals: { business: @business, website: @website }
+  - else
+    .col-sm-6.col-md-3
       .panel.panel-default.page-preview
         = link_to [:edit, @business, :website_home_page] do
           .panel-body.text-center
@@ -36,27 +19,10 @@ ol.breadcrumb
               ' Homepage
               i.fa.fa-plus-circle
             span.text-muted Add a Homepage
-  .col-sm-6.col-md-3
-    - if @website.about_page
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_about_page] do
-          .panel-body.text-center
-            i.fa.fa-question-circle.fa-4x>
-            h2.h3> About
-            code = '/about'
-        .panel-footer.text-right
-          - if @website.about_page.active?
-            = link_to business_website_webpage_publications_path(@business, @website.about_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
-              i.fa.fa-toggle-on>
-              | Active
-          - else
-            = link_to business_website_webpage_publications_path(@business, @website.about_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
-              i.fa.fa-toggle-off>
-              | Hidden
-          = link_to website_about_page_url(host: website_host(@website)), target: :_blank do
-            ' Preview
-            i.fa.fa-external-link style="margin-left:2px"
-    - else
+  - if @website.about_page
+    = render partial: 'webpage', object: @website.about_page, locals: { business: @business, website: @website }
+  - else
+    .col-sm-6.col-md-3
       .panel.panel-default.page-preview
         = link_to [:edit, @business, :website_about_page] do
           .panel-body.text-center
@@ -65,27 +31,10 @@ ol.breadcrumb
               ' About
               i.fa.fa-plus-circle
             span.text-muted Add an About Page
-  .col-sm-6.col-md-3
-    - if @website.blog_page
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_blog_page] do
-          .panel-body.text-center
-            i.fa.fa-rss-square.fa-4x>
-            h2.h3> Blog
-            code = '/blog'
-        .panel-footer.text-right
-          - if @website.blog_page.active?
-            = link_to business_website_webpage_publications_path(@business, @website.blog_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
-              i.fa.fa-toggle-on>
-              | Active
-          - else
-            = link_to business_website_webpage_publications_path(@business, @website.blog_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
-              i.fa.fa-toggle-off>
-              | Hidden
-          = link_to website_blog_page_url(host: website_host(@website)), target: :_blank do
-            ' Preview
-            i.fa.fa-external-link style="margin-left:2px"
-    - else
+  - if @website.blog_page
+    = render partial: 'webpage', object: @website.blog_page, locals: { business: @business, website: @website }
+  - else
+    .col-sm-6.col-md-3
       .panel.panel-default.page-preview
         = link_to [:edit, @business, :website_blog_page] do
           .panel-body.text-center
@@ -94,27 +43,10 @@ ol.breadcrumb
               ' Blog
               i.fa.fa-plus-circle
             span.text-muted Add a Blog Page
-  .col-sm-6.col-md-3
-    - if @website.contact_page
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_contact_page] do
-          .panel-body.text-center
-            i.fa.fa-map-marker.fa-4x>
-            h2.h3> Contact
-            code = '/contact'
-        .panel-footer.text-right
-          - if @website.contact_page.active?
-            = link_to business_website_webpage_publications_path(@business, @website.contact_page), method: :delete, class: 'pull-left btn btn-xs btn-primary' do
-              i.fa.fa-toggle-on>
-              | Active
-          - else
-            = link_to business_website_webpage_publications_path(@business, @website.contact_page), method: :create, class: 'pull-left btn btn-xs btn-danger' do
-              i.fa.fa-toggle-off>
-              | Hidden
-          = link_to website_contact_page_url(host: website_host(@website)), target: :_blank do
-            ' Preview
-            i.fa.fa-external-link style="margin-left:2px"
-    - else
+  - if @website.contact_page
+    = render partial: 'webpage', object: @website.contact_page, locals: { business: @business, website: @website }
+  - else
+      .col-sm-6.col-md-3
       .panel.panel-default.page-preview
         = link_to [:edit, @business, :website_contact_page] do
           .panel-body.text-center
@@ -126,7 +58,7 @@ ol.breadcrumb
 hr
 h2.h3 Custom Webpages
 .row
-  = render partial: 'custom_page', collection: @custom_pages
+  = render partial: 'webpage', collection: @custom_pages, locals: { business: @business, website: @website }
   .col-sm-6.col-md-3
     .panel.panel-default.page-preview
       = link_to [:new, @business, :website_custom_page] do

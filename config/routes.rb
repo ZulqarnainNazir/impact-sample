@@ -89,7 +89,7 @@ Rails.application.routes.draw do
           resource :meta, only: %i[edit update]
           resource :theme, only: %i[edit update]
           resources :custom_pages, only: %i[new create edit update]
-          resources :webpages, only: %i[index] do
+          resources :webpages, only: %i[index destroy] do
             resource :publications, only: %i[create destroy]
           end
         end
