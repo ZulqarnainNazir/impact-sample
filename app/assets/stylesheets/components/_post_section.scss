@@ -9,6 +9,13 @@
   ul.wysihtml5-toolbar {
     margin: 0 0 0.5em;
   }
+  .placeholder {
+    outline: 1px dashed #4183C4;
+  }
+  .mjs-nestedSortable-error {
+    background: #fbe3e4;
+    border-color: transparent;
+  }
 }
 
 .post-section-fields {
