@@ -3,7 +3,7 @@ en:
     content:
       before_afters:
         create:
-          notice: Your Before & After was added successfully.
+          notice: Your Before & After is being published and will be available momentarily.
           alert: There was a problem saving your before & after.
         update:
           notice: Your Before & After was updated successfully.

@@ -3,7 +3,7 @@ en:
     content:
       galleries:
         create:
-          notice: Your Gallery was added successfully.
+          notice: Your Gallery is being published and will be available momentarily.
           alert: There was a problem saving your Gallery.
         update:
           notice: Your Gallery was updated successfully.
