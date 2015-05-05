@@ -61,13 +61,13 @@ class ContentSearch
         },
       }
     else
-      dsl[:sort] = {
-        _script: {
-          script: 'if (_source["published_on"] == null) { doc["created_at"].value } else { doc["published_on"].value }',
-          type: :number,
-          order: :desc,
-        },
-      }
+      #dsl[:sort] = {
+        #_script: {
+          #script: 'if (_source["published_on"] == null) { doc["created_at"].value } else { doc["published_on"].value }',
+          #type: :number,
+          #order: :desc,
+        #},
+      #}
     end
 
     Elasticsearch::Model.search(dsl, [BeforeAfter, Gallery, Offer, Post])
