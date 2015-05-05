@@ -1,6 +1,6 @@
 en:
   businesses:
-    websites:
+    website:
       webpages:
         destroy:
           notice: The webpage was deleted successfully.
