@@ -1,0 +1,15 @@
+.feed-item.feed-quick_post
+  .feed-item-meta
+    => icon 'text-file-o'
+    strong> Quick Post
+    span.pull-right
+      span.text-muted> Posted #{time_ago_in_words quick_post.created_at} ago
+      span.btn-group.btn-group-sm style="margin-left:8px"
+        = link_to icon('pencil'), [:edit, @business, :content, quick_post], class: 'btn btn-default'
+        = link_to icon('trash'), [@business, :content, quick_post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  h2.h3 = link_to quick_post.title, [:website, quick_post]
+  = quick_post.content_html
+  - image = quick_post.quick_post_image
+  - if image
+    br
+    = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'

@@ -97,7 +97,7 @@ h2.h3
         .panel-heading
           i.fa.fa-tasks.fa-4x
         .panel-footer.text-right
-          span.pull-left> Before &amp; After
+          span.pull-left> Before &amp; Af…
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
     = link_to [:new, @business, :content_offer] do
@@ -107,13 +107,13 @@ h2.h3
         .panel-footer.text-right
           span.pull-left> New Offer
           i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2 style="pointer-events:none; opacity:0.4"
-    = link_to '#'  do
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :content_quick_post] do
       .panel.panel-primary
         .panel-heading
-          i.fa.fa-bullhorn.fa-4x
+          i.fa.fa-file-text-o.fa-4x
         .panel-footer.text-right
-          span.pull-left> Product
+          span.pull-left> Quick Post
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
     = link_to [:new, @business, :content_post] do

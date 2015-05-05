@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 34) do
+ActiveRecord::Schema.define(version: 35) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -286,6 +286,16 @@ ActiveRecord::Schema.define(version: 34) do
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
 
+  create_table "quick_posts", force: :cascade do |t|
+    t.integer  "business_id"
+    t.text     "title"
+    t.text     "content"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree
+
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false
     t.integer  "position",       default: 0
@@ -379,4 +389,5 @@ ActiveRecord::Schema.define(version: 34) do
 
   add_foreign_key "lines", "businesses"
   add_foreign_key "post_sections", "posts"
+  add_foreign_key "quick_posts", "businesses"
 end

@@ -12,6 +12,7 @@ class Business < ActiveRecord::Base
     has_many :lines
     has_many :offers
     has_many :posts
+    has_many :quick_posts
     has_many :team_members
     has_many :users
     has_one :location

@@ -1,0 +1,11 @@
+- title 'New Business Quick Post'.html_safe
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li.active New Quick Post
+
+= errors_for @quick_post
+= form_for @quick_post, url: [@business, :content_quick_posts] do |form|
+  = render form

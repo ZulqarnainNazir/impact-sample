@@ -70,6 +70,6 @@ class ContentSearch
       #}
     end
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, Gallery, Offer, Post])
+    Elasticsearch::Model.search(dsl, [BeforeAfter, Gallery, Offer, Post, QuickPost])
   end
 end

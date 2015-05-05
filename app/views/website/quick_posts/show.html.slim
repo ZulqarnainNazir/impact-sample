@@ -1,0 +1,15 @@
+- title @quick_post.title
+
+.container
+  .feed-item.feed-quick_post
+    .feed-item-meta
+      => icon 'tasks'
+      strong> Before &amp; After
+      span.pull-right
+        span.text-muted Posted #{time_ago_in_words @quick_post.created_at} ago
+    h2.h3 = @quick_post.title
+    = @quick_post.content_html
+    - image = @quick_post.quick_post_image
+    - if image
+      br
+      = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'

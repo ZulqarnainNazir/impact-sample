@@ -1,0 +1,13 @@
+en:
+  businesses:
+    content:
+      quick_posts:
+        create:
+          notice: Your Quick Post is being published and will be available momentarily.
+          alert: There was a problem saving your Quick Post.
+        update:
+          notice: Your Quick Post was updated successfully.
+          alert: There was a problem saving your Quick Post.
+        destroy:
+          notice: Your Quick Post was deleted successfully.
+          alert: There was a problem removing your Quick Post.

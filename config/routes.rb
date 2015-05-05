@@ -56,6 +56,7 @@ Rails.application.routes.draw do
             get :clone, on: :member
           end
           resources :posts, only: %i[new create edit update destroy]
+          resources :quick_posts, only: %i[new create edit update destroy]
         end
 
         namespace :data do
@@ -113,6 +114,7 @@ Rails.application.routes.draw do
     end
     resources :offers, only: %i[show]
     resources :posts, only: %i[show]
+    resources :quick_posts, only: %i[show]
 
     get '*id', to: 'custom_pages#show', as: :custom_page
   end
