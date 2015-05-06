@@ -64,7 +64,7 @@ FeedBlockHandlers =
       editorTarget: '#feed-block-editor'
       editLabel: 'Edit Details'
       onEdit: this.feedBlockEdit
-    if this.props.defaultFeedBlockAttributes
+    if this.props.requireFeedBlock
       options
     else
       $.extend {}, options,

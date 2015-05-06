@@ -31,6 +31,7 @@ ol.breadcrumb
       presignedPost: s3_presigned_post_hash,
       imagesPath: business_images_path(form.object.website.business),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
+      requireFeedBlock: true,
       initialSidebarPosition: form.object.sidebar_position,
       initialFeedBlock: (form.object.feed_block || form.object.build_feed_block(items_limit: 15)).try(:as_json, methods: %i[key items_limit]),
       initialSidebarContentBlocks: form.object.sidebar_content_blocks.map { |b| b.as_block_json(b.sidebar_content_block_image_placement, methods: %i[key]) }

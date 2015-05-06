@@ -13,6 +13,8 @@ class BlogPage < Webpage
     accepts_nested_attributes_for :sidebar_feed_block
   end
 
+  validates :feed_block, presence: true
+
   def blocks_count
     [
       feed_block,
