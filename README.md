@@ -7,6 +7,7 @@ dependencies:
 * PostgreSQL
 * AWS S3
 * Redis
+* Elasticsearch
 
 ## Development
 
@@ -23,6 +24,18 @@ credentials.
 Ensure the `foreman` gem is installed and start the application with:
 
 `foreman start`
+
+To create all indices for the first time, run:
+
+`rake environment elasticsearch:import:all FORCE=y`
+
+To create a single index for a newly added model `Widget`, run:
+
+`rake environment elasticsearch:import:model CLASS=Widget FORCE=y`
+
+To refresh the indices at a later time, run:
+
+`rake environment elasticsearch:import:all`
 
 ## Test
 
@@ -51,6 +64,7 @@ Add the following free addons:
 * Heroku PGBackups (auto one-month)
 * Memcached Cloud
 * Redis To Go
+* Bonsai
 
 Open the Heroku application settings and the following config variables:
 
@@ -97,6 +111,10 @@ catgories list:
 heroku run rake db:migrate
 heroku run rake db:seed
 ```
+
+Then ensure the indices are created by running:
+
+`rake environment elasticsearch:import:all FORCE=y`
 
 Ensure that a worker dyno is running:
 
