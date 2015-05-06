@@ -7,11 +7,12 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
     end
 
     unless @business.website.home_page
-      @business.website.create_home_page!(name: 'Homepage', pathname: '', title: @business.name)
+      @business.website.create_home_page!(active: true, name: 'Homepage', pathname: '', title: @business.name)
     end
 
     unless @business.website.about_page
       @business.website.create_about_page!(
+        active: true,
         name: 'About',
         pathname: 'about',
         title: "About #{@business.name}",
@@ -27,11 +28,11 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
     end
 
     unless @business.website.blog_page
-      @business.website.create_blog_page!(name: 'Blog', pathname: 'blog', title: "#{@business.name} Blog")
+      @business.website.create_blog_page!(active: true, name: 'Blog', pathname: 'blog', title: "#{@business.name} Blog")
     end
 
     unless @business.website.contact_page
-      @business.website.create_contact_page!(name: 'Contact', pathname: 'contact', title: "Contact #{@business.name}")
+      @business.website.create_contact_page!(active: true, name: 'Contact', pathname: 'contact', title: "Contact #{@business.name}")
     end
 
     @business.lines.each do |line|
@@ -40,6 +41,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
           images = line.line_images.map(&:line_image)
           image = images.first
           line_page = @business.website.webpages.create!(
+            active: true,
             type: 'CustomPage',
             title: line.title,
             external_line_id: line.id,

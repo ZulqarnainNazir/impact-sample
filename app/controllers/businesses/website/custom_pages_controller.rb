@@ -5,7 +5,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
   layout 'application'
 
   before_action only: new_actions do
-    @custom_page = @website.webpages.new(type: 'CustomPage')
+    @custom_page = @website.webpages.new(active: true, type: 'CustomPage')
   end
 
   before_action only: member_actions do

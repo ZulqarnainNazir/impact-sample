@@ -5,7 +5,7 @@ class Businesses::Website::AboutPagesController < Businesses::Website::BaseContr
   layout 'application'
 
   before_action do
-    @about_page = @website.about_page || @website.build_about_page
+    @about_page = @website.about_page || @website.build_about_page(active: true)
   end
 
   def update

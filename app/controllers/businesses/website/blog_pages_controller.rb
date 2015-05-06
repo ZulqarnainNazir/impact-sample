@@ -2,7 +2,7 @@ class Businesses::Website::BlogPagesController < Businesses::Website::BaseContro
   layout 'application'
 
   before_action do
-    @blog_page = @website.blog_page || @website.build_blog_page
+    @blog_page = @website.blog_page || @website.build_blog_page(active: true)
   end
 
   def update

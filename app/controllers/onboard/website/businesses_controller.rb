@@ -115,6 +115,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
           theme: 'simple',
         },
         home_page_attributes: {
+          active: true,
           name: 'Homepage',
           title: page[:name],
           pathname: '',

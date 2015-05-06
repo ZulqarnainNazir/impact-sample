@@ -4,7 +4,7 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
   layout 'application'
 
   before_action do
-    @contact_page = @website.contact_page || @website.build_contact_page
+    @contact_page = @website.contact_page || @website.build_contact_page(active: true)
   end
 
   def update
