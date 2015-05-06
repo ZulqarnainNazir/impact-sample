@@ -4,8 +4,4 @@ class CallToActionBlock < Block
   before_validation do
     self.theme = 'default'
   end
-
-  def self.default_scope
-    order(created_at: :asc)
-  end
 end

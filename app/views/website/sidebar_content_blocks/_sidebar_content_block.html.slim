@@ -1,0 +1,7 @@
+.webpage-sidebar-content
+  .panel.panel-default.text-center
+    .panel-body
+      h4 = sidebar_content_block.heading_html
+      - if sidebar_content_block.sidebar_content_block_image
+        = image_tag sidebar_content_block.sidebar_content_block_image.attachment_url, class: 'img-responsive thumbnail'
+      = sidebar_content_block.text_html

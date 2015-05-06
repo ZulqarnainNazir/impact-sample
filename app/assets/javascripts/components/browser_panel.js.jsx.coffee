@@ -10,18 +10,6 @@ BrowserPanel = React.createClass
         <img src={this.props.browserButtonsSrc} alt="" />
       </div>
       {this.props.children}
-      <div className="panel-footer text-right">
-        {this.renderEditingToggle()}
-      </div>
     </div>`
-
-  renderEditingToggle: ->
-    if this.props.toggleEditing
-      `<div className="checkbox" style={{margin: 0}}>
-        <label>
-          <input type="checkbox" checked={this.props.editing} onChange={this.props.toggleEditing} />
-          Display Editing Dialogs?
-        </label>
-      </div>`
 
 window.BrowserPanel = BrowserPanel

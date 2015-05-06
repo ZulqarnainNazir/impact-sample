@@ -4,19 +4,23 @@ class HomePage < Webpage
   with_options as: :frame, dependent: :destroy do
     has_many :call_to_action_blocks
     has_many :content_blocks
+    has_many :sidebar_content_blocks
     has_many :specialty_blocks
     has_many :tagline_blocks
-    has_one :hero_block
     has_one :feed_block
+    has_one :hero_block
+    has_one :sidebar_feed_block
   end
 
   with_options allow_destroy: true, reject_if: :all_blank do
-    accepts_nested_attributes_for :hero_block
-    accepts_nested_attributes_for :tagline_blocks
-    accepts_nested_attributes_for :specialty_blocks
     accepts_nested_attributes_for :call_to_action_blocks
     accepts_nested_attributes_for :content_blocks
     accepts_nested_attributes_for :feed_block
+    accepts_nested_attributes_for :hero_block
+    accepts_nested_attributes_for :sidebar_content_blocks
+    accepts_nested_attributes_for :sidebar_feed_block
+    accepts_nested_attributes_for :specialty_blocks
+    accepts_nested_attributes_for :tagline_blocks
   end
 
   before_validation do
@@ -30,11 +34,14 @@ class HomePage < Webpage
 
   def blocks_count
     [
-      hero_block,
-      tagline_blocks,
       call_to_action_blocks,
-      specialty_blocks,
       content_blocks,
+      feed_block,
+      hero_block,
+      sidebar_content_blocks,
+      sidebar_feed_block,
+      specialty_blocks,
+      tagline_blocks,
     ].flatten.count
   end
 
@@ -53,5 +60,10 @@ class HomePage < Webpage
     }.reject do |key, value|
       value.blank?
     end
+  end
+
+  def sidebar_position
+    position = super
+    position.present? ? position : 'right'
   end
 end

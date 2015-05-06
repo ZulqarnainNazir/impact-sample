@@ -17,12 +17,38 @@
         .row
           = render @page.call_to_action_blocks
     - when 'content'
-      - if @page.content_blocks.any?
+      - if !%w[left right].include?(@page.sidebar_position) && @page.content_blocks.any?
         = render @page.content_blocks
     - when 'feed'
-      - if @website.blog_page && @page.feed_block
+      - if !%w[left right].include?(@page.sidebar_position) && @page.feed_block && @feed_items.any?
+        = render @feed_items
+          p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+          hr
+    - when 'interior'
+      - if %w[left right].include?(@page.sidebar_position)
         .row
-          div class=(@page.feed_block.width == 'full' ? 'col-sm-12' : 'col-sm-8')
-            = render @feed_items
-            - if @feed_items.any?
+          .col-sm-8 class=('pull-right' if @page.sidebar_position == 'left')
+            - if @page.content_blocks.any?
+              = render @page.content_blocks
+            - if @page.feed_block && @feed_items.any?
+              = render @feed_items
               p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+              hr
+          .col-sm-4
+            - if @page.sidebar_content_blocks.any?
+              = render @page.sidebar_content_blocks
+            - if @page.sidebar_feed_block && @sidebar_feed_items.any?
+              - @sidebar_feed_items.each do |sidebar_feed_item|
+                - case sidebar_feed_item.class.name
+                - when 'BeforeAfter'
+                  = render partial: 'website/before_afters/before_after_small', object: sidebar_feed_item, as: :before_after
+                - when 'Gallery'
+                  = render partial: 'website/galleries/gallery_small', object: sidebar_feed_item, as: :gallery
+                - when 'Offer'
+                  = render partial: 'website/offers/offer_small', object: sidebar_feed_item, as: :offer
+                - when 'Post'
+                  = render partial: 'website/posts/post_small', object: sidebar_feed_item, as: :post
+                - when 'QuickPost'
+                  = render partial: 'website/quick_posts/quick_post_small', object: sidebar_feed_item, as: :quick_post
+              p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+              hr

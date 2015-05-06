@@ -51,6 +51,14 @@
   cursor: move;
 }
 
+.webpage-interior .webpage-container-handle {
+  left: -30px;
+}
+
+.webpage-interior .webpage-container .webpage-container-handle {
+  display: none;
+}
+
 .webpage-container-option {
   position: absolute;
   top: 30px;

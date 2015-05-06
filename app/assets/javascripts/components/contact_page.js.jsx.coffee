@@ -42,6 +42,14 @@ ContactPage = React.createClass
             {this.contactBlockInputs()}
           </div>
         </div>
+        <div className="panel-footer clearfix">
+          <div className="checkbox pull-right" style={{margin: 0}}>
+            <label>
+              <input type="checkbox" checked={this.state.editing} onChange={this.toggleEditing} />
+              Display Editing Dialogs?
+            </label>
+          </div>
+        </div>
       </BrowserPanel>
     </div>`
 

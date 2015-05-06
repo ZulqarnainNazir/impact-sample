@@ -1,6 +1,6 @@
 .col-sm-6.col-md-3
   .panel.panel-default.page-preview
-    = link_to [:edit, business, :website, webpage] do
+    = link_to [:edit, business, :website, webpage.type == 'CustomPage' ? webpage : webpage.type.underscore.to_sym] do
       .panel-body.text-center
         .page-preview-wrapper
           i.fa.fa-file.fa-4x>

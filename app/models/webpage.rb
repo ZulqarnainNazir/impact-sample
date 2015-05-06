@@ -1,7 +1,7 @@
 class Webpage < ActiveRecord::Base
   attr_accessor :image_business, :image_user, :cached_webpages
   
-  store_accessor :settings, :block_type_order, :external_line_id
+  store_accessor :settings, :block_type_order, :external_line_id, :sidebar_position
 
   has_many :blocks, as: :link
 
@@ -35,7 +35,7 @@ class Webpage < ActiveRecord::Base
 
   def block_types
     order = block_type_order.to_s.split(',')
-    %w[hero tagline call_to_action specialty content feed].each do |type|
+    %w[hero tagline call_to_action specialty content feed interior].each do |type|
       order << type unless order.include?(type)
     end
     order

@@ -17,7 +17,7 @@ FeedBlockHandlers =
       `<div />`
 
   feedBlockProps: ->
-    if this.props.blog and this.state.feedBlock
+    if this.state.feedBlock
       block: $.extend({}, this.state.feedBlock, { editing: this.state.editing })
       blockEditor: this.feedBlockEditorProps()
       blockInputItemsLimit: this.feedBlockInputItemsLimitProps()
@@ -28,8 +28,6 @@ FeedBlockHandlers =
     else
       blockAdd: this.feedBlockAddProps()
       editing: this.state.editing
-      blog: this.props.blog
-      blogPath: this.props.blogPath
 
   # PRIVATE LEVEL 1
 
@@ -46,7 +44,7 @@ FeedBlockHandlers =
   feedBlockAddProps: ->
     visible: !this.state.feedBlock
     onClick: this.feedBlockAdd
-    content: 'Add an Feed Block'
+    content: 'Add a Feed Block'
 
   feedBlockEditorProps: ->
     id: 'feed-block-editor'
@@ -61,12 +59,17 @@ FeedBlockHandlers =
     label: 'Items Limit'
 
   feedBlockOptionsProps: ->
-    visible: this.state.editing
-    editorTarget: '#feed-block-editor'
-    editLabel: 'Edit Details'
-    removeLabel: 'Remove Feed Block'
-    onRemove: this.feedBlockRemove
-    onEdit: this.feedBlockEdit
+    options =
+      visible: this.state.editing
+      editorTarget: '#feed-block-editor'
+      editLabel: 'Edit Details'
+      onEdit: this.feedBlockEdit
+    if this.props.defaultFeedBlockAttributes
+      options
+    else
+      $.extend {}, options,
+        removeLabel: 'Remove Feed Block'
+        onRemove: this.feedBlockRemove
 
   # PRIVATE LEVEL 2
 
@@ -90,12 +93,9 @@ FeedBlockHandlers =
   feedBlockSwapForm: () ->
     this.feedBlockUpdate
       items_limit: this.feedBlockInputGetVal('items_limit')
-      width: $('#' + this.feedBlockID('width_sidebar')).closest('div').find('input[type="radio"]:checked').val()
 
   feedBlockResetForm: () ->
     this.feedBlockInputSetVal 'items_limit', this.state.feedBlock.items_limit
-    $('#' + this.feedBlockID('width_sidebar')).prop 'checked', (this.state.feedBlock.width is not 'full')
-    $('#' + this.feedBlockID('width_full')).prop 'checked', (this.state.feedBlock.width is 'full')
 
   # PRIVATE LEVEL 3
 

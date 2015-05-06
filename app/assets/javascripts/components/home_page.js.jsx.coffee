@@ -10,12 +10,22 @@ HomePage = React.createClass
     SpecialtyBlocksHandlers,
     ContentBlocksHandlers,
     FeedBlockHandlers,
+    SidebarContentBlocksHandlers,
+    SidebarFeedBlockHandlers,
   ]
 
   getInitialState: ->
     editing: true
+    blockTypeOrder: this.props.initialBlockTypeOrder
+    sidebarPosition: if this.props.initialSidebarPosition is 'left' then 'left' else (if this.props.initialSidebarPosition is 'right' then 'right' else 'none')
 
   componentDidMount: ->
+    this.enableSortable()
+
+  disableSortable: ->
+    $('.webpage-sortable').sortable('destroy')
+
+  enableSortable: ->
     $('.webpage-sortable').sortable
       axis: 'y'
       container: '.webpage-sortable'
@@ -24,7 +34,7 @@ HomePage = React.createClass
       forcePlaceholderSize: true
       handle: '.webpage-container-handle'
       helper: 'clone'
-      items: '.webpage-container'
+      items: '> div'
       opacity: 0.5
       placeholder: 'placeholder'
       revert: 100
@@ -34,11 +44,18 @@ HomePage = React.createClass
       update: this.sortBlockTypes
 
   sortBlockTypes: (event, ui) ->
-    $('#block_type_order').val this.blockTypeOrder().get().join(',')
+    this.setState blockTypeOrder: this.blockTypeOrder().join(',')
 
   blockTypeOrder: ->
-    $('.webpage-sortable .webpage-container').map ->
-      $(this).data().type
+    order = $('.webpage-sortable > div').map -> $(this).data().type
+    order.push('hero') unless 'hero' in order
+    order.push('tagline') unless 'tagline' in order
+    order.push('call_to_action') unless 'call_to_action' in order
+    order.push('specialty') unless 'specialty' in order
+    order.push('content') unless 'content' in order
+    order.push('feed') unless 'feed' in order
+    order.push('interior') unless 'interior' in order
+    order.get()
 
   toggleEditing: ->
     this.setState editing: !this.state.editing
@@ -51,12 +68,15 @@ HomePage = React.createClass
     .webpage-call-to-action,
     .webpage-specialty,
     .webpage-content,
-    .webpage-feed {
+    .webpage-feed,
+    .webpage-sidebar-content,
+    .webpage-sidebar-feed {
       background-color: #{this.props.defaultBackgroundColor};
       color: #{this.props.defaultForegroundColor};
     }
     .webpage-hero,
-    .webpage-call-to-action {
+    .webpage-call-to-action,
+    .webpage-sidebar-content {
       color: #000;
     }
     .webpage-add {
@@ -70,7 +90,9 @@ HomePage = React.createClass
     .webpage-call-to-action a,
     .webpage-specialty a,
     .webpage-content a,
-    .webpage-feed a {
+    .webpage-feed a,
+    .webpage-sidebar-content a,
+    .webpage-sidebar-feed a {
       color: #{this.props.defaultLinkColor};
     }
     """
@@ -85,21 +107,43 @@ HomePage = React.createClass
             {this.renderBlocks()}
           </div>
           <div className="webpage-fields">
-            <input type="hidden" id="block_type_order" name="block_type_order" defaultValue={this.props.blockTypeOrder} />
+            <input type="hidden" id="block_type_order" name="block_type_order" value={this.state.blockTypeOrder} />
             <input type="hidden" id="call_to_action_blocks_per_row" name="call_to_action_blocks_per_row" value={this.state.callToActionBlocksPerRow} />
+            <input type="hidden" id="sidebar_position" name="sidebar_position" value={this.state.sidebarPosition} />
             {this.heroBlockInputs()}
             {this.taglineBlocksInputs()}
             {this.callToActionBlocksInputs()}
             {this.specialtyBlocksInputs()}
             {this.contentBlocksInputs()}
             {this.feedBlockInputs()}
+            {this.sidebarContentBlocksInputs()}
+            {this.sidebarFeedBlockInputs()}
+          </div>
+        </div>
+        <div className="panel-footer clearfix">
+          <div className="checkbox pull-right" style={{margin: 0}}>
+            <label>
+              <input type="checkbox" checked={this.state.editing} onChange={this.toggleEditing} />
+              Display Editing Dialogs?
+            </label>
+          </div>
+          <div className="pull-left">
+            <span className="small" style={{marginRight: 10}}>Sidebar Position</span>
+            <div className="btn-group btn-group-xs">
+              <span onClick={this.updateSidebar.bind(null, 'left')} className={this.sidebarClass('left')}>Left</span>
+              <span onClick={this.updateSidebar.bind(null, 'none')} className={this.sidebarClass('none')}>None</span>
+              <span onClick={this.updateSidebar.bind(null, 'right')} className={this.sidebarClass('right')}>Right</span>
+            </div>
           </div>
         </div>
       </BrowserPanel>
     </div>`
 
   renderBlocks: ->
-    this.props.blockTypeOrder.split(',').map this.renderBlock
+    if this.state.sidebarPosition is 'left' or this.state.sidebarPosition is 'right'
+      this.state.blockTypeOrder.split(',').map this.renderBlockSidebar
+    else
+      this.state.blockTypeOrder.split(',').map this.renderBlock
 
   renderBlock: (type) ->
     switch type
@@ -115,5 +159,44 @@ HomePage = React.createClass
         `<ContentBlocks key="content" {...this.contentBlocksProps()} />`
       when 'feed'
         `<FeedBlock key="feed" {...this.feedBlockProps()} />`
+
+  renderBlockSidebar: (type) ->
+    switch type
+      when 'hero'
+        `<HeroBlock key="hero" {...this.heroBlockProps()} />`
+      when 'tagline'
+        `<TaglineBlocks key="tagline" {...this.taglineBlocksProps()} />`
+      when 'call_to_action'
+        `<CallToActionBlocks key="call_to_action" {...this.callToActionBlocksProps()} />`
+      when 'specialty'
+        `<SpecialtyBlocks key="specialty" {...this.specialtyBlocksProps()} />`
+      when 'interior'
+        mainClass = 'col-sm-8'
+        mainClass += ' pull-right' if this.state.sidebarPosition is 'left'
+
+        `<div key="interior" className="webpage-interior row clearfix" data-type="interior" style={{position: 'relative'}}>
+          <i className="fa fa-reorder webpage-container-handle" />
+          <div key="main" className={mainClass}>
+            <ContentBlocks key="content" {...this.contentBlocksProps()} />
+            <FeedBlock key="feed" {...this.feedBlockProps()} />
+          </div>
+          <div key="sidebar" className="col-sm-4">
+            <SidebarContentBlocks key="sidebar_content" {...this.sidebarContentBlocksProps()} />
+            <SidebarFeedBlock key="sidebar_feed" {...this.sidebarFeedBlockProps()} />
+          </div>
+        </div>`
+
+  updateSidebar: (position) ->
+    this.disableSortable()
+    this.setState sidebarPosition: position, this.completeSidebar.bind(null, position)
+
+  completeSidebar: (position) ->
+    if position is 'left' or position is 'right'
+      $('.webpage-sortable > .webpage-container[data-type="content"]').remove()
+      $('.webpage-sortable > .webpage-container[data-type="feed"]').remove()
+    this.enableSortable()
+
+  sidebarClass: (position) ->
+    if this.state.sidebarPosition is position then 'btn btn-primary' else 'btn btn-default'
 
 window.HomePage = HomePage

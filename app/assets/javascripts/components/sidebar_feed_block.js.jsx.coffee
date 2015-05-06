@@ -1,4 +1,4 @@
-FeedBlock = React.createClass
+SidebarFeedBlock = React.createClass
   propTypes:
     block: React.PropTypes.object
     blockAdd: React.PropTypes.object
@@ -12,7 +12,7 @@ FeedBlock = React.createClass
     true
 
   render: ->
-    `<div className="webpage-container" data-type="feed">
+    `<div className="webpage-container" data-type="sidebar_feed">
       <i className="fa fa-reorder webpage-container-handle" />
       {this.renderInterior()}
     </div>`
@@ -21,8 +21,8 @@ FeedBlock = React.createClass
     if this.props.block
       `<div className="webpage-block">
         <BlockOptions {...this.props.blockOptions} />
-        <div className="webpage-feed">
-          <FeedBlockContent {...this.props.block} />
+        <div className="webpage-sidebar-feed">
+          <SidebarFeedBlockContent {...this.props.block} />
         </div>
         <BlockEditor {...this.props.blockEditor}>
           <BlockInputNumber {...this.props.blockInputItemsLimit} />
@@ -33,4 +33,4 @@ FeedBlock = React.createClass
     else
       `<div />`
 
-window.FeedBlock = FeedBlock
+window.SidebarFeedBlock = SidebarFeedBlock

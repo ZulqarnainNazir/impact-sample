@@ -19,12 +19,15 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
       :title,
       :block_type_order,
       :call_to_action_blocks_per_row,
+      :sidebar_position,
       hero_block_attributes: block_attributes.push(hero_block_image_placement_attributes: placement_attributes),
       specialty_blocks_attributes: block_attributes.push(specialty_block_image_placement_attributes: placement_attributes),
       tagline_blocks_attributes: block_attributes,
       call_to_action_blocks_attributes: block_attributes.push(call_to_action_block_image_placement_attributes: placement_attributes),
       content_blocks_attributes: block_attributes.push(content_block_image_placement_attributes: placement_attributes),
-      feed_block_attributes: block_attributes.push(:items_limit, :width),
+      feed_block_attributes: block_attributes.push(:items_limit),
+      sidebar_content_blocks_attributes: block_attributes.push(sidebar_content_block_image_placement_attributes: placement_attributes),
+      sidebar_feed_block_attributes: block_attributes.push(:items_limit),
     ).deep_merge(
       pathname: '',
       name: 'Homepage',
@@ -33,6 +36,7 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
       merge_placement_image_attributes_array safe_params[:specialty_blocks_attributes], :specialty_block_image_placement_attributes
       merge_placement_image_attributes_array safe_params[:call_to_action_blocks_attributes], :call_to_action_block_image_placement_attributes
       merge_placement_image_attributes_array safe_params[:content_blocks_attributes], :content_block_image_placement_attributes
+      merge_placement_image_attributes_array safe_params[:sidebar_content_blocks_attributes], :sidebar_content_block_image_placement_attributes
     end
   end
 end

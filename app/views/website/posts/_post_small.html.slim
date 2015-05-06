@@ -1,0 +1,11 @@
+.feed-item.feed-post
+  .feed-item-meta
+    => icon 'edit'
+    strong> Post
+    span.pull-right
+      span.text-muted Posted #{time_ago_in_words post.created_at} ago
+  h2 = link_to post.title, [:website, post]
+  - image = post.sections_image
+  - if image
+    = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
+  = truncate post.sections_content, length: 500
