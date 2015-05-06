@@ -215,7 +215,7 @@ For best results, "Request Production Access".
 
 DO NOT COMMIT DIRECTLY TO STAGING OR MASTER
 
-To begin work on IMPCAT, checkout the `staging` branch and run `git pull origin
+To begin work on IMPACT, checkout the `staging` branch and run `git pull origin
 staging` to get a fresh copy of the staging branch.
 
 Checkout a new feature branch, identified by the work you are doing (presumably a
