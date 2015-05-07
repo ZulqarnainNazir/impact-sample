@@ -77,7 +77,7 @@ CallToActionBlocksHandlers =
       this.setState callToActionBlocksPerRow: 3
 
   callToActionBlockAddProps: ->
-    visible: this.state.editing and this.state.callToActionBlocks.length < this.state.callToActionBlocksPerRow
+    visible: this.state.editing
     onClick: this.callToActionBlockAdd
     content: 'Add a Call to Action Block'
 
