@@ -13,6 +13,10 @@ class Block < ActiveRecord::Base
   validates :theme, presence: true
   validates :type, presence: true, exclusion: { in: %w[Block] }
 
+  def self.default_scope
+    order(created_at: :asc)
+  end
+
   def key
     (SecureRandom.random_number*10**20).to_i
   end

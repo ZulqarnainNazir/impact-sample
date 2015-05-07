@@ -10,11 +10,11 @@
       - else
         .col-sm-4
           - if content_block.content_block_image
-            = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
+            = image_tag content_block.content_block_image.attachment_url(:content_block_image_half), class: 'img-responsive thumbnail'
       - if content_block.theme == 'left'
         .col-sm-4
           - if content_block.content_block_image
-            = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail'
+            = image_tag content_block.content_block_image.attachment_url(:content_block_image_half), class: 'img-responsive thumbnail'
       - else
         .col-sm-8
           = content_block.text_html

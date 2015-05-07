@@ -90,4 +90,16 @@ class Placement < ActiveRecord::Base
       offer_half: 'x600',
     }
   end
+
+  def content_block_image
+    {
+      content_block_image_half: 'x400',
+    }
+  end
+
+  def sidebar_content_block_image
+    {
+      sidebar_content_block_image: 'x400',
+    }
+  end
 end
