@@ -9,7 +9,7 @@ div class=className
         - if call_to_action_block.call_to_action_block_image_placement.try(:embed?)
           .embed-responsive.embed-responsive-4by3
             = call_to_action_block.call_to_action_block_image_placement.embed.html_safe
-        - if call_to_action_block.call_to_action_block_image
+        - elsif call_to_action_block.call_to_action_block_image
           = image_tag call_to_action_block.call_to_action_block_image.attachment_url, class: 'img-responsive thumbnail'
         = call_to_action_block.text_html
         - if call_to_action_block.link?

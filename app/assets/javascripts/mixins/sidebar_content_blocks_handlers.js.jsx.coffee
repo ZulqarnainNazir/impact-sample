@@ -81,13 +81,14 @@ SidebarContentBlocksHandlers =
 
   sidebarContentBlockInputImageProps: (block) ->
     init: this.sidebarContentBlockImageInit.bind(null, block)
-    id: this.sidebarContentBlockID.bind(null, block)
+    id: this.sidebarContentBlockPlacementID.bind(null, block)
     name: this.sidebarContentBlockPlacementName.bind(null, block)
     showImageLibrary: this.sidebarContentBlockShowImageLibrary.bind(null, block)
     removeImage: this.sidebarContentBlockRemoveImage.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_embed: block.image_placement_embed
     image_placement_destroy: block.image_placement_destroy
     image_temp_placement_destroy: block.image_temp_placement_destroy
     attached_url: block.image_url
@@ -102,9 +103,9 @@ SidebarContentBlocksHandlers =
     temp_file_name: block.image_temp_file_name
     temp_file_size: block.image_temp_file_size
     temp_content_type: block.image_temp_content_type
-    label: 'Background Image'
     dropZoneClassName: this.sidebarContentBlockDropZoneClassName(block)
     bulkUploadPath: this.props.bulkUploadPath
+    allowEmbed: true
 
   sidebarContentBlockInputHeadingProps: (block) ->
     id: this.sidebarContentBlockID(block, 'heading')
@@ -183,8 +184,19 @@ SidebarContentBlocksHandlers =
     this.sidebarContentBlockPlacementInputSetVal block, 'image_title', ''
 
   sidebarContentBlockSwapForm: (block) ->
+    attributes =
+      image_alt: this.sidebarContentBlockPlacementInputGetVal(block, 'image_alt')
+      image_title: this.sidebarContentBlockPlacementInputGetVal(block, 'image_title')
+      text: this.sidebarContentBlockInputGetVal(block, 'text')
+      heading: this.sidebarContentBlockInputGetVal(block, 'heading')
+    if $('#' + this.sidebarContentBlockPlacementID(block, 'tab_embed')).is(':visible')
+      attributes = $.extend {}, attributes,
+        image_placement_embed: this.sidebarContentBlockPlacementInputGetVal(block, 'image_placement_embed')
+    else
+      attributes = $.extend {}, attributes,
+        image_placement_embed: null
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
-      this.sidebarContentBlockUpdate block,
+      attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
         image_temp_id: null
         image_placement_destroy: block.image_temp_placement_destroy
@@ -198,16 +210,7 @@ SidebarContentBlocksHandlers =
         image_temp_file_size: null
         image_content_type: block.image_temp_content_type
         image_temp_content_type: null
-        image_alt: this.sidebarContentBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.sidebarContentBlockPlacementInputGetVal(block, 'image_title')
-        text: this.sidebarContentBlockInputGetVal(block, 'text')
-        heading: this.sidebarContentBlockInputGetVal(block, 'heading')
-    else
-      this.sidebarContentBlockUpdate block,
-        image_alt: this.sidebarContentBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.sidebarContentBlockPlacementInputGetVal(block, 'image_title')
-        text: this.sidebarContentBlockInputGetVal(block, 'text')
-        heading: this.sidebarContentBlockInputGetVal(block, 'heading')
+    this.sidebarContentBlockUpdate block, attributes
 
   sidebarContentBlockResetForm: (block) ->
     attributes =
@@ -229,6 +232,7 @@ SidebarContentBlocksHandlers =
     this.sidebarContentBlockUpdate block, attributes, null, callback
     this.sidebarContentBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.sidebarContentBlockPlacementInputSetVal block, 'image_title', block.image_title
+    this.sidebarContentBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
     this.sidebarContentBlockPlacementInputSetVal block, 'heading', block.heading
     if $('#' + this.sidebarContentBlockID(block, 'text')).data('wysihtml5')
       $('#' + this.sidebarContentBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)

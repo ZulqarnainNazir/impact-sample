@@ -234,7 +234,7 @@ SpecialtyBlocksHandlers =
     this.specialtyBlockUpdate block, attributes, null, callback
     this.specialtyBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.specialtyBlockPlacementInputSetVal block, 'image_title', block.image_title
-    this.specialtyBlockPlacementInputSetVal block, 'image_placement_embed', block.image_title
+    this.specialtyBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
     this.specialtyBlockInputSetVal block, 'heading', block.heading
     if $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5')
       $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)

@@ -226,7 +226,7 @@ ContentBlocksHandlers =
     this.contentBlockUpdate block, attributes, null, callback
     this.contentBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.contentBlockPlacementInputSetVal block, 'image_title', block.image_title
-    this.contentBlockPlacementInputSetVal block, 'image_placement_embed', block.image_title
+    this.contentBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
     if $('#' + this.contentBlockID(block, 'text')).data('wysihtml5')
       $('#' + this.contentBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
 
