@@ -81,13 +81,14 @@ SpecialtyBlocksHandlers =
 
   specialtyBlockInputImageProps: (block) ->
     init: this.specialtyBlockImageInit.bind(null, block)
-    id: this.specialtyBlockID.bind(null, block)
+    id: this.specialtyBlockPlacementID.bind(null, block)
     name: this.specialtyBlockPlacementName.bind(null, block)
     showImageLibrary: this.specialtyBlockShowImageLibrary.bind(null, block)
     removeImage: this.specialtyBlockRemoveImage.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_embed: block.image_placement_embed
     image_placement_destroy: block.image_placement_destroy
     image_temp_placement_destroy: block.image_temp_placement_destroy
     attached_url: block.image_url
@@ -102,9 +103,9 @@ SpecialtyBlocksHandlers =
     temp_file_name: block.image_temp_file_name
     temp_file_size: block.image_temp_file_size
     temp_content_type: block.image_temp_content_type
-    label: 'Background Image'
     dropZoneClassName: this.specialtyBlockDropZoneClassName(block)
     bulkUploadPath: this.props.bulkUploadPath
+    allowEmbed: true
 
   specialtyBlockInputHeadingProps: (block) ->
     id: this.specialtyBlockID(block, 'heading')
@@ -185,8 +186,19 @@ SpecialtyBlocksHandlers =
     this.specialtyBlockUpdate block, displayImageLibrary: true, null, this.specialtyBlockImageLibraryStart.bind(null, block)
 
   specialtyBlockSwapForm: (block) ->
+    attributes =
+      image_alt: this.specialtyBlockPlacementInputGetVal(block, 'image_alt')
+      image_title: this.specialtyBlockPlacementInputGetVal(block, 'image_title')
+      heading: this.specialtyBlockInputGetVal(block, 'heading')
+      text: this.specialtyBlockInputGetVal(block, 'text')
+    if $('#' + this.specialtyBlockPlacementID(block, 'tab_embed')).is(':visible')
+      attributes = $.extend {}, attributes,
+        image_placement_embed: this.specialtyBlockPlacementInputGetVal(block, 'image_placement_embed')
+    else
+      attributes = $.extend {}, attributes,
+        image_placement_embed: null
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
-      this.specialtyBlockUpdate block,
+      attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
         image_temp_id: null
         image_placement_destroy: block.image_temp_placement_destroy
@@ -200,16 +212,7 @@ SpecialtyBlocksHandlers =
         image_temp_file_size: null
         image_content_type: block.image_temp_content_type
         image_temp_content_type: null
-        image_alt: this.specialtyBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.specialtyBlockPlacementInputGetVal(block, 'image_title')
-        heading: this.specialtyBlockInputGetVal(block, 'heading')
-        text: this.specialtyBlockInputGetVal(block, 'text')
-    else
-      this.specialtyBlockUpdate block,
-        image_alt: this.specialtyBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.specialtyBlockPlacementInputGetVal(block, 'image_title')
-        heading: this.specialtyBlockInputGetVal(block, 'heading')
-        text: this.specialtyBlockInputGetVal(block, 'text')
+    this.specialtyBlockUpdate block, attributes
 
   specialtyBlockResetForm: (block) ->
     attributes =
@@ -231,6 +234,7 @@ SpecialtyBlocksHandlers =
     this.specialtyBlockUpdate block, attributes, null, callback
     this.specialtyBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.specialtyBlockPlacementInputSetVal block, 'image_title', block.image_title
+    this.specialtyBlockPlacementInputSetVal block, 'image_placement_embed', block.image_title
     this.specialtyBlockInputSetVal block, 'heading', block.heading
     if $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5')
       $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)

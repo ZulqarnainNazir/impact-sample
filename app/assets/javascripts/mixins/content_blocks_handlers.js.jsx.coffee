@@ -80,13 +80,14 @@ ContentBlocksHandlers =
 
   contentBlockInputImageProps: (block) ->
     init: this.contentBlockImageInit.bind(null, block)
-    id: this.contentBlockID.bind(null, block)
+    id: this.contentBlockPlacementID.bind(null, block)
     name: this.contentBlockPlacementName.bind(null, block)
     showImageLibrary: this.contentBlockShowImageLibrary.bind(null, block)
     removeImage: this.contentBlockRemoveImage.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_embed: block.image_placement_embed
     image_placement_destroy: block.image_placement_destroy
     image_temp_placement_destroy: block.image_temp_placement_destroy
     attached_url: block.image_url
@@ -101,9 +102,9 @@ ContentBlocksHandlers =
     temp_file_name: block.image_temp_file_name
     temp_file_size: block.image_temp_file_size
     temp_content_type: block.image_temp_content_type
-    label: 'Background Image'
     dropZoneClassName: this.contentBlockDropZoneClassName(block)
     bulkUploadPath: this.props.bulkUploadPath
+    allowEmbed: true
 
   contentBlockInputTextProps: (block) ->
     id: this.contentBlockID(block, 'text')
@@ -178,8 +179,18 @@ ContentBlocksHandlers =
     this.contentBlockPlacementInputSetVal block, 'image_title', ''
 
   contentBlockSwapForm: (block) ->
+    attributes =
+      image_alt: this.contentBlockPlacementInputGetVal(block, 'image_alt')
+      image_title: this.contentBlockPlacementInputGetVal(block, 'image_title')
+      text: this.contentBlockInputGetVal(block, 'text')
+    if $('#' + this.contentBlockPlacementID(block, 'tab_embed')).is(':visible')
+      attributes = $.extend {}, attributes,
+        image_placement_embed: this.contentBlockPlacementInputGetVal(block, 'image_placement_embed')
+    else
+      attributes = $.extend {}, attributes,
+        image_placement_embed: null
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
-      this.contentBlockUpdate block,
+      attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
         image_temp_id: null
         image_placement_destroy: block.image_temp_placement_destroy
@@ -193,14 +204,7 @@ ContentBlocksHandlers =
         image_temp_file_size: null
         image_content_type: block.image_temp_content_type
         image_temp_content_type: null
-        image_alt: this.contentBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.contentBlockPlacementInputGetVal(block, 'image_title')
-        text: this.contentBlockInputGetVal(block, 'text')
-    else
-      this.contentBlockUpdate block,
-        image_alt: this.contentBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.contentBlockPlacementInputGetVal(block, 'image_title')
-        text: this.contentBlockInputGetVal(block, 'text')
+    this.contentBlockUpdate block, attributes
 
   contentBlockResetForm: (block) ->
     attributes =
@@ -222,6 +226,7 @@ ContentBlocksHandlers =
     this.contentBlockUpdate block, attributes, null, callback
     this.contentBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.contentBlockPlacementInputSetVal block, 'image_title', block.image_title
+    this.contentBlockPlacementInputSetVal block, 'image_placement_embed', block.image_title
     if $('#' + this.contentBlockID(block, 'text')).data('wysihtml5')
       $('#' + this.contentBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
 

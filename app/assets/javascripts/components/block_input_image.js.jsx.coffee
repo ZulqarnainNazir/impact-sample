@@ -11,6 +11,7 @@ BlockInputImage = React.createClass
     state: React.PropTypes.string
     image_id: React.PropTypes.number
     image_placement_id: React.PropTypes.number
+    image_placement_embed: React.PropTypes.string
     image_placement_destroy: React.PropTypes.string
     image_temp_placement_destroy: React.PropTypes.string
     title: React.PropTypes.string
@@ -23,16 +24,22 @@ BlockInputImage = React.createClass
     temp_file_name: React.PropTypes.string
     temp_file_size: React.PropTypes.number
     temp_content_type: React.PropTypes.string
-    label: React.PropTypes.string
     dropZoneClassName: React.PropTypes.string
+    allowEmbed: React.PropTypes.bool
 
   defDefaultProps: ->
     progress: 0
     state: 'empty'
-    label: 'Image'
 
   componentDidMount: ->
     this.props.init(this) if this.props.state is 'empty' or this.props.state is 'attached'
+
+  componentDidUpdate: ->
+    if this.props.image_placement_embed and this.props.image_placement_embed.length > 0
+      $('#' + this.props.id('nav_tab_image')).removeClass('active')
+      $('#' + this.props.id('nav_tab_embed')).addClass('active')
+      $('#' + this.props.id('tab_image')).removeClass('in active')
+      $('#' + this.props.id('tab_embed')).addClass('in active')
 
   progressWidthCSS: ->
     "#{this.props.progress}%"
@@ -68,14 +75,32 @@ BlockInputImage = React.createClass
     else ''
 
   render: ->
+    if this.props.allowEmbed
+      `<div>
+        <ul className="nav nav-tabs">
+          <li id={this.props.id('nav_tab_image')} className="active"><a href={'#' + this.props.id('tab_image')} data-toggle="tab">Image</a></li>
+          <li id={this.props.id('nav_tab_embed')}><a href={'#' + this.props.id('tab_embed')} data-toggle="tab">Embed</a></li>
+        </ul>
+        <div className="tab-content" style={{marginTop: 15}}>
+          <div id={this.props.id('tab_image')} className="tab-pane fade in active">
+            {this.renderImage()}
+          </div>
+          <div id={this.props.id('tab_embed')} className="tab-pane">
+            {this.renderEmbed()}
+          </div>
+        </div>
+      </div>`
+    else
+      this.renderImage()
+
+  renderImage: ->
     `<div className="form-group">
-      <label className="control-label">{this.props.label}</label>
       <input type="hidden" name={this.props.name('id')} value={this.props.image_placement_id} />
       <input type="hidden" name={this.props.name('_destroy')} value={this.props.image_placement_destroy} />
       <input type="hidden" name={this.props.name('image_id')} value={this.props.image_id} />
       <div className="row">
         <div className="col-sm-4">
-          {this.renderImage()}
+          {this.renderThumbnail()}
         </div>
         <div className="col-sm-8">
           {this.renderProgress()}
@@ -85,7 +110,12 @@ BlockInputImage = React.createClass
       </div>
     </div>`
 
-  renderImage: ->
+  renderEmbed: ->
+    `<div className="form-group">
+      <textarea id={this.props.id('image_placement_embed')} name={this.props.name('embed')} rows="6" className="form-control" defaultValue={this.props.image_placement_embed} />
+    </div>`
+
+  renderThumbnail: ->
     if this.props.image_temp_placement_destroy != '1' and this.url() and this.url().length > 0
       `<div className={this.props.dropZoneClassName}>
         <div className="small">

@@ -5,10 +5,15 @@ class Placement < ActiveRecord::Base
   accepts_nested_attributes_for :image, reject_if: :all_blank
 
   validates :placer, presence: true
-  validates :image, presence: true
+  validates :image, presence: true, unless: :embed?
+  validates :embed, presence: true, unless: :image?
 
   after_save do
     ImageAttachmentReprocessJob.perform_later(image) if image && image_id_changed?
+  end
+
+  def image?
+    image.present?
   end
 
   def placer_location

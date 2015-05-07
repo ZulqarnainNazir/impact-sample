@@ -51,17 +51,18 @@ class Block < ActiveRecord::Base
   end
 
   def as_block_json(placement = nil, *args)
-    if placement.present? && placement.image.present?
+    if placement.present?
       as_json(*args).merge(
         image_placement_id: placement.id,
-        image_id: placement.image.id,
-        image_alt: placement.image.alt,
-        image_cache_url: placement.image.attachment_cache_url,
-        image_content_type: placement.image.attachment_content_type,
-        image_file_name: placement.image.attachment_file_name,
-        image_file_size: placement.image.attachment_file_size,
-        image_title: placement.image.title,
-        image_url: placement.image.attachment_url,
+        image_placement_embed: placement.embed,
+        image_id: placement.image.try(:id),
+        image_alt: placement.image.try(:alt),
+        image_cache_url: placement.image.try(:attachment_cache_url),
+        image_content_type: placement.image.try(:attachment_content_type),
+        image_file_name: placement.image.try(:attachment_file_name),
+        image_file_size: placement.image.try(:attachment_file_size),
+        image_title: placement.image.try(:title),
+        image_url: placement.image.try(:attachment_url),
         image_state: 'attached',
       )
     else

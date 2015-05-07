@@ -26,6 +26,7 @@ module PlacementAttributesConcern
   def placement_attributes
     [
       :id,
+      :embed,
       :image_id,
       :image_alt,
       :image_title,

@@ -130,7 +130,6 @@ HeroBlockHandlers =
     temp_file_name: this.state.heroBlock.image_temp_file_name
     temp_file_size: parseInt(this.state.heroBlock.image_temp_file_size)
     temp_content_type: this.state.heroBlock.image_temp_content_type
-    label: 'Background Image'
     dropZoneClassName: this.heroBlockDropZoneClassName()
     bulkUploadPath: this.props.bulkUploadPath
 

@@ -24,6 +24,7 @@ module PlacedImageConcern
               alt: attr[:image_alt],
               title: attr[:image_title],
             },
+            embed: nil,
             _destroy: attr[:_destroy],
           )
         elsif attr[:image_attachment_cache_url].present?
@@ -41,6 +42,15 @@ module PlacedImageConcern
               business: attr[:image_business],
               user: attr[:image_user],
             },
+            embed: nil,
+            _destroy: attr[:_destroy],
+          )
+        elsif attr[:embed].present?
+          super(
+            id: attr[:id],
+            placer: self,
+            context: association_name,
+            embed: attr[:embed],
             _destroy: attr[:_destroy],
           )
         elsif attr[:id].present?

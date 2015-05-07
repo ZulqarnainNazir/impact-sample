@@ -104,13 +104,14 @@ CallToActionBlocksHandlers =
 
   callToActionBlockInputImageProps: (block) ->
     init: this.callToActionBlockImageInit.bind(null, block)
-    id: this.callToActionBlockID.bind(null, block)
+    id: this.callToActionBlockPlacementID.bind(null, block)
     name: this.callToActionBlockPlacementName.bind(null, block)
     showImageLibrary: this.callToActionBlockShowImageLibrary.bind(null, block)
     removeImage: this.callToActionBlockRemoveImage.bind(null, block)
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_embed: block.image_placement_embed
     image_placement_destroy: block.image_placement_destroy
     image_temp_placement_destroy: block.image_temp_placement_destroy
     attached_url: block.image_url
@@ -125,9 +126,9 @@ CallToActionBlocksHandlers =
     temp_file_name: block.image_temp_file_name
     temp_file_size: block.image_temp_file_size
     temp_content_type: block.image_temp_content_type
-    label: 'Background Image'
     dropZoneClassName: this.callToActionBlockDropZoneClassName(block)
     bulkUploadPath: this.props.bulkUploadPath
+    allowEmbed: true
 
   callToActionBlockInputLinkProps: (block) ->
     id: this.callToActionBlockID.bind(null, block)
@@ -217,8 +218,26 @@ CallToActionBlocksHandlers =
     this.callToActionBlockPlacementInputSetVal block, 'image_title', ''
 
   callToActionBlockSwapForm: (block) ->
+    attributes =
+      image_alt: this.callToActionBlockPlacementInputGetVal(block, 'image_alt')
+      image_title: this.callToActionBlockPlacementInputGetVal(block, 'image_title')
+      link_version: $("input[name=\"#{this.callToActionBlockName(block, 'link_version')}\"]:checked").val()
+      link_label: this.callToActionBlockInputGetVal(block, 'link_label')
+      link_id: parseInt(this.callToActionBlockInputGetVal(block, 'link_id'))
+      link_type: this.callToActionBlockInputGetVal(block, 'link_type')
+      link_external_url: this.callToActionBlockInputGetVal(block, 'link_external_url')
+      link_target_blank: this.callToActionBlockInputGetVal(block, 'link_target_blank')
+      link_no_follow: this.callToActionBlockInputGetVal(block, 'link_no_follow')
+      heading: this.callToActionBlockInputGetVal(block, 'heading')
+      text: this.callToActionBlockInputGetVal(block, 'text')
+    if $('#' + this.callToActionBlockPlacementID(block, 'tab_embed')).is(':visible')
+      attributes = $.extend {}, attributes,
+        image_placement_embed: this.callToActionBlockPlacementInputGetVal(block, 'image_placement_embed')
+    else
+      attributes = $.extend {}, attributes,
+        image_placement_embed: null
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
-      this.callToActionBlockUpdate block,
+      attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
         image_temp_id: null
         image_placement_destroy: block.image_temp_placement_destroy
@@ -232,30 +251,7 @@ CallToActionBlocksHandlers =
         image_temp_file_size: null
         image_content_type: block.image_temp_content_type
         image_temp_content_type: null
-        image_alt: this.callToActionBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.callToActionBlockPlacementInputGetVal(block, 'image_title')
-        link_version: $("input[name=\"#{this.callToActionBlockName(block, 'link_version')}\"]:checked").val()
-        link_label: this.callToActionBlockInputGetVal(block, 'link_label')
-        link_id: parseInt(this.callToActionBlockInputGetVal(block, 'link_id'))
-        link_type: this.callToActionBlockInputGetVal(block, 'link_type')
-        link_external_url: this.callToActionBlockInputGetVal(block, 'link_external_url')
-        link_target_blank: this.callToActionBlockInputGetVal(block, 'link_target_blank')
-        link_no_follow: this.callToActionBlockInputGetVal(block, 'link_no_follow')
-        heading: this.callToActionBlockInputGetVal(block, 'heading')
-        text: this.callToActionBlockInputGetVal(block, 'text')
-    else
-      this.callToActionBlockUpdate block,
-        image_alt: this.callToActionBlockPlacementInputGetVal(block, 'image_alt')
-        image_title: this.callToActionBlockPlacementInputGetVal(block, 'image_title')
-        link_version: $("input[name=\"#{this.callToActionBlockName(block, 'link_version')}\"]:checked").val()
-        link_label: this.callToActionBlockInputGetVal(block, 'link_label')
-        link_id: parseInt(this.callToActionBlockInputGetVal(block, 'link_id'))
-        link_type: this.callToActionBlockInputGetVal(block, 'link_type')
-        link_external_url: this.callToActionBlockInputGetVal(block, 'link_external_url')
-        link_target_blank: this.callToActionBlockInputGetVal(block, 'link_target_blank')
-        link_no_follow: this.callToActionBlockInputGetVal(block, 'link_no_follow')
-        heading: this.callToActionBlockInputGetVal(block, 'heading')
-        text: this.callToActionBlockInputGetVal(block, 'text')
+    this.callToActionBlockUpdate block, attributes
 
   callToActionBlockResetForm: (block) ->
     attributes =
@@ -277,6 +273,7 @@ CallToActionBlocksHandlers =
     this.callToActionBlockUpdate block, attributes, null, callback
     this.callToActionBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.callToActionBlockPlacementInputSetVal block, 'image_title', block.image_title
+    this.callToActionBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
     this.callToActionBlockInputSetVal block, 'link_version', block.link_version
     this.callToActionBlockInputSetVal block, 'link_label', block.link_label
     this.callToActionBlockInputSetVal block, 'link_id', block.link_id

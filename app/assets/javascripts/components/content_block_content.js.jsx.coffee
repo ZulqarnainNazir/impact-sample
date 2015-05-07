@@ -21,7 +21,11 @@ ContentBlockContent = React.createClass
     if this.props.theme is 'left' then this.renderImage() else this.renderTextColumn()
 
   renderImage: ->
-    if this.props.image_url and this.props.image_url.length > 0
+    if this.props.image_placement_embed and this.props.image_placement_embed.length > 0
+      `<div className="col-sm-4">
+         <div key="imageEmbed" style={{overflow: 'hidden'}} dangerouslySetInnerHTML={{__html: this.props.image_placement_embed}} />
+      </div>`
+    else if this.props.image_url and this.props.image_url.length > 0
       `<div className="col-sm-4">
         <img className="thumbnail img-responsive" style={{width: '100%'}} src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} />
       </div>`

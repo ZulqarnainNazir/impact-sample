@@ -6,6 +6,9 @@ div class=className
     .panel.panel-default.text-center
       .panel-body
         h4 = call_to_action_block.heading_html
+        - if call_to_action_block.call_to_action_block_image_placement.try(:embed?)
+          .embed-responsive.embed-responsive-4by3
+            = call_to_action_block.call_to_action_block_image_placement.embed.html_safe
         - if call_to_action_block.call_to_action_block_image
           = image_tag call_to_action_block.call_to_action_block_image.attachment_url, class: 'img-responsive thumbnail'
         = call_to_action_block.text_html
