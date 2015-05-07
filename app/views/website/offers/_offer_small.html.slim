@@ -6,7 +6,8 @@
       span.text-muted Posted #{time_ago_in_words offer.created_at} ago
   h2 = link_to offer.title, [:website, offer]
   - image = offer.offer_image
-  = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+  - if image
+    = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
   div style="margin:10px 0"
     = offer.offer_html
   - if offer.valid_until?

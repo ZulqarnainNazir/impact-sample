@@ -22,7 +22,8 @@
     - when 'feed'
       - if !%w[left right].include?(@page.sidebar_position) && @page.feed_block && @feed_items.any?
         = render @feed_items
-          p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+          - if @website.blog_page
+            p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
           hr
     - when 'interior'
       - if %w[left right].include?(@page.sidebar_position)
@@ -32,7 +33,8 @@
               = render @page.content_blocks
             - if @page.feed_block && @feed_items.any?
               = render @feed_items
-              p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+              - if @website.blog_page
+                p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
               hr
           .col-sm-4
             - if @page.sidebar_content_blocks.any?
@@ -50,5 +52,6 @@
                   = render partial: 'website/posts/post_small', object: sidebar_feed_item, as: :post
                 - when 'QuickPost'
                   = render partial: 'website/quick_posts/quick_post_small', object: sidebar_feed_item, as: :quick_post
-              p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+              - if @website.blog_page
+                p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
               hr

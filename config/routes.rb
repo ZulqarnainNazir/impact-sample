@@ -87,6 +87,7 @@ Rails.application.routes.draw do
           resource :home_page, only: %i[edit update]
           resource :menus, only: %i[edit update]
           resource :meta, only: %i[edit update]
+          resource :sidebars, only: %i[edit update]
           resource :theme, only: %i[edit update]
           resources :custom_pages, only: %i[new create edit update]
           resources :webpages, only: %i[index destroy] do

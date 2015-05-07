@@ -1,37 +1,56 @@
 - title @offer.title
 
 .container
-  .feed-item.feed-offer
-    .feed-item-meta
-      => icon 'ticket'
-      strong> Offer
-      span.pull-right
-        span.text-muted Posted #{time_ago_in_words @offer.created_at} ago
-  - if @offer.valid_until? && @offer.valid_until < Time.zone.now
-    p.lead style="color:red" OFFER EXPIRED
-  h2 = @offer.title
-  .offer-row class=(@offer.kind || 'image_left')
-    .row
-      .col-sm-6.offer-col-image
-        - image = @offer.offer_image
-        = image_tag image.attachment_url(:offer_half), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
-      .col-sm-6
-        div style="margin:10px 0"
-          = @offer.offer_html
-        - if @offer.valid_until?
-          p.lead
-            ' Offer Valid Until
-            strong = @offer.valid_until.strftime('%B %e, %Y')
-        div style="margin:10px 0"
-          = @offer.description_html
-        - if @offer.offer_code?
-          p.lead
-            ' Offer Code
-            strong = @offer.offer_code
-        - if @offer.coupon?
-          p = link_to @offer.coupon.url, class: 'btn btn-primary', target: :_blank do
-            i.fa.fa-download>
-            | Download Coupon
   .row
-    .col-sm-10.col-sm-offset-1
-      .small = @offer.terms_html
+    div class=(@website.content_blog_sidebar? ? 'col-sm-8' : 'col-sm-12')
+      .feed-item.feed-offer
+        .feed-item-meta
+          => icon 'ticket'
+          strong> Offer
+          span.pull-right
+            span.text-muted Posted #{time_ago_in_words @offer.created_at} ago
+      - if @offer.valid_until? && @offer.valid_until < Time.zone.now
+        p.lead style="color:red" OFFER EXPIRED
+      h2 = @offer.title
+      .offer-row class=(@offer.kind || 'image_left')
+        .row
+          .col-sm-6.offer-col-image
+            - image = @offer.offer_image
+            = image_tag image.attachment_url(:offer_half), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+          .col-sm-6
+            div style="margin:10px 0"
+              = @offer.offer_html
+            - if @offer.valid_until?
+              p.lead
+                ' Offer Valid Until
+                strong = @offer.valid_until.strftime('%B %e, %Y')
+            div style="margin:10px 0"
+              = @offer.description_html
+            - if @offer.offer_code?
+              p.lead
+                ' Offer Code
+                strong = @offer.offer_code
+            - if @offer.coupon?
+              p = link_to @offer.coupon.url, class: 'btn btn-primary', target: :_blank do
+                i.fa.fa-download>
+                | Download Coupon
+      .row
+        .col-sm-10.col-sm-offset-1
+          .small = @offer.terms_html
+    - if @website.content_blog_sidebar?
+      .col-sm-4
+        - @sidebar_feed_items.each do |sidebar_feed_item|
+          - case sidebar_feed_item.class.name
+          - when 'BeforeAfter'
+            = render partial: 'website/before_afters/before_after_small', object: sidebar_feed_item, as: :before_after
+          - when 'Gallery'
+            = render partial: 'website/galleries/gallery_small', object: sidebar_feed_item, as: :gallery
+          - when 'Offer'
+            = render partial: 'website/offers/offer_small', object: sidebar_feed_item, as: :offer
+          - when 'Post'
+            = render partial: 'website/posts/post_small', object: sidebar_feed_item, as: :post
+          - when 'QuickPost'
+            = render partial: 'website/quick_posts/quick_post_small', object: sidebar_feed_item, as: :quick_post
+        - if @website.blog_page
+          p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+        hr

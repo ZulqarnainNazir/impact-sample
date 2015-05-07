@@ -1,15 +1,34 @@
 - title @quick_post.title
 
 .container
-  .feed-item.feed-quick_post
-    .feed-item-meta
-      => icon 'tasks'
-      strong> Before &amp; After
-      span.pull-right
-        span.text-muted Posted #{time_ago_in_words @quick_post.created_at} ago
-    h2.h3 = @quick_post.title
-    = @quick_post.content_html
-    - image = @quick_post.quick_post_image
-    - if image
-      br
-      = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+  .row
+    div class=(@website.content_blog_sidebar? ? 'col-sm-8' : 'col-sm-12')
+      .feed-item.feed-quick_post
+        .feed-item-meta
+          => icon 'tasks'
+          strong> Before &amp; After
+          span.pull-right
+            span.text-muted Posted #{time_ago_in_words @quick_post.created_at} ago
+        h2.h3 = @quick_post.title
+        = @quick_post.content_html
+        - image = @quick_post.quick_post_image
+        - if image
+          br
+          = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+    - if @website.content_blog_sidebar?
+      .col-sm-4
+        - @sidebar_feed_items.each do |sidebar_feed_item|
+          - case sidebar_feed_item.class.name
+          - when 'BeforeAfter'
+            = render partial: 'website/before_afters/before_after_small', object: sidebar_feed_item, as: :before_after
+          - when 'Gallery'
+            = render partial: 'website/galleries/gallery_small', object: sidebar_feed_item, as: :gallery
+          - when 'Offer'
+            = render partial: 'website/offers/offer_small', object: sidebar_feed_item, as: :offer
+          - when 'Post'
+            = render partial: 'website/posts/post_small', object: sidebar_feed_item, as: :post
+          - when 'QuickPost'
+            = render partial: 'website/quick_posts/quick_post_small', object: sidebar_feed_item, as: :quick_post
+        - if @website.blog_page
+          p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+        hr

@@ -66,6 +66,9 @@ html lang="en"
                       li = link_to [@business, :website_webpages] do
                         i.fa.fa-sitemap>
                         | Pages
+                      li = link_to [:edit, @business, :website_sidebars] do
+                        i.fa.fa-th>
+                        | Sidebars
                       li = link_to [:edit, @business, :website_menus] do
                         i.fa.fa-random>
                         | Navigation Menus

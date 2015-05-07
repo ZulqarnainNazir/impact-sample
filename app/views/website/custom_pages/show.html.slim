@@ -42,5 +42,6 @@
                   = render partial: 'website/posts/post_small', object: sidebar_feed_item, as: :post
                 - when 'QuickPost'
                   = render partial: 'website/quick_posts/quick_post_small', object: sidebar_feed_item, as: :quick_post
-              p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+              - if @website.blog_page
+                p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
               hr

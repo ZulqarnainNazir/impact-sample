@@ -1,0 +1,18 @@
+- title 'Edit Sidebars'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Website', [@business, :website_root]
+  li.active Sidebars
+
+br
+
+= errors_for @website
+= form_for @website, url: [@business, :website_sidebars], method: :patch do |form|
+  .checkbox
+    = form.label :content_blog_sidebar, class: 'control-label' do
+      => form.check_box :content_blog_sidebar
+      | Add Blog sidebar to individual posts?
+  hr
+  = form.button 'Save Sidebar Settings', class: 'btn btn-primary'

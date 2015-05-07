@@ -1,0 +1,7 @@
+en:
+  businesses:
+    website:
+      sidebars:
+        update:
+          notice: Your website sidebar settings were saved successfully.
+          alert: There was a problem saving your website sidebar settings.

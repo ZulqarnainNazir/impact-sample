@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 35) do
+ActiveRecord::Schema.define(version: 36) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -374,14 +374,15 @@ ActiveRecord::Schema.define(version: 35) do
   add_index "webpages", ["website_id"], name: "index_webpages_on_website_id", using: :btree
 
   create_table "websites", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.string   "subdomain",   null: false
+    t.integer  "business_id",                         null: false
+    t.string   "subdomain",                           null: false
     t.text     "custom_css"
     t.json     "settings"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.json     "header_menu"
     t.json     "footer_menu"
+    t.boolean  "content_blog_sidebar", default: true, null: false
   end
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree

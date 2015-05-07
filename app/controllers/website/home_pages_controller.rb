@@ -9,11 +9,11 @@ class Website::HomePagesController < Website::BaseController
     end
 
     if @page.feed_block
-      @feed_items = ContentSearch.new(@business, params[:query]).search.page(1).per(@page.feed_block.items_limit).records
+      @feed_items = ContentSearch.new(@business).search.page(1).per(@page.feed_block.items_limit).records
     end
 
     if @page.sidebar_feed_block
-      @sidebar_feed_items = ContentSearch.new(@business, params[:query]).search.page(1).per(@page.sidebar_feed_block.items_limit).records
+      @sidebar_feed_items = ContentSearch.new(@business).search.page(1).per(@page.sidebar_feed_block.items_limit).records
     end
   end
 end
