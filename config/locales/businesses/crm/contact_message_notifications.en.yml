@@ -1,0 +1,6 @@
+en:
+  businesses:
+    crm:
+      content_message_notifications:
+        update:
+          notice: The Authorized users’ notification settings were updated successfully.

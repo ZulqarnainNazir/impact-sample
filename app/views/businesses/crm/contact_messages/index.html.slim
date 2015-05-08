@@ -6,6 +6,12 @@ ol.breadcrumb
   li = link_to 'CRM', [@business, :crm_root]
   li.active Submitted Forms
 
+.text-right
+  = link_to [:edit, @business, :crm_contact_message_notifications], class: 'btn btn-sm btn-default' do
+    => icon 'check-square-o'
+    | Set Form Submit Notifications
+hr
+
 - if @contact_messages.empty?
   p: em No submitted forms found.
 - else

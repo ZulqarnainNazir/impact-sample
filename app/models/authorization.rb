@@ -24,7 +24,7 @@ class Authorization < ActiveRecord::Base
     end
   end
 
-  after_save on: :invite do
+  after_create do
     AuthorizationsMailer.owner_welcome(self).deliver_later(wait: 10.seconds)
   end
 

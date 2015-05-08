@@ -10,11 +10,11 @@ class Webhost < ActiveRecord::Base
   before_update -> { !name_changed? }
 
   if ENV['HEROKU_APP_NAME'] && ENV['HEROKU_API_KEY']
-    after_commit on: :create do
+    after_create do
       PlatformAPI.connect(ENV['HEROKU_API_KEY']).domain.create(ENV['HEROKU_APP_NAME'], hostname: name)
     end
 
-    after_commit on: :destroy do
+    after_destroy do
       PlatformAPI.connect(ENV['HEROKU_API_KEY']).domain.delete(ENV['HEROKU_APP_NAME'], name)
     end
   end

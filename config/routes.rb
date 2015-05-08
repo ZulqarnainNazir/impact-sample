@@ -75,7 +75,8 @@ Rails.application.routes.draw do
 
         namespace :crm do
           root to: 'roots#show'
-          resources :contact_messages, path: 'submitted-forms', only: %i[index show]
+          resource :contact_message_notifications, only: %i[edit update]
+          resources :contact_messages, only: %i[index show]
         end
 
         namespace :website do
@@ -96,7 +97,7 @@ Rails.application.routes.draw do
         end
 
         resource :marketing, only: %i[show]
-        resources :authorizations, path: 'admins', only: %i[index new create destroy]
+        resources :authorizations, only: %i[index new create destroy]
         resources :images, only: %i[index]
       end
     end

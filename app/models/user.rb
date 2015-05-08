@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
     super_user ? Business.all : businesses
   end
 
+  def name
+    [first_name, last_name].reject(&:blank?).join(' ')
+  end
+
   # Send Devise mailers later via ActiveJob.
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later(wait: 2.seconds)
