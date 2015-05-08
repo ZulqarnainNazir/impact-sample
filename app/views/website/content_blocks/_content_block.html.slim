@@ -3,6 +3,13 @@
     - if content_block.theme == 'full'
       .col-sm-12
         = content_block.text_html
+    - elsif content_block.theme == 'fullImage'
+      .col-sm-12
+        - if content_block.content_block_image_placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3
+            = content_block.content_block_image_placement.embed.html_safe
+        - elsif content_block.content_block_image
+          = image_tag content_block.content_block_image.attachment_url, class: 'img-responsive thumbnail', style: 'width: 100%'
     - else
       - if content_block.theme == 'left'
         .col-sm-8
