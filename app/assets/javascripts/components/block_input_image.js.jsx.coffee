@@ -11,6 +11,7 @@ BlockInputImage = React.createClass
     state: React.PropTypes.string
     image_id: React.PropTypes.number
     image_placement_id: React.PropTypes.number
+    image_placement_kind: React.PropTypes.string
     image_placement_embed: React.PropTypes.string
     image_placement_destroy: React.PropTypes.string
     image_temp_placement_destroy: React.PropTypes.string
@@ -33,9 +34,7 @@ BlockInputImage = React.createClass
 
   componentDidMount: ->
     this.props.init(this) if this.props.state is 'empty' or this.props.state is 'attached'
-
-  componentDidUpdate: ->
-    if this.props.image_placement_embed and this.props.image_placement_embed.length > 0
+    if this.props.image_placement_kind and this.props.image_placement_kind is 'embeds'
       $('#' + this.props.id('nav_tab_image')).removeClass('active')
       $('#' + this.props.id('nav_tab_embed')).addClass('active')
       $('#' + this.props.id('tab_image')).removeClass('in active')
@@ -96,6 +95,7 @@ BlockInputImage = React.createClass
   renderImage: ->
     `<div className="form-group">
       <input type="hidden" name={this.props.name('id')} value={this.props.image_placement_id} />
+      <input type="hidden" name={this.props.name('kind')} value={this.props.image_placement_kind} />
       <input type="hidden" name={this.props.name('_destroy')} value={this.props.image_placement_destroy} />
       <input type="hidden" name={this.props.name('image_id')} value={this.props.image_id} />
       <div className="row">

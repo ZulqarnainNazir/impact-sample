@@ -47,14 +47,14 @@ ol.breadcrumb
     = render partial: 'webpage', object: @website.contact_page, locals: { business: @business, website: @website }
   - else
       .col-sm-6.col-md-3
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_contact_page] do
-          .panel-body.text-center
-            i.fa.fa-map-marker.fa-4x>
-            h2.h3>
-              ' Contact
-              i.fa.fa-plus-circle
-            span.text-muted Add a Contact Page
+        .panel.panel-default.page-preview
+          = link_to [:edit, @business, :website_contact_page] do
+            .panel-body.text-center
+              i.fa.fa-map-marker.fa-4x>
+              h2.h3>
+                ' Contact
+                i.fa.fa-plus-circle
+              span.text-muted Add a Contact Page
 hr
 h2.h3 Custom Webpages
 .row

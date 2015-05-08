@@ -88,6 +88,7 @@ SidebarContentBlocksHandlers =
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_kind: block.image_placement_kind
     image_placement_embed: block.image_placement_embed
     image_placement_destroy: block.image_placement_destroy
     image_temp_placement_destroy: block.image_temp_placement_destroy
@@ -133,6 +134,7 @@ SidebarContentBlocksHandlers =
 
   sidebarContentBlockDefaultProps: ->
     key: Math.floor(Math.random() * Math.pow(10, 10))
+    image_placement_kind: 'images'
     image_progress: 0
     image_state: 'empty'
     displayImageLibrary: false
@@ -185,16 +187,12 @@ SidebarContentBlocksHandlers =
 
   sidebarContentBlockSwapForm: (block) ->
     attributes =
+      image_placement_kind: if $('#' + this.sidebarContentBlockPlacementID(block, 'tab_embed')).is(':visible') then 'embeds' else 'images'
+      image_placement_embed: this.sidebarContentBlockPlacementInputGetVal(block, 'image_placement_embed')
       image_alt: this.sidebarContentBlockPlacementInputGetVal(block, 'image_alt')
       image_title: this.sidebarContentBlockPlacementInputGetVal(block, 'image_title')
       text: this.sidebarContentBlockInputGetVal(block, 'text')
       heading: this.sidebarContentBlockInputGetVal(block, 'heading')
-    if $('#' + this.sidebarContentBlockPlacementID(block, 'tab_embed')).is(':visible')
-      attributes = $.extend {}, attributes,
-        image_placement_embed: this.sidebarContentBlockPlacementInputGetVal(block, 'image_placement_embed')
-    else
-      attributes = $.extend {}, attributes,
-        image_placement_embed: null
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
@@ -241,8 +239,8 @@ SidebarContentBlocksHandlers =
     unless block.upload_xhr
       $(component.getDOMNode()).fileupload
         dataType: 'XML'
-        url: this.props.presignedPostURL
-        formData: this.props.presignedPostFields
+        url: this.props.presignedPost.url
+        formData: this.props.presignedPost.fields
         paramName: 'file'
         dropZone: ".#{this.sidebarContentBlockDropZoneClassName(block)}"
         add: this.sidebarContentBlockImageAdd.bind(null, block)
@@ -308,7 +306,7 @@ SidebarContentBlocksHandlers =
     reader = new FileReader()
     reader.onload = this.sidebarContentBlockImageRead.bind(null, foundBlock, file)
     reader.readAsDataURL file
-    formData = this.props.presignedPostFields
+    formData = this.props.presignedPost.fields
     formData['Content-Type'] = file.type
     data.formData = formData
     data.submit()
@@ -330,7 +328,7 @@ SidebarContentBlocksHandlers =
     foundBlock = this.state.sidebarContentBlocks.filter(blockFilter)[0]
     if foundBlock and foundBlock.image_state is 'uploading'
       key = $(data.jqXHR.responseXML).find('Key').text()
-      url = "//#{this.props.presignedPostHost}/#{key}"
+      url = "//#{this.props.presignedPost.host}/#{key}"
       this.sidebarContentBlockUpdate foundBlock,
         image_temp_cache_url: url
         image_state: 'finishing'

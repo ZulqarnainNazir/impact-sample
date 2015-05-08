@@ -90,13 +90,15 @@ AboutBlockHandlers =
 
   aboutBlockInputImageProps: ->
     init: this.aboutBlockImageInit
-    id: this.aboutBlockID
+    id: this.aboutBlockPlacementID
     name: this.aboutBlockPlacementName
     showImageLibrary: this.aboutBlockShowImageLibrary
     removeImage: this.aboutBlockRemoveImage
     alt: this.state.aboutBlock.image_alt
     image_id: this.state.aboutBlock.image_id
     image_placement_id: this.state.aboutBlock.image_placement_id
+    image_placement_kind: this.state.aboutBlock.image_placement_kind
+    image_placement_embed: this.state.aboutBlock.image_placement_embed
     image_placement_destroy: this.state.aboutBlock.image_placement_destroy
     image_temp_placement_destroy: this.state.aboutBlock.image_temp_placement_destroy
     attached_url: this.state.aboutBlock.image_url
@@ -111,9 +113,9 @@ AboutBlockHandlers =
     temp_file_name: this.state.aboutBlock.image_temp_file_name
     temp_file_size: parseInt(this.state.aboutBlock.image_temp_file_size)
     temp_content_type: this.state.aboutBlock.image_temp_content_type
-    label: 'Background Image'
     dropZoneClassName: this.aboutBlockDropZoneClassName()
     bulkUploadPath: this.props.bulkUploadPath
+    allowEmbed: true
 
   aboutBlockInputTextProps: ->
     id: this.aboutBlockID('text')
@@ -136,6 +138,7 @@ AboutBlockHandlers =
   # PRIVATE LEVEL 2
 
   aboutBlockDefaultProps: ->
+    image_placement_kind: 'images'
     image_progress: 0
     image_state: 'empty'
     displayImageLibrary: false
@@ -181,8 +184,16 @@ AboutBlockHandlers =
     this.aboutBlockPlacementInputSetVal 'image_title', ''
 
   aboutBlockSwapForm: () ->
+    attributes =
+      image_placement_kind: if $('#' + this.aboutBlockPlacementID('tab_embed')).is(':visible') then 'embeds' else 'images'
+      image_placement_embed: this.aboutBlockPlacementInputGetVal('image_placement_embed')
+      image_alt: this.aboutBlockPlacementInputGetVal('image_alt')
+      image_title: this.aboutBlockPlacementInputGetVal('image_title')
+      heading: this.aboutBlockInputGetVal('heading')
+      subheading: this.aboutBlockInputGetVal('subheading')
+      text: this.aboutBlockInputGetVal('text')
     if (this.state.aboutBlock.image_temp_placement_destroy and this.state.aboutBlock.image_temp_placement_destroy is '1') or (this.state.aboutBlock.image_temp_cache_url and this.state.aboutBlock.image_temp_cache_url.length > 0)
-      this.aboutBlockUpdate
+      attributes = $.extend {}, attributes,
         image_id: this.state.aboutBlock.image_temp_id
         image_temp_id: null
         image_placement_destroy: this.state.aboutBlock.image_temp_placement_destroy
@@ -196,18 +207,7 @@ AboutBlockHandlers =
         image_temp_file_size: null
         image_content_type: this.state.aboutBlock.image_temp_content_type
         image_temp_content_type: null
-        image_alt: this.aboutBlockPlacementInputGetVal('image_alt')
-        image_title: this.aboutBlockPlacementInputGetVal('image_title')
-        heading: this.aboutBlockInputGetVal('heading')
-        subheading: this.aboutBlockInputGetVal('subheading')
-        text: this.aboutBlockInputGetVal('text')
-    else
-      this.aboutBlockUpdate
-        image_alt: this.aboutBlockPlacementInputGetVal('image_alt')
-        image_title: this.aboutBlockPlacementInputGetVal('image_title')
-        heading: this.aboutBlockInputGetVal('heading')
-        subheading: this.aboutBlockInputGetVal('subheading')
-        text: this.aboutBlockInputGetVal('text')
+    this.aboutBlockUpdate attributes
 
   aboutBlockResetForm: () ->
     attributes =
@@ -229,6 +229,7 @@ AboutBlockHandlers =
     this.aboutBlockUpdate attributes, null, callback
     this.aboutBlockPlacementInputSetVal 'image_alt', this.state.aboutBlock.image_alt
     this.aboutBlockPlacementInputSetVal 'image_title', this.state.aboutBlock.image_title
+    this.aboutBlockPlacementInputSetVal 'image_placement_embed', this.state.aboutBlock.image_placement_embed
     this.aboutBlockInputSetVal 'heading', this.state.aboutBlock.heading
     this.aboutBlockInputSetVal 'subheading', this.state.aboutBlock.subheading
     if $('#' + this.aboutBlockID('text')).data('wysihtml5')
@@ -238,8 +239,8 @@ AboutBlockHandlers =
     unless this.state.aboutBlock.upload_xhr
       $(component.getDOMNode()).fileupload
         dataType: 'XML'
-        url: this.props.presignedPostURL
-        formData: this.props.presignedPostFields
+        url: this.props.presignedPost.url
+        formData: this.props.presignedPost.fields
         paramName: 'file'
         dropZone: ".#{this.aboutBlockDropZoneClassName()}"
         add: this.aboutBlockImageAdd
@@ -315,7 +316,7 @@ AboutBlockHandlers =
     reader = new FileReader()
     reader.onload = this.aboutBlockImageRead.bind(null, file)
     reader.readAsDataURL file
-    formData = this.props.presignedPostFields
+    formData = this.props.presignedPost.fields
     formData['Content-Type'] = file.type
     data.formData = formData
     data.submit()
@@ -331,7 +332,7 @@ AboutBlockHandlers =
   aboutBlockImageDone: (event, data) ->
     if this.state.aboutBlock and this.state.aboutBlock.image_state is 'uploading'
       key = $(data.jqXHR.responseXML).find('Key').text()
-      url = "//#{this.props.presignedPostHost}/#{key}"
+      url = "//#{this.props.presignedPost.host}/#{key}"
       this.aboutBlockUpdate
         image_temp_cache_url: url
         image_state: 'finishing'

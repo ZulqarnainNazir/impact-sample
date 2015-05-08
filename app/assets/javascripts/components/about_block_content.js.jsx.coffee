@@ -69,7 +69,9 @@ AboutBlockContent = React.createClass
       `<p dangerouslySetInnerHTML={{__html: this.props.text}} />`
 
   renderImage: ->
-    if this.props.image_url and this.props.image_url.length > 0
+    if this.props.image_placement_kind is 'embeds'
+      `<div key="imageEmbed" style={{overflow: 'hidden'}} dangerouslySetInnerHTML={{__html: this.props.image_placement_embed}} />`
+    else if this.props.image_url and this.props.image_url.length > 0
       `<img className="img-responsive" src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} style={{width: '100%'}}/>`
     else if this.props.editing
       `<div>

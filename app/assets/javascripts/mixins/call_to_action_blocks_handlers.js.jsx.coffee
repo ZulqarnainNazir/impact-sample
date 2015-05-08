@@ -111,6 +111,7 @@ CallToActionBlocksHandlers =
     alt: block.image_alt
     image_id: block.image_id
     image_placement_id: block.image_placement_id
+    image_placement_kind: block.image_placement_kind
     image_placement_embed: block.image_placement_embed
     image_placement_destroy: block.image_placement_destroy
     image_temp_placement_destroy: block.image_temp_placement_destroy
@@ -166,6 +167,7 @@ CallToActionBlocksHandlers =
   callToActionBlockDefaultProps: ->
     key: Math.floor(Math.random() * Math.pow(10, 10))
     image_progress: 0
+    image_placement_kind: 'images'
     image_state: 'empty'
     link_target_blank: false
     link_no_follow: false
@@ -219,6 +221,8 @@ CallToActionBlocksHandlers =
 
   callToActionBlockSwapForm: (block) ->
     attributes =
+      image_placement_kind: if $('#' + this.callToActionBlockPlacementID(block, 'tab_embed')).is(':visible') then 'embeds' else 'images'
+      image_placement_embed: this.callToActionBlockPlacementInputGetVal(block, 'image_placement_embed')
       image_alt: this.callToActionBlockPlacementInputGetVal(block, 'image_alt')
       image_title: this.callToActionBlockPlacementInputGetVal(block, 'image_title')
       link_version: $("input[name=\"#{this.callToActionBlockName(block, 'link_version')}\"]:checked").val()
@@ -230,12 +234,6 @@ CallToActionBlocksHandlers =
       link_no_follow: this.callToActionBlockInputGetVal(block, 'link_no_follow')
       heading: this.callToActionBlockInputGetVal(block, 'heading')
       text: this.callToActionBlockInputGetVal(block, 'text')
-    if $('#' + this.callToActionBlockPlacementID(block, 'tab_embed')).is(':visible')
-      attributes = $.extend {}, attributes,
-        image_placement_embed: this.callToActionBlockPlacementInputGetVal(block, 'image_placement_embed')
-    else
-      attributes = $.extend {}, attributes,
-        image_placement_embed: null
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
@@ -289,8 +287,8 @@ CallToActionBlocksHandlers =
     unless block.upload_xhr
       $(component.getDOMNode()).fileupload
         dataType: 'XML'
-        url: this.props.presignedPostURL
-        formData: this.props.presignedPostFields
+        url: this.props.presignedPost.url
+        formData: this.props.presignedPost.fields
         paramName: 'file'
         dropZone: ".#{this.callToActionBlockDropZoneClassName(block)}"
         add: this.callToActionBlockImageAdd.bind(null, block)
@@ -356,7 +354,7 @@ CallToActionBlocksHandlers =
     reader = new FileReader()
     reader.onload = this.callToActionBlockImageRead.bind(null, block, file)
     reader.readAsDataURL file
-    formData = this.props.presignedPostFields
+    formData = this.props.presignedPost.fields
     formData['Content-Type'] = file.type
     data.formData = formData
     data.submit()
@@ -378,7 +376,7 @@ CallToActionBlocksHandlers =
     foundBlock = this.state.callToActionBlocks.filter(blockFilter)[0]
     if foundBlock and foundBlock.image_state is 'uploading'
       key = $(data.jqXHR.responseXML).find('Key').text()
-      url = "//#{this.props.presignedPostHost}/#{key}"
+      url = "//#{this.props.presignedPost.host}/#{key}"
       this.callToActionBlockUpdate foundBlock,
         image_temp_cache_url: url
         image_state: 'finishing'

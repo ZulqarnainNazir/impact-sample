@@ -54,6 +54,7 @@ class Block < ActiveRecord::Base
     if placement.present?
       as_json(*args).merge(
         image_placement_id: placement.id,
+        image_placement_kind: placement.kind,
         image_placement_embed: placement.embed,
         image_id: placement.image.try(:id),
         image_alt: placement.image.try(:alt),
@@ -63,7 +64,7 @@ class Block < ActiveRecord::Base
         image_file_size: placement.image.try(:attachment_file_size),
         image_title: placement.image.try(:title),
         image_url: placement.image.try(:attachment_url),
-        image_state: 'attached',
+        image_state: placement.image ? 'attached' : 'empty',
       )
     else
       as_json(*args).merge(

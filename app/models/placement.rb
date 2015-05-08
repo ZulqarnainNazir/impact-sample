@@ -2,18 +2,19 @@ class Placement < ActiveRecord::Base
   belongs_to :placer, polymorphic: true
   belongs_to :image
 
+  enum kind: {
+    images: 0,
+    embeds: 1,
+  }
+
   accepts_nested_attributes_for :image, reject_if: :all_blank
 
   validates :placer, presence: true
-  validates :image, presence: true, unless: :embed?
-  validates :embed, presence: true, unless: :image?
+  validates :image, presence: true, if: :images?
+  validates :embed, presence: true, if: :embeds?
 
   after_save do
     ImageAttachmentReprocessJob.perform_later(image) if image && image_id_changed?
-  end
-
-  def image?
-    image.present?
   end
 
   def placer_location

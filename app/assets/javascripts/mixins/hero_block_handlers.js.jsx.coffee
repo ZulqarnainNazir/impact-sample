@@ -300,8 +300,8 @@ HeroBlockHandlers =
     unless this.state.heroBlock.upload_xhr
       $(component.getDOMNode()).fileupload
         dataType: 'XML'
-        url: this.props.presignedPostURL
-        formData: this.props.presignedPostFields
+        url: this.props.presignedPost.url
+        formData: this.props.presignedPost.fields
         paramName: 'file'
         dropZone: ".#{this.heroBlockDropZoneClassName()}"
         add: this.heroBlockImageAdd
@@ -377,7 +377,7 @@ HeroBlockHandlers =
     reader = new FileReader()
     reader.onload = this.heroBlockImageRead.bind(null, file)
     reader.readAsDataURL file
-    formData = this.props.presignedPostFields
+    formData = this.props.presignedPost.fields
     formData['Content-Type'] = file.type
     data.formData = formData
     data.submit()
@@ -393,7 +393,7 @@ HeroBlockHandlers =
   heroBlockImageDone: (event, data) ->
     if this.state.heroBlock and this.state.heroBlock.image_state is 'uploading'
       key = $(data.jqXHR.responseXML).find('Key').text()
-      url = "//#{this.props.presignedPostHost}/#{key}"
+      url = "//#{this.props.presignedPost.host}/#{key}"
       this.heroBlockUpdate
         image_temp_cache_url: url
         image_state: 'finishing'

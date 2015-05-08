@@ -11,55 +11,50 @@ module PlacedImageConcern
 
       accepts_nested_attributes_for placement_name, allow_destroy: true, reject_if: :all_blank
 
-      define_method "#{placement_name}_attributes=" do |attr = {}|
-        attr = attr.with_indifferent_access
-        if attr[:image_id].present?
-          super(
-            id: attr[:id],
-            placer: self,
-            context: association_name,
-            image_id: attr[:image_id],
-            image_attributes: {
-              id: attr[:image_id],
-              alt: attr[:image_alt],
-              title: attr[:image_title],
-            },
+      define_method "#{placement_name}_attributes=" do |inputs = {}|
+        inputs = inputs.with_indifferent_access
+
+        outputs = {
+          id: inputs[:id],
+          kind: inputs[:kind],
+          placer: self,
+          context: association_name,
+          _destroy: inputs[:_destroy],
+        }
+
+        if inputs[:kind] == 'embeds'
+          super outputs.merge!(
+            embed: inputs[:embed],
+            image_id: nil,
+            image_attributes: {},
+          )
+        elsif inputs[:image_id].present?
+          super outputs.merge!(
             embed: nil,
-            _destroy: attr[:_destroy],
-          )
-        elsif attr[:image_attachment_cache_url].present?
-          super(
-            id: attr[:id],
-            placer: self,
-            context: association_name,
+            image_id: inputs[:image_id],
             image_attributes: {
-              alt: attr[:image_alt],
-              title: attr[:image_title],
-              attachment_cache_url: attr[:image_attachment_cache_url],
-              attachment_content_type: attr[:image_attachment_content_type],
-              attachment_file_name: attr[:image_attachment_file_name],
-              attachment_file_size: attr[:image_attachment_file_size],
-              business: attr[:image_business],
-              user: attr[:image_user],
+              id: inputs[:image_id],
+              alt: inputs[:image_alt],
+              title: inputs[:image_title],
             },
+          )
+        elsif inputs[:image_attachment_cache_url].present?
+          super outputs.merge!(
             embed: nil,
-            _destroy: attr[:_destroy],
+            image_id: nil,
+            image_attributes: {
+              alt: inputs[:image_alt],
+              title: inputs[:image_title],
+              attachment_cache_url: inputs[:image_attachment_cache_url],
+              attachment_content_type: inputs[:image_attachment_content_type],
+              attachment_file_name: inputs[:image_attachment_file_name],
+              attachment_file_size: inputs[:image_attachment_file_size],
+              business: inputs[:image_business],
+              user: inputs[:image_user],
+            },
           )
-        elsif attr[:embed].present?
-          super(
-            id: attr[:id],
-            placer: self,
-            context: association_name,
-            embed: attr[:embed],
-            _destroy: attr[:_destroy],
-          )
-        elsif attr[:id].present?
-          super(
-            id: attr[:id],
-            placer: self,
-            context: association_name,
-            _destroy: attr[:_destroy],
-          )
+        elsif inputs[:id].present?
+          super outputs
         end
       end
 

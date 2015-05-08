@@ -21,7 +21,7 @@ ContentBlockContent = React.createClass
     if this.props.theme is 'left' then this.renderImage() else this.renderTextColumn()
 
   renderImage: ->
-    if this.props.image_placement_embed and this.props.image_placement_embed.length > 0
+    if this.props.image_placement_kind is 'embeds'
       `<div className="col-sm-4">
          <div key="imageEmbed" style={{overflow: 'hidden'}} dangerouslySetInnerHTML={{__html: this.props.image_placement_embed}} />
       </div>`

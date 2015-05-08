@@ -23,13 +23,11 @@ class HomePage < Webpage
     accepts_nested_attributes_for :tagline_blocks
   end
 
-  before_validation do
+  before_validation on: :create do
     if website && website.business
       self.hero_block_attributes = default_hero_block_attributes(website.business) unless hero_block
       self.tagline_blocks_attributes = [default_tagline_block_attributes(website.business)] unless tagline_blocks.any?
     end
-
-    self.feed_block_attributes = { spoof: true }
   end
 
   def blocks_count

@@ -15,7 +15,7 @@ SidebarContentBlockContent = React.createClass
       `<h4>{this.props.heading}</h4>`
 
   renderImage: ->
-    if this.props.image_placement_embed and this.props.image_placement_embed.length > 0
+    if this.props.image_placement_kind is 'embeds'
      `<div key="imageEmbed" style={{overflow: 'hidden'}} dangerouslySetInnerHTML={{__html: this.props.image_placement_embed}} />`
     else if this.props.image_url and this.props.image_url.length > 0
       `<img className="thumbnail img-responsive" style={{width: '100%'}} src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} />`
