@@ -6,7 +6,7 @@ class Line < ActiveRecord::Base
   accepts_nested_attributes_for :line_images, allow_destroy: true, reject_if: proc { |a|
     a['_destroy'] == '1' || (
       a['line_image_placement_attributes'].kind_of?(Hash) &&
-      a['line_image_placement_attributes'].select { |k,_| !%w[image_business image_user].include?(k) }.values.all?(&:blank?)
+      a['line_image_placement_attributes'].select { |k,_| !%w[kind image_business image_user].include?(k) }.values.all?(&:blank?)
     )
   }
 

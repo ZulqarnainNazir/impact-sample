@@ -28,7 +28,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
     end
 
     unless @business.website.blog_page
-      @business.website.create_blog_page!(active: true, name: 'Blog', pathname: 'blog', title: "#{@business.name} Blog")
+      @business.website.create_blog_page!(active: true, name: 'Blog', pathname: 'blog', title: "#{@business.name} Blog", feed_block_attributes: { items_limit: 3 })
     end
 
     unless @business.website.contact_page
@@ -49,7 +49,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
               heading: line.title,
               text: line.description,
               hero_block_image_placement_attributes: {
-                image_id: image.id,
+                image_id: image.try(:id),
               },
             },
             specialty_blocks_attributes: [
@@ -71,26 +71,25 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
               link: line_page,
               link_label: 'Learn More',
               call_to_action_block_image_placement_attributes: {
-                image_id: image.id,
+                image_id: image.try(:id),
               },
             },
           ]
-          @business.offers.create!(
+          offer = @business.offers.new(
             title: "20% off your next purchase of #{line.title}",
             offer: "#{line.customer_description? ? line.customer_description : 'The ideal customer'} will love saving on #{line.title}",
             description: line.customer_benefit,
             terms: 'Not to be combined with any other offer. No Cash Value. Always Awesome.',
-            offer_image_placement_attributes: {
-              image_id: image.id,
-            },
           )
+          offer.offer_image_placement_attributes = { image_id: image.id } if image
+          offer.save!(validate: false)
           if images.length > 4
             @business.galleries.create!(
               title: line.title,
               gallery_images_attributes: images.map do |image|
                 {
                   gallery_image_placement_attributes: {
-                    image_id: image.id,
+                    image_id: image.try(:id),
                   },
                 }
               end,

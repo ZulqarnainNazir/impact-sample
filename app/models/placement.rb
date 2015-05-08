@@ -13,6 +13,10 @@ class Placement < ActiveRecord::Base
   validates :image, presence: true, if: :images?
   validates :embed, presence: true, if: :embeds?
 
+  before_validation do
+    self.kind = 'images' unless kind?
+  end
+
   after_save do
     ImageAttachmentReprocessJob.perform_later(image) if image && image_id_changed?
   end

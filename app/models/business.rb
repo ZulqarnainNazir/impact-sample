@@ -35,7 +35,7 @@ class Business < ActiveRecord::Base
       a['line_images_attributes'].kind_of?(Hash) && a['line_images_attributes'].all? { |_, b|
         b['_destroy'] == '1' || (
           b['line_image_placement_attributes'].kind_of?(Hash) &&
-          b['line_image_placement_attributes'].select { |k,_| !%w[image_business image_user].include?(k) }.values.all?(&:blank?)
+          b['line_image_placement_attributes'].select { |k,_| !%w[kind image_business image_user].include?(k) }.values.all?(&:blank?)
         )
       }
     )

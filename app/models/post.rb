@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
       a['title'].blank? &&
       a['description'].blank? &&
       a['post_section_placement_attributes'].kind_of?(Hash) &&
-      a['post_section_placement_attributes'].select { |k,_| !%w[image_business image_user].include?(k) }.values.all?(&:blank?)
+      a['post_section_placement_attributes'].select { |k,_| !%w[kind image_business image_user].include?(k) }.values.all?(&:blank?)
     )
   }
 
