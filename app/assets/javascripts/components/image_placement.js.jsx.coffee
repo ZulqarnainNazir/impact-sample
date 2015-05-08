@@ -2,11 +2,12 @@ ImagePlacement = React.createClass
   propTypes:
     inputPrefix: React.PropTypes.string.isRequired
     imagesPath: React.PropTypes.string.isRequired
-    label: React.PropTypes.string.isRequired
     presignedPost: React.PropTypes.object.isRequired
 
     placement: React.PropTypes.shape(
       id: React.PropTypes.number
+      kind: React.PropTypes.string
+      embed: React.PropTypes.string
       _destroy: React.PropTypes.string
       image: React.PropTypes.shape(
         id: React.PropTypes.number
@@ -20,8 +21,10 @@ ImagePlacement = React.createClass
       ).isRequired
     ).isRequired
 
+    allowEmbed: React.PropTypes.bool
     buttonSize: React.PropTypes.string
     buttonRemove: React.PropTypes.bool
+    label: React.PropTypes.string
 
   getDefaultProps: ->
     buttonRemove: true
@@ -40,24 +43,54 @@ ImagePlacement = React.createClass
     libraryLoadedAll: false
     libraryPage: 1
     libraryVisible: false
-    placementDestroy: this.props.placement.destroy
     placementID: this.props.placement.id
+    placementKind: this.props.placement.kind or 'images'
+    placementEmbed: this.props.placement.embed
+    placementDestroy: this.props.placement.destroy
     uploadProgress: 0
     uploadState: if this.props.placement.image.attachment_thumbnail_url and this.props.placement.image.attachment_thumbnail_url.length > 0 then 'attached' else 'empty'
     uploadXHR: null
 
   componentDidMount: ->
     this.initializeFileUpload()
+    if this.state.placementKind and this.state.placementKind is 'embeds'
+      $('#' + this.id('nav_tab_image')).removeClass('active')
+      $('#' + this.id('nav_tab_embed')).addClass('active')
+      $('#' + this.id('tab_image')).removeClass('in active')
+      $('#' + this.id('tab_embed')).addClass('in active')
+
+  componentDidUpdate: ->
+    console.log this.state.placementKind
 
   render: ->
+    if this.props.allowEmbed
+      `<div>
+        <ul className="nav nav-tabs" style={{marginTop: 0}}>
+          <li onClick={this.setKind.bind(null, 'images')} id={this.id('nav_tab_image')} className="active"><a href={'#' + this.id('tab_image')} data-toggle="tab">Image</a></li>
+          <li onClick={this.setKind.bind(null, 'embeds')} id={this.id('nav_tab_embed')}><a href={'#' + this.id('tab_embed')} data-toggle="tab">Embed</a></li>
+        </ul>
+        <div className="tab-content" style={{marginTop: 15}}>
+          <div id={this.id('tab_image')} className="tab-pane fade in active">
+            {this.renderImage()}
+          </div>
+          <div id={this.id('tab_embed')} className="tab-pane">
+            {this.renderEmbed()}
+          </div>
+        </div>
+      </div>`
+    else
+      this.renderImage()
+
+  renderImage: ->
     `<div className="form-group">
-      <label className="control-label">{this.props.label}</label>
+      {this.renderLabel()}
       <input type="hidden" name={this.name('id')} value={this.state.placementID} />
+      <input type="hidden" name={this.name('kind')} value={this.state.placementKind} />
       <input type="hidden" name={this.name('_destroy')} value={this.state.placementDestroy} />
       <input type="hidden" name={this.name('image_id')} value={this.state.imageID} />
       <div className="row">
         <div className="col-sm-4">
-          {this.renderImage()}
+          {this.renderThumbnail()}
         </div>
         <div className="col-sm-8">
           {this.renderProgress()}
@@ -68,7 +101,11 @@ ImagePlacement = React.createClass
       {this.renderLibrary()}
     </div>`
 
-  renderImage: ->
+  renderLabel: ->
+    unless this.props.allowEmbed
+      `<label className="control-label">{this.props.label}</label>`
+
+  renderThumbnail: ->
     if this.state.placementDestroy != '1' and this.imageURL()
       `<div id={this.id('dropzone')}>
         <div className="small">
@@ -187,6 +224,14 @@ ImagePlacement = React.createClass
           <div onClick={this.loadMoreLibraryImages} className="btn btn-block btn-default">Load More</div>
         </div>
       </div>`
+
+  renderEmbed: ->
+    `<div className="form-group">
+      <textarea id={this.id('embed')} name={this.name('embed')} rows="6" className="form-control" defaultValue={this.state.placementEmbed} />
+    </div>`
+
+  setKind: (kind) ->
+    this.setState placementKind: kind
 
   initializeFileUpload: ->
     unless this.state.uploadXHR

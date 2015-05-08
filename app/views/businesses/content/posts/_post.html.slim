@@ -13,8 +13,10 @@
         = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   h2 = post.title
-  - image = post.sections_image
   .clearfix
-    - if image
-      = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
+    - placement = post.sections_placement
+    - if placement.try(:embeds?)
+      .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+    - elsif placement.try(:image)
+      = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
     = truncate post.sections_content, length: 500

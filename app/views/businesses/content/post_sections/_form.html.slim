@@ -25,12 +25,12 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
                   = react_unmounted_component 'ImagePlacement',
                     inputPrefix: "post[post_sections_attributes][#{form.options[:child_index]}][post_section_image_placement_attributes]",
                     imagesPath: business_images_path(post_form.object.business),
-                    label: 'Image',
                     presignedPost: s3_presigned_post_hash,
                     placement: form.object.post_section_image_placement_json,
                     bulkUploadPath: new_business_content_images_upload_path(post_form.object.business),
                     buttonSize: 'small',
-                    buttonRemove: false
+                    buttonRemove: false,
+                    allowEmbed: true
           .post-section-fields-warning.text-muted: em This Section will be removed upon Save
         .panel-footer.text-right
           .post-section-fields-content.pull-left style="margin:4px"

@@ -74,8 +74,8 @@ class Post < ActiveRecord::Base
     Sanitize.fragment(content)
   end
 
-  def sections_image
-    find_sections_image post_sections.arrange(order: :position)
+  def sections_placement
+    find_sections_placement post_sections.arrange(order: :position)
   end
 
   private
@@ -115,10 +115,10 @@ class Post < ActiveRecord::Base
     end
   end
 
-  def find_sections_image(sections)
+  def find_sections_placement(sections)
     sections.each do |section, children|
-      return section.post_section_image if section.post_section_image.present?
-      find_sections_image(children)
+      return section.post_section_image_placement if section.post_section_image_placement.present?
+      find_sections_placement(children)
     end
     nil
   end
