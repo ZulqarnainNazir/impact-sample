@@ -48,6 +48,8 @@ HeroBlock = React.createClass
             <hr />
             <BlockInputImage {...this.props.blockInputImage} />
             <hr />
+            {this.renderLayoutOptions()}
+            <hr />
             <BlockInputText {...this.props.blockInputHeading} />
             <BlockInputText {...this.props.blockInputText} />
             <hr />
@@ -58,5 +60,37 @@ HeroBlock = React.createClass
       </div>`
     else if this.props.editing
       `<BlockAdd {...this.props.blockAdd} />`
+
+  renderLayoutOptions: ->
+    if this.props.block
+      `<div>
+        <label>Hero Layout Options</label>
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="radio">
+              <label>
+                <input type="radio" name={this.props.name('layout')} value="default" defaultChecked={!this.props.block.layout || this.props.block.layout === 'default'} onChange={this.handleLayoutChange} />
+                Default layout
+              </label>
+            </div>
+            <div className="radio">
+              <label>
+                <input type="radio" name={this.props.name('layout')} value="top" defaultChecked={this.props.block.layout === 'top'} onChange={this.handleLayoutChange} />
+                Align to top (no space between header nav and hero)
+              </label>
+            </div>
+            <div className="radio">
+              <label>
+                <input type="radio" name={this.props.name('layout')} value="fullbleed" defaultChecked={this.props.block.layout === 'fullbleed'} onChange={this.handleLayoutChange} />
+                Full-bleed (Align to top and fill viewport width)
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>`
+
+  handleLayoutChange: (e) ->
+    this.props.block.layout = $(e.target).val()
+
 
 window.HeroBlock = HeroBlock

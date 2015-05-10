@@ -177,6 +177,7 @@ HeroBlockHandlers =
     displayImageLibrary: false
     imageLibraryLoaded: false
     imageLibraryPage: 1
+    layout: 'default'
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
@@ -245,6 +246,7 @@ HeroBlockHandlers =
         foreground_color: this.heroBlockInputGetVal('foreground_color')
         style: this.heroBlockInputGetVal('style')
         text: this.heroBlockInputGetVal('text')
+        layout: this.heroBlockInputGetVal('layout')
     else
       this.heroBlockUpdate
         image_alt: this.heroBlockPlacementInputGetVal('image_alt')
@@ -261,6 +263,7 @@ HeroBlockHandlers =
         foreground_color: this.heroBlockInputGetVal('foreground_color')
         style: this.heroBlockInputGetVal('style')
         text: this.heroBlockInputGetVal('text')
+        layout: this.heroBlockInputGetVal('layout')
 
   heroBlockResetForm: () ->
     attributes =
@@ -293,6 +296,7 @@ HeroBlockHandlers =
     this.heroBlockInputSetVal 'background_color', this.state.heroBlock.background_color
     this.heroBlockInputSetVal 'foreground_color', this.state.heroBlock.foreground_color
     this.heroBlockInputSetVal 'style', this.state.heroBlock.style
+    this.heroBlockInputSetVal 'layout', this.state.heroBlock.layout
     if $('#' + this.heroBlockID('text')).data('wysihtml5')
       $('#' + this.heroBlockID('text')).data('wysihtml5').editor.setValue(this.state.heroBlock.text)
 
