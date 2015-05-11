@@ -9,6 +9,7 @@ class Image < ActiveRecord::Base
 
   validates :business, presence: true
   validates :user, presence: true
+  validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }, allow_nil: true
 
   validates_attachment_presence :attachment, unless: :attachment_cache_url?
   validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\Z/
