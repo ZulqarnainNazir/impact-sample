@@ -46,11 +46,31 @@
 
     &.layout-default,
     &.layout-top {
-      max-width: 940px;
       margin-right: auto;
       margin-left: auto;
       padding-left: 15px;
       padding-right: 15px;
     }
+  }
+}
+
+@media (min-width: 768px) {
+  .webpage-hero .jumbotron.layout-default,
+  .webpage-hero .jumbotron.layout-top {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .webpage-hero .jumbotron.layout-default,
+  .webpage-hero .jumbotron.layout-top {
+    max-width: 940px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .webpage-hero .jumbotron.layout-default,
+  .webpage-hero .jumbotron.layout-top {
+    max-width: 1140px;
   }
 }

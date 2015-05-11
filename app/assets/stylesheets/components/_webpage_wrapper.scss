@@ -12,16 +12,32 @@
     padding-right: 0;
 
     & > div {
-      max-width: 970px;
       margin-right: auto;
       margin-left: auto;
       padding-left: 15px;
       padding-right: 15px;
     }
-
   }
 
   & > .container:first-child > div:first-child {
     padding-top: 20px
+  }
+}
+
+@media (min-width: 768px) {
+  .webpage-wrapper > .container > div {
+    max-width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .webpage-wrapper > .container > div {
+    max-width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .webpage-wrapper > .container > div {
+    max-width: 1170px;
   }
 }
