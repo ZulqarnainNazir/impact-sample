@@ -1,8 +1,8 @@
-class ImageAttachmentReprocessJob < ActiveJob::Base
+class ImageAttachmentReprocessJob < ApplicationJob
   queue_as :image
 
   def perform(image)
-    if image && image.attachment
+    if image.attachment
       image.attachment.reprocess!
     end
   end
