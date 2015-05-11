@@ -1,4 +1,4 @@
-class ImageCacheTransferJob < ActiveJob::Base
+class ImageCacheTransferJob < ApplicationJob
   queue_as :image
 
   def perform(image)

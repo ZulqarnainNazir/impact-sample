@@ -1,6 +1,4 @@
-class FacebookPhotosImportJob < ActiveJob::Base
-  queue_as :default
-
+class FacebookPhotosImportJob < ApplicationJob
   def perform(business, user)
     oauth = Koala::Facebook::OAuth.new(Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, nil)
     token = oauth.get_app_access_token
