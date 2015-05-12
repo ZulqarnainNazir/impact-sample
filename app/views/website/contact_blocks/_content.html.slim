@@ -34,7 +34,7 @@
     .vcard
       h3.fn.org itemprop="name" = location.name
       - if !location.hide_phone?
-        p.tel itemprop="telephone" = location.phone_number
+        p.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
       - if !location.hide_address?
         p.adr itemprop="address"
           => location.address_line_one
