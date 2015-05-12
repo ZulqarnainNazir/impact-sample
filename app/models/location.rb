@@ -7,6 +7,10 @@ class Location < ActiveRecord::Base
 
   validates :state, inclusion: { in: UsStates.abbreviations }, allow_blank: true
 
+  geocoded_by :full_address
+
+  after_validation :geocode, if: :do_geocode?
+
   def attributes_with_address
     attributes.merge(
       address_line_one: address_line_one,
@@ -20,5 +24,13 @@ class Location < ActiveRecord::Base
 
   def address_line_two
     [[city, state].reject(&:blank?).join(', '), zip_code].reject(&:blank?).join(' ')
+  end
+
+  def full_address
+    [address_line_one, address_line_two].reject(&:blank?).join(', ')
+  end
+
+  def do_geocode?
+    (latitude && longitude) and not (street1_changed? or street2_changed? or city_changed? or state_changed?)
   end
 end
