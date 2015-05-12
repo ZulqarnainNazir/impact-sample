@@ -28,11 +28,20 @@ var ready = function() {
   $('.webhosts-associations').webhostsAssociations();
   $('.webpage-designer').webpageDesigner();
   $('.wysihtml-editor').wysihtmlEditor();
-  $('*[data-toggle=lightbox]').click(function(e) {
+  $('*[data-toggle=lightbox]').click(function (e) {
     e.preventDefault();
     $(this).ekkoLightbox();
   });
   $('[data-toggle="tooltip"]').tooltip();
+
+  $(document).on('shown.bs.modal', function (e) {
+    var titleInput = $(e.target).find('input[id$=-block-attributes-heading]').get(0) ||
+      $(e.target).find('input[type=text]').get(0);
+
+    if (titleInput) {
+      $(titleInput).focus();
+    }
+  });
 };
 
 $(document).on('ready page:load', ready);
