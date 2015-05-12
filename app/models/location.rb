@@ -9,7 +9,7 @@ class Location < ActiveRecord::Base
 
   geocoded_by :full_address
 
-  after_validation :geocode, if: :do_geocode?
+  after_validation :geocode, if: :requires_geocode?
 
   def attributes_with_address
     attributes.merge(
@@ -30,7 +30,7 @@ class Location < ActiveRecord::Base
     [address_line_one, address_line_two].reject(&:blank?).join(', ')
   end
 
-  def do_geocode?
-    (latitude && longitude) and not (street1_changed? or street2_changed? or city_changed? or state_changed?)
+  def requires_geocode?
+    (latitude && longitude) && not (street1_changed? || street2_changed? || city_changed? || state_changed?)
   end
 end
