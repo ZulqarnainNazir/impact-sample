@@ -132,7 +132,7 @@ WebsiteMenus = React.createClass
         <input type="hidden" name={this.inputName(link.index, 'position')} defaultValue={link.position} />
         <input type="hidden" name={this.inputName(link.index, 'kind')} defaultValue={link.kind} />
         <input type="hidden" name={this.inputName(link.index, 'location')} defaultValue={link.location} />
-        <div key="icon" className="col-sm-1 text-center"><i className={iconClass} /></div>
+        <div key="icon" className="col-sm-1 text-right"><i className={iconClass} /></div>
         <div key="label" className="col-sm-5">
           <div className="form-group">
             <label className="control-label">
@@ -168,7 +168,7 @@ WebsiteMenus = React.createClass
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'position') + '" value="' + (container.children('li').length + 1) + '" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'kind') + '" value="internal" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'location') + '" value="' + location + '" />')
-    linkContents.append $('<div key="icon" class="col-sm-1 text-center"><i class="fa fa-2x fa-file" /></div>')
+    linkContents.append $('<div key="icon" class="col-sm-1 text-right"><i class="fa fa-2x fa-file" /></div>')
     linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <small>Defaults to Webpage Name</small> <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" /></label></div></div>')
     linkContents.append $('<div key="input" class="col-sm-5"><div class="form-group"><label class="control-label">Webpage <select class="form-control" name="' + this.inputName(index, 'webpage_id') + '"></select></label></div></div>')
     $.each this.props.webpages, (index, webpage) ->
@@ -189,7 +189,7 @@ WebsiteMenus = React.createClass
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'position') + '" value="' + (container.children('li').length + 1) + '" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'kind') + '" value="external" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'location') + '" value="' + location + '" />')
-    linkContents.append $('<div key="icon" class="col-sm-1 text-center"><i class="fa fa-2x fa-external-link" /></div>')
+    linkContents.append $('<div key="icon" class="col-sm-1 text-right"><i class="fa fa-2x fa-external-link" /></div>')
     linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" /></label></div></div>')
     linkContents.append $('<div key="input" class="col-sm-5"><div class="form-group"><label class="control-label">URL <input type="text" class="form-control" name="' + this.inputName(index, 'url') + '" /></label></div></div>')
     linkContents.append $('<div key="remove" class="col-sm-1 text-right"><span class="fa fa-close nav-link-remove" /></div>')
@@ -208,7 +208,7 @@ WebsiteMenus = React.createClass
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'position') + '" value="' + (container.children('li').length + 1) + '" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'kind') + '" value="dropdown" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'location') + '" value="' + location + '" />')
-    linkContents.append $('<div key="icon" class="col-sm-1 text-center"><i class="fa fa-2x fa-toggle-down" /></div>')
+    linkContents.append $('<div key="icon" class="col-sm-1 text-right"><i class="fa fa-2x fa-toggle-down" /></div>')
     linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" /></label></div></div>')
     linkContents.append $('<div key="remove" class="col-sm-1 col-sm-offset-5 text-right"><span class="fa fa-close nav-link-remove" /></div>')
     link = $('<li key="' + key + '" class="dropdown"></li>')

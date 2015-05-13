@@ -106,6 +106,8 @@ class Website < ActiveRecord::Base
       end
       link.cached_children = arrange_nav_links(children, available_links)
       link
-    end.sort_by(&:position)
+    end.sort do |a, b|
+      a.position.to_i <=> b.position.to_i
+    end
   end
 end

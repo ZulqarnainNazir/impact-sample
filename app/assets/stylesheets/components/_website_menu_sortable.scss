@@ -20,12 +20,22 @@
     margin: 0.3em 0;
     padding: 0;
     > div {
+      position: relative;
       cursor: move;
       background: #f9f9f9;
       border: solid 1px #ddd;
       border-radius: 2px;
       margin: 0;
       padding: 0.2em;
+      &:before {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -0.5em;
+        margin-left: 1em;
+        content: $fa-var-reorder;
+        @include fa-icon;
+      }
       i {
         margin-top: 0.6em;
       }
