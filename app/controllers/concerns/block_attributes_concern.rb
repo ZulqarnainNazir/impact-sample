@@ -8,6 +8,7 @@ module BlockAttributesConcern
       :id,
       :theme,
       :style,
+      :layout,
       :heading,
       :subheading,
       :text,

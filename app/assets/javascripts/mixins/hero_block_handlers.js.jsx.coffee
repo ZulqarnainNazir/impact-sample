@@ -177,6 +177,7 @@ HeroBlockHandlers =
     displayImageLibrary: false
     imageLibraryLoaded: false
     imageLibraryPage: 1
+    layout: 'default'
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
@@ -245,6 +246,7 @@ HeroBlockHandlers =
         foreground_color: this.heroBlockInputGetVal('foreground_color')
         style: this.heroBlockInputGetVal('style')
         text: this.heroBlockInputGetVal('text')
+        layout: $("input[name=\"#{this.heroBlockName('layout')}\"]:checked").val()
     else
       this.heroBlockUpdate
         image_alt: this.heroBlockPlacementInputGetVal('image_alt')
@@ -261,6 +263,7 @@ HeroBlockHandlers =
         foreground_color: this.heroBlockInputGetVal('foreground_color')
         style: this.heroBlockInputGetVal('style')
         text: this.heroBlockInputGetVal('text')
+        layout: $("input[name=\"#{this.heroBlockName('layout')}\"]:checked").val()
 
   heroBlockResetForm: () ->
     attributes =
@@ -282,7 +285,7 @@ HeroBlockHandlers =
     this.heroBlockUpdate attributes, null, callback
     this.heroBlockPlacementInputSetVal 'image_alt', this.state.heroBlock.image_alt
     this.heroBlockPlacementInputSetVal 'image_title', this.state.heroBlock.image_title
-    this.heroBlockInputSetVal 'link_version', this.state.heroBlock.link_version
+    $("input[name=\"#{this.heroBlockName('link_version')}\"][value=\"#{this.state.heroBlock.link_version}\"]").prop('checked', true);
     this.heroBlockInputSetVal 'link_label', this.state.heroBlock.link_label
     this.heroBlockInputSetVal 'link_id', this.state.heroBlock.link_id
     this.heroBlockInputSetVal 'link_type', this.state.heroBlock.link_type
@@ -293,6 +296,7 @@ HeroBlockHandlers =
     this.heroBlockInputSetVal 'background_color', this.state.heroBlock.background_color
     this.heroBlockInputSetVal 'foreground_color', this.state.heroBlock.foreground_color
     this.heroBlockInputSetVal 'style', this.state.heroBlock.style
+    $("input[name=\"#{this.heroBlockName('layout')}\"][value=\"#{this.state.heroBlock.layout}\"]").prop('checked', true);
     if $('#' + this.heroBlockID('text')).data('wysihtml5')
       $('#' + this.heroBlockID('text')).data('wysihtml5').editor.setValue(this.state.heroBlock.text)
 
