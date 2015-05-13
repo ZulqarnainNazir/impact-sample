@@ -3,9 +3,13 @@ class Website::ContactPagesController < Website::BaseController
     @page = @website.contact_page
 
     if !@page
-      raise ActiveRecord::RecordNotFound
-    elsif !@page.active? && !@business.owners.include?(current_user) && false
-      raise ActiveRecord::RecordNotFound
+      @redirect = @website.redirects.find_by_from_path(request.path)
+
+      if @redirect
+        redirect_to @redirect.to_path, status: 301
+      else
+        raise ActiveRecord::RecordNotFound
+      end
     end
 
     @contact_message = @business.contact_messages.new

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 41) do
+ActiveRecord::Schema.define(version: 42) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -315,6 +315,16 @@ ActiveRecord::Schema.define(version: 41) do
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree
+
+  create_table "redirects", force: :cascade do |t|
+    t.integer  "website_id", null: false
+    t.text     "from_path",  null: false
+    t.text     "to_path",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "redirects", ["website_id"], name: "index_redirects_on_website_id", using: :btree
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false

@@ -1,11 +1,19 @@
 class Website::CustomPagesController < Website::BaseController
   before_action do
-    @page = @website.webpages.custom.find_by_pathname!(params[:id])
+    @page = @website.webpages.custom.find_by_pathname(params[:id])
 
-    if !@page.active? && !@business.owners.include?(current_user) && false
-      raise ActiveRecord::RecordNotFound
+    if !@page
+      @redirect = @website.redirects.find_by_from_path(request.path)
+
+      if @redirect
+        redirect_to @redirect.to_path, status: 301
+      else
+        raise ActiveRecord::RecordNotFound
+      end
     end
+  end
 
+  before_action do
     if @page.sidebar_feed_block
       @sidebar_feed_items = ContentSearch.new(@business, params[:query]).search.page(1).per(@page.sidebar_feed_block.items_limit).records
     end

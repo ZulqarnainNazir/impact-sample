@@ -91,6 +91,7 @@ Rails.application.routes.draw do
           resource :sidebars, only: %i[edit update]
           resource :theme, only: %i[edit update]
           resources :custom_pages, only: %i[new create edit update]
+          resources :redirects, only: %i[index new create edit update destroy]
           resources :webpages, only: %i[index destroy] do
             resource :publications, only: %i[create destroy]
           end

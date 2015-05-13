@@ -10,6 +10,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
 
   before_action only: member_actions do
     @custom_page = @website.webpages.custom.find(params[:id])
+    @original_pathname = @custom_page.pathname
   end
 
   def create
@@ -17,7 +18,11 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
   end
 
   def update
-    update_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page]
+    update_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page] do |success|
+      if success && @custom_page.pathname != @original_pathname
+        @website.redirects.create(from_path: @original_pathname, to_path: @custom_page.pathname)
+      end
+    end
   end
 
   private

@@ -1,0 +1,12 @@
+tr
+  td style="font-family:monospace" = redirect.from_path
+  td style="font-family:monospace" = redirect.to_path
+  td = redirect.created_at.strftime('%m/%d/%Y')
+  td
+    .btn-group.btn-group-xs
+      = link_to [:edit, business, :website, redirect], class: 'btn btn-default' do
+        => icon 'pencil'
+        | Edit
+      = link_to [business, :website, redirect], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } do
+        => icon 'trash'
+        | Delete

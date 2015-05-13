@@ -16,6 +16,7 @@ class Website < ActiveRecord::Base
 
   with_options dependent: :destroy do
     has_many :nav_links
+    has_many :redirects
     has_many :webhosts
     has_many :webpages
     has_one :about_page

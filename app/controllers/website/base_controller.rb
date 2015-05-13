@@ -14,9 +14,9 @@ class Website::BaseController < ApplicationController
       raise ActiveRecord::RecordNotFound
     elsif @website.webhost.try(:primary?) && @webhost != @website.webhost
       redirect_to host: @website.webhost.name
-    else
-      @business = @website.business
-      @location = @business.location
     end
+
+    @business = @website.business
+    @location = @business.location
   end
 end

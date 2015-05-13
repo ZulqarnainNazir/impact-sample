@@ -14,6 +14,12 @@ en:
           attributes:
             pathname:
               invalid: must contain only letters, numbers, hyphens and underscores; forward slashes may be included in the middle of the pathname
+        redirects:
+          attributes:
+            from_path:
+              invalid: must look like an HTTP path
+            to_path:
+              invalid: must look like an HTTP path
         webhost:
           attributes:
             name:
@@ -47,6 +53,9 @@ en:
         title: HTML Title
       post:
         published_on: Publication Date
+      redirects:
+        from_path: From Path
+        to_path: To Path
       user:
         first_name: First Name
         last_name: Last Name

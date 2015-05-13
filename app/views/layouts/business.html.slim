@@ -72,6 +72,9 @@ html lang="en"
                       li = link_to [:edit, @business, :website_menus] do
                         i.fa.fa-random>
                         | Navigation Menus
+                      li = link_to [@business, :website_redirects] do
+                        i.fa.fa-reply>
+                        | Redirects
                       li = link_to [:edit, @business, :website_theme] do
                         i.fa.fa-photo>
                         | Theme &amp; Design
