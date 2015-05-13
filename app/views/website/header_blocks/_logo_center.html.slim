@@ -20,74 +20,21 @@
       - else
         = link_to business.name, :root, class: 'navbar-brand', style: 'margin-left: -20px;'
     #header-collapse.navbar-collapse.collapse
-      - webpages = website.header_pages
+      - webpages = website.arranged_nav_links(:header)
+      - if block.logo_height.present? && block.logo_height.to_i > 30
+        - style = "line-height: #{block.logo_height.to_i - 10}px"
+      - else
+        - style = ''
       - if webpages.length.even?
         ul.nav.navbar-nav.navbar-left style="margin-right: 40px"
-          - webpages[0..(webpages.length / 2 - 1)].each do |webpage|
-            - if block.logo_height.present? && block.logo_height.to_i > 30
-              - style = "line-height: #{block.logo_height.to_i - 10}px"
-            - else
-              - style = ''
-            - if webpage.cached_webpages.any?
-              li.dropdown
-                = link_to '#', class: 'dropdown-toggle', style: style, data: { toggle: 'dropdown' }
-                  => webpage.name
-                  span.caret
-                ul.dropdown-menu
-                  - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
-            - else
-              li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: style
+          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2 - 1)], locals: { style: style }
         ul.nav.navbar-nav.navbar-right style="margin-left: 40px"
-          - webpages[(webpages.length / 2)..-1].each do |webpage|
-            - if block.logo_height.present? && block.logo_height.to_i > 30
-              - style = "line-height: #{block.logo_height.to_i - 10}px"
-            - else
-              - style = ''
-            - if webpage.cached_webpages.any?
-              li.dropdown
-                = link_to '#', class: 'dropdown-toggle', style: style, data: { toggle: 'dropdown' }
-                  => webpage.name
-                  span.caret
-                ul.dropdown-menu
-                  - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
-            - else
-              li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: style
+          = render partial: 'website/nav_links/nav_link', collection: webpages[(webpages.length / 2)..-1], locals: { style: style }
       - else
         ul.nav.navbar-nav.navbar-left style="margin-right: 40px"
-          - webpages[0..(webpages.length / 2)].each do |webpage|
-            - if block.logo_height.present? && block.logo_height.to_i > 30
-              - style = "line-height: #{block.logo_height.to_i - 10}px"
-            - else
-              - style = ''
-            - if webpage.cached_webpages.any?
-              li.dropdown
-                = link_to '#', class: 'dropdown-toggle', style: style, data: { toggle: 'dropdown' }
-                  => webpage.name
-                  span.caret
-                ul.dropdown-menu
-                  - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
-            - else
-              li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: style
-
+          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2)], locals: { style: style }
         ul.nav.navbar-nav.navbar-right style="margin-left: 40px"
-          - webpages[(webpages.length / 2 + 1)..-1].each do |webpage|
-            - if block.logo_height.present? && block.logo_height.to_i > 30
-              - style = "line-height: #{block.logo_height.to_i - 10}px"
-            - else
-              - style = ''
-            - if webpage.cached_webpages.any?
-              li.dropdown
-                = link_to '#', class: 'dropdown-toggle', style: style, data: { toggle: 'dropdown' }
-                  => webpage.name
-                  span.caret
-                ul.dropdown-menu
-                  - webpage.cached_webpages.each do |webpage|
-                    li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: 'color:#000 !important'
-            - else
-              li = link_to webpage.name, website_custom_page_path(webpage.pathname), style: style
+          = render partial: 'website/nav_links/nav_link', collection: webpages[(webpages.length / 2 + 1)..-1], locals: { style: style }
 javascript:
   var centerLogo = function() {
     var brand = $('.header-centered-logo .navbar-brand');

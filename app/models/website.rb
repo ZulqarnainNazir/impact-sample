@@ -15,6 +15,7 @@ class Website < ActiveRecord::Base
   end
 
   with_options dependent: :destroy do
+    has_many :nav_links
     has_many :webhosts
     has_many :webpages
     has_one :about_page
@@ -32,6 +33,7 @@ class Website < ActiveRecord::Base
     accepts_nested_attributes_for :about_page,    reject_if: proc { |a| a['_destroy'] == '1' }
     accepts_nested_attributes_for :blog_page,     reject_if: proc { |a| a['_destroy'] == '1' }
     accepts_nested_attributes_for :contact_page,  reject_if: proc { |a| a['_destroy'] == '1' }
+    accepts_nested_attributes_for :nav_links,     reject_if: proc { |a| a['_destroy'] == '1' }
     accepts_nested_attributes_for :webhosts,      reject_if: proc { |a| a['_destroy'] == '1' || a['id'].nil? && a['name'].blank? }
     accepts_nested_attributes_for :webpages,      reject_if: proc { |a| a['_destroy'] == '1' || a['title'].blank? }
   end
@@ -72,74 +74,37 @@ class Website < ActiveRecord::Base
     webhosts.primary.any? ? webhosts.primary.first : webhosts.first
   end
 
-  def default_header_block_attributes(business)
-    {
-    }.reject do |key, value|
-      value.blank?
+  def arranged_nav_links(location)
+    links = nav_links.select do |link|
+      link.location == location.to_s
     end
-  end
 
-  def default_footer_block_attributes(business)
-    {
-    }.reject do |key, value|
-      value.blank?
+    links.each do |link|
+      link.index = (SecureRandom.random_number*10**10).to_i if link.index.blank?
+      link.key = SecureRandom.uuid if link.key.blank?
     end
-  end
 
-  def header_pages
-    if header_menu.blank?
-      webpages.where.not(type: 'HomePage').map do |root|
-        root.cached_webpages = []
-        root
-      end
-    else
-      menu = header_menu || []
-      root_ids = menu.select { |p| p['parent_id'].nil? }.map { |p| p['id'] }
-      roots = webpages.where.not(type: 'HomePage').where(id: root_ids).sort do |ap, bp|
-        am = menu.find { |p| p['id'].to_i == ap.id }
-        bm = menu.find { |p| p['id'].to_i == bp.id }
-        am['position'] <=> bm['position']
-      end
-      roots.map do |root|
-        children_ids = menu.select { |p| p['parent_id'].to_i == root.id }.map { |p| p['id'] }
-        children = webpages.where.not(type: 'HomePage').where(id: children_ids)
-        root.cached_webpages = children.sort do |ap, bp|
-          am = menu.find { |p| p['id'].to_i == ap.id }
-          bm = menu.find { |p| p['id'].to_i == bp.id }
-          am['position'] <=> bm['position']
-        end
-        root
+    links.each do |link|
+      if link.parent_key.blank?
+        parent = links.find { |l| l.persisted? && l.id == link.parent_id }
+        link.parent_key = parent.key if parent
       end
     end
+
+    roots = links.select do |link|
+      link.parent_key.blank?
+    end
+
+    arrange_nav_links(roots, links)
   end
 
-  def footer_pages
-    if footer_menu.blank?
-      webpages.where.not(type: 'HomePage')
-    else
-      menu = footer_menu || []
-      footer_ids = menu.select { |p| p['parent_id'].nil? }.map { |p| p['id'] }
-      webpages.where.not(type: 'HomePage').where(id: footer_ids).sort do |ap, bp|
-        am = menu.find { |p| p['id'].to_i == ap.id }
-        bm = menu.find { |p| p['id'].to_i == bp.id }
-        am['position'] <=> bm['position']
+  def arrange_nav_links(links, available_links)
+    links.map do |link|
+      children = available_links.select do |s|
+        s.parent_key == link.key
       end
-    end
-  end
-
-  def header_excluded_pages
-    if header_menu.blank?
-      []
-    else
-      webpages.where.not(type: 'HomePage', id: header_menu.map { |p| p['id'] })
-    end
-  end
-
-  def footer_excluded_pages
-    if footer_menu.blank?
-      []
-    else
-      webpages.where.not(type: 'HomePage', id: footer_menu.map { |p| p['id'] })
-    end
+      link.cached_children = arrange_nav_links(children, available_links)
+      link
+    end.sort_by(&:position)
   end
 end

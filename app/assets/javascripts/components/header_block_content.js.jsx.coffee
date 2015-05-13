@@ -58,7 +58,7 @@ HeaderBlockContent = React.createClass
             {this.renderCollapseButton()}
           </div>
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
-            <UnorderedList items={this.props.pages} className="nav navbar-nav" />
+            <NavLinks items={this.props.pages} className="nav navbar-nav" />
           </div>
         </div>
       </nav>
@@ -82,7 +82,7 @@ HeaderBlockContent = React.createClass
       <nav className={this.navbarClassName('navbar-static-top navbar-logo-above')} role="navigation">
         <div className="container">
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
-            <UnorderedList items={this.props.pages} className="nav navbar-nav" />
+            <NavLinks items={this.props.pages} className="nav navbar-nav" />
           </div>
         </div>
       </nav>
@@ -103,7 +103,7 @@ HeaderBlockContent = React.createClass
       <div className="container">
         <nav className={this.navbarClassName('navbar-logo-above')} role="navigation">
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
-            <UnorderedList items={this.props.pages} className="nav navbar-nav" />
+            <NavLinks items={this.props.pages} className="nav navbar-nav" />
           </div>
         </nav>
       </div>
@@ -117,7 +117,7 @@ HeaderBlockContent = React.createClass
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-justified" lineHeight={parseInt(this.props.logo_height - 10)} />
+          <NavLinks items={this.props.pages} className="nav navbar-nav navbar-justified" lineHeight={parseInt(this.props.logo_height - 10)} />
         </div>
       </div>
     </nav>`
@@ -130,7 +130,7 @@ HeaderBlockContent = React.createClass
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-right" lineHeight={parseInt(this.props.logo_height - 10)} />
+          <NavLinks items={this.props.pages} className="nav navbar-nav navbar-right" lineHeight={parseInt(this.props.logo_height - 10)} />
         </div>
       </div>
     </nav>`
@@ -143,7 +143,7 @@ HeaderBlockContent = React.createClass
           {this.renderNavbarBrand()}
         </div>
         <div className="collapse navbar-collapse" id="header-navbar-collapse">
-          <UnorderedList items={this.props.pages} className="nav navbar-nav navbar-centered" lineHeight={parseInt(this.props.logo_height - 10)} />
+          <NavLinks items={this.props.pages} className="nav navbar-nav navbar-centered" lineHeight={parseInt(this.props.logo_height - 10)} />
         </div>
       </div>
     </nav>`
@@ -192,9 +192,9 @@ HeaderBlockContent = React.createClass
       leftPages = this.props.pages.slice(0, i)
       rightPages = this.props.pages.slice(i, this.props.pages.length)
       if leftPages.length > 0
-        result.push `<UnorderedList key="left" ref="leftNavbar" items={leftPages} className="nav navbar-nav navbar-left" lineHeight={parseInt(this.props.logo_height - 10)} />`
+        result.push `<NavLinks key="left" ref="leftNavbar" items={leftPages} className="nav navbar-nav navbar-left" lineHeight={parseInt(this.props.logo_height - 10)} />`
       if rightPages.length > 0
-        result.push `<UnorderedList key="right" ref="rightNavbar" items={rightPages} className="nav navbar-nav navbar-right" lineHeight={parseInt(this.props.logo_height - 10)} />`
+        result.push `<NavLinks key="right" ref="rightNavbar" items={rightPages} className="nav navbar-nav navbar-right" lineHeight={parseInt(this.props.logo_height - 10)} />`
     result
 
 window.HeaderBlockContent = HeaderBlockContent

@@ -7,7 +7,12 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
     end
 
     unless @business.website.home_page
-      @business.website.create_home_page!(active: true, name: 'Homepage', pathname: '', title: @business.name)
+      @business.website.create_home_page!(
+        active: true,
+        name: 'Homepage',
+        pathname: '',
+        title: @business.name,
+      )
     end
 
     unless @business.website.about_page
@@ -28,11 +33,22 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
     end
 
     unless @business.website.blog_page
-      @business.website.create_blog_page!(active: true, name: 'Blog', pathname: 'blog', title: "#{@business.name} Blog", feed_block_attributes: { items_limit: 3 })
+      @business.website.create_blog_page!(
+        active: true,
+        name: 'Blog',
+        pathname: 'blog',
+        title: "#{@business.name} Blog",
+        feed_block_attributes: { items_limit: 3 },
+      )
     end
 
     unless @business.website.contact_page
-      @business.website.create_contact_page!(active: true, name: 'Contact', pathname: 'contact', title: "Contact #{@business.name}")
+      @business.website.create_contact_page!(
+        active: true,
+        name: 'Contact',
+        pathname: 'contact',
+        title: "Contact #{@business.name}",
+      )
     end
 
     @business.lines.each do |line|
@@ -80,8 +96,8 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
             offer: "#{line.customer_description? ? line.customer_description : 'The ideal customer'} will love saving on #{line.title}",
             description: line.customer_benefit,
             terms: 'Not to be combined with any other offer. No Cash Value. Always Awesome.',
+            offer_image_placement_attributes: { image_id: image.try(:id) },
           )
-          offer.offer_image_placement_attributes = { image_id: image.id } if image
           offer.save!(validate: false)
           if images.length > 4
             @business.galleries.create!(
@@ -89,7 +105,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
               gallery_images_attributes: images.map do |image|
                 {
                   gallery_image_placement_attributes: {
-                    image_id: image.try(:id),
+                    image_id: image.id,
                   },
                 }
               end,
@@ -98,10 +114,14 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
         end
       end
     end
+
+    update_nav_links
   end
 
   def update
-    update_resource @business.website, website_params, location: [:edit_onboard_website, @business, :theme]
+    update_resource @business.website, website_params, location: [:edit_onboard_website, @business, :theme] do |success|
+      update_nav_links if success
+    end
   end
 
   private
@@ -114,5 +134,16 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
         :_destroy,
       ],
     )
+  end
+
+  def update_nav_links
+    @business.website.webpages.each do  |webpage|
+      unless webpage.is_a?(HomePage)
+        header_link = @business.website.nav_links.header.where(webpage_id: webpage.id).first
+        footer_link = @business.website.nav_links.footer.where(webpage_id: webpage.id).first
+        @business.website.nav_links.create(location: 'header', kind: 'internal', webpage_id: webpage.id, position: @business.website.nav_links.header.roots.count + 1) unless header_link
+        @business.website.nav_links.create(location: 'footer', kind: 'internal', webpage_id: webpage.id, position: @business.website.nav_links.footer.roots.count + 1) unless footer_link
+      end
+    end
   end
 end

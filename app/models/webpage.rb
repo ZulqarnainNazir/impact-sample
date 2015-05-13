@@ -4,6 +4,7 @@ class Webpage < ActiveRecord::Base
   store_accessor :settings, :block_type_order, :external_line_id, :sidebar_position
 
   has_many :blocks, as: :link
+  has_many :nav_links
 
   belongs_to :website, touch: true
 

@@ -23,7 +23,7 @@ FooterBlockContent = React.createClass
           <li><a href="#"><i className="fa fa-linkedin-square fa-2x"></i></a></li>
           <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
         </ul>
-        <UnorderedList items={this.props.pages} className="list-inline footer-links" />
+        <NavLinks items={this.props.pages} className="list-inline footer-links" />
       </div>
     </footer>`
 
@@ -40,7 +40,7 @@ FooterBlockContent = React.createClass
           <li><a href="#"><i className="fa fa-linkedin-square fa-2x"></i></a></li>
           <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
         </ul>
-        <UnorderedList items={this.props.pages} className="list-inline footer-links" />
+        <NavLinks items={this.props.pages} className="list-inline footer-links" />
       </div>
     </footer>`
 
@@ -61,7 +61,7 @@ FooterBlockContent = React.createClass
       </div>
       <div className="site-footer-middle">
         <div className="container">
-          <UnorderedList items={this.props.pages} className="list-inline footer-links" />
+          <NavLinks items={this.props.pages} className="list-inline footer-links" />
         </div>
       </div>
       <div className="site-footer-bottom">
@@ -99,7 +99,7 @@ FooterBlockContent = React.createClass
               </ul>
             </div>
             <div className="site-footer-column col-sm-6 col-md-8">
-              <UnorderedList items={this.props.pages} className="list-unstyled footer-links" />
+              <NavLinks items={this.props.pages} className="list-unstyled footer-links" />
             </div>
             <div className="site-footer-column col-sm-4 col-md-3 vcard">
               <p className="h3 fn org">{this.props.name}</p>

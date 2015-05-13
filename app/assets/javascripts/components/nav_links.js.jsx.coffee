@@ -1,4 +1,4 @@
-UnorderedList = React.createClass
+NavLinks = React.createClass
   mixins: [PreventDefault]
 
   propTypes:
@@ -6,42 +6,46 @@ UnorderedList = React.createClass
     items: React.PropTypes.arrayOf(
       React.PropTypes.shape
         id: React.PropTypes.number.isRequired
-        name: React.PropTypes.string.isRequired)
+        label: React.PropTypes.string.isRequired
+        cached_children: React.PropTypes.array)
 
   getDefaultProps: ->
     items: []
 
-  items: ->
+  render: ->
+    `<ul className={this.props.className}>
+      {this.renderItems()}
+    </ul>`
+
+  renderItems: ->
     this.props.items.map this.renderItem
     
   renderItem: (item) ->
-    if item.cached_webpages_json and item.cached_webpages_json.length > 0
+    if item.kind is 'dropdown'
       `<li key={item.id} className="dropdown">
         <a href="#" className="dropdown-toggle" data-toggle="dropdown" style={this.style()}>
-          {item.name} <span className="caret"> </span>
+          {item.label} <span className="caret"> </span>
         </a>
         <ul className="dropdown-menu">
-          {this.renderSubItem(item)}
+          {this.renderChildren(item.cached_children)}
         </ul>
       </li>`
     else
       `<li key={item.id}>
         <a href="#" onClick={this.preventDefault} style={this.style({color: this.props.color})}>
-          {item.name}
+          {item.label}
         </a>
       </li>`
 
-  renderSubItem: (item) ->
-    `<li key={item.id}>
+  renderChildren: (children) ->
+    children.map this.renderChild
+
+  renderChild: (child) ->
+    `<li key={child.id}>
       <a href="#" onClick={this.preventDefault} style={{color: '#000 !important'}}>
-        {item.name}
+        {child.label}
       </a>
     </li>`
-
-  render: ->
-    `<ul className={this.props.className}>
-      {this.items()}
-    </ul>`
 
   style: (defaults) ->
     if this.props.lineHeight and this.props.lineHeight > 20
@@ -49,4 +53,4 @@ UnorderedList = React.createClass
     else
       defaults
 
-window.UnorderedList = UnorderedList
+window.NavLinks = NavLinks

@@ -59,9 +59,6 @@ ImagePlacement = React.createClass
       $('#' + this.id('tab_image')).removeClass('in active')
       $('#' + this.id('tab_embed')).addClass('in active')
 
-  componentDidUpdate: ->
-    console.log this.state.placementKind
-
   render: ->
     if this.props.allowEmbed
       `<div>

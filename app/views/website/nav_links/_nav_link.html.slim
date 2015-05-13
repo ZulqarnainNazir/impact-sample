@@ -1,0 +1,14 @@
+- if nav_link.dropdown?
+  li.dropdown
+    = link_to '#', class: 'dropdown-toggle', style: style, data: { toggle: 'dropdown' } do
+      => nav_link.label
+      span.caret
+    ul.dropdown-menu
+      = render partial: 'website/nav_links/nav_link', collection: nav_link.cached_children, locals: { style: 'color: #000 !important;' }
+- elsif nav_link.internal?
+  - if nav_link.webpage.is_a?(HomePage)
+    li = link_to nav_link.label, website_root_path, style: style
+  - else
+    li = link_to nav_link.label, website_custom_page_path(nav_link.webpage.pathname), style: style
+- elsif nav_link.external?
+  li = link_to nav_link.label, nav_link.url, target: :_blank, style: style

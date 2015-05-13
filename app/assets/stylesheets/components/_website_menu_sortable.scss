@@ -1,0 +1,51 @@
+.website-menu-sortable {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9em;
+  ol {
+    list-style: none;
+    margin: 0 0 0 20px;
+    padding: 0;
+  }
+  .placeholder {
+    outline: 1px dashed #4183C4;
+  }
+  .mjs-nestedSortable-error {
+    background: #fbe3e4;
+    border-color: transparent;
+  }
+  li {
+    display: block;
+    margin: 0.3em 0;
+    padding: 0;
+    > div {
+      cursor: move;
+      background: #f9f9f9;
+      border: solid 1px #ddd;
+      border-radius: 2px;
+      margin: 0;
+      padding: 0.2em;
+      i {
+        margin-top: 0.6em;
+      }
+      label {
+        display: block;
+        width: 100%;
+        font-weight: normal;
+        small {
+          color: #999;
+          margin-left: 0.5em;
+        }
+      }
+      span.fa {
+        margin-top: 2em;
+        padding: 0.3em;
+        cursor: pointer;
+      }
+      .form-group {
+        margin: 0;
+      }
+    }
+  }
+}

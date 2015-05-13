@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 40) do
+ActiveRecord::Schema.define(version: 41) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -212,6 +212,22 @@ ActiveRecord::Schema.define(version: 40) do
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
+
+  create_table "nav_links", force: :cascade do |t|
+    t.integer  "website_id",             null: false
+    t.integer  "webpage_id"
+    t.text     "ancestry"
+    t.text     "label"
+    t.text     "url"
+    t.integer  "location",   default: 0, null: false
+    t.integer  "kind",       default: 0, null: false
+    t.integer  "position"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "nav_links", ["webpage_id"], name: "index_nav_links_on_webpage_id", using: :btree
+  add_index "nav_links", ["website_id"], name: "index_nav_links_on_website_id", using: :btree
 
   create_table "offers", force: :cascade do |t|
     t.integer  "business_id",                     null: false

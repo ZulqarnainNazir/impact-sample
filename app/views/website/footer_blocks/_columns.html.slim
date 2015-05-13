@@ -36,8 +36,7 @@ footer.site-footer.site-footer-columns
                 i.fa.fa-envelope-square.fa-2x
         .site-footer-column.col-sm-6.col-md-8
           ul.list-unstyled.footer-links
-            - website.footer_pages.each do |webpage|
-              li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+            = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
         .site-footer-column.col-sm-4.col-md-3.vcard
           p.h3.fn.org = location.name
           - if !location.hide_phone?

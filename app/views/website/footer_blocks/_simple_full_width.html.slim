@@ -36,5 +36,4 @@ footer.site-footer.site-footer-simple
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
     ul.list-inline.footer-links
-      - website.footer_pages.each do |webpage|
-        li = link_to webpage.name, website_custom_page_path(webpage.pathname)
+      = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
