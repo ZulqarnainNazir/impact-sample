@@ -25,7 +25,8 @@ class NavLink < ActiveRecord::Base
   validates :website, presence: true
 
   before_validation do
-    self.label = webpage.name if !label? && webpage
     self.url = "http://#{url}" if url? && !url.match(/\Ahttp/)
+    self.label = webpage.name if !label? && internal? && webpage
+    self.label = url if !label? && external? && url?
   end
 end

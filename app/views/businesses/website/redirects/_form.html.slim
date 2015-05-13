@@ -1,13 +1,10 @@
-.row
-  .col-sm-6
-    .form-group
-      = form.label :from_path, class: 'control-label'
-      = form.text_field :from_path, class: 'form-control'
-      p.help-block The HTTP path to redirect from (e.g. <code>/old-page</code>)
-  .col-sm-6
-    .form-group
-      = form.label :to_path, class: 'control-label'
-      = form.text_field :to_path, class: 'form-control'
-      p.help-block The new path destination (e.g. <code>/new-page</code>)
+.form-group
+  = form.label :from_path, class: 'control-label'
+  = form.text_field :from_path, class: 'form-control'
+  p.help-block The HTTP path to redirect from (e.g. <code>/old-page</code>)
+.form-group
+  = form.label :to_path, class: 'control-label'
+  = form.text_field :to_path, class: 'form-control'
+  p.help-block The new path destination (e.g. <code>/new-page</code>) or full external URL (e.g. <code>http://www.impact.locable.com</code>)
 hr
 = form.button 'Save Redirect', class: 'btn btn-primary'

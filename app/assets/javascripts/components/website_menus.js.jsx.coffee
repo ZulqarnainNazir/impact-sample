@@ -106,6 +106,7 @@ WebsiteMenus = React.createClass
       when 'external' then 'fa fa-2x fa-external-link'
       when 'dropdown' then 'fa fa-2x fa-toggle-down'
     labelContent = if link.kind is 'internal' then `<small>Defaults to Webpage Name</small>` else ''
+    labelPlaceholder = if link.kind is 'dropdown' then '' else 'Leave Blank Except to Create Custom Label'
     inputContent = switch link.kind
       when 'internal'
         options = this.renderWebpageOptions()
@@ -119,7 +120,7 @@ WebsiteMenus = React.createClass
         `<div className="form-group">
           <label className="control-label">
             External URL
-            <input type="text" className="form-control" name={this.inputName(link.index, 'url')} defaultValue={link.url} />
+            <input type="text" className="form-control" name={this.inputName(link.index, 'url')} defaultValue={link.url} placeholder="Enter Full URL" />
           </label>
         </div>`
       when 'dropdown'
@@ -137,7 +138,7 @@ WebsiteMenus = React.createClass
           <div className="form-group">
             <label className="control-label">
               Label {labelContent}
-              <input type="text" className="form-control" name={this.inputName(link.index, 'label')} defaultValue={link.label} />
+              <input type="text" className="form-control" name={this.inputName(link.index, 'label')} defaultValue={link.label} placeholder={labelPlaceholder} />
             </label>
           </div>
         </div>
@@ -169,7 +170,7 @@ WebsiteMenus = React.createClass
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'kind') + '" value="internal" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'location') + '" value="' + location + '" />')
     linkContents.append $('<div key="icon" class="col-sm-1 text-right"><i class="fa fa-2x fa-file" /></div>')
-    linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <small>Defaults to Webpage Name</small> <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" /></label></div></div>')
+    linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <small>Defaults to Webpage Name</small> <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" placeholder="Leave Blank Except to Create Custom Label" /></label></div></div>')
     linkContents.append $('<div key="input" class="col-sm-5"><div class="form-group"><label class="control-label">Webpage <select class="form-control" name="' + this.inputName(index, 'webpage_id') + '"></select></label></div></div>')
     $.each this.props.webpages, (index, webpage) ->
       linkContents.find('select').append $('<option value="' + webpage.id + '">' + webpage.name + '</option>')
@@ -190,8 +191,8 @@ WebsiteMenus = React.createClass
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'kind') + '" value="external" />')
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'location') + '" value="' + location + '" />')
     linkContents.append $('<div key="icon" class="col-sm-1 text-right"><i class="fa fa-2x fa-external-link" /></div>')
-    linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" /></label></div></div>')
-    linkContents.append $('<div key="input" class="col-sm-5"><div class="form-group"><label class="control-label">URL <input type="text" class="form-control" name="' + this.inputName(index, 'url') + '" /></label></div></div>')
+    linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" placeholder="Leave Blank Except to Create Custom Label" /></label></div></div>')
+    linkContents.append $('<div key="input" class="col-sm-5"><div class="form-group"><label class="control-label">URL <input type="text" class="form-control" name="' + this.inputName(index, 'url') + '" placeholder="Enter Full URL" /></label></div></div>')
     linkContents.append $('<div key="remove" class="col-sm-1 text-right"><span class="fa fa-close nav-link-remove" /></div>')
     link = $('<li key="' + key + '" class="external"></li>')
     link.append(linkContents)

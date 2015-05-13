@@ -1,0 +1,10 @@
+en:
+  businesses:
+    website:
+      redirects:
+        create:
+          notice: Your website redirect was created successfully.
+          alert: There was a problem saving your website redirect.
+        update:
+          notice: Your website redirect was saved successfully.
+          alert: There was a problem saving your website redirect.
