@@ -21,7 +21,7 @@ class Offer < ActiveRecord::Base
 
   validates :business, presence: true
 
-  with_options unless: minimal_validations do
+  with_options unless: :minimal_validations do
     validates :description, presence: true
     validates :terms, presence: true
     validates :offer, presence: true
