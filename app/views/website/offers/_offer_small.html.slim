@@ -7,7 +7,7 @@
   h2 = link_to offer.title, [:website, offer]
   - image = offer.offer_image
   - if image
-    = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+    = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
   div style="margin:10px 0"
     = offer.offer_html
   - if offer.valid_until?

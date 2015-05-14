@@ -15,11 +15,11 @@
             .col-sm-6
               - if @before_after.before_image
                 h3.h4 Before
-                = image_tag @before_after.before_image.attachment_url, alt: @before_after.before_image.alt, title: @before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
+                = image_tag @before_after.before_image.attachment_url(:medium), alt: @before_after.before_image.alt, title: @before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
             .col-sm-6
               - if @before_after.after_image
                 h3.h4 After
-                = image_tag @before_after.after_image.attachment_url, alt: @before_after.after_image.alt, title: @before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
+                = image_tag @before_after.after_image.attachment_url(:medium), alt: @before_after.after_image.alt, title: @before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
         = @before_after.description_html
     - if @website.content_blog_sidebar?
       .col-sm-4

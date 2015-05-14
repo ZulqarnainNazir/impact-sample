@@ -35,28 +35,30 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_url(style = nil)
-    if attachment_cache_url?
-      attachment_cache_url
+    if attachment? && style && cached_styles.try(:include?, style.to_s)
+      attachment.url(style)
     elsif attachment?
-      if style && cached_styles && cached_styles.include?(style.to_s)
-        attachment.url(style)
-      else
-        attachment.url
-      end
+      attachment.url
+    else
+      attachment_cache_url
     end
   end
 
   def styles
-    placements.map(&:styles).reject(&:empty?).push(default_styles).inject(:merge)
+    {
+      thumbnail: '260x260#',
+      jumbo: '1200x',
+      large: '800x',
+      medium: '600x',
+      small: '400x',
+      logo_small: 'x40',
+      logo_medium: 'x60',
+      logo_large: 'x125',
+      logo_jumbo: 'x200',
+    }.slice(*placements.map(&:style_keys).push(%i[thumbnail medium]).flatten.uniq)
   end
 
   def attachment_thumbnail_url
     attachment_url(:thumbnail)
-  end
-
-  private
-
-  def default_styles
-    { thumbnail: '260x260#' }
   end
 end

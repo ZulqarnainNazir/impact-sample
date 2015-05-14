@@ -43,7 +43,7 @@ TeamBlockContent = React.createClass
   renderVerticalTeamMember: (member) ->
     `<div key={member.id} className="row team-member">
       <div className="col-xs-6 col-sm-2">
-        <p><img src={member.small_profile_url} alt={member.name} className="img-responsive" style={{width: '100%'}} /></p>
+        <p><img src={member.profile_url} alt={member.name} className="img-responsive" style={{width: '100%'}} /></p>
       </div>
       <div className="col-xs-6 col-sm-4 col-md-3">
         <h4>{member.name}</h4>
@@ -61,7 +61,7 @@ TeamBlockContent = React.createClass
 
   renderHorizontalTeamMember: (member) ->
     `<div key={member.id} className="team-member col-sm-4">
-      <p><img src={member.large_profile_url} alt={member.name} className="img-responsive" style={{width: '100%'}} /></p>
+      <p><img src={member.profile_url} alt={member.name} className="img-responsive" style={{width: '100%'}} /></p>
       <h4>{member.name}</h4>
       <p>{member.title}</p>
       <p><a href={this.mailTo(member.email)}>{member.email}</a></p>

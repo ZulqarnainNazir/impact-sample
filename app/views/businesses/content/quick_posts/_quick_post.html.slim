@@ -12,4 +12,4 @@
   - image = quick_post.quick_post_image
   - if image
     br
-    = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+    = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'

@@ -11,7 +11,7 @@ ol.breadcrumb
 = form_for @image, url: [@business, :content, @image] do |form|
   .row
     .col-sm-6
-      = image_tag @image.attachment_url, alt: @image.alt, title: @image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
+      = image_tag @image.attachment_url(:medium), alt: @image.alt, title: @image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
       .small style="overflow:hidden; text-overflow: ellipsis; margin: -15px 0 15px"
         strong => @image.attachment_file_name
         br>

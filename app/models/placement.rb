@@ -61,55 +61,22 @@ class Placement < ActiveRecord::Base
     end
   end
 
-  def styles
-    context? && respond_to?(context) ? send(context) : {}
-  end
-
-  def gallery_image
-    {
-      gallery_image_small: '200x200#',
-      gallery_image_large: 'x800',
-    }
-  end
-
-  def logo
-    {
-      logo_small: 'x40',
-      logo_medium: 'x60',
-      logo_large: 'x125',
-      logo_jumbo: 'x200',
-      logo_square: '200x200#',
-    }
-  end
-
-  def team_member_profile
-    {
-      team_member_profile_small: 'x165',
-      team_member_profile_large: 'x360',
-    }
-  end
-
-  def post_section_image
-    {
-      post_section_half: 'x500',
-    }
-  end
-
-  def offer_image
-    {
-      offer_half: 'x600',
-    }
-  end
-
-  def content_block_image
-    {
-      content_block_image_half: 'x400',
-    }
-  end
-
-  def sidebar_content_block_image
-    {
-      sidebar_content_block_image: 'x400',
-    }
+  def style_keys
+    Hash.new([]).merge(
+      about_block_image: %i[medium],
+      after_image: %i[medium],
+      before_image: %i[medium],
+      call_to_action_block_image: %i[small],
+      content_block_image: %i[small large],
+      gallery_image: %i[thumbnail large],
+      hero_block_image: %i[medium jumbo],
+      logo: %i[logo_small logo_medium logo_large logo_jumbo thumbnail],
+      offer_image: %i[medium],
+      post_section_image: %i[thumbnail medium],
+      quick_post: %i[large],
+      sidebar_content_block_image: %i[small],
+      specialty_block_image: %i[medium],
+      team_member_profile: %i[small],
+    )[context.try(:to_sym)].flatten.uniq
   end
 end

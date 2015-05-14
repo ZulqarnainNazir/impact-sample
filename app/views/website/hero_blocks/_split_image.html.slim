@@ -2,7 +2,7 @@
   .row
     .col-sm-6.col-md-7
       - if block.hero_block_image
-        = image_tag block.hero_block_image.attachment_url, class: 'img-responsive'
+        = image_tag block.hero_block_image.attachment_url(:medium), class: 'img-responsive'
     .col-sm-6.col-md-5
       h1 = block.heading_html
       p = block.text_html

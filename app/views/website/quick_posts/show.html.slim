@@ -14,7 +14,7 @@
         - image = @quick_post.quick_post_image
         - if image
           br
-          = image_tag image.attachment_url, alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+          = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
     - if @website.content_blog_sidebar?
       .col-sm-4
         - @sidebar_feed_items.each do |sidebar_feed_item|

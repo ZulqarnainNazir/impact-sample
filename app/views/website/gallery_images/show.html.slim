@@ -11,7 +11,7 @@
     .col-xs-12.col-md-4.pull-right
       h1.h2 = image.title
     .col-md-8.gallery-item-page-image
-      = image_tag image.attachment_url(:gallery_image_large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
+      = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
     .col-md-4
       - if image.title?
         hr
@@ -22,5 +22,5 @@
           - image = gallery_image.gallery_image
           .col-xs-3.col-sm-2.col-md-3
             = link_to [:website, @gallery, gallery_image], class: 'gallery-item-page-thumb' do
-              .gallery-item-image style="background-image:url('#{image.attachment_url(:gallery_image_small)}')"
-                = image_tag image.attachment_url(:gallery_image_small), alt: image.alt, title: image.title, class: 'img-responsive'
+              .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
