@@ -91,14 +91,14 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
               },
             },
           ]
-          offer = @business.offers.new(
+          offer = @business.offers.create!(
+            minimal_validations: true,
             title: "20% off your next purchase of #{line.title}",
             offer: "#{line.customer_description? ? line.customer_description : 'The ideal customer'} will love saving on #{line.title}",
             description: line.customer_benefit,
             terms: 'Not to be combined with any other offer. No Cash Value. Always Awesome.',
             offer_image_placement_attributes: { image_id: image.try(:id) },
           )
-          offer.save!(validate: false)
           if images.length > 4
             @business.galleries.create!(
               title: line.title,

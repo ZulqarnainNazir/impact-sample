@@ -3,6 +3,8 @@ class Offer < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
+  attr_accessor :minimal_validations
+
   enum kind: {
     image_left: 0,
     image_right: 1,
@@ -18,11 +20,14 @@ class Offer < ActiveRecord::Base
   validates_attachment_size :coupon, in: 0..10.megabytes
 
   validates :business, presence: true
-  validates :description, presence: true
-  validates :terms, presence: true
-  validates :offer, presence: true
-  validates :title, presence: true
-  validates :offer_image_placement, presence: true
+
+  with_options unless: minimal_validations do
+    validates :description, presence: true
+    validates :terms, presence: true
+    validates :offer, presence: true
+    validates :title, presence: true
+    validates :offer_image_placement, presence: true
+  end
 
   def valid_until=(value)
     if value.to_s.split('/').length == 3
