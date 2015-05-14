@@ -23,7 +23,7 @@ class Businesses::Website::AboutPagesController < Businesses::Website::BaseContr
       pathname: 'about',
       name: 'About',
     ).tap do |safe_params|
-      merge_placement_image_attributes safe_params[:about_block_attribues], :about_block_image_placement_attributes
+      merge_placement_image_attributes safe_params[:about_block_attributes], :about_block_image_placement_attributes
     end
   end
 end
