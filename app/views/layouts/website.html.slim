@@ -5,6 +5,13 @@ html lang="en"
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="viewport" content="width=device-width, initial-scale=1"
+    - if content_for?(:description)
+      meta name="description" content=content_for(:description)
+      meta property="og:description" content=content_for(:description)
+    meta property="og:title" content=content_for(:title)
+    meta property="og:type" content="website"
+    - if @business.logo.present?
+      meta property="og:image" content=@business.logo.attachment_url(:logo_jumbo)
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
     = javascript_include_tag 'application', data: { turbolinks_track: true }
