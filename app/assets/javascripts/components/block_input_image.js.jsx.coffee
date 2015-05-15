@@ -80,7 +80,7 @@ BlockInputImage = React.createClass
           <li id={this.props.id('nav_tab_image')} className="active"><a href={'#' + this.props.id('tab_image')} data-toggle="tab">Image</a></li>
           <li id={this.props.id('nav_tab_embed')}><a href={'#' + this.props.id('tab_embed')} data-toggle="tab">Embed</a></li>
         </ul>
-        <div className="tab-content" style={{marginTop: 15}}>
+        <div className="tab-content">
           <div id={this.props.id('tab_image')} className="tab-pane fade in active">
             {this.renderImage()}
           </div>
@@ -130,7 +130,7 @@ BlockInputImage = React.createClass
       </div>`
     else
       `<div className={this.props.dropZoneClassName}>
-        <ImageEmpty padding="20" />
+        <ImageEmpty padding="20" dropzone={true} />
       </div>`
 
   renderProgress: ->

@@ -1,4 +1,6 @@
 HeroBlock = React.createClass
+  mixins: [BlockIdentifiedTabs]
+
   propTypes:
     block: React.PropTypes.object
     blockAdd: React.PropTypes.object
@@ -34,28 +36,8 @@ HeroBlock = React.createClass
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <div className={this.props.blockInputsClassName}>
-            <div className="row">
-              <div className="col-sm-4">
-                <BlockInputStyle {...this.props.blockInputStyle} />
-              </div>
-              <div className="col-sm-4">
-                <BlockInputColor {...this.props.blockInputBackgroundColor} />
-              </div>
-              <div className="col-sm-4">
-                <BlockInputColor {...this.props.blockInputForegroundColor} />
-              </div>
-            </div>
-            <hr />
-            <BlockInputImage {...this.props.blockInputImage} />
-            <hr />
-            {this.renderLayoutOptions()}
-            <hr />
-            <BlockInputText {...this.props.blockInputHeading} />
-            <BlockInputText {...this.props.blockInputText} />
-            <hr />
-            <BlockInputLink {...this.props.blockInputLink} />
+            {this.renderBlockIdentifiedTabs()}
           </div>
-          <BlockImageLibrary {...this.props.blockImageLibrary} />
         </BlockEditor>
       </div>`
     else if this.props.editing
@@ -89,5 +71,19 @@ HeroBlock = React.createClass
         </div>
       </div>`
 
+  renderContentTab: ->
+    `<div>
+      <BlockInputText {...this.props.blockInputHeading} />
+      <BlockInputText {...this.props.blockInputText} />
+      <BlockInputLink {...this.props.blockInputLink} />
+    </div>`
+
+  renderDesignTab: ->
+    `<div>
+      <BlockInputImage {...this.props.blockInputImage} />
+      <hr />
+      {this.renderLayoutOptions()}
+      <BlockImageLibrary {...this.props.blockImageLibrary} />
+    </div>`
 
 window.HeroBlock = HeroBlock
