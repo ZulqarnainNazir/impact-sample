@@ -3,11 +3,9 @@ class ImageCacheTransferJob < ApplicationJob
 
   def perform(image)
     if image.attachment_cache_url?
-      if image.attachment_cache_url.match(/\Ahttp/)
-        image.update attachment: URI.parse(image.attachment_cache_url.gsub(/\s/, '+')), attachment_cache_url: nil
-      else
-        image.update attachment: URI.parse("http:#{image.attachment_cache_url.gsub(/\s/, '+')}"), attachment_cache_url: nil
-      end
+      url = image.attachment_cache_url.gsub(/\s/, '+')
+      url = "http:#{url}" if url.match(/\A\/\//)
+      image.update!(attachment: URI.parse(url), attachment_cache_url: nil)
     end
   end
 end
