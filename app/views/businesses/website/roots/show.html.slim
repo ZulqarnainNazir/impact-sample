@@ -5,4 +5,77 @@ ol.breadcrumb
   li = link_to @business.name, [@business, :dashboard]
   li.active Manage Website
 
-p.bg-warning Coming Soon - Please use the navigation on the left to update your website.
+br
+- if @business.website
+  h2.h3 Preview Your Website
+  = link_to website_root_url(host: website_host(@business.website)), target: :_blank, class: 'btn btn-info' do
+    strong => website_root_url(host: website_host(@business.website))
+    i.fa.fa-external-link style="margin-left:5px"
+  hr
+  br
+
+h2.h3 Manage your website's content
+.row.dashboard-root-primary-panels
+  .col-sm-6.col-lg-3
+    = link_to [:edit, @business, :website, :meta] do
+      .panel.panel-primary
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-tasks.fa-5x
+        .panel-footer.text-right
+          span.pull-left> SEO & Meta
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [@business, :website, :webpages] do
+      .panel.panel-success
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-sitemap.fa-5x
+        .panel-footer.text-right
+          span.pull-left> Pages
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [:edit, @business, :website, :menus] do
+      .panel.panel-warning
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-random.fa-5x
+        .panel-footer.text-right
+          span.pull-left> Navigation
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [:edit, @business, :website, :theme] do
+      .panel.panel-danger
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-photo.fa-5x
+        .panel-footer.text-right
+          span.pull-left> Design
+          i.fa.fa-arrow-circle-right
+
+hr
+h2.h3 Or jump right to a task:
+.row.dashboard-root-secondary-panels
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :website, :custom_page] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-plus.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Add Page
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :website, :custom_page] do
+      .panel.panel-success
+        .panel-heading
+          i.fa.fa-file-text-o.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Quick Post
+          i.fa.fa-arrow-circle-right
+
+hr
+p Click the quick links above to create a new custom page, or jump right to drafting a post.
