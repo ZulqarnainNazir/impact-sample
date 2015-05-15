@@ -3,6 +3,72 @@
 ol.breadcrumb
   li = link_to icon('home'), :root
   li = link_to @business.name, [@business, :dashboard]
-  li.active Business Data
+  li.active Manage Website
 
-p.bg-warning Coming Soon - Please use the navigation on the left to update core business data.
+br
+
+h2.h3 Manage your business data
+.row.dashboard-root-primary-panels
+  .col-sm-6.col-lg-3
+    = link_to [:edit, @business, :data, :details] do
+      .panel.panel-success
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-list-ul.fa-5x
+        .panel-footer.text-right
+          span.pull-left> Details
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [:edit, @business, :data, :social_profiles] do
+      .panel.panel-warning
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-files-o.fa-5x
+        .panel-footer.text-right
+          span.pull-left> Social
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [:edit, @business, :data, :openings] do
+      .panel.panel-danger
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-list.fa-5x
+        .panel-footer.text-right
+          span.pull-left> Hours
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [:edit, @business, :data, :values] do
+      .panel.panel-primary
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-heart.fa-5x
+        .panel-footer.text-right
+          span.pull-left> Values
+          i.fa.fa-arrow-circle-right
+
+hr
+h2.h3 Or jump right to a task:
+.row.dashboard-root-secondary-panels
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :data, :team_member] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-user.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Edit Team
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:edit, @business, :data, :lines] do
+      .panel.panel-success
+        .panel-heading
+          i.fa.fa-cubes.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Edit Products
+          i.fa.fa-arrow-circle-right
+
+hr
+p Click the quick links above to create a new team member in your business, or jump right to creating a new product offering or service line.
