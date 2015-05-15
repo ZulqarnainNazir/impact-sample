@@ -62,20 +62,47 @@ h2.h3 Or jump right to a task:
 .row.dashboard-root-secondary-panels
   .col-sm-6.col-md-4.col-lg-2
     = link_to [:new, @business, :website, :custom_page] do
-      .panel.panel-primary
+      .panel.panel-warning
         .panel-heading
           i.fa.fa-plus.fa-4x
         .panel-footer.text-right
           span.pull-left> Add Page
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to [:new, @business, :website, :custom_page] do
+    = link_to [:new, @business, :content, :quick_post] do
       .panel.panel-success
         .panel-heading
           i.fa.fa-file-text-o.fa-4x
         .panel-footer.text-right
           span.pull-left> Quick Post
           i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:edit, @business, :website, :details] do
+      .panel.panel-danger
+        .panel-heading
+          i.fa.fa-list.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Details
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:edit, @business, :website, :sidebars] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-th.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Sidebars
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:edit, @business, :website, :sidebars] do
+      .panel.panel-success
+        .panel-heading
+          i.fa.fa-reply.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Redirects
+          i.fa.fa-arrow-circle-right
+ 
+
+
 
 hr
 p Click the quick links above to create a new custom page, or jump right to drafting a post.

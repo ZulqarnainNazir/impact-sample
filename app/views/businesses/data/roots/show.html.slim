@@ -63,11 +63,19 @@ h2.h3 Or jump right to a task:
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
     = link_to [:edit, @business, :data, :lines] do
-      .panel.panel-success
+      .panel.panel-warning
         .panel-heading
           i.fa.fa-cubes.fa-4x
         .panel-footer.text-right
           span.pull-left> Edit Products
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:edit, @business, :data, :lines] do
+      .panel.panel-success
+        .panel-heading
+          i.fa.fa-map-marker.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Contact Info
           i.fa.fa-arrow-circle-right
 
 hr
