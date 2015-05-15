@@ -5,6 +5,10 @@ class TeamMember < ActiveRecord::Base
 
   has_placed_image :team_member_profile
 
+  def self.default_scope
+    order(position: :asc)
+  end
+
   def name
     [first_name, last_name].reject(&:blank?).join(' ')
   end
