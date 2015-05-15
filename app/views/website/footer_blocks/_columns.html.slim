@@ -42,7 +42,17 @@ footer.site-footer.site-footer-columns
           - if !location.hide_phone?
             p.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
           - if !location.hide_address?
-            p.adr #{location.address_line_one} <br> #{location.address_line_two}
+            - if location.latitude? && location.longitude?
+              p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address' do
+                span
+                  => location.address_line_one
+                  br>
+                  = location.address_line_two
+            - else
+              p.adr itemprop="address"
+                => location.address_line_one
+                br>
+                = location.address_line_two
           - if location.email? && !location.hide_email?
             p = link_to location.email, "mailto:#{location.email}", class: 'email'
   .container.text-center

@@ -31,6 +31,6 @@ class Location < ActiveRecord::Base
   end
 
   def requires_geocode?
-    (latitude && longitude) && not (street1_changed? || street2_changed? || city_changed? || state_changed?)
+    !(latitude && longitude) || street1_changed? || street2_changed? || city_changed? || state_changed?
   end
 end
