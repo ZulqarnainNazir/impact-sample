@@ -35,12 +35,12 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_url(style = nil)
-    if attachment? && style && cached_styles.try(:include?, style.to_s)
+    if attachment_cache_url?
+      attachment_cache_url
+    elsif attachment? && style && cached_styles.try(:include?, style.to_s)
       attachment.url(style)
     elsif attachment?
       attachment.url
-    else
-      attachment_cache_url
     end
   end
 
