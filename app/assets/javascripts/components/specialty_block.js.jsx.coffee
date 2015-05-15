@@ -25,6 +25,7 @@ SpecialtyBlock = React.createClass
         </div>
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
+          <input type="hidden" name={this.props.name('position')} defaultValue={this.props.block.position} />
           <div className={this.props.blockInputsClassName}>
             {this.renderBlockIdentifiedTabs()}
           </div>

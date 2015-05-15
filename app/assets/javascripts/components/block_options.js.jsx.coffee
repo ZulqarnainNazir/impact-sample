@@ -10,6 +10,7 @@ BlockOptions = React.createClass
     removeLabel: React.PropTypes.string
     onEdit: React.PropTypes.func
     onRemove: React.PropTypes.func
+    sortable: React.PropTypes.bool
 
   getDefaultProps: ->
     visible: false
@@ -18,6 +19,7 @@ BlockOptions = React.createClass
     if this.props.visible
       `<div className="webpage-block-options btn-group btn-group-sm">
         {this.renderPrevious()}
+        {this.renderSortable()}
         {this.renderDropdown()}
         {this.renderNext()}
       </div>`
@@ -51,5 +53,9 @@ BlockOptions = React.createClass
   renderNext: ->
     if this.props.next
       `<span onClick={this.props.next} className="btn btn-warning"><i className="fa fa-caret-right"></i></span>`
+
+  renderSortable: ->
+    if this.props.sortable
+      `<span className="btn btn-warning webpage-block-options-handle"><i className="fa fa-reorder"></i></span>`
 
 window.BlockOptions = BlockOptions

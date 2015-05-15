@@ -124,6 +124,7 @@ ContentBlocksHandlers =
     removeLabel: 'Remove Content Block'
     onRemove: this.contentBlockRemove.bind(null, block)
     onEdit: this.contentBlockEdit.bind(null, block)
+    sortable: true
 
   # PRIVATE LEVEL 2
 

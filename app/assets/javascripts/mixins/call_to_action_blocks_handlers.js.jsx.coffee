@@ -161,6 +161,7 @@ CallToActionBlocksHandlers =
     removeLabel: 'Remove Call to Action Block'
     onRemove: this.callToActionBlockRemove.bind(null, block)
     onEdit: this.callToActionBlockEdit.bind(null, block)
+    sortable: true
 
   # PRIVATE LEVEL 2
 

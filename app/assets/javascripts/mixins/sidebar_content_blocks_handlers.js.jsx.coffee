@@ -129,6 +129,7 @@ SidebarContentBlocksHandlers =
     removeLabel: 'Remove Sidebar Block'
     onRemove: this.sidebarContentBlockRemove.bind(null, block)
     onEdit: this.sidebarContentBlockEdit.bind(null, block)
+    sortable: true
 
   # PRIVATE LEVEL 2
 

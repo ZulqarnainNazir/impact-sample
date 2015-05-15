@@ -9,6 +9,7 @@ module BlockAttributesConcern
       :theme,
       :style,
       :layout,
+      :position,
       :heading,
       :subheading,
       :text,

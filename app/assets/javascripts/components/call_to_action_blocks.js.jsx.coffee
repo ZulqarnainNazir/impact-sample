@@ -11,11 +11,13 @@ CallToActionBlocks = React.createClass
     true
 
   render: ->
-    `<div className="webpage-container" data-type="call_to_action">
+    `<div className="webpage-container" data-type="call_to_action" data-column-class={this.columnClass()}>
       <i className="fa fa-reorder webpage-container-handle" />
       <span onClick={this.props.updateMaximum} className="webpage-container-option">{this.props.maximum}x</span>
       <div className="row">
-        {this.renderBlocks()}
+        <div className="block-sortable">
+          {this.renderBlocks()}
+        </div>
         {this.renderBlockAdd()}
       </div>
     </div>`
@@ -28,7 +30,9 @@ CallToActionBlocks = React.createClass
 
   renderBlockAdd: ->
     if this.props.blockAdd.visible
-      `<div key="add" className={this.columnClass()}>
+      clear = 'none'
+      clear = 'left' if this.props.blockProps and this.props.maximum and this.props.blockProps.length % this.props.maximum is 0
+      `<div key="add" className={this.columnClass()} style={{clear: clear}}>
         <BlockAdd {...this.props.blockAdd} />
       </div>`
 

@@ -90,6 +90,7 @@ TaglineBlocksHandlers =
     removeLabel: 'Remove Tagline Block'
     onRemove: this.taglineBlockRemove.bind(null, block)
     onEdit: this.taglineBlockEdit.bind(null, block)
+    sortable: true
 
   # PRIVATE LEVEL 2
 

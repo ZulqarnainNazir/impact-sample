@@ -12,7 +12,9 @@ SidebarContentBlocks = React.createClass
     `<div className="webpage-container" data-type="sidebar-content">
       <i className="fa fa-reorder webpage-container-handle" />
       <div>
-        {this.renderBlocks()}
+        <div className="block-sortable">
+          {this.renderBlocks()}
+        </div>
         {this.renderBlockAdd()}
       </div>
     </div>`

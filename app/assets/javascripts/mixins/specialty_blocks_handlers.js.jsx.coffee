@@ -131,6 +131,7 @@ SpecialtyBlocksHandlers =
     removeLabel: 'Remove Specialty Block'
     onRemove: this.specialtyBlockRemove.bind(null, block)
     onEdit: this.specialtyBlockEdit.bind(null, block)
+    sortable: true
 
   # PRIVATE LEVEL 2
 

@@ -10,11 +10,16 @@ class Block < ActiveRecord::Base
   belongs_to :frame, polymorphic: true, touch: true
   belongs_to :link, polymorphic: true
 
+  validates :position, presence: true
   validates :theme, presence: true
   validates :type, presence: true, exclusion: { in: %w[Block] }
 
+  before_validation do
+    self.position = 0 unless position?
+  end
+
   def self.default_scope
-    order(created_at: :asc)
+    order(position: :asc, created_at: :asc)
   end
 
   def key

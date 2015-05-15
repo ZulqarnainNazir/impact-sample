@@ -24,6 +24,7 @@ SidebarContentBlock = React.createClass
         <BlockEditor {...this.props.blockEditor}>
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <input type="hidden" name={this.props.name('spoof')} value={Math.random()} />
+          <input type="hidden" name={this.props.name('position')} defaultValue={this.props.block.position} />
           <div className={this.props.blockInputsClassName}>
             <BlockInputImage {...this.props.blockInputImage} />
             <hr />
