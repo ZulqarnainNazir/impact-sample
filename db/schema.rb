@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 42) do
+ActiveRecord::Schema.define(version: 43) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,8 +190,8 @@ ActiveRecord::Schema.define(version: 42) do
   add_index "lines", ["business_id"], name: "index_lines_on_business_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.integer  "business_id",                                                    null: false
-    t.string   "name",                                                           null: false
+    t.integer  "business_id",                           null: false
+    t.string   "name",                                  null: false
     t.string   "street1"
     t.string   "street2"
     t.string   "city"
@@ -200,15 +200,15 @@ ActiveRecord::Schema.define(version: 42) do
     t.string   "phone_number"
     t.string   "email"
     t.text     "service_area"
-    t.boolean  "hide_address",                                   default: false, null: false
-    t.boolean  "hide_phone",                                     default: false, null: false
-    t.boolean  "hide_email",                                     default: false, null: false
-    t.boolean  "external_service_area",                          default: false, null: false
-    t.decimal  "latitude",              precision: 10, scale: 6
-    t.decimal  "longitude",             precision: 10, scale: 6
+    t.boolean  "hide_address",          default: false, null: false
+    t.boolean  "hide_phone",            default: false, null: false
+    t.boolean  "hide_email",            default: false, null: false
+    t.boolean  "external_service_area", default: false, null: false
+    t.float    "latitude"
+    t.float    "longitude"
     t.json     "settings"
-    t.datetime "created_at",                                                     null: false
-    t.datetime "updated_at",                                                     null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
