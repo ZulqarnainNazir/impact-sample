@@ -1,5 +1,6 @@
 - title @page.title
 - description @page.description
+- canonical_url url_for(only_path: false)
 
 .container
   - @page.block_types.each do |block_type|
