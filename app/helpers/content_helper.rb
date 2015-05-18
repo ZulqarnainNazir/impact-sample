@@ -16,4 +16,10 @@ module ContentHelper
       render partial: 'errors', locals: { message: message, error_messages: resource.errors.full_messages }
     end
   end
+
+  def canonical_url(string_or_locals = {})
+    if string_or_locals.is_a? String
+      content_for :canonical_url, string_or_locals
+    end
+  end
 end
