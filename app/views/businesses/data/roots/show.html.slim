@@ -55,7 +55,7 @@ h2.h3 Or jump right to a task:
 .row.dashboard-root-secondary-panels
   .col-sm-6.col-md-4.col-lg-2
     = link_to [:new, @business, :data, :team_member] do
-      .panel.panel-primary
+      .panel.panel-success
         .panel-heading
           i.fa.fa-user.fa-4x
         .panel-footer.text-right
@@ -67,15 +67,31 @@ h2.h3 Or jump right to a task:
         .panel-heading
           i.fa.fa-cubes.fa-4x
         .panel-footer.text-right
-          span.pull-left> Edit Products
+          span.pull-left> Products
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to [:edit, @business, :data, :lines] do
-      .panel.panel-success
+    = link_to [:edit, @business, :data, :location] do
+      .panel.panel-danger
         .panel-heading
           i.fa.fa-map-marker.fa-4x
         .panel-footer.text-right
           span.pull-left> Contact Info
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:edit, @business, :data, :delivery] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-truck.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Delivery
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:edit, @business, :data, :customers] do
+      .panel.panel-success
+        .panel-heading
+          i.fa.fa-briefcase.fa-4x
+        .panel-footer.text-right
+          span.pull-left> Customers
           i.fa.fa-arrow-circle-right
 
 hr
