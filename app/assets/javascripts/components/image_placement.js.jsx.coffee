@@ -119,7 +119,7 @@ ImagePlacement = React.createClass
       </div>`
     else
       `<div id={this.id('dropzone')}>
-        <ImageEmpty padding="20" />
+        <ImageEmpty padding="20" dropzone={true} />
       </div>`
 
   renderProgress: ->
