@@ -40,7 +40,7 @@
       - if !location.hide_phone?
         p.tel itemprop="telephone" = location.phone_number
       - if !location.hide_address?
-        - if !location.requires_geocode?
+        - if location.latitude? && location.longitude?
           p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address' do
             span
               => location.address_line_one
