@@ -1,9 +1,9 @@
 BlockIdentifiedTabs =
   tabContentId: ->
-    "tab-content-edit-#{this.props.block.id}"
+    "tab-content-edit-#{this.props.block.key}"
 
   tabDesignId: ->
-    "tab-design-edit-#{this.props.block.id}"
+    "tab-design-edit-#{this.props.block.key}"
 
   renderBlockIdentifiedTabs: ->
     `<div className="tabpanel">
