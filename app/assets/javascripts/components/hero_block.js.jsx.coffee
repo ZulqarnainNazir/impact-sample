@@ -38,6 +38,7 @@ HeroBlock = React.createClass
           <div className={this.props.blockInputsClassName}>
             {this.renderBlockIdentifiedTabs()}
           </div>
+          <BlockImageLibrary {...this.props.blockImageLibrary} />
         </BlockEditor>
       </div>`
     else if this.props.editing
@@ -83,7 +84,6 @@ HeroBlock = React.createClass
       <BlockInputImage {...this.props.blockInputImage} />
       <hr />
       {this.renderLayoutOptions()}
-      <BlockImageLibrary {...this.props.blockImageLibrary} />
     </div>`
 
 window.HeroBlock = HeroBlock

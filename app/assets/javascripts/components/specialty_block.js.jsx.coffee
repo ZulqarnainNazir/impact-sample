@@ -28,6 +28,7 @@ SpecialtyBlock = React.createClass
           <div className={this.props.blockInputsClassName}>
             {this.renderBlockIdentifiedTabs()}
           </div>
+          <BlockImageLibrary {...this.props.blockImageLibrary} />
         </BlockEditor>
       </div>
     </div>`
@@ -41,7 +42,6 @@ SpecialtyBlock = React.createClass
   renderDesignTab: ->
     `<div>
       <BlockInputImage {...this.props.blockInputImage} />
-      <BlockImageLibrary {...this.props.blockImageLibrary} />
     </div>`
 
 window.SpecialtyBlock = SpecialtyBlock
