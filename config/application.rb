@@ -8,7 +8,6 @@ module Impact
     config.action_dispatch.cookies_serializer = :json
     config.active_job.queue_adapter = :sidekiq
     config.active_record.raise_in_transactional_callbacks = true
-    config.active_record.timestamped_migrations = false
     config.assets.version = '1.0'
     config.filter_parameters += %i[password password_confirmation]
     config.generators { |g| g.assets false }
