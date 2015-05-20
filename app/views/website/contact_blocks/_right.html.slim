@@ -37,7 +37,7 @@
         p.tel itemprop="telephone" = location.phone_number
       - if !location.hide_address?
         - if location.latitude? && location.longitude?
-          p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address' do
+          p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do
             span
               => location.address_line_one
               br>
