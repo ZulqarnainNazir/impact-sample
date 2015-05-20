@@ -13,4 +13,8 @@ class QuickPost < ActiveRecord::Base
   def content_html
     Sanitize.fragment(content.to_s, Sanitize::Config::RELAXED).html_safe
   end
+
+  def to_param
+    "#{id}-#{title}".parameterize
+  end
 end

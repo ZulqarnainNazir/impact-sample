@@ -1,4 +1,6 @@
 CallToActionBlock = React.createClass
+  mixins: [BlockIdentifiedTabs],
+
   propTypes:
     block: React.PropTypes.object
     blockEditor: React.PropTypes.object
@@ -26,14 +28,8 @@ CallToActionBlock = React.createClass
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <input type="hidden" name={this.props.name('spoof')} value={Math.random()} />
           <div className={this.props.blockInputsClassName}>
-            <BlockInputImage {...this.props.blockInputImage} />
-            <hr />
-            <BlockInputText {...this.props.blockInputHeading} />
-            <BlockInputText {...this.props.blockInputText} />
-            <hr />
-            <BlockInputLink {...this.props.blockInputLink} />
+            {this.renderBlockIdentifiedTabs()}
           </div>
-          <BlockImageLibrary {...this.props.blockImageLibrary} />
         </BlockEditor>
       </div>
     </div>`
@@ -45,5 +41,18 @@ CallToActionBlock = React.createClass
       'col-sm-6'
     else
       'col-sm-4'
+
+  renderContentTab: ->
+    `<div>
+      <BlockInputText {...this.props.blockInputHeading} />
+      <BlockInputText {...this.props.blockInputText} />
+      <BlockInputLink {...this.props.blockInputLink} />
+    </div>`
+
+  renderDesignTab: ->
+    `<div>
+      <BlockInputImage {...this.props.blockInputImage} />
+      <BlockImageLibrary {...this.props.blockImageLibrary} />
+    </div>`
 
 window.CallToActionBlock = CallToActionBlock

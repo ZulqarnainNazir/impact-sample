@@ -19,8 +19,18 @@
     - else
       = link_to business.name, :root, class: 'navbar-brand'
   .navbar-right.vcard.navbar-vcard
-    p.h4.tel = location.phone_number
-    p.adr #{location.address_line_one} <br> #{location.address_line_two}
+    p.h4.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
+    - if location.latitude? && location.longitude?
+      p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address' do
+        span
+          => location.address_line_one
+          br>
+          = location.address_line_two
+    - else
+      p.adr itemprop="address"
+        => location.address_line_one
+        br>
+        = location.address_line_two
 .container
   .navbar.navbar-logo-above class=block.css_class role="navigation" style="background-color: #{block.background_color}; color: #{block.foreground_color}"
     #header-collapse.navbar-collapse.collapse

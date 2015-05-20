@@ -1,8 +1,9 @@
 - title @page.title
+- canonical_url url_for(only_path: false)
 
 .container
   = render 'alerts'
   .page-header
     h1 Contact
-  .webpage-contact itemscope="" itemtype="http://schema.org/LocalBusiness"
+  .webpage-contact itemscope="" itemtype="http://schema.org/LocalBusiness" logo=("#{business.logo.attachment_url(:logo_large)}" if @business.logo.present?)
     = render @page.contact_block

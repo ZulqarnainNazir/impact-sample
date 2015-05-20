@@ -66,7 +66,7 @@ ImagePlacement = React.createClass
           <li onClick={this.setKind.bind(null, 'images')} id={this.id('nav_tab_image')} className="active"><a href={'#' + this.id('tab_image')} data-toggle="tab">Image</a></li>
           <li onClick={this.setKind.bind(null, 'embeds')} id={this.id('nav_tab_embed')}><a href={'#' + this.id('tab_embed')} data-toggle="tab">Embed</a></li>
         </ul>
-        <div className="tab-content" style={{marginTop: 15}}>
+        <div className="tab-content">
           <div id={this.id('tab_image')} className="tab-pane fade in active">
             {this.renderImage()}
           </div>
@@ -119,7 +119,7 @@ ImagePlacement = React.createClass
       </div>`
     else
       `<div id={this.id('dropzone')}>
-        <ImageEmpty padding="20" />
+        <ImageEmpty padding="20" dropzone={true} />
       </div>`
 
   renderProgress: ->

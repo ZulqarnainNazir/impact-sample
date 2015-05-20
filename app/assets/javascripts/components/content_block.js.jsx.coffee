@@ -1,4 +1,5 @@
 ContentBlock = React.createClass
+  mixins: [BlockIdentifiedTabs]
   propTypes:
     block: React.PropTypes.object
     blockEditor: React.PropTypes.object
@@ -25,13 +26,21 @@ ContentBlock = React.createClass
           <input type="hidden" name={this.props.name('theme')} value={this.props.block.theme} />
           <input type="hidden" name={this.props.name('spoof')} value={Math.random()} />
           <div className={this.props.blockInputsClassName}>
-            <BlockInputImage {...this.props.blockInputImage} />
-            <hr />
-            <BlockInputText {...this.props.blockInputText} />
+            {this.renderBlockIdentifiedTabs()}
           </div>
-          <BlockImageLibrary {...this.props.blockImageLibrary} />
         </BlockEditor>
       </div>
+    </div>`
+
+  renderContentTab: ->
+    `<div>
+      <BlockInputText {...this.props.blockInputText} />
+    </div>`
+
+  renderDesignTab: ->
+    `<div>
+      <BlockInputImage {...this.props.blockInputImage} />
+      <BlockImageLibrary {...this.props.blockImageLibrary} />
     </div>`
 
 window.ContentBlock = ContentBlock
