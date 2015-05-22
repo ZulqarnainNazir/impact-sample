@@ -45,6 +45,8 @@
                 - case sidebar_feed_item.class.name
                 - when 'BeforeAfter'
                   = render partial: 'website/before_afters/before_after_small', object: sidebar_feed_item, as: :before_after
+                - when 'Event'
+                  = render partial: 'website/events/event_small', object: sidebar_feed_item, as: :event
                 - when 'Gallery'
                   = render partial: 'website/galleries/gallery_small', object: sidebar_feed_item, as: :gallery
                 - when 'Offer'

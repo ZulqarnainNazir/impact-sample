@@ -29,6 +29,10 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def as_indexed_json(options = {})
+    as_json(methods: %i[sorting_date])
+  end
+
   def arranged_sections
     post_sections.arrange(order: :position).map do |section, arrangement|
       add_cached_children(section, arrangement)
@@ -76,6 +80,10 @@ class Post < ActiveRecord::Base
 
   def sections_placement
     find_sections_placement post_sections.arrange(order: :position)
+  end
+
+  def sorting_date
+    published_on
   end
 
   private

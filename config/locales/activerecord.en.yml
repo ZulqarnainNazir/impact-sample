@@ -40,6 +40,14 @@ en:
         website_url: Website URL
         year_founded: Year Founded
         youtube_id: YouTube
+      event_definition:
+        start_date: Start Date
+        start_time: Start Time
+        end_date: End Date
+        end_time: End Time
+        url: External URL
+        repetition_days: Weekly On
+        repetition_weeks: Monthly On
       location:
         name: Location Name
         email: Email Address

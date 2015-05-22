@@ -5,6 +5,7 @@
  *= require jquery.minicolors
  *= require bootstrap-wysihtml5
  *= require bootstrap-datepicker
+ *= require recurring_select
  *= require_tree ./plugins
  *= require ./base
  */

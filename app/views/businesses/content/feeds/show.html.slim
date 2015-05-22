@@ -7,7 +7,7 @@ ol.breadcrumb
   li.active Existing Content
 
 p
-  = page_entries_info @results, entry_name: 'published item'
+  = page_entries_info @results, entry_name: 'item'
   - if params[:query].to_s.strip.present?
     '  matching
     strong: em = params[:query].to_s.strip

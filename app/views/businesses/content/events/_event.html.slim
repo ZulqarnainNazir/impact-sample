@@ -1,0 +1,25 @@
+.feed-item.feed-event
+  .feed-item-meta
+    => icon 'calendar'
+    strong> Event
+    span.pull-right
+      - if event.occurs_on < Time.zone.now
+        span.text-muted> Finished #{time_ago_in_words event.occurs_on} ago
+      - else
+        span.text-muted> Starts in #{time_ago_in_words event.occurs_on}
+      span.btn-group.btn-group-sm style="margin-left:8px"
+        = link_to icon('pencil'), [:edit, @business, :content, event.event_definition], class: 'btn btn-default'
+        = link_to icon('copy'), [:clone, @business, :content, event.event_definition], class: 'btn btn-default'
+        = link_to icon('trash'), [@business, :content, event.event_definition], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  .event
+    time.event-datetime datetime=event.occurs_on
+      span.day = event.occurs_on.day
+      span.month = event.occurs_on.strftime('%b')
+      span.year = event.occurs_on.year
+      span.time = event.event_definition.start_time
+    - placement = event.event_definition.event_image_placement
+    - if placement && !placement.embeds? && placement.image
+      = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
+    .event-info
+      h2.event-title = link_to event.event_definition.title, [:website, event]
+      p.event-desc.truncate = event.event_definition.description_html

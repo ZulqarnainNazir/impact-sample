@@ -32,7 +32,9 @@ hr
         .form-group
           = form.label :valid_until, 'Valid Until', class: 'col-sm-6 control-label'
           .col-sm-6
-            = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+            .input-group
+              = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+              span.input-group-addon: i.fa.fa-calendar
       .form-group
         = form.label :description, 'Describe what‘s included with this offer and the benefits of purchasing the offer *', class: 'control-label'
         = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor', placeholder: 'Here you should describe what’s include and why your product or service is great. Highlight a benefit or two.'

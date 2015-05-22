@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 44) do
+ActiveRecord::Schema.define(version: 20150520224223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,36 @@ ActiveRecord::Schema.define(version: 44) do
   end
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
+
+  create_table "event_definitions", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "title",       null: false
+    t.text     "subtitle"
+    t.text     "description"
+    t.text     "price"
+    t.text     "url"
+    t.text     "phone"
+    t.text     "repetition"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "business_id",         null: false
+    t.integer  "event_definition_id", null: false
+    t.date     "occurs_on"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "events", ["business_id"], name: "index_events_on_business_id", using: :btree
+  add_index "events", ["event_definition_id"], name: "index_events_on_event_definition_id", using: :btree
 
   create_table "galleries", force: :cascade do |t|
     t.integer  "business_id", null: false

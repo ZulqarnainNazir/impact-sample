@@ -1,0 +1,13 @@
+en:
+  businesses:
+    content:
+      event_definitions:
+        create:
+          notice: Your Event is being published and will be available momentarily.
+          alert: There was a problem saving your Event.
+        update:
+          notice: Your Event was updated successfully.
+          alert: There was a problem saving your Event.
+        destroy:
+          notice: Your Event was deleted successfully.
+          alert: There was a problem removing your Event.

@@ -10,11 +10,19 @@ class QuickPost < ActiveRecord::Base
   validates :title, presence: true
   validates :content, presence: true
 
+  def as_indexed_json(options = {})
+    as_json(methods: %i[sorting_date])
+  end
+
   def content_html
     Sanitize.fragment(content.to_s, Sanitize::Config::RELAXED).html_safe
   end
 
   def to_param
     "#{id}-#{title}".parameterize
+  end
+
+  def sorting_date
+    created_at
   end
 end

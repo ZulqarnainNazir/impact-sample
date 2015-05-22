@@ -1,6 +1,7 @@
 class Business < ActiveRecord::Base
   include PlacedImageConcern
 
+  has_many :events
   has_many :images
 
   with_options dependent: :destroy do
@@ -8,6 +9,7 @@ class Business < ActiveRecord::Base
     has_many :before_afters
     has_many :categorizations
     has_many :contact_messages
+    has_many :event_definitions
     has_many :galleries
     has_many :lines
     has_many :offers

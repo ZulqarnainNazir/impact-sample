@@ -1,0 +1,19 @@
+.feed-item.feed-event
+  .feed-item-meta
+    => icon 'calendar'
+    strong> Event
+    span.pull-right
+      span.text-muted> Starts in #{time_ago_in_words event.occurs_on}
+  .event-widget
+    .event
+      time.event-datetime datetime=event.occurs_on
+        span.day = event.occurs_on.day
+        span.month = event.occurs_on.strftime('%b')
+        span.year = event.occurs_on.year
+        span.time = event.event_definition.start_time
+      - placement = event.event_definition.event_image_placement
+      - if placement && !placement.embeds? && placement.image
+        = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
+      .event-info
+        h2.event-title = link_to event.event_definition.title, [:website, event]
+        p.event-desc.truncate = event.event_definition.description_html

@@ -50,6 +50,9 @@ Rails.application.routes.draw do
           resource :images_upload, only: %i[new create]
           resource :feed, only: %i[show]
           resources :before_afters, only: %i[new create edit update destroy]
+          resources :event_definitions, only: %i[new create edit update destroy], path: 'events' do
+            get :clone, on: :member
+          end
           resources :galleries, only: %i[new create edit update destroy]
           resources :images, only: %i[index edit update destroy]
           resources :offers, only: %i[new create edit update destroy] do
@@ -112,6 +115,7 @@ Rails.application.routes.draw do
     resource :contact_page, path: 'contact', only: %i[show create]
 
     resources :before_afters, only: %i[show]
+    resources :events, only: %i[index show]
     resources :galleries, only: %i[index show] do
       resources :gallery_images, only: %i[show]
     end

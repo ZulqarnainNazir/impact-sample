@@ -23,6 +23,22 @@ class ContentSearch
         or: [
           {
             missing: {
+              field: :published_on,
+            },
+          },
+          {
+            range: {
+              published_on: {
+                lte: Time.zone.now,
+              },
+            },
+          },
+        ],
+      })
+      dsl[:filter][:and].push({
+        or: [
+          {
+            missing: {
               field: :valid_until,
             },
           },
@@ -39,13 +55,13 @@ class ContentSearch
         or: [
           {
             missing: {
-              field: :published_on,
+              field: :occurs_on,
             },
           },
           {
             range: {
-              published_on: {
-                lte: Time.zone.now,
+              occurs_on: {
+                gte: Time.zone.now,
               },
             },
           },
@@ -62,17 +78,10 @@ class ContentSearch
       }
     else
       dsl[:sort] = {
-        created_at: :desc,
+        sorting_date: :desc,
       }
-      #dsl[:sort] = {
-        #_script: {
-          #script: 'if (_source["published_on"] == null) { doc["created_at"].value } else { doc["published_on"].value }',
-          #type: :number,
-          #order: :desc,
-        #},
-      #}
     end
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, Gallery, Offer, Post, QuickPost])
+    Elasticsearch::Model.search(dsl, [BeforeAfter, Event, Gallery, Offer, Post, QuickPost])
   end
 end

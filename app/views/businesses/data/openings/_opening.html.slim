@@ -4,31 +4,31 @@ tr class=('is-appended' if appended)
     td = form.time_select :opens_at, ampm: true, minute_step: 5, default: { hour: 8, min: 0 }, class: 'form-control'
     td = form.time_select :closes_at, ampm: true, minute_step: 5, default: { hour: 17, min: 0 }, class: 'form-control'
     td
-      = form.label :sunday, class: 'btn btn-sm btn-default checkbox-toggle' do
+      = form.label :sunday, class: 'btn btn-sm btn-default checked-highlight' do
         => form.check_box :sunday
         | Su
     td
-      = form.label :monday, class: 'btn btn-sm btn-default checkbox-toggle' do
+      = form.label :monday, class: 'btn btn-sm btn-default checked-highlight' do
         => form.check_box :monday
         | Mo
     td
-      = form.label :tuesday, class: 'btn btn-sm btn-default checkbox-toggle' do
+      = form.label :tuesday, class: 'btn btn-sm btn-default checked-highlight' do
         => form.check_box :tuesday
         | Tu
     td
-      = form.label :wednesday, class: 'btn btn-sm btn-default checkbox-toggle' do
+      = form.label :wednesday, class: 'btn btn-sm btn-default checked-highlight' do
         => form.check_box :wednesday
         | We
     td
-      = form.label :thursday, class: 'btn btn-sm btn-default checkbox-toggle' do
+      = form.label :thursday, class: 'btn btn-sm btn-default checked-highlight' do
         => form.check_box :thursday
         | Th
     td
-      = form.label :friday, class: 'btn btn-sm btn-default checkbox-toggle' do
+      = form.label :friday, class: 'btn btn-sm btn-default checked-highlight' do
         => form.check_box :friday
         | Fr
     td
-      = form.label :saturday, class: 'btn btn-sm btn-default checkbox-toggle' do
+      = form.label :saturday, class: 'btn btn-sm btn-default checked-highlight' do
         => form.check_box :saturday
         | Sa
     td

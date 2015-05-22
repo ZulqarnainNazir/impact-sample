@@ -11,6 +11,7 @@
 //= require jquery-fileupload/basic
 //= require jquery.minicolors
 //= require bootstrap-wysihtml5
+//= require recurring_select
 //= require_tree ./plugins
 //= require_tree ./scripts
 
@@ -18,21 +19,22 @@ Turbolinks.enableProgressBar();
 
 var ready = function() {
   window['rangy'].initialized = false;
-  $('.checkbox-toggle input:checked').closest('.checkbox-toggle').addClass('checkbox-toggle-active');
   $('.gallery-images-associations').galleryImagesAssociations();
   $('.lines-associations').linesAssociations();
   $('.menus-sortable').menusSortable();
   $('.openings-associations').openingsAssociations();
   $('.pages-associations').pagesAssociations();
   $('.post-sections-associations').postSectionsAssociations();
+  $('.selectpicker').selectpicker();
   $('.webhosts-associations').webhostsAssociations();
   $('.webpage-designer').webpageDesigner();
   $('.wysihtml-editor').wysihtmlEditor();
+  $('[data-show-when-checked]').showWhenChecked();
+  $('[data-toggle="tooltip"]').tooltip();
   $('*[data-toggle=lightbox]').click(function (e) {
     e.preventDefault();
     $(this).ekkoLightbox();
   });
-  $('[data-toggle="tooltip"]').tooltip();
 
   $(document).on('shown.bs.modal', function (e) {
     var titleInput = $(e.target).find('input[id$=-block-attributes-heading]').get(0) ||
@@ -41,6 +43,11 @@ var ready = function() {
     if (titleInput) {
       $(titleInput).focus();
     }
+  });
+
+  $('.checked-highlight input:checked').closest('.checked-highlight').addClass('checked-highlight-active');
+  $(document).on('change', '.checked-highlight input', function() {
+    $(this).closest('.checked-highlight').toggleClass('checked-highlight-active');
   });
 };
 

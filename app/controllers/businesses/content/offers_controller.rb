@@ -12,15 +12,10 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   end
 
   def clone
-    @existing_offer = @business.offers.find(params[:id])
-    @offer = @business.offers.new
-    @offer.title = @existing_offer.title
-    @offer.description = @existing_offer.description
-    @offer.offer = @existing_offer.offer
-    @offer.terms = @existing_offer.title
-    @offer.terms = @existing_offer.terms
-    @offer.offer_code = @existing_offer.offer_code
-    @offer.offer_image_placement_attributes = { image_id: @existing_offer.offer_image.try(:id) }
+    cloned_offer = @business.offers.find(params[:id])
+    cloned_attributes = cloned_offer.attributes.slice(*%w[title description offer terms offer_code])
+    @offer = @business.offers.new(cloned_attributes)
+    @offer.offer_image_placement_attributes = { image_id: cloned_offer.offer_image.try(:id) }
     render :new
   end
 

@@ -224,6 +224,7 @@ GEM
       netrc
     hitimes (1.2.2)
     i18n (0.7.0)
+    ice_cube (0.8.1)
     inflecto (0.0.2)
     ipaddress (0.8.0)
     jbuilder (2.2.13)
@@ -336,6 +337,12 @@ GEM
       rails (>= 3.1)
       react-source (~> 0.13)
     react-source (0.13.3)
+    recurring_select (1.2.0)
+      coffee-rails (>= 3.1)
+      ice_cube (>= 0.8)
+      jquery-rails
+      rails (>= 3.1)
+      sass-rails (>= 3.1)
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -417,6 +424,7 @@ DEPENDENCIES
   erd
   font-awesome-sass
   geocoder
+  ice_cube
   jbuilder
   jquery-fileupload-rails
   jquery-minicolors-rails
@@ -437,6 +445,7 @@ DEPENDENCIES
   rails
   rails_12factor
   react-rails
+  recurring_select
   sanitize
   sass-rails
   sidekiq

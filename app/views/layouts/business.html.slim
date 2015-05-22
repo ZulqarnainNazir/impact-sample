@@ -36,6 +36,9 @@ html lang="en"
                     li.list-divider = link_to [:new, @business, :content_quick_post] do
                       i.fa.fa-file-text-o>
                       | Quick Post
+                    li = link_to [:new, @business, :content_event_definition] do
+                      i.fa.fa-calendar>
+                      | New Event
                     li = link_to [:new, @business, :content_gallery] do
                       i.fa.fa-photo>
                       | New Gallery

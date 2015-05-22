@@ -29,14 +29,12 @@ class Offer < ActiveRecord::Base
     validates :offer_image_placement, presence: true
   end
 
-  def valid_until=(value)
-    if value.to_s.split('/').length == 3
-      values = value.split('/')
-      values = values[-1..-1] + values[0..-2]
-      super(Date.parse(values.join('/')))
-    else
-      super
-    end
+  def valid_until=(*args)
+    super DatepickerParser.parse(*args)
+  end
+
+  def as_indexed_json(options = {})
+    as_json(methods: %i[sorting_date])
   end
 
   def description_html
@@ -45,6 +43,10 @@ class Offer < ActiveRecord::Base
 
   def offer_html
     Sanitize.fragment(offer.to_s, Sanitize::Config::RELAXED).html_safe
+  end
+
+  def sorting_date
+    created_at
   end
 
   def terms_html

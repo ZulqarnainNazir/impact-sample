@@ -18,7 +18,7 @@ class Placement < ActiveRecord::Base
   end
 
   after_save do
-    ImageAttachmentReprocessJob.perform_later(image) if image && image_id_changed?
+    ImageAttachmentReprocessJob.perform_later(image) if image && image_id_changed? && errors.empty?
   end
 
   def placer_location
@@ -68,6 +68,7 @@ class Placement < ActiveRecord::Base
       before_image: %i[medium],
       call_to_action_block_image: %i[small medium],
       content_block_image: %i[small jumbo],
+      event_image: %i[thumbnail medium],
       gallery_image: %i[thumbnail large],
       hero_block_image: %i[medium jumbo],
       logo: %i[logo_small logo_medium logo_large logo_jumbo thumbnail],

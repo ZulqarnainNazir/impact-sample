@@ -8,8 +8,10 @@
     .row
       .col-sm-8 class=('pull-right' if @page.sidebar_position == 'left')
         - if @page.feed_block && @feed_items.any?
+          = page_entries_info @feed_items, entry_name: 'published item'
           = render @feed_items
-          p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+          hr
+          = paginate @feed_items
           hr
       .col-sm-4
         - if @page.sidebar_content_blocks.any?

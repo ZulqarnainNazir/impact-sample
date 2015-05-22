@@ -171,7 +171,7 @@ ImagePlacement = React.createClass
       </div>`
 
   renderButtonRemove: ->
-    if this.props.buttonRemove
+    if this.props.buttonRemove and (this.state.uploadState is 'failed' or this.state.uploadState is 'attached')
       `<span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
         <i className="fa fa-close" /> Remove
       </span>`

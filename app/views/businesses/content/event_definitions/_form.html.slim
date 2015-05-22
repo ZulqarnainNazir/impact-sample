@@ -1,0 +1,53 @@
+.row
+  .col-sm-8
+    .form-group
+      = form.label :title, class: 'control-label'
+      = form.text_field :title, class: 'form-control', placeholder: 'Add a brief 4-10 word title for your event.'
+    .form-group
+      = form.label :subtitle, class: 'control-label'
+      = form.text_field :subtitle, class: 'form-control', placeholder: 'Add a brief 4-10 word subtitle for your event.'
+    = react_component 'ImagePlacement',
+      imagesPath: business_images_path(form.object.business),
+      inputPrefix: 'event_definition[event_image_placement_attributes]',
+      label: 'Event Image',
+      placement: form.object.event_image_placement_json,
+      presignedPost: s3_presigned_post_hash,
+      bulkUploadPath: new_business_content_images_upload_path(form.object.business)
+    .form-group
+      = form.label :description, class: 'control-label'
+      = form.text_area :description, rows: 6, class: 'form-control wysihtml-editor', placeholder: 'Describe what the event is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the event is about.'
+    .form-group
+      = form.label :price, class: 'control-label'
+      = form.text_field :price, class: 'form-control'
+    .form-group
+      = form.label :url, class: 'control-label'
+      = form.text_field :url, class: 'form-control', placeholder: 'http://'
+  .col-sm-4
+    .form-group
+      = form.label :start_date, class: 'control-label'
+      .input-group
+        = form.text_field :start_date, value: form.object.start_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+        span.input-group-addon: i.fa.fa-calendar
+    .form-group
+      = form.label :end_date, class: 'control-label'
+      .input-group
+        = form.text_field :end_date, value: form.object.end_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+        span.input-group-addon: i.fa.fa-calendar
+    hr
+    .form-group
+      = form.label :start_time, class: 'control-label'
+      div
+        = form.time_select :start_time, { ampm: true, minute_step: 5, prompt: { hour: 'Hour', minute: 'Minute' }}, class: 'form-control', style: 'display:inline-block; width:45%'
+    .form-group
+      = form.label :end_time, class: 'control-label'
+      div
+        = form.time_select :end_time, { ampm: true, minute_step: 5, prompt: { hour: 'Hour', minute: 'Minute' }}, class: 'form-control', style: 'display:inline-block; width:45%'
+    hr
+    .form-group
+      = form.label :repetition, class: 'control-label'
+      = form.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control'
+    hr
+hr
+.row
+  .col-sm-4
+    = form.button 'Save Event', class: 'btn btn-block btn-primary'

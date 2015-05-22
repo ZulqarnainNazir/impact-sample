@@ -1,0 +1,12 @@
+- title 'Edit Business Event'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Manage Content', [@business, :content_root]
+  li = link_to 'Existing Content', [@business, :content_feed]
+  li.active Edit Event
+
+= errors_for @event_definition
+= form_for @event_definition, url: [@business, :content, @event_definition] do |form|
+  = render form

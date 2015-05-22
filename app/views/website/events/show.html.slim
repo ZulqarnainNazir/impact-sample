@@ -1,0 +1,35 @@
+- title @event.event_definition.title
+- canonical_url url_for(only_path: false, id: @event)
+
+.container
+  ol.breadcrumb
+    li = link_to icon('home'), :website_root
+    li = link_to 'Events', :website_events
+    li.active = @event.event_definition.title
+  .page-header
+    h1 = @event.event_definition.title
+  .row
+    .col-sm-6
+      - placement = @event.event_definition.event_image_placement
+      - if placement.try(:embeds?)
+        .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+      - elsif placement.try(:image)
+        = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive'
+    .col-sm-6
+      .well
+        div
+          i.fa.fa-calendar>
+          = @event.occurs_on.strftime('%b %d, %Y')
+        div
+          i.fa.fa-clock-o>
+          = @event.event_definition.start_time.strftime('%I:%M %p')
+        - if @event.event_definition.price?
+          div
+            i.fa.fa-currency>
+            = @event.event_definition.price
+      - if @event.event_definition.description?
+        .panel.panel-default
+          .panel-header
+            p.panel-title.h4 Description
+          .panel-body
+            = @event.description_html
