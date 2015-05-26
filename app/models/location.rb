@@ -1,7 +1,12 @@
 class Location < ActiveRecord::Base
   belongs_to :business, touch: true
 
-  has_many :openings, dependent: :destroy
+  with_options dependent: :destroy do
+    has_many :event_definition_locations
+    has_many :openings
+  end
+
+  has_many :event_definitions, through: :event_definition_locations
 
   accepts_nested_attributes_for :openings, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && %w[opens_at closes_at sunday monday tuesday wendesday thursday friday saturday].all? { |at| a[at].blank? } || a['_destroy'].blank? }
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520224223) do
+ActiveRecord::Schema.define(version: 20150526174948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,11 +40,11 @@ ActiveRecord::Schema.define(version: 20150520224223) do
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
 
   create_table "blocks", force: :cascade do |t|
-    t.integer  "frame_id",                              null: false
-    t.string   "frame_type",                            null: false
+    t.integer  "frame_id",                                         null: false
+    t.string   "frame_type",                                       null: false
     t.integer  "link_id"
     t.string   "link_type"
-    t.string   "type",                                  null: false
+    t.string   "type",                                             null: false
     t.string   "theme"
     t.string   "style"
     t.string   "link_label"
@@ -52,15 +52,15 @@ ActiveRecord::Schema.define(version: 20150520224223) do
     t.text     "subheading"
     t.text     "text"
     t.text     "link_external_url"
-    t.boolean  "link_target_blank", default: false,     null: false
-    t.boolean  "link_no_follow",    default: false,     null: false
-    t.integer  "link_version",      default: 0,         null: false
+    t.boolean  "link_target_blank", default: false,                null: false
+    t.boolean  "link_no_follow",    default: false,                null: false
+    t.integer  "link_version",      default: 0,                    null: false
     t.string   "spoof"
     t.json     "settings"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "layout",            default: "default"
-    t.integer  "position",          default: 0,         null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.jsonb    "layout",            default: {"align"=>"default"}
+    t.integer  "position",          default: 0,                    null: false
   end
 
   add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
@@ -123,6 +123,16 @@ ActiveRecord::Schema.define(version: 20150520224223) do
   end
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
+
+  create_table "event_definition_locations", force: :cascade do |t|
+    t.integer  "event_definition_id", null: false
+    t.integer  "location_id",         null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "event_definition_locations", ["event_definition_id"], name: "index_event_definition_locations_on_event_definition_id", using: :btree
+  add_index "event_definition_locations", ["location_id"], name: "index_event_definition_locations_on_location_id", using: :btree
 
   create_table "event_definitions", force: :cascade do |t|
     t.integer  "business_id", null: false

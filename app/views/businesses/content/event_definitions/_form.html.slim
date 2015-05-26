@@ -47,6 +47,23 @@
       = form.label :repetition, class: 'control-label'
       = form.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control'
     hr
+    = form.fields_for :event_definition_location, form.object.event_definition_location || form.object.build_event_definition_location do |f|
+      - business_location = form.object.business.location
+      - event_location = f.object.location
+      - location = event_location || business_location
+      = f.label :location, 'Event Location', class: 'control-label'
+      - if business_location && business_location.full_address.present?
+        .radio
+          = f.label "location_id_#{business_location.id}" do
+            => f.radio_button :location_id, business_location.id, checked: business_location == event_location || (!event_location && !!business_location)
+            = business_location.full_address
+      .radio style="margin-top:10px"
+        = f.label :location_id_search, style: 'width:100%' do
+          => f.radio_button :location_id, :search, checked: business_location != event_location && (!!event_location || !business_location), style: 'margin-top:10px'
+          = text_field_tag :location_search, nil, placeholder: 'Enter Venue Name', class: 'form-control location-search'
+      - map_params = { q: [location.try(:address_line_one), location.try(:address_line_two)].reject(&:blank?).join(' '), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298' }.to_param
+      div
+        iframe width="100%" height="300" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
 hr
 .row
   .col-sm-4

@@ -3,18 +3,29 @@ class EventDefinition < ActiveRecord::Base
 
   belongs_to :business
 
+  has_one :event_definition_location, dependent: :destroy
+
+  has_one :location, through: :event_definition_location
+
   has_many :events, dependent: :destroy
 
   has_placed_image :event_image
 
+  accepts_nested_attributes_for :event_definition_location, allow_destroy: true, reject_if: :all_blank
+
   validates :business, presence: true
+  validates :event_definition_location, presence: true
   validates :title, presence: true
   validates :start_date, presence: true
   validates :start_time, presence: true
   validates :end_date, presence: true, if: :repetition?
 
+  before_validation do
+    event_definition_location.event_definition = self if event_definition_location && !event_definition_location.event_definition
+  end
+
   after_save do
-    if repetition? && schedule_changed? && errors.empty?
+    if schedule_changed? && errors.empty?
       EventDefinitionSchedulerJob.perform_later(self)
     end
   end

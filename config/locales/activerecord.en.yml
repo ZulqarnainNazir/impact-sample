@@ -1,5 +1,50 @@
 en:
   activerecord:
+    attributes:
+      blog_page:
+        per_page: Items Per Page
+      business:
+        category_ids: Categories
+        google_plus_id: Google Plus
+        linkedin_id: LinkedIn
+        website_url: Website URL
+        year_founded: Year Founded
+        youtube_id: YouTube
+      event_definition:
+        start_date: Start Date
+        start_time: Start Time
+        end_date: End Date
+        end_time: End Time
+        url: External URL
+        repetition_days: Weekly On
+        repetition_weeks: Monthly On
+      event_definition/event_definition_location:
+        location: Event Location
+      location:
+        name: Location Name
+        email: Email Address
+        zip_code: Zip Code
+        street1: Street Address
+        phone_number: Phone Number
+        service_area: Service Area
+      page:
+        name: Link Name
+        pathname: URL Slug
+        title: HTML Title
+      post:
+        published_on: Publication Date
+      redirect:
+        from_path: Origin Path
+        to_path: Destination
+      user:
+        first_name: First Name
+        last_name: Last Name
+        password_confirmation: Password Confirmation
+        current_password: Current Password
+      website:
+        custom_css: Custom CSS
+        google_analytics_id: Google Analytics ID
+        head_injection: HTML Head Injection
     errors:
       models:
         business:
@@ -30,46 +75,3 @@ en:
               invalid: must contain only letters, numbers and hypens
             webhosts:
               invalid_primary: must contain at most a single primary domain
-    attributes:
-      blog_page:
-        per_page: Items Per Page
-      business:
-        category_ids: Categories
-        google_plus_id: Google Plus
-        linkedin_id: LinkedIn
-        website_url: Website URL
-        year_founded: Year Founded
-        youtube_id: YouTube
-      event_definition:
-        start_date: Start Date
-        start_time: Start Time
-        end_date: End Date
-        end_time: End Time
-        url: External URL
-        repetition_days: Weekly On
-        repetition_weeks: Monthly On
-      location:
-        name: Location Name
-        email: Email Address
-        zip_code: Zip Code
-        street1: Street Address
-        phone_number: Phone Number
-        service_area: Service Area
-      page:
-        name: Link Name
-        pathname: URL Slug
-        title: HTML Title
-      post:
-        published_on: Publication Date
-      redirect:
-        from_path: Origin Path
-        to_path: Destination
-      user:
-        first_name: First Name
-        last_name: Last Name
-        password_confirmation: Password Confirmation
-        current_password: Current Password
-      website:
-        custom_css: Custom CSS
-        google_analytics_id: Google Analytics ID
-        head_injection: HTML Head Injection

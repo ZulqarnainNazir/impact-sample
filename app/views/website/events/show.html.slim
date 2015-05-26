@@ -17,6 +17,10 @@
         = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive'
     .col-sm-6
       .well
+        - if location = @event.event_definition.try(:location)
+          div
+            i.fa.fa-map-marker>
+            = location.full_address
         div
           i.fa.fa-calendar>
           = @event.occurs_on.strftime('%b %d, %Y')

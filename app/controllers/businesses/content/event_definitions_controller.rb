@@ -29,6 +29,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     cloned_event_definition = @business.event_definitions.find(params[:id])
     cloned_attributes = cloned_event_definition.attributes.slice(*cloneable_attributes)
     @event_definition = @business.event_definitions.new(cloned_attributes)
+    @event_definition.event_definition_location_attributes = { location_id: cloned_event_definition.location_id }
     @event_definition.event_image_placement_attributes = { image_id: cloned_event_definition.event_image.try(:id) }
     render :new
   end
@@ -63,6 +64,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       :subtitle,
       :title,
       :url,
+      event_definition_location_attributes: [:id, :location_id],
       event_image_placement_attributes: placement_attributes,
     ).tap do |safe_params|
       merge_placement_image_attributes safe_params, :event_image_placement_attributes
