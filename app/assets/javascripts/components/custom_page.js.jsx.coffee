@@ -19,7 +19,10 @@ CustomPage = React.createClass
     sidebarPosition: if this.props.initialSidebarPosition is 'left' then 'left' else (if this.props.initialSidebarPosition is 'right' then 'right' else 'none')
 
   componentDidMount: ->
-     this.enableSortable()
+    this.enableSortable()
+    this.enableBlockSortables()
+    this.sortBlockTypes()
+    this.sortBlockSets()
 
   disableSortable: ->
     $('.webpage-sortable').sortable('destroy')
@@ -42,8 +45,34 @@ CustomPage = React.createClass
       tolerance: 'pointer'
       update: this.sortBlockTypes
 
-  sortBlockTypes: (event, ui) ->
+  enableBlockSortables: ->
+    $('.block-sortable').sortable
+      container: '.block-sortable'
+      expandOnHover: 400
+      forceHelperSize: true
+      forcePlaceholderSize: true
+      handle: '.webpage-block-options-handle'
+      helper: 'clone'
+      items: '> div'
+      opacity: 0.5
+      placeholder: 'placeholder'
+      revert: 100
+      startCollapsed: false
+      tabSize: 20
+      tolerance: 'pointer'
+      update: this.sortBlockSets
+
+  sortBlockTypes: ->
     this.setState blockTypeOrder: this.blockTypeOrder().join(',')
+
+  sortBlockSets: ->
+    $('.block-sortable').each this.sortBlocks
+
+  sortBlocks: (index, set) ->
+    $(set).children().each this.sortBlock
+
+  sortBlock: (index, block) ->
+    $(block).find('input[name*="position"]').val(index)
 
   blockTypeOrder: ->
     order = $('.webpage-sortable > div').map -> $(this).data().type
