@@ -18,6 +18,7 @@ en:
         url: External URL
         repetition_days: Weekly On
         repetition_weeks: Monthly On
+        event_definition_location: Event Location
       event_definition/event_definition_location:
         location: Event Location
       location:
