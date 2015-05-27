@@ -11,6 +11,10 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
 
   before_action only: %i[create update] do
     if params[:event_definition]
+      if params[:event_definition][:repetition] == 'null'
+        params[:event_definition][:repetition] = ''
+      end
+
       if params[:event_definition][:'start_time(4i)'].blank? && params[:event_definition][:'start_time(5i)'].blank?
         params[:event_definition][:'start_time(1i)'] = ''
         params[:event_definition][:'start_time(2i)'] = ''
