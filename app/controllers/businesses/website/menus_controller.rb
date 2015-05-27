@@ -23,7 +23,7 @@ class Businesses::Website::MenusController < Businesses::Website::BaseController
         :location,
         :label,
         :url,
-        :webpage_id,
+        :internal_value,
       ]
     ).tap do |safe_params|
       existing_ids = @website.nav_link_ids

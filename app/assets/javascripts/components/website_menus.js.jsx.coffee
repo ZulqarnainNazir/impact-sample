@@ -3,6 +3,7 @@ WebsiteMenus = React.createClass
     header_links: React.PropTypes.array
     footer_links: React.PropTypes.array
     webpages: React.PropTypes.array
+    webpaths: React.PropTypes.array
 
   componentDidMount: ->
     $(document).on 'click', '.nav-link-remove', this.removeLink
@@ -109,11 +110,11 @@ WebsiteMenus = React.createClass
     labelPlaceholder = if link.kind is 'dropdown' then '' else 'Leave Blank Except to Create Custom Label'
     inputContent = switch link.kind
       when 'internal'
-        options = this.renderWebpageOptions()
+        options = this.renderWebpageOptions().concat(this.renderWebpathOptions())
         `<div className="form-group">
           <label className="control-label">
             Webpage
-            <select className="form-control" name={this.inputName(link.index, 'webpage_id')} defaultValue={link.webpage_id}>{options}</select>
+            <select className="form-control" name={this.inputName(link.index, 'internal_value')} defaultValue={link.internal_value}>{options}</select>
           </label>
         </div>`
       when 'external'
@@ -158,6 +159,12 @@ WebsiteMenus = React.createClass
   renderWebpageOption: (webpage) ->
     `<option value={webpage.id}>{webpage.name}</option>`
 
+  renderWebpathOptions: ->
+    this.props.webpaths.map this.renderWebpathOption
+
+  renderWebpathOption: (webpath) ->
+    `<option value={webpath.path}>{webpath.name}</option>`
+
   addInternal: (location) ->
     this.hideEmptyList(location)
     container = $(this.refs[location].getDOMNode())
@@ -171,9 +178,11 @@ WebsiteMenus = React.createClass
     linkContents.append $('<input type="hidden" name="' + this.inputName(index, 'location') + '" value="' + location + '" />')
     linkContents.append $('<div key="icon" class="col-sm-1 text-right"><i class="fa fa-2x fa-file" /></div>')
     linkContents.append $('<div key="label" class="col-sm-5"><div class="form-group"><label class="control-label">Label <small>Defaults to Webpage Name</small> <input type="text" class="form-control" name="' + this.inputName(index, 'label') + '" placeholder="Leave Blank Except to Create Custom Label" /></label></div></div>')
-    linkContents.append $('<div key="input" class="col-sm-5"><div class="form-group"><label class="control-label">Webpage <select class="form-control" name="' + this.inputName(index, 'webpage_id') + '"></select></label></div></div>')
+    linkContents.append $('<div key="input" class="col-sm-5"><div class="form-group"><label class="control-label">Webpage <select class="form-control" name="' + this.inputName(index, 'internal_value') + '"></select></label></div></div>')
     $.each this.props.webpages, (index, webpage) ->
       linkContents.find('select').append $('<option value="' + webpage.id + '">' + webpage.name + '</option>')
+    $.each this.props.webpaths, (index, webpath) ->
+      linkContents.find('select').append $('<option value="' + webpath.path + '">' + webpath.name + '</option>')
     linkContents.append $('<div key="remove" class="col-sm-1 text-right"><span class="fa fa-close nav-link-remove" /></div>')
     link = $('<li key="' + key + '" class="internal"></li>')
     link.append(linkContents)

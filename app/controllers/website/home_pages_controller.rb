@@ -19,5 +19,9 @@ class Website::HomePagesController < Website::BaseController
     if @page.sidebar_feed_block
       @sidebar_feed_items = ContentSearch.new(@business).search.page(1).per(@page.sidebar_feed_block.items_limit).records
     end
+
+    if @page.sidebar_events_block
+      @sidebar_events = ContentSearch.new(@business, models: [Event]).search.page(1).per(@page.sidebar_events_block.items_limit).records
+    end
   end
 end

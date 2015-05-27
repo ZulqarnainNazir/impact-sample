@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526174948) do
+ActiveRecord::Schema.define(version: 20150527010337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,6 +265,7 @@ ActiveRecord::Schema.define(version: 20150526174948) do
     t.integer  "position"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.text     "webpath"
   end
 
   add_index "nav_links", ["webpage_id"], name: "index_nav_links_on_webpage_id", using: :btree

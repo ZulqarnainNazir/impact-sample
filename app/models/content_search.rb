@@ -1,7 +1,8 @@
 class ContentSearch
-  def initialize(business, query = '', strict: true)
+  def initialize(business, models: [BeforeAfter, Event, Gallery, Offer, Post, QuickPost], query: '', strict: true)
     @business = business
     @query = query.to_s.strip
+    @models = models
     @strict = strict
   end
 
@@ -82,6 +83,6 @@ class ContentSearch
       }
     end
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, Event, Gallery, Offer, Post, QuickPost])
+    Elasticsearch::Model.search(dsl, @models)
   end
 end

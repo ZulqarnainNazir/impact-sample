@@ -42,6 +42,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
       content_blocks_attributes: block_attributes.push(content_block_image_placement_attributes: placement_attributes),
       sidebar_content_blocks_attributes: block_attributes.push(sidebar_content_block_image_placement_attributes: placement_attributes),
       sidebar_feed_block_attributes: block_attributes.push(:items_limit),
+      sidebar_events_block_attributes: block_attributes.push(:items_limit),
     ).tap do |safe_params|
       merge_placement_image_attributes safe_params[:hero_block_attributes], :hero_block_image_placement_attributes
       merge_placement_image_attributes_array safe_params[:specialty_blocks_attributes], :specialty_block_image_placement_attributes

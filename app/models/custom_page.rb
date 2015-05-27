@@ -8,6 +8,7 @@ class CustomPage < Webpage
     has_many :specialty_blocks
     has_many :tagline_blocks
     has_one :hero_block
+    has_one :sidebar_events_block
     has_one :sidebar_feed_block
   end
 
@@ -16,6 +17,7 @@ class CustomPage < Webpage
     accepts_nested_attributes_for :content_blocks
     accepts_nested_attributes_for :hero_block
     accepts_nested_attributes_for :sidebar_content_blocks
+    accepts_nested_attributes_for :sidebar_events_block
     accepts_nested_attributes_for :sidebar_feed_block
     accepts_nested_attributes_for :specialty_blocks
     accepts_nested_attributes_for :tagline_blocks
@@ -27,6 +29,7 @@ class CustomPage < Webpage
       content_blocks,
       hero_block,
       sidebar_content_blocks,
+      sidebar_events_block,
       sidebar_feed_block,
       specialty_blocks,
       tagline_blocks,

@@ -19,21 +19,21 @@
       .well
         - if location = @event.event_definition.try(:location)
           div
-            i.fa.fa-map-marker>
+            i.fa.fa-map-marker style="width:2em"
             = location.full_address
         div
-          i.fa.fa-calendar>
+          i.fa.fa-calendar style="width:2em"
           = @event.occurs_on.strftime('%b %d, %Y')
         div
-          i.fa.fa-clock-o>
+          i.fa.fa-clock-o style="width:2em"
           = @event.event_definition.start_time.strftime('%I:%M %p')
         - if @event.event_definition.price?
           div
-            i.fa.fa-currency>
+            i.fa.fa-currency style="width:2em"
             = @event.event_definition.price
       - if @event.event_definition.description?
         .panel.panel-default
-          .panel-header
+          .panel-heading
             p.panel-title.h4 Description
           .panel-body
-            = @event.description_html
+            = @event.event_definition.description_html

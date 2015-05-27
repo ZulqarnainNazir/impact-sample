@@ -58,3 +58,7 @@
               - if @website.blog_page
                 p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
               hr
+            - if @page.sidebar_events_block && @sidebar_events.any?
+              - @sidebar_events.each do |sidebar_event|
+                  = render partial: 'website/events/event_small', object: sidebar_event, as: :event
+              hr

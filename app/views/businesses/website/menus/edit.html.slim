@@ -11,9 +11,10 @@ br
 = errors_for @website
 = form_for @website, url: [@business, :website_menus], method: :patch do |form|
   = react_component 'WebsiteMenus',
-    header_links: as_nested_json(@website.arranged_nav_links(:header), methods: %i[index key parent_key cached_children]),
-    footer_links: as_nested_json(@website.arranged_nav_links(:footer), methods: %i[index key parent_key cached_children]),
-    webpages: @website.webpages
+    header_links: as_nested_json(@website.arranged_nav_links(:header), methods: %i[index key parent_key cached_children internal_value]),
+    footer_links: as_nested_json(@website.arranged_nav_links(:footer), methods: %i[index key parent_key cached_children internal_value]),
+    webpages: @website.webpages,
+    webpaths: [{ path: 'events', name: 'Events' }, { path: 'galleries', name: 'Galleries' }]
   hr
   .row
     .col-sm-4

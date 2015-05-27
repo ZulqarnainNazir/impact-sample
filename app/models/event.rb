@@ -22,4 +22,8 @@ class Event < ActiveRecord::Base
   def sorting_date
     occurs_on
   end
+
+  def to_param
+    "#{id}-#{title}".parameterize
+  end
 end

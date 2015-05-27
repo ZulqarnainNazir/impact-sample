@@ -11,6 +11,7 @@ CustomPage = React.createClass
     ContentBlocksHandlers,
     SidebarContentBlocksHandlers,
     SidebarFeedBlockHandlers,
+    SidebarEventsBlockHandlers,
   ]
 
   getInitialState: ->
@@ -97,7 +98,8 @@ CustomPage = React.createClass
     .webpage-specialty,
     .webpage-content,
     .webpage-sidebar-content,
-    .webpage-sidebar-feed {
+    .webpage-sidebar-feed,
+    .webpage-sidebar-events {
       background-color: #{this.props.defaultBackgroundColor};
       color: #{this.props.defaultForegroundColor};
     }
@@ -118,7 +120,8 @@ CustomPage = React.createClass
     .webpage-specialty a,
     .webpage-content a,
     .webpage-sidebar-content a,
-    .webpage-sidebar-feed a {
+    .webpage-sidebar-feed a,
+    .webpage-sidebar-events a {
       color: #{this.props.defaultLinkColor};
     }
     """
@@ -143,6 +146,7 @@ CustomPage = React.createClass
             {this.contentBlocksInputs()}
             {this.sidebarContentBlocksInputs()}
             {this.sidebarFeedBlockInputs()}
+            {this.sidebarEventsBlockInputs()}
           </div>
         </div>
         <div className="panel-footer clearfix">
@@ -205,6 +209,7 @@ CustomPage = React.createClass
           <div key="sidebar" className="col-sm-4">
             <SidebarContentBlocks key="sidebar_content" {...this.sidebarContentBlocksProps()} />
             <SidebarFeedBlock key="sidebar_feed" {...this.sidebarFeedBlockProps()} />
+            <SidebarEventsBlock key="sidebar_events" {...this.sidebarEventsBlockProps()} />
           </div>
         </div>`
 

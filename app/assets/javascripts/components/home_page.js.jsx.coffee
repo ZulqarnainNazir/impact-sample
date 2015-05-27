@@ -12,6 +12,7 @@ HomePage = React.createClass
     FeedBlockHandlers,
     SidebarContentBlocksHandlers,
     SidebarFeedBlockHandlers,
+    SidebarEventsBlockHandlers,
   ]
 
   getInitialState: ->
@@ -99,7 +100,8 @@ HomePage = React.createClass
     .webpage-content,
     .webpage-feed,
     .webpage-sidebar-content,
-    .webpage-sidebar-feed {
+    .webpage-sidebar-feed,
+    .webpage-sidebar-events {
       background-color: #{this.props.defaultBackgroundColor};
       color: #{this.props.defaultForegroundColor};
     }
@@ -121,7 +123,8 @@ HomePage = React.createClass
     .webpage-content a,
     .webpage-feed a,
     .webpage-sidebar-content a,
-    .webpage-sidebar-feed a {
+    .webpage-sidebar-feed a,
+    .webpage-sidebar-events a {
       color: #{this.props.defaultLinkColor};
     }
     """
@@ -147,6 +150,7 @@ HomePage = React.createClass
             {this.feedBlockInputs()}
             {this.sidebarContentBlocksInputs()}
             {this.sidebarFeedBlockInputs()}
+            {this.sidebarEventsBlockInputs()}
           </div>
         </div>
         <div className="panel-footer clearfix">
@@ -212,6 +216,7 @@ HomePage = React.createClass
           <div key="sidebar" className="col-sm-4">
             <SidebarContentBlocks key="sidebar_content" {...this.sidebarContentBlocksProps()} />
             <SidebarFeedBlock key="sidebar_feed" {...this.sidebarFeedBlockProps()} />
+            <SidebarEventsBlock key="sidebar_events" {...this.sidebarEventsBlockProps()} />
           </div>
         </div>`
 

@@ -28,6 +28,7 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
       feed_block_attributes: block_attributes.push(:items_limit),
       sidebar_content_blocks_attributes: block_attributes.push(sidebar_content_block_image_placement_attributes: placement_attributes),
       sidebar_feed_block_attributes: block_attributes.push(:items_limit),
+      sidebar_events_block_attributes: block_attributes.push(:items_limit),
     ).deep_merge(
       pathname: '',
       name: 'Homepage',
