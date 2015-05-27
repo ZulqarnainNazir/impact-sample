@@ -43,6 +43,7 @@ gem 'sass-rails'
 gem 'sidekiq'
 gem 'slim-rails'
 gem 'turbolinks'
+gem 'twitter-typeahead-rails'
 gem 'uglifier'
 
 group :development, :test do

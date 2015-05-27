@@ -105,6 +105,8 @@ Rails.application.routes.draw do
         resources :images, only: %i[index]
       end
     end
+
+    resources :locations, only: %i[index new create]
   end
 
   scope module: :website, as: :website, constraints: WebsiteConstraint.new do

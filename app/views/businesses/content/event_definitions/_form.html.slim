@@ -47,24 +47,50 @@
       = form.label :repetition, class: 'control-label'
       = form.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control'
     hr
-    = form.fields_for :event_definition_location, form.object.event_definition_location || form.object.build_event_definition_location do |f|
-      - business_location = form.object.business.location
-      - event_location = f.object.location
-      - location = event_location || business_location
-      = f.label :location, 'Event Location', class: 'control-label'
-      - if business_location && business_location.full_address.present?
-        .radio
-          = f.label "location_id_#{business_location.id}" do
-            => f.radio_button :location_id, business_location.id, checked: business_location == event_location || (!event_location && !!business_location)
-            = business_location.full_address
-      .radio style="margin-top:10px"
-        = f.label :location_id_search, style: 'width:100%' do
-          => f.radio_button :location_id, :search, checked: business_location != event_location && (!!event_location || !business_location), style: 'margin-top:10px'
-          = text_field_tag :location_search, nil, placeholder: 'Enter Venue Name', class: 'form-control location-search'
-      - map_params = { q: [location.try(:address_line_one), location.try(:address_line_two)].reject(&:blank?).join(' '), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298' }.to_param
-      div
-        iframe width="100%" height="300" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+    .js-event-location
+      = form.fields_for :event_definition_location, form.object.event_definition_location || form.object.build_event_definition_location do |f|
+        - business_location = form.object.business.location
+        - custom_location = f.object.location
+        - custom_location = nil if !!custom_location && !!business_location && custom_location == business_location
+        - if form.object.errors[:event_definition_location].any?
+          = form.label :event_definition_location, 'Event Location', class: 'control-label'
+        - else
+          = f.label :location, 'Event Location', class: 'control-label'
+        = f.hidden_field :location_id, value: (custom_location || (business_location.try(:full_address).present? ? business_location : nil)).try(:id)
+        - if business_location && business_location.full_address.present?
+          .radio data-type="business" data-id=business_location.id data-latitude=business_location.latitude data-longitude=business_location.longitude data-name=business_location.name
+            = label_tag :location_type_business do
+              => radio_button_tag :location_type, :business, (!custom_location && !!business_location) || (business_location == custom_location)
+              strong> Business Location
+              br>
+              span.text-muted = business_location.full_address
+        .radio style="margin-top:1em" data-type="custom" data-id=custom_location.try(:id) data-latitude=custom_location.try(:latitude) data-longitude=custom_location.try(:longitude) data-name=custom_location.try(:name) class=('hide' if !custom_location)
+          = label_tag :location_type_custom do
+            => radio_button_tag :location_type, :custom, (!business_location && !!custom_location) || (!!custom_location && custom_location != business_location)
+            strong> Custom Location
+            br>
+            span.text-muted = custom_location.try(:full_address)
+        .form-group
+          - placeholder = business_location && business_location.full_address.present? ? 'Or Enter Another Venue Name' : 'Enter Venue Name'
+          = text_field_tag :location_search, nil, placeholder: placeholder, class: 'form-control'
+        .js-event-location-map style="width:100%; height:300px; background:#eee; border:0"
+        hr
+        p.text-right.js-event-location-new
+          span> Can't find what you’re looking for?
+          br>
+          = link_to 'Add a new Venue', :new_location, data: { toggle: 'modal', target: '#js-event-location-new-modal' }
 hr
 .row
   .col-sm-4
     = form.button 'Save Event', class: 'btn btn-block btn-primary'
+
+= javascript_include_tag "//maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}"
+- content_for :javascript do
+  #js-event-location-new-modal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .text-center style="margin:2em"
+            i.fa.fa-spinner.fa-spin.fa-4x
+  javascript:
+    $('.js-event-location').eventLocation();

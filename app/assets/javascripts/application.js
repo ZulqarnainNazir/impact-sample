@@ -12,6 +12,7 @@
 //= require jquery.minicolors
 //= require bootstrap-wysihtml5
 //= require recurring_select
+//= require twitter/typeahead.min
 //= require_tree ./plugins
 //= require_tree ./scripts
 

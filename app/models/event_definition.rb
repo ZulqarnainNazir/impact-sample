@@ -60,8 +60,12 @@ class EventDefinition < ActiveRecord::Base
     transaction do
       events.destroy_all
 
-      schedule.occurrences(schedule_ends_at).each do |date|
-        events.create(business: business, occurs_on: date)
+      if repetition?
+        schedule.occurrences(schedule_ends_at).each do |date|
+          events.create(business: business, occurs_on: date)
+        end
+      else
+        events.create(business: business, occurs_on: start_date)
       end
     end
   end

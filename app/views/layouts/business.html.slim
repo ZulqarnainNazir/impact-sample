@@ -148,6 +148,7 @@ html lang="en"
           .container style="background-color: #fff; padding-top: 15px; padding-bottom: 30px; width: auto;"
             = render 'alerts'
             = yield
+    = yield :javascript
     javascript:
       $('#dashboard-collapse span').click(function() {
         $(this).closest('li').toggleClass('active')

@@ -1,4 +1,7 @@
 class Location < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
   belongs_to :business, touch: true
 
   with_options dependent: :destroy do
@@ -8,13 +11,30 @@ class Location < ActiveRecord::Base
 
   has_many :event_definitions, through: :event_definition_locations
 
+  accepts_nested_attributes_for :business
   accepts_nested_attributes_for :openings, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && %w[opens_at closes_at sunday monday tuesday wendesday thursday friday saturday].all? { |at| a[at].blank? } || a['_destroy'].blank? }
 
   validates :state, inclusion: { in: UsStates.abbreviations }, allow_blank: true
 
+  with_options on: :business_setup do
+    validates :business, presence: true
+    validates :street1, presence: true
+    validates :city, presence: true
+    validates :state, presence: true
+    validates :zip_code, presence: true
+
+    before_validation do
+      business.name = name if business && !business.name?
+    end
+  end
+
   geocoded_by :full_address
 
   after_validation :geocode, if: :requires_geocode?
+
+  def as_indexed_json(options = {})
+    as_json(methods: %i[full_address])
+  end
 
   def attributes_with_address
     attributes.merge(
@@ -32,10 +52,11 @@ class Location < ActiveRecord::Base
   end
 
   def full_address
-    [address_line_one, address_line_two].reject(&:blank?).join(', ')
+    address = [address_line_one, address_line_two].reject(&:blank?).join(', ')
+    address.blank? ? nil : address
   end
 
   def requires_geocode?
-    !(latitude && longitude) || street1_changed? || street2_changed? || city_changed? || state_changed?
+    !(latitude && longitude) || street1_changed? || street2_changed? || city_changed? || state_changed? || zip_code_changed?
   end
 end

@@ -29,7 +29,7 @@ ol.breadcrumb
             .col-sm-8
               .form-group
                 = form.label :state, class: 'control-label'
-                = form.select :state, options_for_select(UsStates.to_a, form.object.state), { prompt: '– Select State –' }, class: 'form-control'
+                = form.select :state, options_for_select(UsStates.to_a, form.object.state), { include_blank: true, prompt: '– Select State –' }, class: 'form-control'
             .col-sm-4
               .form-group
                 = form.label :zip_code, class: 'control-label'
