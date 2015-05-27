@@ -44,11 +44,11 @@ SidebarEventsBlockHandlers =
   sidebarEventsBlockAddProps: ->
     visible: !this.state.sidebarEventsBlock
     onClick: this.sidebarEventsBlockAdd
-    content: 'Add Sidebar Events Block'
+    content: 'Add Sidebar Events Feed'
 
   sidebarEventsBlockEditorProps: ->
     id: 'sidebar-events-block-editor'
-    title: 'Edit Events Block Details'
+    title: 'Edit Events Feed Details'
     swapForm: this.sidebarEventsBlockSwapForm
     resetForm: this.sidebarEventsBlockResetForm
 
@@ -62,7 +62,7 @@ SidebarEventsBlockHandlers =
     visible: this.state.editing
     editorTarget: '#sidebar-events-block-editor'
     editLabel: 'Edit Details'
-    removeLabel: 'Remove Events Block'
+    removeLabel: 'Remove Events Feed'
     onRemove: this.sidebarEventsBlockRemove
     onEdit: this.sidebarEventsBlockEdit
 
