@@ -14,5 +14,9 @@ br
     = form.label :content_blog_sidebar, class: 'control-label' do
       => form.check_box :content_blog_sidebar
       | Add Blog sidebar to individual posts?
+  .checkbox
+    = form.label :events_sidebar, class: 'control-label' do
+      => form.check_box :events_sidebar
+      | Add Events sidebar to individual posts?
   hr
   = form.button 'Save Sidebar Settings', class: 'btn btn-primary'
