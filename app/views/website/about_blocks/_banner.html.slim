@@ -10,6 +10,6 @@
 .container
   article
     header.page-header
-      h2 = block.heading_html
-      p = block.subheading_html
-    p = block.text_html
+      h2 = sanitize_inline_html block.heading
+      = sanitize_html block.subheading
+    = sanitize_html block.text

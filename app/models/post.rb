@@ -69,13 +69,13 @@ class Post < ActiveRecord::Base
   def sections_html
     html = ''
     add_sections_html html, post_sections.arrange(order: :position)
-    Sanitize.fragment(html, Sanitize::Config::RELAXED).html_safe
+    html
   end
 
   def sections_content
     content = ''
     add_sections_content content, post_sections.arrange(order: :position)
-    Sanitize.fragment(content)
+    content
   end
 
   def sections_placement

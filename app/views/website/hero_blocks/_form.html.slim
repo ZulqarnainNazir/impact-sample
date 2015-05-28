@@ -2,7 +2,7 @@
   .row
     .col-sm-6.col-sm-offset-6.col-md-5.col-md-offset-7
       .well
-        h1 = block.heading_html
+        h1 = sanitize_inline_html block.heading
         .form-group
           = label_tag :name, 'Name', class: 'control-label'
           = text_field_tag :name, '', class: 'form-control', placeholder: 'Add a short bold statement about the page - Optional'

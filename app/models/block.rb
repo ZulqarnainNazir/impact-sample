@@ -26,18 +26,6 @@ class Block < ActiveRecord::Base
     (SecureRandom.random_number*10**20).to_i
   end
 
-  def heading_html
-    Sanitize.fragment(heading.to_s, Sanitize::Config::RESTRICTED).html_safe
-  end
-
-  def subheading_html
-    Sanitize.fragment(subheading.to_s, Sanitize::Config::RESTRICTED).html_safe
-  end
-
-  def text_html
-    Sanitize.fragment(text.to_s, Sanitize::Config::RELAXED).html_safe
-  end
-
   def link?
     (link_internal? && link_label? && link.present?) ||
     (link_external? && link_label? && link_external_url?)

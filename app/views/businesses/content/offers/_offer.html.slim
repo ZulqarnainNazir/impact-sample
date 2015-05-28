@@ -20,10 +20,10 @@
           = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
       .col-sm-6
         div style="margin:10px 0"
-          = offer.offer_html
+          = sanitize_html offer.offer
         - if offer.valid_until?
           p.lead
             ' Offer Valid Until
             strong = offer.valid_until.strftime('%B %e, %Y')
         div style="margin:10px 0"
-          = offer.description_html
+          = sanitize_html offer.description

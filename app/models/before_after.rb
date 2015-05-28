@@ -15,10 +15,6 @@ class BeforeAfter < ActiveRecord::Base
     as_json(methods: %i[sorting_date])
   end
 
-  def description_html
-    Sanitize.fragment(description.to_s, Sanitize::Config::RELAXED).html_safe
-  end
-
   def sorting_date
     created_at
   end

@@ -12,7 +12,7 @@
       span.small Click to View All #{pluralize @gallery.gallery_images.count, 'Pic'}
       span.small.pull-right
         span.small style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.created_at} ago
-  = @gallery.description_html
+  = sanitize_html @gallery.description
   .row.row-narrow style="margin-top:15px"
     - @gallery.gallery_images.each do |gallery_image|
       - image = gallery_image.gallery_image

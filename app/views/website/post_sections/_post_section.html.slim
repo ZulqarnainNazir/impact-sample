@@ -12,14 +12,14 @@
 
 - if post_section.image_right? || post_section.image_left?
   .row
-    .col-sm-7 class=('pull-right' if post_section.image_left?) = post_section.content_html
+    .col-sm-7 class=('pull-right' if post_section.image_left?) = sanitize_html post_section.content
     .col-sm-5
       - if post_section.post_section_image_placement.try(:embeds?)
         .embed-responsive.embed-responsive-4by3 = post_section.post_section_image_placement.embed.html_safe
       - elsif post_section.post_section_image
         = image_tag post_section.post_section_image.attachment_url(:medium), alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive thumbnail'
 - elsif post_section.full_text?
-  = post_section.content_html
+  = sanitize_html post_section.content
 - elsif post_section.full_image?
   - if post_section.post_section_image_placement.try(:embeds?)
     .embed-responsive.embed-responsive-4by3 = post_section.post_section_image_placement.embed.html_safe

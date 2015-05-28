@@ -21,7 +21,7 @@
               - if @before_after.after_image
                 h3.h4 After
                 = image_tag @before_after.after_image.attachment_url(:medium), alt: @before_after.after_image.alt, title: @before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
-        = @before_after.description_html
+        = sanitize_html @before_after.description
     - if @website.content_blog_sidebar? || @website.events_sidebar?
       .col-sm-4
         - if @website.content_blog_sidebar?

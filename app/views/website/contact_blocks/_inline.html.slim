@@ -31,7 +31,7 @@
       - if location.email? && !location.hide_email?
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
-    p = block.text_html
+    = sanitize_html block.text
     = render 'form'
   .col-sm-6
     .vcard

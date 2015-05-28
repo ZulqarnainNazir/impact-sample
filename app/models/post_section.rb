@@ -22,8 +22,4 @@ class PostSection < ActiveRecord::Base
   before_validation do
     self.kind = 'image_right' unless kind?
   end
-
-  def content_html
-    Sanitize.fragment(content.to_s, Sanitize::Config::RELAXED).html_safe
-  end
 end

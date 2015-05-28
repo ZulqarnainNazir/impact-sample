@@ -53,4 +53,4 @@
     hr
     = render 'form'
   .col-sm-8
-    = block.text_html
+    = sanitize_html block.text

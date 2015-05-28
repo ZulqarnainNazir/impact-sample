@@ -2,7 +2,7 @@
   .row
     - if content_block.theme == 'full'
       .col-sm-12
-        = content_block.text_html
+        = sanitize_html content_block.text
     - elsif content_block.theme == 'fullImage'
       .col-sm-12
         - if content_block.content_block_image_placement.try(:embeds?)
@@ -13,7 +13,7 @@
     - else
       - if content_block.theme == 'left'
         .col-sm-8
-          = content_block.text_html
+          = sanitize_html content_block.text
       - else
         .col-sm-4
           - if content_block.content_block_image_placement.try(:embeds?)
@@ -30,4 +30,4 @@
             = image_tag content_block.content_block_image.attachment_url(:small), class: 'img-responsive thumbnail'
       - else
         .col-sm-8
-          = content_block.text_html
+          = sanitize_html content_block.text

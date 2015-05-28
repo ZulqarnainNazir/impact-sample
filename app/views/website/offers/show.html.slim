@@ -21,13 +21,13 @@
               = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
           .col-sm-6
             div style="margin:10px 0"
-              = @offer.offer_html
+              = sanitize_html @offer.offer
             - if @offer.valid_until?
               p.lead
                 ' Offer Valid Until
                 strong = @offer.valid_until.strftime('%B %e, %Y')
             div style="margin:10px 0"
-              = @offer.description_html
+              = sanitize_html @offer.description
             - if @offer.offer_code?
               p.lead
                 ' Offer Code
@@ -38,7 +38,7 @@
                 | Download Coupon
       .row
         .col-sm-10.col-sm-offset-1
-          .small = @offer.terms_html
+          .small = sanitize_html @offer.terms
     - if @website.content_blog_sidebar? || @website.events_sidebar?
       .col-sm-4
         - if @website.content_blog_sidebar?
