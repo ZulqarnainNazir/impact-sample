@@ -39,15 +39,29 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   end
 
  def create
-    create_resource @event_definition, event_definition_params, location: [@business, :content_feed]
+    create_resource @event_definition, event_definition_params, location: [@business, :content_feed] do |success|
+      if success
+        @event_definition.reschedule_events!
+        Event.__elasticsearch__.refresh_index!
+      end
+    end
   end
 
   def update
-    update_resource @event_definition, event_definition_params, location: [@business, :content_feed]
+    update_resource @event_definition, event_definition_params, location: [@business, :content_feed] do |success|
+      if success
+        @event_definition.reschedule_events!
+        Event.__elasticsearch__.refresh_index!
+      end
+    end
   end
 
   def destroy
-    destroy_resource @event_definition, location: [@business, :content_feed]
+    destroy_resource @event_definition, location: [@business, :content_feed] do |success|
+      if success
+        Event.__elasticsearch__.refresh_index!
+      end
+    end
   end
 
   private

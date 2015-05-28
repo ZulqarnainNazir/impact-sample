@@ -20,15 +20,21 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   end
 
   def create
-    create_resource @offer, offer_params, location: [@business, :content_feed]
+    create_resource @offer, offer_params, location: [@business, :content_feed] do |success|
+      Offer.__elasticsearch__.refresh_index! if success
+    end
   end
 
   def update
-    update_resource @offer, offer_params, location: [@business, :content_feed]
+    update_resource @offer, offer_params, location: [@business, :content_feed] do |success|
+      Offer.__elasticsearch__.refresh_index! if success
+    end
   end
 
   def destroy
-    destroy_resource @offer, location: [@business, :content_feed]
+    destroy_resource @offer, location: [@business, :content_feed] do |success|
+      Offer.__elasticsearch__.refresh_index! if success
+    end
   end
 
   private

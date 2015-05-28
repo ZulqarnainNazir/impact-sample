@@ -10,15 +10,21 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def create
-    create_resource @quick_post, quick_post_params, location: [@business, :content_feed]
+    create_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
+      QuickPost.__elasticsearch__.refresh_index! if success
+    end
   end
 
   def update
-    update_resource @quick_post, quick_post_params, location: [@business, :content_feed]
+    update_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
+      QuickPost.__elasticsearch__.refresh_index! if success
+    end
   end
 
   def destroy
-    destroy_resource @quick_post, location: [@business, :content_feed]
+    destroy_resource @quick_post, location: [@business, :content_feed] do |success|
+      QuickPost.__elasticsearch__.refresh_index! if success
+    end
   end
 
   private

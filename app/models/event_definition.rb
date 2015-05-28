@@ -24,12 +24,6 @@ class EventDefinition < ActiveRecord::Base
     event_definition_location.event_definition = self if event_definition_location && !event_definition_location.event_definition
   end
 
-  after_save do
-    if schedule_changed? && errors.empty?
-      EventDefinitionSchedulerJob.perform_later(self)
-    end
-  end
-
   def start_date=(*args)
     super DatepickerParser.parse(*args)
   end
@@ -58,21 +52,24 @@ class EventDefinition < ActiveRecord::Base
 
   def reschedule_events!
     transaction do
-      events.destroy_all
+      existing_events = events.order(occurs_on: :asc)
+      new_occurrences = schedule.occurrences(schedule_ends_at)
 
-      if repetition?
-        schedule.occurrences(schedule_ends_at).each do |date|
-          events.create(business: business, occurs_on: date)
-        end
+      if new_occurrences.length > existing_events.length
+        occurrence_event_pairs = new_occurrences.zip(existing_events)
       else
-        events.create(business: business, occurs_on: start_date)
+        occurrence_event_pairs = existing_events.zip(new_occurrences).map(&:reverse)
+      end
+
+      occurrence_event_pairs.each do |occurrence, event|
+        if occurrence && event
+          event.update(occurs_on: occurrence) unless event.occurs_on == occurrence
+        elsif occurrence
+          events.create(business: business, occurs_on: occurrence)
+        elsif event
+          event.destroy
+        end
       end
     end
-  end
-
-  private
-
-  def schedule_changed?
-    repetition_changed? || start_date_changed? || end_date_changed?
   end
 end

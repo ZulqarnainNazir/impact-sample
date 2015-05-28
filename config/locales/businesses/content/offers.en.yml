@@ -3,7 +3,7 @@ en:
     content:
       offers:
         create:
-          notice: Your Offer is being published and will be available momentarily.
+          notice: Your Offer was published successfully.
           alert: There was a problem saving your Offer.
         update:
           notice: Your Offer was updated successfully.

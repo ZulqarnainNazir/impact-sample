@@ -3,7 +3,7 @@ en:
     content:
       posts:
         create:
-          notice: Your Post is being published and will be available momentarily.
+          notice: Your Post was published successfully.
           alert: There was a problem saving your Post.
         update:
           notice: Your Post was updated successfully.

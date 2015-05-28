@@ -13,18 +13,26 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
   def create
     create_resource @post, post_params, location: [@business, :content_feed] do |success|
-      fix_post_section_parent_ids(@post.post_sections) if success
+      if success
+        fix_post_section_parent_ids(@post.post_sections)
+        Post.__elasticsearch__.refresh_index!
+      end
     end
   end
 
   def update
     update_resource @post, post_params, location: [@business, :content_feed] do |success|
-      fix_post_section_parent_ids(@post.post_sections) if success
+      if success
+        fix_post_section_parent_ids(@post.post_sections)
+        Post.__elasticsearch__.refresh_index!
+      end
     end
   end
 
   def destroy
-    destroy_resource @post, location: [@business, :content_feed]
+    destroy_resource @post, location: [@business, :content_feed] do |success|
+      Post.__elasticsearch__.refresh_index! if success
+    end
   end
 
   private

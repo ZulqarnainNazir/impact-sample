@@ -3,7 +3,7 @@ en:
     content:
       quick_posts:
         create:
-          notice: Your Quick Post is being published and will be available momentarily.
+          notice: Your Quick Post was published successfully.
           alert: There was a problem saving your Quick Post.
         update:
           notice: Your Quick Post was updated successfully.

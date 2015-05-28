@@ -10,15 +10,21 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   end
 
   def create
-    create_resource @gallery, gallery_params, location: [@business, :content_feed]
+    create_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
+      Gallery.__elasticsearch__.refresh_index! if success
+    end
   end
 
   def update
-    update_resource @gallery, gallery_params, location: [@business, :content_feed]
+    update_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
+      Gallery.__elasticsearch__.refresh_index! if success
+    end
   end
 
   def destroy
-    destroy_resource @gallery, location: [@business, :content_feed]
+    destroy_resource @gallery, location: [@business, :content_feed] do |success|
+      Gallery.__elasticsearch__.refresh_index! if success
+    end
   end
 
   private

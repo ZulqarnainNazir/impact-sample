@@ -3,7 +3,7 @@ en:
     content:
       event_definitions:
         create:
-          notice: Your Event is being published and will be available momentarily.
+          notice: Your Event was published successfully.
           alert: There was a problem saving your Event.
         update:
           notice: Your Event was updated successfully.
