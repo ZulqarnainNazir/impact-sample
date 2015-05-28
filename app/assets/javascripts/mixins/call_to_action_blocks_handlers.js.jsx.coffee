@@ -234,7 +234,7 @@ CallToActionBlocksHandlers =
       link_target_blank: this.callToActionBlockInputGetVal(block, 'link_target_blank')
       link_no_follow: this.callToActionBlockInputGetVal(block, 'link_no_follow')
       heading: this.callToActionBlockInputGetVal(block, 'heading')
-      text: this.callToActionBlockInputGetVal(block, 'text')
+      text: $('#' + this.callToActionBlockID(block, 'text')).code()
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
@@ -281,8 +281,7 @@ CallToActionBlocksHandlers =
     this.callToActionBlockInputSetVal block, 'link_target_blank', block.link_target_blank
     this.callToActionBlockInputSetVal block, 'link_no_follow', block.link_no_follow
     this.callToActionBlockInputSetVal block, 'heading', block.heading
-    if $('#' + this.callToActionBlockID(block, 'text')).data('wysihtml5')
-      $('#' + this.callToActionBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
+    $('#' + this.callToActionBlockID(block, 'text')).code(block.text)
 
   callToActionBlockImageInit: (block, component) ->
     unless block.upload_xhr

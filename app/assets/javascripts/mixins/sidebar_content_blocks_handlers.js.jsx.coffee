@@ -193,6 +193,7 @@ SidebarContentBlocksHandlers =
       image_alt: this.sidebarContentBlockPlacementInputGetVal(block, 'image_alt')
       image_title: this.sidebarContentBlockPlacementInputGetVal(block, 'image_title')
       text: this.sidebarContentBlockInputGetVal(block, 'text')
+      text: $('#' + this.sidebarContentBlockID(block, 'text')).code()
       heading: this.sidebarContentBlockInputGetVal(block, 'heading')
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       attributes = $.extend {}, attributes,
@@ -233,8 +234,7 @@ SidebarContentBlocksHandlers =
     this.sidebarContentBlockPlacementInputSetVal block, 'image_title', block.image_title
     this.sidebarContentBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
     this.sidebarContentBlockPlacementInputSetVal block, 'heading', block.heading
-    if $('#' + this.sidebarContentBlockID(block, 'text')).data('wysihtml5')
-      $('#' + this.sidebarContentBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
+    $('#' + this.sidebarContentBlockID(block, 'text')).code(block.text)
 
   sidebarContentBlockImageInit: (block, component) ->
     unless block.upload_xhr

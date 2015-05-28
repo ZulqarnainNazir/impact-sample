@@ -3,9 +3,9 @@
  *= require jquery-ui
  *= require bootstrap-select
  *= require jquery.minicolors
- *= require bootstrap-wysihtml5
  *= require bootstrap-datepicker
  *= require recurring_select
+ *= require summernote
  *= require_tree ./plugins
  *= require ./base
  */

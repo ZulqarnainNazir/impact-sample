@@ -195,7 +195,7 @@ SpecialtyBlocksHandlers =
       image_alt: this.specialtyBlockPlacementInputGetVal(block, 'image_alt')
       image_title: this.specialtyBlockPlacementInputGetVal(block, 'image_title')
       heading: this.specialtyBlockInputGetVal(block, 'heading')
-      text: this.specialtyBlockInputGetVal(block, 'text')
+      text: $('#' + this.specialtyBlockID(block, 'text')).code()
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
@@ -235,8 +235,7 @@ SpecialtyBlocksHandlers =
     this.specialtyBlockPlacementInputSetVal block, 'image_title', block.image_title
     this.specialtyBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
     this.specialtyBlockInputSetVal block, 'heading', block.heading
-    if $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5')
-      $('#' + this.specialtyBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
+    $('#' + this.specialtyBlockID(block, 'text')).code(block.text)
 
   specialtyBlockImageInit: (block, component) ->
     unless block.upload_xhr

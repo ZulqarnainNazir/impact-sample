@@ -245,7 +245,7 @@ HeroBlockHandlers =
         background_color: this.heroBlockInputGetVal('background_color')
         foreground_color: this.heroBlockInputGetVal('foreground_color')
         style: this.heroBlockInputGetVal('style')
-        text: this.heroBlockInputGetVal('text')
+        text: $('#' + this.heroBlockID('text')).code()
         layout: $("input[name=\"#{this.heroBlockName('layout')}\"]:checked").val()
     else
       this.heroBlockUpdate
@@ -262,7 +262,7 @@ HeroBlockHandlers =
         background_color: this.heroBlockInputGetVal('background_color')
         foreground_color: this.heroBlockInputGetVal('foreground_color')
         style: this.heroBlockInputGetVal('style')
-        text: this.heroBlockInputGetVal('text')
+        text: $('#' + this.heroBlockID('text')).code()
         layout: $("input[name=\"#{this.heroBlockName('layout')}\"]:checked").val()
 
   heroBlockResetForm: () ->
@@ -297,8 +297,7 @@ HeroBlockHandlers =
     this.heroBlockInputSetVal 'foreground_color', this.state.heroBlock.foreground_color
     this.heroBlockInputSetVal 'style', this.state.heroBlock.style
     $("input[name=\"#{this.heroBlockName('layout')}\"][value=\"#{this.state.heroBlock.layout}\"]").prop('checked', true);
-    if $('#' + this.heroBlockID('text')).data('wysihtml5')
-      $('#' + this.heroBlockID('text')).data('wysihtml5').editor.setValue(this.state.heroBlock.text)
+    $('#' + this.heroBlockID('text')).code(this.state.heroBlock.text)
 
   heroBlockImageInit: (component) ->
     unless this.state.heroBlock.upload_xhr

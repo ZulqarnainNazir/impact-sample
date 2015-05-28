@@ -10,8 +10,8 @@
 //= require bootstrap-datepicker
 //= require jquery-fileupload/basic
 //= require jquery.minicolors
-//= require bootstrap-wysihtml5
 //= require recurring_select
+//= require summernote
 //= require twitter/typeahead.min
 //= require_tree ./plugins
 //= require_tree ./scripts
@@ -19,7 +19,7 @@
 Turbolinks.enableProgressBar();
 
 var ready = function() {
-  window['rangy'].initialized = false;
+  $('.checkbox-toggle input:checked').closest('.checkbox-toggle').addClass('checkbox-toggle-active');
   $('.gallery-images-associations').galleryImagesAssociations();
   $('.lines-associations').linesAssociations();
   $('.menus-sortable').menusSortable();

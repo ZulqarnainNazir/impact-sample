@@ -86,12 +86,11 @@ ContactBlockHandlers =
 
   contactBlockSwapForm: () ->
     this.contactBlockUpdate
-      text: this.contactBlockInputGetVal('text')
+      text: $('#' + this.contactBlockID('text')).code()
 
   contactBlockResetForm: () ->
     this.contactBlockInputSetVal 'heading', this.state.contactBlock.heading
-    if $('#' + this.contactBlockID('text')).data('wysihtml5')
-      $('#' + this.contactBlockID('text')).data('wysihtml5').editor.setValue(this.state.contactBlock.text)
+    $('#' + this.contactBlockID('text')).code(this.state.contactBlock.text)
 
   contactBlockPrevTheme: ->
     this.contactBlockUpdate theme: this.prevItem(this.contactBlockThemes, this.state.contactBlock.theme)

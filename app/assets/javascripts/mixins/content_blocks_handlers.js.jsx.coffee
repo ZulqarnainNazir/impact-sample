@@ -187,7 +187,7 @@ ContentBlocksHandlers =
       image_placement_embed: this.contentBlockPlacementInputGetVal(block, 'image_placement_embed')
       image_alt: this.contentBlockPlacementInputGetVal(block, 'image_alt')
       image_title: this.contentBlockPlacementInputGetVal(block, 'image_title')
-      text: this.contentBlockInputGetVal(block, 'text')
+      text: $('#' + this.contentBlockID(block, 'text')).code()
     if (block.image_temp_placement_destroy and block.image_temp_placement_destroy is '1') or (block.image_temp_cache_url and block.image_temp_cache_url.length > 0)
       attributes = $.extend {}, attributes,
         image_id: block.image_temp_id
@@ -226,8 +226,7 @@ ContentBlocksHandlers =
     this.contentBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.contentBlockPlacementInputSetVal block, 'image_title', block.image_title
     this.contentBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
-    if $('#' + this.contentBlockID(block, 'text')).data('wysihtml5')
-      $('#' + this.contentBlockID(block, 'text')).data('wysihtml5').editor.setValue(block.text)
+    $('#' + this.contentBlockID(block, 'text')).code(block.text)
 
   contentBlockImageInit: (block, component) ->
     unless block.upload_xhr

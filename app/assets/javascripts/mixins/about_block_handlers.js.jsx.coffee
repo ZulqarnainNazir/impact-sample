@@ -191,7 +191,7 @@ AboutBlockHandlers =
       image_title: this.aboutBlockPlacementInputGetVal('image_title')
       heading: this.aboutBlockInputGetVal('heading')
       subheading: this.aboutBlockInputGetVal('subheading')
-      text: this.aboutBlockInputGetVal('text')
+      text: $('#' + this.aboutBlockID('text')).code()
     if (this.state.aboutBlock.image_temp_placement_destroy and this.state.aboutBlock.image_temp_placement_destroy is '1') or (this.state.aboutBlock.image_temp_cache_url and this.state.aboutBlock.image_temp_cache_url.length > 0)
       attributes = $.extend {}, attributes,
         image_id: this.state.aboutBlock.image_temp_id
@@ -232,8 +232,7 @@ AboutBlockHandlers =
     this.aboutBlockPlacementInputSetVal 'image_placement_embed', this.state.aboutBlock.image_placement_embed
     this.aboutBlockInputSetVal 'heading', this.state.aboutBlock.heading
     this.aboutBlockInputSetVal 'subheading', this.state.aboutBlock.subheading
-    if $('#' + this.aboutBlockID('text')).data('wysihtml5')
-      $('#' + this.aboutBlockID('text')).data('wysihtml5').editor.setValue(this.state.aboutBlock.text)
+    $('#' + this.aboutBlockID('text')).code(this.state.aboutBlock.text)
 
   aboutBlockImageInit: (component) ->
     unless this.state.aboutBlock.upload_xhr
