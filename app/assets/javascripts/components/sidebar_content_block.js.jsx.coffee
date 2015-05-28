@@ -6,6 +6,7 @@ SidebarContentBlock = React.createClass
     blockInputHeading: React.PropTypes.object
     blockInputImage: React.PropTypes.object
     blockInputText: React.PropTypes.object
+    blockInputLink: React.PropTypes.object
     blockOptions: React.PropTypes.object
     blockInputsClassName: React.PropTypes.string
     editing: React.PropTypes.bool
@@ -30,6 +31,7 @@ SidebarContentBlock = React.createClass
             <hr />
             <BlockInputText {...this.props.blockInputHeading} />
             <BlockInputText {...this.props.blockInputText} />
+            <BlockInputLink {...this.props.blockInputLink} />
           </div>
           <BlockImageLibrary {...this.props.blockImageLibrary} />
         </BlockEditor>

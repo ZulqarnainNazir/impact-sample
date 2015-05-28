@@ -7,6 +7,7 @@ SidebarContentBlockContent = React.createClass
         {this.renderHeading()}
         {this.renderImage()}
         {this.renderText()}
+        {this.renderButton()}
       </div>
     </div>`
 
@@ -27,5 +28,9 @@ SidebarContentBlockContent = React.createClass
   renderText: ->
     if this.props.text and this.props.text.length > 0
       `<p dangerouslySetInnerHTML={{__html: this.props.text}} />`
+
+  renderButton: ->
+    if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
+      `<p><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
 
 window.SidebarContentBlockContent = SidebarContentBlockContent

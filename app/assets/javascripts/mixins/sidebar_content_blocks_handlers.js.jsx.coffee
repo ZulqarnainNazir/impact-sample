@@ -34,6 +34,7 @@ SidebarContentBlocksHandlers =
     blockInputImage: this.sidebarContentBlockInputImageProps(block)
     blockInputHeading: this.sidebarContentBlockInputHeadingProps(block)
     blockInputText: this.sidebarContentBlockInputTextProps(block)
+    blockInputLink: this.sidebarContentBlockInputLinkProps(block)
     blockOptions: this.sidebarContentBlockOptionsProps(block)
     blockInputsClassName: if block and block.displayImageLibrary then 'hide' else ''
     editing: this.state.editing
@@ -122,6 +123,21 @@ SidebarContentBlocksHandlers =
     rows: 4
     wysiwyg: true
 
+  sidebarContentBlockInputLinkProps: (block) ->
+    id: this.sidebarContentBlockID.bind(null, block)
+    name: this.sidebarContentBlockName.bind(null, block)
+    label: block.link_label
+    version: block.link_version
+    target_blank: block.link_target_blank
+    no_follow: block.link_no_follow
+    link_id: block.link_id
+    link_type: block.link_type
+    external_url: block.link_external_url
+    checkedNone: block.link_version is 'link_none'
+    checkedInternal: block.link_version is 'link_internal'
+    checkedExternal: block.link_version is 'link_external'
+    internalWebpages: this.props.internalWebpages
+
   sidebarContentBlockOptionsProps: (block) ->
     visible: this.state.editing
     editorTarget: "#sidebar-content-block-#{block.key}-editor"
@@ -142,6 +158,8 @@ SidebarContentBlocksHandlers =
     imageLibraryLoaded: false
     imageLibraryPage: 1
     images: []
+    link_target_blank: false
+    link_no_follow: false
     heading: 'Lorem Ipsum'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero
@@ -192,6 +210,13 @@ SidebarContentBlocksHandlers =
       image_placement_embed: this.sidebarContentBlockPlacementInputGetVal(block, 'image_placement_embed')
       image_alt: this.sidebarContentBlockPlacementInputGetVal(block, 'image_alt')
       image_title: this.sidebarContentBlockPlacementInputGetVal(block, 'image_title')
+      link_version: $("input[name=\"#{this.sidebarContentBlockName(block, 'link_version')}\"]:checked").val()
+      link_label: this.sidebarContentBlockInputGetVal(block, 'link_label')
+      link_id: parseInt(this.sidebarContentBlockInputGetVal(block, 'link_id'))
+      link_type: this.sidebarContentBlockInputGetVal(block, 'link_type')
+      link_external_url: this.sidebarContentBlockInputGetVal(block, 'link_external_url')
+      link_target_blank: this.sidebarContentBlockInputGetVal(block, 'link_target_blank')
+      link_no_follow: this.sidebarContentBlockInputGetVal(block, 'link_no_follow')
       text: this.sidebarContentBlockInputGetVal(block, 'text')
       text: $('#' + this.sidebarContentBlockID(block, 'text')).code()
       heading: this.sidebarContentBlockInputGetVal(block, 'heading')
@@ -233,6 +258,13 @@ SidebarContentBlocksHandlers =
     this.sidebarContentBlockPlacementInputSetVal block, 'image_alt', block.image_alt
     this.sidebarContentBlockPlacementInputSetVal block, 'image_title', block.image_title
     this.sidebarContentBlockPlacementInputSetVal block, 'image_placement_embed', block.image_placement_embed
+    this.sidebarContentBlockInputSetVal block, 'link_version', block.link_version
+    this.sidebarContentBlockInputSetVal block, 'link_label', block.link_label
+    this.sidebarContentBlockInputSetVal block, 'link_id', block.link_id
+    this.sidebarContentBlockInputSetVal block, 'link_type', block.link_type
+    this.sidebarContentBlockInputSetVal block, 'link_external_url', block.link_external_url
+    this.sidebarContentBlockInputSetVal block, 'link_target_blank', block.link_target_blank
+    this.sidebarContentBlockInputSetVal block, 'link_no_follow', block.link_no_follow
     this.sidebarContentBlockPlacementInputSetVal block, 'heading', block.heading
     $('#' + this.sidebarContentBlockID(block, 'text')).code(block.text)
 
