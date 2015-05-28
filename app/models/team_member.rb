@@ -9,6 +9,10 @@ class TeamMember < ActiveRecord::Base
     order(position: :asc)
   end
 
+  def description_html
+    Sanitize.fragment(description.to_s, Sanitize::Config::RELAXED).html_safe
+  end
+
   def name
     [first_name, last_name].reject(&:blank?).join(' ')
   end

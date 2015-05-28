@@ -25,5 +25,4 @@
           - if member.linkedin_id?
             li = link_to "https://www.linkedin.com/in/#{member.linkedin_id}", target: :_blank do
               i.fa.fa-linkedin-square.fa-2x
-        .team-member-bio
-          p = member.description
+        .team-member-bio = member.description_html
