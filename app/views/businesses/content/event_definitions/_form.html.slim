@@ -73,18 +73,17 @@
         .form-group
           - placeholder = business_location && business_location.full_address.present? ? 'Or Enter Another Venue Name' : 'Enter Venue Name'
           = text_field_tag :location_search, nil, placeholder: placeholder, class: 'form-control'
-        .js-event-location-map style="width:100%; height:300px; background:#eee; border:0"
-        hr
         p.text-right.js-event-location-new
           span> Can't find what you’re looking for?
           br>
           = link_to 'Add a new Venue', :new_location, data: { toggle: 'modal', target: '#js-event-location-new-modal' }
+        hr
+        .js-event-location-map style="width:100%; height:300px; background:#eee; border:0"
 hr
 .row
   .col-sm-4
     = form.button 'Save Event', class: 'btn btn-block btn-primary'
 
-= javascript_include_tag "//maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}"
 - content_for :javascript do
   #js-event-location-new-modal.modal.fade
     .modal-dialog
