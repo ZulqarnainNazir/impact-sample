@@ -46,6 +46,9 @@
     .form-group
       = form.label :repetition, class: 'control-label'
       = form.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control'
+    - content_for :javascript do
+      javascript:
+        $('#event_definition_repetition option[value*="validation"]').prop('selected', true)
     hr
     .js-event-location
       = form.fields_for :event_definition_location, form.object.event_definition_location || form.object.build_event_definition_location do |f|
