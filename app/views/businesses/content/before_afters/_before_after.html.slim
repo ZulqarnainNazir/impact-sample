@@ -7,7 +7,10 @@
       span.btn-group.btn-group-sm style="margin-left:8px"
         = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-  h2.h3 = before_after.title
+  - if @business.website
+    h2.h3 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website)], target: :_blank
+  - else
+    h2.h3 = before_after.title
   - if before_after.before_image || before_after.after_image
     .row style="margin-top: 20px"
       .col-sm-6

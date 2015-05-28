@@ -6,8 +6,8 @@
     div class=(@website.content_blog_sidebar? || @website.events_sidebar? ? 'col-sm-8' : 'col-sm-12')
       .feed-item.feed-quick_post
         .feed-item-meta
-          => icon 'tasks'
-          strong> Before &amp; After
+          => icon 'file-text-o'
+          strong> Quick Post
           span.pull-right
             span.text-muted Posted #{time_ago_in_words @quick_post.created_at} ago
         h2.h3 = @quick_post.title

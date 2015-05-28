@@ -8,13 +8,21 @@
         = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   h2
-    => link_to gallery.title, '#'
+    - if @business.website
+      => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
+    - else
+      => gallery.title
     span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
   .row.row-narrow
     - gallery.gallery_images.limit(6).each do |gallery_image|
       - image = gallery_image.gallery_image
       .col-xs-3.col-lg-2
-        = link_to '#', class: 'gallery-item' do
+        - if @business.website
+          = link_to [:website, gallery, only_path: false, host: website_host(@business.website)], class: 'gallery-item', target: :_blank do
+              figure
+                .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                  = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+        - else
             figure
               .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                 = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
