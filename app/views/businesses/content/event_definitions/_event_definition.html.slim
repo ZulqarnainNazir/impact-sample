@@ -5,6 +5,10 @@
     strong> Event
     span.pull-right
       span.text-muted> Posted #{time_ago_in_words event_definition.created_at} ago
+      span.btn-group.btn-group-sm style="margin-left:8px"
+        = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default'
+        = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default'
+        = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   .event-widget
     .event
       time.event-datetime datetime=event.occurs_on
