@@ -6,9 +6,9 @@
   - imageStyle = 'medium' if call_to_action_block.frame.try(:call_to_action_blocks_per_row).to_i == 2
   div class=className
     .webpage-call-to-action
-      .panel.panel-default.text-center
+      .panel.panel-default
         .panel-body
-          h4 = sanitize_inline_html call_to_action_block.heading
+          h4.text-center = sanitize_inline_html call_to_action_block.heading
           - if call_to_action_block.call_to_action_block_image_placement.try(:embeds?)
             .embed-responsive.embed-responsive-4by3
               = call_to_action_block.call_to_action_block_image_placement.embed.html_safe
@@ -20,4 +20,4 @@
               = image_tag call_to_action_block.call_to_action_block_image.attachment_url(imageStyle), class: 'img-responsive thumbnail'
           = sanitize_html call_to_action_block.text
           - if call_to_action_block.link?
-            p = link_to call_to_action_block.link_label, call_to_action_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (call_to_action_block.link_target_blank ? :_blank : nil), rel: (call_to_action_block.link_no_follow ? 'no-follow' : nil)
+            p.text-center = link_to call_to_action_block.link_label, call_to_action_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (call_to_action_block.link_target_blank ? :_blank : nil), rel: (call_to_action_block.link_no_follow ? 'no-follow' : nil)

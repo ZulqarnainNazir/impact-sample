@@ -2,7 +2,7 @@ CallToActionBlockContent = React.createClass
   mixins: [BackgroundImageCSS]
 
   render: ->
-    `<div className="panel panel-default text-center">
+    `<div className="panel panel-default">
       <div className="panel-body">
         {this.renderHeading()}
         {this.renderImage()}
@@ -13,7 +13,7 @@ CallToActionBlockContent = React.createClass
 
   renderHeading: ->
     if this.props.heading and this.props.heading.length > 0
-      `<h4>{this.props.heading}</h4>`
+      `<h4 className="text-center">{this.props.heading}</h4>`
 
   renderImage: ->
     if this.props.image_placement_kind is 'embeds'
@@ -31,6 +31,6 @@ CallToActionBlockContent = React.createClass
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
-      `<p><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
+      `<p className="text-center"><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
 
 window.CallToActionBlockContent = CallToActionBlockContent
