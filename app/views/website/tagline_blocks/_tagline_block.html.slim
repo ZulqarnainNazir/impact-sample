@@ -1,2 +1,6 @@
-.webpage-tagline
-  = render partial: "website/tagline_blocks/#{tagline_block.theme}", object: tagline_block, as: :block
+- cache tagline_block do
+  .webpage-tagline
+    -# Template Dependency: website/tagline_blocks/center
+    -# Template Dependency: website/tagline_blocks/contain
+    -# Template Dependency: website/tagline_blocks/left
+    = render partial: "website/tagline_blocks/#{tagline_block.theme}", object: tagline_block, as: :block

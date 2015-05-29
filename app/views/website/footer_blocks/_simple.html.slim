@@ -35,5 +35,6 @@ footer.site-footer.site-footer-simple
       - if location.email? && !location.hide_email?
         li = link_to "mailto:#{location.email}" do
           i.fa.fa-envelope-square.fa-2x
-    ul.list-inline.footer-links
-      = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
+    - cache website do
+      ul.list-inline.footer-links
+        = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }

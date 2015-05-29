@@ -1,5 +1,5 @@
 - title @post.title
-- canonical_url url_for(only_path: false, id: @post)
+- canonical_url website_post_url(@post)
 
 .container
   .row
@@ -10,8 +10,9 @@
           strong> Post
           span.pull-right
             span.text-muted Posted #{time_ago_in_words @post.published_at} ago
-        h1 = @post.title
-        = render partial: 'website/post_sections/post_section', collection: @post.arranged_sections, locals: { level: 2 }
+        - cache @post do
+          h1 = @post.title
+          = render partial: 'website/post_sections/post_section', collection: @post.arranged_sections, locals: { level: 2 }
     - if @website.content_blog_sidebar? || @website.events_sidebar?
       .col-sm-4
         - if @website.content_blog_sidebar?

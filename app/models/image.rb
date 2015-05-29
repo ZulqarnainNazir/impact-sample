@@ -24,6 +24,7 @@ class Image < ActiveRecord::Base
 
   after_commit do
     ImageCacheTransferJob.perform_later(self) if attachment_cache_url?
+    placements.each(&:touch)
   end
 
   after_post_process do

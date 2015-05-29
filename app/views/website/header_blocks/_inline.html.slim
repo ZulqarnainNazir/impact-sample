@@ -19,10 +19,11 @@
           = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: 'height: 40px'), :root, class: 'navbar-brand navbar-brand-image'
       - else
         = link_to business.name, :root, class: 'navbar-brand'
-    #header-collapse.navbar-collapse.collapse
-      ul.nav.navbar-nav.navbar-right
-        - if block.logo_height.present? && block.logo_height.to_i > 30
-          - style = "line-height: #{block.logo_height.to_i - 10}px"
-        - else
-          - style = ''
-        = render partial: 'website/nav_links/nav_link', collection: website.arranged_nav_links(:header), locals: { style: style }
+    - cache website do
+      #header-collapse.navbar-collapse.collapse
+        ul.nav.navbar-nav.navbar-right
+          - if block.logo_height.present? && block.logo_height.to_i > 30
+            - style = "line-height: #{block.logo_height.to_i - 10}px"
+          - else
+            - style = ''
+          = render partial: 'website/nav_links/nav_link', collection: website.arranged_nav_links(:header), locals: { style: style }

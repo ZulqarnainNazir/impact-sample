@@ -1,3 +1,4 @@
-div itemprop="openingHours"
-  => opening.days
-  span.pull-right = opening.hours
+- cache opening do
+  div itemprop="openingHours"
+    => opening.days
+    span.pull-right = opening.hours

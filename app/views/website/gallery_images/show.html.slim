@@ -1,26 +1,24 @@
 - title [@gallery_image.title, @gallery.title].reject(&:blank?).join(' – ')
-- image = @gallery_image.gallery_image
+- canonical_url website_gallery_image_url(@gallery, @gallery_image)
 
-.container
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li = link_to 'Galleries', :website_galleries
-    li = link_to @gallery.title, [:website, @gallery]
-    li.active View Images
-  .row
-    .col-xs-12.col-md-4.pull-right
-      h1.h2 = image.title
-    .col-md-8.gallery-item-page-image
-      = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
-    .col-md-4
-      - if image.title?
-        hr
-      h2.h4 More Images
-      p.help-block Click images below to view larger:
-      .row.row-collapse
-        - @gallery.gallery_images.each do |gallery_image|
-          - image = gallery_image.gallery_image
-          .col-xs-3.col-sm-2.col-md-3
-            = link_to [:website, @gallery, gallery_image], class: 'gallery-item-page-thumb' do
-              .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+- cache @gallery do
+  .container
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li = link_to 'Galleries', :website_galleries
+      li = link_to @gallery.title, [:website, @gallery]
+      li.active View Images
+    .row
+      - cache @gallery_image do
+        - image = @gallery_image.gallery_image
+        .col-xs-12.col-md-4.pull-right
+          h1.h2 = image.title
+        .col-md-8.gallery-item-page-image
+          = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
+      .col-md-4
+        - if image.title?
+          hr
+        h2.h4 More Images
+        p.help-block Click images below to view larger:
+        .row.row-collapse
+          = render @gallery.gallery_images

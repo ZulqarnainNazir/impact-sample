@@ -1,0 +1,6 @@
+- cache gallery_image do
+  - image = gallery_image.gallery_image
+  .col-xs-3.col-sm-2.col-md-3
+    = link_to [:website, @gallery, gallery_image], class: 'gallery-item-page-thumb' do
+      .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+        = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'

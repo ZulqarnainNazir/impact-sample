@@ -1,2 +1,10 @@
-.webpage-hero
-  = render partial: "website/hero_blocks/#{hero_block.theme}", object: hero_block, as: :block
+- cache hero_block do
+  .webpage-hero
+    -# Template Dependency: website/hero_blocks/left
+    -# Template Dependency: website/hero_blocks/right
+    -# Template Dependency: website/hero_blocks/well
+    -# Template Dependency: website/hero_blocks/well_dark
+    -# Template Dependency: website/hero_blocks/split_image
+    -# Template Dependency: website/hero_blocks/split_video
+    -# Template Dependency: website/hero_blocks/form
+    = render partial: "website/hero_blocks/#{hero_block.theme}", object: hero_block, as: :block

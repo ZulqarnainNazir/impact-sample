@@ -22,6 +22,11 @@ class Webpage < ActiveRecord::Base
     end
   end
 
+  after_commit do
+    blocks.each(&:touch)
+    nav_links.each(&:touch)
+  end
+
   def self.custom
     where(type: 'CustomPage')
   end

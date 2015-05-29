@@ -1,8 +1,9 @@
 - title @page.title
-- canonical_url url_for(only_path: false)
+- canonical_url website_about_page_url
 
-- if @page.about_block
-  = render @page.about_block
-.container
-  - if @page.team_block
-    = render @page.team_block
+- cache @page do
+  -# Template Dependency: website/about_blocks/about_block
+  = render @page.about_block if @page.about_block
+  .container
+    -# Template Dependency: website/team_blocks/team_block
+    = render @page.team_block if @page.team_block

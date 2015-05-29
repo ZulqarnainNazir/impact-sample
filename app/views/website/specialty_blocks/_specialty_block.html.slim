@@ -1,12 +1,13 @@
-.webpage-specialty
-  p.lead.text-center = sanitize_inline_html specialty_block.heading
-  hr
-  .row
-    .col-sm-7.col-md-6 class=('pull-right' if specialty_block.theme == 'right')
-      - if specialty_block.specialty_block_image_placement.try(:embeds?)
-        .embed-responsive.embed-responsive-4by3
-          = specialty_block.specialty_block_image_placement.embed.html_safe
-      - elsif specialty_block.specialty_block_image
-        = image_tag specialty_block.specialty_block_image.attachment_url(:medium), class: 'img-responsive thumbnail'
-    .col-sm-5.col-md-6
-      = sanitize_html specialty_block.text
+- cache specialty_block do
+  .webpage-specialty
+    p.lead.text-center = sanitize_inline_html specialty_block.heading
+    hr
+    .row
+      .col-sm-7.col-md-6 class=('pull-right' if specialty_block.theme == 'right')
+        - if specialty_block.specialty_block_image_placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3
+            = specialty_block.specialty_block_image_placement.embed.html_safe
+        - elsif specialty_block.specialty_block_image
+          = image_tag specialty_block.specialty_block_image.attachment_url(:medium), class: 'img-responsive thumbnail'
+      .col-sm-5.col-md-6
+        = sanitize_html specialty_block.text

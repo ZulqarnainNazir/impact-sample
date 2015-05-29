@@ -32,6 +32,10 @@ class Location < ActiveRecord::Base
 
   after_validation :geocode, if: :requires_geocode?
 
+  after_commit do
+    event_definition_locations.each(&:touch)
+  end
+
   def as_indexed_json(options = {})
     as_json(methods: %i[full_address])
   end

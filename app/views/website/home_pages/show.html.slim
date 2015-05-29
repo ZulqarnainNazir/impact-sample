@@ -1,31 +1,27 @@
 - title @page.title
-- canonical_url url_for(only_path: false)
+- canonical_url website_root_url
 
 .container
   - @page.block_types.each do |block_type|
     - case block_type
     - when 'hero'
-      - if @page.hero_block
-        = render @page.hero_block
+        = render @page.hero_block if @page.hero_block
     - when 'tagline'
-      - if @page.tagline_blocks.any?
-        = render @page.tagline_blocks
+        = render @page.tagline_blocks if @page.tagline_blocks.any?
     - when 'specialty'
-      - if @page.specialty_blocks.any?
-        = render @page.specialty_blocks
+        = render @page.specialty_blocks if @page.specialty_blocks.any?
     - when 'call_to_action'
       - if @page.call_to_action_blocks.any?
-        .row
-          = render @page.call_to_action_blocks
+        .row = render @page.call_to_action_blocks
     - when 'content'
       - if !%w[left right].include?(@page.sidebar_position) && @page.content_blocks.any?
         = render @page.content_blocks
     - when 'feed'
       - if !%w[left right].include?(@page.sidebar_position) && @page.feed_block && @feed_items.any?
         = render @feed_items
-          - if @website.blog_page
-            p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
-          hr
+        - if @website.blog_page
+          p = link_to 'view all', :website_blog_page, class: 'btn btn-default'
+        hr
     - when 'interior'
       - if %w[left right].include?(@page.sidebar_position)
         .row
@@ -35,7 +31,7 @@
             - if @page.feed_block && @feed_items.any?
               = render @feed_items
               - if @website.blog_page
-                p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
+                p = link_to 'view all', :website_blog_page, class: 'btn btn-default'
               hr
           .col-sm-4
             - if @page.sidebar_content_blocks.any?

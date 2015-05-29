@@ -18,21 +18,23 @@
         = link_to image_tag(business.logo.attachment_url(:logo_medium), alt: business.name, style: 'height: 60px'), :root, class: 'navbar-brand navbar-brand-image'
     - else
       = link_to business.name, :root, class: 'navbar-brand'
-  .navbar-right.vcard.navbar-vcard
-    p.h4.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
-    - if location.latitude? && location.longitude?
-      p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do
-            span
-              => location.address_line_one
-              br>
-              = location.address_line_two
-    - else
-      p.adr itemprop="address"
-        => location.address_line_one
-        br>
-        = location.address_line_two
-.navbar.navbar-logo-above.navbar-static-top class=block.css_class role="navigation" style="background-color: #{block.background_color}; color: #{block.foreground_color}"
-  .container
-    #header-collapse.navbar-collapse.collapse
-      ul.nav.navbar-nav
-        = render partial: 'website/nav_links/nav_link', collection: website.arranged_nav_links(:header), locals: { style: '' }
+  - cache location do
+    .navbar-right.vcard.navbar-vcard
+      p.h4.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
+      - if location.latitude? && location.longitude?
+        p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do
+              span
+                => location.address_line_one
+                br>
+                = location.address_line_two
+      - else
+        p.adr itemprop="address"
+          => location.address_line_one
+          br>
+          = location.address_line_two
+- cache website do
+  .navbar.navbar-logo-above.navbar-static-top class=block.css_class role="navigation" style="background-color: #{block.background_color}; color: #{block.foreground_color}"
+    .container
+      #header-collapse.navbar-collapse.collapse
+        ul.nav.navbar-nav
+          = render partial: 'website/nav_links/nav_link', collection: website.arranged_nav_links(:header), locals: { style: '' }

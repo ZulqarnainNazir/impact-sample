@@ -1,1 +1,9 @@
-= render partial: "website/header_blocks/#{header_block.theme}", object: header_block, as: :block, locals: { business: header_block.frame.business, website: header_block.frame, location: header_block.frame.business.location }
+- cache header_block.frame.business do
+  -# Template Dependency: website/header_blocks/inline
+  -# Template Dependency: website/header_blocks/center
+  -# Template Dependency: website/header_blocks/justify
+  -# Template Dependency: website/header_blocks/logo_above
+  -# Template Dependency: website/header_blocks/logo_above_full_width
+  -# Template Dependency: website/header_blocks/logo_below
+  -# Template Dependency: website/header_blocks/logo_center
+  = render partial: "website/header_blocks/#{header_block.theme}", object: header_block, as: :block, locals: { business: header_block.frame.business, website: header_block.frame, location: header_block.frame.business.location }

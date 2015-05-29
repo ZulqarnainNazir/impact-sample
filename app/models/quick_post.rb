@@ -3,7 +3,7 @@ class QuickPost < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
-  belongs_to :business
+  belongs_to :business, touch: true
 
   has_placed_image :quick_post_image
 

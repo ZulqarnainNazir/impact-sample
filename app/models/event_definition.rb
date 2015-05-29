@@ -3,7 +3,7 @@ class EventDefinition < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
-  belongs_to :business
+  belongs_to :business, touch: true
 
   has_one :event_definition_location, dependent: :destroy
 

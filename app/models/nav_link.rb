@@ -12,7 +12,7 @@ class NavLink < ActiveRecord::Base
     dropdown: 2,
   }
 
-  belongs_to :website
+  belongs_to :website, touch: true
   belongs_to :webpage
 
   has_ancestry

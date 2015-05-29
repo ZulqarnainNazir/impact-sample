@@ -4,9 +4,10 @@
     strong> Quick Post
     span.pull-right
       span.text-muted Posted #{time_ago_in_words quick_post.created_at} ago
-  h2.h3 = link_to quick_post.title, [:website, quick_post]
-  = sanitize_html quick_post.content
-  - image = quick_post.quick_post_image
-  - if image
-    br
-    = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+  - cache quick_post do
+    h2.h3 = link_to quick_post.title, [:website, quick_post]
+    = sanitize_html quick_post.content
+    - image = quick_post.quick_post_image
+    - if image
+      br
+      = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'

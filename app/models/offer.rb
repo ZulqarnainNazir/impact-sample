@@ -10,7 +10,7 @@ class Offer < ActiveRecord::Base
     image_right: 1,
   }
 
-  belongs_to :business
+  belongs_to :business, touch: true
 
   has_placed_image :offer_image
 

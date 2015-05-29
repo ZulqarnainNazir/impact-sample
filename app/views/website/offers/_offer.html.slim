@@ -5,38 +5,39 @@
     strong> Offer
     span.pull-right
       span.text-muted Posted #{time_ago_in_words offer.created_at} ago
-  h2 = link_to offer.title, [:website, offer]
-  - if defined?(:small)
-    - if image
-      = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
-    div style="margin:10px 0"
-      = sanitize_html offer.offer
-    - if offer.valid_until?
-      p.lead
-        ' Offer Valid Until
-        strong = offer.valid_until.strftime('%B %e, %Y')
-    div style="margin:10px 0"
-      = sanitize_html offer.description
-    p.text-right
-      = link_to [:website, offer], class: 'btn btn-primary' do
-        ' Learn More
-        i.fa.fa-angle-right
-  - else
-    .offer-row class=(offer.kind || 'image_left')
-      .row
-        .col-sm-6.offer-col-image
-          - if image
-            = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
-        .col-sm-6
-          div style="margin:10px 0"
-            = sanitize_html offer.offer
-          - if offer.valid_until?
-            p.lead
-              ' Offer Valid Until
-              strong = offer.valid_until.strftime('%B %e, %Y')
-          div style="margin:10px 0"
-            = sanitize_html offer.description
-          p.text-right
-            = link_to [:website, offer], class: 'btn btn-primary' do
-              ' Learn More
-              i.fa.fa-angle-right
+  - cache offer do
+    h2 = link_to offer.title, [:website, offer]
+    - if defined?(:small)
+      - if image
+        = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+      div style="margin:10px 0"
+        = sanitize_html offer.offer
+      - if offer.valid_until?
+        p.lead
+          ' Offer Valid Until
+          strong = offer.valid_until.strftime('%B %e, %Y')
+      div style="margin:10px 0"
+        = sanitize_html offer.description
+      p.text-right
+        = link_to [:website, offer], class: 'btn btn-primary' do
+          ' Learn More
+          i.fa.fa-angle-right
+    - else
+      .offer-row class=(offer.kind || 'image_left')
+        .row
+          .col-sm-6.offer-col-image
+            - if image
+              = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+          .col-sm-6
+            div style="margin:10px 0"
+              = sanitize_html offer.offer
+            - if offer.valid_until?
+              p.lead
+                ' Offer Valid Until
+                strong = offer.valid_until.strftime('%B %e, %Y')
+            div style="margin:10px 0"
+              = sanitize_html offer.description
+            p.text-right
+              = link_to [:website, offer], class: 'btn btn-primary' do
+                ' Learn More
+                i.fa.fa-angle-right

@@ -1,5 +1,5 @@
 class Placement < ActiveRecord::Base
-  belongs_to :placer, polymorphic: true
+  belongs_to :placer, polymorphic: true, touch: true
   belongs_to :image
 
   enum kind: {

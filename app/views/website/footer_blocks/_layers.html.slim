@@ -34,31 +34,33 @@ footer.site-footer.site-footer-layers
         - if location.email? && !location.hide_email?
           li = link_to "mailto:#{location.email}" do
             i.fa.fa-envelope-square.fa-2x
-  .site-footer-middle
-    .container
-      ul.list-unstyled.footer-links
-        = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
+  - cache website do
+    .site-footer-middle
+      .container
+        ul.list-unstyled.footer-links
+          = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
   .site-footer-bottom
     .container
       .row.vcard
         .col-sm-4
           p.h4.fn.org = business.name
           p.copyright &copy #{Time.zone.now.year} #{business.name}
-        .col-sm-4.footer-center
-          - if !location.hide_phone?
-            p.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
-          - if location.email? && !location.hide_email?
-            = link_to location.email, "mailto:#{location.email}", class: 'email'
-        .col-sm-4.footer-right
-          - if !location.hide_address?
-            - if location.latitude? && location.longitude?
-              p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do
-                span
+        - cache location do
+          .col-sm-4.footer-center
+            - if !location.hide_phone?
+              p.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
+            - if location.email? && !location.hide_email?
+              = link_to location.email, "mailto:#{location.email}", class: 'email'
+          .col-sm-4.footer-right
+            - if !location.hide_address?
+              - if location.latitude? && location.longitude?
+                p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do
+                  span
+                    => location.address_line_one
+                    br>
+                    = location.address_line_two
+              - else
+                p.adr itemprop="address"
                   => location.address_line_one
                   br>
                   = location.address_line_two
-            - else
-              p.adr itemprop="address"
-                => location.address_line_one
-                br>
-                = location.address_line_two

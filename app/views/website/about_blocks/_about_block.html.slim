@@ -1,2 +1,5 @@
-.webpage-about
-  = render partial: "website/about_blocks/#{about_block.theme}", object: about_block, as: :block
+- cache about_block do
+  .webpage-about
+    -# Template Dependency: website/about_blocks/banner
+    -# Template Dependency: website/about_blocks/left
+    = render partial: "website/about_blocks/#{about_block.theme}", object: about_block, as: :block

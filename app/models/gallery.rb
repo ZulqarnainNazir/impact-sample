@@ -2,7 +2,7 @@ class Gallery < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
-  belongs_to :business
+  belongs_to :business, touch: true
 
   has_many :gallery_images, dependent: :destroy
 

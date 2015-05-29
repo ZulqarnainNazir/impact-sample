@@ -1,1 +1,6 @@
-= render partial: "website/footer_blocks/#{footer_block.theme}", object: footer_block, as: :block, locals: { business: footer_block.frame.business, location: footer_block.frame.business.location, website: footer_block.frame }
+- cache footer_block.frame.business do
+  -# Template Dependency: website/footer_blocks/columns
+  -# Template Dependency: website/footer_blocks/layers
+  -# Template Dependency: website/footer_blocks/simple
+  -# Template Dependency: website/footer_blocks/simple_full_width
+  = render partial: "website/footer_blocks/#{footer_block.theme}", object: footer_block, as: :block, locals: { business: footer_block.frame.business, location: footer_block.frame.business.location, website: footer_block.frame }

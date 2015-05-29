@@ -1,2 +1,5 @@
-.webpage-team
-  = render partial: "website/team_blocks/#{team_block.theme}", object: team_block, as: :block, locals: { team_members: team_block.frame.website.business.team_members }
+- cache [team_block, *team_block.frame.website.business.team_members] do
+  .webpage-team
+    -# Template Dependency: website/team_blocks/horizontal
+    -# Template Dependency: website/team_blocks/vertical
+    = render partial: "website/team_blocks/#{team_block.theme}", object: team_block, as: :block, locals: { team_members: team_block.frame.website.business.team_members }

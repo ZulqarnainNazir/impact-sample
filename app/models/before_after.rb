@@ -3,7 +3,7 @@ class BeforeAfter < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
-  belongs_to :business
+  belongs_to :business, touch: true
 
   has_placed_image :before_image
   has_placed_image :after_image

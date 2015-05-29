@@ -1,14 +1,15 @@
-.navbar.navbar-static-top class=block.css_class role="navigation" style="background-color: #{block.background_color}; color: #{block.foreground_color}"
-  .container
-    .navbar-header
-      span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
-        span.sr-only Toggle Navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-    #header-collapse.navbar-collapse.collapse
-      ul.nav.navbar-nav
-        = render partial: 'website/nav_links/nav_link', collection: website.arranged_nav_links(:header), locals: { style: '' }
+- cache website do
+  .navbar.navbar-static-top class=block.css_class role="navigation" style="background-color: #{block.background_color}; color: #{block.foreground_color}"
+    .container
+      .navbar-header
+        span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
+          span.sr-only Toggle Navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+      #header-collapse.navbar-collapse.collapse
+        ul.nav.navbar-nav
+          = render partial: 'website/nav_links/nav_link', collection: website.arranged_nav_links(:header), locals: { style: '' }
 .container.header-logo-below
   - if business.logo.present?
     - if block.logo_height.present? && block.logo_height.to_i > 125
