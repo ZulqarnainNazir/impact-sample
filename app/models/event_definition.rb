@@ -47,8 +47,10 @@ class EventDefinition < ActiveRecord::Base
   end
 
   def schedule
-    IceCube::Schedule.new(schedule_starts_at).tap do |s|
-      s.add_recurrence_rule RecurringSelect.dirty_hash_to_rule(repetition)
+    if repetition?
+      IceCube::Schedule.new(schedule_starts_at).tap do |s|
+        s.add_recurrence_rule RecurringSelect.dirty_hash_to_rule(repetition)
+      end
     end
   end
 
@@ -63,7 +65,7 @@ class EventDefinition < ActiveRecord::Base
   def reschedule_events!
     transaction do
       existing_events = events.order(occurs_on: :asc)
-      new_occurrences = schedule.occurrences(schedule_ends_at)
+      new_occurrences = repetition? ? schedule.occurrences(schedule_ends_at) : [start_date]
 
       if new_occurrences.length > existing_events.length
         occurrence_event_pairs = new_occurrences.zip(existing_events)
