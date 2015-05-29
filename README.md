@@ -231,10 +231,10 @@ For best results, "Request Production Access".
 
 ## Commit Process
 
-DO NOT COMMIT DIRECTLY TO STAGING OR MASTER
+DO NOT COMMIT DIRECTLY TO DEV OR MASTER
 
-To begin work on IMPACT, checkout the `staging` branch and run `git pull origin
-staging` to get a fresh copy of the staging branch.
+To begin work on IMPACT, checkout the `dev` branch and run `git pull origin dev`
+to get a fresh copy of the dev branch.
 
 Checkout a new feature branch, identified by the work you are doing (presumably a
 Pivotal Tracker ID#). For example:
@@ -242,25 +242,24 @@ Pivotal Tracker ID#). For example:
 `git checkout -b 123456_update_widget`
 
 Ensure all tests pass and commit your changes. Once you have been instructed to
-merge your branch into staging, first checkout the `staging` branch and ensure
-it is up-to-date: `git pull origin staging`.
+merge your branch into dev, first checkout the `dev` branch and ensure it is
+up-to-date: `git pull origin dev`.
 
-Then checkout your feature branch and rebase it against staging:
+Then checkout your feature branch and rebase it against dev:
 
 ```
 git checkout 123456_update_widget
-git rebase staging
+git rebase dev
 ```
 
-Now that your feature branch is freshly rebased against the staging branch,
-checkout `staging` and merge in your work.
+Now that your feature branch is freshly rebased against the dev branch, checkout
+`dev` and merge in your work.
 
 ```
-git checkout staging
+git checkout dev
 git merge 123456_update_widget
 ```
 
-There should NOT BE ANY merge conflicts. Push the updated staging branch to
-origin:
+There should NOT BE ANY merge conflicts. Push the updated dev branch to origin:
 
-`git push origin staging`
+`git push origin dev`
