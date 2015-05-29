@@ -12,6 +12,7 @@ BlockEditor = React.createClass
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
+            <span onClick={this.props.swapForm.bind(null, this.props.boundProps)} className="btn btn-primary pull-right" data-dismiss="modal">Swap</span>
             <p className="h4 modal-title">{this.props.title}</p>
           </div>
           <div className="modal-body webpage-fields">
