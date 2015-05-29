@@ -1,4 +1,6 @@
 class EventDefinition < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
   belongs_to :business
@@ -30,6 +32,14 @@ class EventDefinition < ActiveRecord::Base
 
   def end_date=(*args)
     super DatepickerParser.parse(*args)
+  end
+
+  def as_indexed_json(options = {})
+    as_json(methods: %i[sorting_date])
+  end
+
+  def sorting_date
+    created_at
   end
 
   def description_html

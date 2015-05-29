@@ -37,3 +37,6 @@
             p.panel-title.h4 Description
           .panel-body
             = @event.event_definition.description_html
+      - if @upcoming_events.any?
+        p.h4 Other Upcoming Instances
+        = render @upcoming_events, small: true

@@ -83,7 +83,11 @@ class Post < ActiveRecord::Base
   end
 
   def sorting_date
-    published_on
+    published_at
+  end
+
+  def published_at
+    published_on.to_time + created_at.seconds_since_midnight.seconds
   end
 
   private

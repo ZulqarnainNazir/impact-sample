@@ -19,22 +19,6 @@
     - if @website.content_blog_sidebar? || @website.events_sidebar?
       .col-sm-4
         - if @website.content_blog_sidebar?
-          - @sidebar_feed_items.each do |sidebar_feed_item|
-            - case sidebar_feed_item.class.name
-            - when 'BeforeAfter'
-              = render partial: 'website/before_afters/before_after_small', object: sidebar_feed_item, as: :before_after
-            - when 'Gallery'
-              = render partial: 'website/galleries/gallery_small', object: sidebar_feed_item, as: :gallery
-            - when 'Offer'
-              = render partial: 'website/offers/offer_small', object: sidebar_feed_item, as: :offer
-            - when 'Post'
-              = render partial: 'website/posts/post_small', object: sidebar_feed_item, as: :post
-            - when 'QuickPost'
-              = render partial: 'website/quick_posts/quick_post_small', object: sidebar_feed_item, as: :quick_post
-          - if @website.blog_page
-            p = link_to 'View All', :website_blog_page, class: 'btn btn-default'
-          hr
+          = render sidebar_feed_items, small: true
         - if @website.events_sidebar?
-          - @sidebar_events.each do |sidebar_event|
-              = render partial: 'website/events/event_small', object: sidebar_event, as: :event
-          hr
+          = render sidebar_events, small: true
