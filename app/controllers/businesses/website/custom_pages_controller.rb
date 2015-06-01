@@ -1,6 +1,7 @@
 class Businesses::Website::CustomPagesController < Businesses::Website::BaseController
   include BlockAttributesConcern
   include PlacementAttributesConcern
+  include RequiresWebPlanConcern
 
   layout 'application'
 

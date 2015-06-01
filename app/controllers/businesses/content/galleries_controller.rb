@@ -1,5 +1,6 @@
 class Businesses::Content::GalleriesController < Businesses::Content::BaseController
   include PlacementAttributesConcern
+  include RequiresWebPlanConcern
 
   before_action only: new_actions do
     @gallery = @business.galleries.new

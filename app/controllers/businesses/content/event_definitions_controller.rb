@@ -1,5 +1,6 @@
 class Businesses::Content::EventDefinitionsController < Businesses::Content::BaseController
   include PlacementAttributesConcern
+  include RequiresWebPlanConcern
 
   before_action only: new_actions do
     @event_definition = @business.event_definitions.new

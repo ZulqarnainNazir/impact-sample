@@ -1,15 +1,15 @@
 class Website < ActiveRecord::Base
   store_accessor :settings,
     :background_color,
+    :footer_injection,
     :foreground_color,
-    :link_color,
     :google_analytics_id,
     :head_injection,
-    :footer_injection
+    :link_color
 
   belongs_to :business, touch: true
 
-  with_options as: :frame do
+  with_options as: :frame, dependent: :destroy do
     has_one :header_block
     has_one :footer_block
   end
@@ -39,14 +39,10 @@ class Website < ActiveRecord::Base
     accepts_nested_attributes_for :webpages,      reject_if: proc { |a| a['_destroy'] == '1' || a['title'].blank? }
   end
 
-  validates :subdomain,
-    exclusion: { in: %w[www] },
-    format: { with: /\A[[a-z][0-9]\-]+\z/ },
-    length: { in: 3..30 },
-    presence: true,
-    uniqueness: { case_sensitive: false }
-  validates :webhosts,
-    length: { maximum: 10 }
+  validates :footer_block, presence: true
+  validates :header_block, presence: true
+  validates :subdomain, presence: true, exclusion: { in: %w[www] }, format: { with: /\A[[a-z][0-9]\-]+\z/ }, length: { in: 3..30 }, uniqueness: { case_sensitive: false }
+  validates :webhosts, length: { maximum: 10 }
 
   validate do
     future_webhosts = webhosts.reject(&:marked_for_destruction?)
@@ -55,6 +51,12 @@ class Website < ActiveRecord::Base
     if future_primary_webhosts.length > 1
       errors.add :webhosts, :invalid_primary
     end
+  end
+
+  before_validation do
+    self.build_footer_block(frame: self) unless footer_block
+    self.build_header_block(frame: self) unless header_block
+    self.subdomain = self.class.available_subdomain(business.name) if business.try(:name?) && !subdomain?
   end
 
   def self.available_subdomain(subdomain)

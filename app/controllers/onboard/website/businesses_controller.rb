@@ -29,7 +29,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business, business_params, location: [:edit_onboard_website, @business, :location]
+    update_resource @business, business_params, context: :requires_categories, location: [:edit_onboard_website, @business, :location]
   end
 
   def destroy
@@ -42,6 +42,8 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   def initial_business_params
     params.require(:business).permit(
       :name,
+    ).deep_merge(
+      plan: :primary,
     )
   end
 
@@ -83,8 +85,9 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     picture_url = picture['source']
     picture_name = File.basename(URI.parse(picture['source']).path) rescue nil
     {
-      description: page[:description],
       name: page[:name],
+      plan: :primary,
+      description: page[:description],
       tagline: page[:about],
       website_url: page[:website],
       year_founded: page[:founded],
@@ -106,21 +109,12 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         phone_number: page[:phone],
       },
       website_attributes: {
-        subdomain: ::Website.available_subdomain(page[:name]),
-        header_block_attributes: {
-          theme: 'inline',
-          style: 'dark',
-        },
-        footer_block_attributes: {
-          theme: 'simple',
-        },
         home_page_attributes: {
           active: true,
           name: 'Homepage',
           title: page[:name],
           pathname: '',
           hero_block_attributes: {
-            theme: 'left',
             heading: page[:name],
             text: page[:description],
             hero_block_image_placement_attributes: {

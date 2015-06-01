@@ -1,4 +1,6 @@
 class Businesses::Website::SidebarsController < Businesses::Website::BaseController
+  include RequiresWebPlanConcern
+
   def update
     update_resource @website, sidebars_params, location: [:edit, @business, :website_sidebars]
   end

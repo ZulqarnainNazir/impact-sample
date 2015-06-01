@@ -22,6 +22,10 @@ class Website::BaseController < ApplicationController
   before_action do
     @business = @website.business
     @location = @business.location
+
+    if @business.free?
+      render 'website/application/website_not_found', layout: 'blank', status: 404
+    end
   end
 
   rescue_from 'ActiveRecord::RecordNotFound' do |exception|

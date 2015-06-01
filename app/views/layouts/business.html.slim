@@ -33,22 +33,22 @@ html lang="en"
                     li = link_to [@business, :content_feed] do
                       i.fa.fa-institution>
                       | Content Library
-                    li.list-divider = link_to [:new, @business, :content_quick_post] do
+                    li.list-divider.requires-plan-upgrade = link_to [:new, @business, :content_quick_post] do
                       i.fa.fa-file-text-o>
                       | Quick Post
-                    li = link_to [:new, @business, :content_event_definition] do
+                    li.requires-plan-upgrade = link_to [:new, @business, :content_event_definition] do
                       i.fa.fa-calendar>
                       | New Event
-                    li = link_to [:new, @business, :content_gallery] do
+                    li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
                       i.fa.fa-photo>
                       | New Gallery
-                    li = link_to [:new, @business, :content_before_after] do
+                    li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
                       i.fa.fa-tasks>
                       | New Before &amp; After
                     li = link_to [:new, @business, :content_offer] do
                       i.fa.fa-ticket>
                       | New Offer
-                    li = link_to [:new, @business, :content_post] do
+                    li.requires-plan-upgrade = link_to [:new, @business, :content_post] do
                       i.fa.fa-edit>
                       | Custom Post
                     li.list-divider = link_to [@business, :content_images] do
@@ -63,27 +63,30 @@ html lang="en"
                       li = link_to [:edit, @business, :website_details] do
                         i.fa.fa-list>
                         | Basic Details
-                      li = link_to [:edit, @business, :website_meta] do
+                      li.requires-plan-upgrade = link_to [:edit, @business, :website_meta] do
                         i.fa.fa-sliders>
                         | Meta/SEO
-                      li = link_to [@business, :website_webpages] do
+                      li.requires-plan-upgrade = link_to [@business, :website_webpages] do
                         i.fa.fa-sitemap>
                         | Pages
-                      li = link_to [:edit, @business, :website_sidebars] do
+                      li.requires-plan-upgrade = link_to [:edit, @business, :website_sidebars] do
                         i.fa.fa-th>
                         | Sidebars
-                      li = link_to [:edit, @business, :website_menus] do
+                      li.requires-plan-upgrade = link_to [:edit, @business, :website_menus] do
                         i.fa.fa-random>
                         | Navigation Menus
-                      li = link_to [@business, :website_redirects] do
+                      li.requires-plan-upgrade = link_to [@business, :website_redirects] do
                         i.fa.fa-reply>
                         | Redirects
-                      li = link_to [:edit, @business, :website_theme] do
+                      li.requires-plan-upgrade = link_to [:edit, @business, :website_theme] do
                         i.fa.fa-photo>
                         | Theme &amp; Design
-                li = link_to '#', style: 'pointer-events:none; opacity:0.4' do
+                li = link_to [@business, :alliances]
                   i.fa.fa-random>
                   | Manage Alliances
+                li = link_to [@business, :reviews]
+                  i.fa.fa-star>
+                  | Manage Reviews
                 li class=('active' if controller_path.match(/\Abusinesses\/crm/))
                   span
                     i.fa.fa-comments>
@@ -153,3 +156,6 @@ html lang="en"
       $('#dashboard-collapse span').click(function() {
         $(this).closest('li').toggleClass('active')
       });
+    - if @business.free?
+      javascript:
+        $('.requires-plan-upgrade').requiresPlanUpgrade();

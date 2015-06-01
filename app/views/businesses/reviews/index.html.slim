@@ -1,0 +1,6 @@
+- title 'Reviews &amp; Reputations'.html_safe
+
+ol.breadcrumb
+  li = link_to icon('home'), :businesses
+  li = link_to @business.name, [@business, :dashboard]
+  li.active Reviews &amp; Reputations

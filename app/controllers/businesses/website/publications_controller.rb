@@ -1,4 +1,6 @@
 class Businesses::Website::PublicationsController < Businesses::Website::BaseController
+  include RequiresWebPlanConcern
+
   before_action do
     @webpage = @website.webpages.find(params[:webpage_id])
   end

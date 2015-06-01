@@ -6,7 +6,7 @@ class Businesses::Data::DetailsController < Businesses::BaseController
   end
 
   def update
-    update_resource @business, business_params, location: [:edit, @business, :data_details]
+    update_resource @business, business_params, context: :requires_categories, location: [:edit, @business, :data_details]
   end
 
   private

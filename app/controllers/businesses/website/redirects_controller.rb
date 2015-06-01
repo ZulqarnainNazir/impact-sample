@@ -1,4 +1,6 @@
 class Businesses::Website::RedirectsController < Businesses::Website::BaseController
+  include RequiresWebPlanConcern
+
   before_action only: new_actions do
     @redirect = @website.redirects.new
   end

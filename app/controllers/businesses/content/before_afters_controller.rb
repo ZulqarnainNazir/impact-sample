@@ -1,5 +1,6 @@
 class Businesses::Content::BeforeAftersController < Businesses::Content::BaseController
   include PlacementAttributesConcern
+  include RequiresWebPlanConcern
 
   before_action only: new_actions do
     @before_after = @business.before_afters.new

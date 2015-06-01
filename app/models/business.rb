@@ -1,6 +1,9 @@
 class Business < ActiveRecord::Base
   include PlacedImageConcern
 
+  enum kind: { traditional_business: 0, group_or_cause: 1, }
+  enum plan: { free: 0, web: 1, primary: 2, }
+
   has_many :events
   has_many :images
 
@@ -21,8 +24,11 @@ class Business < ActiveRecord::Base
     has_one :website
   end
 
+  has_many :authorized_managers, -> { manager }, class_name: Authorization.name
   has_many :authorized_owners, -> { owner }, class_name: Authorization.name
+
   has_many :categories, through: :categorizations
+  has_many :managers, through: :authorized_managers, source: :user
   has_many :owners, through: :authorized_owners, source: :user
 
   has_placed_image :logo
@@ -43,43 +49,26 @@ class Business < ActiveRecord::Base
     )
   }
 
-  enum kind: {
-    traditional_business: 0,
-    group_or_cause: 1,
-  }
-
+  validates :kind, presence: true
   validates :name, presence: true
+  validates :plan, presence: true
+  validates :location, presence: true
+  validates :website, presence: true
 
-  with_options unless: -> { validation_context.to_s.match(/\Aonboard_website/) || validation_context.to_sym == :related_associations } do
+  with_options on: :requires_categories do
     validates :category_ids, presence: true
   end
 
-  with_options on: :onboard_website do
-    validates :location, presence: true
-    validates :website, presence: true
-  end
-
   before_validation on: :onboard_website do
-    self.location_attributes = {
-      name: name,
-    }
-
-    self.website_attributes = {
-      subdomain: Website.available_subdomain(name),
-      header_block_attributes: {
-        theme: 'inline',
-        style: 'dark',
-      },
-      footer_block_attributes: {
-        theme: 'simple',
-      },
-    }
+    self.build_location(business: self) unless location
+    self.build_website(business: self) unless website
   end
 
   before_validation do
-    authorizations.each     { |r| r.business = self unless r.business }
-    authorized_owners.each  { |r| r.business = self unless r.business }
-    categorizations.each    { |r| r.business = self unless r.business }
+    authorizations.each       { |r| r.business = self unless r.business }
+    authorized_managers.each  { |r| r.business = self unless r.business }
+    authorized_owners.each    { |r| r.business = self unless r.business }
+    categorizations.each      { |r| r.business = self unless r.business }
   end
 
   def self.alphabetical
@@ -87,7 +76,7 @@ class Business < ActiveRecord::Base
   end
 
   def feed_items_count
-    before_afters.count + galleries.count + offers.count + posts.count
+    before_afters.count + event_definitions.count + galleries.count + offers.count + posts.count + quick_posts.count
   end
 
   def website_url=(value)

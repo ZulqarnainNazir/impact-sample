@@ -1,5 +1,6 @@
 class Businesses::Content::PostsController < Businesses::Content::BaseController
   include PlacementAttributesConcern
+  include RequiresWebPlanConcern
 
   layout 'application'
 

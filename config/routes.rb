@@ -101,8 +101,10 @@ Rails.application.routes.draw do
         end
 
         resource :marketing, only: %i[show]
+        resources :alliances, only: %i[index]
         resources :authorizations, only: %i[index new create destroy]
         resources :images, only: %i[index]
+        resources :reviews, only: %i[index]
       end
     end
 

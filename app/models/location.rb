@@ -14,6 +14,7 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :business
   accepts_nested_attributes_for :openings, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && %w[opens_at closes_at sunday monday tuesday wendesday thursday friday saturday].all? { |at| a[at].blank? } || a['_destroy'].blank? }
 
+  validates :name, presence: true
   validates :state, inclusion: { in: UsStates.abbreviations }, allow_blank: true
 
   with_options on: :business_setup do
@@ -22,9 +23,15 @@ class Location < ActiveRecord::Base
     validates :city, presence: true
     validates :state, presence: true
     validates :zip_code, presence: true
+  end
 
-    before_validation do
-      business.name = name if business && !business.name?
+  before_validation do
+    if business
+      if business.name? && !name?
+        self.name = business.name
+      elsif name? && !business.name?
+        business.name = name
+      end
     end
   end
 

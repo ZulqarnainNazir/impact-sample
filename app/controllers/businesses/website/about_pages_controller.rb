@@ -1,7 +1,7 @@
 class Businesses::Website::AboutPagesController < Businesses::Website::BaseController
   include BlockAttributesConcern
   include PlacementAttributesConcern
-
+  include RequiresWebPlanConcern
   layout 'application'
 
   before_action do

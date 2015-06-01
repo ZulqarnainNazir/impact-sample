@@ -1,4 +1,6 @@
 class Businesses::Website::MenusController < Businesses::Website::BaseController
+  include RequiresWebPlanConcern
+
   before_action do
     params[:website] ||= {}
     params[:website][:nav_links_attributes] ||= {}
