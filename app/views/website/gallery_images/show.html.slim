@@ -1,5 +1,5 @@
 - title [@gallery_image.title, @gallery.title].reject(&:blank?).join(' – ')
-- canonical_url website_gallery_image_url(@gallery, @gallery_image)
+- canonical_url website_gallery_gallery_image_url(@gallery, @gallery_image)
 
 - cache @gallery do
   .container
@@ -9,8 +9,8 @@
       li = link_to @gallery.title, [:website, @gallery]
       li.active View Images
     .row
+      - image = @gallery_image.gallery_image
       - cache @gallery_image do
-        - image = @gallery_image.gallery_image
         .col-xs-12.col-md-4.pull-right
           h1.h2 = image.title
         .col-md-8.gallery-item-page-image
