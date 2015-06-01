@@ -13,11 +13,13 @@ class Website::BaseController < ApplicationController
     end
 
     if !@website
-      render 'website_not_found'
+      render 'website/application/website_not_found', layout: 'blank', status: 404
     elsif @website.webhost.try(:primary?) && @webhost != @website.webhost
       redirect_to host: @website.webhost.name
     end
+  end
 
+  before_action do
     @business = @website.business
     @location = @business.location
   end
@@ -28,7 +30,7 @@ class Website::BaseController < ApplicationController
     if redirect
       redirect_to redirect.to_path, status: 301
     else
-      render 'webpage_not_found'
+      render 'website/application/webpage_not_found', status: 404
     end
   end
 
