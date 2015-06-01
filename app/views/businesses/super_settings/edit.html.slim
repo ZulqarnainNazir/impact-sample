@@ -1,0 +1,26 @@
+- title 'Super Settings'
+
+ol.breadcrumb
+  li = link_to icon('home'), :businesses
+  li = link_to @business.name, [@business, :dashboard]
+  li.active Super Settings
+
+= errors_for @business
+= form_for @business, url: [@business, :super_settings] do |form|
+  .panel.panel-default
+    .panel-heading
+      h1.h4.panel-title Select the business plan level:
+    .panel-body
+      .radio
+        = form.label :plan_free do
+          => form.radio_button :plan, :free
+          | Free
+      .radio
+        = form.label :plan_web do
+          => form.radio_button :plan, :web
+          | Web
+      .radio
+        = form.label :plan_primary do
+          => form.radio_button :plan, :primary
+          | Primary
+  = form.button 'Save Plan', class: 'btn btn-primary'

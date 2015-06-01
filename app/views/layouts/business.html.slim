@@ -147,6 +147,10 @@ html lang="en"
                     li = link_to '#' do
                       i.fa.fa-twitter-square>
                       | Twitter
+                - if current_user.super_user?
+                  li = link_to [:edit, @business, :super_settings]
+                    i.fa.fa-cog>
+                    | Super Settings
         .col-md-9.col-lg-10.dashboard-content
           .container style="background-color: #fff; padding-top: 15px; padding-bottom: 30px; width: auto;"
             = render 'alerts'

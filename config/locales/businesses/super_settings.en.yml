@@ -1,0 +1,6 @@
+en:
+  businesses:
+    super_settings:
+      update:
+        notice: The business plan was successfully updated.
+        alert: There was a problem updating the business plan.

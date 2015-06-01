@@ -101,6 +101,7 @@ Rails.application.routes.draw do
         end
 
         resource :marketing, only: %i[show]
+        resource :super_settings, only: %i[edit update]
         resources :alliances, only: %i[index]
         resources :authorizations, only: %i[index new create destroy]
         resources :images, only: %i[index]
