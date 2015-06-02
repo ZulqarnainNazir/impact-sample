@@ -8,3 +8,6 @@ $.fn.requiresPlanUpgrade = ->
   this.children().css
     'pointer-events': 'none'
     opacity: 0.4
+
+  this.click (e) ->
+    e.preventDefault()

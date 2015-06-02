@@ -75,7 +75,7 @@ h2.h3
   ' Post new content
   span.small Select post type
 .row.dashboard-root-secondary-panels
-  .col-sm-6.col-md-4.col-lg-2
+  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
     = link_to [:new, @business, :content_quick_post] do
       .panel.panel-primary
         .panel-heading
@@ -91,7 +91,7 @@ h2.h3
         .panel-footer.text-right
           span.pull-left> New Event
           i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
+  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
     = link_to [:new, @business, :content_gallery] do
       .panel.panel-warning
         .panel-heading
@@ -99,7 +99,7 @@ h2.h3
         .panel-footer.text-right
           span.pull-left> New Gallery
           i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
+  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
     = link_to [:new, @business, :content_before_after] do
       .panel.panel-danger
         .panel-heading
@@ -115,7 +115,7 @@ h2.h3
         .panel-footer.text-right
           span.pull-left> New Offer
           i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
+  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
     = link_to [:new, @business, :content_post] do
       .panel.panel-success
         .panel-heading
@@ -124,5 +124,5 @@ h2.h3
           span.pull-left> Custom Post
           i.fa.fa-arrow-circle-right
 hr
-p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post]} if you don't see a match.
+p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post], class: 'requires-plan-upgrade'} if you don't see a match.
 p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your allies, the Locable Publisher Network, and any linked accounts.

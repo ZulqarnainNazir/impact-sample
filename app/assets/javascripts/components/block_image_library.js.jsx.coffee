@@ -44,7 +44,10 @@ BlockImageLibrary = React.createClass
       </div>`
 
   renderImages: ->
-    this.props.images.map this.renderImage
+    if this.props.images.length > 0
+      this.props.images.map this.renderImage
+    else
+      `<div className="col-sm-12"><p>Looks like you don’t have any images, go ahead and upload a few.</p></div>`
 
   renderImage: (image) ->
     `<div key={image.id} className="col-xs-2">

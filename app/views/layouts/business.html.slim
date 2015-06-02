@@ -36,7 +36,7 @@ html lang="en"
                     li.list-divider.requires-plan-upgrade = link_to [:new, @business, :content_quick_post] do
                       i.fa.fa-file-text-o>
                       | Quick Post
-                    li.requires-plan-upgrade = link_to [:new, @business, :content_event_definition] do
+                    li = link_to [:new, @business, :content_event_definition] do
                       i.fa.fa-calendar>
                       | New Event
                     li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
