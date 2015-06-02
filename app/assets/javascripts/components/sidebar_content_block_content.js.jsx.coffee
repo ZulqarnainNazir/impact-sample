@@ -2,7 +2,7 @@ SidebarContentBlockContent = React.createClass
   mixins: [BackgroundImageCSS]
 
   render: ->
-    `<div className="panel panel-default text-center">
+    `<div className="panel panel-default">
       <div className="panel-body">
         {this.renderHeading()}
         {this.renderImage()}
@@ -13,7 +13,7 @@ SidebarContentBlockContent = React.createClass
 
   renderHeading: ->
     if this.props.heading and this.props.heading.length > 0
-      `<h4>{this.props.heading}</h4>`
+      `<h4 className="text-center">{this.props.heading}</h4>`
 
   renderImage: ->
     if this.props.image_placement_kind is 'embeds'

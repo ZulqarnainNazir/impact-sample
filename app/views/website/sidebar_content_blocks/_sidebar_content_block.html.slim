@@ -1,8 +1,8 @@
 - cache sidebar_content_block do
   .webpage-sidebar-content
-    .panel.panel-default.text-center
+    .panel.panel-default
       .panel-body
-        h4 = sanitize_inline_html sidebar_content_block.heading
+        h4.text-center = sanitize_inline_html sidebar_content_block.heading
         - if sidebar_content_block.sidebar_content_block_image_placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3
             = sidebar_content_block.sidebar_content_block_image_placement.embed.html_safe
