@@ -1,24 +1,23 @@
 - title [@gallery_image.title, @gallery.title].reject(&:blank?).join(' – ')
 - canonical_url website_gallery_gallery_image_url(@gallery, @gallery_image)
 
-- cache @gallery do
-  .container
-    ol.breadcrumb
-      li = link_to icon('home'), :website_root
-      li = link_to 'Galleries', :website_galleries
-      li = link_to @gallery.title, [:website, @gallery]
-      li.active View Images
-    .row
-      - image = @gallery_image.gallery_image
-      - cache @gallery_image do
-        .col-xs-12.col-md-4.pull-right
-          h1.h2 = image.title
-        .col-md-8.gallery-item-page-image
-          = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
-      .col-md-4
-        - if image.title?
-          hr
-        h2.h4 More Images
-        p.help-block Click images below to view larger:
-        .row.row-collapse
-          = render @gallery.gallery_images
+.container
+  ol.breadcrumb
+    li = link_to icon('home'), :website_root
+    li = link_to 'Galleries', :website_galleries
+    li = link_to @gallery.title, [:website, @gallery]
+    li.active View Images
+  .row
+    - image = @gallery_image.gallery_image
+    - cache @gallery_image do
+      .col-xs-12.col-md-4.pull-right
+        h1.h2 = image.title
+      .col-md-8.gallery-item-page-image
+        = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
+    .col-md-4
+      - if image.title?
+        hr
+      h2.h4 More Images
+      p.help-block Click images below to view larger:
+      .row.row-collapse
+        = render @gallery.gallery_images
