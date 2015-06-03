@@ -73,7 +73,9 @@ HeroBlockHandlers =
   heroBlockImageLibraryProps: ->
     visible: this.state.heroBlock and this.state.heroBlock.displayImageLibrary
     loaded: this.state.heroBlock and this.state.heroBlock.imageLibraryLoaded
+    local: this.state.heroBlock and this.state.heroBlock.imageLibraryLocal
     more: this.state.heroBlock and !this.state.heroBlock.imageLibraryLoadedAll
+    toggleLocal: this.heroBlockImageLibraryToggleLocal
     loadMore: this.heroBlockImageLibraryMore
     hide: this.heroBlockUpdate.bind(null, displayImageLibrary: false)
     add: this.heroBlockImageLibraryAdd
@@ -176,6 +178,7 @@ HeroBlockHandlers =
     link_no_follow: false
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryLocal: false
     imageLibraryPage: 1
     layout: 'default'
     heading: 'Heading'
@@ -329,13 +332,25 @@ HeroBlockHandlers =
     else
       this.setState updated
 
+  heroBlockImageLibraryToggleLocal: ->
+    changes =
+      heroBlock:
+        $merge:
+          imageLibraryLoaded: false
+          imageLibraryLoadedAll: false
+          imageLibraryLocal: !this.state.heroBlock.imageLibraryLocal
+          imageLibraryPage: 1
+      heroBlockImages:
+        $set: []
+    this.setState React.addons.update(this.state, changes), this.heroBlockImageLibraryStart
+
   heroBlockImageLibraryStart: ->
     unless this.state.heroBlock.imageLibraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{this.state.heroBlock.imageLibraryPage}", this.heroBlockImageLibraryLoad
+      $.get "#{this.props.imagesPath}?page=#{this.state.heroBlock.imageLibraryPage}&local=#{this.state.heroBlock.imageLibraryLocal}", this.heroBlockImageLibraryLoad
 
   heroBlockImageLibraryMore: ->
     unless this.state.heroBlock.imageLibraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{this.state.heroBlock.imageLibraryPage}", this.heroBlockImageLibraryLoad
+      $.get "#{this.props.imagesPath}?page=#{this.state.heroBlock.imageLibraryPage}&local=#{this.state.heroBlock.imageLibraryLocal}", this.heroBlockImageLibraryLoad
 
   heroBlockImageLibraryLoad: (data) ->
     changes =

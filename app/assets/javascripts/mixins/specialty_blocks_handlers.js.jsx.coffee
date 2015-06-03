@@ -74,6 +74,8 @@ SpecialtyBlocksHandlers =
     visible: block and block.displayImageLibrary
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
+    local: block and block.imageLibraryLocal
+    toggleLocal: this.specialtyBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.specialtyBlockImageLibraryMore.bind(null, block)
     hide: this.specialtyBlockUpdate.bind(null, block, displayImageLibrary: false)
     add: this.specialtyBlockImageLibraryAdd.bind(null, block)
@@ -142,6 +144,7 @@ SpecialtyBlocksHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryLocal: false
     imageLibraryPage: 1
     images: []
     heading: 'Heading'
@@ -267,13 +270,24 @@ SpecialtyBlocksHandlers =
     else
       this.setState updated
 
+  specialtyBlockImageLibraryToggleLocal: (block) ->
+    changes =
+      imageLibraryLoaded: false
+      imageLibraryLoadedAll: false
+      imageLibraryLocal: !block.imageLibraryLocal
+      imageLibraryPage: 1
+      images: []
+    this.specialtyBlockUpdate block, changes, null, this.specialtyBlockImageLibraryStart.bind(null, block)
+
   specialtyBlockImageLibraryStart: (block) ->
-    unless block.imageLibraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.specialtyBlockImageLibraryLoad.bind(null, block)
+    blockFilter = (b) -> b.key == block.key
+    foundBlock = this.state.specialtyBlocks.filter(blockFilter)[0]
+    unless foundBlock.imageLibraryLoaded
+      $.get "#{this.props.imagesPath}?page=#{foundBlock.imageLibraryPage}&local=#{foundBlock.imageLibraryLocal}", this.specialtyBlockImageLibraryLoad.bind(null, foundBlock)
 
   specialtyBlockImageLibraryMore: (block) ->
     unless block.imageLibraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.specialtyBlockImageLibraryLoad.bind(null, block)
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}&local=#{foundBlock.imageLibraryLocal}", this.specialtyBlockImageLibraryLoad.bind(null, block)
 
   specialtyBlockImageLibraryLoad: (block, data) ->
     this.specialtyBlockUpdate block,

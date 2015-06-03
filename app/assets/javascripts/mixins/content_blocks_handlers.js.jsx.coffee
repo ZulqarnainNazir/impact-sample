@@ -73,6 +73,8 @@ ContentBlocksHandlers =
     visible: block and block.displayImageLibrary
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
+    local: block and block.imageLibraryLocal
+    toggleLocal: this.contentBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.contentBlockImageLibraryMore.bind(null, block)
     hide: this.contentBlockUpdate.bind(null, block, displayImageLibrary: false)
     add: this.contentBlockImageLibraryAdd.bind(null, block)
@@ -136,6 +138,7 @@ ContentBlocksHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryLocal: false
     imageLibraryPage: 1
     images: []
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -258,13 +261,24 @@ ContentBlocksHandlers =
     else
       this.setState updated
 
+  contentBlockImageLibraryToggleLocal: (block) ->
+    changes =
+      imageLibraryLoaded: false
+      imageLibraryLoadedAll: false
+      imageLibraryLocal: !block.imageLibraryLocal
+      imageLibraryPage: 1
+      images: []
+    this.contentBlockUpdate block, changes, null, this.contentBlockImageLibraryStart.bind(null, block)
+
   contentBlockImageLibraryStart: (block) ->
-    unless block.imageLibraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.contentBlockImageLibraryLoad.bind(null, block)
+    blockFilter = (b) -> b.key == block.key
+    foundBlock = this.state.contentBlocks.filter(blockFilter)[0]
+    unless foundBlock.imageLibraryLoaded
+      $.get "#{this.props.imagesPath}?page=#{foundBlock.imageLibraryPage}&local=#{foundBlock.imageLibraryLocal}", this.contentBlockImageLibraryLoad.bind(null, foundBlock)
 
   contentBlockImageLibraryMore: (block) ->
     unless block.imageLibraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.contentBlockImageLibraryLoad.bind(null, block)
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}&local=#{block.imageLibraryLocal}", this.contentBlockImageLibraryLoad.bind(null, block)
 
   contentBlockImageLibraryLoad: (block, data) ->
     this.contentBlockUpdate block,

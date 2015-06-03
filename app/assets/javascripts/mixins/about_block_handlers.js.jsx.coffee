@@ -71,6 +71,8 @@ AboutBlockHandlers =
     visible: this.state.aboutBlock and this.state.aboutBlock.displayImageLibrary
     loaded: this.state.aboutBlock and this.state.aboutBlock.imageLibraryLoaded
     more: this.state.aboutBlock and !this.state.aboutBlock.imageLibraryLoadedAll
+    local: this.state.aboutBlock and this.state.aboutBlock.imageLibraryLocal
+    toggleLocal: this.aboutBlockImageLibraryToggleLocal
     loadMore: this.aboutBlockImageLibraryMore
     hide: this.aboutBlockUpdate.bind(null, displayImageLibrary: false)
     add: this.aboutBlockImageLibraryAdd
@@ -143,6 +145,7 @@ AboutBlockHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryLocal: false
     imageLibraryPage: 1
     heading: 'Heading'
     subheading: 'Subheading'
@@ -264,13 +267,25 @@ AboutBlockHandlers =
     else
       this.setState updated
 
+  aboutBlockImageLibraryToggleLocal: ->
+    changes =
+      aboutBlock:
+        $merge:
+          imageLibraryLoaded: false
+          imageLibraryLoadedAll: false
+          imageLibraryLocal: !this.state.aboutBlock.imageLibraryLocal
+          imageLibraryPage: 1
+      aboutBlockImages:
+        $set: []
+    this.setState React.addons.update(this.state, changes), this.aboutBlockImageLibraryStart
+
   aboutBlockImageLibraryStart: ->
     unless this.state.aboutBlock.imageLibraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{this.state.aboutBlock.imageLibraryPage}", this.aboutBlockImageLibraryLoad
+      $.get "#{this.props.imagesPath}?page=#{this.state.aboutBlock.imageLibraryPage}&local=#{this.state.aboutBlock.imageLibraryLocal}", this.aboutBlockImageLibraryLoad
 
   aboutBlockImageLibraryMore: ->
     unless this.state.aboutBlock.imageLibraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{this.state.aboutBlock.imageLibraryPage}", this.aboutBlockImageLibraryLoad
+      $.get "#{this.props.imagesPath}?page=#{this.state.aboutBlock.imageLibraryPage}&local=#{this.state.aboutBlock.imageLibraryLocal}", this.aboutBlockImageLibraryLoad
 
   aboutBlockImageLibraryLoad: (data) ->
     changes =

@@ -91,6 +91,8 @@ CallToActionBlocksHandlers =
     visible: block and block.displayImageLibrary
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
+    local: block and block.imageLibraryLocal
+    toggleLocal: this.callToActionBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.callToActionBlockImageLibraryMore.bind(null, block)
     hide: this.callToActionBlockUpdate.bind(null, block, displayImageLibrary: false)
     add: this.callToActionBlockImageLibraryAdd.bind(null, block)
@@ -174,6 +176,7 @@ CallToActionBlocksHandlers =
     link_no_follow: false
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryLocal: false
     imageLibraryPage: 1
     images: []
     heading: 'Heading'
@@ -307,13 +310,24 @@ CallToActionBlocksHandlers =
     else
       this.setState updated
 
+  callToActionBlockImageLibraryToggleLocal: (block) ->
+    changes =
+      imageLibraryLoaded: false
+      imageLibraryLoadedAll: false
+      imageLibraryLocal: !block.imageLibraryLocal
+      imageLibraryPage: 1
+      images: []
+    this.callToActionBlockUpdate block, changes, null, this.callToActionBlockImageLibraryStart.bind(null, block)
+
   callToActionBlockImageLibraryStart: (block) ->
-    unless block.imageLibraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.callToActionBlockImageLibraryLoad.bind(null, block)
+    blockFilter = (b) -> b.key == block.key
+    foundBlock = this.state.callToActionBlocks.filter(blockFilter)[0]
+    unless foundBlock.imageLibraryLoaded
+      $.get "#{this.props.imagesPath}?page=#{foundBlock.imageLibraryPage}&local=#{foundBlock.imageLibraryLocal}", this.callToActionBlockImageLibraryLoad.bind(null, foundBlock)
 
   callToActionBlockImageLibraryMore: (block) ->
     unless block.imageLibraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.callToActionBlockImageLibraryLoad.bind(null, block)
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}&local=#{block.imageLibraryLocal}", this.callToActionBlockImageLibraryLoad.bind(null, block)
 
   callToActionBlockImageLibraryLoad: (block, data) ->
     this.callToActionBlockUpdate block,

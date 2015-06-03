@@ -75,6 +75,8 @@ SidebarContentBlocksHandlers =
     visible: block and block.displayImageLibrary
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
+    local: block and block.imageLibraryLocal
+    toggleLocal: this.sidebarContentBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.sidebarContentBlockImageLibraryMore.bind(null, block)
     hide: this.sidebarContentBlockUpdate.bind(null, block, displayImageLibrary: false)
     add: this.sidebarContentBlockImageLibraryAdd.bind(null, block)
@@ -156,6 +158,7 @@ SidebarContentBlocksHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
+    imageLibraryLocal: false
     imageLibraryPage: 1
     images: []
     link_target_blank: false
@@ -292,13 +295,24 @@ SidebarContentBlocksHandlers =
     else
       this.setState updated
 
+  sidebarContentBlockImageLibraryToggleLocal: (block) ->
+    changes =
+      imageLibraryLoaded: false
+      imageLibraryLoadedAll: false
+      imageLibraryLocal: !block.imageLibraryLocal
+      imageLibraryPage: 1
+      images: []
+    this.sidebarContentBlockUpdate block, changes, null, this.sidebarContentBlockImageLibraryStart.bind(null, block)
+
   sidebarContentBlockImageLibraryStart: (block) ->
-    unless block.imageLibraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.sidebarContentBlockImageLibraryLoad.bind(null, block)
+    blockFilter = (b) -> b.key == block.key
+    foundBlock = this.state.sidebarContentBlocks.filter(blockFilter)[0]
+    unless foundBlock.imageLibraryLoaded
+      $.get "#{this.props.imagesPath}?page=#{foundBlock.imageLibraryPage}&local=#{foundBlock.imageLibraryLocal}", this.sidebarContentBlockImageLibraryLoad.bind(null, foundBlock)
 
   sidebarContentBlockImageLibraryMore: (block) ->
     unless block.imageLibraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}", this.sidebarContentBlockImageLibraryLoad.bind(null, block)
+      $.get "#{this.props.imagesPath}?page=#{block.imageLibraryPage}&local=#{block.imageLibraryLocal}", this.sidebarContentBlockImageLibraryLoad.bind(null, block)
 
   sidebarContentBlockImageLibraryLoad: (block, data) ->
     this.sidebarContentBlockUpdate block,
