@@ -15,7 +15,7 @@ BlockImageLibrary = React.createClass
       `<div>
         <div className="checkbox pull-right small" style={{marginRight: 10}}>
           <label>
-            <input type="checkbox" onChange={this.props.toggleLocal} defaultChecked={this.props.local} />
+            <input type="checkbox" onChange={this.props.toggleLocal} defaultChecked={this.props.local} style={{marginTop: 2}} />
             Current Site Only
           </label>
         </div>
