@@ -70,6 +70,7 @@ ol.breadcrumb
       presignedPost: s3_presigned_post_hash,
       imagesPath: business_images_path(form.object.website.business),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
+      hasMultipleBusinesses: current_user.businesses.count > 1,
       internalWebpages: form.object.website.webpages.select(:id, :name),
       initialBlockTypeOrder: form.object.block_types.join(','),
       initialCallToActionBlocksPerRow: form.object.call_to_action_blocks_per_row,

@@ -74,6 +74,7 @@ HeroBlockHandlers =
     visible: this.state.heroBlock and this.state.heroBlock.displayImageLibrary
     loaded: this.state.heroBlock and this.state.heroBlock.imageLibraryLoaded
     local: this.state.heroBlock and this.state.heroBlock.imageLibraryLocal
+    showLocal: this.state.heroBlock and this.state.heroBlock.imageLibraryShowLocalOption
     more: this.state.heroBlock and !this.state.heroBlock.imageLibraryLoadedAll
     toggleLocal: this.heroBlockImageLibraryToggleLocal
     loadMore: this.heroBlockImageLibraryMore
@@ -180,6 +181,7 @@ HeroBlockHandlers =
     imageLibraryLoaded: false
     imageLibraryLocal: true
     imageLibraryPage: 1
+    imageLibraryShowLocalOption: this.props.hasMultipleBusinesses
     layout: 'default'
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.

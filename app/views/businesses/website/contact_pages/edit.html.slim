@@ -30,6 +30,7 @@ ol.breadcrumb
       presignedPost: s3_presigned_post_hash,
       imagesPath: business_images_path(form.object.website.business),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
+      hasMultipleBusinesses: current_user.businesses.count > 1,
       business: form.object.website.business,
       location: form.object.website.business.try(:location).try(:attributes_with_address),
       openings: form.object.website.business.try(:location).try(:openings),

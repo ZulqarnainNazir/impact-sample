@@ -75,6 +75,7 @@ SpecialtyBlocksHandlers =
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
     local: block and block.imageLibraryLocal
+    showLocal: block and block.imageLibraryShowLocalOption
     toggleLocal: this.specialtyBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.specialtyBlockImageLibraryMore.bind(null, block)
     hide: this.specialtyBlockUpdate.bind(null, block, displayImageLibrary: false)
@@ -146,6 +147,7 @@ SpecialtyBlocksHandlers =
     imageLibraryLoaded: false
     imageLibraryLocal: true
     imageLibraryPage: 1
+    imageLibraryShowLocalOption: this.props.hasMultipleBusinesses
     images: []
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.

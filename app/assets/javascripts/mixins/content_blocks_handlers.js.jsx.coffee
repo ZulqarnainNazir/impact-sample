@@ -74,6 +74,7 @@ ContentBlocksHandlers =
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
     local: block and block.imageLibraryLocal
+    showLocal: block and block.imageLibraryShowLocalOption
     toggleLocal: this.contentBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.contentBlockImageLibraryMore.bind(null, block)
     hide: this.contentBlockUpdate.bind(null, block, displayImageLibrary: false)
@@ -140,6 +141,7 @@ ContentBlocksHandlers =
     imageLibraryLoaded: false
     imageLibraryLocal: true
     imageLibraryPage: 1
+    imageLibraryShowLocalOption: this.props.hasMultipleBusinesses
     images: []
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Aenean ultricies ultrices mi eu maximus. Curabitur dignissim libero

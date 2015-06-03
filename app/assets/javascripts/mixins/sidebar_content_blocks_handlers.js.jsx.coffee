@@ -76,6 +76,7 @@ SidebarContentBlocksHandlers =
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
     local: block and block.imageLibraryLocal
+    showLocal: block and block.imageLibraryShowLocalOption
     toggleLocal: this.sidebarContentBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.sidebarContentBlockImageLibraryMore.bind(null, block)
     hide: this.sidebarContentBlockUpdate.bind(null, block, displayImageLibrary: false)
@@ -160,6 +161,7 @@ SidebarContentBlocksHandlers =
     imageLibraryLoaded: false
     imageLibraryLocal: true
     imageLibraryPage: 1
+    imageLibraryShowLocalOption: this.props.hasMultipleBusinesses
     images: []
     link_target_blank: false
     link_no_follow: false

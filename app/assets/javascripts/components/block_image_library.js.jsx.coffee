@@ -13,12 +13,7 @@ BlockImageLibrary = React.createClass
   render: ->
     if this.props.visible
       `<div>
-        <div className="checkbox pull-right small" style={{marginRight: 10}}>
-          <label>
-            <input type="checkbox" onChange={this.props.toggleLocal} defaultChecked={this.props.local} style={{marginTop: 2}} />
-            Current Site Only
-          </label>
-        </div>
+        {this.renderLocalCheckbox()}
         <ol className="breadcrumb">
           <li><a onClick={this.props.hide} href="#">Edit Details</a></li>
           <li className="active">Media Library</li>
@@ -27,6 +22,15 @@ BlockImageLibrary = React.createClass
       </div>`
     else
       `<div />`
+
+  renderLocalCheckbox: ->
+    if this.props.showLocal
+      `<div className="checkbox pull-right small" style={{marginRight: 10}}>
+        <label>
+          <input type="checkbox" onChange={this.props.toggleLocal} defaultChecked={this.props.local} style={{marginTop: 2}} />
+          Current Site Only
+        </label>
+      </div>`
 
   renderInterior: ->
     if this.props.loaded

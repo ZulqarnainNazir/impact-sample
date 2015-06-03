@@ -72,6 +72,7 @@ AboutBlockHandlers =
     loaded: this.state.aboutBlock and this.state.aboutBlock.imageLibraryLoaded
     more: this.state.aboutBlock and !this.state.aboutBlock.imageLibraryLoadedAll
     local: this.state.aboutBlock and this.state.aboutBlock.imageLibraryLocal
+    showLocal: this.state.aboutBlock and this.state.aboutBlock.imageLibraryShowLocalOption
     toggleLocal: this.aboutBlockImageLibraryToggleLocal
     loadMore: this.aboutBlockImageLibraryMore
     hide: this.aboutBlockUpdate.bind(null, displayImageLibrary: false)
@@ -147,6 +148,7 @@ AboutBlockHandlers =
     imageLibraryLoaded: false
     imageLibraryLocal: true
     imageLibraryPage: 1
+    imageLibraryShowLocalOption: this.props.hasMultipleBusinesses
     heading: 'Heading'
     subheading: 'Subheading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.

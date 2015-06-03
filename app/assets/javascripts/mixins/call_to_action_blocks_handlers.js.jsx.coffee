@@ -92,6 +92,7 @@ CallToActionBlocksHandlers =
     loaded: block and block.imageLibraryLoaded
     more: block and !block.imageLibraryLoadedAll
     local: block and block.imageLibraryLocal
+    showLocal: block and block.imageLibraryShowLocalOption
     toggleLocal: this.callToActionBlockImageLibraryToggleLocal.bind(null, block)
     loadMore: this.callToActionBlockImageLibraryMore.bind(null, block)
     hide: this.callToActionBlockUpdate.bind(null, block, displayImageLibrary: false)
@@ -178,6 +179,7 @@ CallToActionBlocksHandlers =
     imageLibraryLoaded: false
     imageLibraryLocal: true
     imageLibraryPage: 1
+    imageLibraryShowLocalOption: this.props.hasMultipleBusinesses
     images: []
     heading: 'Heading'
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
