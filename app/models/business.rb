@@ -4,9 +4,6 @@ class Business < ActiveRecord::Base
   enum kind: { traditional_business: 0, group_or_cause: 1, }
   enum plan: { free: 0, web: 1, primary: 2, }
 
-  has_many :events
-  has_many :images
-
   with_options dependent: :destroy do
     has_many :authorizations
     has_many :before_afters
@@ -24,12 +21,9 @@ class Business < ActiveRecord::Base
     has_one :website
   end
 
-  has_many :authorized_managers, -> { manager }, class_name: Authorization.name
-  has_many :authorized_owners, -> { owner }, class_name: Authorization.name
-
   has_many :categories, through: :categorizations
-  has_many :managers, through: :authorized_managers, source: :user
-  has_many :owners, through: :authorized_owners, source: :user
+  has_many :events
+  has_many :images
 
   has_placed_image :logo
 
@@ -57,18 +51,6 @@ class Business < ActiveRecord::Base
 
   with_options on: :requires_categories do
     validates :category_ids, presence: true
-  end
-
-  before_validation on: :onboard_website do
-    self.build_location(business: self) unless location
-    self.build_website(business: self) unless website
-  end
-
-  before_validation do
-    authorizations.each       { |r| r.business = self unless r.business }
-    authorized_managers.each  { |r| r.business = self unless r.business }
-    authorized_owners.each    { |r| r.business = self unless r.business }
-    categorizations.each      { |r| r.business = self unless r.business }
   end
 
   def self.alphabetical

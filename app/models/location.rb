@@ -25,22 +25,12 @@ class Location < ActiveRecord::Base
     validates :zip_code, presence: true
   end
 
-  before_validation do
-    if business
-      if business.name? && !name?
-        self.name = business.name
-      elsif name? && !business.name?
-        business.name = name
-      end
-    end
-  end
-
   geocoded_by :full_address
 
   after_validation :geocode, if: :requires_geocode?
 
   after_commit do
-    event_definition_locations.each(&:touch)
+    event_definitions.each(&:touch)
   end
 
   def as_indexed_json(options = {})

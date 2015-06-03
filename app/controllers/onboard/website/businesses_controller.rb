@@ -3,7 +3,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
 
   before_action only: new_actions + %i[import] do
     @business = Business.new
-    @business.owners = [current_user] unless current_user.super_user?
+    @business.authorizations.build(role: 0, user: current_user) unless current_user.super_user?
   end
 
   before_action only: member_actions do
@@ -15,12 +15,12 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def create
-    create_resource @business, initial_business_params, context: :onboard_website, location: [:edit_onboard_website, @business]
+    create_resource @business, initial_business_params, location: [:edit_onboard_website, @business]
   end
 
   def import
     begin
-      create_resource @business, facebook_params, context: :onboard_website, location: [:edit_onboard_website, @business] do |success|
+      create_resource @business, facebook_params, location: [:edit_onboard_website, @business] do |success|
         FacebookPhotosImportJob.perform_later(@business, current_user) if success
       end
     rescue
@@ -43,7 +43,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     params.require(:business).permit(
       :name,
     ).deep_merge(
-      plan: :primary,
+      plan: current_user.super_user? ? :primary : :free,
     )
   end
 
@@ -86,7 +86,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     picture_name = File.basename(URI.parse(picture['source']).path) rescue nil
     {
       name: page[:name],
-      plan: :primary,
+      plan: current_user.super_user? ? :primary : :free,
       description: page[:description],
       tagline: page[:about],
       website_url: page[:website],
@@ -99,7 +99,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         image_business: @business,
       },
       location_attributes: {
-        name: page[:location].try(:[], :name),
+        name: page[:location].try(:[], :name) || page[:name],
         street1: page[:location].try(:[], :street),
         city: page[:location].try(:[], :city),
         state: page[:location].try(:[], :state),
@@ -109,6 +109,9 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         phone_number: page[:phone],
       },
       website_attributes: {
+        subdomain: ::Website.available_subdomain(page[:name]),
+        header_block_attributes: {},
+        footer_block_attributes: {},
         home_page_attributes: {
           active: true,
           name: 'Homepage',

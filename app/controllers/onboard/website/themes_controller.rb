@@ -3,7 +3,15 @@ class Onboard::Website::ThemesController < Onboard::Website::BaseController
 
   before_action do
     @business = current_user.authorized_businesses.find(params[:business_id])
+  end
 
+  before_action do
+    if @business.free?
+      redirect_to [@business, :dashboard], alert: 'Please upgrade your listing to add a website.'
+    end
+  end
+
+  before_action do
     unless @business.location && @business.website
       redirect_to [@business, :dashboard], alert: 'No Location or Website Found'
     end

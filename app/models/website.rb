@@ -53,12 +53,6 @@ class Website < ActiveRecord::Base
     end
   end
 
-  before_validation do
-    self.build_footer_block(frame: self) unless footer_block
-    self.build_header_block(frame: self) unless header_block
-    self.subdomain = self.class.available_subdomain(business.name) if business.try(:name?) && !subdomain?
-  end
-
   def self.available_subdomain(subdomain)
     subdomain = subdomain.gsub(/'/, '').parameterize[0..26]
 

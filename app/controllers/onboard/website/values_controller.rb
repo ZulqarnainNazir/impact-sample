@@ -8,7 +8,9 @@ class Onboard::Website::ValuesController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business, values_params, context: :related_associations, location: [:edit_onboard_website, @business, :website]
+    update_resource @business, values_params, context: :related_associations, location: redirect_location do |success|
+      flash.notice = 'Great! You’re business was successfully setup!'
+    end
   end
 
   private
@@ -20,5 +22,13 @@ class Onboard::Website::ValuesController < Onboard::Website::BaseController
       :vision,
       :community_involvement,
     )
+  end
+
+  def redirect_location
+    if @business.free?
+      [@business, :dashboard]
+    else
+      [:edit_onboard_website, @business, :website]
+    end
   end
 end
