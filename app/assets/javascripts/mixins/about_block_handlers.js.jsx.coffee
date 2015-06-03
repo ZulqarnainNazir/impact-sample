@@ -145,7 +145,7 @@ AboutBlockHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
-    imageLibraryLocal: false
+    imageLibraryLocal: true
     imageLibraryPage: 1
     heading: 'Heading'
     subheading: 'Subheading'

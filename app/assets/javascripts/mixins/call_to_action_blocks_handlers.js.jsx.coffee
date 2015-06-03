@@ -176,7 +176,7 @@ CallToActionBlocksHandlers =
     link_no_follow: false
     displayImageLibrary: false
     imageLibraryLoaded: false
-    imageLibraryLocal: false
+    imageLibraryLocal: true
     imageLibraryPage: 1
     images: []
     heading: 'Heading'

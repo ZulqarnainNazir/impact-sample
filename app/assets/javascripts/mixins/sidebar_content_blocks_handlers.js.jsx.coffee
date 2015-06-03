@@ -158,7 +158,7 @@ SidebarContentBlocksHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
-    imageLibraryLocal: false
+    imageLibraryLocal: true
     imageLibraryPage: 1
     images: []
     link_target_blank: false

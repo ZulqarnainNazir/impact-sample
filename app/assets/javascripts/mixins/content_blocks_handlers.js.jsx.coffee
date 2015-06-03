@@ -138,7 +138,7 @@ ContentBlocksHandlers =
     image_state: 'empty'
     displayImageLibrary: false
     imageLibraryLoaded: false
-    imageLibraryLocal: false
+    imageLibraryLocal: true
     imageLibraryPage: 1
     images: []
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
