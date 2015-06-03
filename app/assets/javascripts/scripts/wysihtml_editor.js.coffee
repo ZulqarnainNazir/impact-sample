@@ -13,4 +13,8 @@ $.fn.wysihtmlEditor = ->
       ['clear', ['clear']],
       ['misc', ['codeview']],
     ]
-    onCreateLink: (link) -> link
+    onCreateLink: (link) ->
+      if link.indexOf('/') is not 0 and link.indexOf('://') is -1
+        'http://' + link
+      else
+        link
