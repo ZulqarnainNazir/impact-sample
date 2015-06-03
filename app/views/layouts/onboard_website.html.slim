@@ -32,7 +32,7 @@ html lang="en"
             .onboard-stepnum = content_tag (controller_name == 'values' ? :strong : :span), 'Community &amp;<br>Values'.html_safe
             .progress: .progress-bar
             span.onboard-dot
-          - unless @business && @business.persisted? && @business.free?
+          - unless @business.try(:free?)
             .onboard-step class=(controller_name == 'websites' ? 'is-active' : (controller_name == 'themes' ? 'is-complete' : 'is-disabled'))
               .onboard-stepnum = content_tag (controller_name == 'websites' ? :strong : :span), 'Setup<br>Website'.html_safe
               .progress: .progress-bar
@@ -41,7 +41,7 @@ html lang="en"
               .onboard-stepnum = content_tag (controller_name == 'themes' ? :strong : :span), 'Theme &amp;<br>Design'.html_safe
               .progress: .progress-bar
               span.onboard-dot
-      - if @business && @business.persisted? && @business.free?
+      - if @business.try(:free?)
         css:
           .onboard-step { width: 16.66% !important; }
       = yield

@@ -3,7 +3,13 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
 
   before_action only: new_actions + %i[import] do
     @business = Business.new
-    @business.authorizations.build(role: 0, user: current_user) unless current_user.super_user?
+
+    if current_user.super_user?
+      @business.plan = :primary
+    else
+      @business.plan = :free
+      @business.authorizations.build(role: 0, user: current_user)
+    end
   end
 
   before_action only: member_actions do
@@ -15,6 +21,12 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def create
+    @business.location_attributes= { name: initial_business_params[:name] }
+    @business.website_attributes = {
+      subdomain: ::Website.available_subdomain(initial_business_params[:name]),
+      header_block_attributes: {},
+      footer_block_attributes: {},
+    }
     create_resource @business, initial_business_params, location: [:edit_onboard_website, @business]
   end
 
@@ -42,8 +54,6 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   def initial_business_params
     params.require(:business).permit(
       :name,
-    ).deep_merge(
-      plan: current_user.super_user? ? :primary : :free,
     )
   end
 
@@ -86,7 +96,6 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     picture_name = File.basename(URI.parse(picture['source']).path) rescue nil
     {
       name: page[:name],
-      plan: current_user.super_user? ? :primary : :free,
       description: page[:description],
       tagline: page[:about],
       website_url: page[:website],
