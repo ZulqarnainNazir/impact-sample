@@ -13,3 +13,4 @@ $.fn.wysihtmlEditor = ->
       ['clear', ['clear']],
       ['misc', ['codeview']],
     ]
+    onCreateLink: (link) -> link
