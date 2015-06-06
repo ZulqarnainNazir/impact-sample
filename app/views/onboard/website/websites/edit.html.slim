@@ -8,7 +8,7 @@
         ' Based on the information you provided, we‘ve created a website for you at
         code>
           | http://
-          strong.text-info = @business.website.subdomain.present? ? @business.website.subdomain : Website.available_subdomain(@business.name)
+          strong.text-info = @business.website.subdomain.present? ? @business.website.subdomain : Subdomain.available(@business.name)
           | .#{Rails.application.secrets.host}
         | and used your information to create
       div style="margin:2em"

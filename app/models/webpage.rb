@@ -1,48 +1,28 @@
 class Webpage < ActiveRecord::Base
-  attr_accessor :image_business, :image_user, :cached_webpages
-  
-  store_accessor :settings, :block_type_order, :external_line_id, :sidebar_position
+  store_accessor :settings, :external_line_id, :sidebar_position
 
-  has_many :blocks, as: :link
+  belongs_to :website
+
+  has_many :groups, dependent: :destroy
+  has_many :linked_blocks, as: :link, class_name: Block.name
   has_many :nav_links
 
-  belongs_to :website, touch: true
+  with_options allow_destroy: true, reject_if: :all_blank do
+    accepts_nested_attributes_for :groups
+  end
 
   validates :pathname, uniqueness: { scope: :website, case_sensitive: false }
-  validates :pathname, absence: true, if: :home_page?
-  validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: :home_page?
+  validates :pathname, absence: true, if: -> { type == 'HomePage' }
+  validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: -> { type == 'HomePage' }
   validates :title, presence: true
   validates :type, presence: true, exclusion: { in: %w[Webpage] }
 
   before_validation do
     self.name = title if !name? && title?
-
-    unless type == 'HomePage'
-      self.pathname = title.parameterize if !pathname? && title?
-    end
-  end
-
-  after_commit do
-    nav_links.each(&:touch)
+    self.pathname = title.parameterize if !pathname? && title? && type != 'HomePage'
   end
 
   def self.custom
     where(type: 'CustomPage')
-  end
-
-  def cached_webpages_json
-    cached_webpages.as_json
-  end
-
-  def home_page?
-    type == 'HomePage'
-  end
-
-  def block_types
-    order = block_type_order.to_s.split(',')
-    %w[hero tagline call_to_action specialty content feed interior].each do |type|
-      order << type unless order.include?(type)
-    end
-    order
   end
 end

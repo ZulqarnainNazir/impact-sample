@@ -2,20 +2,17 @@ ContentBlockContent = React.createClass
   mixins: [BackgroundImageCSS]
 
   render: ->
+    `<div className="webpage-content">
+      {this.renderInterior()}
+    </div>`
+
+  renderInterior: ->
     if this.props.theme is 'full'
-      `<div className="row">
-        <div className="col-sm-12">
-          {this.renderText()}
-        </div>
-      </div>`
-    else if this.props.theme is 'fullImage'
-      `<div className="row">
-        <div className="col-sm-12">
-          {this.renderImage()}
-        </div>
-      </div>`
+      this.renderText()
+    else if this.props.theme is 'full_image'
+      this.renderImage()
     else
-      `<div className="row">
+      `<div>
         {this.renderLeft()}
         {this.renderRight()}
       </div>`
@@ -27,7 +24,7 @@ ContentBlockContent = React.createClass
     if this.props.theme is 'left' then this.renderImageColumn() else this.renderTextColumn()
 
   renderImageColumn: ->
-    `<div className="col-sm-4">
+    `<div className="webpage-block-col-4">
       {this.renderImage()}
     </div>`
 
@@ -40,12 +37,14 @@ ContentBlockContent = React.createClass
       `<ImageEmpty />`
 
   renderTextColumn: ->
-    `<div className="col-sm-8">
+    `<div className="webpage-block-col-8">
       {this.renderText()}
     </div>`
 
   renderText: ->
     if this.props.text and this.props.text.length > 0
       `<div dangerouslySetInnerHTML={{__html: this.props.text}} />`
+    else
+      `<div dangerouslySetInnerHTML={{__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'}} />`
 
 window.ContentBlockContent = ContentBlockContent

@@ -1,5 +1,10 @@
 ContactBlockContent = React.createClass
   render: ->
+    `<div className="webpage-contact">
+      {this.renderInterior()}
+    </div>`
+
+  renderInterior: ->
     switch this.props.theme
       when 'banner'
         this.renderBanner()

@@ -2,21 +2,31 @@ SpecialtyBlockContent = React.createClass
   mixins: [BackgroundImageCSS]
 
   render: ->
-    className = 'col-sm-7 col-md-6'
-    className += ' pull-right' if this.props.theme is 'right'
-
-    `<div>
-      <p className="lead text-center">{this.props.heading}</p>
+    `<div className="webpage-specialty">
+      <p className="lead text-center">{this.heading(this.props.heading)}</p>
       <hr />
-      <div className="row">
-        <div className={className}>
+      {this.renderContent()}
+    </div>`
+
+  renderContent: ->
+    if this.props.theme is 'right'
+      `<div>
+        <div className="webpage-block-col-6">
+          {this.renderText()}
+        </div>
+        <div className="webpage-block-col-6">
           {this.renderImage()}
         </div>
-        <div className="col-sm-5 col-md-6">
-          <p dangerouslySetInnerHTML={{__html: this.props.text}} />
+      </div>`
+    else
+      `<div>
+        <div className="webpage-block-col-6">
+          {this.renderImage()}
         </div>
-      </div>
-    </div>`
+        <div className="webpage-block-col-6">
+          {this.renderText()}
+        </div>
+      </div>`
 
   renderImage: ->
     if this.props.image_placement_kind is 'embeds'
@@ -27,5 +37,20 @@ SpecialtyBlockContent = React.createClass
       `<div>
         <ImageEmpty />
       </div>`
+
+  renderText: ->
+    `<p dangerouslySetInnerHTML={{__html: this.text(this.props.text)}} />`
+
+  heading: (value) ->
+    if value and value.length > 0
+      value
+    else
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+
+  text: (value) ->
+    if value and value.length > 0
+      value
+    else
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
 
 window.SpecialtyBlockContent = SpecialtyBlockContent

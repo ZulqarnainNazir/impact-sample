@@ -23,7 +23,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   def create
     @business.location_attributes= { name: initial_business_params[:name] }
     @business.website_attributes = {
-      subdomain: ::Website.available_subdomain(initial_business_params[:name]),
+      subdomain: Subdomain.available(initial_business_params[:name]),
       header_block_attributes: {},
       footer_block_attributes: {},
     }
@@ -118,7 +118,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         phone_number: page[:phone],
       },
       website_attributes: {
-        subdomain: ::Website.available_subdomain(page[:name]),
+        subdomain: Subdomain.available(page[:name]),
         header_block_attributes: {},
         footer_block_attributes: {},
         home_page_attributes: {
