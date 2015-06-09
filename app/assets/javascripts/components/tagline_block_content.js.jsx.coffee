@@ -32,16 +32,12 @@ TaglineBlockContent = React.createClass
     </nav>`
 
   renderText: ->
-    `<p className="lead">{this.text()}</p>`
-
-  text: ->
-    if this.props.text and this.props.text.length > 0
-      this.props.text
-    else
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
+    `<div className="lead">
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
+    </div>`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
-      `<p><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
+      `<p><a className="tagline-btn btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
 
 window.TaglineBlockContent = TaglineBlockContent

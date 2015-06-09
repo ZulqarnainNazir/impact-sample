@@ -1,14 +1,39 @@
 Block = React.createClass
   propTypes:
     editing: React.PropTypes.bool
+    groupInputName: React.PropTypes.string
     removeBlock: React.PropTypes.func
     type: React.PropTypes.string
 
   render: ->
     `<div className="webpage-block">
+      <div className="webpage-fields">
+        <input type="hidden" name={this.inputName('id')} value={this.props.id} />
+        <input type="hidden" name={this.inputName('type')} value={this.props.type} />
+        <input type="hidden" name={this.inputName('theme')} value={this.props.theme} />
+        <input type="hidden" name={this.inputName('style')} value={this.props.style} />
+        <input type="hidden" name={this.inputName('layout')} value={this.props.layout} />
+        <input type="hidden" name={this.inputName('position')} value={this.props.position} />
+        <input type="hidden" name={this.inputName('heading')} value={this.props.heading} />
+        <input type="hidden" name={this.inputName('subheading')} value={this.props.subheading} />
+        <input type="hidden" name={this.inputName('text')} value={this.props.text} />
+        <input type="hidden" name={this.inputName('link_id')} value={this.props.link_id} />
+        <input type="hidden" name={this.inputName('link_type')} value={this.props.link_type} />
+        <input type="hidden" name={this.inputName('link_version')} value={this.props.link_version} />
+        <input type="hidden" name={this.inputName('link_label')} value={this.props.link_label} />
+        <input type="hidden" name={this.inputName('link_external_url')} value={this.props.link_external_url} />
+        <input type="hidden" name={this.inputName('link_no_follow')} value={this.props.link_no_follow} />
+        <input type="hidden" name={this.inputName('link_target_blank')} value={this.props.link_target_blank} />
+        <input type="hidden" name={this.inputName('background_color')} value={this.props.background_color} />
+        <input type="hidden" name={this.inputName('foreground_color')} value={this.props.foreground_color} />
+        <input type="hidden" name={this.inputName('link_color')} value={this.props.link_color} />
+      </div>
       {this.renderBlockOptions()}
       {this.renderBlock()}
     </div>`
+
+  inputName: (name) ->
+    "#{this.props.groupInputName}[#{this.props.uuid}][#{name}]"
 
   renderBlockOptions: ->
     if this.props.editing
@@ -17,6 +42,7 @@ Block = React.createClass
         {this.renderEditTextOption()}
         {this.renderEditMediaOption()}
         {this.renderEditLinkOption()}
+        {this.renderEditCustomOption()}
         {this.renderRemoveBlockOption()}
         {this.renderNextThemeOption()}
       </div>`
@@ -37,6 +63,10 @@ Block = React.createClass
     if this.props.editLink
       `<a href="#" onClick={this.props.editLink} className="btn btn-warning"><i className="fa fa-link" /></a>`
 
+  renderEditCustomOption: ->
+    if this.props.editCustom
+      `<a href="#" onClick={this.props.editCustom} className="btn btn-warning"><i className="fa fa-cog" /></a>`
+
   renderRemoveBlockOption: ->
     if this.props.removeBlock
       `<a href="#" onClick={this.props.removeBlock} className="btn btn-warning"><i className="fa fa-trash" /></a>`
@@ -47,23 +77,23 @@ Block = React.createClass
 
   renderBlock: ->
     switch this.props.type
-      when 'hero'
+      when 'HeroBlock'
         `<HeroBlockContent {...this.props} />`
-      when 'tagline'
+      when 'TaglineBlock'
         `<TaglineBlockContent {...this.props} />`
-      when 'call_to_action'
+      when 'CallToActionBlock'
         `<CallToActionBlockContent {...this.props} />`
-      when 'specialty'
+      when 'SpecialtyBlock'
         `<SpecialtyBlockContent {...this.props} />`
-      when 'content'
+      when 'ContentBlock'
         `<ContentBlockContent {...this.props} />`
-      when 'blog_feed'
-        `<BlogFeedBlockContent {...this.props} />`
-      when 'sidebar_content'
+      when 'BlogFeedBlock'
+        `<BlogBlockContent {...this.props} />`
+      when 'SidebarContentBlock'
         `<SidebarContentBlockContent {...this.props} />`
-      when 'sidebar_blog_feed'
+      when 'SidebarBlogFeedBlock'
         `<SidebarBlogFeedBlockContent {...this.props} />`
-      when 'sidebar_events_feed'
+      when 'SidebarEventsFeedBlock'
         `<SidebarEventsFeedBlockContent {...this.props} />`
 
 window.Block = Block

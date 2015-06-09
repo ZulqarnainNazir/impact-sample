@@ -1,6 +1,8 @@
 class Block < ActiveRecord::Base
   include PlacedImageConcern
 
+  store_accessor :settings, :background_color, :foreground_color, :link_color
+
   enum link_version: { link_none: 0, link_internal: 1, link_external: 2, }
 
   belongs_to :frame, polymorphic: true
@@ -9,6 +11,10 @@ class Block < ActiveRecord::Base
   validates :position, presence: true
   validates :theme, presence: true
   validates :type, presence: true, exclusion: { in: %w[Block] }
+
+  before_validation do
+    self.position = 0 unless position?
+  end
 
   def self.default_scope
     order(position: :asc, created_at: :asc)

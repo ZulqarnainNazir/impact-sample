@@ -38,13 +38,7 @@ ContentBlockContent = React.createClass
 
   renderTextColumn: ->
     `<div className="webpage-block-col-8">
-      {this.renderText()}
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
     </div>`
-
-  renderText: ->
-    if this.props.text and this.props.text.length > 0
-      `<div dangerouslySetInnerHTML={{__html: this.props.text}} />`
-    else
-      `<div dangerouslySetInnerHTML={{__html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'}} />`
 
 window.ContentBlockContent = ContentBlockContent

@@ -14,7 +14,9 @@ CallToActionBlockContent = React.createClass
     </div>`
 
   renderHeading: ->
-    `<h4 className="text-center">{this.heading(this.props.heading)}</h4>`
+    `<h4 className="text-center">
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+    </h4>`
 
   renderImage: ->
     if this.props.image_placement_kind is 'embeds'
@@ -27,7 +29,7 @@ CallToActionBlockContent = React.createClass
       </div>`
 
   renderText: ->
-    `<div dangerouslySetInnerHTML={{__html: this.text(this.props.text)}} />`
+    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0

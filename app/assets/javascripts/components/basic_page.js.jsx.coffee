@@ -4,9 +4,9 @@ BasicPage = React.createClass
     browserButtonsSrc: React.PropTypes.string
     bulkUploadPath: React.PropTypes.string
     foregroundColor: React.PropTypes.string
+    groups: React.PropTypes.array
     hasMultipleBusinesses: React.PropTypes.bool
     imagesPath: React.PropTypes.string
-    initialGroups: React.PropTypes.array
     internalWebpages: React.PropTypes.array
     linkColor: React.PropTypes.string
     presignedPost: React.PropTypes.object
@@ -14,30 +14,30 @@ BasicPage = React.createClass
 
   getInitialState: ->
     editing: true
-    groups: {}
+    groups: this.getInitialGroupsState()
     sidebarPosition: if this.props.sidebarPosition is 'left' then 'left' else 'right'
     mediaImageStatus: 'empty'
     mediaImageProgress: 0
 
+  getInitialGroupsState: ->
+    groups = {}
+    for group, i in this.props.groups
+      group.uuid = i
+      groups[i] = group
+      blocks = group.blocks
+      group.blocks = {}
+      for block, j in blocks
+        block.uuid = i
+        group.blocks[j] = block
+    groups
+
   componentDidMount: ->
-    $(this.refs.linkModal.getDOMNode()).on 'change', 'input[type="radio"]', this.toggleLinkOptions
-    this.toggleLinkOptions()
+    $('#link_modal').on 'change', 'input[type="radio"]', this.toggleLinkOptions
     this.enableSortableGroups()
-
-  toggleLinkOptions: ->
-    if $(this.refs.noneLink.getDOMNode()).prop('checked')
-      $(this.refs.defaultLinkInputs.getDOMNode()).hide()
-      $(this.refs.internalLinkInputs.getDOMNode()).hide()
-      $(this.refs.externalLinkInputs.getDOMNode()).hide()
-    else if $(this.refs.internalLink.getDOMNode()).prop('checked')
-      $(this.refs.defaultLinkInputs.getDOMNode()).show()
-      $(this.refs.internalLinkInputs.getDOMNode()).show()
-      $(this.refs.externalLinkInputs.getDOMNode()).hide()
-    else
-      $(this.refs.defaultLinkInputs.getDOMNode()).show()
-      $(this.refs.internalLinkInputs.getDOMNode()).hide()
-      $(this.refs.externalLinkInputs.getDOMNode()).show()
-
+    this.sortWebpageGroups()
+    this.resetLink()
+    this.toggleLinkOptions()
+    this.resetMedia()
 
   enableSortableGroups: ->
     $('.webpage-groups').sortable
@@ -58,6 +58,10 @@ BasicPage = React.createClass
       update: this.sortWebpageGroups
 
   sortWebpageGroups: ->
+    $('.webpage-group').each this.sortWebpageGroup
+
+  sortWebpageGroup: (index, group) ->
+    this.updateGroup $(group).data('uuid'), position: index
 
   toggleEditing: ->
     this.setState editing: !this.state.editing
@@ -68,48 +72,49 @@ BasicPage = React.createClass
       type: block_type
       uuid: block_uuid
     additionalAttributes = switch block_type
-      when 'hero'
+      when 'HeroBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        editCustom: this.editHeroStyles.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'full'
-        themes: ['full', 'right', 'well', 'well_dark', 'form', 'split_image', 'split_video']
-      when 'tagline'
+        themes: ['full', 'right', 'well', 'well_dark', 'form', 'split_image']
+      when 'TaglineBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'center', 'contain']
-      when 'call_to_action'
+      when 'CallToActionBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
-      when 'specialty'
+      when 'SpecialtyBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'right']
-      when 'content'
+      when 'ContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'right', 'full', 'full_image']
-      when 'blog_feed'
+      when 'BlogFeedBlock'
         {}
-      when 'sidebar_content'
+      when 'SidebarContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
-      when 'sidebar_blog_feed'
+      when 'SidebarBlogFeedBlock'
         {}
-      when 'sidebar_events_feed'
+      when 'SidebarEventsFeedBlock'
         {}
     $.extend {}, basicAttributes, additionalAttributes
 
@@ -121,7 +126,7 @@ BasicPage = React.createClass
         "#{group_uuid}":
           type: group_type
           uuid: group_uuid
-          maxBlocks: if group_type is 'call_to_action' then 3 else undefined
+          max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
           blocks:
             "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
     this.setState groups: React.addons.update(this.state.groups, changes)
@@ -165,15 +170,95 @@ BasicPage = React.createClass
 
   editText: (group_uuid, block_uuid, event) ->
     event.preventDefault()
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    this.updateBlock group_uuid, block_uuid,
+      richText: if block.richText then false else true
 
   editMedia: (group_uuid, block_uuid, event) ->
     event.preventDefault()
-    $('#edit-media-options').modal('show')
-    console.log this.state.groups[group_uuid]
+    $('#media_group_uuid').val group_uuid
+    $('#media_block_uuid').val block_uuid
+    $('#media_modal').modal('show')
+
+  updateMedia: (group_uuid, block_uuid) ->
+    this.updateBlock $('#media_group_uuid').val(), $('#media_block_uuid').val(),
+      media: asdf
+    this.resetMedia()
+
+  resetMedia: ->
+    $('a[href="#media_tab_image"]').tab('show')
 
   editLink: (group_uuid, block_uuid, event) ->
     event.preventDefault()
-    $('#edit-link-options').modal('show')
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    $('#link_group_uuid').val group_uuid
+    $('#link_block_uuid').val block_uuid
+    $('#link_external_url').val if block.link_external_url and block.link_external_url.length > 0 then block.link_external_url else 'http://'
+    $('#link_label').val if block.link_label and block.link_label.length > 0 then block.link_label else 'Learn More'
+    $('#link_no_follow').prop 'checked', if block.link_no_follow then true else false
+    $('#link_target_blank').prop 'checked', if block.link_target_blank then true else false
+    $('#link_version_none').prop 'checked', if ['link_internal', 'link_external'].indexOf(block.link_version) >= 0 then false else true
+    $('#link_version_internal').prop 'checked', block.link_version is 'link_internal'
+    $('#link_version_external').prop 'checked', block.link_version is 'link_external'
+    this.toggleLinkOptions()
+    $('#link_modal').modal('show')
+
+  updateLink: (group_uuid, block_uuid) ->
+    this.updateBlock $('#link_group_uuid').val(), $('#link_block_uuid').val(),
+      link_external_url: $('#link_external_url').val()
+      link_id: $('#link_id').val()
+      link_label: $('#link_label').val()
+      link_no_follow: $('#link_no_follow').prop('checked')
+      link_target_blank: $('#link_target_blank').prop('checked')
+      link_version: $('input[name="link_version"]:checked').val()
+    this.resetLink()
+
+  resetLink: ->
+    $('#link_group_uuid').val ''
+    $('#link_block_uuid').val ''
+    $('#link_external_url').val 'http://'
+    $('#link_label').val 'Learn More'
+    $('#link_no_follow').prop 'checked', false
+    $('#link_target_blank').prop 'checked', false
+    $('#link_version_none').prop 'checked', true
+    this.toggleLinkOptions()
+
+  toggleLinkOptions: ->
+    if $('#link_version_internal').prop('checked')
+      $('#link_inputs_default').show()
+      $('#link_inputs_internal').show()
+      $('#link_inputs_external').hide()
+    else if $('#link_version_external').prop('checked')
+      $('#link_inputs_default').show()
+      $('#link_inputs_internal').hide()
+      $('#link_inputs_external').show()
+    else
+      $('#link_inputs_default').hide()
+      $('#link_inputs_internal').hide()
+      $('#link_inputs_external').hide()
+
+  editHeroStyles: (group_uuid, block_uuid, event) ->
+    event.preventDefault()
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    $('#hero_styles_group_uuid').val group_uuid
+    $('#hero_styles_block_uuid').val block_uuid
+    $('#hero_styles_layout_default').prop 'checked', if ['top', 'fullBleed'].indexOf(block.layout) >= 0 then false else true
+    $('#hero_styles_layout_top').prop 'checked', block.layout is 'top'
+    $('#hero_styles_layout_full_bleed').prop 'checked', block.layout is 'fullBleed'
+    $('#hero_styles_modal').modal('show')
+
+  updateHeroStyles: (group_uuid, block_uuid) ->
+    this.updateBlock $('#hero_styles_group_uuid').val(), $('#hero_styles_block_uuid').val(),
+      layout: $('input[name="hero_styles_layout"]:checked').val()
+    this.resetHeroStyles()
+
+  resetHeroStyles: ->
+    $('#hero_styles_layout_default').prop 'checked', true
+    $('#hero_styles_layout_top').prop 'checked', false
+    $('#hero_styles_layout_full_bleed').prop 'checked', false
 
   prevTheme: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -214,6 +299,7 @@ BasicPage = React.createClass
   render: ->
     `<div>
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
+      <input type="hidden" name="sidebar_position" value={this.state.sidebarPosition} />
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
         <div className="panel-body" style={{position: 'relative', paddingTop: 0, paddingBottom: 0}}>
           <div style={{marginBottom: '2em'}} />
@@ -244,11 +330,11 @@ BasicPage = React.createClass
                 <div className="col-sm-6">
                   <p><strong>Main Content</strong></p>
                   <ul className="list-group webpage-inserts">
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'hero', 'hero')} data-dismiss="modal">Hero Block</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'tagline', 'tagline')} data-dismiss="modal">Tagline Block</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'call_to_action', 'call_to_action')} data-dismiss="modal">Columns</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'specialty', 'specialty')} data-dismiss="modal">Half-page Image &amp; Content</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'content', 'content')} data-dismiss="modal">Small Image &amp; Content</li>
+                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} data-dismiss="modal">Hero Block</li>
+                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} data-dismiss="modal">Tagline Block</li>
+                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} data-dismiss="modal">Columns</li>
+                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} data-dismiss="modal">Half-page Image &amp; Content</li>
+                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>
                     {this.renderInsertBlogFeedGroupItem()}
                   </ul>
                 </div>
@@ -265,7 +351,9 @@ BasicPage = React.createClass
           </div>
         </div>
       </div>
-      <div ref="linkModal" id="edit-link-options" className="modal fade">
+      <div id="link_modal" className="modal fade">
+        <input id="link_group_uuid" type="hidden" />
+        <input id="link_block_uuid" type="hidden" />
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -275,23 +363,23 @@ BasicPage = React.createClass
             <div className="modal-body">
               <div className="radio">
                 <label>
-                  <input ref="noneLink" type="radio" name="link_version" value="link_none" defaultChecked="true"/>
+                  <input id="link_version_none" type="radio" name="link_version" value="link_none" defaultChecked="true"/>
                   Don‘t include a linked button
                 </label>
               </div>
               <div className="radio">
                 <label>
-                  <input ref="internalLink" type="radio" name="link_version" value="link_internal" />
+                  <input id="link_version_internal" type="radio" name="link_version" value="link_internal" />
                   Link to an internal webpage on your site
                 </label>
               </div>
               <div className="radio">
                 <label>
-                  <input ref="externalLink" type="radio" name="link_version" value="link_external" />
+                  <input id="link_version_external" type="radio" name="link_version" value="link_external" />
                   Link to an external webpage
                 </label>
               </div>
-              <div ref="internalLinkInputs">
+              <div id="link_inputs_internal">
                 <hr />
                 <div className="form-group">
                   <label htmlFor="link_id" className="control-label">IMPACT Webpage</label>
@@ -300,40 +388,42 @@ BasicPage = React.createClass
                   </select>
                 </div>
               </div>
-              <div ref="externalLinkInputs">
+              <div id="link_inputs_external">
                 <hr />
                 <div className="form-group">
                   <label htmlFor="link_external_url" className="control-label">External URL</label>
                   <input id="link_external_url" type="text" className="form-control" />
                 </div>
               </div>
-              <div ref="defaultLinkInputs">
+              <div id="link_inputs_default">
                 <div className="form-group">
                   <label htmlFor="link_label" className="control-label">Button Label</label>
                   <input id="link_label" type="text" className="form-control" />
                 </div>
                 <div className="checkbox">
                   <label>
-                    <input type="checkbox" value="1" />
+                    <input id="link_target_blank" type="checkbox" value="1" />
                     Open link in a new window?
                   </label>
                 </div>
                 <div className="checkbox">
                   <label>
-                    <input type="checkbox" value="1" />
+                    <input id="link_no_follow" type="checkbox" value="1" />
                     Add "no-follow" to the link?
                   </label>
                 </div>
               </div>
             </div>
             <div className="modal-footer">
-              <span className="btn btn-default" data-dismiss="modal">Cancel</span>
-              <span className="btn btn-primary" data-dismiss="modal">Save</span>
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetLink}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateLink}>Save</span>
             </div>
           </div>
         </div>
       </div>
-      <div id="edit-media-options" className="modal fade">
+      <div id="media_modal" className="modal fade">
+        <input id="media_group_uuid" type="hidden" />
+        <input id="media_block_uuid" type="hidden" />
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -342,11 +432,11 @@ BasicPage = React.createClass
             </div>
             <div className="modal-body">
               <ul className="nav nav-tabs">
-                <li clasName="active"><a href="#edit-media-options-tab-image" data-toggle="tab">Image</a></li>
-                <li><a href="#edit-media-options-tab-embed" data-toggle="tab">Embed</a></li>
+                <li clasName="active"><a href="#media_tab_image" data-toggle="tab">Image</a></li>
+                <li><a href="#media_tab_embed" data-toggle="tab">Embed</a></li>
               </ul>
               <div className="tab-content">
-                <div id="edit-media-options-tab-image" className="tab-pane fade in active">
+                <div id="media_tab_image" className="tab-pane fade in active">
                   <div className="form-group">
                     <div className="row">
                       <div className="col-sm-4">
@@ -360,7 +450,7 @@ BasicPage = React.createClass
                     </div>
                   </div>
                 </div>
-                <div id="edit-media-options-tab-image" className="tab-pane">
+                <div id="media_tab_embed" className="tab-pane">
                   <div className="form-group">
                     <textarea rows="6" className="form-control" />
                   </div>
@@ -368,13 +458,56 @@ BasicPage = React.createClass
               </div>
             </div>
             <div className="modal-footer">
-              <span className="btn btn-default" data-dismiss="modal">Cancel</span>
-              <span className="btn btn-primary" data-dismiss="modal">Save</span>
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetMedia}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateMedia}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="hero_styles_modal" className="modal fade">
+        <input id="hero_styles_group_uuid" type="hidden" />
+        <input id="hero_styles_block_uuid" type="hidden" />
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Change Hero Layout and Style</p>
+            </div>
+            <div className="modal-body">
+              <div className="row">
+                <div className="col-sm-12">
+                  <div className="radio">
+                    <label>
+                      <input type="radio" id="hero_styles_layout_default" name="hero_styles_layout" value="default" defaultChecked="true" />
+                      Default layout
+                    </label>
+                  </div>
+                  <div className="radio">
+                    <label>
+                      <input type="radio" id="hero_styles_layout_top" name="hero_styles_layout" value="top" />
+                      Align to top (no space between header nav and hero)
+                    </label>
+                  </div>
+                  <div className="radio">
+                    <label>
+                      <input type="radio" id="hero_styles_layout_full_bleed" name="hero_styles_layout" value="fullbleed" />
+                      Full-bleed (Align to top and fill viewport width)
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetHeroStyles}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeroStyles}>Save</span>
             </div>
           </div>
         </div>
       </div>
     </div>`
+
+  renderEditLinkOptions: ->
+    `<option key={webpage.id} value={webpage.id}>{webpage.name}</option>` for webpage in this.props.internalWebpages
 
   renderEditMediaThumbnail: ->
     if this.state.mediaImageURL
@@ -435,20 +568,21 @@ BasicPage = React.createClass
             <i className="fa fa-th" /> Browse Library
           </span>
         </span>
-        <span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
-          <i className="fa fa-close" /> Remove
-        </span>
+        {this.renderEditMediaRemoveButton()}
         <p className="small" style={{marginTop: 10}}>Have a lot of images to add? <a href={this.props.bulkUploadPath} target="_blank">Try Bulk Upload</a></p>
       </div>`
+
+  renderEditMediaRemoveButton: ->
+    if ['failed', 'attached'].indexOf(this.state.mediaImageState) >= 0
+      `<span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
+        <i className="fa fa-close" /> Remove
+      </span>`
 
   triggerFileInput: ->
     $(this.refs.fileInput.getDOMNode()).click()
 
-  renderEditLinkOptions: ->
-    `<option key={webpage.id} value={webpage.id}>{webpage.name}</option>` for webpage in this.props.internalWebpages
-
   renderGroups: ->
-    _.map this.state.groups, this.renderGroup
+    _.map _.sortBy(this.state.groups, 'position'), this.renderGroup
 
   renderGroup: (group, uuid) ->
     if group
@@ -462,29 +596,29 @@ BasicPage = React.createClass
       </div>`
 
   renderInsertBlogFeedGroupItem: ->
-    unless _.find(this.state.groups, (group) -> group and group.type is 'blog_feed')
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'blog_feed', 'blog_feed')} data-dismiss="modal">Blog Feed</li>`
+    unless _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
 
   renderInsertSidebarContentItem: ->
-    group = _.find(this.state.groups, (group) -> group and group.type is 'sidebar')
+    group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
     if group
-      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'sidebar_content')} data-dismiss="modal">Small Image &amp; Content</li>`
+      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
     else
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'sidebar', 'sidebar_content')} data-dismiss="modal">Small Image &amp; Content</li>`
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
 
   renderInsertSidebarBlogFeedItem: ->
-    group = _.find(this.state.groups, (group) -> group and group.type is 'sidebar')
-    if group and not _.find(group.blocks, (block) -> block and block.type is 'sidebar_blog_feed')
-      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'sidebar_blog_feed')} data-dismiss="modal">Blog Feed</li>`
+    group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
+    if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarBlogFeedBlock')
+      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
     else if not group
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'sidebar', 'sidebar_blog_feed')} data-dismiss="modal">Blog Feed</li>`
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
 
   renderInsertSidebarEventsFeedItem: ->
-    group = _.find(this.state.groups, (group) -> group and group.type is 'sidebar')
-    if group and not _.find(group.blocks, (block) -> block and block.type is 'sidebar_events_feed')
-      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'sidebar_events_feed')} data-dismiss="modal">Events Feed</li>`
+    group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
+    if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarEventsBlock')
+      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
     else if not group
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'sidebar', 'sidebar_events_feed')} data-dismiss="modal">Events Feed</li>`
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
 
   switchSidebarPosition: ->
     if this.state.sidebarPosition is 'right'

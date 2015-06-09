@@ -14,7 +14,9 @@ SidebarContentBlockContent = React.createClass
     </div>`
 
   renderHeading: ->
-    `<h4 className="text-center">{this.heading(this.props.heading)}</h4>`
+    `<h4 className="text-center">
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+    </h4>`
 
   renderImage: ->
     if this.props.image_placement_kind is 'embeds'
@@ -27,20 +29,10 @@ SidebarContentBlockContent = React.createClass
       </div>`
 
   renderText: ->
-    `<p dangerouslySetInnerHTML={{__html: this.text(this.props.text)}} />`
+    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
       `<p><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
-
-  heading: (value) ->
-    if value and value.length > 0
-      value
-    else 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-
-  text: (value) ->
-    if value and value.length > 0
-      value
-    else 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
 
 window.SidebarContentBlockContent = SidebarContentBlockContent

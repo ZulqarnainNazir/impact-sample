@@ -40,11 +40,11 @@ ActiveRecord::Schema.define(version: 20150602182604) do
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
 
   create_table "blocks", force: :cascade do |t|
-    t.integer  "frame_id",                                         null: false
-    t.string   "frame_type",                                       null: false
+    t.integer  "frame_id",                              null: false
+    t.string   "frame_type",                            null: false
     t.integer  "link_id"
     t.string   "link_type"
-    t.string   "type",                                             null: false
+    t.string   "type",                                  null: false
     t.string   "theme"
     t.string   "style"
     t.string   "link_label"
@@ -52,15 +52,15 @@ ActiveRecord::Schema.define(version: 20150602182604) do
     t.text     "subheading"
     t.text     "text"
     t.text     "link_external_url"
-    t.boolean  "link_target_blank", default: false,                null: false
-    t.boolean  "link_no_follow",    default: false,                null: false
-    t.integer  "link_version",      default: 0,                    null: false
+    t.boolean  "link_target_blank", default: false,     null: false
+    t.boolean  "link_no_follow",    default: false,     null: false
+    t.integer  "link_version",      default: 0,         null: false
     t.string   "spoof"
     t.json     "settings"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.jsonb    "layout",            default: {"align"=>"default"}
-    t.integer  "position",          default: 0,                    null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "position",          default: 0,         null: false
+    t.text     "layout",            default: "default"
   end
 
   add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 20150602182604) do
     t.integer  "webpage_id",             null: false
     t.text     "type",                   null: false
     t.integer  "position",   default: 0, null: false
+    t.integer  "max_blocks"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end

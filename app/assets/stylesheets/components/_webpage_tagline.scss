@@ -1,11 +1,11 @@
 .webpage-tagline {
-  .btn-primary {
+  .tagline-btn {
     margin-top: 15px;
   }
   p.lead {
     margin: 0;
   }
-  .tagline-left .btn {
+  .tagline-left .tagline-btn {
     margin-bottom: $line-height-computed;
     @media (min-width: $grid-float-breakpoint) {
       margin-left: 20px;

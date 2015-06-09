@@ -18,8 +18,6 @@ HeroBlockContent = React.createClass
         this.renderForm()
       when 'split_image'
         this.renderSplitImage()
-      when 'split_video'
-        this.renderSplitVideo()
       else
         this.renderFull()
 
@@ -51,23 +49,6 @@ HeroBlockContent = React.createClass
             {this.renderText()}
             {this.renderButton()}
           </div>
-        </div>
-      </div>
-    </div>`
-
-  renderSplitVideo: ->
-    className = "jumbotron hero-split"
-    className += " hero-dark" if this.props.style is 'dark'
-
-    `<div className={className} style={{backgroundColor: this.props.background_color}}>
-      <div>
-        <div className="webpage-block-col-6">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/wyFat0rZTKg" frameBorder="0" allowFullScreen></iframe>
-        </div>
-        <div className="webpage-block-col-6">
-          {this.renderHeading()}
-          {this.renderText()}
-          {this.renderButton()}
         </div>
       </div>
     </div>`
@@ -137,7 +118,9 @@ HeroBlockContent = React.createClass
     </div>`
 
   renderHeading: ->
-    `<h1 style={{color: this.props.foreground_color}}>{this.heading(this.props.heading)}</h1>`
+    `<h1 style={{color: this.props.foreground_color}}>
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+    </h1>`
 
   renderImage: ->
     if this.props.image_url and this.props.image_url.length > 0
@@ -148,22 +131,12 @@ HeroBlockContent = React.createClass
       </div>`
 
   renderText: ->
-    `<div style={{color: this.props.foreground_color}} dangerouslySetInnerHTML={{__html: this.text(this.props.text)}} />`
+    `<div style={{color: this.props.foreground_color}}>
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
+    </div>`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
       `<p><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
-
-  heading: (value) ->
-    if value and value.length > 0
-      value
-    else
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-
-  text: (value) ->
-    if value and value.length > 0
-      value
-    else
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
 
 window.HeroBlockContent = HeroBlockContent

@@ -3,7 +3,9 @@ SpecialtyBlockContent = React.createClass
 
   render: ->
     `<div className="webpage-specialty">
-      <p className="lead text-center">{this.heading(this.props.heading)}</p>
+      <div className="lead text-center">
+        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+      </div>
       <hr />
       {this.renderContent()}
     </div>`
@@ -12,7 +14,7 @@ SpecialtyBlockContent = React.createClass
     if this.props.theme is 'right'
       `<div>
         <div className="webpage-block-col-6">
-          {this.renderText()}
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
         </div>
         <div className="webpage-block-col-6">
           {this.renderImage()}
@@ -24,7 +26,7 @@ SpecialtyBlockContent = React.createClass
           {this.renderImage()}
         </div>
         <div className="webpage-block-col-6">
-          {this.renderText()}
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
         </div>
       </div>`
 
@@ -37,20 +39,5 @@ SpecialtyBlockContent = React.createClass
       `<div>
         <ImageEmpty />
       </div>`
-
-  renderText: ->
-    `<p dangerouslySetInnerHTML={{__html: this.text(this.props.text)}} />`
-
-  heading: (value) ->
-    if value and value.length > 0
-      value
-    else
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-
-  text: (value) ->
-    if value and value.length > 0
-      value
-    else
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
 
 window.SpecialtyBlockContent = SpecialtyBlockContent

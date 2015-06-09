@@ -9,7 +9,12 @@ Group = React.createClass
     uuid: React.PropTypes.number
 
   render: ->
-    `<div className={this.groupClass()}>
+    `<div className={this.groupClass()} data-uuid={this.props.uuid}>
+      <div className="webpage-fields">
+        <input type="hidden" name={this.inputName('id')} value={this.props.id} />
+        <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
+        <input type="hidden" name={this.inputName('position')} value={this.props.position} />
+      </div>
       {this.renderMoveHandle()}
       {this.renderSidebarSwitcher()}
       {this.renderCallToActionSizeChanger()}
@@ -21,57 +26,60 @@ Group = React.createClass
 
   groupClass: ->
     if this.props.sidebarPosition is 'left'
-      if this.props.type is 'sidebar'
+      if this.props.type is 'SidebarGroup'
         'webpage-group webpage-group-sidebar webpage-group-sidebar-left'
       else
         'webpage-group webpage-group-basic webpage-group-basic-right'
     else
-      if this.props.type is 'sidebar'
+      if this.props.type is 'SidebarGroup'
         'webpage-group webpage-group-sidebar webpage-group-sidebar-right'
       else
         'webpage-group webpage-group-basic webpage-group-basic-left'
+
+  inputName: (name) ->
+    "groups_attributes[#{this.props.uuid}][#{name}]"
 
   renderMoveHandle: ->
     if this.props.editing
       `<span className="fa fa-reorder webpage-group-handle" />`
 
   renderSidebarSwitcher: ->
-    if this.props.editing and this.props.type is 'sidebar'
+    if this.props.editing and this.props.type is 'SidebarGroup'
       `<span onClick={this.props.switchSidebarPosition} className="fa webpage-group-sidebar-handle" />`
 
   renderCallToActionSizeChanger: ->
-    if this.props.editing and this.props.type is 'call_to_action'
-      `<strong onClick={this.props.updateGroup.bind(null, this.props.uuid, { maxBlocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle">{this.props.maxBlocks}x</strong>`
+    if this.props.editing and this.props.type is 'CallToActionGroup'
+      `<strong onClick={this.props.updateGroup.bind(null, this.props.uuid, { max_blocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle">{this.props.max_blocks}x</strong>`
 
   renderCallToActionAdder: ->
-    if this.props.editing and this.props.type is 'call_to_action' and _.reject(this.props.blocks, (block) -> block is undefined).length < this.props.maxBlocks
+    if this.props.editing and this.props.type is 'CallToActionGroup' and _.reject(this.props.blocks, (block) -> block is undefined).length < this.props.max_blocks
       `<strong onClick={this.props.insertBlock.bind(null, this.props.uuid, 'call_to_action')} className="webpage-group-call-to-action-add-handle"><i className="fa fa-plus-circle" /></strong>`
 
   renderBlocks: ->
-    if this.props.maxBlocks
-      _.map _.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.maxBlocks), this.renderBlock
+    if this.props.max_blocks
+      _.map _.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.max_blocks), this.renderBlock
     else
       _.map this.props.blocks, this.renderBlock
 
   renderBlock: (block) ->
     if block
-      if block.type is 'call_to_action'
-        `<div key={block.uuid} className={this.callToActionColumnClass()}><Block editing={this.props.editing} {...block} /></div>`
+      if block.type is 'CallToActionBlock'
+        `<div key={block.uuid} className={this.callToActionColumnClass()}><Block editing={this.props.editing} groupInputName={this.inputName('blocks_attributes')} {...block} /></div>`
       else
-        `<Block key={block.uuid} editing={this.props.editing} {...block} />`
+        `<Block key={block.uuid} editing={this.props.editing} groupInputName={this.inputName('blocks_attributes')} {...block} />`
 
   nextMaxBlocksValue: ->
-    if this.props.maxBlocks is 3
+    if this.props.max_blocks is 3
       4
-    else if this.props.maxBlocks is 4
+    else if this.props.max_blocks is 4
       2
     else
       3
 
   callToActionColumnClass: ->
-    if this.props.maxBlocks is 2
+    if this.props.max_blocks is 2
       'webpage-block-col-6'
-    else if this.props.maxBlocks is 4
+    else if this.props.max_blocks is 4
       'webpage-block-col-3'
     else
       'webpage-block-col-4'
