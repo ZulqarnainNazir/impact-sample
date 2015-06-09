@@ -1,0 +1,2 @@
+class SpecialtyGroup < Group
+end

@@ -1,0 +1,2 @@
+class SidebarGroup < Group
+end

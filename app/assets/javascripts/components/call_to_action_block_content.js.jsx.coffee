@@ -15,7 +15,7 @@ CallToActionBlockContent = React.createClass
 
   renderHeading: ->
     `<h4 className="text-center">
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
     </h4>`
 
   renderImage: ->
@@ -29,22 +29,10 @@ CallToActionBlockContent = React.createClass
       </div>`
 
   renderText: ->
-    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />`
+    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
       `<p className="text-center"><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
-
-  heading: (value) ->
-    if value and value.length > 0
-      value
-    else
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-
-  text: (value) ->
-    if value and value.length > 0
-      value
-    else
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
 
 window.CallToActionBlockContent = CallToActionBlockContent

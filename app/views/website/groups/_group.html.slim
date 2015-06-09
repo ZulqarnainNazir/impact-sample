@@ -1,0 +1,20 @@
+- if group.blocks.any?(&:cache_sensitive?)
+  - cache [group, sidebar_position, *group.blocks.map { |b| b.cache_sensitive_key(params) }.reject(&:blank?)] do
+    - if group.is_a?(SidebarGroup)
+      .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position}"
+        .webpage-blocks
+          = render (group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks)
+    - else
+      .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position}"
+        .webpage-blocks
+          = render (group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks)
+- else
+  - cache [group, sidebar_position] do
+    - if group.is_a?(SidebarGroup)
+      .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position}"
+        .webpage-blocks
+          = render (group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks)
+    - else
+      .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position}"
+        .webpage-blocks
+          = render (group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks)

@@ -1,0 +1,2 @@
+class TeamGroup < Group
+end

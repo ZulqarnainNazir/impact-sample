@@ -1,34 +1,28 @@
 - cache content_block do
   .webpage-content
-    .row
-      - if content_block.theme == 'full'
-        .col-sm-12
-          = sanitize_html content_block.text
-      - elsif content_block.theme == 'fullImage'
-        .col-sm-12
-          - if content_block.content_block_image_placement.try(:embeds?)
-            .embed-responsive.embed-responsive-4by3
-              = content_block.content_block_image_placement.embed.html_safe
-          - elsif content_block.content_block_image
-            = image_tag content_block.content_block_image.attachment_url(:jumbo), class: 'img-responsive thumbnail', style: 'width: 100%'
-      - else
-        - if content_block.theme == 'left'
-          .col-sm-8
-            = sanitize_html content_block.text
-        - else
-          .col-sm-4
-            - if content_block.content_block_image_placement.try(:embeds?)
-              .embed-responsive.embed-responsive-4by3
-                = content_block.content_block_image_placement.embed.html_safe
-            - elsif content_block.content_block_image
-              = image_tag content_block.content_block_image.attachment_url(:small), class: 'img-responsive thumbnail'
-        - if content_block.theme == 'left'
-          .col-sm-4
-            - if content_block.content_block_image_placement.try(:embeds?)
-              .embed-responsive.embed-responsive-4by3
-                = content_block.content_block_image_placement.embed.html_safe
-            - elsif content_block.content_block_image
-              = image_tag content_block.content_block_image.attachment_url(:small), class: 'img-responsive thumbnail'
-        - else
-          .col-sm-8
-            = sanitize_html content_block.text
+    - if content_block.theme == 'full'
+      = sanitize_html content_block.text
+    - elsif content_block.theme == 'fullImage'
+      - if content_block.content_block_image_placement.try(:embeds?)
+        .embed-responsive.embed-responsive-4by3
+          = content_block.content_block_image_placement.embed.html_safe
+      - elsif content_block.content_block_image
+        = image_tag content_block.content_block_image.attachment_url(:jumbo), class: 'img-responsive thumbnail', style: 'width: 100%'
+    - elsif content_block.theme == 'left'
+      .webpage-block-col-8
+        = sanitize_html content_block.text
+      .webpage-block-col-4
+        - if content_block.content_block_image_placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3
+            = content_block.content_block_image_placement.embed.html_safe
+        - elsif content_block.content_block_image
+          = image_tag content_block.content_block_image.attachment_url(:small), class: 'img-responsive thumbnail'
+    - else
+      .webpage-block-col-4
+        - if content_block.content_block_image_placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3
+            = content_block.content_block_image_placement.embed.html_safe
+        - elsif content_block.content_block_image
+          = image_tag content_block.content_block_image.attachment_url(:small), class: 'img-responsive thumbnail'
+      .webpage-block-col-8
+        = sanitize_html content_block.text

@@ -1,0 +1,2 @@
+class AboutGroup < Group
+end

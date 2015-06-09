@@ -3,30 +3,5 @@
 - canonical_url website_custom_page_url(@page.pathname)
 
 .container
-  - @page.block_types.each do |block_type|
-    - case block_type
-    - when 'hero'
-        = render @page.hero_block if @page.hero_block
-    - when 'tagline'
-        = render @page.tagline_blocks
-    - when 'call_to_action'
-      - if @page.call_to_action_blocks.any?
-        .row = render @page.call_to_action_blocks
-    - when 'specialty'
-      = render @page.specialty_blocks
-    - when 'content'
-      - if !%w[left right].include?(@page.sidebar_position) && @page.content_blocks.any?
-        = render @page.content_blocks
-    - when 'interior'
-      - if %w[left right].include?(@page.sidebar_position)
-        .row
-          .col-sm-8 class=('pull-right' if @page.sidebar_position == 'left')
-            - if @page.content_blocks.any?
-              = render @page.content_blocks
-          .col-sm-4
-            - if @page.sidebar_content_blocks.any?
-              = render @page.sidebar_content_blocks
-            - if @page.sidebar_feed_block
-              = render sidebar_feed_items, small: true
-            - if @page.sidebar_events_block
-              = render sidebar_events, small: true
+  div
+    = render partial: 'website/groups/group', collection: @page.groups, locals: { sidebar_position: @page.sidebar_position, sidebar_reverse_position: @page.sidebar_reverse_position }

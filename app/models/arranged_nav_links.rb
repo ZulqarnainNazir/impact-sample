@@ -1,5 +1,5 @@
 class ArrangedNavLinks
-  def new(links)
+  def initialize(links)
     @links = links
   end
 

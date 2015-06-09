@@ -1,14 +1,14 @@
 - cache call_to_action_block do
-  - className = 'col-sm-4'
-  - className = 'col-sm-3' if call_to_action_block.frame.try(:call_to_action_blocks_per_row).to_i == 4
-  - className = 'col-sm-6' if call_to_action_block.frame.try(:call_to_action_blocks_per_row).to_i == 2
+  - className = 'webpage-block-col-4'
+  - className = 'webpage-block-col-3' if call_to_action_block.frame.try(:max_blocks).to_i == 4
+  - className = 'webpage-block-col-6' if call_to_action_block.frame.try(:max_blocks).to_i == 2
   - imageStyle = 'small'
-  - imageStyle = 'medium' if call_to_action_block.frame.try(:call_to_action_blocks_per_row).to_i == 2
+  - imageStyle = 'medium' if call_to_action_block.frame.try(:max_blocks).to_i == 2
   div class=className
     .webpage-call-to-action
       .panel.panel-default
         .panel-body
-          h4.text-center = sanitize_inline_html call_to_action_block.heading
+          h4.text-center = sanitize_html call_to_action_block.heading
           - if call_to_action_block.call_to_action_block_image_placement.try(:embeds?)
             .embed-responsive.embed-responsive-4by3
               = call_to_action_block.call_to_action_block_image_placement.embed.html_safe

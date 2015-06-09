@@ -1,0 +1,2 @@
+class HeroGroup < Group
+end

@@ -6,8 +6,4 @@ module SanitizeHelper
       },
     )).html_safe
   end
-
-  def sanitize_inline_html(html)
-    Sanitize.fragment(html.to_s, Sanitize::Config::RESTRICTED).html_safe
-  end
 end

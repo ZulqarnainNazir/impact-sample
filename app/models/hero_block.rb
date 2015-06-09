@@ -1,6 +1,4 @@
 class HeroBlock < Block
-  has_placed_image :hero_block_image
-
   before_validation do
     self.theme = 'left' unless theme?
     self.style = 'light' unless style?

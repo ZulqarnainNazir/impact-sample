@@ -23,20 +23,18 @@ ol.breadcrumb
           p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@blog_page.pathname, host: website_host(@business.website)), target: :_blank do
             ' Preview Saved Webpage
             i.fa.fa-external-link style="margin-left:2px"
-    = react_component 'BlogPage',
+    = react_component 'BasicPage',
+      backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
-      defaultBackgroundColor: form.object.website.background_color,
-      defaultForegroundColor: form.object.website.foreground_color,
-      defaultLinkColor: form.object.website.link_color,
-      presignedPost: s3_presigned_post_hash,
-      imagesPath: business_images_path(form.object.website.business),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
+      foregroundColor: form.object.website.foreground_color,
+      groups: form.object.groups.as_json(include: { blocks: { methods: :type }}, methods: :type),
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
+      imagesPath: business_images_path(form.object.website.business),
       internalWebpages: form.object.website.webpages.select(:id, :name),
-      requireFeedBlock: true,
-      initialSidebarPosition: form.object.sidebar_position,
-      initialFeedBlock: (form.object.feed_block || form.object.build_feed_block(items_limit: 15)).try(:as_json, methods: %i[key items_limit]),
-      initialSidebarContentBlocks: form.object.sidebar_content_blocks.map { |b| b.as_block_json(b.sidebar_content_block_image_placement, methods: %i[key]) }
+      linkColor: form.object.website.link_color,
+      presignedPost: s3_presigned_post_hash,
+      sidebarPosition: form.object.sidebar_position
     .webpage-submit
       .row
         .col-sm-4.col-sm-offset-4

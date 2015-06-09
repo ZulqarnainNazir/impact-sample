@@ -20,7 +20,7 @@
           div = line.title
         - if @business.lines.count > 6
           div and #{pluralize (@business.lines.count - 6), 'more page'}
-        - blocks_count = @business.website.webpages.map(&:blocks_count).inject(&:+)
+        - blocks_count = @business.website.webpages.map(&:groups).flatten.map { |g| g.blocks.count }.inject(&:+).to_i
         - if blocks_count > 0
           br
           div ...and #{pluralize blocks_count, 'different content post'}

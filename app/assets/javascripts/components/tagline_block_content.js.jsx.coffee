@@ -33,7 +33,7 @@ TaglineBlockContent = React.createClass
 
   renderText: ->
     `<div className="lead">
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
     </div>`
 
   renderButton: ->

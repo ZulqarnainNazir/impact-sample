@@ -3,8 +3,6 @@ class HeaderBlock < Block
 
   store_accessor :settings, :background_color, :foreground_color, :link_color, :logo_height
 
-  has_placed_image :header_block_image
-
   before_validation do
     self.theme = 'inline' unless theme?
     self.style = 'dark' unless theme?

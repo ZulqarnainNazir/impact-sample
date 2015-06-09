@@ -8,11 +8,22 @@ class Block < ActiveRecord::Base
   belongs_to :frame, polymorphic: true
   belongs_to :link, polymorphic: true
 
+  has_placed_image :about_block_image
+  has_placed_image :call_to_action_block_image
+  has_placed_image :content_block_image
+  has_placed_image :header_block_image
+  has_placed_image :hero_block_image
+  has_placed_image :sidebar_content_block_image
+  has_placed_image :specialty_block_image
+
   validates :position, presence: true
   validates :theme, presence: true
   validates :type, presence: true, exclusion: { in: %w[Block] }
 
   before_validation do
+    self.link_no_follow = false if !link_no_follow?
+    self.link_target_blank = false if !link_target_blank?
+    self.link_version = :link_none unless link_internal? || link_external?
     self.position = 0 unless position?
   end
 
@@ -20,8 +31,19 @@ class Block < ActiveRecord::Base
     order(position: :asc, created_at: :asc)
   end
 
-  def key
-    (SecureRandom.random_number*10**20).to_i
+  def business
+    if frame.is_a?(Website)
+      @business ||= frame.business
+    elsif frame.is_a?(Group)
+      @business ||= frame.webpage.try(:website).try(:business)
+    end
+  end
+
+  def cache_sensitive?
+    false
+  end
+
+  def cache_sensitive_key(params)
   end
 
   def link?

@@ -25,4 +25,13 @@ class Webpage < ActiveRecord::Base
   def self.custom
     where(type: 'CustomPage')
   end
+
+  def sidebar_position
+    position = super
+    position == 'left' ? 'left' : 'right'
+  end
+
+  def sidebar_reverse_position
+    sidebar_position == 'left' ? 'right' : 'left'
+  end
 end

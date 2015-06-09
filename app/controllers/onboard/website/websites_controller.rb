@@ -31,14 +31,22 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
         name: 'About',
         pathname: 'about',
         title: "About #{@business.name}",
-        about_block_attributes: {
-          heading: @business.name,
-          text: [
-            @business.values,
-            @business.history,
-            @business.vision,
-          ].reject(&:blank?).join("\n\n"),
-        },
+        groups_attributes: [
+          {
+            type: 'AboutGroup',
+            blocks_attributes: [
+              {
+                type: 'AboutBlock',
+                heading: @business.name,
+                text: [
+                  @business.values,
+                  @business.history,
+                  @business.vision,
+                ].reject(&:blank?).join("\n\n"),
+              },
+            ],
+          },
+        ]
       )
     end
 
@@ -48,7 +56,17 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
         name: 'Blog',
         pathname: 'blog',
         title: "#{@business.name} Blog",
-        feed_block_attributes: { items_limit: 3 },
+        groups_attributes: [
+          {
+            type: 'BlogFeedGroup',
+            blocks_attributes: [
+              {
+                type: 'BlogFeedBlock',
+                items_limit: 3
+              },
+            ],
+          },
+        ],
       )
     end
 
@@ -58,6 +76,16 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
         name: 'Contact',
         pathname: 'contact',
         title: "Contact #{@business.name}",
+        groups_attributes: [
+          {
+            type: 'ContactGroup',
+            blocks_attributes: [
+              {
+                type: 'ContactBlock',
+              },
+            ],
+          },
+        ],
       )
     end
 
@@ -71,34 +99,65 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
             type: 'CustomPage',
             title: line.title,
             external_line_id: line.id,
-            hero_block_attributes: {
-              heading: line.title,
-              text: line.description,
-              hero_block_image_placement_attributes: {
-                image_id: image.try(:id),
+            groups_attributes: [
+              {
+                type: 'HeroGroup',
+                blocks_attributes: [
+                  {
+                    type: 'HeroBlock',
+                    heading: line.title,
+                    text: line.description,
+                    hero_block_image_placement_attributes: {
+                      image_id: image.try(:id),
+                    },
+                  },
+                ],
               },
-            },
-            specialty_blocks_attributes: [
-              heading: line.delivery_experience,
-              text: line.delivery_process,
+              {
+                type: 'SpecialtyGroup',
+                blocks_attributes: [
+                  {
+                    type: 'SpecialtyBlock',
+                    heading: line.delivery_experience,
+                    text: line.delivery_process,
+                  },
+                ],
+              },
+              *[
+                line.customer_description,
+                line.customer_problem,
+                line.customer_benefit,
+                line.uniqueness,
+              ].reject(&:blank?).map do |text|
+                {
+                  type: 'ContentGroup',
+                  blocks_attributes: [
+                    {
+                      type: 'ContentBlock',
+                      text: text,
+                    },
+                  ],
+                }
+              end
             ],
-            content_blocks_attributes: [
-              line.customer_description,
-              line.customer_problem,
-              line.customer_benefit,
-              line.uniqueness,
-            ].reject(&:blank?).map { |text| { text: text }},
           )
-          @business.website.home_page.update! call_to_action_blocks_attributes: [
+          @business.website.home_page.update! groups_attributes: [
             {
-              heading: line.title,
-              text: line.description,
-              link_version: 1,
-              link: line_page,
-              link_label: 'Learn More',
-              call_to_action_block_image_placement_attributes: {
-                image_id: image.try(:id),
-              },
+              id: @business.website.home_page.groups.where(type: 'CallToActionGroup').first.try(:id),
+              type: 'CallToActionGroup',
+              blocks_attributes: [
+                {
+                  type: 'CallToActionBlock',
+                  heading: line.title,
+                  text: line.description,
+                  link_version: 1,
+                  link: line_page,
+                  link_label: 'Learn More',
+                  call_to_action_block_image_placement_attributes: {
+                    image_id: image.try(:id),
+                  },
+                },
+              ],
             },
           ]
           offer = @business.offers.create!(

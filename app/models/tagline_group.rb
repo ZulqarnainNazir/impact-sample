@@ -1,0 +1,2 @@
+class TaglineGroup < Group
+end

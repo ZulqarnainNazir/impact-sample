@@ -216,8 +216,7 @@ ContactBlockContent = React.createClass
     </div>`
 
   renderText: ->
-    if this.props.text and this.props.text.length > 0
-      `<div dangerouslySetInnerHTML={{__html: this.props.text}} />`
+    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />`
 
   mailTo: (email) ->
     "mailto:#{email}"

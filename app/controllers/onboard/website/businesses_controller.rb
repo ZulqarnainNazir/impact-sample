@@ -121,21 +121,32 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         subdomain: Subdomain.available(page[:name]),
         header_block_attributes: {},
         footer_block_attributes: {},
-        home_page_attributes: {
-          active: true,
-          name: 'Homepage',
-          title: page[:name],
-          pathname: '',
-          hero_block_attributes: {
-            heading: page[:name],
-            text: page[:description],
-            hero_block_image_placement_attributes: {
-              image_attachment_cache_url: page[:cover].try(:[], :source),
-              image_user: current_user,
-              image_business: @business,
-            },
+        webpages_attributes: [
+          {
+            type: 'HomePage',
+            active: true,
+            name: 'Homepage',
+            title: page[:name],
+            pathname: '',
+            groups_attributes: [
+              {
+                type: 'HeroGroup',
+                blocks_attributes: [
+                  {
+                    type: 'HeroBlock',
+                    heading: page[:name],
+                    text: page[:description],
+                    hero_block_image_placement_attributes: {
+                      image_attachment_cache_url: page[:cover].try(:[], :source),
+                      image_user: current_user,
+                      image_business: @business,
+                    },
+                  },
+                ],
+              },
+            ],
           },
-        },
+        ],
       },
     }
   end

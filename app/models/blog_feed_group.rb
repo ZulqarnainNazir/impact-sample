@@ -1,0 +1,2 @@
+class BlogFeedGroup < Group
+end

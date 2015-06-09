@@ -29,7 +29,9 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('link_color')} value={this.props.link_color} />
       </div>
       {this.renderBlockOptions()}
-      {this.renderBlock()}
+      <div className="webpage-block-content">
+        {this.renderBlock()}
+      </div>
     </div>`
 
   inputName: (name) ->
@@ -88,12 +90,18 @@ Block = React.createClass
       when 'ContentBlock'
         `<ContentBlockContent {...this.props} />`
       when 'BlogFeedBlock'
-        `<BlogBlockContent {...this.props} />`
+        `<BlogFeedBlockContent {...this.props} />`
       when 'SidebarContentBlock'
         `<SidebarContentBlockContent {...this.props} />`
       when 'SidebarBlogFeedBlock'
         `<SidebarBlogFeedBlockContent {...this.props} />`
       when 'SidebarEventsFeedBlock'
         `<SidebarEventsFeedBlockContent {...this.props} />`
+      when 'AboutBlock'
+        `<AboutBlockContent {...this.props} />`
+      when 'TeamBlock'
+        `<TeamBlockContent {...this.props} />`
+      when 'ContactBlock'
+        `<ContactBlockContent {...this.props} />`
 
 window.Block = Block

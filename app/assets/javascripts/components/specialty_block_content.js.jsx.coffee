@@ -4,7 +4,7 @@ SpecialtyBlockContent = React.createClass
   render: ->
     `<div className="webpage-specialty">
       <div className="lead text-center">
-        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
       </div>
       <hr />
       {this.renderContent()}
@@ -14,7 +14,7 @@ SpecialtyBlockContent = React.createClass
     if this.props.theme is 'right'
       `<div>
         <div className="webpage-block-col-6">
-          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
         </div>
         <div className="webpage-block-col-6">
           {this.renderImage()}
@@ -26,7 +26,7 @@ SpecialtyBlockContent = React.createClass
           {this.renderImage()}
         </div>
         <div className="webpage-block-col-6">
-          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
         </div>
       </div>`
 

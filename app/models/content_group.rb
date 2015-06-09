@@ -1,0 +1,2 @@
+class ContentGroup < Group
+end

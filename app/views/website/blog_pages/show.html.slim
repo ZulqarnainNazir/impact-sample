@@ -4,15 +4,5 @@
 .container
   .page-header
     h1 Blog
-  - if %w[left right].include?(@page.sidebar_position)
-    .row
-      .col-sm-8 class=('pull-right' if @page.sidebar_position == 'left')
-        - if @page.feed_block && @feed_items.any?
-          = page_entries_info @feed_items, entry_name: 'published item'
-          = render @feed_items
-          hr
-          = paginate @feed_items
-          hr
-      .col-sm-4
-        - if @page.sidebar_content_blocks.any?
-          = render @page.sidebar_content_blocks
+  div
+    = render partial: 'website/groups/group', collection: @page.groups, locals: { sidebar_position: @page.sidebar_position, sidebar_reverse_position: @page.sidebar_reverse_position }

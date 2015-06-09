@@ -1,8 +1,6 @@
 - title @page.title
 - canonical_url website_about_page_url
 
--# Template Dependency: website/about_blocks/about_block
-= render @page.about_block if @page.about_block
 .container
-  -# Template Dependency: website/team_blocks/team_block
-  = render @page.team_block if @page.team_block
+  div
+    = render partial: 'website/groups/group', collection: @page.groups, locals: { sidebar_position: @page.sidebar_position, sidebar_reverse_position: @page.sidebar_reverse_position }

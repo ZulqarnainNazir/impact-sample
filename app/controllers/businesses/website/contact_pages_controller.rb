@@ -1,5 +1,5 @@
 class Businesses::Website::ContactPagesController < Businesses::Website::BaseController
-  include BlockAttributesConcern
+  include GroupsAttributesConcern
   include RequiresWebPlanConcern
 
   layout 'application'
@@ -17,7 +17,7 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
   def contact_page_params
     params.require(:contact_page).permit(
       :title,
-      contact_block_attributes: block_attributes,
+      groups_attributes: groups_attributes
     ).deep_merge(
       pathname: 'contact',
       name: 'Contact',

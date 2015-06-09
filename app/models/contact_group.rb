@@ -1,0 +1,2 @@
+class ContactGroup < Group
+end

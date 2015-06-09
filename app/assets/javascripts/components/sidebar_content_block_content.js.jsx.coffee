@@ -15,7 +15,7 @@ SidebarContentBlockContent = React.createClass
 
   renderHeading: ->
     `<h4 className="text-center">
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
     </h4>`
 
   renderImage: ->
@@ -29,7 +29,7 @@ SidebarContentBlockContent = React.createClass
       </div>`
 
   renderText: ->
-    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />`
+    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />`
 
   renderButton: ->
     if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0

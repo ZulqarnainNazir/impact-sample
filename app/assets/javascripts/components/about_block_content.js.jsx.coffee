@@ -57,16 +57,15 @@ AboutBlockContent = React.createClass
     </div>`
 
   renderHeading: ->
-    if this.props.heading and this.props.heading.length > 0
-      `<h2>{this.props.heading}</h2>`
+    `<h2>
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
+    </h2>`
 
   renderSubheading: ->
-    if this.props.subheading and this.props.subheading.length > 0
-      `<p>{this.props.subheading}</p>`
+    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.subheading} inline={true} update={this.props.updateSubheading} />`
 
   renderText: ->
-    if this.props.text and this.props.text.length > 0
-      `<p dangerouslySetInnerHTML={{__html: this.props.text}} />`
+    `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />`
 
   renderImage: ->
     if this.props.image_placement_kind is 'embeds'

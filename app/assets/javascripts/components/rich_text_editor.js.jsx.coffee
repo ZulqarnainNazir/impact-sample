@@ -1,8 +1,9 @@
 RichTextEditor = React.createClass
   propTypes:
-    inline: React.PropTypes.bool
     enabled: React.PropTypes.bool
     html: React.PropTypes.string
+    inline: React.PropTypes.bool
+    update: React.PropTypes.func
 
   getDefaultProps: ->
     inline: false
@@ -10,6 +11,11 @@ RichTextEditor = React.createClass
   componentDidMount: ->
     if this.props.enabled
       this.enableRichText()
+    if this.props.update
+      setTimeout this.update, 100
+
+  update: ->
+    this.props.update this.html()
 
   componentWillUpdate: (nextProps) ->
     if !this.props.enabled and nextProps.enabled
@@ -28,8 +34,12 @@ RichTextEditor = React.createClass
     $(this.getDOMNode()).destroy()
 
   summernoteOptions: ->
-    onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
-    toolbar: this.summernoteToolbar()
+    defaults =
+      toolbar: this.summernoteToolbar()
+      onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
+    if this.props.update
+      $.extend {}, defaults, onChange: this.props.update
+    else defaults
 
   summernoteToolbar: ->
     if this.props.inline

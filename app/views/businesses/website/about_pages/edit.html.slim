@@ -22,20 +22,18 @@ ol.breadcrumb
           p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@about_page.pathname, host: website_host(@business.website)), target: :_blank do
             ' Preview Saved Webpage
             i.fa.fa-external-link style="margin-left:2px"
-    = react_component 'AboutPage',
+    = react_component 'BasicPage',
+      backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
-      defaultBackgroundColor: form.object.website.background_color,
-      defaultForegroundColor: form.object.website.foreground_color,
-      defaultLinkColor: form.object.website.link_color,
-      presignedPost: s3_presigned_post_hash,
-      imagesPath: business_images_path(form.object.website.business),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
+      foregroundColor: form.object.website.foreground_color,
+      groups: form.object.groups.as_json(include: { blocks: { methods: :type }}, methods: :type),
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
-      teamMembers: form.object.website.business.team_members.as_json(methods: %i[name profile_url]),
-      teamMembersPath: business_data_team_members_path(form.object.website.business),
-      initialAboutBlock: form.object.about_block.try(:as_block_json, form.object.about_block.try(:about_block_image_placement)),
-      defaultAboutBlockAttributes: form.object.default_about_block_attributes(form.object.website.business),
-      initialTeamBlock: form.object.website.business.team_members.any? ? form.object.team_block.try(:as_block_json) : nil
+      imagesPath: business_images_path(form.object.website.business),
+      internalWebpages: form.object.website.webpages.select(:id, :name),
+      linkColor: form.object.website.link_color,
+      presignedPost: s3_presigned_post_hash,
+      sidebarPosition: form.object.sidebar_position
     .webpage-submit
       .row
         .col-sm-4.col-sm-offset-4

@@ -119,7 +119,7 @@ HeroBlockContent = React.createClass
 
   renderHeading: ->
     `<h1 style={{color: this.props.foreground_color}}>
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} />
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
     </h1>`
 
   renderImage: ->
@@ -132,7 +132,7 @@ HeroBlockContent = React.createClass
 
   renderText: ->
     `<div style={{color: this.props.foreground_color}}>
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
     </div>`
 
   renderButton: ->

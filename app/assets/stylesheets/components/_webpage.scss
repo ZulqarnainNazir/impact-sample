@@ -1,5 +1,13 @@
+// To Remove:
+.webpage-block-options {
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  z-index: 1030;
+}
+
 .webpage-designer {
-  margin: 3em 0;
+  margin: 3em -15px;
 }
 
 .webpage-add {
@@ -155,6 +163,7 @@
     clear: none;
   }
   .note-editable {
+    background-color: #fff;
     width: 100%;
   }
 }

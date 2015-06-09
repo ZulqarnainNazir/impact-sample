@@ -13,7 +13,7 @@ class Website::EventsController < Website::BaseController
       where.not(id: @event.id).
       where('occurs_on >= ?', Time.zone.now).
       order(occurs_on: :asc).
-      page(params[:page]).
+      page(1).
       per(4)
   end
 end

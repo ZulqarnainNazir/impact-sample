@@ -27,12 +27,13 @@ ol.breadcrumb
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       foregroundColor: form.object.website.foreground_color,
+      groups: form.object.groups.as_json(include: { blocks: { methods: :type }}, methods: :type),
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
       imagesPath: business_images_path(form.object.website.business),
-      initialGroups: form.object.groups,
       internalWebpages: form.object.website.webpages.select(:id, :name),
       linkColor: form.object.website.link_color,
-      presignedPost: s3_presigned_post_hash
+      presignedPost: s3_presigned_post_hash,
+      sidebarPosition: form.object.sidebar_position
     .webpage-submit
       .row
         .col-sm-4.col-sm-offset-4

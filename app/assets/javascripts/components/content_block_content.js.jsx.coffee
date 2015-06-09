@@ -38,7 +38,7 @@ ContentBlockContent = React.createClass
 
   renderTextColumn: ->
     `<div className="webpage-block-col-8">
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} />
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
     </div>`
 
 window.ContentBlockContent = ContentBlockContent

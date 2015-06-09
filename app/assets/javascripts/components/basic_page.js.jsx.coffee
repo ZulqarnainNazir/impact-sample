@@ -27,8 +27,8 @@ BasicPage = React.createClass
       blocks = group.blocks
       group.blocks = {}
       for block, j in blocks
-        block.uuid = i
-        group.blocks[j] = block
+        block.uuid = j
+        group.blocks[j] = this.defaultBlockAttributes i, j, block.type, block
     groups
 
   componentDidMount: ->
@@ -66,12 +66,12 @@ BasicPage = React.createClass
   toggleEditing: ->
     this.setState editing: !this.state.editing
 
-  defaultBlockAttributes: (group_uuid, block_uuid, block_type) ->
-    basicAttributes =
+  defaultBlockAttributes: (group_uuid, block_uuid, block_type, argumentAttributes) ->
+    commonAttributes =
       removeBlock: this.removeBlock.bind(null, group_uuid, block_uuid)
       type: block_type
       uuid: block_uuid
-    additionalAttributes = switch block_type
+    blockSpecificAttributes = switch block_type
       when 'HeroBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
@@ -81,6 +81,8 @@ BasicPage = React.createClass
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'full'
         themes: ['full', 'right', 'well', 'well_dark', 'form', 'split_image']
+        updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'TaglineBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
@@ -88,10 +90,13 @@ BasicPage = React.createClass
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'center', 'contain']
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'CallToActionBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'SpecialtyBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
@@ -99,6 +104,8 @@ BasicPage = React.createClass
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'right']
+        updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'ContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
@@ -106,17 +113,37 @@ BasicPage = React.createClass
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'right', 'full', 'full_image']
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'BlogFeedBlock'
         {}
       when 'SidebarContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'SidebarBlogFeedBlock'
         {}
       when 'SidebarEventsFeedBlock'
         {}
-    $.extend {}, basicAttributes, additionalAttributes
+      when 'AboutBlock'
+        editText: this.editText.bind(null, group_uuid, block_uuid)
+        editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
+        prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
+        nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        theme: 'left'
+        themes: ['banner', 'left']
+        updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
+        updateSubheading: this.updateSubheading.bind(null, group_uuid, block_uuid)
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
+      when 'ContactBlock'
+        editText: this.editText.bind(null, group_uuid, block_uuid)
+        prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
+        nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        theme: 'left'
+        themes: ['right', 'banner', 'inline', 'content']
+        updateText: this.updateText.bind(null, group_uuid, block_uuid)
+    $.extend {}, commonAttributes, blockSpecificAttributes, argumentAttributes
 
   insertGroup: (group_type, block_type) ->
     group_uuid = Math.floor(Math.random() * Math.pow(10, 10))
@@ -129,7 +156,7 @@ BasicPage = React.createClass
           max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
           blocks:
             "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
-    this.setState groups: React.addons.update(this.state.groups, changes)
+    this.setState groups: React.addons.update(this.state.groups, changes), this.sortWebpageGroups
 
   insertBlock: (group_uuid, block_type) ->
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
@@ -138,7 +165,7 @@ BasicPage = React.createClass
         blocks:
           $merge:
             "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
-    this.setState groups: React.addons.update(this.state.groups, changes)
+    this.setState groups: React.addons.update(this.state.groups, changes), this.sortWebpageGroups
 
   removeBlock: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -174,6 +201,15 @@ BasicPage = React.createClass
     block = group.blocks[block_uuid]
     this.updateBlock group_uuid, block_uuid,
       richText: if block.richText then false else true
+
+  updateHeading: (group_uuid, block_uuid, richText) ->
+    this.updateBlock group_uuid, block_uuid, heading: richText
+
+  updateSubheading: (group_uuid, block_uuid, richText) ->
+    this.updateBlock group_uuid, block_uuid, subheading: richText
+
+  updateText: (group_uuid, block_uuid, richText) ->
+    this.updateBlock group_uuid, block_uuid, text: richText
 
   editMedia: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -299,7 +335,9 @@ BasicPage = React.createClass
   render: ->
     `<div>
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
-      <input type="hidden" name="sidebar_position" value={this.state.sidebarPosition} />
+      <div className="webpage-fields">
+        <input type="hidden" name="sidebar_position" value={this.state.sidebarPosition} />
+      </div>
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
         <div className="panel-body" style={{position: 'relative', paddingTop: 0, paddingBottom: 0}}>
           <div style={{marginBottom: '2em'}} />

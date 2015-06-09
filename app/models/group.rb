@@ -5,11 +5,11 @@ class Group < ActiveRecord::Base
 
   accepts_nested_attributes_for :blocks, reject_if: :all_blank, allow_destroy: true
 
-  validates :type, presence: true
+  validates :type, presence: true, exclusion: { in: %w[Group] }
   validates :blocks, presence: true
 
   before_validation do
-    self.type = 'Group'
+    self.position = 0 unless position?
   end
 
   def self.default_scope

@@ -1,5 +1,5 @@
 class Businesses::Website::BlogPagesController < Businesses::Website::BaseController
-  include BlockAttributesConcern
+  include GroupsAttributesConcern
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
@@ -19,13 +19,10 @@ class Businesses::Website::BlogPagesController < Businesses::Website::BaseContro
     params.require(:blog_page).permit(
       :title,
       :sidebar_position,
-      feed_block_attributes: block_attributes.push(:items_limit),
-      sidebar_content_blocks_attributes: block_attributes.push(sidebar_content_block_image_placement_attributes: placement_attributes),
+      groups_attributes: groups_attributes
     ).deep_merge(
       pathname: 'blog',
       name: 'Blog',
-    ).tap do |safe_params|
-      merge_placement_image_attributes_array safe_params[:sidebar_content_blocks_attributes], :sidebar_content_block_image_placement_attributes
-    end
+    )
   end
 end

@@ -12,6 +12,7 @@ Group = React.createClass
     `<div className={this.groupClass()} data-uuid={this.props.uuid}>
       <div className="webpage-fields">
         <input type="hidden" name={this.inputName('id')} value={this.props.id} />
+        <input type="hidden" name={this.inputName('type')} value={this.props.type} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
       </div>
@@ -53,7 +54,7 @@ Group = React.createClass
 
   renderCallToActionAdder: ->
     if this.props.editing and this.props.type is 'CallToActionGroup' and _.reject(this.props.blocks, (block) -> block is undefined).length < this.props.max_blocks
-      `<strong onClick={this.props.insertBlock.bind(null, this.props.uuid, 'call_to_action')} className="webpage-group-call-to-action-add-handle"><i className="fa fa-plus-circle" /></strong>`
+      `<strong onClick={this.props.insertBlock.bind(null, this.props.uuid, 'CallToActionBlock')} className="webpage-group-call-to-action-add-handle"><i className="fa fa-plus-circle" /></strong>`
 
   renderBlocks: ->
     if this.props.max_blocks

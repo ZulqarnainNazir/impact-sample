@@ -13,6 +13,6 @@
           = image_tag block.about_block_image.attachment_url(:medium), alt: block.about_block_image.alt, class: 'img-responsive', style: 'width: 100%'
       section.col-sm-8
         header.page-header
-          h2 = sanitize_inline_html block.heading
+          h2 = sanitize_html block.heading
           = sanitize_html block.subheading
         = sanitize_html block.text

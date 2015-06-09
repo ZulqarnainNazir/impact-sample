@@ -22,20 +22,18 @@ ol.breadcrumb
           p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@contact_page.pathname, host: website_host(@business.website)), target: :_blank do
             ' Preview Saved Webpage
             i.fa.fa-external-link style="margin-left:2px"
-    = react_component 'ContactPage',
+    = react_component 'BasicPage',
+      backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
-      defaultBackgroundColor: form.object.website.background_color,
-      defaultForegroundColor: form.object.website.foreground_color,
-      defaultLinkColor: form.object.website.link_color,
-      presignedPost: s3_presigned_post_hash,
-      imagesPath: business_images_path(form.object.website.business),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
+      foregroundColor: form.object.website.foreground_color,
+      groups: form.object.groups.as_json(include: { blocks: { methods: %i[type openings] }}, methods: :type),
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
-      business: form.object.website.business,
-      location: form.object.website.business.try(:location).try(:attributes_with_address),
-      openings: form.object.website.business.try(:location).try(:openings),
-      initialContactBlock: form.object.contact_block.as_json || {},
-      defaultContactBlockAttributes: form.object.default_contact_block_attributes(form.object.website.business)
+      imagesPath: business_images_path(form.object.website.business),
+      internalWebpages: form.object.website.webpages.select(:id, :name),
+      linkColor: form.object.website.link_color,
+      presignedPost: s3_presigned_post_hash,
+      sidebarPosition: form.object.sidebar_position
     .webpage-submit
       .row
         .col-sm-4.col-sm-offset-4

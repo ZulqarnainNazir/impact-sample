@@ -1,5 +1,5 @@
 class Businesses::Website::AboutPagesController < Businesses::Website::BaseController
-  include BlockAttributesConcern
+  include GroupsAttributesConcern
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
   layout 'application'
@@ -17,13 +17,10 @@ class Businesses::Website::AboutPagesController < Businesses::Website::BaseContr
   def about_page_params
     params.require(:about_page).permit(
       :title,
-      about_block_attributes: block_attributes.push(about_block_image_placement_attributes: placement_attributes),
-      team_block_attributes: block_attributes,
+      groups_attributes: groups_attributes
     ).deep_merge(
       pathname: 'about',
       name: 'About',
-    ).tap do |safe_params|
-      merge_placement_image_attributes safe_params[:about_block_attributes], :about_block_image_placement_attributes
-    end
+    )
   end
 end

@@ -43,6 +43,6 @@
     - if @website.content_blog_sidebar? || @website.events_sidebar?
       .col-sm-4
         - if @website.content_blog_sidebar?
-          = render sidebar_feed_items, small: true
+          = render posts(@business), small: true
         - if @website.events_sidebar?
-          = render sidebar_events, small: true
+          = render events(@business), small: true

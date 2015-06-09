@@ -6,4 +6,5 @@
   .page-header
     h1 Contact
   .webpage-contact itemscope="" itemtype="http://schema.org/LocalBusiness" logo=(@business.logo.attachment_url(:logo_large) if @business.logo.present?)
-    = render @page.contact_block
+    div
+      = render partial: 'website/groups/group', collection: @page.groups, locals: { sidebar_position: @page.sidebar_position, sidebar_reverse_position: @page.sidebar_reverse_position }
