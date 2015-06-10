@@ -4,6 +4,7 @@ BasicPage = React.createClass
     browserButtonsSrc: React.PropTypes.string
     bulkUploadPath: React.PropTypes.string
     foregroundColor: React.PropTypes.string
+    groupTypes: React.PropTypes.array
     groups: React.PropTypes.array
     hasMultipleBusinesses: React.PropTypes.bool
     imagesPath: React.PropTypes.string
@@ -15,14 +16,16 @@ BasicPage = React.createClass
   getInitialState: ->
     editing: true
     groups: this.getInitialGroupsState()
-    sidebarPosition: if this.props.sidebarPosition is 'left' then 'left' else 'right'
-    mediaImageStatus: 'empty'
     mediaImageProgress: 0
+    mediaImageStatus: 'empty'
+    removedGroups: []
+    sidebarPosition: if this.props.sidebarPosition is 'left' then 'left' else 'right'
 
   getInitialGroupsState: ->
     groups = {}
     for group, i in this.props.groups
       group.uuid = i
+      group.removedBlocks = []
       groups[i] = group
       blocks = group.blocks
       group.blocks = {}
@@ -136,6 +139,12 @@ BasicPage = React.createClass
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateSubheading: this.updateSubheading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
+      when 'TeamBlock'
+        prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
+        nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        teamMembers: this.props.teamMembers
+        theme: 'left'
+        themes: ['vertical', 'horizontal']
       when 'ContactBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
@@ -156,6 +165,7 @@ BasicPage = React.createClass
           max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
           blocks:
             "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
+          removedBlocks: []
     this.setState groups: React.addons.update(this.state.groups, changes), this.sortWebpageGroups
 
   insertBlock: (group_uuid, block_type) ->
@@ -169,17 +179,31 @@ BasicPage = React.createClass
 
   removeBlock: (group_uuid, block_uuid, event) ->
     event.preventDefault()
-    if _.reject(this.state.groups[group_uuid].blocks, (block) -> block is undefined).length > 1
+    group = this.state.groups[group_uuid]
+    if _.reject(group.blocks, (block) -> block is undefined).length > 1
+      block = group.blocks[block_uuid]
       changes =
-        "#{group_uuid}":
-          blocks:
-            "#{block_uuid}":
-              $set: undefined
+        groups:
+          "#{group_uuid}":
+            blocks:
+              "#{block_uuid}":
+                $set: undefined
+            removedBlocks:
+              $push: [
+                index: block_uuid
+                id: block.id
+              ]
     else
       changes =
-        "#{group_uuid}":
-          $set: undefined
-    this.setState groups: React.addons.update(this.state.groups, changes)
+        groups:
+          "#{group_uuid}":
+            $set: undefined
+        removedGroups:
+          $push: [
+            index: group_uuid
+            id: group.id
+          ]
+    this.setState React.addons.update(this.state, changes)
 
   updateGroup: (group_uuid, attributes) ->
     changes =
@@ -337,6 +361,7 @@ BasicPage = React.createClass
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
       <div className="webpage-fields">
         <input type="hidden" name="sidebar_position" value={this.state.sidebarPosition} />
+        {this.renderRemovedGroupsInputs()}
       </div>
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
         <div className="panel-body" style={{position: 'relative', paddingTop: 0, paddingBottom: 0}}>
@@ -368,20 +393,23 @@ BasicPage = React.createClass
                 <div className="col-sm-6">
                   <p><strong>Main Content</strong></p>
                   <ul className="list-group webpage-inserts">
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} data-dismiss="modal">Hero Block</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} data-dismiss="modal">Tagline Block</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} data-dismiss="modal">Columns</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} data-dismiss="modal">Half-page Image &amp; Content</li>
-                    <li className="list-group-item" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>
-                    {this.renderInsertBlogFeedGroupItem()}
+                    {this.renderInsertHeroGroup()}
+                    {this.renderInsertTaglineGroup()}
+                    {this.renderInsertCallToActionGroup()}
+                    {this.renderInsertSpecialtyGroup()}
+                    {this.renderInsertContentGroup()}
+                    {this.renderInsertBlogFeedGroup()}
+                    {this.renderInsertAboutGroup()}
+                    {this.renderInsertTeamGroup()}
+                    {this.renderInsertContactGroup()}
                   </ul>
                 </div>
                 <div className="col-sm-6">
                   <p><strong>Sidebar Content</strong></p>
                   <ul className="list-group webpage-inserts">
-                    {this.renderInsertSidebarContentItem()}
-                    {this.renderInsertSidebarBlogFeedItem()}
-                    {this.renderInsertSidebarEventsFeedItem()}
+                    {this.renderInsertSidebarContent()}
+                    {this.renderInsertSidebarBlogFeed()}
+                    {this.renderInsertSidebarEventsFeed()}
                   </ul>
                 </div>
               </div>
@@ -544,6 +572,15 @@ BasicPage = React.createClass
       </div>
     </div>`
 
+  renderRemovedGroupsInputs: ->
+    for group in this.state.removedGroups
+      destroyName = "groups_attributes[#{group.index}][_destroy]"
+      idName = "groups_attributes[#{group.index}][id]"
+      `<div key={group.index}>
+        <input type="hidden" name={destroyName} value="1" />
+        <input type="hidden" name={idName} value={group.id} />
+      </div>`
+
   renderEditLinkOptions: ->
     `<option key={webpage.id} value={webpage.id}>{webpage.name}</option>` for webpage in this.props.internalWebpages
 
@@ -633,30 +670,65 @@ BasicPage = React.createClass
         <span className="lead">Add a Page Element</span>
       </div>`
 
-  renderInsertBlogFeedGroupItem: ->
-    unless _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
+  renderInsertHeroGroup: ->
+    unless this.props.groupTypes.indexOf('HeroGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'HeroGroup')
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} data-dismiss="modal">Hero Header</li>`
+
+  renderInsertTaglineGroup: ->
+    unless this.props.groupTypes.indexOf('TaglineGroup') is -1
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} data-dismiss="modal">Tagline Block</li>`
+
+  renderInsertCallToActionGroup: ->
+    unless this.props.groupTypes.indexOf('CallToActionGroup') is -1
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} data-dismiss="modal">Columns</li>`
+
+  renderInsertSpecialtyGroup: ->
+    unless this.props.groupTypes.indexOf('SpecialtyGroup') is -1
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} data-dismiss="modal">Half-page Image &amp; Content</li>`
+
+  renderInsertContentGroup: ->
+    unless this.props.groupTypes.indexOf('ContentGroup') is -1
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
+
+  renderInsertBlogFeedGroup: ->
+    unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
       `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
 
-  renderInsertSidebarContentItem: ->
-    group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
-    if group
-      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
-    else
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
+  renderInsertAboutGroup: ->
+    unless this.props.groupTypes.indexOf('AboutGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'AboutGroup')
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'AboutGroup', 'AboutBlock')} data-dismiss="modal">About Content</li>`
 
-  renderInsertSidebarBlogFeedItem: ->
-    group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
-    if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarBlogFeedBlock')
-      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
-    else if not group
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
+  renderInsertTeamGroup: ->
+    unless this.props.groupTypes.indexOf('TeamGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'TeamGroup')
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'TeamGroup', 'TeamBlock')} data-dismiss="modal">Team Members</li>`
 
-  renderInsertSidebarEventsFeedItem: ->
-    group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
-    if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarEventsBlock')
-      `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
-    else if not group
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
+  renderInsertContactGroup: ->
+    unless this.props.groupTypes.indexOf('ContactGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'ContactGroup')
+      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'ContactGroup', 'ContactBlock')} data-dismiss="modal">Contact Information</li>`
+
+  renderInsertSidebarContent: ->
+    unless this.props.groupTypes.indexOf('SidebarContentGroup') is -1
+      group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
+      if group
+        `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
+      else
+        `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
+
+  renderInsertSidebarBlogFeed: ->
+    unless this.props.groupTypes.indexOf('SidebarBlogFeedGroup') is -1
+      group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
+      if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarBlogFeedBlock')
+        `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
+      else if not group
+        `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
+
+  renderInsertSidebarEventsFeed: ->
+    unless this.props.groupTypes.indexOf('SidebarEventsFeedGroup') is -1
+      group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
+      if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarEventsFeedBlock')
+        `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
+      else if not group
+        `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
 
   switchSidebarPosition: ->
     if this.state.sidebarPosition is 'right'

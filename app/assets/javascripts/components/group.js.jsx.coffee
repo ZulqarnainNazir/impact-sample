@@ -15,6 +15,7 @@ Group = React.createClass
         <input type="hidden" name={this.inputName('type')} value={this.props.type} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
+        {this.renderRemovedBlocksInputs()}
       </div>
       {this.renderMoveHandle()}
       {this.renderSidebarSwitcher()}
@@ -24,6 +25,15 @@ Group = React.createClass
         {this.renderBlocks()}
       </div>
     </div>`
+
+  renderRemovedBlocksInputs: ->
+    for block in this.props.removedBlocks
+      destroyName = "#{this.inputName('blocks_attributes')}[#{block.index}][_destroy]"
+      idName = "#{this.inputName('blocks_attributes')}[#{block.index}][id]"
+      `<div key={block.index}>
+        <input type="hidden" name={destroyName} value="1" />
+        <input type="hidden" name={idName} value={block.id} />
+      </div>`
 
   groupClass: ->
     if this.props.sidebarPosition is 'left'
