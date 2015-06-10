@@ -55,7 +55,7 @@ task migrate_blocks: [:environment] do
         sidebar_group = blog_page.groups.new(type: 'SidebarGroup')
         sidebar_group.blocks = [sidebar_blog_feed_block, *sidebar_content_blocks].compact.each_with_index.map { |b, i| b.position = i; b }
         sidebar_group.save!
-        sidebar_blog_feed_block.save!
+        sidebar_blog_feed_block.save! if sidebar_blog_feed_block
         sidebar_content_blocks.each(&:save!)
       end
     end
