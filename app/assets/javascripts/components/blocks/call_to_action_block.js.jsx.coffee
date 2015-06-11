@@ -1,4 +1,4 @@
-CallToActionBlockContent = React.createClass
+CallToActionBlock = React.createClass
   render: ->
     `<div className="webpage-call-to-action">
       <div className="panel panel-default">
@@ -13,4 +13,4 @@ CallToActionBlockContent = React.createClass
       </div>
     </div>`
 
-window.CallToActionBlockContent = CallToActionBlockContent
+window.CallToActionBlock = CallToActionBlock

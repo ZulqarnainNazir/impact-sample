@@ -1,6 +1,4 @@
 HeaderBlockContent = React.createClass
-  mixins: [BackgroundImageCSS]
-
   render: ->
     switch this.props.theme
       when 'center'

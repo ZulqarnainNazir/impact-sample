@@ -30,6 +30,8 @@ module GroupsAttributesConcern
         :background_color,
         :foreground_color,
         :link_color,
+        :height,
+        :items_limit,
         :_destroy,
         block_background_placement_attributes: placement_attributes,
         block_image_placement_attributes: placement_attributes,

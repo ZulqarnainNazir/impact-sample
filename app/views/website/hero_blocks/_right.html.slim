@@ -1,4 +1,4 @@
-.jumbotron.hero-full class=block.css_class style="background-color: #{block.background_color}; background-image: url('#{block.hero_block_image.try(:attachment_url, :jumbo)}'); color: #{block.foreground_color}"
+.jumbotron.hero-full class=block.css_class style="background-color: #{block.background_color}; background-image: url('#{block.block_background.try(:attachment_url, :jumbo)}'); color: #{block.foreground_color}"
   .webpage-block-col-6-offset
   .webpage-block-col-6
     h1 = sanitize_html block.heading

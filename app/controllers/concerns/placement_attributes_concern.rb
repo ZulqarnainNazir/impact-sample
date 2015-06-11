@@ -23,20 +23,22 @@ module PlacementAttributesConcern
     end
   end
 
-  def merge_group_blocks_required_placement_attributes(group_attributes)
-    group_attributes.each do |_, attributes|
-      attributes.each do |_, block|
-        if block['block_background_attributes']
-          block['block_background_attributes'].merge!(
-            image_business: @business,
-            image_user: current_user,
-          )
-        end
-        if block['block_image_attributes']
-          block['block_image_attributes'].merge!(
-            image_business: @business,
-            image_user: current_user,
-          )
+  def merge_group_blocks_required_placement_attributes(groups_attributes)
+    groups_attributes.each do |_, group_attributes|
+      if group_attributes[:blocks_attributes]
+        group_attributes[:blocks_attributes].each do |_, block_attributes|
+          if block_attributes[:block_background_placement_attributes]
+            block_attributes[:block_background_placement_attributes].merge!(
+              image_business: @business,
+              image_user: current_user,
+            )
+          end
+          if block_attributes[:block_image_placement_attributes]
+            block_attributes[:block_image_placement_attributes].merge!(
+              image_business: @business,
+              image_user: current_user,
+            )
+          end
         end
       end
     end

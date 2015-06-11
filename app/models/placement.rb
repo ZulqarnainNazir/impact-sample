@@ -76,16 +76,16 @@ class Placement < ActiveRecord::Base
     )[context.try(:to_sym)].flatten.uniq
   end
 
-  def image_url
-    image.try(:attachment_url)
-  end
-
   def image_alt
     image.try(:alt)
   end
 
   def image_title
     image.try(:title)
+  end
+
+  def image_attachment_url
+    image.try(:attachment_url)
   end
 
   def image_attachment_content_type

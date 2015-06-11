@@ -1,4 +1,4 @@
-HeroBlockContent = React.createClass
+HeroBlock = React.createClass
   render: ->
     `<div className="webpage-hero">
       {this.renderInterior()}
@@ -23,7 +23,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           <div className="well well-dark">
@@ -39,7 +39,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           <div className="well">
@@ -55,7 +55,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-split"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, height: this.height(), overflow: 'hidden'}}>
       <div>
         <div className="webpage-block-col-6">
           <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
@@ -72,7 +72,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           {this.renderHeading()}
@@ -86,7 +86,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
       {this.renderHeading()}
       {this.renderText()}
       <BlockLinkButton {...this.props} />
@@ -96,7 +96,7 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           <div className="well">
@@ -129,4 +129,10 @@ HeroBlockContent = React.createClass
     if this.props.block_background_placement and this.props.block_background_placement.image_url and this.props.block_background_placement.image_url.length > 0
       "url(\"#{url}\")"
 
-window.HeroBlockContent = HeroBlockContent
+  height: ->
+    if parseInt(this.props.height) > 0
+      parseInt(this.props.height)
+    else
+      'auto'
+
+window.HeroBlock = HeroBlock

@@ -4,6 +4,8 @@ class ContactBlock < Block
   end
 
   def openings
-    business.try(:location).try(:openings)
+    if business.try(:location)
+      business.location.openings.as_json(methods: %i[days hours])
+    end
   end
 end

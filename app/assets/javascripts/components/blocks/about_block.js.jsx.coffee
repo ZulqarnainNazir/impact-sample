@@ -1,4 +1,4 @@
-AboutBlockContent = React.createClass
+AboutBlock = React.createClass
   render: ->
     `<div style={{marginLeft: -15, marginRight: -15}}>
       <div className="container">
@@ -58,4 +58,4 @@ AboutBlockContent = React.createClass
     if this.props.block_background_placement and this.props.block_background_placement and this.props.block_background_placement.image_url > 0
       `<img src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} style={{width: '100%'}}/>`
 
-window.AboutBlockContent = AboutBlockContent
+window.AboutBlock = AboutBlock

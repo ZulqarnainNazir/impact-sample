@@ -1,7 +1,7 @@
 class Block < ActiveRecord::Base
   include PlacedImageConcern
 
-  store_accessor :settings, :background_color, :foreground_color, :link_color
+  store_accessor :settings, :background_color, :foreground_color, :link_color, :height, :items_limit
 
   enum link_version: { link_none: 0, link_internal: 1, link_external: 2, }
 
@@ -39,6 +39,10 @@ class Block < ActiveRecord::Base
   end
 
   def cache_sensitive_key(params)
+  end
+
+  def height=(value)
+    super value.to_i
   end
 
   def link?

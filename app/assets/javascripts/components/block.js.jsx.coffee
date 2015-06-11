@@ -27,6 +27,8 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('background_color')} value={this.props.background_color} />
         <input type="hidden" name={this.inputName('foreground_color')} value={this.props.foreground_color} />
         <input type="hidden" name={this.inputName('link_color')} value={this.props.link_color} />
+        <input type="hidden" name={this.inputName('height')} value={this.props.link_color} />
+        <input type="hidden" name={this.inputName('items_limit')} value={this.props.link_color} />
         {this.renderBlockImagePlacementInputs()}
       </div>
       {this.renderBlockOptions()}
@@ -47,9 +49,9 @@ Block = React.createClass
         <input type="hidden" name={this.blockImageInputName('image_alt')} value={placement.image_alt} />
         <input type="hidden" name={this.blockImageInputName('image_title')} value={placement.image_title} />
         <input type="hidden" name={this.blockImageInputName('image_attachment_cache_url')} value={placement.image_attachment_cache_url} />
-        <input type="hidden" name={this.blockImageInputName('image_attachment_content_type')} value={placement.image_content_type} />
-        <input type="hidden" name={this.blockImageInputName('image_attachment_file_name')} value={placement.image_file_name} />
-        <input type="hidden" name={this.blockImageInputName('image_attachment_file_size')} value={placement.image_file_size} />
+        <input type="hidden" name={this.blockImageInputName('image_attachment_content_type')} value={placement.image_attachment_content_type} />
+        <input type="hidden" name={this.blockImageInputName('image_attachment_file_name')} value={placement.image_attachment_file_name} />
+        <input type="hidden" name={this.blockImageInputName('image_attachment_file_size')} value={placement.image_attachment_file_size} />
       </div>`
 
   inputName: (name) ->
@@ -101,28 +103,28 @@ Block = React.createClass
   renderBlock: ->
     switch this.props.type
       when 'HeroBlock'
-        `<HeroBlockContent {...this.props} />`
+        `<HeroBlock {...this.props} />`
       when 'TaglineBlock'
-        `<TaglineBlockContent {...this.props} />`
+        `<TaglineBlock {...this.props} />`
       when 'CallToActionBlock'
-        `<CallToActionBlockContent {...this.props} />`
+        `<CallToActionBlock {...this.props} />`
       when 'SpecialtyBlock'
-        `<SpecialtyBlockContent {...this.props} />`
+        `<SpecialtyBlock {...this.props} />`
       when 'ContentBlock'
-        `<ContentBlockContent {...this.props} />`
+        `<ContentBlock {...this.props} />`
       when 'BlogFeedBlock'
-        `<BlogFeedBlockContent {...this.props} />`
+        `<BlogFeedBlock {...this.props} />`
       when 'SidebarContentBlock'
-        `<SidebarContentBlockContent {...this.props} />`
+        `<SidebarContentBlock {...this.props} />`
       when 'SidebarBlogFeedBlock'
-        `<SidebarBlogFeedBlockContent {...this.props} />`
+        `<SidebarBlogFeedBlock {...this.props} />`
       when 'SidebarEventsFeedBlock'
-        `<SidebarEventsFeedBlockContent {...this.props} />`
+        `<SidebarEventsFeedBlock {...this.props} />`
       when 'AboutBlock'
-        `<AboutBlockContent {...this.props} />`
+        `<AboutBlock {...this.props} />`
       when 'TeamBlock'
-        `<TeamBlockContent {...this.props} />`
+        `<TeamBlock {...this.props} />`
       when 'ContactBlock'
-        `<ContactBlockContent {...this.props} />`
+        `<ContactBlock {...this.props} />`
 
 window.Block = Block

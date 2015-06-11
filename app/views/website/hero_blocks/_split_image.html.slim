@@ -1,7 +1,7 @@
-.jumbotron.hero-split class=block.css_class style="background-color: #{block.background_color}; color: #{block.foreground_color}"
+.jumbotron.hero-split class=block.css_class style="background-color: #{block.background_color}; background-image: url('#{block.block_background.try(:attachment_url, :jumbo)}'); color: #{block.foreground_color}"
   .webpage-block-col-6
-    - if block.hero_block_image
-      = image_tag block.hero_block_image.attachment_url(:medium), class: 'img-responsive'
+    - if block.block_image
+      = image_tag block.block_image.attachment_url(:medium), class: 'img-responsive'
   .webpage-block-col-6
     h1 = sanitize_html block.heading
     = sanitize_html block.text

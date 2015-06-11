@@ -1,4 +1,10 @@
-ContactBlockContent = React.createClass
+ContactBlock = React.createClass
+  propTypes: ->
+    openings: React.PropTypes.array
+
+  getDefaultProps: ->
+    openings: []
+
   render: ->
     `<div className="webpage-contact">
       {this.renderInterior()}
@@ -36,7 +42,7 @@ ContactBlockContent = React.createClass
               {this.props.address_line_two}
             </p>
             <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
-            <ThemeOpeningsDesigner openings={this.props.openings} />
+            {this.renderOpenings()}
           </div>
           <hr />
           <div className="form-group">
@@ -85,7 +91,7 @@ ContactBlockContent = React.createClass
               {this.props.address_line_two}
             </p>
             <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
-            <ThemeOpeningsDesigner openings={this.props.openings} />
+            {this.renderOpenings()}
           </div>
           <hr />
           <div className="form-group">
@@ -156,7 +162,7 @@ ContactBlockContent = React.createClass
               {this.props.address_line_two}
             </p>
             <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
-            <ThemeOpeningsDesigner openings={this.props.openings} />
+            {this.renderOpenings()}
           </div>
           <div style={{marginTop: 20, marginBottom: 50}}>
             <iframe width="100%" height="200" frameBorder="0" style={{border: 0}} src={this.mapSrc()} />
@@ -189,7 +195,7 @@ ContactBlockContent = React.createClass
               {this.props.address_line_two}
             </p>
             <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
-            <ThemeOpeningsDesigner openings={this.props.openings} />
+            {this.renderOpenings()}
           </div>
         </div>
         <div className="col-sm-8">
@@ -218,6 +224,10 @@ ContactBlockContent = React.createClass
   renderText: ->
     `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />`
 
+  renderOpenings: ->
+    for opening in this.props.openings
+      `<div key={opening.id}>{opening.days} <span className="pull-right">{opening.hours}</span></div>`
+
   mailTo: (email) ->
     "mailto:#{email}"
 
@@ -230,4 +240,4 @@ ContactBlockContent = React.createClass
     mapKey = 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298'
     "#{mapBase}?#{$.param(q: mapAddress, key: mapKey)}"
 
-window.ContactBlockContent = ContactBlockContent
+window.ContactBlock = ContactBlock

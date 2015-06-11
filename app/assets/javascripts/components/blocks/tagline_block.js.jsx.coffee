@@ -1,4 +1,4 @@
-TaglineBlockContent = React.createClass
+TaglineBlock = React.createClass
   render: ->
     `<div className="webpage-tagline">
       {this.renderInterior()}
@@ -37,4 +37,4 @@ TaglineBlockContent = React.createClass
       <BlockLinkButton {...this.props} />
     </nav>`
 
-window.TaglineBlockContent = TaglineBlockContent
+window.TaglineBlock = TaglineBlock

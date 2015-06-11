@@ -1,6 +1,4 @@
-TeamBlockContent = React.createClass
-  mixins: [BackgroundImageCSS]
-
+TeamBlock = React.createClass
   render: ->
     switch this.props.theme
       when 'horizontal'
@@ -95,4 +93,4 @@ TeamBlockContent = React.createClass
   mailTo: (email) ->
     "mailto:#{email}"
 
-window.TeamBlockContent = TeamBlockContent
+window.TeamBlock = TeamBlock

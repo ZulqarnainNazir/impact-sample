@@ -1,4 +1,4 @@
-BlogFeedBlockContent = React.createClass
+BlogFeedBlock = React.createClass
   render: ->
     `<div className="webpage-background">
       <div className="text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '5em 5em', margin: '0 0 2em', position: 'relative', zIndex: 1}}>
@@ -6,4 +6,4 @@ BlogFeedBlockContent = React.createClass
       </div>
     </div>`
 
-window.BlogFeedBlockContent = BlogFeedBlockContent
+window.BlogFeedBlock = BlogFeedBlock

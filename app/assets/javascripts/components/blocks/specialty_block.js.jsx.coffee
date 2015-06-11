@@ -1,4 +1,4 @@
-SpecialtyBlockContent = React.createClass
+SpecialtyBlock = React.createClass
   render: ->
     `<div className="webpage-specialty">
       <div className="lead text-center">
@@ -28,4 +28,4 @@ SpecialtyBlockContent = React.createClass
         </div>
       </div>`
 
-window.SpecialtyBlockContent = SpecialtyBlockContent
+window.SpecialtyBlock = SpecialtyBlock

@@ -1,6 +1,4 @@
 NavLinks = React.createClass
-  mixins: [PreventDefault]
-
   propTypes:
     lineHeight: React.PropTypes.number
     items: React.PropTypes.arrayOf(
@@ -52,5 +50,8 @@ NavLinks = React.createClass
       $.extend {}, defaults, lineHeight: "#{this.props.lineHeight}px"
     else
       defaults
+
+  preventDefault: (e) ->
+    e.preventDefault()
 
 window.NavLinks = NavLinks

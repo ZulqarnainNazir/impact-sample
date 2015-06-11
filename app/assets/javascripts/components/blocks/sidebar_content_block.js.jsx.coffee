@@ -1,4 +1,4 @@
-SidebarContentBlockContent = React.createClass
+SidebarContentBlock = React.createClass
   render: ->
     `<div className="webpage-sidebar-content">
       <div className="panel panel-default">
@@ -13,4 +13,4 @@ SidebarContentBlockContent = React.createClass
       </div>
     </div>`
 
-window.SidebarContentBlockContent = SidebarContentBlockContent
+window.SidebarContentBlock = SidebarContentBlock

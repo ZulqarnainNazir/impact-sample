@@ -1,4 +1,4 @@
-ContentBlockContent = React.createClass
+ContentBlock = React.createClass
   render: ->
     `<div className="webpage-content">
       {this.renderInterior()}
@@ -31,4 +31,4 @@ ContentBlockContent = React.createClass
       <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
     </div>`
 
-window.ContentBlockContent = ContentBlockContent
+window.ContentBlock = ContentBlock

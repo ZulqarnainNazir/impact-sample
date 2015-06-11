@@ -27,7 +27,7 @@ ol.breadcrumb
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       foregroundColor: form.object.website.foreground_color,
-      groups: form.object.groups.as_json(include: { blocks: { methods: :type }}, methods: :type),
+      groups: form.object.groups.as_json(include: { blocks: { methods: %i[type openings] }}, methods: :type),
       groupTypes: %w[ContactGroup],
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
       imagesPath: business_images_path(form.object.website.business),

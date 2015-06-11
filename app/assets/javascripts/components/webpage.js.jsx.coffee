@@ -17,16 +17,10 @@ Webpage = React.createClass
   getInitialState: ->
     editing: true
     groups: this.getInitialGroupsState()
-    mediaImageAlt: undefined
-    mediaImageContentType: undefined
-    mediaImageFileName: undefined
-    mediaImageFileSize: undefined
     mediaEmbed: undefined
     mediaKind: 'images'
     mediaImageProgress: 0
     mediaImageStatus: 'empty'
-    mediaImageTitle: undefined
-    mediaImageURL: undefined
     mediaLibraryHasMoreImages: true
     mediaLibraryImages: []
     mediaLibraryLoaded: false
@@ -56,6 +50,16 @@ Webpage = React.createClass
     this.resetLink()
     this.toggleLinkOptions()
     this.resetMedia()
+
+  componentDidUpdate: ->
+    if $('#add_main_block_options > *').length is 0
+      $('#add_main_block_label').hide()
+    else
+      $('#add_main_block_label').show()
+    if $('#add_sidebar_block_options > *').length is 0
+      $('#add_sidebar_block_label').hide()
+    else
+      $('#add_sidebar_block_label').show()
 
   enableSortableGroups: ->
     $('.webpage-groups').sortable
@@ -265,16 +269,18 @@ Webpage = React.createClass
     block = group.blocks[block_uuid]
     placement = block.block_image_placement or {}
     stateChanges =
+      mediaID: placement.id
       mediaDestroy: undefined
       mediaEmbed: placement.embed
       mediaImageAlt: placement.image_alt
-      mediaImageContentType: placement.content_type
-      mediaImageFileName: placement.file_name
-      mediaImageFileSize: placement.file_size
+      mediaImageAttachmentContentType: placement.image_attachment_content_type
+      mediaImageAttachmentFileName: placement.image_attachment_file_name
+      mediaImageAttachmentFileSize: placement.image_attachment_file_size
       mediaImageProgress: 0
-      mediaImageStatus: if placement then 'attached' else 'empty'
+      mediaImageStatus: if Object.keys(placement).length > 0 then 'attached' else 'empty'
       mediaImageTitle: placement.image_title
-      mediaImageURL: placement.image_url
+      mediaImageAttachmentURL: placement.image_attachment_url
+      mediaImageAttachmentCacheURL: undefined
       mediaLibraryImages: []
       mediaLibraryLoaded: false
       mediaLibraryLoadedAll: false
@@ -287,32 +293,99 @@ Webpage = React.createClass
       $('#media_tabs').css('display', 'block')
       $('#media_library').css('display', 'none')
       $('#media_modal').modal('show')
+    this.initializeMediaUpload()
+
+  initializeMediaUpload: ->
+    $('#media_modal').fileupload
+      dataType: 'XML'
+      url: this.props.presignedPost.url
+      formData: this.props.presignedPost.fields
+      paramName: 'file'
+      dropZone: '.media_dropzone'
+      add: this.mediaUploadAdd
+      progress: this.mediaUploadProgress
+      done: this.mediaUploadDone
+      fail: this.mediaUploadFail
+
+  mediaUploadAdd: (event, data) ->
+    file = data.files[0]
+    reader = new FileReader()
+    reader.onload = this.mediaUploadRead.bind(null, file)
+    reader.readAsDataURL file
+    formData = this.props.presignedPost.fields
+    formData['Content-Type'] = file.type
+    data.formData = formData
+    data.submit()
+
+  mediaUploadRead: (file, event) ->
+    console.log file
+    group = this.state.groups[$('#media_group_uuid').val()]
+    block = group.blocks[$('#media_block_uuid')]
+    this.setState
+      mediaDestroy: null
+      mediaImageAlt: ''
+      mediaImageAttachmentCacheURL: event.target.result
+      mediaImageAttachmentContentType: file.type
+      mediaImageAttachmentFileName: file.name
+      mediaImageAttachmentFileSize: file.size
+      mediaImageAttachmentURL: event.target.result
+      mediaImageID: null
+      mediaImageStatus: 'uploading'
+      mediaImageTitle: ''
+
+  mediaUploadProgress: (event, data) ->
+    if this.state.mediaImageStatus is 'uploading'
+      this.setState
+        mediaImageProgress: parseInt(data.loaded / data.total * 100, 10)
+
+  mediaUploadDone: (event, data) ->
+    if this.state.mediaImageStatus is 'uploading'
+      this.setState
+        mediaImageAttachmentCacheURL: "//#{this.props.presignedPost.host}/#{$(data.jqXHR.responseXML).find('Key').text()}"
+        mediaImageStatus: 'finishing'
+      setTimeout this.mediaUploadFinish, 500
+
+  mediaUploadFinish: ->
+    $('#media_modal').fileupload('destroy')
+    attributes =
+      mediaImageProgress: 0
+      mediaImageStatus: 'attached',
+    this.setState attributes, this.initializeFileUpload
+
+  mediaUploadFail: (event, data) ->
+    if this.state.mediaImageStatus is 'uploading'
+      this.setState
+        mediaImageStatus: 'failed'
 
   updateMedia: () ->
-    this.updateBlock $('#media_group_uuid').val(), $('#media_block_uuid').val(),
+    changes =
       block_image_placement:
+        id: this.state.mediaID
         destroy: this.state.mediaDestroy
-        kind: if $('a[href="#media_tab_image"]').is(':visible') then 'images' else 'embeds'
         embed: this.state.mediaEmbed
-        image_id: this.state.mediaImageID
-        image_url: this.state.mediaImageURL
+        kind: if $('a[href="#media_tab_image"]').is(':visible') then 'images' else 'embeds'
         image_alt: this.state.mediaImageAlt
+        image_attachment_cache_url: this.state.mediaImageAttachmentCacheURL
+        image_attachment_content_type: this.state.mediaImageAttachmentContentType
+        image_attachment_file_name: this.state.mediaImageAttachmentFileName
+        image_attachment_file_size: this.state.mediaImageAttachmentFileSize
+        image_attachment_url: this.state.mediaImageAttachmentURL
+        image_id: this.state.mediaImageID
         image_title: this.state.mediaImageTitle
-        image_content_type: this.state.mediaImageContentType
-        image_file_name: this.state.mediaImageFileName
-        image_file_size: this.state.mediaImageFileSize
+    this.updateBlock $('#media_group_uuid').val(), $('#media_block_uuid').val(), changes
 
   removeMediaImage: ->
     this.setState
       mediaDestroy: '1'
       mediaImageAlt: undefined
-      mediaImageContentType: undefined
-      mediaImageFileName: undefined
-      mediaImageFileSize: undefined
+      mediaImageAttachmentCacheURL: undefined
+      mediaImageAttachmentContentType: undefined
+      mediaImageAttachmentFileName: undefined
+      mediaImageAttachmentFileSize: undefined
+      mediaImageAttachmentURL: undefined
       mediaImageID: undefined
       mediaImageStatus: 'empty'
       mediaImageTitle: undefined
-      mediaImageURL: undefined
 
   showMediaLibrary: ->
     $('#media_tabs').css('display', 'none')
@@ -332,13 +405,14 @@ Webpage = React.createClass
   selectMediaLibraryImage: (image) ->
     changes =
       mediaImageAlt: image.alt
-      mediaImageContentType: image.attachment_content_type
-      mediaImageFileName: image.attachment_file_name
-      mediaImageFileSize: image.attachment_file_size
+      mediaImageAttachmentCacheURL: undefined
+      mediaImageAttachmentContentType: image.attachment_content_type
+      mediaImageAttachmentFileName: image.attachment_file_name
+      mediaImageAttachmentFileSize: image.attachment_file_size
+      mediaImageAttachmentURL: image.attachment_url
       mediaImageID: image.id
       mediaImageStatus: 'attached'
       mediaImageTitle: image.title
-      mediaImageURL: image.attachment_url
     this.setState changes, this.hideMediaLibrary
 
   toggleMediaLibraryLocalOnly: ->
@@ -360,13 +434,13 @@ Webpage = React.createClass
       mediaDestroy: undefined
       mediaEmbed: undefined
       mediaImageAlt: undefined
-      mediaImageContentType: undefined
-      mediaImageFileName: undefined
-      mediaImageFileSize: undefined
+      mediaImageAttachmentContentType: undefined
+      mediaImageAttachmentFileName: undefined
+      mediaImageAttachmentFileSize: undefined
+      mediaImageAttachmentURL: undefined
       mediaImageProgress: 0
       mediaImageStatus: 'empty'
       mediaImageTitle: undefined
-      mediaImageURL: undefined
       mediaKind: 'images'
       mediaLibraryImages: []
       mediaLibraryLoaded: false
@@ -433,6 +507,7 @@ Webpage = React.createClass
     block = group.blocks[block_uuid]
     $('#hero_styles_group_uuid').val group_uuid
     $('#hero_styles_block_uuid').val block_uuid
+    $('#hero_styles_height').val if parseInt(block.height) > 0 then parseInt(block.height) else ''
     $('#hero_styles_layout_default').prop 'checked', if ['top', 'fullBleed'].indexOf(block.layout) >= 0 then false else true
     $('#hero_styles_layout_top').prop 'checked', block.layout is 'top'
     $('#hero_styles_layout_full_bleed').prop 'checked', block.layout is 'fullBleed'
@@ -440,10 +515,12 @@ Webpage = React.createClass
 
   updateHeroStyles: (group_uuid, block_uuid) ->
     this.updateBlock $('#hero_styles_group_uuid').val(), $('#hero_styles_block_uuid').val(),
+      height: $('#hero_styles_height').val()
       layout: $('input[name="hero_styles_layout"]:checked').val()
     this.resetHeroStyles()
 
   resetHeroStyles: ->
+    $('#hero_styles_height').val ''
     $('#hero_styles_layout_default').prop 'checked', true
     $('#hero_styles_layout_top').prop 'checked', false
     $('#hero_styles_layout_full_bleed').prop 'checked', false
@@ -499,7 +576,13 @@ Webpage = React.createClass
             {this.renderGroups()}
           </div>
         </div>
-        <div className="panel-footer">
+        <div className="panel-footer clearfix">
+          <p className="checkbox pull-right">
+            <label>
+              <input type="checkbox" checked={this.state.editing} onChange={this.toggleEditing} />
+              Display Editing Dialogs?
+            </label>
+          </p>
         </div>
       </BrowserPanel>
       <div id="link_modal" className="modal fade">
@@ -657,6 +740,13 @@ Webpage = React.createClass
                   </div>
                 </div>
               </div>
+              <hr />
+              <div className="form-group">
+                <label htmlFor="hero_styles_height" className="control-label">
+                  Set Fixed Hero Height in Pixels (Advanced)
+                </label>
+                <input type="text" id="hero_styles_height" className="form-control" />
+              </div>
             </div>
             <div className="modal-footer">
               <span className="btn btn-default" data-dismiss="modal" onClick={this.resetHeroStyles}>Cancel</span>
@@ -665,12 +755,12 @@ Webpage = React.createClass
           </div>
         </div>
       </div>
-      <div id="insert_and_save_dialog" style={{position: 'fixed', zIndex: 5, right: 0, bottom: 0, left: 0, padding: '1em', backgroundColor: '#fff', borderTop: 'solid 1px #ccc', boxShadow: '0 0 1em rgba(0,0,0,0.2)'}}>
+      <div className="webpage-footer">
         <div className="container">
           <div className="row">
-            <div className="col-sm-5">
-              <p><strong>Main Content</strong></p>
-              <div>
+            <div className="col-sm-6">
+              <p id="add_main_block_label" style={{marginBottom: 5}}><strong>Add Main Block</strong></p>
+              <div id="add_main_block_options">
                 {this.renderInsertHeroGroup()}
                 {this.renderInsertTaglineGroup()}
                 {this.renderInsertCallToActionGroup()}
@@ -683,21 +773,15 @@ Webpage = React.createClass
               </div>
             </div>
             <div className="col-sm-4">
-              <p><strong>Sidebar Content</strong></p>
-              <div>
+              <p id="add_sidebar_block_label" style={{marginBottom: 5}}><strong>Add Sidebar Block</strong></p>
+              <div id="add_sidebar_block_options">
                 {this.renderInsertSidebarContent()}
                 {this.renderInsertSidebarBlogFeed()}
                 {this.renderInsertSidebarEventsFeed()}
               </div>
             </div>
-            <div className="col-sm-3">
-              <p><button type="submit" className="btn btn-block btn-lg btn-success">Save Changes</button></p>
-              <p className="checkbox text-muted">
-                <label>
-                  <input type="checkbox" checked={this.state.editing} onChange={this.toggleEditing} />
-                  Display Editing Dialogs?
-                </label>
-              </p>
+            <div className="col-sm-2">
+              <p style={{marginTop: 5}}><button type="submit" className="btn btn-block btn-lg btn-success">Save Changes</button></p>
             </div>
           </div>
         </div>
@@ -717,24 +801,23 @@ Webpage = React.createClass
     `<option key={webpage.id} value={webpage.id}>{webpage.name}</option>` for webpage in this.props.internalWebpages
 
   renderEditMediaThumbnail: ->
-    if this.state.mediaImageURL
-      `<div className="webpage-dropzone">
+    if this.state.mediaImageAttachmentURL
+      `<div className="media_dropzone">
         <div className="small">
-          <div className="thumbnail"><img style={{width: '100%'}} src={this.state.mediaImageURL} /></div>
-          <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.mediaImageFileName}</strong></div>
-          <div>{this.state.mediaImageFileType} – {this.state.mediaImageFileSize / 1000}KB</div>
+          <div className="thumbnail"><img style={{width: '100%'}} src={this.state.mediaImageAttachmentURL} /></div>
+          <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.mediaImageAttachmentFileName}</strong></div>
+          <div>{this.state.mediaImageAttachmentContentType} – {this.state.mediaImageAttachmentFileSize / 1000}KB</div>
         </div>
       </div>`
     else
-      `<div className="webpage-dropzone">
+      `<div className="media_dropzone">
         <ImageEmpty padding="20" dropzone={true} />
       </div>`
 
   renderEditMediaProgress: ->
     if this.state.mediaImageStatus is 'uploading'
       `<div>
-        <i className="fa fa-close pull-right" />
-        <div className="progress" style={{marginRight: 20}}>
+        <div className="progress">
           <div className="progress-bar progress-bar-striped active" style={{width: this.mediaImageUploadProgressWidthCSS()}} />
         </div>
       </div>`
@@ -834,63 +917,63 @@ Webpage = React.createClass
 
   renderInsertHeroGroup: ->
     unless this.props.groupTypes.indexOf('HeroGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'HeroGroup')
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Hero Header</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Hero</span>`
 
   renderInsertTaglineGroup: ->
     unless this.props.groupTypes.indexOf('TaglineGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Tagline Block</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Tagline</span>`
 
   renderInsertCallToActionGroup: ->
     unless this.props.groupTypes.indexOf('CallToActionGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Columns</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Columns</span>`
 
   renderInsertSpecialtyGroup: ->
     unless this.props.groupTypes.indexOf('SpecialtyGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Half-page Image &amp; Content</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>50/50 Content</span>`
 
   renderInsertContentGroup: ->
     unless this.props.groupTypes.indexOf('ContentGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Small Image &amp; Content</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Small Content</span>`
 
   renderInsertBlogFeedGroup: ->
     unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Blog Feed</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Blog Feed</span>`
 
   renderInsertAboutGroup: ->
     unless this.props.groupTypes.indexOf('AboutGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'AboutGroup')
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'AboutGroup', 'AboutBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>About Content</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'AboutGroup', 'AboutBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>About Content</span>`
 
   renderInsertTeamGroup: ->
     unless this.props.groupTypes.indexOf('TeamGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'TeamGroup')
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TeamGroup', 'TeamBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Team Members</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TeamGroup', 'TeamBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Team Members</span>`
 
   renderInsertContactGroup: ->
     unless this.props.groupTypes.indexOf('ContactGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'ContactGroup')
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContactGroup', 'ContactBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Contact Information</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContactGroup', 'ContactBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Contact Information</span>`
 
   renderInsertSidebarContent: ->
     unless this.props.groupTypes.indexOf('SidebarContentGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group
-        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarContentBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Small Image &amp; Content</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarContentBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Content Block</span>`
       else
-        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarContentBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Small Image &amp; Content</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarContentBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Content Block</span>`
 
   renderInsertSidebarBlogFeed: ->
     unless this.props.groupTypes.indexOf('SidebarBlogFeedGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarBlogFeedBlock')
-        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Blog Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Blog Feed</span>`
       else if not group
-        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Blog Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Blog Feed</span>`
 
   renderInsertSidebarEventsFeed: ->
     unless this.props.groupTypes.indexOf('SidebarEventsFeedGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarEventsFeedBlock')
-        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Events Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Events Feed</span>`
       else if not group
-        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Events Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Events Feed</span>`
 
   switchSidebarPosition: ->
     if this.state.sidebarPosition is 'right'
