@@ -107,7 +107,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
                     type: 'HeroBlock',
                     heading: line.title,
                     text: line.description,
-                    hero_block_image_placement_attributes: {
+                    block_background_placement_attributes: {
                       image_id: image.try(:id),
                     },
                   },
@@ -153,7 +153,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
                   link_version: 1,
                   link: line_page,
                   link_label: 'Learn More',
-                  call_to_action_block_image_placement_attributes: {
+                  block_image_placement_attributes: {
                     image_id: image.try(:id),
                   },
                 },

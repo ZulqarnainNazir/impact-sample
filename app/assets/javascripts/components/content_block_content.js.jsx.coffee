@@ -1,6 +1,4 @@
 ContentBlockContent = React.createClass
-  mixins: [BackgroundImageCSS]
-
   render: ->
     `<div className="webpage-content">
       {this.renderInterior()}
@@ -8,9 +6,9 @@ ContentBlockContent = React.createClass
 
   renderInterior: ->
     if this.props.theme is 'full'
-      this.renderText()
+      `<RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />`
     else if this.props.theme is 'full_image'
-      this.renderImage()
+      `<BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />`
     else
       `<div>
         {this.renderLeft()}
@@ -25,16 +23,8 @@ ContentBlockContent = React.createClass
 
   renderImageColumn: ->
     `<div className="webpage-block-col-4">
-      {this.renderImage()}
+      <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
     </div>`
-
-  renderImage: ->
-    if this.props.image_placement_kind is 'embeds'
-      `<div key="imageEmbed" style={{overflow: 'hidden'}} dangerouslySetInnerHTML={{__html: this.props.image_placement_embed}} />`
-    else if this.props.image_url and this.props.image_url.length > 0
-      `<img className="thumbnail img-responsive" style={{width: '100%'}} src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} />`
-    else if this.props.editing
-      `<ImageEmpty />`
 
   renderTextColumn: ->
     `<div className="webpage-block-col-8">

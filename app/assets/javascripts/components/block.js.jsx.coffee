@@ -18,7 +18,7 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('subheading')} value={this.props.subheading} />
         <input type="hidden" name={this.inputName('text')} value={this.props.text} />
         <input type="hidden" name={this.inputName('link_id')} value={this.props.link_id} />
-        <input type="hidden" name={this.inputName('link_type')} value={this.props.link_type} />
+        <input type="hidden" name={this.inputName('link_type')} value="Webpage" />
         <input type="hidden" name={this.inputName('link_version')} value={this.props.link_version} />
         <input type="hidden" name={this.inputName('link_label')} value={this.props.link_label} />
         <input type="hidden" name={this.inputName('link_external_url')} value={this.props.link_external_url} />
@@ -27,6 +27,7 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('background_color')} value={this.props.background_color} />
         <input type="hidden" name={this.inputName('foreground_color')} value={this.props.foreground_color} />
         <input type="hidden" name={this.inputName('link_color')} value={this.props.link_color} />
+        {this.renderBlockImagePlacementInputs()}
       </div>
       {this.renderBlockOptions()}
       <div className="webpage-block-content">
@@ -34,8 +35,28 @@ Block = React.createClass
       </div>
     </div>`
 
+  renderBlockImagePlacementInputs: ->
+    placement = this.props.block_image_placement
+    if placement
+      `<div>
+        <input type="hidden" name={this.blockImageInputName('_destroy')} value={placement.destroy} />
+        <input type="hidden" name={this.blockImageInputName('id')} value={placement.id} />
+        <input type="hidden" name={this.blockImageInputName('kind')} value={placement.kind} />
+        <input type="hidden" name={this.blockImageInputName('embed')} value={placement.embed} />
+        <input type="hidden" name={this.blockImageInputName('image_id')} value={placement.image_id} />
+        <input type="hidden" name={this.blockImageInputName('image_alt')} value={placement.image_alt} />
+        <input type="hidden" name={this.blockImageInputName('image_title')} value={placement.image_title} />
+        <input type="hidden" name={this.blockImageInputName('image_attachment_cache_url')} value={placement.image_attachment_cache_url} />
+        <input type="hidden" name={this.blockImageInputName('image_attachment_content_type')} value={placement.image_content_type} />
+        <input type="hidden" name={this.blockImageInputName('image_attachment_file_name')} value={placement.image_file_name} />
+        <input type="hidden" name={this.blockImageInputName('image_attachment_file_size')} value={placement.image_file_size} />
+      </div>`
+
   inputName: (name) ->
     "#{this.props.groupInputName}[#{this.props.uuid}][#{name}]"
+
+  blockImageInputName: (name) ->
+    this.inputName('block_image_placement_attributes') + "[#{name}]"
 
   renderBlockOptions: ->
     if this.props.editing

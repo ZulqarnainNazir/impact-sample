@@ -136,7 +136,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
                     type: 'HeroBlock',
                     heading: page[:name],
                     text: page[:description],
-                    hero_block_image_placement_attributes: {
+                    block_background_placement_attributes: {
                       image_attachment_cache_url: page[:cover].try(:[], :source),
                       image_user: current_user,
                       image_business: @business,

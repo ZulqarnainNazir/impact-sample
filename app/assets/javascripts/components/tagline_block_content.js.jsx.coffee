@@ -15,29 +15,26 @@ TaglineBlockContent = React.createClass
 
   renderLeft: ->
     `<nav className="page-header tagline tagline-left">
-      {this.renderButton()}
-      {this.renderText()}
+      <BlockLinkButton {...this.props} />
+      <div className="lead">
+        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
+      </div>
     </nav>`
 
   renderContain: ->
     `<nav className="well tagline tagline-left">
-      {this.renderButton()}
-      {this.renderText()}
+      <BlockLinkButton {...this.props} />
+      <div className="lead">
+        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
+      </div>
     </nav>`
 
   renderCenter: ->
     `<nav className="page-header tagline tagline-center text-center">
-      {this.renderText()}
-      {this.renderButton()}
+      <div className="lead">
+        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
+      </div>
+      <BlockLinkButton {...this.props} />
     </nav>`
-
-  renderText: ->
-    `<div className="lead">
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
-    </div>`
-
-  renderButton: ->
-    if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
-      `<p><a className="tagline-btn btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
 
 window.TaglineBlockContent = TaglineBlockContent

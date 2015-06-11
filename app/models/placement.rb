@@ -63,21 +63,40 @@ class Placement < ActiveRecord::Base
 
   def style_keys
     Hash.new([]).merge(
-      about_block_image: %i[medium],
+      block_image: %i[small medium jumbo],
       after_image: %i[medium],
       before_image: %i[medium],
-      call_to_action_block_image: %i[small medium],
-      content_block_image: %i[small jumbo],
       event_image: %i[thumbnail medium],
       gallery_image: %i[thumbnail large],
-      hero_block_image: %i[medium jumbo],
       logo: %i[logo_small logo_medium logo_large logo_jumbo thumbnail],
       offer_image: %i[medium],
       post_section_image: %i[thumbnail medium],
       quick_post: %i[large],
-      sidebar_content_block_image: %i[small],
-      specialty_block_image: %i[medium],
       team_member_profile: %i[small],
     )[context.try(:to_sym)].flatten.uniq
+  end
+
+  def image_url
+    image.try(:attachment_url)
+  end
+
+  def image_alt
+    image.try(:alt)
+  end
+
+  def image_title
+    image.try(:title)
+  end
+
+  def image_attachment_content_type
+    image.try(:attachment_content_type)
+  end
+
+  def image_attachment_file_name
+    image.try(:attachment_file_name)
+  end
+
+  def image_attachment_file_size
+    image.try(:attachment_file_size)
   end
 end

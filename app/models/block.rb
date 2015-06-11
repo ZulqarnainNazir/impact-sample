@@ -8,13 +8,8 @@ class Block < ActiveRecord::Base
   belongs_to :frame, polymorphic: true
   belongs_to :link, polymorphic: true
 
-  has_placed_image :about_block_image
-  has_placed_image :call_to_action_block_image
-  has_placed_image :content_block_image
-  has_placed_image :header_block_image
-  has_placed_image :hero_block_image
-  has_placed_image :sidebar_content_block_image
-  has_placed_image :specialty_block_image
+  has_placed_image :block_background
+  has_placed_image :block_image
 
   validates :position, presence: true
   validates :theme, presence: true

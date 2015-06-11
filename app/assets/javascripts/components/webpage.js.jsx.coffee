@@ -1,4 +1,4 @@
-BasicPage = React.createClass
+Webpage = React.createClass
   propTypes:
     backgroundColor: React.PropTypes.string
     browserButtonsSrc: React.PropTypes.string
@@ -12,12 +12,27 @@ BasicPage = React.createClass
     linkColor: React.PropTypes.string
     presignedPost: React.PropTypes.object
     sidebarPosition: React.PropTypes.string
+    showOnlyLocalMediaLibraryOption: React.PropTypes.bool
 
   getInitialState: ->
     editing: true
     groups: this.getInitialGroupsState()
+    mediaImageAlt: undefined
+    mediaImageContentType: undefined
+    mediaImageFileName: undefined
+    mediaImageFileSize: undefined
+    mediaEmbed: undefined
+    mediaKind: 'images'
     mediaImageProgress: 0
     mediaImageStatus: 'empty'
+    mediaImageTitle: undefined
+    mediaImageURL: undefined
+    mediaLibraryHasMoreImages: true
+    mediaLibraryImages: []
+    mediaLibraryLoaded: false
+    mediaLibraryLoadedAll: false
+    mediaLibraryLocalOnly: true
+    mediaLibraryPage: 1
     removedGroups: []
     sidebarPosition: if this.props.sidebarPosition is 'left' then 'left' else 'right'
 
@@ -58,7 +73,14 @@ BasicPage = React.createClass
       startCollapsed: false
       tabSize: 20
       tolerance: 'pointer'
+      start: this.startWebpageGroupsSorting
       update: this.sortWebpageGroups
+
+  startWebpageGroupsSorting: (event, ui) ->
+    group = this.state.groups[ui.item.data('uuid')]
+    if group and group.type is 'SidebarGroup'
+      ui.placeholder.css('width', ui.item.css('width'))
+      ui.placeholder.css('float', this.state.sidebarPosition)
 
   sortWebpageGroups: ->
     $('.webpage-group').each this.sortWebpageGroup
@@ -239,15 +261,121 @@ BasicPage = React.createClass
     event.preventDefault()
     $('#media_group_uuid').val group_uuid
     $('#media_block_uuid').val block_uuid
-    $('#media_modal').modal('show')
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    placement = block.block_image_placement or {}
+    stateChanges =
+      mediaDestroy: undefined
+      mediaEmbed: placement.embed
+      mediaImageAlt: placement.image_alt
+      mediaImageContentType: placement.content_type
+      mediaImageFileName: placement.file_name
+      mediaImageFileSize: placement.file_size
+      mediaImageProgress: 0
+      mediaImageStatus: if placement then 'attached' else 'empty'
+      mediaImageTitle: placement.image_title
+      mediaImageURL: placement.image_url
+      mediaLibraryImages: []
+      mediaLibraryLoaded: false
+      mediaLibraryLoadedAll: false
+      mediaLibraryPage: 1
+    this.setState stateChanges, ->
+      if placement.kind is 'embeds'
+        $('a[href="#media_tab_embed"]').tab('show')
+      else
+        $('a[href="#media_tab_image"]').tab('show')
+      $('#media_tabs').css('display', 'block')
+      $('#media_library').css('display', 'none')
+      $('#media_modal').modal('show')
 
-  updateMedia: (group_uuid, block_uuid) ->
+  updateMedia: () ->
     this.updateBlock $('#media_group_uuid').val(), $('#media_block_uuid').val(),
-      media: asdf
-    this.resetMedia()
+      block_image_placement:
+        destroy: this.state.mediaDestroy
+        kind: if $('a[href="#media_tab_image"]').is(':visible') then 'images' else 'embeds'
+        embed: this.state.mediaEmbed
+        image_id: this.state.mediaImageID
+        image_url: this.state.mediaImageURL
+        image_alt: this.state.mediaImageAlt
+        image_title: this.state.mediaImageTitle
+        image_content_type: this.state.mediaImageContentType
+        image_file_name: this.state.mediaImageFileName
+        image_file_size: this.state.mediaImageFileSize
+
+  removeMediaImage: ->
+    this.setState
+      mediaDestroy: '1'
+      mediaImageAlt: undefined
+      mediaImageContentType: undefined
+      mediaImageFileName: undefined
+      mediaImageFileSize: undefined
+      mediaImageID: undefined
+      mediaImageStatus: 'empty'
+      mediaImageTitle: undefined
+      mediaImageURL: undefined
+
+  showMediaLibrary: ->
+    $('#media_tabs').css('display', 'none')
+    $('#media_library').css('display', 'block')
+    this.loadMediaLibraryImages()
+
+  loadMediaLibraryImages: ->
+    $.get "#{this.props.imagesPath}?page=#{this.state.mediaLibraryPage}&local=#{this.state.mediaLibraryLocalOnly}", this.setMediaLibraryImages
+
+  setMediaLibraryImages: (data) ->
+    this.setState
+      mediaLibraryImages: this.state.mediaLibraryImages.concat data.images
+      mediaLibraryLoaded: true
+      mediaLibraryLoadedAll: data.images.length < 48
+      mediaLibraryPage: this.state.mediaLibraryPage + 1
+
+  selectMediaLibraryImage: (image) ->
+    changes =
+      mediaImageAlt: image.alt
+      mediaImageContentType: image.attachment_content_type
+      mediaImageFileName: image.attachment_file_name
+      mediaImageFileSize: image.attachment_file_size
+      mediaImageID: image.id
+      mediaImageStatus: 'attached'
+      mediaImageTitle: image.title
+      mediaImageURL: image.attachment_url
+    this.setState changes, this.hideMediaLibrary
+
+  toggleMediaLibraryLocalOnly: ->
+    changes =
+      mediaLibraryImages: []
+      mediaLibraryLoaded: false
+      mediaLibraryLoadedAll: false
+      mediaLibraryLocalOnly: !this.state.mediaLibraryLocalOnly
+      mediaLibraryPage: 1
+    this.setState changes, this.loadMediaLibraryImages
+
+  hideMediaLibrary: (event) ->
+    event.preventDefault() if event
+    $('#media_tabs').css('display', 'block')
+    $('#media_library').css('display', 'none')
 
   resetMedia: ->
-    $('a[href="#media_tab_image"]').tab('show')
+    stateChanges =
+      mediaDestroy: undefined
+      mediaEmbed: undefined
+      mediaImageAlt: undefined
+      mediaImageContentType: undefined
+      mediaImageFileName: undefined
+      mediaImageFileSize: undefined
+      mediaImageProgress: 0
+      mediaImageStatus: 'empty'
+      mediaImageTitle: undefined
+      mediaImageURL: undefined
+      mediaKind: 'images'
+      mediaLibraryImages: []
+      mediaLibraryLoaded: false
+      mediaLibraryLoadedAll: false
+      mediaLibraryPage: 1
+    this.setState stateChanges, ->
+      $('a[href="#media_tab_image"]').tab('show')
+      $('#media_tabs').css('display', 'block')
+      $('#media_library').css('display', 'none')
 
   editLink: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -357,7 +485,7 @@ BasicPage = React.createClass
     """
 
   render: ->
-    `<div>
+    `<div style={{marginBottom: '10em'}}>
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
       <div className="webpage-fields">
         <input type="hidden" name="sidebar_position" value={this.state.sidebarPosition} />
@@ -370,53 +498,10 @@ BasicPage = React.createClass
           <div className="webpage-groups clearfix">
             {this.renderGroups()}
           </div>
-          {this.renderGroupAdd()}
         </div>
-        <div className="panel-footer clearfix">
-          <div className="checkbox pull-right" style={{margin: 0}}>
-            <label>
-              <input type="checkbox" checked={this.state.editing} onChange={this.toggleEditing} />
-              Display Editing Dialogs?
-            </label>
-          </div>
+        <div className="panel-footer">
         </div>
       </BrowserPanel>
-      <div id="group-add-options" className="modal fade">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <span className="close" data-dismiss="modal">&times;</span>
-              <p className="h4 modal-title">Add a Page Element</p>
-            </div>
-            <div className="modal-body">
-              <div className="row">
-                <div className="col-sm-6">
-                  <p><strong>Main Content</strong></p>
-                  <ul className="list-group webpage-inserts">
-                    {this.renderInsertHeroGroup()}
-                    {this.renderInsertTaglineGroup()}
-                    {this.renderInsertCallToActionGroup()}
-                    {this.renderInsertSpecialtyGroup()}
-                    {this.renderInsertContentGroup()}
-                    {this.renderInsertBlogFeedGroup()}
-                    {this.renderInsertAboutGroup()}
-                    {this.renderInsertTeamGroup()}
-                    {this.renderInsertContactGroup()}
-                  </ul>
-                </div>
-                <div className="col-sm-6">
-                  <p><strong>Sidebar Content</strong></p>
-                  <ul className="list-group webpage-inserts">
-                    {this.renderInsertSidebarContent()}
-                    {this.renderInsertSidebarBlogFeed()}
-                    {this.renderInsertSidebarEventsFeed()}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div id="link_modal" className="modal fade">
         <input id="link_group_uuid" type="hidden" />
         <input id="link_block_uuid" type="hidden" />
@@ -497,30 +582,40 @@ BasicPage = React.createClass
               <p className="h4 modal-title">Add an Image or Video</p>
             </div>
             <div className="modal-body">
-              <ul className="nav nav-tabs">
-                <li clasName="active"><a href="#media_tab_image" data-toggle="tab">Image</a></li>
-                <li><a href="#media_tab_embed" data-toggle="tab">Embed</a></li>
-              </ul>
-              <div className="tab-content">
-                <div id="media_tab_image" className="tab-pane fade in active">
-                  <div className="form-group">
-                    <div className="row">
-                      <div className="col-sm-4">
-                        {this.renderEditMediaThumbnail()}
-                      </div>
-                      <div className="col-sm-8">
-                        {this.renderEditMediaProgress()}
-                        {this.renderEditMediaInputs()}
-                        {this.renderEditMediaButtons()}
+              <div id="media_tabs">
+                <ul className="nav nav-tabs">
+                  <li clasName="active"><a href="#media_tab_image" data-toggle="tab">Image</a></li>
+                  <li><a href="#media_tab_embed" data-toggle="tab">Embed</a></li>
+                </ul>
+                <div className="tab-content">
+                  <div id="media_tab_image" className="tab-pane fade in active">
+                    <div className="form-group">
+                      <div className="row">
+                        <div className="col-sm-4">
+                          {this.renderEditMediaThumbnail()}
+                        </div>
+                        <div className="col-sm-8">
+                          {this.renderEditMediaProgress()}
+                          {this.renderEditMediaInputs()}
+                          {this.renderEditMediaButtons()}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div id="media_tab_embed" className="tab-pane">
-                  <div className="form-group">
-                    <textarea rows="6" className="form-control" />
+                  <div id="media_tab_embed" className="tab-pane">
+                    <div className="form-group">
+                      <textarea id="media_embed" rows="6" className="form-control" />
+                    </div>
                   </div>
                 </div>
+              </div>
+              <div id="media_library">
+                {this.renderMediaLibraryOnlyLocalCheckbox()}
+                <ol className="breadcrumb">
+                  <li><a onClick={this.hideMediaLibrary} href="#">Edit Details</a></li>
+                  <li className="active">Media Library</li>
+                </ol>
+                {this.renderMediaLibraryInterior()}
               </div>
             </div>
             <div className="modal-footer">
@@ -570,6 +665,43 @@ BasicPage = React.createClass
           </div>
         </div>
       </div>
+      <div id="insert_and_save_dialog" style={{position: 'fixed', zIndex: 5, right: 0, bottom: 0, left: 0, padding: '1em', backgroundColor: '#fff', borderTop: 'solid 1px #ccc', boxShadow: '0 0 1em rgba(0,0,0,0.2)'}}>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-5">
+              <p><strong>Main Content</strong></p>
+              <div>
+                {this.renderInsertHeroGroup()}
+                {this.renderInsertTaglineGroup()}
+                {this.renderInsertCallToActionGroup()}
+                {this.renderInsertSpecialtyGroup()}
+                {this.renderInsertContentGroup()}
+                {this.renderInsertBlogFeedGroup()}
+                {this.renderInsertAboutGroup()}
+                {this.renderInsertTeamGroup()}
+                {this.renderInsertContactGroup()}
+              </div>
+            </div>
+            <div className="col-sm-4">
+              <p><strong>Sidebar Content</strong></p>
+              <div>
+                {this.renderInsertSidebarContent()}
+                {this.renderInsertSidebarBlogFeed()}
+                {this.renderInsertSidebarEventsFeed()}
+              </div>
+            </div>
+            <div className="col-sm-3">
+              <p><button type="submit" className="btn btn-block btn-lg btn-success">Save Changes</button></p>
+              <p className="checkbox text-muted">
+                <label>
+                  <input type="checkbox" checked={this.state.editing} onChange={this.toggleEditing} />
+                  Display Editing Dialogs?
+                </label>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>`
 
   renderRemovedGroupsInputs: ->
@@ -590,7 +722,7 @@ BasicPage = React.createClass
         <div className="small">
           <div className="thumbnail"><img style={{width: '100%'}} src={this.state.mediaImageURL} /></div>
           <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.mediaImageFileName}</strong></div>
-          <div>{this.state.mediaImageFileType()} – {this.state.mediaImageFileSize()}</div>
+          <div>{this.state.mediaImageFileType} – {this.state.mediaImageFileSize / 1000}KB</div>
         </div>
       </div>`
     else
@@ -615,19 +747,16 @@ BasicPage = React.createClass
         <div className="progress-bar progress-bar-danger" style={{width: '100%'}} />
       </div>`
 
-  mediaImageUploadProgressWidthCSS: ->
-    "#{this.state.mediaImageProgress}%"
-
   renderEditMediaInputs: ->
     if ['uploading', 'finishing', 'attached'].indexOf(this.state.mediaImageStatus) >= 0
       `<div>
         <div className="form-group">
-          <label htmlFor="media-image-alt" className="control-label"><code>ALT</code> Attribute</label>
-          <input id="media-image-alt" type="text" className="form-control" />
+          <label htmlFor="media_image_alt" className="control-label"><code>ALT</code> Attribute</label>
+          <input id="media_image_alt" type="text" className="form-control" />
         </div>
         <div className="form-group">
-          <label htmlFor="media-image-title" className="control-label"><code>Title</code> Attribute</label>
-          <input id="media-image-title" type="text" className="form-control" />
+          <label htmlFor="media_image_title" className="control-label"><code>Title</code> Attribute</label>
+          <input id="media_image_title" type="text" className="form-control" />
         </div>
       </div>`
 
@@ -639,7 +768,7 @@ BasicPage = React.createClass
           <span onClick={this.triggerFileInput} className="btn btn-default">
             <i className="fa fa-cloud-upload" /> Upload Image
           </span>
-          <span onClick={this.showImageLibrary} className="btn btn-default">
+          <span onClick={this.showMediaLibrary} className="btn btn-default">
             <i className="fa fa-th" /> Browse Library
           </span>
         </span>
@@ -648,10 +777,50 @@ BasicPage = React.createClass
       </div>`
 
   renderEditMediaRemoveButton: ->
-    if ['failed', 'attached'].indexOf(this.state.mediaImageState) >= 0
-      `<span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
+    if ['failed', 'attached'].indexOf(this.state.mediaImageStatus) >= 0
+      `<span onClick={this.removeMediaImage} className="btn btn-sm btn-danger pull-right">
         <i className="fa fa-close" /> Remove
       </span>`
+
+  renderMediaLibraryOnlyLocalCheckbox: ->
+    if this.props.showOnlyLocalMediaLibraryOption
+      `<div className="checkbox pull-right small" style={{marginRight: 10}}>
+        <label>
+          <input type="checkbox" onChange={this.toggleMediaLibraryLocalOnly} defaultChecked={this.props.showOnlyLocalMediaLibraryOption} style={{marginTop: 2}} />
+          Current Site Only
+        </label>
+      </div>`
+
+  renderMediaLibraryInterior: ->
+    if this.state.mediaLibraryLoaded
+      `<div className="row row-narrow">
+        {this.renderMediaLibraryImages()}
+        {this.renderMediaLibraryMoreButton()}
+      </div>`
+    else
+      `<div className="text-center" style={{marginTop: 50, marginBottom: 50}}>
+        <i className="fa fa-spinner fa-spin fa-4x" />
+      </div>`
+
+  renderMediaLibraryImages: ->
+    if this.state.mediaLibraryImages.length > 0
+      for image in this.state.mediaLibraryImages
+        `<div key={image.id} className="col-xs-2">
+          <img onClick={this.selectMediaLibraryImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{width: 90, height: 90, cursor: 'pointer'}} />
+        </div>`
+    else
+      `<div className="col-sm-12"><p>Looks like you don’t have any images, go ahead and upload a few.</p></div>`
+
+  renderMediaLibraryMoreButton: ->
+    unless this.state.mediaLibraryLoadedAll
+      `<div className="row text-center">
+        <div className="col-sm-4 col-sm-offset-4">
+          <div onClick={this.loadMediaLibraryImages} className="btn btn-block btn-default">Load More</div>
+        </div>
+      </div>`
+
+  mediaImageUploadProgressWidthCSS: ->
+    "#{this.state.mediaImageProgress}%"
 
   triggerFileInput: ->
     $(this.refs.fileInput.getDOMNode()).click()
@@ -663,72 +832,65 @@ BasicPage = React.createClass
     if group
       `<Group key={group.uuid} editing={this.state.editing} updateGroup={this.updateGroup} insertBlock={this.insertBlock} sidebarPosition={this.state.sidebarPosition} switchSidebarPosition={this.switchSidebarPosition} {...group} />`
 
-  renderGroupAdd: ->
-    marginTop = if this.state.groups.length is 0 then '0' else '2em'
-    if this.state.editing
-      `<div className="webpage-add" data-toggle="modal" data-target="#group-add-options" style={{marginTop: marginTop, marginBottom: '2em'}}>
-        <span className="lead">Add a Page Element</span>
-      </div>`
-
   renderInsertHeroGroup: ->
     unless this.props.groupTypes.indexOf('HeroGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'HeroGroup')
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} data-dismiss="modal">Hero Header</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Hero Header</span>`
 
   renderInsertTaglineGroup: ->
     unless this.props.groupTypes.indexOf('TaglineGroup') is -1
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} data-dismiss="modal">Tagline Block</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Tagline Block</span>`
 
   renderInsertCallToActionGroup: ->
     unless this.props.groupTypes.indexOf('CallToActionGroup') is -1
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} data-dismiss="modal">Columns</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Columns</span>`
 
   renderInsertSpecialtyGroup: ->
     unless this.props.groupTypes.indexOf('SpecialtyGroup') is -1
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} data-dismiss="modal">Half-page Image &amp; Content</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Half-page Image &amp; Content</span>`
 
   renderInsertContentGroup: ->
     unless this.props.groupTypes.indexOf('ContentGroup') is -1
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Small Image &amp; Content</span>`
 
   renderInsertBlogFeedGroup: ->
     unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Blog Feed</span>`
 
   renderInsertAboutGroup: ->
     unless this.props.groupTypes.indexOf('AboutGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'AboutGroup')
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'AboutGroup', 'AboutBlock')} data-dismiss="modal">About Content</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'AboutGroup', 'AboutBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>About Content</span>`
 
   renderInsertTeamGroup: ->
     unless this.props.groupTypes.indexOf('TeamGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'TeamGroup')
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'TeamGroup', 'TeamBlock')} data-dismiss="modal">Team Members</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TeamGroup', 'TeamBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Team Members</span>`
 
   renderInsertContactGroup: ->
     unless this.props.groupTypes.indexOf('ContactGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'ContactGroup')
-      `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'ContactGroup', 'ContactBlock')} data-dismiss="modal">Contact Information</li>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContactGroup', 'ContactBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Contact Information</span>`
 
   renderInsertSidebarContent: ->
     unless this.props.groupTypes.indexOf('SidebarContentGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group
-        `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarContentBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Small Image &amp; Content</span>`
       else
-        `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarContentBlock')} data-dismiss="modal">Small Image &amp; Content</li>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarContentBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Small Image &amp; Content</span>`
 
   renderInsertSidebarBlogFeed: ->
     unless this.props.groupTypes.indexOf('SidebarBlogFeedGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarBlogFeedBlock')
-        `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Blog Feed</span>`
       else if not group
-        `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} data-dismiss="modal">Blog Feed</li>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Blog Feed</span>`
 
   renderInsertSidebarEventsFeed: ->
     unless this.props.groupTypes.indexOf('SidebarEventsFeedGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarEventsFeedBlock')
-        `<li className="list-group-item" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Events Feed</span>`
       else if not group
-        `<li className="list-group-item" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} data-dismiss="modal">Events Feed</li>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} style={{marginRight: '0.5em', marginBottom: '0.5em'}}>Events Feed</span>`
 
   switchSidebarPosition: ->
     if this.state.sidebarPosition is 'right'
@@ -736,4 +898,4 @@ BasicPage = React.createClass
     else
       this.setState sidebarPosition: 'right'
 
-window.BasicPage = BasicPage
+window.Webpage = Webpage

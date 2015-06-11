@@ -23,7 +23,7 @@ ol.breadcrumb
           p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@blog_page.pathname, host: website_host(@business.website)), target: :_blank do
             ' Preview Saved Webpage
             i.fa.fa-external-link style="margin-left:2px"
-    = react_component 'BasicPage',
+    = react_component 'Webpage',
       backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
@@ -35,8 +35,5 @@ ol.breadcrumb
       internalWebpages: form.object.website.webpages.select(:id, :name),
       linkColor: form.object.website.link_color,
       presignedPost: s3_presigned_post_hash,
+      showOnlyLocalMediaLibraryOption: current_user.businesses.count > 1 || current_user.super_user?,
       sidebarPosition: form.object.sidebar_position
-    .webpage-submit
-      .row
-        .col-sm-4.col-sm-offset-4
-          button.btn.btn-block.btn-lg.btn-primary Save Page

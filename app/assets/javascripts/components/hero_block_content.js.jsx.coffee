@@ -1,6 +1,4 @@
 HeroBlockContent = React.createClass
-  mixins: [BackgroundImageCSS]
-
   render: ->
     `<div className="webpage-hero">
       {this.renderInterior()}
@@ -25,13 +23,13 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           <div className="well well-dark">
             {this.renderHeading()}
             {this.renderText()}
-            {this.renderButton()}
+            <BlockLinkButton {...this.props} />
           </div>
         </div>
       </div>
@@ -41,13 +39,13 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           <div className="well">
             {this.renderHeading()}
             {this.renderText()}
-            {this.renderButton()}
+            <BlockLinkButton {...this.props} />
           </div>
         </div>
       </div>
@@ -60,12 +58,12 @@ HeroBlockContent = React.createClass
     `<div className={className} style={{backgroundColor: this.props.background_color}}>
       <div>
         <div className="webpage-block-col-6">
-          {this.renderImage()}
+          <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
         </div>
         <div className="webpage-block-col-6">
           {this.renderHeading()}
           {this.renderText()}
-          {this.renderButton()}
+          <BlockLinkButton {...this.props} />
         </div>
       </div>
     </div>`
@@ -74,12 +72,12 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           {this.renderHeading()}
           {this.renderText()}
-          {this.renderButton()}
+          <BlockLinkButton {...this.props} />
         </div>
       </div>
     </div>`
@@ -88,17 +86,17 @@ HeroBlockContent = React.createClass
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
       {this.renderHeading()}
       {this.renderText()}
-      {this.renderButton()}
+      <BlockLinkButton {...this.props} />
     </div>`
 
   renderForm: ->
     className = "jumbotron hero-full"
     className += " hero-dark" if this.props.style is 'dark'
 
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(this.props.image_url)}}>
+    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS()}}>
       <div>
         <div className="webpage-block-col-6-offset webpage-block-col-6">
           <div className="well">
@@ -111,7 +109,7 @@ HeroBlockContent = React.createClass
               <label className="control-label">Email</label>
               <input type="email" className="form-control" />
             </div>
-            {this.renderButton()}
+            <BlockLinkButton {...this.props} />
           </div>
         </div>
       </div>
@@ -122,21 +120,13 @@ HeroBlockContent = React.createClass
       <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
     </h1>`
 
-  renderImage: ->
-    if this.props.image_url and this.props.image_url.length > 0
-      `<img className="img-responsive" src={this.props.image_url} alt={this.props.image_alt} title={this.props.image_title} />`
-    else if this.props.editing
-      `<div>
-        <ImageEmpty />
-      </div>`
-
   renderText: ->
     `<div style={{color: this.props.foreground_color}}>
       <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
     </div>`
 
-  renderButton: ->
-    if this.props.link_version != 'link_none' and this.props.link_label and this.props.link_label.length > 0
-      `<p><a className="btn btn-primary btn-lg" href="#" role="button">{this.props.link_label}</a></p>`
+  backgroundImageCSS: ->
+    if this.props.block_background_placement and this.props.block_background_placement.image_url and this.props.block_background_placement.image_url.length > 0
+      "url(\"#{url}\")"
 
 window.HeroBlockContent = HeroBlockContent
