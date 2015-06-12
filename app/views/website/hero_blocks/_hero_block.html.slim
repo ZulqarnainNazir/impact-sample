@@ -6,7 +6,7 @@
           - if hero_block.theme == 'right'
             .row
               .col-sm-6
-                .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'dark' : 'light'))
+                .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light'))
                   h1 = sanitize_html hero_block.heading
                   = sanitize_html hero_block.text
                   - if hero_block.link?
