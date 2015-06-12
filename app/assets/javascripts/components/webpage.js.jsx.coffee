@@ -11,16 +11,16 @@ Webpage = React.createClass
     internalWebpages: React.PropTypes.array
     linkColor: React.PropTypes.string
     presignedPost: React.PropTypes.object
-    sidebarPosition: React.PropTypes.string
     showOnlyLocalMediaLibraryOption: React.PropTypes.bool
+    sidebarPosition: React.PropTypes.string
 
   getInitialState: ->
     editing: true
     groups: this.getInitialGroupsState()
     mediaEmbed: undefined
-    mediaKind: 'images'
     mediaImageProgress: 0
     mediaImageStatus: 'empty'
+    mediaKind: 'images'
     mediaLibraryHasMoreImages: true
     mediaLibraryImages: []
     mediaLibraryLoaded: false
@@ -45,7 +45,8 @@ Webpage = React.createClass
 
   componentDidMount: ->
     $('#link_modal').on 'change', 'input[type="radio"]', this.toggleLinkOptions
-    $('.webpage-save-bar-toggle').on 'click', -> $('.webpage-save-bar').toggleClass('webpage-save-bar-visible'); $('.webpage-save-bar-toggle').hide()
+    $('.webpage-save-toggle-on').on 'click', -> $('.webpage-save').addClass('webpage-save-visible'); $('.webpage-save-toggle-on').hide(); $('.webpage-save-toggle-off').show()
+    $('.webpage-save-toggle-off').hide().on 'click', -> $('.webpage-save').removeClass('webpage-save-visible'); $('.webpage-save-toggle-off').hide(); $('.webpage-save-toggle-on').show()
     this.enableSortableGroups()
     this.sortWebpageGroups()
     this.resetLink()
@@ -62,6 +63,9 @@ Webpage = React.createClass
     else
       $('#add_sidebar_block_label').show()
 
+  disableSortableGroups: ->
+    $('.webpage-container').sortable('destroy')
+
   enableSortableGroups: ->
     $('.webpage-container').sortable
       axis: 'y'
@@ -69,7 +73,7 @@ Webpage = React.createClass
       expandOnHover: 400
       forceHelperSize: true
       forcePlaceholderSize: true
-      handle: '.webpage-group-handle'
+      handle: '.webpage-group-sort-handle'
       helper: 'clone'
       items: '> .webpage-group'
       opacity: 0.5
@@ -109,19 +113,22 @@ Webpage = React.createClass
         editCustom: this.editHeroStyles.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
-        compress: undefined
-        expand: this.expandHero.bind(null, group_uuid, block_uuid)
+        compress: this.compressHero.bind(null, group_uuid)
+        expand: this.expandHero.bind(null, group_uuid)
         theme: 'full'
         themes: ['full', 'right', 'left']
+        well_style: 'light'
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'TaglineBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        editCustom: this.editTaglineStyles.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'center', 'right']
+        well_style: 'light'
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'CallToActionBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
@@ -184,8 +191,6 @@ Webpage = React.createClass
     $.extend {}, commonAttributes, blockSpecificAttributes, argumentAttributes
 
   insertGroup: (group_type, block_type) ->
-    $('.webpage-save-bar').removeClass('webpage-save-bar-visible')
-    $('.webpage-save-bar-toggle').show()
     group_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     changes =
@@ -193,6 +198,7 @@ Webpage = React.createClass
         "#{group_uuid}":
           type: group_type
           uuid: group_uuid
+          kind: 'container'
           max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
           blocks:
             "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
@@ -200,8 +206,6 @@ Webpage = React.createClass
     this.setState groups: React.addons.update(this.state.groups, changes), this.sortWebpageGroups
 
   insertBlock: (group_uuid, block_type) ->
-    $('.webpage-save-bar').removeClass('webpage-save-bar-visible')
-    $('.webpage-save-bar-toggle').show()
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     changes =
       "#{group_uuid}":
@@ -238,19 +242,19 @@ Webpage = React.createClass
           ]
     this.setState React.addons.update(this.state, changes)
 
-  updateGroup: (group_uuid, attributes) ->
+  updateGroup: (group_uuid, attributes, callback) ->
     changes =
       "#{group_uuid}":
         $merge: attributes
-    this.setState groups: React.addons.update(this.state.groups, changes)
+    this.setState groups: React.addons.update(this.state.groups, changes), callback
 
-  updateBlock: (group_uuid, block_uuid, attributes) ->
+  updateBlock: (group_uuid, block_uuid, attributes, callback) ->
     changes =
       "#{group_uuid}":
         blocks:
           "#{block_uuid}":
             $merge: attributes
-    this.setState groups: React.addons.update(this.state.groups, changes)
+    this.setState groups: React.addons.update(this.state.groups, changes), callback
 
   editText: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -325,7 +329,6 @@ Webpage = React.createClass
     data.submit()
 
   mediaUploadRead: (file, event) ->
-    console.log file
     group = this.state.groups[$('#media_group_uuid').val()]
     block = group.blocks[$('#media_block_uuid')]
     this.setState
@@ -515,26 +518,43 @@ Webpage = React.createClass
     $('#hero_styles_group_uuid').val group_uuid
     $('#hero_styles_block_uuid').val block_uuid
     $('#hero_styles_height').val if parseInt(block.height) > 0 then parseInt(block.height) else ''
-    $('#hero_styles_layout_default').prop 'checked', if ['top', 'fullBleed'].indexOf(block.layout) >= 0 then false else true
-    $('#hero_styles_layout_top').prop 'checked', block.layout is 'top'
-    $('#hero_styles_layout_full_bleed').prop 'checked', block.layout is 'fullBleed'
+    $('#hero_styles_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
     $('#hero_styles_modal').modal('show')
 
   updateHeroStyles: (group_uuid, block_uuid) ->
     this.updateBlock $('#hero_styles_group_uuid').val(), $('#hero_styles_block_uuid').val(),
       height: $('#hero_styles_height').val()
-      layout: $('input[name="hero_styles_layout"]:checked').val()
-    this.resetHeroStyles()
+      well_style: $('#hero_styles_well_style').val()
 
   resetHeroStyles: ->
     $('#hero_styles_height').val ''
-    $('#hero_styles_layout_default').prop 'checked', true
-    $('#hero_styles_layout_top').prop 'checked', false
-    $('#hero_styles_layout_full_bleed').prop 'checked', false
+    $('#hero_styles_well_style').val 'light'
 
-  expandHero: (group_uuid, block_uuid) ->
+  expandHero: (group_uuid, event) ->
+    event.preventDefault()
+    this.disableSortableGroups()
+    this.updateGroup group_uuid, kind: 'full_width', this.enableSortableGroups
 
-  collapseHero: (group_uuid, block_uuid) ->
+  compressHero: (group_uuid, event) ->
+    event.preventDefault()
+    this.disableSortableGroups()
+    this.updateGroup group_uuid, kind: 'container', this.enableSortableGroups
+
+  editTaglineStyles: (group_uuid, block_uuid, event) ->
+    event.preventDefault()
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    $('#tagline_styles_group_uuid').val group_uuid
+    $('#tagline_styles_block_uuid').val block_uuid
+    $('#tagline_styles_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
+    $('#tagline_styles_modal').modal('show')
+
+  updateTaglineStyles: (group_uuid, block_uuid) ->
+    this.updateBlock $('#tagline_styles_group_uuid').val(), $('#tagline_styles_block_uuid').val(),
+      well_style: $('#tagline_styles_well_style').val()
+
+  resetTaglineStyles: ->
+    $('#tagline_styles_well_style').val 'light'
 
   prevTheme: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -561,9 +581,12 @@ Webpage = React.createClass
       </div>
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
         <div style={{position: 'relative', paddingTop: 1, paddingBottom: 1, backgroundColor: this.props.backgroundColor, color: this.props.foregroundColor}}>
+          {this.renderFullWidthGroups()}
           <div className="webpage-wrapper">
-            <div className={this.webpageContainerClassName()}>
-              {this.renderGroups()}
+            <div className="container">
+              <div className={this.webpageContainerClassName()}>
+                {this.renderContainerGroups()}
+              </div>
             </div>
           </div>
         </div>
@@ -709,26 +732,14 @@ Webpage = React.createClass
               <p className="h4 modal-title">Change Hero Layout and Style</p>
             </div>
             <div className="modal-body">
-              <div className="row">
-                <div className="col-sm-12">
-                  <div className="radio">
-                    <label>
-                      <input type="radio" id="hero_styles_layout_default" name="hero_styles_layout" value="default" defaultChecked="true" />
-                      Default layout
-                    </label>
-                  </div>
-                  <div className="radio">
-                    <label>
-                      <input type="radio" id="hero_styles_layout_top" name="hero_styles_layout" value="top" />
-                      Align to top (no space between header nav and hero)
-                    </label>
-                  </div>
-                  <div className="radio">
-                    <label>
-                      <input type="radio" id="hero_styles_layout_full_bleed" name="hero_styles_layout" value="fullbleed" />
-                      Full-bleed (Align to top and fill viewport width)
-                    </label>
-                  </div>
+              <div className="form-group">
+                <label htmlFor="hero_styles_well_style" className="control-label">Background Shade</label>
+                <div>
+                  <select ref="selectpicker" id="hero_styles_well_style" className="form-control" defaultValue="light">
+                    <option key="light" value="light">Light</option>
+                    <option key="dark" value="dark">Dark</option>
+                    <option key="transparent" value="transparent">Transparent</option>
+                  </select>
                 </div>
               </div>
               <hr />
@@ -746,9 +757,38 @@ Webpage = React.createClass
           </div>
         </div>
       </div>
-      <div className="webpage-save-bar">
+      <div id="tagline_styles_modal" className="modal fade">
+        <input id="tagline_styles_group_uuid" type="hidden" />
+        <input id="tagline_styles_block_uuid" type="hidden" />
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Change Tagline Layout and Style</p>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="tagline_styles_well_style" className="control-label">Background Shade</label>
+                <div>
+                  <select ref="selectpicker" id="tagline_styles_well_style" className="form-control" defaultValue="light">
+                    <option key="light" value="light">Light</option>
+                    <option key="dark" value="dark">Dark</option>
+                    <option key="transparent" value="transparent">Transparent</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetTaglineStyles}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateTaglineStyles}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="webpage-save">
         <div className="container">
-          <p className="webpage-save-bar-toggle text-center"><i className="fa fa-plus" /> Add a Page Block</p>
+          <p className="webpage-save-toggle-on text-right"><i className="fa fa-arrow-circle-up" /> Add Page Elements</p>
+          <p className="webpage-save-toggle-off pull-right" style={{position: 'relative', zIndex: 1}}><i className="fa fa-arrow-circle-down" /> Hide Page Options</p>
           <div className="row">
             <div className="col-sm-6">
               <p id="add_main_block_label" style={{marginBottom: 5}}><strong>Add Main Block</strong></p>
@@ -803,7 +843,7 @@ Webpage = React.createClass
       </div>`
     else
       `<div className="media_dropzone">
-        <ImageEmpty padding="20" dropzone={true} />
+        <ImageEmpty padding={20} dropzone={true} />
       </div>`
 
   renderEditMediaProgress: ->
@@ -900,8 +940,11 @@ Webpage = React.createClass
   triggerFileInput: ->
     $(this.refs.fileInput.getDOMNode()).click()
 
-  renderGroups: ->
-    _.map _.sortBy(this.state.groups, 'position'), this.renderGroup
+  renderFullWidthGroups: ->
+    _.map _.sortBy(_.filter(this.state.groups, (group) -> group and group.kind is 'full_width'), 'position'), this.renderGroup
+
+  renderContainerGroups: ->
+    _.map _.sortBy(_.filter(this.state.groups, (group) -> group and group.kind is 'container'), 'position'), this.renderGroup
 
   renderGroup: (group, uuid) ->
     if group
@@ -975,8 +1018,8 @@ Webpage = React.createClass
 
   webpageContainerClassName: ->
     if this.props.wrapContainer is 'true'
-      'webpage-container webpage-container-wrapper container'
+      'webpage-container webpage-container-wrapper'
     else
-      'webpage-container container'
+      'webpage-container'
 
 window.Webpage = Webpage

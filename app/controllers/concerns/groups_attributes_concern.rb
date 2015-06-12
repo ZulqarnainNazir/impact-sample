@@ -7,6 +7,7 @@ module GroupsAttributesConcern
     [
       :id,
       :type,
+      :kind,
       :max_blocks,
       :position,
       :_destroy,
@@ -32,6 +33,7 @@ module GroupsAttributesConcern
         :link_color,
         :height,
         :items_limit,
+        :well_style,
         :_destroy,
         block_background_placement_attributes: placement_attributes,
         block_image_placement_attributes: placement_attributes,

@@ -8,7 +8,9 @@ CallToActionBlock = React.createClass
           </h4>
           <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
           <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
-          <BlockLinkButton {...this.props} />
+          <div className="text-center">
+            <BlockLinkButton {...this.props} />
+          </div>
         </div>
       </div>
     </div>`

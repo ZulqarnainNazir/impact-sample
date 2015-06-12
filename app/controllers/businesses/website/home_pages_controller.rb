@@ -3,7 +3,7 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
-  layout 'application'
+  layout 'webpage_designer'
 
   before_action do
     @home_page = @website.home_page || @website.build_home_page(active: true)

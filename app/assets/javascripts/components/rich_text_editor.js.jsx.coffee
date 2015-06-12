@@ -68,6 +68,6 @@ RichTextEditor = React.createClass
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
 
   render: ->
-    `<div dangerouslySetInnerHTML={{__html: this.html()}} style={{marginTop: '1em', marginBottom: '1em'}}/>`
+    `<div dangerouslySetInnerHTML={{__html: this.html()}} />`
 
 window.RichTextEditor = RichTextEditor

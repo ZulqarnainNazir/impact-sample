@@ -2,6 +2,7 @@ Block = React.createClass
   propTypes:
     editing: React.PropTypes.bool
     groupInputName: React.PropTypes.string
+    kind: React.PropTypes.string
     removeBlock: React.PropTypes.func
     type: React.PropTypes.string
 
@@ -27,14 +28,13 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('background_color')} value={this.props.background_color} />
         <input type="hidden" name={this.inputName('foreground_color')} value={this.props.foreground_color} />
         <input type="hidden" name={this.inputName('link_color')} value={this.props.link_color} />
-        <input type="hidden" name={this.inputName('height')} value={this.props.link_color} />
-        <input type="hidden" name={this.inputName('items_limit')} value={this.props.link_color} />
+        <input type="hidden" name={this.inputName('height')} value={this.props.height} />
+        <input type="hidden" name={this.inputName('items_limit')} value={this.props.items_limite} />
+        <input type="hidden" name={this.inputName('well_style')} value={this.props.well_style} />
         {this.renderBlockImagePlacementInputs()}
       </div>
       {this.renderBlockOptions()}
-      <div className="webpage-block-content">
-        {this.renderBlock()}
-      </div>
+      {this.renderBlock()}
     </div>`
 
   renderBlockImagePlacementInputs: ->
@@ -64,6 +64,8 @@ Block = React.createClass
     if this.props.editing
       `<div className="webpage-options btn-group btn-group-sm" style={{opacity: 0.8}}>
         {this.renderPrevThemeOption()}
+        {this.renderExpandOption()}
+        {this.renderCompressOption()}
         {this.renderEditTextOption()}
         {this.renderEditMediaOption()}
         {this.renderEditLinkOption()}
@@ -77,12 +79,12 @@ Block = React.createClass
       `<a href="#" onClick={this.props.prevTheme} className="btn btn-warning"><i className="fa fa-caret-left" /></a>`
 
   renderExpandOption: ->
-    if this.props.expand
+    if this.props.expand and this.props.kind is 'container'
       `<a href="#" onClick={this.props.expand} className="btn btn-warning"><i className="fa fa-expand" /></a>`
 
-  renderCollapseOption: ->
-    if this.props.collapse
-      `<a href="#" onClick={this.props.collapse} className="btn btn-warning"><i className="fa fa-collapse" /></a>`
+  renderCompressOption: ->
+    if this.props.compress and this.props.kind is 'full_width'
+      `<a href="#" onClick={this.props.compress} className="btn btn-warning"><i className="fa fa-compress" /></a>`
 
   renderEditTextOption: ->
     if this.props.editText

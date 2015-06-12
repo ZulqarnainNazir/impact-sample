@@ -13,6 +13,7 @@ Group = React.createClass
       <div className="webpage-fields">
         <input type="hidden" name={this.inputName('id')} value={this.props.id} />
         <input type="hidden" name={this.inputName('type')} value={this.props.type} />
+        <input type="hidden" name={this.inputName('kind')} value={this.props.kind} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
         {this.renderRemovedBlocksInputs()}
@@ -21,7 +22,9 @@ Group = React.createClass
       {this.renderSidebarSwitcher()}
       {this.renderCallToActionSizeChanger()}
       {this.renderCallToActionAdder()}
-      {this.renderBlocks()}
+      <div className={this.groupRowClass()}>
+        {this.renderBlocks()}
+      </div>
     </div>`
 
   renderRemovedBlocksInputs: ->
@@ -37,20 +40,23 @@ Group = React.createClass
     if this.props.sidebarPosition is 'left'
       if this.props.type is 'SidebarGroup'
         'webpage-group webpage-group-sidebar webpage-group-sidebar-left'
-      else
-        'webpage-group webpage-group-basic webpage-group-basic-right'
+      else 'webpage-group webpage-group-basic webpage-group-basic-right'
     else
       if this.props.type is 'SidebarGroup'
         'webpage-group webpage-group-sidebar webpage-group-sidebar-right'
-      else
-        'webpage-group webpage-group-basic webpage-group-basic-left'
+      else 'webpage-group webpage-group-basic webpage-group-basic-left'
+
+  groupRowClass: ->
+    if this.props.type is 'CallToActionGroup'
+      'row'
+    else ''
 
   inputName: (name) ->
     "groups_attributes[#{this.props.uuid}][#{name}]"
 
   renderMoveHandle: ->
     if this.props.editing
-      `<span className="fa fa-reorder webpage-group-handle" />`
+      `<span className="fa fa-reorder webpage-group-sort-handle" />`
 
   renderSidebarSwitcher: ->
     if this.props.editing and this.props.type is 'SidebarGroup'
@@ -73,9 +79,9 @@ Group = React.createClass
   renderBlock: (block) ->
     if block
       if block.type is 'CallToActionBlock'
-        `<div key={block.uuid} className={this.callToActionColumnClass()}><Block editing={this.props.editing} groupInputName={this.inputName('blocks_attributes')} {...block} /></div>`
+        `<div key={block.uuid} className={this.callToActionColumnClass()}><Block editing={this.props.editing} kind={this.props.kind} groupInputName={this.inputName('blocks_attributes')} {...block} /></div>`
       else
-        `<Block key={block.uuid} editing={this.props.editing} groupInputName={this.inputName('blocks_attributes')} {...block} />`
+        `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} groupInputName={this.inputName('blocks_attributes')} {...block} />`
 
   nextMaxBlocksValue: ->
     if this.props.max_blocks is 3
@@ -87,10 +93,10 @@ Group = React.createClass
 
   callToActionColumnClass: ->
     if this.props.max_blocks is 2
-      'webpage-block-col-6'
+      'col-sm-6'
     else if this.props.max_blocks is 4
-      'webpage-block-col-3'
+      'col-sm-3'
     else
-      'webpage-block-col-4'
+      'col-sm-4'
 
 window.Group = Group

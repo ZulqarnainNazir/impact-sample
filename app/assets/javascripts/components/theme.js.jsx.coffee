@@ -265,20 +265,22 @@ Theme = React.createClass
             <span style={{fontSize: 30}}>Full-width Content</span>
           </div>
           <div className="webpage-wrapper">
-            <div className={this.webpageContainerClass()} style={{width: '90% !important'}}>
-              <div className="webpage-group webpage-group-basic webpage-group-basic-left">
-                <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
-                  <span style={{fontSize: 30}}>Main Content – <a href="#">Example Link</a></span>
+            <div className="container">
+              <div className={this.webpageContainerClass()}>
+                <div className="webpage-group webpage-group-basic webpage-group-basic-left">
+                  <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
+                    <span style={{fontSize: 30}}>Main Content – <a href="#">Example Link</a></span>
+                  </div>
                 </div>
-              </div>
-              <div className="webpage-group webpage-group-sidebar webpage-group-sidebar-right">
-                <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '4em 2em'}}>
-                  <span style={{fontSize: 20}}>Sidebar Content</span>
+                <div className="webpage-group webpage-group-sidebar webpage-group-sidebar-right">
+                  <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '4em 2em'}}>
+                    <span style={{fontSize: 20}}>Sidebar Content</span>
+                  </div>
                 </div>
-              </div>
-              <div className="webpage-group webpage-group-basic webpage-group-basic-left">
-                <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
-                  <span style={{fontSize: 20}}>Main Content – <a href="#">Example Link</a></span>
+                <div className="webpage-group webpage-group-basic webpage-group-basic-left">
+                  <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
+                    <span style={{fontSize: 20}}>Main Content – <a href="#">Example Link</a></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -302,9 +304,9 @@ Theme = React.createClass
 
   webpageContainerClass: ->
     if this.state.wrap_container
-      'webpage-container webpage-container-wrapper container'
+      'webpage-container webpage-container-wrapper'
     else
-      'webpage-container container'
+      'webpage-container'
 
   renderLoadColorsButton: ->
     if this.state.logo

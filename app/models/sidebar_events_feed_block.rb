@@ -6,10 +6,6 @@ class SidebarEventsFeedBlock < Block
     self.theme = 'default'
   end
 
-  def cache_sensitive?
-    true
-  end
-
   def cache_sensitive_key(params)
     Time.at((Time.now.to_f / 5.minutes).floor * 5.minutes)
   end

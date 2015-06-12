@@ -6,10 +6,6 @@ class BlogFeedBlock < Block
     self.theme = 'default'
   end
 
-  def cache_sensitive?
-    true
-  end
-
   def cache_sensitive_key(params)
     [params[:page], Time.at((Time.now.to_f / 5.minutes).floor * 5.minutes).to_i].reject(&:blank?).join('-').parameterize
   end

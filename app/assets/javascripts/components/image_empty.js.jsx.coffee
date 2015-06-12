@@ -1,6 +1,6 @@
 ImageEmpty = React.createClass
   propTypes:
-    padding: React.PropTypes.string
+    padding: React.PropTypes.number
     dropzone: React.PropTypes.bool
 
   getDefaultPropTypes:
@@ -8,16 +8,16 @@ ImageEmpty = React.createClass
     dropzone: false
 
   render: ->
+    `<div className="well text-center text-muted" style={{padding: this.props.padding}}>
+      <i className="fa fa-photo fa-3x" />
+      {this.renderDropzone()}
+    </div>`
+
+  renderDropzone: ->
     if this.props.dropzone is true
-      `<p className="well text-center text-muted" style={{paddingTop: this.props.padding, paddingBottom: this.props.padding}}>
-        <i className="fa fa-photo fa-3x" />
+      `<div>
         <br />
         <span className="small">Drop an image here to begin upload...</span>
-      </p>`
-    else
-      `<p className="well text-center text-muted" style={{paddingTop: this.props.padding, paddingBottom: this.props.padding}}>
-        <i className="fa fa-photo fa-3x" />
-        <br />
-      </p>`
+      </div>`
 
 window.ImageEmpty = ImageEmpty

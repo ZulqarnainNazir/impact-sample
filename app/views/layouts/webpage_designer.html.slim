@@ -1,0 +1,8 @@
+doctype html
+html lang="en"
+  = render 'head'
+  body style="margin-bottom:4em"
+    = render 'navbar'
+    .container-mock style="padding-top: 15px"
+      = render 'alerts'
+      = yield

@@ -1,6 +1,7 @@
 - cache tagline_block do
-  .webpage-tagline
-    -# Template Dependency: website/tagline_blocks/center
-    -# Template Dependency: website/tagline_blocks/contain
-    -# Template Dependency: website/tagline_blocks/left
-    = render partial: "website/tagline_blocks/#{tagline_block.theme}", object: tagline_block, as: :block
+  .webpage-block
+    .webpage-tagline
+      .well class=(tagline_block.well_style == 'transparent' ? 'well-transparent' : (tagline_block.well_style == 'dark' ? 'dark' : 'light')) style="text-align: #{tagline_block.theme}"
+        .lead = sanitize_html tagline_block.text
+        - if tagline_block.link?
+          p = link_to tagline_block.link_label, tagline_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (tagline_block.link_target_blank ? :_blank : nil), rel: (tagline_block.link_no_follow ? 'no-follow' : nil)

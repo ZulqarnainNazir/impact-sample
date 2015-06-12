@@ -1,0 +1,37 @@
+.webpage-save {
+  position: fixed;
+  z-index: 5;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.8em 0.5em 0.5em;
+  background-color: #fff;
+  border-top: solid 1px #ccc;
+  box-shadow: 0 0 1em rgba(0,0,0,0.2);
+  opacity: 0.90;
+  .btn-default {
+    background-color: #fff;
+  }
+  &:not(.webpage-save-visible) {
+    @media (max-width: 768px) {
+      .col-sm-6, .col-sm-4 {
+        display: none;
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    .webpage-save-toggle-on,
+    .webpage-save-toggle-off {
+      display: none !important;
+    }
+    .btn-success {
+      font-size: 1.2em;
+      padding: 0.5em;
+    }
+  }
+}
+
+.webpage-save-toggle-on,
+.webpage-save-toggle-off {
+  cursor: pointer;
+}

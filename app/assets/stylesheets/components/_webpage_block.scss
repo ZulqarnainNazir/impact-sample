@@ -1,0 +1,46 @@
+.webpage-block {
+  position: relative;
+  .jumbotron,
+  .lead,
+  .panel,
+  .well {
+    margin: 0;
+  }
+  .jumbotron h1 {
+    @extend .h2;
+    margin-top: 0;
+  }
+  .panel {
+    color: #000;
+  }
+  .well-transparent {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  .well-light {
+    background-color: rgba(255,255,255,0.85);
+    border: solid 1px rgba(255,255,255,0.95);
+    color: #111;
+    text-shadow: 0 0 1px #fff;
+  }
+  .well-dark {
+    background-color: rgba(0,0,0,0.85);
+    border: solid 1px rgba(0,0,0,0.95);
+    color: #f9f9f9;
+    text-shadow: 0 0 1px #000;
+  }
+}
+
+.webpage-block + .webpage-block {
+  margin-top: 15px;
+}
+
+.webpage-block-representer {
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 5px;
+  padding: 5em 5em;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}

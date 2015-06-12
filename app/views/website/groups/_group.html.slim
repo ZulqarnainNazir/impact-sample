@@ -1,6 +1,12 @@
 - cache [group, sidebar_position, *group.blocks.map { |b| b.cache_sensitive_key(params) }.reject(&:blank?)] do
-  - sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
-  - class_name = group.is_a?(SidebarGroup) ? "webpage-group webpage-group-sidebar webpage-group-sidebar-#{sidebar_position}" : "webpage-group webpage-group-basic webpage-group-basic-#{sidebar_reverse_position}"
   - blocks = group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks
-  div class=class_name
-    = render blocks
+  - sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
+
+  - if group.is_a?(SidebarGroup)
+    .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position}"
+      div class=('row' if group.is_a?(CallToActionGroup))
+        = render blocks
+  - else
+    .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position}"
+      div class=('row' if group.is_a?(CallToActionGroup))
+        = render blocks

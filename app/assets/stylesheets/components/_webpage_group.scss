@@ -1,0 +1,149 @@
+.webpage-group {
+  position: relative;
+  .row > * {
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+    @media (max-width: 767px) {
+      width: 100%;
+      &:not(:first-child) {
+        margin-top: 30px;
+      }
+    }
+  }
+}
+
+.webpage-group + .webpage-group {
+  margin-top: 30px;
+}
+
+.webpage-group-sidebar {
+  margin-top: 30px;
+}
+
+@media (min-width: 992px) {
+  .webpage-group-sidebar {
+    width: 25%;
+  }
+  .webpage-group-sidebar-left {
+    float: left;
+    ~ .webpage-group {
+      margin-left: 25%;
+      padding-left: 30px;
+    }
+  }
+  .webpage-group-sidebar-right {
+    float: right;
+    ~ .webpage-group {
+      margin-right: 25%;
+      padding-right: 30px;
+    }
+  }
+}
+
+.webpage-group-basic-left {
+  .webpage-group-sort-handle,
+  .webpage-group-call-to-action-add-handle {
+    left: -45px;
+  }
+  .webpage-group-call-to-action-size-handle {
+    left: -47px;
+  }
+}
+.webpage-group-basic-right {
+  .webpage-group-sort-handle,
+  .webpage-group-call-to-action-add-handle {
+    right: -45px;
+  }
+  .webpage-group-call-to-action-size-handle {
+    right: -47px;
+  }
+}
+.webpage-group-sidebar-left {
+  .webpage-group-sort-handle,
+  .webpage-group-sidebar-handle {
+    left: -45px;
+  }
+  .webpage-group-sidebar-handle {
+    @extend .fa-mail-forward;
+  }
+}
+.webpage-group-sidebar-right {
+  .webpage-group-sort-handle,
+  .webpage-group-sidebar-handle {
+    right: -45px;
+  }
+  .webpage-group-sidebar-handle {
+    @extend .fa-mail-reply;
+  }
+}
+
+.webpage-container-wrapper {
+  .webpage-group-basic-left {
+    .webpage-group-sort-handle,
+    .webpage-group-call-to-action-add-handle {
+      left: -52px;
+    }
+    .webpage-group-call-to-action-size-handle {
+      left: -54px;
+    }
+  }
+  .webpage-group-basic-right {
+    .webpage-group-sort-handle,
+    .webpage-group-call-to-action-add-handle {
+      right: -52px;
+    }
+    .webpage-group-call-to-action-size-handle {
+      right: -54px;
+    }
+  }
+  .webpage-group-sidebar-left {
+    .webpage-group-sort-handle,
+    .webpage-group-sidebar-handle {
+      left: -52px;
+    }
+    .webpage-group-sidebar-handle {
+      @extend .fa-mail-forward;
+    }
+  }
+  .webpage-group-sidebar-right {
+    .webpage-group-sort-handle,
+    .webpage-group-sidebar-handle {
+      right: -52px;
+    }
+    .webpage-group-sidebar-handle {
+      @extend .fa-mail-reply;
+    }
+  }
+}
+
+.webpage-group-placeholder {
+  position: relative;
+  background-color: rgba(0,0,0,0.05);
+  border-radius: 2px;
+  margin: 2em 0;
+}
+
+.webpage-group-sort-handle {
+  position: absolute;
+  top: 0;
+  cursor: move;
+}
+
+.webpage-group-call-to-action-size-handle {
+  position: absolute;
+  top: 1.5em;
+  cursor: pointer;
+}
+
+.webpage-group-call-to-action-add-handle {
+  position: absolute;
+  top: 3em;
+  cursor: pointer;
+}
+
+.webpage-group-sidebar-handle {
+  position: absolute;
+  top: 1.5em;
+  cursor: pointer;
+}
