@@ -16,6 +16,7 @@ class Businesses::Website::ThemesController < Businesses::Website::BaseControlle
       :background_color,
       :foreground_color,
       :link_color,
+      :wrap_container,
       header_block_attributes: block_attributes.push(:logo_height),
       footer_block_attributes: block_attributes,
     )

@@ -1,15 +1,2 @@
 .webpage-tagline {
-  .tagline-btn {
-    margin-top: 15px;
-  }
-  p.lead {
-    margin: 0;
-  }
-  .tagline-left .tagline-btn {
-    margin-bottom: $line-height-computed;
-    @media (min-width: $grid-float-breakpoint) {
-      margin-left: 20px;
-      float: right;
-    }
-  }
 }

@@ -13,6 +13,7 @@ Theme = React.createClass
     foreground_color: this.props.defaultForegroundColor || ''
     headerBlock: this.headerBlockInitial()
     link_color: this.props.defaultLinkColor || ''
+    wrap_container: if this.props.defaultWrapContainer is 'true' then true else false
     logo: false
 
   componentDidMount: ->
@@ -134,46 +135,46 @@ Theme = React.createClass
   toggleEditing: ->
     this.setState editing: !this.state.editing
 
-  styles: ->
-    """
-    .webpage-background {
-      background-color: #{this.state.background_color};
-      color: #{this.state.foreground_color};
-    }
-    .webpage-background a {
-      color: #{this.state.link_color};
-    }
-    .webpage-footer .site-footer-simple {
-      color: #{this.state.foreground_color};
-    }
-    .webpage-footer .site-footer-simple a {
-      color: #{this.state.link_color};
-    }
-    .webpage-header .navbar {
-      background-color: #{this.state.headerBlock.background_color};
-      color: #{this.state.headerBlock.foreground_color};
-    }
-    .webpage-header .navbar a,
-    .webpage-header .navbar a:hover {
-      color: #{this.state.headerBlock.link_color} !important;
-    }
-    .webpage-footer .site-footer-columns .site-footer-upper,
-    .webpage-footer .site-footer-layers {
-      background-color: #{this.state.footerBlock.background_color};
-      color: #{this.state.footerBlock.foreground_color};
-    }
-    .webpage-footer .site-footer-columns .site-footer-upper a,
-    .webpage-footer .site-footer-columns .site-footer-upper a:hover,
-    .webpage-footer .site-footer-layers a,
-    .webpage-footer .site-footer-layers a:hover {
-      color: #{this.state.footerBlock.link_color} !important;
-    }
-    """
+  toggleContainerWrapper: ->
+    this.setState wrap_container: !this.state.wrap_container
+
+   styles: ->
+     """
+     .webpage-container a {
+       color: #{this.state.link_color};
+     }
+     .webpage-footer .site-footer-simple {
+       color: #{this.state.foreground_color};
+     }
+     .webpage-footer .site-footer-simple a {
+       color: #{this.state.link_color};
+     }
+     .webpage-header .navbar {
+       background-color: #{this.state.headerBlock.background_color};
+       color: #{this.state.headerBlock.foreground_color};
+     }
+     .webpage-header .navbar a,
+     .webpage-header .navbar a:hover {
+       color: #{this.state.headerBlock.link_color} !important;
+     }
+     .webpage-footer .site-footer-columns .site-footer-upper,
+     .webpage-footer .site-footer-layers {
+       background-color: #{this.state.footerBlock.background_color};
+       color: #{this.state.footerBlock.foreground_color};
+     }
+     .webpage-footer .site-footer-columns .site-footer-upper a,
+     .webpage-footer .site-footer-columns .site-footer-upper a:hover,
+     .webpage-footer .site-footer-layers a,
+     .webpage-footer .site-footer-layers a:hover {
+       color: #{this.state.footerBlock.link_color} !important;
+     }
+     """
 
   render: ->
     `<div>
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
       <div className="row webpage-fields">
+        <input name="wrap_container" type="hidden" value={this.state.wrap_container} />
         <div className="col-sm-4">
           <p>Body Colors</p>
           <div className="well well-sm">
@@ -258,12 +259,28 @@ Theme = React.createClass
         <small style={{marginLeft: 20}}>Note: Footer colors apply only within darker banners; not found on all styles.</small>
       </div>
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
-        <div style={{position: 'relative'}}>
-          <div className="webpage-background" style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 0}} />
+        <div style={{position: 'relative', backgroundColor: this.state.background_color, color: this.state.foreground_color}}>
           <HeaderBlock {...this.headerBlockProps()} />
-          <div className="panel-body webpage-background">
-            <div className="text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '10em 5em', margin: '2em 0', position: 'relative', zIndex: 1}}>
-              <span style={{fontSize: 30}}>Main Content Goes Here – <a href="#">Example Link</a></span>
+          <div className="text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', padding: '4em 2em', position: 'relative'}}>
+            <span style={{fontSize: 30}}>Full-width Content</span>
+          </div>
+          <div className="webpage-wrapper">
+            <div className={this.webpageContainerClass()} style={{width: '90% !important'}}>
+              <div className="webpage-group webpage-group-basic webpage-group-basic-left">
+                <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
+                  <span style={{fontSize: 30}}>Main Content – <a href="#">Example Link</a></span>
+                </div>
+              </div>
+              <div className="webpage-group webpage-group-sidebar webpage-group-sidebar-right">
+                <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '4em 2em'}}>
+                  <span style={{fontSize: 20}}>Sidebar Content</span>
+                </div>
+              </div>
+              <div className="webpage-group webpage-group-basic webpage-group-basic-left">
+                <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
+                  <span style={{fontSize: 20}}>Main Content – <a href="#">Example Link</a></span>
+                </div>
+              </div>
             </div>
           </div>
           <FooterBlock {...this.footerBlockProps()} />
@@ -272,8 +289,22 @@ Theme = React.createClass
             {this.footerBlockInputs()}
           </div>
         </div>
+        <div className="panel-footer clearfix">
+          <p className="checkbox pull-right" style={{margin: 0}}>
+            <label>
+              <input type="checkbox" checked={this.state.wrap_container} onChange={this.toggleContainerWrapper} />
+              Wrap Interior Contents?
+            </label>
+          </p>
+        </div>
       </BrowserPanel>
     </div>`
+
+  webpageContainerClass: ->
+    if this.state.wrap_container
+      'webpage-container webpage-container-wrapper container'
+    else
+      'webpage-container container'
 
   renderLoadColorsButton: ->
     if this.state.logo

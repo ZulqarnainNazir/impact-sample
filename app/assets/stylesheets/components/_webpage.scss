@@ -7,7 +7,20 @@
 }
 
 .webpage-designer {
-  margin: 3em -15px;
+  margin: 3em 15px 5em;
+  @media (min-width: 1230px) {
+    margin-left: -30px;
+    margin-right: -30px;
+  }
+  @media (max-width: 1230px) {
+    .webpage-wrapper {
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+    .webpage-container {
+      max-width: 100%;
+    }
+  }
 }
 
 .webpage-add {
@@ -22,34 +35,25 @@
 .webpage-group {
   position: relative;
   padding: 0;
-}
-
-.webpage-group-basic {
-  .webpage-blocks {
-    margin: 2em 0;
+  + .webpage-group {
+    margin-top: 15px;
   }
 }
 
 .webpage-group-sidebar {
   z-index: 1;
   width: 25%;
-  .webpage-block {
-    margin: 2em 0;
-    &:first-of-type {
-      margin-top: 0;
-    }
-  }
 }
 
 .webpage-group-basic-left {
   .webpage-group-handle {
-    left: -45px;
+    left: -52px;
   }
   .webpage-group-call-to-action-size-handle {
-    left: -45px;
+    left: -52px;
   }
   .webpage-group-call-to-action-add-handle {
-    left: -45px;
+    left: -52px;
   }
   .row:after {
     clear: left;
@@ -58,13 +62,13 @@
 
 .webpage-group-basic-right {
   .webpage-group-handle {
-    right: -45px;
+    right: -52px;
   }
   .webpage-group-call-to-action-size-handle {
-    right: -45px;
+    right: -52px;
   }
   .webpage-group-call-to-action-add-handle {
-    right: -45px;
+    right: -52px;
   }
   .row:after {
     clear: right;
@@ -74,15 +78,15 @@
 .webpage-group-sidebar-left {
   float: left;
   .webpage-group-handle {
-    left: -45px;
+    left: -52px;
   }
   .webpage-group-sidebar-handle {
-    left: -45px;
+    left: -52px;
     @extend .fa-mail-forward;
   }
   ~ .webpage-group {
     margin-left: 25%;
-    .webpage-blocks {
+    .webpage-block {
       margin-left: 1em;
     }
   }
@@ -91,15 +95,15 @@
 .webpage-group-sidebar-right {
   float: right;
   .webpage-group-handle {
-    right: -45px;
+    right: -52px;
   }
   .webpage-group-sidebar-handle {
-    right: -45px;
+    right: -52px;
     @extend .fa-mail-reply;
   }
   ~ .webpage-group {
     margin-right: 25%;
-    .webpage-blocks {
+    .webpage-block {
       margin-right: 1em;
     }
   }
@@ -108,13 +112,6 @@
 .webpage-group-sidebar-right {
   float: right;
   .webpage-group-sidebar-handle {
-  }
-}
-
-.webpage-group-basic:first-child,
-.webpage-group-sidebar:first-child + .webpage-group-basic {
-  .webpage-blocks {
-    margin-top: 0;
   }
 }
 
@@ -158,6 +155,9 @@
   > * {
     margin-top: 0;
     margin-bottom: 0;
+  }
+  + .webpage-group {
+    margin-top: 15px;
   }
   .note-toolbar:after {
     clear: none;
@@ -211,7 +211,7 @@
   z-index: 2;
 }
 
-.webpage-footer {
+.webpage-save-bar {
   position: fixed;
   z-index: 5;
   right: 0;
@@ -225,4 +225,33 @@
   .btn-default {
     background-color: #fff;
   }
+  &:not(.webpage-save-bar-visible) {
+    @media (max-width: 768px) {
+      .col-sm-6, .col-sm-4 {
+        display: none;
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    .webpage-save-bar-toggle {
+      display: none;
+    }
+    .btn-success {
+      font-size: 1.2em;
+      padding: 0.5em;
+    }
+  }
+}
+
+.webpage-save-bar-toggle {
+  cursor: pointer;
+}
+
+.webpage-block-representer {
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 5px;
+  padding: 5em 5em;
+  position: relative;
+  z-index: 1;
+  text-align: center;
 }

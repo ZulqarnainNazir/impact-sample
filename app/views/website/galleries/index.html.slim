@@ -1,13 +1,14 @@
 - title 'Galleries'
 - canonical_url website_galleries_url
 
-.container
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li.active Galleries
-  .page-header
-    h1
-      Browse Galleries 
-      span.small Click to view all images in a gallery
-  .row
-    = render partial: 'gallery_preview', collection: @galleries
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li.active Galleries
+    .page-header
+      h1
+        Browse Galleries 
+        span.small Click to view all images in a gallery
+    .row
+      = render partial: 'gallery_preview', collection: @galleries

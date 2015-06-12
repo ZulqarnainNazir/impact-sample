@@ -1,138 +1,55 @@
 HeroBlock = React.createClass
   render: ->
-    `<div className="webpage-hero">
+    style =
+      backgroundColor: this.props.background_color
+      height: if parseInt(this.props.height) > 0 then parseInt(this.props.height) else 'auto'
+      overflow: 'hidden'
+    if this.props.block_background_placement and this.props.block_background_placement.image_attachment_url and this.props.block_background_placement.image_attachment_url.length > 0
+      style['backgroundImage'] = "url(\"#{this.props.block_background_placement.image_attachment_url}\")"
+    `<div className="webpage-hero jumbotron" style={style}>
       {this.renderInterior()}
     </div>`
 
   renderInterior: ->
     switch this.props.theme
       when 'right'
-        this.renderRight()
-      when 'well'
-        this.renderWell()
-      when 'well_dark'
-        this.renderWellDark()
-      when 'form'
-        this.renderForm()
-      when 'split_image'
-        this.renderSplitImage()
+        `<div>
+          <div key="content" className="webpage-block-col-6">
+            <div className="well">
+              <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
+              <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
+              <BlockLinkButton {...this.props} />
+            </div>
+          </div>
+          <div key="image" className="webpage-block-col-6">
+            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+          </div>
+        </div>`
+      when 'left'
+        `<div>
+          <div key="image" className="webpage-block-col-6">
+            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+          </div>
+          <div key="content" className="webpage-block-col-6">
+            <div className="well">
+              <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
+              <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
+              <BlockLinkButton {...this.props} />
+            </div>
+          </div>
+        </div>`
       else
-        this.renderFull()
-
-  renderWellDark: ->
-    className = "jumbotron hero-full"
-    className += " hero-dark" if this.props.style is 'dark'
-
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
-      <div>
-        <div className="webpage-block-col-6-offset webpage-block-col-6">
-          <div className="well well-dark">
-            {this.renderHeading()}
-            {this.renderText()}
-            <BlockLinkButton {...this.props} />
-          </div>
-        </div>
-      </div>
-    </div>`
-
-  renderWell: ->
-    className = "jumbotron hero-full"
-    className += " hero-dark" if this.props.style is 'dark'
-
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
-      <div>
-        <div className="webpage-block-col-6-offset webpage-block-col-6">
-          <div className="well">
-            {this.renderHeading()}
-            {this.renderText()}
-            <BlockLinkButton {...this.props} />
-          </div>
-        </div>
-      </div>
-    </div>`
-
-  renderSplitImage: ->
-    className = "jumbotron hero-split"
-    className += " hero-dark" if this.props.style is 'dark'
-
-    `<div className={className} style={{backgroundColor: this.props.background_color, height: this.height(), overflow: 'hidden'}}>
-      <div>
-        <div className="webpage-block-col-6">
-          <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
-        </div>
-        <div className="webpage-block-col-6">
-          {this.renderHeading()}
-          {this.renderText()}
+        `<div className="well">
+          <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
+          {this.renderInlineImage()}
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
           <BlockLinkButton {...this.props} />
-        </div>
-      </div>
-    </div>`
+        </div>`
 
-  renderRight: ->
-    className = "jumbotron hero-full"
-    className += " hero-dark" if this.props.style is 'dark'
-
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
-      <div>
-        <div className="webpage-block-col-6-offset webpage-block-col-6">
-          {this.renderHeading()}
-          {this.renderText()}
-          <BlockLinkButton {...this.props} />
-        </div>
-      </div>
-    </div>`
-
-  renderFull: ->
-    className = "jumbotron hero-full"
-    className += " hero-dark" if this.props.style is 'dark'
-
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
-      {this.renderHeading()}
-      {this.renderText()}
-      <BlockLinkButton {...this.props} />
-    </div>`
-
-  renderForm: ->
-    className = "jumbotron hero-full"
-    className += " hero-dark" if this.props.style is 'dark'
-
-    `<div className={className} style={{backgroundColor: this.props.background_color, backgroundColor: this.props.background_color, backgroundImage: this.backgroundImageCSS(), height: this.height(), overflow: 'hidden'}}>
-      <div>
-        <div className="webpage-block-col-6-offset webpage-block-col-6">
-          <div className="well">
-            {this.renderHeading()}
-            <div className="form-group">
-              <label className="control-label">Name</label>
-              <input type="text" className="form-control" />
-            </div>
-            <div className="form-group">
-              <label className="control-label">Email</label>
-              <input type="email" className="form-control" />
-            </div>
-            <BlockLinkButton {...this.props} />
-          </div>
-        </div>
-      </div>
-    </div>`
-
-  renderHeading: ->
-    `<h1 style={{color: this.props.foreground_color}}>
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
-    </h1>`
-
-  renderText: ->
-    `<div style={{color: this.props.foreground_color}}>
-      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
-    </div>`
-
-  backgroundImageCSS: ->
-    if this.props.block_background_placement and this.props.block_background_placement.image_url and this.props.block_background_placement.image_url.length > 0
-      "url(\"#{url}\")"
-
-  height: ->
-    if parseInt(this.props.height) > 0
-      parseInt(this.props.height)
-    else
-      'auto'
+  renderInlineImage: ->
+    if this.props.editing
+      `<div style={{float: 'left', maxWidth: 200, marginRight: 10, marginBottom: 10}}>
+        <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+      </div>`
 
 window.HeroBlock = HeroBlock

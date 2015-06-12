@@ -1,6 +1,8 @@
 class Group < ActiveRecord::Base
   belongs_to :webpage
 
+  enum kind: { container: 0, full_width: 1 }
+
   has_many :blocks, as: :frame, dependent: :destroy
 
   accepts_nested_attributes_for :blocks, reject_if: :all_blank, allow_destroy: true

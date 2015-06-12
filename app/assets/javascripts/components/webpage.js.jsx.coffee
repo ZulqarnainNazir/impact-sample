@@ -45,6 +45,7 @@ Webpage = React.createClass
 
   componentDidMount: ->
     $('#link_modal').on 'change', 'input[type="radio"]', this.toggleLinkOptions
+    $('.webpage-save-bar-toggle').on 'click', -> $('.webpage-save-bar').toggleClass('webpage-save-bar-visible'); $('.webpage-save-bar-toggle').hide()
     this.enableSortableGroups()
     this.sortWebpageGroups()
     this.resetLink()
@@ -62,9 +63,9 @@ Webpage = React.createClass
       $('#add_sidebar_block_label').show()
 
   enableSortableGroups: ->
-    $('.webpage-groups').sortable
+    $('.webpage-container').sortable
       axis: 'y'
-      container: '.webpage-groups'
+      container: '.webpage-container'
       expandOnHover: 400
       forceHelperSize: true
       forcePlaceholderSize: true
@@ -108,8 +109,10 @@ Webpage = React.createClass
         editCustom: this.editHeroStyles.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        compress: undefined
+        expand: this.expandHero.bind(null, group_uuid, block_uuid)
         theme: 'full'
-        themes: ['full', 'right', 'well', 'well_dark', 'form', 'split_image']
+        themes: ['full', 'right', 'left']
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'TaglineBlock'
@@ -118,7 +121,7 @@ Webpage = React.createClass
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
-        themes: ['left', 'center', 'contain']
+        themes: ['left', 'center', 'right']
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'CallToActionBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
@@ -141,7 +144,7 @@ Webpage = React.createClass
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
-        themes: ['left', 'right', 'full', 'full_image']
+        themes: ['left', 'right', 'text', 'image']
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'BlogFeedBlock'
         {}
@@ -181,6 +184,8 @@ Webpage = React.createClass
     $.extend {}, commonAttributes, blockSpecificAttributes, argumentAttributes
 
   insertGroup: (group_type, block_type) ->
+    $('.webpage-save-bar').removeClass('webpage-save-bar-visible')
+    $('.webpage-save-bar-toggle').show()
     group_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     changes =
@@ -195,6 +200,8 @@ Webpage = React.createClass
     this.setState groups: React.addons.update(this.state.groups, changes), this.sortWebpageGroups
 
   insertBlock: (group_uuid, block_type) ->
+    $('.webpage-save-bar').removeClass('webpage-save-bar-visible')
+    $('.webpage-save-bar-toggle').show()
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     changes =
       "#{group_uuid}":
@@ -525,6 +532,10 @@ Webpage = React.createClass
     $('#hero_styles_layout_top').prop 'checked', false
     $('#hero_styles_layout_full_bleed').prop 'checked', false
 
+  expandHero: (group_uuid, block_uuid) ->
+
+  collapseHero: (group_uuid, block_uuid) ->
+
   prevTheme: (group_uuid, block_uuid, event) ->
     event.preventDefault()
     availableThemes = this.state.groups[group_uuid].blocks[block_uuid].themes
@@ -541,43 +552,23 @@ Webpage = React.createClass
     theme = availableThemes[currentThemeIndex + 1] or availableThemes[0]
     this.updateBlock group_uuid, block_uuid, theme: theme
 
-  styles: ->
-    """
-    .webpage-background,
-    .webpage-add,
-    .webpage-block-content {
-      background-color: #{this.props.backgroundColor};
-      color: #{this.props.foregroundColor};
-    }
-    .webpage-add {
-      border-color: #{this.props.foregroundColor};
-    }
-    .webpage-background a,
-    .webpage-block-content a {
-      color: #{this.props.linkColor};
-    }
-    .webpage-group-placeholder {
-      border: dashed 1px #{this.props.foregroundColor};
-    }
-    """
-
   render: ->
-    `<div style={{marginBottom: '10em'}}>
-      <style dangerouslySetInnerHTML={{__html: this.styles()}} />
+    `<div>
+      <style dangerouslySetInnerHTML={{__html: '.webpage-block a { color: ' + this.props.linkColor + '; }'}} />
       <div className="webpage-fields">
         <input type="hidden" name="sidebar_position" value={this.state.sidebarPosition} />
         {this.renderRemovedGroupsInputs()}
       </div>
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
-        <div className="panel-body" style={{position: 'relative', paddingTop: 0, paddingBottom: 0}}>
-          <div style={{marginBottom: '2em'}} />
-          <div className="webpage-background" style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 0}} />
-          <div className="webpage-groups clearfix">
-            {this.renderGroups()}
+        <div style={{position: 'relative', paddingTop: 1, paddingBottom: 1, backgroundColor: this.props.backgroundColor, color: this.props.foregroundColor}}>
+          <div className="webpage-wrapper">
+            <div className={this.webpageContainerClassName()}>
+              {this.renderGroups()}
+            </div>
           </div>
         </div>
         <div className="panel-footer clearfix">
-          <p className="checkbox pull-right">
+          <p className="checkbox pull-right" style={{margin: 0}}>
             <label>
               <input type="checkbox" checked={this.state.editing} onChange={this.toggleEditing} />
               Display Editing Dialogs?
@@ -755,8 +746,9 @@ Webpage = React.createClass
           </div>
         </div>
       </div>
-      <div className="webpage-footer">
+      <div className="webpage-save-bar">
         <div className="container">
+          <p className="webpage-save-bar-toggle text-center"><i className="fa fa-plus" /> Add a Page Block</p>
           <div className="row">
             <div className="col-sm-6">
               <p id="add_main_block_label" style={{marginBottom: 5}}><strong>Add Main Block</strong></p>
@@ -781,7 +773,7 @@ Webpage = React.createClass
               </div>
             </div>
             <div className="col-sm-2">
-              <p style={{marginTop: 5}}><button type="submit" className="btn btn-block btn-lg btn-success">Save Changes</button></p>
+              <p style={{marginTop: 5}}><button type="submit" className="btn btn-block btn-success">Save Changes</button></p>
             </div>
           </div>
         </div>
@@ -980,5 +972,11 @@ Webpage = React.createClass
       this.setState sidebarPosition: 'left'
     else
       this.setState sidebarPosition: 'right'
+
+  webpageContainerClassName: ->
+    if this.props.wrapContainer is 'true'
+      'webpage-container webpage-container-wrapper container'
+    else
+      'webpage-container container'
 
 window.Webpage = Webpage

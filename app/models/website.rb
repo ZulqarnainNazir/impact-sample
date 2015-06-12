@@ -5,7 +5,8 @@ class Website < ActiveRecord::Base
     :foreground_color,
     :google_analytics_id,
     :head_injection,
-    :link_color
+    :link_color,
+    :wrap_container
 
   belongs_to :business
 

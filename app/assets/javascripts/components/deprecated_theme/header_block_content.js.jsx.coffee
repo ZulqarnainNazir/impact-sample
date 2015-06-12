@@ -77,7 +77,7 @@ HeaderBlockContent = React.createClass
           <p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>
         </div>
       </div>
-      <nav className={this.navbarClassName('navbar-static-top navbar-logo-above')} role="navigation">
+      <nav className={this.navbarClassName('navbar-static-top navbar-logo-above')} role="navigation" style={{marginBottom: 15}}>
         <div className="container">
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
             <NavLinks items={this.props.pages} className="nav navbar-nav" />
@@ -99,7 +99,7 @@ HeaderBlockContent = React.createClass
         </div>
       </div>
       <div className="container">
-        <nav className={this.navbarClassName('navbar-logo-above')} role="navigation">
+        <nav className={this.navbarClassName('navbar-logo-above')} role="navigation" style={{marginBottom: 15}}>
           <div className="collapse navbar-collapse" id="header-navbar-collapse">
             <NavLinks items={this.props.pages} className="nav navbar-nav" />
           </div>

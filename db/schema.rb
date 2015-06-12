@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150602182604) do
+ActiveRecord::Schema.define(version: 20150611215345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,8 +59,8 @@ ActiveRecord::Schema.define(version: 20150602182604) do
     t.json     "settings"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.string   "layout",            default: "default"
     t.integer  "position",          default: 0,         null: false
-    t.text     "layout",            default: "default"
   end
 
   add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 20150602182604) do
     t.integer  "max_blocks"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "kind",       default: 0, null: false
   end
 
   add_index "groups", ["webpage_id"], name: "index_groups_on_webpage_id", using: :btree

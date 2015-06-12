@@ -21,9 +21,7 @@ Group = React.createClass
       {this.renderSidebarSwitcher()}
       {this.renderCallToActionSizeChanger()}
       {this.renderCallToActionAdder()}
-      <div className="webpage-blocks">
-        {this.renderBlocks()}
-      </div>
+      {this.renderBlocks()}
     </div>`
 
   renderRemovedBlocksInputs: ->

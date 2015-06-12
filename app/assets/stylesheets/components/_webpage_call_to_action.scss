@@ -1,24 +1,2 @@
 .webpage-call-to-action {
-  color: #000;
-  .panel {
-    margin-bottom: 0;
-  }
-  .btn-primary {
-    margin-top: 15px;
-  }
-  .cta-columns {
-    .img-responsive {
-      width: 100%;
-    }
-
-    p {
-      margin: ($line-height-computed * 1.25) 0;
-    }
-
-    @media (min-width: $screen-sm-min) {
-      .cta-text {
-        min-height: 57px;
-      }
-    }
-  }
 }

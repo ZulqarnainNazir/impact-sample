@@ -67,7 +67,7 @@ ol.breadcrumb
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       foregroundColor: form.object.website.foreground_color,
-      groups: form.object.groups.as_json(include: { blocks: { include: { block_image_placement: { methods: %i[image_url image_alt image_title image_attachment_content_type image_attachment_file_name image_attachment_file_size] }}, methods: :type }}, methods: :type),
+      groups: form.object.groups.as_json(include: { blocks: { include: { block_image_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }, block_background_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }}, methods: %i[type height items_limit] }}, methods: :type),
       groupTypes: %w[HeroGroup TaglineGroup CallToActionGroup SpecialtyGroup ContentGroup SidebarContentGroup SidebarBlogFeedGroup SidebarEventsFeedGroup],
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
       imagesPath: business_images_path(form.object.website.business),
@@ -75,4 +75,5 @@ ol.breadcrumb
       linkColor: form.object.website.link_color,
       presignedPost: s3_presigned_post_hash,
       showOnlyLocalMediaLibraryOption: current_user.businesses.count > 1 || current_user.super_user?,
-      sidebarPosition: form.object.sidebar_position
+      sidebarPosition: form.object.sidebar_position,
+      wrapContainer: form.object.website.wrap_container

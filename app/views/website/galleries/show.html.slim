@@ -1,26 +1,27 @@
 - title @gallery.title
 - canonical_url website_gallery_url(@gallery)
 
-.container
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li = link_to 'Galleries', :website_galleries
-    li.active = @gallery.title
-  .page-header
-    h1
-      => @gallery.title
-      span.small Click to View All #{pluralize @gallery.gallery_images.count, 'Pic'}
-      span.small.pull-right
-        span.small style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.created_at} ago
-  - cache @gallery do
-    = sanitize_html @gallery.description
-    .row.row-narrow style="margin-top:15px"
-      - @gallery.gallery_images.each do |gallery_image|
-        - image = gallery_image.gallery_image
-        .col-xs-3.col-lg-2
-          = link_to [:website, @gallery, gallery_image], class: 'gallery-item' do
-              figure
-                .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                  = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
-                figcaption.gallery-item-caption
-                  h4.truncate = image.title
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li = link_to 'Galleries', :website_galleries
+      li.active = @gallery.title
+    .page-header
+      h1
+        => @gallery.title
+        span.small Click to View All #{pluralize @gallery.gallery_images.count, 'Pic'}
+        span.small.pull-right
+          span.small style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.created_at} ago
+    - cache @gallery do
+      = sanitize_html @gallery.description
+      .row.row-narrow style="margin-top:15px"
+        - @gallery.gallery_images.each do |gallery_image|
+          - image = gallery_image.gallery_image
+          .col-xs-3.col-lg-2
+            = link_to [:website, @gallery, gallery_image], class: 'gallery-item' do
+                figure
+                  .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                    = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+                  figcaption.gallery-item-caption
+                    h4.truncate = image.title

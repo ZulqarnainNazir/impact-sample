@@ -1,21 +1,22 @@
 - title @post.title
 - canonical_url website_post_url(@post)
 
-.container
-  .row
-    div class=(@website.content_blog_sidebar? || @website.events_sidebar? ? 'col-sm-8' : 'col-sm-12')
-      .feed-item.feed-post
-        .feed-item-meta
-          => icon 'edit'
-          strong> Post
-          span.pull-right
-            span.text-muted Posted #{time_ago_in_words @post.published_at} ago
-        - cache @post do
-          h1 = @post.title
-          = render partial: 'website/post_sections/post_section', collection: @post.arranged_sections, locals: { level: 2 }
-    - if @website.content_blog_sidebar? || @website.events_sidebar?
-      .col-sm-4
-        - if @website.content_blog_sidebar?
-          = render posts(@business), small: true
-        - if @website.events_sidebar?
-          = render events(@business), small: true
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    .row
+      div class=(@website.content_blog_sidebar? || @website.events_sidebar? ? 'col-sm-8' : 'col-sm-12')
+        .feed-item.feed-post
+          .feed-item-meta
+            => icon 'edit'
+            strong> Post
+            span.pull-right
+              span.text-muted Posted #{time_ago_in_words @post.published_at} ago
+          - cache @post do
+            h1 = @post.title
+            = render partial: 'website/post_sections/post_section', collection: @post.arranged_sections, locals: { level: 2 }
+      - if @website.content_blog_sidebar? || @website.events_sidebar?
+        .col-sm-4
+          - if @website.content_blog_sidebar?
+            = render posts(@business), small: true
+          - if @website.events_sidebar?
+            = render events(@business), small: true

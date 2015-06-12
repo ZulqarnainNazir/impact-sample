@@ -22,8 +22,10 @@ class Website::BaseController < ApplicationController
     @business = @website.business
     @location = @business.location
 
-    if @business.free?
-      render 'website/application/website_not_found', layout: 'blank', status: 404
+    if @business.free? && request.path == '/'
+      render template: 'website/application/free_webpage'
+    elsif @business.free?
+      redirect_to website_root_path, status: 302
     end
   end
 

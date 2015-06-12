@@ -2,6 +2,7 @@
 - description @page.description
 - canonical_url website_custom_page_url(@page.pathname)
 
-.container
-  div
-    = render partial: 'website/groups/group', collection: @page.groups, locals: { sidebar_position: @page.sidebar_position, sidebar_reverse_position: @page.sidebar_reverse_position }
+= render partial: 'website/groups/group', collection: @page.groups.full_width
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }

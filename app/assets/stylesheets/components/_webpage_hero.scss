@@ -1,75 +1,13 @@
 .webpage-hero {
-  width: 100%;
-  max-width: 100% !important;
-  padding-top: 0 !important;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
-
+  background-size: cover;
+  background-position: center center;
   .btn-primary {
     margin-top: 15px;
   }
   h1 {
     font-size: $font-size-h2;
   }
-  .hero-full {
-    background-size: cover;
-    background-position: center center;
-
-    &.hero-dark {
-      color: #fff;
-    }
-
-    .well {
-      background-color: rgba($well-bg, 0.75);
-      color: $text-color;
-    }
-
-    .well-dark {
-      background-color: rgba(0,0,0,0.75);
-      color: #fff;
-      border-color: #222;
-    }
-    .carousel-caption {
-      background: rgba(0,0,0,0.5);
-    }
-  }
-
-  .jumbotron {
-    margin-top: 20px;
-
-    &.layout-top,
-    &.layout-fullbleed {
-      border-radius: 0;
-      margin-top: 0;
-    }
-
-    &.layout-default,
-    &.layout-top {
-      margin-right: auto;
-      margin-left: auto;
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-  }
-}
-
-@media (min-width: 768px) {
-  .webpage-hero .jumbotron.layout-default,
-  .webpage-hero .jumbotron.layout-top {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .webpage-hero .jumbotron.layout-default,
-  .webpage-hero .jumbotron.layout-top {
-    max-width: 940px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .webpage-hero .jumbotron.layout-default,
-  .webpage-hero .jumbotron.layout-top {
-    max-width: 1140px;
+  .well {
+    color: #222;
   }
 }

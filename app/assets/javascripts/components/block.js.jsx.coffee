@@ -76,6 +76,14 @@ Block = React.createClass
     if this.props.prevTheme
       `<a href="#" onClick={this.props.prevTheme} className="btn btn-warning"><i className="fa fa-caret-left" /></a>`
 
+  renderExpandOption: ->
+    if this.props.expand
+      `<a href="#" onClick={this.props.expand} className="btn btn-warning"><i className="fa fa-expand" /></a>`
+
+  renderCollapseOption: ->
+    if this.props.collapse
+      `<a href="#" onClick={this.props.collapse} className="btn btn-warning"><i className="fa fa-collapse" /></a>`
+
   renderEditTextOption: ->
     if this.props.editText
       `<a href="#" onClick={this.props.editText} className="btn btn-warning"><i className="fa fa-pencil" /></a>`
