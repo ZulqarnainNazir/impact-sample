@@ -10,20 +10,22 @@
         - elsif content_block.block_image
           = image_tag content_block.block_image.attachment_url(:jumbo), class: 'center-block img-responsive thumbnail'
       - elsif content_block.theme == 'left'
-        .webpage-block-col-8
-          = sanitize_html content_block.text
-        .webpage-block-col-4
-          - if content_block.block_image_placement.try(:embeds?)
-            .embed-responsive.embed-responsive-4by3
-              = content_block.block_image_placement.embed.html_safe
-          - elsif content_block.block_image
-            = image_tag content_block.block_image.attachment_url(:small), class: 'center-block img-responsive thumbnail'
+        .row
+          .col-sm-8
+            = sanitize_html content_block.text
+          .col-sm-4
+            - if content_block.block_image_placement.try(:embeds?)
+              .embed-responsive.embed-responsive-4by3
+                = content_block.block_image_placement.embed.html_safe
+            - elsif content_block.block_image
+              = image_tag content_block.block_image.attachment_url(:small), class: 'center-block img-responsive thumbnail'
       - else
-        .webpage-block-col-4
-          - if content_block.block_image_placement.try(:embeds?)
-            .embed-responsive.embed-responsive-4by3
-              = content_block.block_image_placement.embed.html_safe
-          - elsif content_block.block_image
-            = image_tag content_block.block_image.attachment_url(:small), class: 'center-block img-responsive thumbnail'
-        .webpage-block-col-8
-          = sanitize_html content_block.text
+        .row
+          .col-sm-4
+            - if content_block.block_image_placement.try(:embeds?)
+              .embed-responsive.embed-responsive-4by3
+                = content_block.block_image_placement.embed.html_safe
+            - elsif content_block.block_image
+              = image_tag content_block.block_image.attachment_url(:small), class: 'center-block img-responsive thumbnail'
+          .col-sm-8
+            = sanitize_html content_block.text

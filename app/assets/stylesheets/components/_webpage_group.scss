@@ -11,6 +11,12 @@
       }
     }
   }
+  .row > .col-sm-8 {
+    width: 66%;
+  }
+  .row > .col-sm-6 {
+    width: 49.5%;
+  }
 }
 
 .webpage-group + .webpage-group {

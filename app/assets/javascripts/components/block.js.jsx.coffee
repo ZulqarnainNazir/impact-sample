@@ -31,11 +31,29 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('height')} value={this.props.height} />
         <input type="hidden" name={this.inputName('items_limit')} value={this.props.items_limite} />
         <input type="hidden" name={this.inputName('well_style')} value={this.props.well_style} />
+        {this.renderBlockBackgroundPlacementInputs()}
         {this.renderBlockImagePlacementInputs()}
       </div>
       {this.renderBlockOptions()}
       {this.renderBlock()}
     </div>`
+
+  renderBlockBackgroundPlacementInputs: ->
+    placement = this.props.block_background_placement
+    if placement
+      `<div>
+        <input type="hidden" name={this.blockBackgroundInputName('_destroy')} value={placement.destroy} />
+        <input type="hidden" name={this.blockBackgroundInputName('id')} value={placement.id} />
+        <input type="hidden" name={this.blockBackgroundInputName('kind')} value={placement.kind} />
+        <input type="hidden" name={this.blockBackgroundInputName('embed')} value={placement.embed} />
+        <input type="hidden" name={this.blockBackgroundInputName('image_id')} value={placement.image_id} />
+        <input type="hidden" name={this.blockBackgroundInputName('image_alt')} value={placement.image_alt} />
+        <input type="hidden" name={this.blockBackgroundInputName('image_title')} value={placement.image_title} />
+        <input type="hidden" name={this.blockBackgroundInputName('image_attachment_cache_url')} value={placement.image_attachment_cache_url} />
+        <input type="hidden" name={this.blockBackgroundInputName('image_attachment_content_type')} value={placement.image_attachment_content_type} />
+        <input type="hidden" name={this.blockBackgroundInputName('image_attachment_file_name')} value={placement.image_attachment_file_name} />
+        <input type="hidden" name={this.blockBackgroundInputName('image_attachment_file_size')} value={placement.image_attachment_file_size} />
+      </div>`
 
   renderBlockImagePlacementInputs: ->
     placement = this.props.block_image_placement
@@ -57,6 +75,9 @@ Block = React.createClass
   inputName: (name) ->
     "#{this.props.groupInputName}[#{this.props.uuid}][#{name}]"
 
+  blockBackgroundInputName: (name) ->
+    this.inputName('block_background_placement_attributes') + "[#{name}]"
+
   blockImageInputName: (name) ->
     this.inputName('block_image_placement_attributes') + "[#{name}]"
 
@@ -67,7 +88,8 @@ Block = React.createClass
         {this.renderExpandOption()}
         {this.renderCompressOption()}
         {this.renderEditTextOption()}
-        {this.renderEditMediaOption()}
+        {this.renderEditBackgroundOption()}
+        {this.renderEditImageOption()}
         {this.renderEditLinkOption()}
         {this.renderEditCustomOption()}
         {this.renderRemoveBlockOption()}
@@ -90,9 +112,13 @@ Block = React.createClass
     if this.props.editText
       `<a href="#" onClick={this.props.editText} className="btn btn-warning"><i className="fa fa-pencil" /></a>`
 
-  renderEditMediaOption: ->
-    if this.props.editMedia
-      `<a href="#" onClick={this.props.editMedia} className="btn btn-warning"><i className="fa fa-photo" /></a>`
+  renderEditBackgroundOption: ->
+    if this.props.editBackground
+      `<a href="#" onClick={this.props.editBackground} className="btn btn-warning"><i className="fa fa-photo" /></a>`
+
+  renderEditImageOption: ->
+    if this.props.editImage
+      `<a href="#" onClick={this.props.editImage} className="btn btn-warning"><i className="fa fa-photo" /></a>`
 
   renderEditLinkOption: ->
     if this.props.editLink

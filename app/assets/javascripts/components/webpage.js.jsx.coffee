@@ -17,7 +17,6 @@ Webpage = React.createClass
   getInitialState: ->
     editing: true
     groups: this.getInitialGroupsState()
-    mediaEmbed: undefined
     mediaImageProgress: 0
     mediaImageStatus: 'empty'
     mediaKind: 'images'
@@ -108,7 +107,8 @@ Webpage = React.createClass
     blockSpecificAttributes = switch block_type
       when 'HeroBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
-        editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
+        editBackground: this.editMedia.bind(null, group_uuid, block_uuid, 'background')
+        editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
         editCustom: this.editHeroStyles.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
@@ -132,13 +132,13 @@ Webpage = React.createClass
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'CallToActionBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
-        editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
+        editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'SpecialtyBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
-        editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
+        editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
@@ -147,7 +147,7 @@ Webpage = React.createClass
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'ContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
-        editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
+        editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
@@ -157,7 +157,7 @@ Webpage = React.createClass
         {}
       when 'SidebarContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
-        editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
+        editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
@@ -167,7 +167,8 @@ Webpage = React.createClass
         {}
       when 'AboutBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
-        editMedia: this.editMedia.bind(null, group_uuid, block_uuid)
+        editBackground: this.editMedia.bind(null, group_uuid, block_uuid, 'background')
+        editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
@@ -272,24 +273,22 @@ Webpage = React.createClass
   updateText: (group_uuid, block_uuid, richText) ->
     this.updateBlock group_uuid, block_uuid, text: richText
 
-  editMedia: (group_uuid, block_uuid, event) ->
+  editMedia: (group_uuid, block_uuid, type, event) ->
     event.preventDefault()
+    $('#media_type').val type
     $('#media_group_uuid').val group_uuid
     $('#media_block_uuid').val block_uuid
     group = this.state.groups[group_uuid]
     block = group.blocks[block_uuid]
-    placement = block.block_image_placement or {}
+    placement = (if type is 'image' then block.block_image_placement else block.block_background_placement) or {}
     stateChanges =
       mediaID: placement.id
       mediaDestroy: undefined
-      mediaEmbed: placement.embed
-      mediaImageAlt: placement.image_alt
       mediaImageAttachmentContentType: placement.image_attachment_content_type
       mediaImageAttachmentFileName: placement.image_attachment_file_name
       mediaImageAttachmentFileSize: placement.image_attachment_file_size
       mediaImageProgress: 0
       mediaImageStatus: if Object.keys(placement).length > 0 then 'attached' else 'empty'
-      mediaImageTitle: placement.image_title
       mediaImageAttachmentURL: placement.image_attachment_url
       mediaImageAttachmentCacheURL: undefined
       mediaLibraryImages: []
@@ -297,10 +296,17 @@ Webpage = React.createClass
       mediaLibraryLoadedAll: false
       mediaLibraryPage: 1
     this.setState stateChanges, ->
+      if type is 'image'
+        $('a[href="#media_tab_embed"]').show()
+      else
+        $('a[href="#media_tab_embed"]').hide()
       if placement.kind is 'embeds'
         $('a[href="#media_tab_embed"]').tab('show')
       else
         $('a[href="#media_tab_image"]').tab('show')
+      $('#media_embed').val placement.embed
+      $('#media_image_alt').val placement.image_alt
+      $('#media_image_title').val placement.image_title
       $('#media_tabs').css('display', 'block')
       $('#media_library').css('display', 'none')
       $('#media_modal').modal('show')
@@ -333,7 +339,6 @@ Webpage = React.createClass
     block = group.blocks[$('#media_block_uuid')]
     this.setState
       mediaDestroy: null
-      mediaImageAlt: ''
       mediaImageAttachmentCacheURL: event.target.result
       mediaImageAttachmentContentType: file.type
       mediaImageAttachmentFileName: file.name
@@ -368,26 +373,26 @@ Webpage = React.createClass
         mediaImageStatus: 'failed'
 
   updateMedia: () ->
+    placement_type = if $('#media_type').val() is 'image' then 'block_image_placement' else 'block_background_placement'
     changes =
-      block_image_placement:
+      "#{placement_type}":
         id: this.state.mediaID
         destroy: this.state.mediaDestroy
-        embed: this.state.mediaEmbed
-        kind: if $('a[href="#media_tab_image"]').is(':visible') then 'images' else 'embeds'
-        image_alt: this.state.mediaImageAlt
+        embed: $('#media_embed').val()
+        kind: if $('#media_tab_image').is(':visible') then 'images' else 'embeds'
+        image_alt: $('#media_image_alt').val()
         image_attachment_cache_url: this.state.mediaImageAttachmentCacheURL
         image_attachment_content_type: this.state.mediaImageAttachmentContentType
         image_attachment_file_name: this.state.mediaImageAttachmentFileName
         image_attachment_file_size: this.state.mediaImageAttachmentFileSize
         image_attachment_url: this.state.mediaImageAttachmentURL
         image_id: this.state.mediaImageID
-        image_title: this.state.mediaImageTitle
+        image_title: $('#media_image_title').val()
     this.updateBlock $('#media_group_uuid').val(), $('#media_block_uuid').val(), changes
 
   removeMediaImage: ->
     this.setState
       mediaDestroy: '1'
-      mediaImageAlt: undefined
       mediaImageAttachmentCacheURL: undefined
       mediaImageAttachmentContentType: undefined
       mediaImageAttachmentFileName: undefined
@@ -414,7 +419,6 @@ Webpage = React.createClass
 
   selectMediaLibraryImage: (image) ->
     changes =
-      mediaImageAlt: image.alt
       mediaImageAttachmentCacheURL: undefined
       mediaImageAttachmentContentType: image.attachment_content_type
       mediaImageAttachmentFileName: image.attachment_file_name
@@ -422,8 +426,9 @@ Webpage = React.createClass
       mediaImageAttachmentURL: image.attachment_url
       mediaImageID: image.id
       mediaImageStatus: 'attached'
-      mediaImageTitle: image.title
-    this.setState changes, this.hideMediaLibrary
+    this.setState changes, this.hideMediaLibrary, ->
+      $('#media_image_alt').val image.alt
+      $('#media_image_title').val image.title
 
   toggleMediaLibraryLocalOnly: ->
     changes =
@@ -442,8 +447,6 @@ Webpage = React.createClass
   resetMedia: ->
     stateChanges =
       mediaDestroy: undefined
-      mediaEmbed: undefined
-      mediaImageAlt: undefined
       mediaImageAttachmentContentType: undefined
       mediaImageAttachmentFileName: undefined
       mediaImageAttachmentFileSize: undefined
@@ -457,6 +460,9 @@ Webpage = React.createClass
       mediaLibraryLoadedAll: false
       mediaLibraryPage: 1
     this.setState stateChanges, ->
+      $('#media_embed').val ''
+      $('#media_image_alt').val ''
+      $('#media_image_title').val ''
       $('a[href="#media_tab_image"]').tab('show')
       $('#media_tabs').css('display', 'block')
       $('#media_library').css('display', 'none')
@@ -670,13 +676,14 @@ Webpage = React.createClass
         </div>
       </div>
       <div id="media_modal" className="modal fade">
+        <input id="media_type" type="hidden" />
         <input id="media_group_uuid" type="hidden" />
         <input id="media_block_uuid" type="hidden" />
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <span className="close" data-dismiss="modal">&times;</span>
-              <p className="h4 modal-title">Add an Image or Video</p>
+              <p className="h4 modal-title">{this.mediaModalTitle()}</p>
             </div>
             <div className="modal-body">
               <div id="media_tabs">
@@ -819,6 +826,12 @@ Webpage = React.createClass
         </div>
       </div>
     </div>`
+
+  mediaModalTitle: ->
+    if $('#media_type') is 'image'
+      'Add an Image or Video'
+    else
+      'Add Background Image'
 
   renderRemovedGroupsInputs: ->
     for group in this.state.removedGroups
