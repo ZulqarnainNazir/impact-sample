@@ -6,6 +6,28 @@ ol.breadcrumb
   li = link_to 'Manage Website', [@business, :website_root]
   li.active Webpages
 
+.text-right.hidden-xs.hidden-sm style="margin-bottom:20px"
+  span style="vertical-align:middle; margin-right:0.5em;" Post New:
+  .btn-group.btn-group-sm
+    = link_to [:new, @business, :content_quick_post], class: 'btn btn-default' do
+      i.fa.fa-file-text-o>
+      | Quick Post
+    = link_to [:new, @business, :content_event_definition], class: 'btn btn-default' do
+      i.fa.fa-calendar>
+      | Event
+    = link_to [:new, @business, :content_gallery], class: 'btn btn-default' do
+      i.fa.fa-photo>
+      | Gallery
+    = link_to [:new, @business, :content_before_after], class: 'btn btn-default' do
+      i.fa.fa-tasks>
+      | Before &amp; After
+    = link_to [:new, @business, :content_offer], class: 'btn btn-default' do
+      i.fa.fa-ticket>
+      | Offer
+    = link_to [:new, @business, :content_post], class: 'btn btn-default' do
+      i.fa.fa-edit>
+      | Custom Post
+
 .row
   - if @website.home_page
     = render partial: 'webpage', object: @website.home_page, locals: { business: @business, website: @website }
