@@ -53,6 +53,13 @@ Webpage = React.createClass
     this.resetLink()
     this.toggleLinkOptions()
     this.resetMedia()
+    $('.webpage-save span.btn-default').popover
+      container: 'body'
+      placement: 'top'
+      trigger: 'hover'
+      delay:
+        show: 500
+        hide: 0
 
   componentDidUpdate: ->
     if $('#add_main_block_options > *').length is 0
@@ -1055,19 +1062,19 @@ Webpage = React.createClass
 
   renderInsertTaglineGroup: ->
     unless this.props.groupTypes.indexOf('TaglineGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Tagline</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'TaglineGroup', 'TaglineBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a simple text row" data-content="Great for adding a tagline or call-to-action with optional linkable button.">Simple Text</span>`
 
   renderInsertCallToActionGroup: ->
     unless this.props.groupTypes.indexOf('CallToActionGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Columns</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add 2 to 4 columns" data-content="Highlight services or product lines with text, linkable buttons and images.">Columns</span>`
 
   renderInsertSpecialtyGroup: ->
     unless this.props.groupTypes.indexOf('SpecialtyGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>50/50 Content</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Equal parts text and image" data-content="A common, clean and simple element that includes title, image and text.">50/50 Content</span>`
 
   renderInsertContentGroup: ->
     unless this.props.groupTypes.indexOf('ContentGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Small Content</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Flexible content options" data-content="Can use a small image or embedded media, all text, or a larger image or embedded media.">Content Block</span>`
 
   renderInsertBlogFeedGroup: ->
     unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
