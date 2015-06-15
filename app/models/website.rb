@@ -8,7 +8,7 @@ class Website < ActiveRecord::Base
     :link_color,
     :wrap_container
 
-  belongs_to :business
+  belongs_to :business, touch: true
 
   with_options as: :frame, dependent: :destroy do
     has_one :header_block
