@@ -36,8 +36,9 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('foreground_color')} value={this.props.foreground_color} />
         <input type="hidden" name={this.inputName('link_color')} value={this.props.link_color} />
         <input type="hidden" name={this.inputName('height')} value={this.props.height} />
-        <input type="hidden" name={this.inputName('items_limit')} value={this.props.items_limite} />
+        <input type="hidden" name={this.inputName('items_limit')} value={this.props.items_limit} />
         <input type="hidden" name={this.inputName('well_style')} value={this.props.well_style} />
+        <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
         {this.renderBlockBackgroundPlacementInputs()}
         {this.renderBlockImagePlacementInputs()}
       </div>

@@ -1,7 +1,7 @@
 class Block < ActiveRecord::Base
   include PlacedImageConcern
 
-  store_accessor :settings, :background_color, :foreground_color, :link_color, :height, :items_limit, :well_style
+  store_accessor :settings, :background_color, :foreground_color, :link_color, :height, :items_limit, :well_style, :custom_class
 
   enum link_version: { link_none: 0, link_internal: 1, link_external: 2, }
 

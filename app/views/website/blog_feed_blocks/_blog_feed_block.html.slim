@@ -1,2 +1,3 @@
 - cache [blog_feed_block, blog_feed_block.cache_sensitive_key(params)] do
-  = render posts(blog_feed_block.business, page: params[:page], limit: blog_feed_block.items_limit)
+  div class=blog_feed_block.custom_class
+    = render posts(blog_feed_block.business, page: params[:page], limit: blog_feed_block.items_limit)

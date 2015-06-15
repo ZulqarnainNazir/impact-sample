@@ -165,7 +165,7 @@ Webpage = React.createClass
         editBackground: this.editMedia.bind(null, group_uuid, block_uuid, 'background')
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
-        editCustom: this.editHeroStyles.bind(null, group_uuid, block_uuid)
+        editCustom: this.editHeroSettings.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         compress: this.compressHero.bind(null, group_uuid)
@@ -178,7 +178,7 @@ Webpage = React.createClass
       when 'TaglineBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
-        editCustom: this.editTaglineStyles.bind(null, group_uuid, block_uuid)
+        editCustom: this.editTaglineSettings.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
@@ -189,12 +189,14 @@ Webpage = React.createClass
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'SpecialtyBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
+        editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
@@ -204,23 +206,27 @@ Webpage = React.createClass
       when 'ContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
+        editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
         themes: ['left', 'right', 'text', 'image']
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'BlogFeedBlock'
-        {}
+        editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
       when 'SidebarContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'SidebarBlogFeedBlock'
+        editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
       when 'SidebarEventsFeedBlock'
+        editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
       when 'AboutBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
@@ -602,24 +608,27 @@ Webpage = React.createClass
       $('#link_inputs_internal').hide()
       $('#link_inputs_external').hide()
 
-  editHeroStyles: (group_uuid, block_uuid, event) ->
+  editHeroSettings: (group_uuid, block_uuid, event) ->
     event.preventDefault()
     group = this.state.groups[group_uuid]
     block = group.blocks[block_uuid]
-    $('#hero_styles_group_uuid').val group_uuid
-    $('#hero_styles_block_uuid').val block_uuid
-    $('#hero_styles_height').val if parseInt(block.height) > 0 then parseInt(block.height) else ''
-    $('#hero_styles_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
-    $('#hero_styles_modal').modal('show')
+    $('#hero_settings_group_uuid').val group_uuid
+    $('#hero_settings_block_uuid').val block_uuid
+    $('#hero_settings_height').val if parseInt(block.height) > 0 then parseInt(block.height) else ''
+    $('#hero_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
+    $('#hero_settings_custom_class').val block.custom_class
+    $('#hero_settings_modal').modal('show')
 
-  updateHeroStyles: (group_uuid, block_uuid) ->
-    this.updateBlock $('#hero_styles_group_uuid').val(), $('#hero_styles_block_uuid').val(),
-      height: $('#hero_styles_height').val()
-      well_style: $('#hero_styles_well_style').val()
+  updateHeroSettings: (group_uuid, block_uuid) ->
+    this.updateBlock $('#hero_settings_group_uuid').val(), $('#hero_settings_block_uuid').val(),
+      custom_class: $('#hero_settings_custom_class').val()
+      height: $('#hero_settings_height').val()
+      well_style: $('#hero_settings_well_style').val()
 
-  resetHeroStyles: ->
-    $('#hero_styles_height').val ''
-    $('#hero_styles_well_style').val 'light'
+  resetHeroSettings: ->
+    $('#hero_settings_custom_class').val ''
+    $('#hero_settings_height').val ''
+    $('#hero_settings_well_style').val 'light'
 
   expandHero: (group_uuid, event) ->
     event.preventDefault()
@@ -633,21 +642,59 @@ Webpage = React.createClass
     this.disableSortables()
     this.updateGroup group_uuid, kind: 'container', this.enableSortables
 
-  editTaglineStyles: (group_uuid, block_uuid, event) ->
+  editTaglineSettings: (group_uuid, block_uuid, event) ->
     event.preventDefault()
     group = this.state.groups[group_uuid]
     block = group.blocks[block_uuid]
-    $('#tagline_styles_group_uuid').val group_uuid
-    $('#tagline_styles_block_uuid').val block_uuid
-    $('#tagline_styles_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
-    $('#tagline_styles_modal').modal('show')
+    $('#tagline_settings_group_uuid').val group_uuid
+    $('#tagline_settings_block_uuid').val block_uuid
+    $('#tagline_settings_custom_class').val block.custom_class
+    $('#tagline_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
+    $('#tagline_settings_modal').modal('show')
 
-  updateTaglineStyles: (group_uuid, block_uuid) ->
-    this.updateBlock $('#tagline_styles_group_uuid').val(), $('#tagline_styles_block_uuid').val(),
-      well_style: $('#tagline_styles_well_style').val()
+  updateTaglineSettings: (group_uuid, block_uuid) ->
+    this.updateBlock $('#tagline_settings_group_uuid').val(), $('#tagline_settings_block_uuid').val(),
+      custom_class: $('#tagline_settings_custom_class').val()
+      well_style: $('#tagline_settings_well_style').val()
 
-  resetTaglineStyles: ->
-    $('#tagline_styles_well_style').val 'light'
+  resetTaglineSettings: ->
+    $('#tagline_settings_custom_class').val ''
+    $('#tagline_settings_well_style').val 'light'
+
+  editFeedSettings: (group_uuid, block_uuid, event) ->
+    event.preventDefault()
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    $('#feed_settings_group_uuid').val group_uuid
+    $('#feed_settings_block_uuid').val block_uuid
+    $('#feed_settings_custom_class').val block.custom_class
+    $('#feed_settings_items_limit').val if parseInt(block.items_limit) > 0 then parseInt(block.items_limit) else 4
+    $('#feed_settings_modal').modal('show')
+
+  updateFeedSettings: (group_uuid, block_uuid) ->
+    this.updateBlock $('#feed_settings_group_uuid').val(), $('#feed_settings_block_uuid').val(),
+      custom_class: $('#feed_settings_custom_class').val()
+      items_limit: $('#feed_settings_items_limit').val()
+
+  resetFeedSettings: ->
+    $('#feed_settings_custom_class').val ''
+    $('#feed_settings_items_limit').val 4
+
+  editDefaultSettings: (group_uuid, block_uuid, event) ->
+    event.preventDefault()
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    $('#default_settings_group_uuid').val group_uuid
+    $('#default_settings_block_uuid').val block_uuid
+    $('#default_settings_custom_class').val block.custom_class
+    $('#default_settings_modal').modal('show')
+
+  updateDefaultSettings: (group_uuid, block_uuid) ->
+    this.updateBlock $('#default_settings_group_uuid').val(), $('#default_settings_block_uuid').val(),
+      custom_class: $('#default_settings_custom_class').val()
+
+  resetDefaultSettings: ->
+    $('#default_settings_custom_class').val ''
 
   prevTheme: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -816,20 +863,20 @@ Webpage = React.createClass
           </div>
         </div>
       </div>
-      <div id="hero_styles_modal" className="modal fade">
-        <input id="hero_styles_group_uuid" type="hidden" />
-        <input id="hero_styles_block_uuid" type="hidden" />
+      <div id="hero_settings_modal" className="modal fade">
+        <input id="hero_settings_group_uuid" type="hidden" />
+        <input id="hero_settings_block_uuid" type="hidden" />
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <span className="close" data-dismiss="modal">&times;</span>
-              <p className="h4 modal-title">Change Hero Layout and Style</p>
+              <p className="h4 modal-title">Change Hero Layout and Settings</p>
             </div>
             <div className="modal-body">
               <div className="form-group">
-                <label htmlFor="hero_styles_well_style" className="control-label">Background Shade</label>
+                <label htmlFor="hero_settings_well_style" className="control-label">Background Shade</label>
                 <div>
-                  <select ref="selectpicker" id="hero_styles_well_style" className="form-control" defaultValue="light">
+                  <select ref="selectpicker" id="hero_settings_well_style" className="form-control" defaultValue="light">
                     <option key="light" value="light">Light</option>
                     <option key="dark" value="dark">Dark</option>
                     <option key="transparent" value="transparent">Transparent</option>
@@ -838,43 +885,111 @@ Webpage = React.createClass
               </div>
               <hr />
               <div className="form-group">
-                <label htmlFor="hero_styles_height" className="control-label">
+                <label htmlFor="hero_settings_height" className="control-label">
                   Set Fixed Hero Height in Pixels (Advanced)
                 </label>
-                <input type="text" id="hero_styles_height" className="form-control" />
+                <input type="text" id="hero_settings_height" className="form-control" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="hero_settings_custom_class" className="control-label">
+                  Set a Custom Class (Advanced)
+                </label>
+                <input type="text" id="hero_settings_custom_class" className="form-control" />
               </div>
             </div>
             <div className="modal-footer">
-              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetHeroStyles}>Cancel</span>
-              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeroStyles}>Save</span>
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetHeroSettings}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeroSettings}>Save</span>
             </div>
           </div>
         </div>
       </div>
-      <div id="tagline_styles_modal" className="modal fade">
-        <input id="tagline_styles_group_uuid" type="hidden" />
-        <input id="tagline_styles_block_uuid" type="hidden" />
+      <div id="tagline_settings_modal" className="modal fade">
+        <input id="tagline_settings_group_uuid" type="hidden" />
+        <input id="tagline_settings_block_uuid" type="hidden" />
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <span className="close" data-dismiss="modal">&times;</span>
-              <p className="h4 modal-title">Change Tagline Layout and Style</p>
+              <p className="h4 modal-title">Change Tagline Layout and Settings</p>
             </div>
             <div className="modal-body">
               <div className="form-group">
-                <label htmlFor="tagline_styles_well_style" className="control-label">Background Shade</label>
+                <label htmlFor="tagline_settings_well_style" className="control-label">Background Shade</label>
                 <div>
-                  <select ref="selectpicker" id="tagline_styles_well_style" className="form-control" defaultValue="light">
+                  <select ref="selectpicker" id="tagline_settings_well_style" className="form-control" defaultValue="light">
                     <option key="light" value="light">Light</option>
                     <option key="dark" value="dark">Dark</option>
                     <option key="transparent" value="transparent">Transparent</option>
                   </select>
                 </div>
               </div>
+              <hr />
+              <div className="form-group">
+                <label htmlFor="tagline_settings_custom_class" className="control-label">
+                  Set a Custom Class (Advanced)
+                </label>
+                <input type="text" id="tagline_settings_custom_class" className="form-control" />
+              </div>
             </div>
             <div className="modal-footer">
-              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetTaglineStyles}>Cancel</span>
-              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateTaglineStyles}>Save</span>
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetTaglineSettings}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateTaglineSettings}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="feed_settings_modal" className="modal fade">
+        <input id="feed_settings_group_uuid" type="hidden" />
+        <input id="feed_settings_block_uuid" type="hidden" />
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Change Feed Settings</p>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="feed_settings_items_limit" className="control-label">
+                  Maximum Number of Feed Items to Display
+                </label>
+                <input type="number" id="feed_settings_items_limit" className="form-control" step="1" />
+              </div>
+              <hr />
+              <div className="form-group">
+                <label htmlFor="feed_settings_custom_class" className="control-label">
+                  Set a Custom Class (Advanced)
+                </label>
+                <input type="text" id="feed_settings_custom_class" className="form-control" />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetFeedSettings}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateFeedSettings}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="default_settings_modal" className="modal fade">
+        <input id="default_settings_group_uuid" type="hidden" />
+        <input id="default_settings_block_uuid" type="hidden" />
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Change Default Settings</p>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="default_settings_custom_class" className="control-label">
+                  Set a Custom Class (Advanced)
+                </label>
+                <input type="text" id="default_settings_custom_class" className="form-control" />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetDefaultSettings}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateDefaultSettings}>Save</span>
             </div>
           </div>
         </div>

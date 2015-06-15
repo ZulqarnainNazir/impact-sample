@@ -34,6 +34,7 @@ module GroupsAttributesConcern
         :height,
         :items_limit,
         :well_style,
+        :custom_class,
         :_destroy,
         block_background_placement_attributes: placement_attributes,
         block_image_placement_attributes: placement_attributes,

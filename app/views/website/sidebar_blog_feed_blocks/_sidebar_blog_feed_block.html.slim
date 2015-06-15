@@ -1,2 +1,3 @@
 - cache [sidebar_blog_feed_block, sidebar_blog_feed_block.cache_sensitive_key(params)] do
-  = render posts(sidebar_blog_feed_block.business, limit: sidebar_blog_feed_block.items_limit)
+  div class=sidebar_blog_feed_block.custom_class
+    = render posts(sidebar_blog_feed_block.business, limit: sidebar_blog_feed_block.items_limit)

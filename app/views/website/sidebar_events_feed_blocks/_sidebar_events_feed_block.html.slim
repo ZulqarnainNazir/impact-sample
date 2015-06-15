@@ -1,2 +1,3 @@
 - cache [sidebar_events_feed_block, sidebar_events_feed_block.cache_sensitive_key(params)] do
-  = render events(sidebar_events_feed_block.business, limit: sidebar_events_feed_block.items_limit)
+  div class=sidebar_events_feed_block.custom_class
+    = render events(sidebar_events_feed_block.business, limit: sidebar_events_feed_block.items_limit)
