@@ -1,3 +1,10 @@
-p
-  ' A new message has been posted to the IMPACT CRM at
-  = link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]
+p A new message has been posted to the IMPACT CRM at #{link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]}.
+dl
+  dt Name
+  dd = @contact_message.name
+  dt Email
+  dd = @contact_message.email
+  dt Phone
+  dd = @contact_message.phone
+  dt Message
+  dd = @contact_message.message

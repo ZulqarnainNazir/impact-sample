@@ -10,7 +10,7 @@ class ContactMessage < ActiveRecord::Base
 
   after_create do
     business.authorizations.includes(:user).where(contact_message_notifications: true).each do |authorization|
-      AuthorizationsMailer.contact_message_notification(authorization).deliver_later
+      AuthorizationsMailer.contact_message_notification(authorization, self).deliver_later
     end
   end
 
