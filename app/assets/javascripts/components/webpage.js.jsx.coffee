@@ -616,11 +616,13 @@ Webpage = React.createClass
 
   expandHero: (group_uuid, event) ->
     event.preventDefault()
+    $(event.target).popover('hide')
     this.disableSortables()
     this.updateGroup group_uuid, kind: 'full_width', this.enableSortables
 
   compressHero: (group_uuid, event) ->
     event.preventDefault()
+    $(event.target).popover('hide')
     this.disableSortables()
     this.updateGroup group_uuid, kind: 'container', this.enableSortables
 

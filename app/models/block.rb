@@ -45,6 +45,13 @@ class Block < ActiveRecord::Base
     super value.to_i
   end
 
+  %i[heading subheading text].each do |key|
+    define_method key do
+      value = read_attribute(key)
+      value.blank? ? '<br>' : value
+    end
+  end
+
   def link?
     (link_internal? && link_label? && link.present?) ||
     (link_external? && link_label? && link_external_url?)

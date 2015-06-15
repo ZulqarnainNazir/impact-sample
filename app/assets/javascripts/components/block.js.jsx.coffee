@@ -7,6 +7,12 @@ Block = React.createClass
     removeBlock: React.PropTypes.func
     type: React.PropTypes.string
 
+  componentDidMount: ->
+    $(this.getDOMNode()).find('.webpage-options a').popover
+      container: 'body'
+      placement: 'top'
+      trigger: 'hover'
+
   render: ->
     `<div className={this.webpageClassName()} data-uuid={this.props.uuid}>
       <div className="webpage-fields">
@@ -94,7 +100,7 @@ Block = React.createClass
 
   renderBlockOptions: ->
     if this.props.editing
-      `<div className="webpage-options btn-group btn-group-sm" style={{opacity: 0.8}}>
+      `<div className="webpage-options btn-group btn-group-sm">
         {this.renderPrevThemeOption()}
         {this.renderExpandOption()}
         {this.renderCompressOption()}
@@ -110,47 +116,47 @@ Block = React.createClass
 
   renderPrevThemeOption: ->
     if this.props.prevTheme
-      `<a href="#" onClick={this.props.prevTheme} className="btn btn-warning"><i className="fa fa-caret-left" /></a>`
+      `<a href="#" onClick={this.props.prevTheme} className="btn btn-warning" title="Cycle through layout options" data-content="Pick the layout that's right for you."><i className="fa fa-caret-left" /></a>`
 
   renderExpandOption: ->
     if this.props.expand and this.props.kind is 'container'
-      `<a href="#" onClick={this.props.expand} className="btn btn-warning"><i className="fa fa-expand" /></a>`
+      `<a href="#" onClick={this.props.expand} className="btn btn-warning" title="Click to Expand Hero to full-width" data-content="Makes background image or color the full width of the browser"><i className="fa fa-expand" /></a>`
 
   renderCompressOption: ->
     if this.props.compress and this.props.kind is 'full_width'
-      `<a href="#" onClick={this.props.compress} className="btn btn-warning"><i className="fa fa-compress" /></a>`
+      `<a href="#" onClick={this.props.compress} className="btn btn-warning" data-content="Click to contract Hero to site-width"><i className="fa fa-compress" /></a>`
 
   renderEditTextOption: ->
     if this.props.editText
-      `<a href="#" onClick={this.props.editText} className="btn btn-warning"><i className="fa fa-pencil" /></a>`
+      `<a href="#" onClick={this.props.editText} className="btn btn-warning" data-content="Click to edit and format text"><i className="fa fa-pencil" /></a>`
 
   renderEditBackgroundOption: ->
     if this.props.editBackground
-      `<a href="#" onClick={this.props.editBackground} className="btn btn-warning"><i className="fa fa-photo" /></a>`
+      `<a href="#" onClick={this.props.editBackground} className="btn btn-warning" title="Click to add or edit the background image" data-content="High resolution images look best"><i className="fa fa-area-chart" /></a>`
 
   renderEditImageOption: ->
     if this.props.editImage
-      `<a href="#" onClick={this.props.editImage} className="btn btn-warning"><i className="fa fa-photo" /></a>`
+      `<a href="#" onClick={this.props.editImage} className="btn btn-warning" title="Click to add or edit the main image" data-content="Highlight something specific with an image or embedded video"><i className="fa fa-photo" /></a>`
 
   renderEditLinkOption: ->
     if this.props.editLink
-      `<a href="#" onClick={this.props.editLink} className="btn btn-warning"><i className="fa fa-link" /></a>`
+      `<a href="#" onClick={this.props.editLink} className="btn btn-warning" title="Add a linked button" data-content="Great for a primary call-to-action."><i className="fa fa-link" /></a>`
 
   renderEditCustomOption: ->
     if this.props.editCustom
-      `<a href="#" onClick={this.props.editCustom} className="btn btn-warning"><i className="fa fa-cog" /></a>`
+      `<a href="#" onClick={this.props.editCustom} className="btn btn-warning" title="Adjust element specific settings" data-content="This gives you great control of certain aspects of the design."><i className="fa fa-cog" /></a>`
 
   renderSortOption: ->
     if this.props.sort
-      `<a href="#" onClick={this.props.sort} className="btn btn-warning webpage-block-sort-handle"><i className="fa fa-reorder" /></a>`
+      `<a href="#" onClick={this.props.sort} className="btn btn-warning webpage-block-sort-handle" title="Click and drag to reorder the block" data-content="This give you control over how the blocks are sorted"><i className="fa fa-reorder" /></a>`
 
   renderRemoveBlockOption: ->
     if this.props.removeBlock
-      `<a href="#" onClick={this.props.removeBlock} className="btn btn-warning"><i className="fa fa-trash" /></a>`
+      `<a href="#" onClick={this.props.removeBlock} className="btn btn-warning" title="Click to remove element" data-content="Cannot be undone after saving the page"><i className="fa fa-trash" /></a>`
 
   renderNextThemeOption: ->
     if this.props.nextTheme
-      `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning"><i className="fa fa-caret-right" /></a>`
+      `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning" title="Cycle through layout options" data-content="Pick the layout that's right for you."><i className="fa fa-caret-right" /></a>`
 
   renderBlock: ->
     switch this.props.type
