@@ -7,6 +7,7 @@
     margin: 0;
   }
   .jumbotron {
+    background-size: cover;
     overflow: hidden;
     @media (max-width: 767px) {
       height: auto !important;
@@ -40,6 +41,21 @@
 
 .webpage-block + .webpage-block {
   margin-top: 15px;
+}
+
+.webpage-block.col-sm-3,
+.webpage-block.col-sm-4,
+.webpage-block.col-sm-6 {
+  margin-top: 0 !important;
+}
+
+.webpage-block-sort-handle {
+  cursor: move;
+}
+
+.webpage-block-placeholder {
+  background-color: rgba(0,0,0,0.05);
+  border-radius: 2px;
 }
 
 .webpage-block-representer {

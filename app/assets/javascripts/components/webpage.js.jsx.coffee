@@ -46,8 +46,10 @@ Webpage = React.createClass
     $('#link_modal').on 'change', 'input[type="radio"]', this.toggleLinkOptions
     $('.webpage-save-toggle-on').on 'click', -> $('.webpage-save').addClass('webpage-save-visible'); $('.webpage-save-toggle-on').hide(); $('.webpage-save-toggle-off').show()
     $('.webpage-save-toggle-off').hide().on 'click', -> $('.webpage-save').removeClass('webpage-save-visible'); $('.webpage-save-toggle-off').hide(); $('.webpage-save-toggle-on').show()
-    this.enableSortableGroups()
+    this.enableSortables()
     this.sortWebpageGroups()
+    this.sortWebpageGroupHorizontalContainers()
+    this.sortWebpageGroupVerticalContainers()
     this.resetLink()
     this.toggleLinkOptions()
     this.resetMedia()
@@ -62,10 +64,12 @@ Webpage = React.createClass
     else
       $('#add_sidebar_block_label').show()
 
-  disableSortableGroups: ->
+  disableSortables: ->
     $('.webpage-container').sortable('destroy')
+    $('.webpage-group-horizontal-container').sortable('destroy')
+    $('.webpage-group-vertical-container').sortable('destroy')
 
-  enableSortableGroups: ->
+  enableSortables: ->
     $('.webpage-container').sortable
       axis: 'y'
       container: '.webpage-container'
@@ -83,6 +87,38 @@ Webpage = React.createClass
       tolerance: 'pointer'
       start: this.startWebpageGroupsSorting
       update: this.sortWebpageGroups
+    $('.webpage-group-horizontal-container').sortable
+      axis: 'x'
+      container: '.webpage-group-horizontal-container'
+      expandOnHover: 400
+      forceHelperSize: true
+      forcePlaceholderSize: true
+      handle: '.webpage-block-sort-handle'
+      helper: 'clone'
+      items: '> .webpage-block'
+      opacity: 0.5
+      placeholder: 'webpage-block-placeholder'
+      revert: 100
+      startCollapsed: false
+      tabSize: 20
+      tolerance: 'pointer'
+      update: this.sortWebpageGroupHorizontalContainers
+    $('.webpage-group-vertical-container').sortable
+      axis: 'y'
+      container: '.webpage-group-vertical-container'
+      expandOnHover: 400
+      forceHelperSize: true
+      forcePlaceholderSize: true
+      handle: '.webpage-block-sort-handle'
+      helper: 'clone'
+      items: '> .webpage-block'
+      opacity: 0.5
+      placeholder: 'webpage-block-placeholder'
+      revert: 100
+      startCollapsed: false
+      tabSize: 20
+      tolerance: 'pointer'
+      update: this.sortWebpageGroupVerticalContainers
 
   startWebpageGroupsSorting: (event, ui) ->
     group = this.state.groups[ui.item.data('uuid')]
@@ -91,10 +127,22 @@ Webpage = React.createClass
       ui.placeholder.css('float', this.state.sidebarPosition)
 
   sortWebpageGroups: ->
-    $('.webpage-group').each this.sortWebpageGroup
+    $('.webpage-container > .webpage-group').each this.sortWebpageGroup
 
   sortWebpageGroup: (index, group) ->
     this.updateGroup $(group).data('uuid'), position: index
+
+  sortWebpageGroupHorizontalContainers: ->
+    $('.webpage-group-horizontal-container').each this.sortWebpageGroupContainer
+
+  sortWebpageGroupVerticalContainers: ->
+    $('.webpage-group-vertical-container').each this.sortWebpageGroupContainer
+
+  sortWebpageGroupContainer: (index, container) ->
+    $(container).children('.webpage-block').each this.sortWebpageBlock
+
+  sortWebpageBlock: (index, block) ->
+    this.updateBlock $(block).closest('.webpage-group').data('uuid'), $(block).data('uuid'), position: index
 
   toggleEditing: ->
     this.setState editing: !this.state.editing
@@ -134,6 +182,7 @@ Webpage = React.createClass
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        sort: (e) -> e.preventDefault()
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'SpecialtyBlock'
@@ -159,12 +208,13 @@ Webpage = React.createClass
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
+        sort: (e) -> e.preventDefault()
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'SidebarBlogFeedBlock'
-        {}
+        sort: (e) -> e.preventDefault()
       when 'SidebarEventsFeedBlock'
-        {}
+        sort: (e) -> e.preventDefault()
       when 'AboutBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editBackground: this.editMedia.bind(null, group_uuid, block_uuid, 'background')
@@ -225,6 +275,8 @@ Webpage = React.createClass
 
   finishInsert: (messageKey) ->
     this.sortWebpageGroups()
+    this.sortWebpageGroupHorizontalContainers()
+    this.sortWebpageGroupVerticalContainers()
     setTimeout this.clearSuccessMessage.bind(null, messageKey), 1500
 
   clearSuccessMessage: (messageKey) ->
@@ -304,6 +356,7 @@ Webpage = React.createClass
       mediaImageAttachmentFileSize: placement.image_attachment_file_size
       mediaImageProgress: 0
       mediaImageStatus: if Object.keys(placement).length > 0 then 'attached' else 'empty'
+      mediaImageAttachmentThumbnailURL: placement.image_attachment_thumbnail_url
       mediaImageAttachmentURL: placement.image_attachment_url
       mediaImageAttachmentCacheURL: undefined
       mediaLibraryImages: []
@@ -563,13 +616,13 @@ Webpage = React.createClass
 
   expandHero: (group_uuid, event) ->
     event.preventDefault()
-    this.disableSortableGroups()
-    this.updateGroup group_uuid, kind: 'full_width', this.enableSortableGroups
+    this.disableSortables()
+    this.updateGroup group_uuid, kind: 'full_width', this.enableSortables
 
   compressHero: (group_uuid, event) ->
     event.preventDefault()
-    this.disableSortableGroups()
-    this.updateGroup group_uuid, kind: 'container', this.enableSortableGroups
+    this.disableSortables()
+    this.updateGroup group_uuid, kind: 'container', this.enableSortables
 
   editTaglineStyles: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -853,10 +906,10 @@ Webpage = React.createClass
     </div>`
 
   mediaModalTitle: ->
-    if $('#media_type') is 'image'
-      'Add an Image or Video'
-    else
+    if $('#media_type').val() is 'background'
       'Add Background Image'
+    else
+      'Add an Image or Video'
 
   renderRemovedGroupsInputs: ->
     for group in this.state.removedGroups
@@ -874,7 +927,7 @@ Webpage = React.createClass
     if this.state.mediaImageAttachmentURL
       `<div className="media_dropzone">
         <div className="small">
-          <div className="thumbnail"><img style={{width: '100%'}} src={this.state.mediaImageAttachmentURL} /></div>
+          <div className="thumbnail"><img style={{width: '100%'}} src={this.mediaImageAttachmentURL()} /></div>
           <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.mediaImageAttachmentFileName}</strong></div>
           <div>{this.state.mediaImageAttachmentContentType} – {this.state.mediaImageAttachmentFileSize / 1000}KB</div>
         </div>
@@ -883,6 +936,12 @@ Webpage = React.createClass
       `<div className="media_dropzone">
         <ImageEmpty padding={20} dropzone={true} />
       </div>`
+
+  mediaImageAttachmentURL: ->
+    if this.state.mediaImageAttachmentThumbnailURL and this.state.mediaImageAttachmentThumbnailURL.length > 0
+      this.state.mediaImageAttachmentThumbnailURL
+    else
+      this.state.mediaImageAttachmentURL
 
   renderEditMediaProgress: ->
     if this.state.mediaImageStatus is 'uploading'

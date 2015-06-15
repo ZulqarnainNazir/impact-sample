@@ -3,11 +3,12 @@ Block = React.createClass
     editing: React.PropTypes.bool
     groupInputName: React.PropTypes.string
     kind: React.PropTypes.string
+    max_blocks: React.PropTypes.number
     removeBlock: React.PropTypes.func
     type: React.PropTypes.string
 
   render: ->
-    `<div className="webpage-block">
+    `<div className={this.webpageClassName()} data-uuid={this.props.uuid}>
       <div className="webpage-fields">
         <input type="hidden" name={this.inputName('id')} value={this.props.id} />
         <input type="hidden" name={this.inputName('type')} value={this.props.type} />
@@ -37,6 +38,16 @@ Block = React.createClass
       {this.renderBlockOptions()}
       {this.renderBlock()}
     </div>`
+
+  webpageClassName: ->
+    if this.props.type is 'CallToActionBlock'
+      switch this.props.max_blocks
+        when 2 then 'webpage-block col-sm-6'
+        when 4 then 'webpage-block col-sm-3'
+        else 'webpage-block col-sm-4'
+    else
+      'webpage-block'
+
 
   renderBlockBackgroundPlacementInputs: ->
     placement = this.props.block_background_placement
@@ -92,6 +103,7 @@ Block = React.createClass
         {this.renderEditImageOption()}
         {this.renderEditLinkOption()}
         {this.renderEditCustomOption()}
+        {this.renderSortOption()}
         {this.renderRemoveBlockOption()}
         {this.renderNextThemeOption()}
       </div>`
@@ -127,6 +139,10 @@ Block = React.createClass
   renderEditCustomOption: ->
     if this.props.editCustom
       `<a href="#" onClick={this.props.editCustom} className="btn btn-warning"><i className="fa fa-cog" /></a>`
+
+  renderSortOption: ->
+    if this.props.sort
+      `<a href="#" onClick={this.props.sort} className="btn btn-warning webpage-block-sort-handle"><i className="fa fa-reorder" /></a>`
 
   renderRemoveBlockOption: ->
     if this.props.removeBlock

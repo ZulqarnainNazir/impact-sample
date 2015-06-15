@@ -47,9 +47,12 @@ Group = React.createClass
       else 'webpage-group webpage-group-basic webpage-group-basic-left'
 
   groupRowClass: ->
-    if this.props.type is 'CallToActionGroup'
-      'row'
-    else ''
+    switch this.props.type
+      when 'CallToActionGroup'
+        'webpage-group-horizontal-container row'
+      when 'SidebarGroup'
+        'webpage-group-vertical-container'
+      else ''
 
   inputName: (name) ->
     "groups_attributes[#{this.props.uuid}][#{name}]"
@@ -78,10 +81,7 @@ Group = React.createClass
 
   renderBlock: (block) ->
     if block
-      if block.type is 'CallToActionBlock'
-        `<div key={block.uuid} className={this.callToActionColumnClass()}><Block editing={this.props.editing} kind={this.props.kind} groupInputName={this.inputName('blocks_attributes')} {...block} /></div>`
-      else
-        `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} groupInputName={this.inputName('blocks_attributes')} {...block} />`
+      `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} max_blocks={this.props.max_blocks} groupInputName={this.inputName('blocks_attributes')} {...block} />`
 
   nextMaxBlocksValue: ->
     if this.props.max_blocks is 3
@@ -90,13 +90,5 @@ Group = React.createClass
       2
     else
       3
-
-  callToActionColumnClass: ->
-    if this.props.max_blocks is 2
-      'col-sm-6'
-    else if this.props.max_blocks is 4
-      'col-sm-3'
-    else
-      'col-sm-4'
 
 window.Group = Group
