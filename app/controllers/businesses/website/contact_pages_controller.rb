@@ -1,6 +1,6 @@
 class Businesses::Website::ContactPagesController < Businesses::Website::BaseController
   include GroupsAttributesConcern
-  include PlacementsAttributesConcern
+  include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
   layout 'application'

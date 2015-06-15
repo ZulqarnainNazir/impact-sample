@@ -55,7 +55,8 @@ AboutBlock = React.createClass
     </div>`
 
   renderBackgroundImage: ->
-    if this.props.block_background_placement and this.props.block_background_placement and this.props.block_background_placement.image_attachment_url > 0
+    console.log this.props
+    if this.props.block_background_placement and this.props.block_background_placement.image_attachment_url.length > 0
       `<img src={this.props.block_background_placement.image_attachment_url} alt={this.props.block_background_placement.image_alt} title={this.props.block_background_placement.image_title} style={{width: '100%'}}/>`
 
 window.AboutBlock = AboutBlock
