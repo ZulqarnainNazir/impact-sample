@@ -214,6 +214,7 @@ Webpage = React.createClass
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'BlogFeedBlock'
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
+        items_limit: 4
       when 'SidebarContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
@@ -225,9 +226,11 @@ Webpage = React.createClass
       when 'SidebarBlogFeedBlock'
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
+        items_limit: 4
       when 'SidebarEventsFeedBlock'
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
+        items_limit: 4
       when 'AboutBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editBackground: this.editMedia.bind(null, group_uuid, block_uuid, 'background')
