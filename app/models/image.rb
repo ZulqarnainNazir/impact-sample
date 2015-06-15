@@ -62,4 +62,20 @@ class Image < ActiveRecord::Base
   def attachment_thumbnail_url
     attachment_url(:thumbnail)
   end
+
+  def attachment_small_url
+    attachment_url(:small)
+  end
+
+  def attachment_medium_url
+    attachment_url(:medium)
+  end
+
+  def attachment_large_url
+    attachment_url(:large)
+  end
+
+  def attachment_jumbo_url
+    attachment_url(:jumbo)
+  end
 end

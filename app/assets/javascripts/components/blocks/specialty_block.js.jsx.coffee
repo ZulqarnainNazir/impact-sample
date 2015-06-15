@@ -15,13 +15,13 @@ SpecialtyBlock = React.createClass
           <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
         </div>
         <div className="col-sm-6">
-          <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+          <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
         </div>
       </div>`
     else
       `<div className="row">
         <div className="col-sm-6">
-          <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+          <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
         </div>
         <div className="col-sm-6">
           <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />

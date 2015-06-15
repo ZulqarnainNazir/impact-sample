@@ -6,6 +6,12 @@
   .well {
     margin: 0;
   }
+  .jumbotron {
+    overflow: hidden;
+    @media (max-width: 767px) {
+      height: auto !important;
+    }
+  }
   .jumbotron h1 {
     @extend .h2;
     margin-top: 0;

@@ -23,7 +23,7 @@ AboutBlock = React.createClass
       <article>
         <div className="row">
           <section className="col-sm-4" style={{marginTop: 40}}>
-            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
           </section>
           <section className="col-sm-8">
             <header className="page-header">

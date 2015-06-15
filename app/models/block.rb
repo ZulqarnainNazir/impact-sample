@@ -5,7 +5,7 @@ class Block < ActiveRecord::Base
 
   enum link_version: { link_none: 0, link_internal: 1, link_external: 2, }
 
-  belongs_to :frame, polymorphic: true
+  belongs_to :frame, polymorphic: true, touch: true
   belongs_to :link, polymorphic: true
 
   has_placed_image :block_background

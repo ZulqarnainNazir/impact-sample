@@ -3,7 +3,6 @@ HeroBlock = React.createClass
     style =
       backgroundColor: this.props.background_color
       height: if parseInt(this.props.height) > 0 then parseInt(this.props.height) else 'auto'
-      overflow: 'hidden'
     if this.props.block_background_placement and this.props.block_background_placement.image_attachment_url and this.props.block_background_placement.image_attachment_url.length > 0
       style['backgroundImage'] = "url(\"#{this.props.block_background_placement.image_attachment_url}\")"
     `<div className="webpage-hero">
@@ -26,13 +25,13 @@ HeroBlock = React.createClass
             </div>
           </div>
           <div key="image" className="col-sm-6">
-            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
           </div>
         </div>`
       when 'left'
         `<div className="row">
           <div key="image" className="col-sm-6">
-            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
           </div>
           <div key="content" className="col-sm-6">
             <div className={this.wellClass()}>
@@ -55,7 +54,7 @@ HeroBlock = React.createClass
   renderInlineImage: ->
     if this.props.editing
       `<div style={{float: 'left', maxHeight: 100, marginRight: 10, marginBottom: 10}}>
-        <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} />
+        <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="small" />
       </div>`
 
   containerClass: ->

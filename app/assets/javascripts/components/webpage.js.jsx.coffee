@@ -194,26 +194,41 @@ Webpage = React.createClass
   insertGroup: (group_type, block_type) ->
     group_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
+    messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
     changes =
-      $merge:
-        "#{group_uuid}":
-          type: group_type
-          uuid: group_uuid
-          kind: 'container'
-          max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
-          blocks:
-            "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
-          removedBlocks: []
-    this.setState groups: React.addons.update(this.state.groups, changes), this.sortWebpageGroups
+      "#{messageKey}":
+        $set: 'Success, block appended to page.'
+      groups:
+        $merge:
+          "#{group_uuid}":
+            type: group_type
+            uuid: group_uuid
+            kind: 'container'
+            max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
+            blocks:
+              "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
+            removedBlocks: []
+    this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
 
   insertBlock: (group_uuid, block_type) ->
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
+    messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
     changes =
-      "#{group_uuid}":
-        blocks:
-          $merge:
-            "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
-    this.setState groups: React.addons.update(this.state.groups, changes), this.sortWebpageGroups
+      "#{messageKey}":
+        $set: 'Success, block appended to page.'
+      groups:
+        "#{group_uuid}":
+          blocks:
+            $merge:
+              "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
+    this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
+
+  finishInsert: (messageKey) ->
+    this.sortWebpageGroups()
+    setTimeout this.clearSuccessMessage.bind(null, messageKey), 1500
+
+  clearSuccessMessage: (messageKey) ->
+    this.setState "#{messageKey}": null
 
   removeBlock: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -386,6 +401,11 @@ Webpage = React.createClass
         image_attachment_file_name: this.state.mediaImageAttachmentFileName
         image_attachment_file_size: this.state.mediaImageAttachmentFileSize
         image_attachment_url: this.state.mediaImageAttachmentURL
+        image_attachment_thumbnail_url: this.state.mediaImageAttachmentURL
+        image_attachment_small_url: this.state.mediaImageAttachmentSmallURL
+        image_attachment_medium_url: this.state.mediaImageAttachmentMediumURL
+        image_attachment_large_url: this.state.mediaImageAttachmentLargeURL
+        image_attachment_jumbo_url: this.state.mediaImageAttachmentJumboURL
         image_id: this.state.mediaImageID
         image_title: $('#media_image_title').val()
     this.updateBlock $('#media_group_uuid').val(), $('#media_block_uuid').val(), changes
@@ -424,6 +444,11 @@ Webpage = React.createClass
       mediaImageAttachmentFileName: image.attachment_file_name
       mediaImageAttachmentFileSize: image.attachment_file_size
       mediaImageAttachmentURL: image.attachment_url
+      mediaImageAttachmentThumbnailURL: image.attachment_thumbnail_url
+      mediaImageAttachmentSmallURL: image.attachment_small_url
+      mediaImageAttachmentMediumURL: image.attachment_medium_url
+      mediaImageAttachmentLargeURL: image.attachment_large_url
+      mediaImageAttachmentJumboURL: image.attachment_jumbo_url
       mediaImageID: image.id
       mediaImageStatus: 'attached'
     this.setState changes, this.hideMediaLibrary, ->
@@ -798,7 +823,7 @@ Webpage = React.createClass
           <p className="webpage-save-toggle-off pull-right" style={{position: 'relative', zIndex: 1}}><i className="fa fa-arrow-circle-down" /> Hide Page Options</p>
           <div className="row">
             <div className="col-sm-6">
-              <p id="add_main_block_label" style={{marginBottom: 5}}><strong>Add Main Block</strong></p>
+              <p id="add_main_block_label" style={{marginBottom: 5}}><strong>Add Main Block</strong> <span className="text-success">{this.state.insertMainSuccessMessage}</span></p>
               <div id="add_main_block_options">
                 {this.renderInsertHeroGroup()}
                 {this.renderInsertTaglineGroup()}
@@ -812,7 +837,7 @@ Webpage = React.createClass
               </div>
             </div>
             <div className="col-sm-4">
-              <p id="add_sidebar_block_label" style={{marginBottom: 5}}><strong>Add Sidebar Block</strong></p>
+              <p id="add_sidebar_block_label" style={{marginBottom: 5}}><strong>Add Sidebar Block</strong> <span className="text-success">{this.state.insertSidebarSuccessMessage}</span></p>
               <div id="add_sidebar_block_options">
                 {this.renderInsertSidebarContent()}
                 {this.renderInsertSidebarBlogFeed()}

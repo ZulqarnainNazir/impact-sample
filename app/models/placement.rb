@@ -88,6 +88,26 @@ class Placement < ActiveRecord::Base
     image.try(:attachment_url)
   end
 
+  def image_attachment_thumbnail_url
+    image.try(:attachment_thumbnail_url)
+  end
+
+  def image_attachment_small_url
+    image.try(:attachment_small_url)
+  end
+
+  def image_attachment_medium_url
+    image.try(:attachment_medium_url)
+  end
+
+  def image_attachment_large_url
+    image.try(:attachment_large_url)
+  end
+
+  def image_attachment_jumbo_url
+    image.try(:attachment_jumbo_url)
+  end
+
   def image_attachment_content_type
     image.try(:attachment_content_type)
   end
