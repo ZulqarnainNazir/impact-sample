@@ -71,10 +71,8 @@ Webpage = React.createClass
     else
       $('#add_sidebar_block_label').show()
 
-  disableSortables: ->
+  disableSortable: ->
     $('.webpage-container').sortable('destroy')
-    $('.webpage-group-horizontal-container').sortable('destroy')
-    $('.webpage-group-vertical-container').sortable('destroy')
 
   enableSortables: ->
     $('.webpage-container').sortable
@@ -258,6 +256,7 @@ Webpage = React.createClass
     $.extend {}, commonAttributes, blockSpecificAttributes, argumentAttributes
 
   insertGroup: (group_type, block_type) ->
+    $('.webpage-save span.btn-default').popover('hide')
     group_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
@@ -277,6 +276,7 @@ Webpage = React.createClass
     this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
 
   insertBlock: (group_uuid, block_type) ->
+    $('.webpage-save span.btn-default').popover('hide')
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
     changes =
@@ -636,13 +636,13 @@ Webpage = React.createClass
   expandHero: (group_uuid, event) ->
     event.preventDefault()
     $(event.target).popover('hide')
-    this.disableSortables()
+    this.disableSortable()
     this.updateGroup group_uuid, kind: 'full_width', this.enableSortables
 
   compressHero: (group_uuid, event) ->
     event.preventDefault()
     $(event.target).popover('hide')
-    this.disableSortables()
+    this.disableSortable()
     this.updateGroup group_uuid, kind: 'container', this.enableSortables
 
   editTaglineSettings: (group_uuid, block_uuid, event) ->
