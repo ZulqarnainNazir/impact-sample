@@ -12,6 +12,9 @@ Block = React.createClass
       container: 'body'
       placement: 'top'
       trigger: 'hover'
+      delay:
+        show: 500
+        hide: 0
 
   render: ->
     `<div className={this.webpageClassName()} data-uuid={this.props.uuid}>

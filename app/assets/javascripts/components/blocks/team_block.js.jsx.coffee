@@ -7,7 +7,7 @@ TeamBlock = React.createClass
             <h1>Our Team</h1>
           </header>
         </article>
-        {this.renderInterio()}
+        {this.renderInterior()}
       </div>
     </div>`
 
