@@ -17,6 +17,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       if success
         fix_post_section_parent_ids(@post.post_sections)
         Post.__elasticsearch__.refresh_index!
+        intercom_event 'created-custom-post'
       end
     end
   end

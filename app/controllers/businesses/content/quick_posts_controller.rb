@@ -12,19 +12,26 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
 
   def create
     create_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
-      QuickPost.__elasticsearch__.refresh_index! if success
+      if success
+        QuickPost.__elasticsearch__.refresh_index!
+        intercom_event 'created-quick-post'
+      end
     end
   end
 
   def update
     update_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
-      QuickPost.__elasticsearch__.refresh_index! if success
+      if success
+        QuickPost.__elasticsearch__.refresh_index!
+      end
     end
   end
 
   def destroy
     destroy_resource @quick_post, location: [@business, :content_feed] do |success|
-      QuickPost.__elasticsearch__.refresh_index! if success
+      if success
+        QuickPost.__elasticsearch__.refresh_index!
+      end
     end
   end
 

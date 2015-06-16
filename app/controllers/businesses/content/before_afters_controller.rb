@@ -12,19 +12,26 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
   def create
     create_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
-      BeforeAfter.__elasticsearch__.refresh_index! if success
+      if success
+        BeforeAfter.__elasticsearch__.refresh_index!
+        intercom_event 'created-before-after'
+      end
     end
   end
 
   def update
     update_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
-      BeforeAfter.__elasticsearch__.refresh_index! if success
+      if success
+        BeforeAfter.__elasticsearch__.refresh_index!
+      end
     end
   end
 
   def destroy
     destroy_resource @before_after, location: [@business, :content_feed] do |success|
-      BeforeAfter.__elasticsearch__.refresh_index! if success
+      if success
+        BeforeAfter.__elasticsearch__.refresh_index!
+      end
     end
   end
 

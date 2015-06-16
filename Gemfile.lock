@@ -224,6 +224,8 @@ GEM
     i18n (0.7.0)
     ice_cube (0.8.1)
     inflecto (0.0.2)
+    intercom (3.0.2)
+      json (~> 1.8)
     ipaddress (0.8.0)
     jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
@@ -428,6 +430,7 @@ DEPENDENCIES
   font-awesome-sass
   geocoder
   ice_cube
+  intercom
   jbuilder
   jquery-fileupload-rails
   jquery-minicolors-rails

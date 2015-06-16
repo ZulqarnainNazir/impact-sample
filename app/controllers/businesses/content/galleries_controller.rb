@@ -12,19 +12,26 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
 
   def create
     create_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
-      Gallery.__elasticsearch__.refresh_index! if success
+      if success
+        Gallery.__elasticsearch__.refresh_index!
+        intercom_event 'created-gallery'
+      end
     end
   end
 
   def update
     update_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
-      Gallery.__elasticsearch__.refresh_index! if success
+      if success
+        Gallery.__elasticsearch__.refresh_index!
+      end
     end
   end
 
   def destroy
     destroy_resource @gallery, location: [@business, :content_feed] do |success|
-      Gallery.__elasticsearch__.refresh_index! if success
+      if success
+        Gallery.__elasticsearch__.refresh_index!
+      end
     end
   end
 

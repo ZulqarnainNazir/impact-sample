@@ -15,4 +15,15 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(user)
     user.authorized_businesses.any? ? :businesses : :new_onboard_website_business
   end
+
+  def intercom_event(event_name, metadata = {})
+    if ENV['INTERCOM_ID'].present? && ENV['INTERCOM_API_KEY'].present?
+      Intercom::Client.new(app_id: ENV['INTERCOM_ID'], api_key: ENV['INTERCOM_API_KEY']).events.create(
+        event_name: event_name,
+        email: current_user.email,
+        created_at: metadata.delete(:created_at) || Time.zone.now.to_i,
+        metadata: metadata,
+      )
+    end
+  end
 end

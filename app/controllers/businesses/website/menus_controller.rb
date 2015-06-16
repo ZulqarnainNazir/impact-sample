@@ -8,7 +8,10 @@ class Businesses::Website::MenusController < Businesses::Website::BaseController
 
   def update
     update_resource @website, nav_links_params, location: [:edit, @business, :website_menus] do |success|
-      fix_nav_links_parent_ids(@website.nav_links) if success
+      if success
+        fix_nav_links_parent_ids(@website.nav_links)
+        intercom_event 'edited-website-navigation'
+      end
     end
   end
 

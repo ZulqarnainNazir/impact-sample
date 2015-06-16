@@ -15,7 +15,9 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
   end
 
   def create
-    create_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page]
+    create_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page] do |success|
+      intercom_event 'created-custom-webpage'
+    end
   end
 
   def update

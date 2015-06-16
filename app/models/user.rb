@@ -4,6 +4,12 @@ class User < ActiveRecord::Base
   has_many :authorizations, dependent: :destroy
   has_many :businesses, through: :authorizations
 
+  has_many :manager_authorizations, -> { manager }, class_name: Authorization.name
+  has_many :owner_authorizations, -> { owner }, class_name: Authorization.name
+
+  has_many :managed_businesses, through: :manager_authorizations, source: :business
+  has_many :owned_businesses, through: :owner_authorizations, source: :business
+
   has_many :images
 
   devise *%i[confirmable database_authenticatable lockable registerable recoverable rememberable trackable validatable]

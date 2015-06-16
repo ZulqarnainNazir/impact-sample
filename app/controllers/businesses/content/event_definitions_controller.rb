@@ -43,6 +43,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       if success
         @event_definition.reschedule_events!
         EventDefinition.__elasticsearch__.refresh_index!
+        intercom_event 'created-event'
       end
     end
   end
