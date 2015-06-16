@@ -1,5 +1,6 @@
 ContactBlock = React.createClass
   propTypes: ->
+    location: React.PropTypes.object
     openings: React.PropTypes.array
 
   getDefaultProps: ->
@@ -34,14 +35,14 @@ ContactBlock = React.createClass
             <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
           </ul>
           <div className="vcard">
-            <h3 className="fn org">{this.props.name}</h3>
-            <p className="tel">{this.props.phone_number}</p>
+            <h3 className="fn org">{this.props.location.name}</h3>
+            <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
-              {this.props.address_line_one}
+              {this.props.location.address_line_one}
               <br />
-              {this.props.address_line_two}
+              {this.props.location.address_line_two}
             </p>
-            <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
+            <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
           </div>
           <hr />
@@ -83,14 +84,14 @@ ContactBlock = React.createClass
             <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
           </ul>
           <div className="vcard">
-            <h3 className="fn org">{this.props.name}</h3>
-            <p className="tel">{this.props.phone_number}</p>
+            <h3 className="fn org">{this.props.location.name}</h3>
+            <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
-              {this.props.address_line_one}
+              {this.props.location.address_line_one}
               <br />
-              {this.props.address_line_two}
+              {this.props.location.address_line_two}
             </p>
-            <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
+            <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
           </div>
           <hr />
@@ -154,14 +155,14 @@ ContactBlock = React.createClass
         </div>
         <div className="col-sm-6">
           <div className="vcard">
-            <h5 className="fn org">{this.props.name}</h5>
-            <p className="tel">{this.props.phone_number}</p>
+            <h5 className="fn org">{this.props.location.name}</h5>
+            <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
-              {this.props.address_line_one}
+              {this.props.location.address_line_one}
               <br />
-              {this.props.address_line_two}
+              {this.props.location.address_line_two}
             </p>
-            <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
+            <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
           </div>
           <div style={{marginTop: 20, marginBottom: 50}}>
@@ -187,14 +188,14 @@ ContactBlock = React.createClass
             <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
           </ul>
           <div className="vcard">
-            <h3 className="fn org">{this.props.name}</h3>
-            <p className="tel">{this.props.phone_number}</p>
+            <h3 className="fn org">{this.props.location.name}</h3>
+            <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
-              {this.props.address_line_one}
+              {this.props.location.address_line_one}
               <br />
-              {this.props.address_line_two}
+              {this.props.location.address_line_two}
             </p>
-            <p><a className="email" href={this.mailTo(this.props.email)}>{this.props.email}</a></p>
+            <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
           </div>
         </div>
@@ -232,12 +233,8 @@ ContactBlock = React.createClass
     "mailto:#{email}"
 
   mapSrc: ->
-    if this.props.address_line_two and this.props.address_line_two.length > 0
-      mapAddress = this.props.address_line_one + ' ' + this.props.address_line_two
-    else
-      mapAddress = this.props.address_line_one + ''
     mapBase = 'https://www.google.com/maps/embed/v1/place'
     mapKey = 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298'
-    "#{mapBase}?#{$.param(q: mapAddress, key: mapKey)}"
+    "#{mapBase}?#{$.param(center: "#{this.props.location.latitude},#{this.props.location.longitude}", q: "#{this.props.location.address_line_one},#{this.props.location.address_line_two}", key: mapKey, zoom: 18)}"
 
 window.ContactBlock = ContactBlock
