@@ -64,6 +64,7 @@ class Placement < ActiveRecord::Base
   def style_keys
     Hash.new([]).merge(
       block_image: %i[small medium jumbo],
+      block_background: %i[jumbo],
       after_image: %i[medium],
       before_image: %i[medium],
       event_image: %i[thumbnail medium],

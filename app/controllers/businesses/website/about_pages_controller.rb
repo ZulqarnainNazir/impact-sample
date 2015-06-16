@@ -22,6 +22,8 @@ class Businesses::Website::AboutPagesController < Businesses::Website::BaseContr
     ).deep_merge(
       pathname: 'about',
       name: 'About',
-    )
+    ).tap do |safe_params|
+      merge_group_blocks_required_placement_attributes(safe_params[:groups_attributes])
+    end
   end
 end

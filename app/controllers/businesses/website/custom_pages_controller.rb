@@ -37,6 +37,8 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
       :name,
       :sidebar_position,
       groups_attributes: groups_attributes
-    )
+    ).tap do |safe_params|
+      merge_group_blocks_required_placement_attributes(safe_params[:groups_attributes])
+    end
   end
 end

@@ -5,6 +5,8 @@ HeroBlock = React.createClass
       height: if parseInt(this.props.height) > 0 then parseInt(this.props.height) else 'auto'
     if this.props.block_background_placement and this.props.block_background_placement.image_attachment_jumbo_url and this.props.block_background_placement.image_attachment_jumbo_url.length > 0
       style['backgroundImage'] = "url(\"#{this.props.block_background_placement.image_attachment_jumbo_url}\")"
+    else if this.props.block_background_placement and this.props.block_background_placement.image_attachment_url and this.props.block_background_placement.image_attachment_url.length > 0
+      style['backgroundImage'] = "url(\"#{this.props.block_background_placement.image_attachment_url}\")"
     `<div className="webpage-hero">
       <div className="jumbotron" style={style}>
         <div className={this.containerClass()}>

@@ -422,13 +422,18 @@ Webpage = React.createClass
     group = this.state.groups[$('#media_group_uuid').val()]
     block = group.blocks[$('#media_block_uuid')]
     this.setState
-      mediaDestroy: null
+      mediaDestroy: undefined
       mediaImageAttachmentCacheURL: event.target.result
       mediaImageAttachmentContentType: file.type
       mediaImageAttachmentFileName: file.name
       mediaImageAttachmentFileSize: file.size
+      mediaImageAttachmentJumboURL: undefined
+      mediaImageAttachmentLargeURL: undefined
+      mediaImageAttachmentMediumURL: undefined
+      mediaImageAttachmentSmallURL: undefined
+      mediaImageAttachmentThumbnailURL: undefined
       mediaImageAttachmentURL: event.target.result
-      mediaImageID: null
+      mediaImageID: undefined
       mediaImageStatus: 'uploading'
       mediaImageTitle: ''
 
