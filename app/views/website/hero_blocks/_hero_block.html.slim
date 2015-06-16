@@ -1,7 +1,7 @@
 - cache hero_block do
   .webpage-block class=hero_block.custom_class
     .webpage-hero
-      .jumbotron style="background-color: #{hero_block.background_color}; background-image: url('#{hero_block.block_background.try(:attachment_url, :jumbo)}'); color: #{hero_block.foreground_color}; height: #{hero_block.height.to_i > 0 ? "#{hero_block.height.to_i}px" : 'auto'}"
+      .jumbotron style="background-color: #{hero_block.background_color}; background-image: url('#{hero_block.block_background.try(:attachment_jumbo_url)}'); color: #{hero_block.foreground_color}; height: #{hero_block.height.to_i > 0 ? "#{hero_block.height.to_i}px" : 'auto'}"
         div class=('container' if hero_block.frame.full_width?)
           - if hero_block.theme == 'right'
             .row

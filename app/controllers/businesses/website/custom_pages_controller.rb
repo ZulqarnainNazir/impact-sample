@@ -3,7 +3,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
-  layout 'application'
+  layout 'webpage_designer'
 
   before_action only: new_actions do
     @custom_page = @website.webpages.new(active: true, type: 'CustomPage')

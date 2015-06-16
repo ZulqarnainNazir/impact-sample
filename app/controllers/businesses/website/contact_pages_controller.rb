@@ -3,7 +3,7 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
-  layout 'application'
+  layout 'webpage_designer'
 
   before_action do
     @contact_page = @website.contact_page || @website.build_contact_page(active: true)

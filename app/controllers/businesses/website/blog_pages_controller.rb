@@ -3,7 +3,7 @@ class Businesses::Website::BlogPagesController < Businesses::Website::BaseContro
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
-  layout 'application'
+  layout 'webpage_designer'
 
   before_action do
     @blog_page = @website.blog_page || @website.build_blog_page(active: true)
