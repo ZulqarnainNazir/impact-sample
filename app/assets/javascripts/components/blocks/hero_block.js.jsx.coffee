@@ -44,18 +44,9 @@ HeroBlock = React.createClass
       else
         `<div className={this.wellClass()}>
           <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
-          <div style={{minHeight: 100}}>
-            {this.renderInlineImage()}
-            <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
-          </div>
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
           <BlockLinkButton {...this.props} />
         </div>`
-
-  renderInlineImage: ->
-    if this.props.editing
-      `<div style={{float: 'left', maxHeight: 100, marginRight: 10, marginBottom: 10}}>
-        <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="small" />
-      </div>`
 
   containerClass: ->
     if this.props.kind is 'full_width'
