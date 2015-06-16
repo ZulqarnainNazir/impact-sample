@@ -2,6 +2,6 @@
 - description @page.description
 - canonical_url website_custom_page_url(@page.pathname)
 
-= render partial: 'website/groups/group', collection: @page.groups.full_width
+= render partial: 'website/groups/group', collection: @page.groups.full_width, locals: { sidebar_position: @page.sidebar_position }
 = webpage_container do
   = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
