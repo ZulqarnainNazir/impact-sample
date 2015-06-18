@@ -20,16 +20,23 @@ Rails.application.routes.draw do
   scope constraints: PlatformConstraint.new do
     root to: 'landings#show'
 
-    as :user do
-      patch '/users/confirmation', to: 'devise/custom_confirmations#update', as: :update_user_confirmation
-    end
+    devise_for :users, controllers: {
+      confirmations: 'users/confirmations',
+      passwords: 'users/passwords',
+      registrations: 'users/registrations',
+      sessions: 'users/sessions',
+      unlocks: 'users/unlocks',
+    }
 
-    devise_for :users, controllers: { confirmations: 'devise/custom_confirmations' }
+    namespace :connect do
+      resource :session, only: %i[create]
+    end
 
     namespace :onboard do
       namespace :website do
         resources :businesses, only: %i[new create edit update destroy] do
-          post :import, on: :collection
+          post :import_cce, on: :collection
+          post :import_facebook, on: :collection
           resource :location, only: %i[edit update]
           resource :lines, only: %i[edit update]
           resource :delivery, only: %i[edit update]

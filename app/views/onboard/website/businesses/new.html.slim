@@ -4,7 +4,25 @@
 .row
   .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
     = errors_for @business
-    = form_for [:import_onboard_website, @business] do |form|
+    = form_for [:import_cce_onboard_website, @business] do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Import your CCE Data
+        .panel-body
+          .form-group
+            = label_tag :cce_business_url, 'CCE Business URL', class: 'control-label'
+            = text_field_tag :cce_business_url, params[:cce_business_url], autocomplete: 'off', class: 'form-control'
+        .panel-footer.clearfix
+          = form.button class: 'btn btn-primary pull-right' do
+            i.fa.fa-cloud-download>
+            ' Import CCE Business Data
+            i.fa.fa-angle-double-right
+    br
+    hr
+    br
+  .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+    = errors_for @business
+    = form_for [:import_facebook_onboard_website, @business] do |form|
       .panel.panel-default
         .panel-heading
           h1.h4.panel-title Import your Facebook Data

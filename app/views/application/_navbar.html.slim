@@ -1,4 +1,4 @@
-- cache user_signed_in? do
+- cache [user_signed_in?, current_user].compact do
   nav.navbar.navbar-inverse.navbar-static-top style="margin-bottom: 0"
     .container
       .navbar-header
@@ -13,7 +13,11 @@
               li = link_to :edit_user_registration do
                 i.fa.fa-user>
                 | Edit Profile
-              li.divider
+              - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
+                li = link_to cce_connect_url(current_user.cce_url, current_user.cce_id), method: :post, target: :_blank do
+                  i.fa.fa-external-link>
+                  | Go to CCE
+                li.divider
               li = link_to :destroy_user_session, method: :delete do
                 i.fa.fa-sign-out>
                 | Sign Out

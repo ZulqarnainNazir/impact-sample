@@ -1,7 +1,7 @@
 class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   include PlacementAttributesConcern
 
-  before_action only: new_actions + %i[import] do
+  before_action only: new_actions + %i[import_cce import_facebook] do
     @business = Business.new
 
     if current_user.super_user?
@@ -30,13 +30,21 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     create_resource @business, initial_business_params, location: [:edit_onboard_website, @business]
   end
 
-  def import
+  def import_cce
+    begin
+      create_resource @business, cce_params, location: [:edit_onboard_website, @business]
+    rescue
+      redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing.'
+    end
+  end
+
+  def import_facebook
     begin
       create_resource @business, facebook_params, location: [:edit_onboard_website, @business] do |success|
         FacebookPhotosImportJob.perform_later(@business, current_user) if success
       end
     rescue
-      redirect_to :new_onboard_website_business, alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
+      redirect_to [:new_onboard_website_business, facebook_id: params[:facebook_id]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
     end
   end
 
@@ -82,6 +90,76 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         image_business: @business,
       },
     )
+  end
+
+  def cce_params
+    business_slug = params[:cce_business_url].to_s.split('/').last.split('?').first
+    payload = connect_to("/businesses/#{business_slug}", email: current_user.email)
+    cover_image = payload[:images].try(:[], 0)
+    category_ids = Category.where(name: Array(payload[:business_categories]).map { |c| c[:name] }).pluck(:id)
+
+    {
+      cce_id: payload[:id],
+      name: payload[:name],
+      description: payload[:description],
+      tagline: payload[:tagline],
+      website_url: payload[:website_url],
+      category_ids: category_ids,
+      logo_placement_attributes: {
+        image_attachment_cache_url: payload[:logo].try(:[], :file_url),
+        image_attachment_content_type: payload[:logo].try(:[], :mime),
+        image_attachment_file_name: payload[:logo].try(:[], :filename),
+        image_attachment_file_size: payload[:logo].try(:[], :size),
+        image_alt: payload[:logo].try(:[], :caption),
+        image_user: current_user,
+        image_business: @business,
+      },
+      location_attributes: {
+        name: payload[:name],
+        street1: payload[:address].try(:[], :street1),
+        street2: payload[:address].try(:[], :street2),
+        city: payload[:address].try(:[], :city),
+        state: payload[:address].try(:[], :state),
+        zip_code: payload[:address].try(:[], :postal),
+        email: payload[:email],
+        phone_number: payload[:phone],
+      },
+      website_attributes: {
+        subdomain: Subdomain.available(payload[:name]),
+        header_block_attributes: {},
+        footer_block_attributes: {},
+        webpages_attributes: [
+          {
+            type: 'HomePage',
+            active: true,
+            name: 'Homepage',
+            title: payload[:name],
+            pathname: '',
+            groups_attributes: [
+              {
+                type: 'HeroGroup',
+                blocks_attributes: [
+                  {
+                    type: 'HeroBlock',
+                    heading: payload[:name],
+                    text: payload[:description],
+                    block_background_placement_attributes: {
+                      image_attachment_cache_url: cover_image.try(:[], :file_url),
+                      image_attachment_content_type: cover_image.try(:[], :mime),
+                      image_attachment_file_name: cover_image.try(:[], :filename),
+                      image_attachment_file_size: cover_image.try(:[], :size),
+                      image_alt: cover_image.try(:[], :caption),
+                      image_user: current_user,
+                      image_business: @business,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    }
   end
 
   def facebook_params

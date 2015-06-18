@@ -1,4 +1,4 @@
-class Devise::CustomConfirmationsController < Devise::ConfirmationsController
+class Users::ConfirmationsController < Devise::ConfirmationsController
   skip_before_filter :authenticate_user!
 
   def update
