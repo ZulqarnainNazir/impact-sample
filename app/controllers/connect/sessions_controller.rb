@@ -30,9 +30,9 @@ class Connect::SessionsController < ApplicationController
       sign_in(user)
 
       if user_is_new
-        flash.notice = 'Welcome to the IMPACT marketing suite!'
+        flash.notice = 'Welcome to the IMPACT Marketing Suite!'
       else
-        flash.notice = 'Welcome back to the IMPACT marketing suite!'
+        flash.notice = 'Welcome back to the IMPACT Marketing Suite!'
       end
 
       if payload[:business_id] && business = user.businesses.find_by_cce_id(payload[:business_id])
