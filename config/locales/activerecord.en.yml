@@ -5,6 +5,7 @@ en:
         per_page: Items Per Page
       business:
         category_ids: Categories
+        cce_url: Locable URL
         google_plus_id: Google Plus
         linkedin_id: LinkedIn
         website_url: Website URL

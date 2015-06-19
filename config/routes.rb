@@ -29,7 +29,8 @@ Rails.application.routes.draw do
     }
 
     namespace :connect do
-      resource :session, only: %i[create]
+      get :cce, to: 'cces#redirect', as: :cce
+      get :session_create, to: 'sessions#create'
     end
 
     namespace :onboard do

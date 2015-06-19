@@ -20,6 +20,12 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     params[:business][:category_ids].reject!(&:blank?) rescue nil
   end
 
+  layout :select_layout
+
+  def select_layout
+    %w[new create].include?(action_name) ? 'application' : 'onboard_website'
+  end
+
   def create
     @business.location_attributes= { name: initial_business_params[:name] }
     @business.website_attributes = {
@@ -73,6 +79,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       :tagline,
       :website_url,
       :year_founded,
+      :cce_url,
       :citysearch_id,
       :facebook_id,
       :google_plus_id,
@@ -103,8 +110,15 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       name: payload[:name],
       description: payload[:description],
       tagline: payload[:tagline],
-      website_url: payload[:website_url],
       category_ids: category_ids,
+      cce_url: payload[:website_url],
+      facebook_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'facebook_url' }.try(:[], :value).try(:split, '/').try(:last),
+      google_plus_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'google_plus_url' }.try(:[], :value).try(:split, '/').try(:last),
+      twitter_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'twitter_url' }.try(:[], :value).try(:split, '/').try(:last),
+      linkedin_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'linkedin_url' }.try(:[], :value).try(:split, '/').try(:last),
+      pinterest_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'pinterest_url' }.try(:[], :value).try(:split, '/').try(:last),
+      instagram_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'instagram_url' }.try(:[], :value).try(:split, '/').try(:last),
+      youtube_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'youtube_url' }.try(:[], :value).try(:split, '/').try(:last),
       logo_placement_attributes: {
         image_attachment_cache_url: payload[:logo].try(:[], :file_url),
         image_attachment_content_type: payload[:logo].try(:[], :mime),

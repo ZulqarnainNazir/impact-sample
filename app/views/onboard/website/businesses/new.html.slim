@@ -2,20 +2,28 @@
 - content_for :onboard_instructions, 'Let’s get started adding your business. If you have a Facebook page for your business or organization it will help you create your listing & website even faster by importing content & images you’ve posted.'
 
 .row
+  .col-md-8.col-md-offset-2
+    .lead style="margin-top:30px"
+      p Let’s get started adding your business. IMPACT allows you to extend your directory listing and link it to your Facebook page, your website and more.
+      p The next few steps will walk you through creating your IMPACT business profile & website even faster by importing content & images you’ve posted.
+      p At the end you'll have the option to join the IMPACT Pilot Program to turn on your mobile, social, search and local marketing optimized website.
+    br
+    hr
+    br
   .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
     = errors_for @business
     = form_for [:import_cce_onboard_website, @business] do |form|
       .panel.panel-default
         .panel-heading
-          h1.h4.panel-title Import your CCE Data
+          h1.h4.panel-title Import from Locable
         .panel-body
           .form-group
-            = label_tag :cce_business_url, 'CCE Business URL', class: 'control-label'
+            = label_tag :cce_business_url, 'Locable Business URL/Slug', class: 'control-label'
             = text_field_tag :cce_business_url, params[:cce_business_url], autocomplete: 'off', class: 'form-control'
         .panel-footer.clearfix
           = form.button class: 'btn btn-primary pull-right' do
             i.fa.fa-cloud-download>
-            ' Import CCE Business Data
+            ' Import Locable Business Data
             i.fa.fa-angle-double-right
     br
     hr
@@ -25,7 +33,7 @@
     = form_for [:import_facebook_onboard_website, @business] do |form|
       .panel.panel-default
         .panel-heading
-          h1.h4.panel-title Import your Facebook Data
+          h1.h4.panel-title Import from Facebook
         .panel-body
           .form-group
             = label_tag :facebook_id, 'Facebook ID', class: 'control-label'
@@ -36,7 +44,7 @@
         .panel-footer.clearfix
           = form.button class: 'btn btn-primary pull-right' do
             i.fa.fa-facebook-official>
-            ' Import Facebook Data
+            ' Import Facebook Business Data
             i.fa.fa-angle-double-right
     br
     hr
@@ -61,4 +69,8 @@ javascript:
   $('.js-facebook-label').text($('.js-facebook-input').val());
   $('.js-facebook-input').on('input', function(e) {
     $('.js-facebook-label').text(e.target.value);
+  });
+  $('form button').prop('disabled', false).removeClass('btn-disabled').addClass('btn-primary');
+  $('form').on('submit', function(e) {
+    $('form button').prop('disabled', true).removeClass('btn-primary').addClass('btn-disabled');
   });

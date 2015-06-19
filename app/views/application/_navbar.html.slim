@@ -14,9 +14,9 @@
                 i.fa.fa-user>
                 | Edit Profile
               - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-                li = link_to cce_connect_url(current_user.cce_url, current_user.cce_id), method: :post, target: :_blank do
+                li = link_to connect_cce_url, target: :_blank do
                   i.fa.fa-external-link>
-                  | Go to CCE
+                  | Go to Locable
                 li.divider
               li = link_to :destroy_user_session, method: :delete do
                 i.fa.fa-sign-out>
