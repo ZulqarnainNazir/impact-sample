@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
 
     if response.is_a?(Net::HTTPSuccess)
       ConnectToken.decode(response.body)
+    else {}
     end
   end
 end
