@@ -4,6 +4,6 @@ class CallToActionBlock < Block
   end
 
   def cache_sensitive_key(params)
-    group.max_blocks
+    frame.max_blocks
   end
 end
