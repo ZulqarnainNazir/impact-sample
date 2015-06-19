@@ -12,6 +12,11 @@
     @media (max-width: 767px) {
       height: auto !important;
     }
+    .col-sm-6 {
+      .webpage-image-empty {
+        opacity: 0.85;
+      }
+    }
   }
   .jumbotron h1 {
     @extend .h2;

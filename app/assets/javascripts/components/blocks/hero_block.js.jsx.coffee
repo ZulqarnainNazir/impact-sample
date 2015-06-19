@@ -27,13 +27,13 @@ HeroBlock = React.createClass
             </div>
           </div>
           <div key="image" className="col-sm-6">
-            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
+            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" copy={true} />
           </div>
         </div>`
       when 'left'
         `<div className="row">
           <div key="image" className="col-sm-6">
-            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
+            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" copy={true} />
           </div>
           <div key="content" className="col-sm-6">
             <div className={this.wellClass()}>

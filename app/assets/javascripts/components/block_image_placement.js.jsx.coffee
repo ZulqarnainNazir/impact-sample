@@ -6,7 +6,7 @@ BlockImagePlacement = React.createClass
       `<img className="center-block img-responsive thumbnail" src={this.imageURL()} alt={this.props.image_alt} title={this.props.image_title} style={{marginBottom: 15, maxWidth: '100%'}}/>`
     else if this.props.editing
       `<div style={{marginBottom: 15}}>
-        <ImageEmpty />
+        <ImageEmpty copy={this.props.copy} />
       </div>`
     else
       `<div />`
