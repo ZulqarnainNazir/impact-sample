@@ -36,5 +36,5 @@ ol.breadcrumb
       presignedPost: s3_presigned_post_hash,
       showOnlyLocalMediaLibraryOption: current_user.businesses.count > 1 || current_user.super_user?,
       sidebarPosition: form.object.sidebar_position,
-      teamMembers: form.object.website.business.team_members,
+      teamMembers: form.object.website.business.team_members.as_json(methods: %i[profile_url]),
       wrapContainer: form.object.website.wrap_container
