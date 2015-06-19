@@ -31,7 +31,7 @@ class Website < ActiveRecord::Base
   accepts_nested_attributes_for :business
   accepts_nested_attributes_for :header_block
   accepts_nested_attributes_for :footer_block
-  accepts_nested_attributes_for :webpages
+  accepts_nested_attributes_for :webpages, reject_if: proc { |a| a['_destroy'] == '1' || a['title'].blank? }
 
   with_options allow_destroy: true do
     accepts_nested_attributes_for :nav_links

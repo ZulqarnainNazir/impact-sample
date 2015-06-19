@@ -7,7 +7,7 @@ class Users::SessionsController < Devise::SessionsController
     else
       payload = connect_to('/session', email: user_params[:email], password: user_params[:password])
 
-      if payload
+      if payload[:id]
         user = User.where(email: user_params[:email]).first_or_initialize
 
         if user.new_record?
@@ -20,7 +20,10 @@ class Users::SessionsController < Devise::SessionsController
           user.skip_confirmation!
           user.save(validate: false)
         elsif !user.cce_id?
-          user.update_attributes cce_id: payload[:id]
+          user.update_attributes(
+            cce_id: payload[:id],
+            cce_url: payload[:site_url],
+          )
         end
 
         self.resource = user

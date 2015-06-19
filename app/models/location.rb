@@ -12,7 +12,7 @@ class Location < ActiveRecord::Base
   has_many :event_definitions, through: :event_definition_locations
 
   accepts_nested_attributes_for :business
-  accepts_nested_attributes_for :openings, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && %w[opens_at closes_at sunday monday tuesday wendesday thursday friday saturday].all? { |at| a[at].blank? } || a['_destroy'].blank? }
+  accepts_nested_attributes_for :openings, allow_destroy: true, reject_if: proc { |a| a['id'].nil? && %w[opens_at closes_at sunday monday tuesday wendesday thursday friday saturday].all? { |at| a[at].blank? }}
 
   validates :name, presence: true
   validates :state, inclusion: { in: UsStates.abbreviations }, allow_blank: true

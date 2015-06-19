@@ -104,6 +104,24 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     payload = connect_to("/businesses/#{business_slug}", email: current_user.email)
     cover_image = payload[:images].try(:[], 0)
     category_ids = Category.where(name: Array(payload[:business_categories]).map { |c| c[:name] }).pluck(:id)
+    openings_attributes = []
+
+    Array(payload[:business_hours]).each do |business_hour|
+      opening = openings_attributes.find do |o|
+        o[:opens_at] == Time.at(Time.parse(business_hour[:open]).to_i + Time.parse(business_hour[:open]).utc_offset) &&
+        o[:closes_at] == Time.at(Time.parse(business_hour[:close]).to_i + Time.parse(business_hour[:close]).utc_offset)
+      end
+
+      if opening
+        opening[business_hour[:day].to_s.downcase] = true
+      else
+        openings_attributes.push({
+          opens_at: Time.at(Time.parse(business_hour[:open]).to_i + Time.parse(business_hour[:open]).utc_offset),
+          closes_at: Time.at(Time.parse(business_hour[:close]).to_i + Time.parse(business_hour[:close]).utc_offset),
+          business_hour[:day].to_s.downcase => true,
+        })
+      end
+    end
 
     {
       cce_id: payload[:id],
@@ -137,6 +155,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         zip_code: payload[:address].try(:[], :postal),
         email: payload[:email],
         phone_number: payload[:phone],
+        openings_attributes: openings_attributes,
       },
       website_attributes: {
         subdomain: Subdomain.available(payload[:name]),

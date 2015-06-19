@@ -46,24 +46,25 @@
             i.fa.fa-facebook-official>
             ' Import Facebook Business Data
             i.fa.fa-angle-double-right
-    br
-    hr
-    br
-    = form_for [:onboard_website, @business] do |form|
-      .panel.panel-default
-        .panel-heading
-          h1.h4.panel-title Or Start from Scratch
-        .panel-body
-          .form-group
-            = form.label :name, 'Business or Group Name', class: 'control-label'
-            = form.text_field :name, class: 'form-control'
-        .panel-footer.clearfix
-          => link_to :businesses, class: 'btn btn-default' do
-            i.fa.fa-angle-left>
-            | Cancel
-          = form.button class: 'btn btn-primary pull-right' do
-            ' Get Started
-            i.fa.fa-angle-double-right
+    - unless params[:cce_business_url].present?
+      br
+      hr
+      br
+      = form_for [:onboard_website, @business] do |form|
+        .panel.panel-default
+          .panel-heading
+            h1.h4.panel-title Or Start from Scratch
+          .panel-body
+            .form-group
+              = form.label :name, 'Business or Group Name', class: 'control-label'
+              = form.text_field :name, class: 'form-control'
+          .panel-footer.clearfix
+            => link_to :businesses, class: 'btn btn-default' do
+              i.fa.fa-angle-left>
+              | Cancel
+            = form.button class: 'btn btn-primary pull-right' do
+              ' Get Started
+              i.fa.fa-angle-double-right
 
 javascript:
   $('.js-facebook-label').text($('.js-facebook-input').val());

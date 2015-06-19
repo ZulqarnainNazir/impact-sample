@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617194737) do
+ActiveRecord::Schema.define(version: 20150619173221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20150617194737) do
     t.text     "community_involvement"
     t.integer  "plan",                  default: 0, null: false
     t.integer  "cce_id"
+    t.text     "cce_url"
   end
 
   create_table "categories", force: :cascade do |t|
