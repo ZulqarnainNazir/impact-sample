@@ -1,5 +1,5 @@
 - cache content_block do
-  .webpage-block
+  .webpage-block class=content_block.custom_class
     .webpage-content
       - if content_block.theme == 'text'
         = sanitize_html content_block.text
