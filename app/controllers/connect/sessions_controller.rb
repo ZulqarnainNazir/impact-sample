@@ -35,7 +35,11 @@ class Connect::SessionsController < ApplicationController
         flash.notice = 'Welcome back to the IMPACT marketing suite!'
       end
 
-      if payload[:business_url].present?
+      if payload[:business_id] && business = user.businesses.find_by_cce_id(payload[:business_id])
+        redirect_to [business, :dashboard]
+      elsif payload[:business_id] && current_user.super_user? && business = Business.find_by_cce_id(payload[:business_id])
+        redirect_to [business, :dashboard]
+      elsif payload[:business_url].present?
         redirect_to [:new_onboard_website_business, cce_business_url: payload[:business_url]]
       else
         redirect_to after_sign_in_path_for(user)

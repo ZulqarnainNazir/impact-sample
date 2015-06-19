@@ -38,9 +38,36 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
 
   def import_cce
     begin
-      create_resource @business, cce_params, location: [:edit_onboard_website, @business]
+      business_slug = params[:cce_business_url].to_s.split('/').last.split('?').first
+      payload = connect_to("/businesses/#{business_slug}", email: current_user.email)
+
+      if payload[:id]
+        existing_user_cce_business = current_user.businesses.where(cce_id: payload[:id]).first
+        existing_global_cce_business = Business.where(cce_id: payload[:id]).first
+
+        if existing_user_cce_business
+          redirect_to([existing_user_cce_business, :dashboard])
+        elsif existing_global_cce_business && current_user.super_user?
+          redirect_to([existing_global_cce_business, :dashboard])
+        elsif existing_global_cce_business
+          redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that business has already been claimed.')
+        else
+          ActiveRecord::Base.transaction do
+            create_resource @business, cce_params(payload), location: [:edit_onboard_website, @business] do |success|
+              if success
+                token = ConnectToken.encode(impact_id: @business.id)
+                uri = URI(ENV['CONNECT_URL'] + "/businesses/#{@business.cce_id}/link")
+                uri.query = URI.encode_www_form({ token: token })
+                Net::HTTP.get(uri)
+              end
+            end
+          end
+        end
+      else
+        raise StandardError
+      end
     rescue
-      redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing.'
+      redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like there was a problem importing that page.')
     end
   end
 
@@ -99,9 +126,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     )
   end
 
-  def cce_params
-    business_slug = params[:cce_business_url].to_s.split('/').last.split('?').first
-    payload = connect_to("/businesses/#{business_slug}", email: current_user.email)
+  def cce_params(payload)
     cover_image = payload[:images].try(:[], 0)
     category_ids = Category.where(name: Array(payload[:business_categories]).map { |c| c[:name] }).pluck(:id)
     openings_attributes = []
