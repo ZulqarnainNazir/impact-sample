@@ -1,0 +1,2 @@
+class ReviewsGroup < Group
+end

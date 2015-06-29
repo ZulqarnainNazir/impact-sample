@@ -1,0 +1,32 @@
+blockquote.review
+  h2.h4
+    => link_to review.title, [:website, review]
+    span.review-rating
+      - if review.rating >= 1.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.rating >= 2.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.rating >= 3.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.rating >= 4.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.rating == 5.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+  p.review-text = truncate review.description, length: 300
+  p.reviewer
+    span.reviewer-name => review.external_user_name
+    - if review.external_user_type == 'cce'
+      span.text-muted> – via
+      = link_to review.external_url, target: :_blank do
+        ' Locable
+        = image_tag 'locable.png', alt: ''

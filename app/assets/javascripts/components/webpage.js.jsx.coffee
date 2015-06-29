@@ -213,6 +213,8 @@ Webpage = React.createClass
       when 'BlogFeedBlock'
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         items_limit: 4
+      when 'ReviewsBlock'
+        {}
       when 'SidebarContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
@@ -1016,6 +1018,7 @@ Webpage = React.createClass
                 {this.renderInsertSpecialtyGroup()}
                 {this.renderInsertContentGroup()}
                 {this.renderInsertBlogFeedGroup()}
+                {this.renderInsertReviewsGroup()}
                 {this.renderInsertAboutGroup()}
                 {this.renderInsertTeamGroup()}
                 {this.renderInsertContactGroup()}
@@ -1202,6 +1205,10 @@ Webpage = React.createClass
   renderInsertBlogFeedGroup: ->
     unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
       `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a content feed" data-content="Keep your site fresh with a large content feed (content posted separately).">Blog Feed</span>`
+
+  renderInsertReviewsGroup: ->
+    unless this.props.groupTypes.indexOf('ReviewsGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'ReviewsGroup')
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ReviewsGroup', 'ReviewsBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a reviews widget" data-content="Keep your site fresh with a rotating reviews widget (content posted separately).">Reviews</span>`
 
   renderInsertAboutGroup: ->
     unless this.props.groupTypes.indexOf('AboutGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'AboutGroup')

@@ -176,6 +176,8 @@ Block = React.createClass
         `<ContentBlock {...this.props} />`
       when 'BlogFeedBlock'
         `<BlogFeedBlock {...this.props} />`
+      when 'ReviewsBlock'
+        `<ReviewsBlock {...this.props} />`
       when 'SidebarContentBlock'
         `<SidebarContentBlock {...this.props} />`
       when 'SidebarBlogFeedBlock'
