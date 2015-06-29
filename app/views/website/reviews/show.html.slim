@@ -1,0 +1,10 @@
+- title "Review – #{@review.title}"
+- canonical_url website_review_url(@review)
+
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li = link_to 'Reviews', :website_reviews
+      li.active Review Details
+    = render partial: 'review', object: @review

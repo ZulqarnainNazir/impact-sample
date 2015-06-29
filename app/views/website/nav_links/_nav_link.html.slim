@@ -11,6 +11,8 @@
       li = link_to nav_link.label, :website_galleries
     - elsif nav_link.webpath? && nav_link.webpath == 'events'
       li = link_to nav_link.label, :website_events
+    - elsif nav_link.webpath? && nav_link.webpath == 'reviews'
+      li = link_to nav_link.label, :website_reviews
     - elsif nav_link.webpage && nav_link.webpage.is_a?(HomePage)
       li = link_to nav_link.label, website_root_path, style: style
     - elsif nav_link.webpage

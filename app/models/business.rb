@@ -1,6 +1,8 @@
 class Business < ActiveRecord::Base
   include PlacedImageConcern
 
+  store_accessor :settings, :reviews_automation_cce
+
   enum kind: { traditional_business: 0, group_or_cause: 1, }
   enum plan: { free: 0, web: 1, primary: 2, }
 
@@ -15,6 +17,7 @@ class Business < ActiveRecord::Base
     has_many :offers
     has_many :posts
     has_many :quick_posts
+    has_many :reviews
     has_many :team_members
     has_one :location
     has_one :website

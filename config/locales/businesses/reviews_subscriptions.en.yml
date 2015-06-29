@@ -1,0 +1,6 @@
+en:
+  businesses:
+    reviews_subscriptions:
+      update:
+        notice: Your reviews subscriptions were successfully updated and you’re reviews are being imported.
+        alert: There was a problem updating your reviews subscriptions.

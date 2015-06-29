@@ -114,6 +114,7 @@ Rails.application.routes.draw do
 
         resource :marketing, only: %i[show]
         resource :super_settings, only: %i[edit update]
+        resource :reviews_subscriptions, only: %i[update]
         resources :alliances, only: %i[index]
         resources :authorizations, only: %i[index new create destroy]
         resources :images, only: %i[index]
@@ -139,6 +140,7 @@ Rails.application.routes.draw do
     resources :offers, only: %i[show]
     resources :posts, only: %i[show]
     resources :quick_posts, only: %i[show]
+    resources :reviews, only: %i[index show]
 
     get '*id', to: 'custom_pages#show', as: :custom_page
   end

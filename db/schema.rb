@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619173221) do
+ActiveRecord::Schema.define(version: 20150629180806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -383,6 +383,22 @@ ActiveRecord::Schema.define(version: 20150619173221) do
   end
 
   add_index "redirects", ["website_id"], name: "index_redirects_on_website_id", using: :btree
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "business_id",                                null: false
+    t.text     "external_user_type",                         null: false
+    t.text     "external_user_id",                           null: false
+    t.text     "external_user_name",                         null: false
+    t.text     "external_url",                               null: false
+    t.text     "title",                                      null: false
+    t.text     "description",                                null: false
+    t.decimal  "rating",             precision: 2, scale: 1, null: false
+    t.datetime "reviewed_at",                                null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false

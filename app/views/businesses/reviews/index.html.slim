@@ -4,3 +4,19 @@ ol.breadcrumb
   li = link_to icon('home'), :businesses
   li = link_to @business.name, [@business, :dashboard]
   li.active Reviews &amp; Reputations
+
+- if @business.cce_id?
+  = form_for @business, url: [@business, :reviews_subscriptions] do |f|
+    .panel.panel-default
+      .panel-heading
+        h2.h4.panel-title Reviews Automation
+      .panel-body
+        .checkbox
+          = f.label :reviews_automation_cce do
+            => f.check_box :reviews_automation_cce
+            | Automatically Import Reviews from Locable
+          p.help-block: code = @business.cce_url
+      .panel-footer
+        = f.button 'Save Changes', class: 'btn btn-primary'
+
+  hr

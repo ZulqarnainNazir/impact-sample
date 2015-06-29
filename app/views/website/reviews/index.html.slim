@@ -1,0 +1,14 @@
+- title 'Reviews'
+- canonical_url website_reviews_url
+
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li.active Reviews
+    .page-header
+      h1 Browse Reviews
+    = page_entries_info @reviews, entry_name: 'reviews'
+    = render partial: 'review', collection: @reviews, locals: { link_title: true }
+    hr
+    = paginate @reviews
