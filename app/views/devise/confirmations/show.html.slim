@@ -5,7 +5,7 @@
   .panel-heading
     h1.h3.panel-title Confirm Your Account
   .panel-body
-    = form_for resource, as: resource_name, url: update_user_confirmation_path, html: { method: :patch } do |form|
+    = form_for resource, as: resource_name, url: user_confirmation_path, html: { method: :patch } do |form|
       = hidden_field_tag :confirmation_token, @confirmation_token
       .form-group
         => form.label :first_name, class: 'control-label'

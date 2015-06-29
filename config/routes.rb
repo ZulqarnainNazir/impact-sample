@@ -28,6 +28,10 @@ Rails.application.routes.draw do
       unlocks: 'users/unlocks',
     }
 
+    as :user do
+      patch '/users/confirmation', to: 'users/confirmations#update'
+    end
+
     namespace :connect do
       get :cce, to: 'cces#redirect', as: :cce
       get :session_create, to: 'sessions#create'
