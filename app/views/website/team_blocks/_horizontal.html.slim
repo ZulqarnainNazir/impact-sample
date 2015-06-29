@@ -15,13 +15,13 @@
         ul.list-inline
           - if member.facebook_id?
             li = link_to "https://www.facebook.com/#{member.facebook_id}", target: :_blank do
-              i.fa.fa-twitter-square.fa-2x
+              i.fa.fa-facebook-square.fa-2x
           - if member.twitter_id?
             li = link_to "https://www.twitter.com/#{member.twitter_id}", target: :_blank do
               i.fa.fa-twitter-square.fa-2x
           - if member.google_plus_id?
             li = link_to "https://plus.google.com/+#{member.google_plus_id}", target: :_blank do
-              i.fa.fa-twitter-square.fa-2x
+              i.fa.fa-google-plus-square.fa-2x
           - if member.linkedin_id?
             li = link_to "https://www.linkedin.com/in/#{member.linkedin_id}", target: :_blank do
               i.fa.fa-linkedin-square.fa-2x
