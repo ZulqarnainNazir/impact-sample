@@ -214,7 +214,9 @@ Webpage = React.createClass
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         items_limit: 4
       when 'ReviewsBlock'
-        {}
+        editCustom: this.editReviewsSettings.bind(null, group_uuid, block_uuid)
+        theme: 'default'
+        style: 'default'
       when 'SidebarContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
@@ -690,6 +692,22 @@ Webpage = React.createClass
     $('#feed_settings_custom_class').val ''
     $('#feed_settings_items_limit').val 4
 
+  editReviewsSettings: (group_uuid, block_uuid, event) ->
+    event.preventDefault()
+    group = this.state.groups[group_uuid]
+    block = group.blocks[block_uuid]
+    $('#reviews_settings_group_uuid').val group_uuid
+    $('#reviews_settings_block_uuid').val block_uuid
+    $('#reviews_settings_style').val if ['default', 'columns'].indexOf(block.style) > 0 then block.style else 'default'
+    $('#reviews_settings_modal').modal('show')
+
+  updateReviewsSettings: (group_uuid, block_uuid) ->
+    this.updateBlock $('#reviews_settings_group_uuid').val(), $('#reviews_settings_block_uuid').val(),
+      style: $('#reviews_settings_style').val()
+
+  resetReviewsSettings: ->
+    $('#reviews_settings_style').val 'default'
+
   editDefaultSettings: (group_uuid, block_uuid, event) ->
     event.preventDefault()
     group = this.state.groups[group_uuid]
@@ -980,6 +998,35 @@ Webpage = React.createClass
           </div>
         </div>
       </div>
+      <div id="reviews_settings_modal" className="modal fade">
+        <input id="reviews_settings_group_uuid" type="hidden" />
+        <input id="reviews_settings_block_uuid" type="hidden" />
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Change Reviews Layout and Settings</p>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="reviews_settings_style" className="control-label">Background Shade</label>
+                <div>
+                  <select ref="selectpicker" id="reviews_settings_style" className="form-control" defaultValue="default">
+                    <option key="default" value="default">Default</option>
+                    <option key="columns" value="columns">Columns</option>
+                  </select>
+                </div>
+              </div>
+              <hr />
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetReviewsSettings}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateReviewsSettings}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div id="default_settings_modal" className="modal fade">
         <input id="default_settings_group_uuid" type="hidden" />
         <input id="default_settings_block_uuid" type="hidden" />

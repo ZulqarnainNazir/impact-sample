@@ -3,8 +3,8 @@
   padding: 1em 0;
 }
 
-.review-text {
-  :before {
+.review-quote {
+  &:before {
     content: "\f10d";
     font-family: 'Fontawesome';
     float: left;
@@ -27,8 +27,11 @@
     background: none;
     width: 25px;
   }
-  .carousel-control.left  { left:  -45px; }
-  .carousel-control.right { right: -45px; }
+  .carousel-control.left  { left:  -25px; }
+  .carousel-control.right { right: -25px; }
+  .review {
+    padding: 1em;
+  }
 }
 
 .reviews-full-width {
@@ -43,6 +46,61 @@
       &:before {
         content: none;
       }
+    }
+  }
+}
+
+.reviews-columns {
+  background: lighten($navbar-inverse-bg, 10%);
+  padding: 1em 0;
+  text-align: center;
+  .review {
+    padding: 0;
+    width: 29%;
+    &:not(:first-child) {
+      margin-left: 3%;
+    }
+  }
+  .reviewer {
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    margin-top: 2.5em;
+    &:before {
+      content: none;
+    }
+  }
+  .reviewer-name {
+    display: block;
+    color: #fff;
+  }
+  .review-text {
+    background-color: #fff;
+    border-radius: $border-radius-base;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.9);
+    font-size: $font-size-base;
+    margin-top: 27px;
+    padding: ($line-height-computed + 10px) 18px $line-height-computed;
+    position: relative;
+    text-align: left;
+    z-index: 1;
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -44px;
+      left: 50%;
+      margin-left: -60px;
+      border: solid 25px;
+      border-color: #fff #fff transparent transparent;
+    }
+  }
+  @media (max-width: $screen-xs-max) {
+    .review {
+      width: 90% !important;
+      display: block !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
     }
   }
 }

@@ -25,7 +25,7 @@ blockquote.review
         span.fa.fa-star
       - else
         span.fa.fa-star-o
-  p.review-text = review.description
+  p.review-text.review-quote = review.description
   p.reviewer
     span.reviewer-name => review.external_user_name
     - if review.external_user_type == 'cce'

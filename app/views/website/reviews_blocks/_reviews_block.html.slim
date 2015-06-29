@@ -1,14 +1,28 @@
 - cache [reviews_block, reviews_block.cache_sensitive_key(params)] do
-  .reviews.reviews-full-width
-    h2 Reviews
-    .row
-      .col-md-8.col-md-offset-2
-        #carousel-reviews-widget.carousel.slide data-ride="carousel"
-          .carousel-inner
-            - reviews_block.business.reviews.order(reviewed_at: :desc).limit(6).each_with_index do |review, i|
-              .item class=('active' if i == 0)
-                = render partial: 'website/reviews/review_full_width', object: review, as: :review
-          => link_to '#carousel-reviews-widget', class: 'carousel-control left', role: 'button', data: { slide: 'prev' } do
-            span.glyphicon.glyphicon-chevron-left
-          = link_to '#carousel-reviews-widget', class: 'carousel-control right', role: 'button', data: { slide: 'next' } do
-            span.glyphicon.glyphicon-chevron-right
+  h2 Reviews
+  - if reviews_block.style == 'columns'
+    .reviews.reviews-columns
+      #carousel-reviews-widget-columns-md.carousel.slide data-ride="carousel"
+        .carousel-inner
+          - reviews_block.business.reviews.order(reviewed_at: :desc).limit(6).in_groups_of(3).each_with_index do |reviews, i|
+            .item class=('active' if i == 0)
+              .row
+                - reviews.each do |review|
+                  = render partial: 'website/reviews/review_column', object: review, as: :review
+        => link_to '#carousel-reviews-widget-columns-md', class: 'carousel-control left', role: 'button', data: { slide: 'prev' } do
+          span.glyphicon.glyphicon-chevron-left
+        = link_to '#carousel-reviews-widget-columns-md', class: 'carousel-control right', role: 'button', data: { slide: 'next' } do
+          span.glyphicon.glyphicon-chevron-right
+  - else
+    .reviews.reviews-full-width
+      .row
+        .col-md-8.col-md-offset-2
+          #carousel-reviews-widget.carousel.slide data-ride="carousel"
+            .carousel-inner
+              - reviews_block.business.reviews.order(reviewed_at: :desc).limit(6).each_with_index do |review, i|
+                .item class=('active' if i == 0)
+                  = render partial: 'website/reviews/review_full_width', object: review, as: :review
+            => link_to '#carousel-reviews-widget', class: 'carousel-control left', role: 'button', data: { slide: 'prev' } do
+              span.glyphicon.glyphicon-chevron-left
+            = link_to '#carousel-reviews-widget', class: 'carousel-control right', role: 'button', data: { slide: 'next' } do
+              span.glyphicon.glyphicon-chevron-right
