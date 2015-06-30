@@ -19,4 +19,9 @@ br
       => form.check_box :events_sidebar
       | Add Events sidebar to individual posts?
   hr
+  .checkbox
+    = form.label :content_blog_sidebar_on_reviews, class: 'control-label' do
+      => form.check_box :content_blog_sidebar_on_reviews
+      | Add Blog sidebar to reviews pages?
+  hr
   = form.button 'Save Sidebar Settings', class: 'btn btn-primary'

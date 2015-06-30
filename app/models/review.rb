@@ -4,6 +4,7 @@ class Review < ActiveRecord::Base
   validates :business, presence: true
   validates :description, presence: true
   validates :external_id, presence: true
+  validates :external_name, presence: true
   validates :external_type, presence: true
   validates :external_url, presence: true
   validates :external_user_id, presence: true

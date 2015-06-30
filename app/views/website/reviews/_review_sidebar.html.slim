@@ -1,9 +1,6 @@
 blockquote.review.review-small
   h3.h5
-    - if defined?(link_title)
-      => link_to review.title, [:website, review]
-    - else
-      => review.title
+    => link_to review.title, [:website, review]
     span.review-rating
       - if review.rating >= 1.0
         span.fa.fa-star
@@ -31,6 +28,6 @@ blockquote.review.review-small
     - if review.external_type == 'cce'
       span.text-muted> – via
       = link_to review.external_url, target: :_blank do
-        ' Locable
+        => review.external_name
         = image_tag 'locable.png', alt: ''
 hr

@@ -28,5 +28,5 @@ blockquote.review
     - if review.external_type == 'cce'
       span.text-muted> – via
       = link_to review.external_url, target: :_blank do
-        ' Locable
+        => review.external_name
         = image_tag 'locable.png', alt: ''

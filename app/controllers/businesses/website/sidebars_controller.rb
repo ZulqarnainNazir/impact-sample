@@ -10,6 +10,7 @@ class Businesses::Website::SidebarsController < Businesses::Website::BaseControl
   def sidebars_params
     params.require(:website).permit(
       :content_blog_sidebar,
+      :content_blog_sidebar_on_reviews,
       :events_sidebar,
     )
   end

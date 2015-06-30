@@ -29,6 +29,7 @@ class ReviewsImportCce
   def import_review(attributes)
     review = @business.reviews.where(external_type: 'cce', external_id: attributes[:id]).first_or_initialize
     review.assign_attributes(
+      external_name: attributes[:site_name],
       external_url: attributes[:display_full_url],
       external_user_id: attributes[:user_id],
       external_user_name: attributes[:user_name],

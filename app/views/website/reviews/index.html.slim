@@ -5,10 +5,19 @@
   .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
     ol.breadcrumb
       li = link_to icon('home'), :website_root
-      li.active Reviews
+      li.active Customer Reviews
     .page-header
-      h1 Browse Reviews
-    = page_entries_info @reviews, entry_name: 'reviews'
-    = render partial: 'review', collection: @reviews, locals: { link_title: true }
-    hr
-    = paginate @reviews
+      h1
+        ' Browse Customer Reviews
+        - if @business.cce_id? && @business.cce_url?
+          = link_to @business.cce_url + '/reviews/new', class: 'btn btn-default', target: :_blank do
+            span.fa.fa-plus-circle>
+            | Leave us a Review
+    .row
+      div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
+        = page_entries_info @reviews, entry_name: 'reviews'
+        = render partial: 'review', collection: @reviews, locals: { link_title: true }
+        = paginate @reviews
+      .col-sm-4
+        - if @website.content_blog_sidebar_on_reviews?
+          = render posts(@business), small: true
