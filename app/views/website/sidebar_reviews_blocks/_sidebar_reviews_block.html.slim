@@ -1,0 +1,34 @@
+- cache [sidebar_reviews_block, sidebar_reviews_block.cache_sensitive_key(params)] do
+  - business = sidebar_reviews_block.business
+  - if business.reviews.any?
+    .well.well-sm.reviews-sidebar
+      .text-center
+        - rating = Business.where(id: business.id).joins(:reviews).select('businesses.*, (SUM(reviews.rating) / COUNT(reviews.id)) as rating').group('businesses.id').first.try(:rating).to_f
+        span.review-rating
+          - if rating >= 1.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if rating >= 2.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if rating >= 3.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if rating >= 4.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if rating == 5.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+        p: strong based on #{link_to pluralize(business.reviews.count, 'review'), :website_reviews}
+        - if business.cce_url?
+          p = link_to business.cce_url + '/reviews/new', class: 'btn btn-xs btn-default', target: :_blank do
+            span.fa.fa-plus-circle>
+            | Add Your Review
+      hr
+      = render partial: 'website/reviews/review_sidebar', collection: business.reviews.limit(sidebar_reviews_block.items_limit), as: :review

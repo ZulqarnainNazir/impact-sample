@@ -233,6 +233,10 @@ Webpage = React.createClass
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
         items_limit: 4
+      when 'SidebarReviewsBlock'
+        editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
+        sort: (e) -> e.preventDefault()
+        items_limit: 4
       when 'AboutBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editBackground: this.editMedia.bind(null, group_uuid, block_uuid, 'background')
@@ -1077,6 +1081,7 @@ Webpage = React.createClass
                 {this.renderInsertSidebarContent()}
                 {this.renderInsertSidebarBlogFeed()}
                 {this.renderInsertSidebarEventsFeed()}
+                {this.renderInsertSidebarReviews()}
               </div>
             </div>
             <div className="col-sm-2">
@@ -1292,6 +1297,14 @@ Webpage = React.createClass
         `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add an event-specific feed" data-content="Highlight upcoming events automatically showing nearest events first (content posted separately).">Events Feed</span>`
       else if not group
         `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add an event-specific feed" data-content="Highlight upcoming events automatically showing nearest events first (content posted separately).">Events Feed</span>`
+
+  renderInsertSidebarReviews: ->
+    unless this.props.groupTypes.indexOf('SidebarReviewsGroup') is -1
+      group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
+      if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarReviewsBlock')
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarReviewsBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a reviews widget" data-content="Keep your site fresh with a rotating reviews widget (content posted separately).">Reviews</span>`
+      else if not group
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarReviewsBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a reviews widget" data-content="Keep your site fresh with a rotating reviews widget (content posted separately).">Reviews</span>`
 
   switchSidebarPosition: ->
     if this.state.sidebarPosition is 'right'

@@ -386,10 +386,11 @@ ActiveRecord::Schema.define(version: 20150629180806) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "business_id",                                null: false
-    t.text     "external_user_type",                         null: false
+    t.text     "external_id",                                null: false
+    t.text     "external_type",                              null: false
+    t.text     "external_url",                               null: false
     t.text     "external_user_id",                           null: false
     t.text     "external_user_name",                         null: false
-    t.text     "external_url",                               null: false
     t.text     "title",                                      null: false
     t.text     "description",                                null: false
     t.decimal  "rating",             precision: 2, scale: 1, null: false

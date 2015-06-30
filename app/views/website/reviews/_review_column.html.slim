@@ -25,7 +25,7 @@ blockquote.review.col-sm-4
     p.review-quote = truncate review.description, length: 300
   p.reviewer
     span.reviewer-name => review.external_user_name
-    - if review.external_user_type == 'cce'
+    - if review.external_type == 'cce'
       span.text-muted> – via
       = link_to review.external_url, target: :_blank do
         ' Locable
