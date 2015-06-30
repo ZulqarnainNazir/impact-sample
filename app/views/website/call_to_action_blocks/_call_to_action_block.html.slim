@@ -1,4 +1,4 @@
-- cache call_to_action_block do
+- cache [call_to_action_block, call_to_action_block.frame.try(:max_blocks).to_i] do
   - className = 'col-sm-4'
   - className = 'col-sm-3' if call_to_action_block.frame.try(:max_blocks).to_i == 4
   - className = 'col-sm-6' if call_to_action_block.frame.try(:max_blocks).to_i == 2

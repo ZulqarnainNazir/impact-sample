@@ -13,4 +13,8 @@ class ContactBlock < Block
     else []
     end
   end
+
+  def cache_sensitive_key(params)
+    [business, business.try(:location)].compact.map(&:cache_key).join('-')
+  end
 end

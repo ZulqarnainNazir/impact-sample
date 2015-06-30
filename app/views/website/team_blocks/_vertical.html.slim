@@ -25,6 +25,6 @@
               li = link_to "https://plus.google.com/+#{member.google_plus_id}", target: :_blank do
                 i.fa.fa-google-plus-square.fa-2x
             - if member.linkedin_id?
-              li = link_to "https://www.linkedin.com/in/#{member.linkedin_id}", target: :_blank do
+              li = link_to "https://www.linkedin.com/#{member.linkedin_id}", target: :_blank do
                 i.fa.fa-linkedin-square.fa-2x
         .col-xs-12.col-sm-6.col-md-7.team-member-bio = sanitize_html member.description

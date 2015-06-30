@@ -580,6 +580,7 @@ Webpage = React.createClass
     block = group.blocks[block_uuid]
     $('#link_group_uuid').val group_uuid
     $('#link_block_uuid').val block_uuid
+    $('#link_id').val block.link_id
     $('#link_external_url').val if block.link_external_url and block.link_external_url.length > 0 then block.link_external_url else 'http://'
     $('#link_label').val if block.link_label and block.link_label.length > 0 then block.link_label else 'Learn More'
     $('#link_no_follow').prop 'checked', if block.link_no_follow then true else false
@@ -603,6 +604,7 @@ Webpage = React.createClass
   resetLink: ->
     $('#link_group_uuid').val ''
     $('#link_block_uuid').val ''
+    $('#link_id').val ''
     $('#link_external_url').val 'http://'
     $('#link_label').val 'Learn More'
     $('#link_no_follow').prop 'checked', false

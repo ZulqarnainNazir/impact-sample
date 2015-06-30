@@ -71,7 +71,7 @@ TeamBlock = React.createClass
 
   renderLinkedinProfile: (id) ->
     if id and id.length > 0
-      url = "https://www.linkedin.com/in/#{id}"
+      url = "https://www.linkedin.com/#{id}"
       `<li>
         <a href={url} target="_blank">
           <i className="fa fa-linkedin-square fa-2x"></i>
