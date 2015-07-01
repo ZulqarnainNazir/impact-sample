@@ -29,6 +29,10 @@ class Website::BaseController < ApplicationController
     end
   end
 
+  rescue_from 'ActionController::InvalidAuthenticityToken' do |exception|
+    render 'website/application/webpage_unprocessable_entity', status: 422
+  end
+
   rescue_from 'ActiveRecord::RecordNotFound' do |exception|
     redirect = @website.redirects.find_by_from_path(request.path)
 
