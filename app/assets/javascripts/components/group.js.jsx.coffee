@@ -75,9 +75,9 @@ Group = React.createClass
 
   renderBlocks: ->
     if this.props.max_blocks
-      _.map _.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.max_blocks), this.renderBlock
+      _.map _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.max_blocks), 'position'), this.renderBlock
     else
-      _.map this.props.blocks, this.renderBlock
+      _.map _.sortBy(this.props.blocks, 'position'), this.renderBlock
 
   renderBlock: (block) ->
     if block

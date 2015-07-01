@@ -30,17 +30,21 @@
 }
 
 @media (min-width: 992px) {
-  .webpage-group-sidebar {
+  .webpage-group-sidebar,
+  .webpage-group-sidebar-placeholder-left,
+  .webpage-group-sidebar-placeholder-right {
     width: 25%;
   }
-  .webpage-group-sidebar-left {
+  .webpage-group-sidebar-left,
+  .webpage-group-sidebar-placeholder-left {
     float: left;
     ~ .webpage-group {
       margin-left: 25%;
       padding-left: 30px;
     }
   }
-  .webpage-group-sidebar-right {
+  .webpage-group-sidebar-right,
+  .webpage-group-sidebar-placeholder-right {
     float: right;
     ~ .webpage-group {
       margin-right: 25%;

@@ -47,9 +47,6 @@ Webpage = React.createClass
     $('.webpage-save-toggle-on').on 'click', -> $('.webpage-save').addClass('webpage-save-visible'); $('.webpage-save-toggle-on').hide(); $('.webpage-save-toggle-off').show()
     $('.webpage-save-toggle-off').hide().on 'click', -> $('.webpage-save').removeClass('webpage-save-visible'); $('.webpage-save-toggle-off').hide(); $('.webpage-save-toggle-on').show()
     this.enableSortables()
-    this.sortWebpageGroups()
-    this.sortWebpageGroupHorizontalContainers()
-    this.sortWebpageGroupVerticalContainers()
     this.resetLink()
     this.toggleLinkOptions()
     this.resetMedia()
@@ -91,7 +88,7 @@ Webpage = React.createClass
       tabSize: 20
       tolerance: 'pointer'
       start: this.startWebpageGroupsSorting
-      update: this.sortWebpageGroups
+      stop: this.stopWebpageGroupsSorting
     $('.webpage-group-horizontal-container').sortable
       axis: 'x'
       container: '.webpage-group-horizontal-container'
@@ -107,7 +104,7 @@ Webpage = React.createClass
       startCollapsed: false
       tabSize: 20
       tolerance: 'pointer'
-      update: this.sortWebpageGroupHorizontalContainers
+      stop: this.stopWebpageBlocksSorting
     $('.webpage-group-vertical-container').sortable
       axis: 'y'
       container: '.webpage-group-vertical-container'
@@ -123,31 +120,45 @@ Webpage = React.createClass
       startCollapsed: false
       tabSize: 20
       tolerance: 'pointer'
-      update: this.sortWebpageGroupVerticalContainers
+      stop: this.stopWebpageBlocksSorting
 
   startWebpageGroupsSorting: (event, ui) ->
     group = this.state.groups[ui.item.data('uuid')]
     if group and group.type is 'SidebarGroup'
-      ui.placeholder.css('width', ui.item.css('width'))
-      ui.placeholder.css('float', this.state.sidebarPosition)
+      ui.placeholder.addClass('webpage-group-sidebar-placeholder-' + this.state.sidebarPosition)
 
-  sortWebpageGroups: ->
-    $('.webpage-container > .webpage-group').each this.sortWebpageGroup
+  stopWebpageGroupsSorting: ->
+    container = $('.webpage-container')
+    groupUUIDs = container.sortable('toArray', attribute: 'data-uuid')
+    container.sortable('cancel')
+    this.sortWebpageGroups(groupUUIDs)
 
-  sortWebpageGroup: (index, group) ->
-    this.updateGroup $(group).data('uuid'), position: index
+  stopWebpageBlocksSorting: (event, ui) ->
+    container = ui.item.closest('.webpage-group-horizontal-container, .webpage-group-vertical-container')
+    group = container.closest('.webpage-group')
+    blockUUIDs = container.sortable('toArray', attribute: 'data-uuid')
+    container.sortable('cancel')
+    this.sortWebpageBlocks(group.data('uuid'), blockUUIDs)
 
-  sortWebpageGroupHorizontalContainers: ->
-    $('.webpage-group-horizontal-container').each this.sortWebpageGroupContainer
+  sortWebpageGroups: (groupUUIDs) ->
+    changes = {}
+    _.each groupUUIDs, (uuid, i) ->
+      $.extend changes,
+        "#{uuid}":
+          $merge:
+            position: i
+    this.setState groups: React.addons.update(this.state.groups, changes)
 
-  sortWebpageGroupVerticalContainers: ->
-    $('.webpage-group-vertical-container').each this.sortWebpageGroupContainer
-
-  sortWebpageGroupContainer: (index, container) ->
-    $(container).children('.webpage-block').each this.sortWebpageBlock
-
-  sortWebpageBlock: (index, block) ->
-    this.updateBlock $(block).closest('.webpage-group').data('uuid'), $(block).data('uuid'), position: index
+  sortWebpageBlocks: (groupUUID, blockUUIDs) ->
+    changes =
+      "#{groupUUID}":
+        blocks: {}
+    _.each blockUUIDs, (uuid, i) ->
+      $.extend changes[groupUUID].blocks,
+        "#{uuid}":
+          $merge:
+            position: i
+    this.setState groups: React.addons.update(this.state.groups, changes)
 
   toggleEditing: ->
     this.setState editing: !this.state.editing
@@ -157,6 +168,7 @@ Webpage = React.createClass
       removeBlock: this.removeBlock.bind(null, group_uuid, block_uuid)
       type: block_type
       uuid: block_uuid
+      position: $('.webpage-group[data-uuid="' + group_uuid + '"] .webpage-blocks').length
     blockSpecificAttributes = switch block_type
       when 'HeroBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
@@ -278,6 +290,7 @@ Webpage = React.createClass
             uuid: group_uuid
             kind: 'container'
             max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
+            position: $('.webpage-group').length
             blocks:
               "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
             removedBlocks: []
@@ -298,9 +311,6 @@ Webpage = React.createClass
     this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
 
   finishInsert: (messageKey) ->
-    this.sortWebpageGroups()
-    this.sortWebpageGroupHorizontalContainers()
-    this.sortWebpageGroupVerticalContainers()
     setTimeout this.clearSuccessMessage.bind(null, messageKey), 1500
 
   clearSuccessMessage: (messageKey) ->
