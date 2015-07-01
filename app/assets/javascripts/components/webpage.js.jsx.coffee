@@ -273,6 +273,8 @@ Webpage = React.createClass
         theme: 'left'
         themes: ['right', 'banner', 'inline', 'content']
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
+        location: this.props.location
+        openings: this.props.openings
     $.extend {}, commonAttributes, blockSpecificAttributes, argumentAttributes
 
   insertGroup: (group_type, block_type) ->
