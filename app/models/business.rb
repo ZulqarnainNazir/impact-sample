@@ -27,12 +27,10 @@ class Business < ActiveRecord::Base
   has_many :events
   has_many :images
 
-  has_many :authorizations
-  has_many :users, through: :authorizations
-
   has_many :manager_authorizations, -> { manager }, class_name: Authorization.name
   has_many :owner_authorizations, -> { owner }, class_name: Authorization.name
 
+  has_many :users, through: :authorizations
   has_many :managers, through: :manager_authorizations, source: :user
   has_many :owners, through: :owners_authorizations, source: :user
 
