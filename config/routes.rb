@@ -112,6 +112,11 @@ Rails.application.routes.draw do
           end
         end
 
+        namespace :accounts do
+          root to: 'roots#show'
+          resource :locable, only: %i[edit update destroy]
+        end
+
         resource :marketing, only: %i[show]
         resource :super_settings, only: %i[edit update]
         resource :reviews_subscriptions, only: %i[update]

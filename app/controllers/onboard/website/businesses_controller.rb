@@ -52,14 +52,9 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         elsif existing_global_cce_business
           redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that business has already been claimed.')
         else
-          ActiveRecord::Base.transaction do
-            create_resource @business, cce_params(payload), location: [:edit_onboard_website, @business] do |success|
-              if success
-                token = ConnectToken.encode(impact_id: @business.id)
-                uri = URI(ENV['CONNECT_URL'] + "/businesses/#{@business.cce_id}/link")
-                uri.query = URI.encode_www_form({ token: token })
-                Net::HTTP.get(uri)
-              end
+          create_resource @business, cce_params(payload), location: [:edit_onboard_website, @business] do |success|
+            if success
+              connect_to "/businesses/#{@business.cce_id}/link", impact_id: @business.id
             end
           end
         end
@@ -67,7 +62,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         raise StandardError
       end
     rescue
-      redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like there was a problem importing that page.')
+      redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
     end
   end
 

@@ -18,5 +18,10 @@ ol.breadcrumb
           p.help-block: code = @business.cce_url
       .panel-footer
         = f.button 'Save Changes', class: 'btn btn-primary'
-
+- else
+  p.text-muted No Linked Accounts Found
   hr
+  p
+    => link_to content_tag(:strong, 'Link your account to Locable'), [:edit, @business, :accounts_locable]
+    | to push your business data into a wider audience and enable reviews automation.
+hr

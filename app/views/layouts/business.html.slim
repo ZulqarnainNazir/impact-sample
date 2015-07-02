@@ -136,15 +136,18 @@ html lang="en"
                 li = link_to [@business, :marketing]
                   i.fa.fa-rocket>
                   | Marketing
-                li 
-                  span style="pointer-events:none; opacity:0.4"
+                li class=('active' if controller_path.match(/\Abusinesses\/accounts/))
+                  span
                     i.fa.fa-files-o>
                     ' Linked Accounts
                   ul.list-unstyled
-                    li = link_to '#' do
-                      i.fa.fa-facebook-official>
+                    li = link_to [:edit, @business, :accounts_locable] do
+                      i.fa.fa-square>
+                      | Locable
+                    li style="pointer-events:none; opacity:0.4" = link_to '#' do
+                      i.fa.fa-facebook-square>
                       | Facebook
-                    li = link_to '#' do
+                    li style="pointer-events:none; opacity:0.4" = link_to '#' do
                       i.fa.fa-twitter-square>
                       | Twitter
                 - if current_user.super_user?

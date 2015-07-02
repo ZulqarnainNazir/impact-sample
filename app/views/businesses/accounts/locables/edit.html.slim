@@ -1,0 +1,70 @@
+- title 'Link Your Locable Account'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Linked Accounts', [@business, :accounts_root]
+  li.active Locable
+
+.row
+  .col-md-8
+    = errors_for @business
+    - if @business.cce_id?
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Your Linked Locable Account
+        .panel-body
+          .row
+            .col-sm-10
+              h2.h4 = link_to @business.cce_url, target: :_blank do
+                ' Locable Account
+                span.fa.fa-external-link
+              p: code = @business.cce_url
+            .col-sm-2
+              = form_for @business, url: [@business, :accounts_locable], method: :delete do |form|
+                = form.button class: 'btn btn-block btn-sm btn-danger' do
+                  span.fa.fa-chain-broken>
+                  | Unlink
+    - else
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Link your Locable Account
+        .panel-body
+          - @locable_businesses_json.each do |business_json|
+            = form_for @business, url: [@business, :accounts_locable] do |form|
+              = hidden_field_tag :locable_id, business_json[:id]
+              .row
+                .col-sm-10
+                  h2.h4 = link_to business_json[:locable_url], target: :_blank do
+                    => business_json[:name]
+                    span.fa.fa-external-link
+                  p = business_json[:address][:to_s]
+                .col-sm-2
+                  = form.button class: 'btn btn-block btn-sm btn-success' do
+                    span.fa.fa-link>
+                    | Link
+            hr
+          - if @locable_businesses_json.any?
+            h3.h5.text-muted style="margin-bottom:1em" Can‘t find what you’re looking for?
+          = form_for @business, url: [@business, :accounts_locable] do |form|
+            .row
+              .col-sm-10
+                .form-group
+                  = label_tag :locable_url, 'Specify your Locable business URL or slug', class: 'control-label'
+                  = text_field_tag :locable_url, params[:locable_url], class: 'form-control'
+                p.help-block
+                  ' e.g.
+                  code
+                    | /ca-first-street-my-business
+              .col-sm-2
+                = form.button class: 'btn btn-block btn-sm btn-success', style: 'margin-top:2em' do
+                  span.fa.fa-link>
+                  | Link
+          hr
+          = form_for @business, url: [@business, :accounts_locable] do |form|
+            = hidden_field_tag :add_to_locable, true
+            .text-center
+              ' Or start from scratch and
+              = form.button class: 'btn btn-xs btn-primary' do
+                span.fa.fa-plus-circle>
+                | Add your business to Locable
