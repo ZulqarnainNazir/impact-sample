@@ -17,7 +17,7 @@ ol.breadcrumb
           .row
             .col-sm-10
               h2.h4 = link_to @business.cce_url, target: :_blank do
-                ' Locable Account
+                => @business.cce_name? ? @business.cce_name : 'Locable Account'
                 span.fa.fa-external-link
               p: code = @business.cce_url
             .col-sm-2
@@ -63,8 +63,11 @@ ol.breadcrumb
           hr
           = form_for @business, url: [@business, :accounts_locable] do |form|
             = hidden_field_tag :add_to_locable, true
-            .text-center
-              ' Or start from scratch and
-              = form.button class: 'btn btn-xs btn-primary' do
-                span.fa.fa-plus-circle>
-                | Add your business to Locable
+            p.text-center Or start from scratch and add your business to a Locable network:
+            .row
+              .col-sm-7
+                = select_tag :site_id, options_for_select(@locable_sites_json.map { |s| [s[:site][:name], s[:site][:id]] }), prompt: '-- Select a Site --', class: 'form-control'
+              .col-sm-5 style="margin-top:0.1em"
+                = form.button class: 'btn btn-block btn-sm btn-primary' do
+                  span.fa.fa-plus-circle>
+                  | Add your business to Locable

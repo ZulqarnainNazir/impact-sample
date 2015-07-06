@@ -15,7 +15,9 @@ ol.breadcrumb
           = f.label :reviews_automation_cce do
             => f.check_box :reviews_automation_cce
             | Automatically Import Reviews from Locable
-          p.help-block: code = @business.cce_url
+          p.help-block
+            strong => @business.cce_name
+            code = @business.cce_url
       .panel-footer
         = f.button 'Save Changes', class: 'btn btn-primary'
 - else

@@ -145,12 +145,13 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
 
     {
       cce_id: payload[:id],
+      cce_name: payload[:name],
+      cce_url: payload[:locable_url],
       name: payload[:name],
       description: payload[:description],
       tagline: payload[:tagline],
       website_url: payload[:url],
       category_ids: category_ids,
-      cce_url: payload[:locable_url],
       facebook_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'facebook_url' }.try(:[], :value).try(:split, '/').try(:last),
       google_plus_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'google_plus_url' }.try(:[], :value).try(:split, '/').try(:last),
       twitter_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'twitter_url' }.try(:[], :value).try(:split, '/').try(:last),
