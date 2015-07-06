@@ -62,7 +62,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         raise StandardError
       end
     rescue
-      redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
+      redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
     end
   end
 
