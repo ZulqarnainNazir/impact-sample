@@ -1,7 +1,13 @@
 class Businesses::Accounts::LocablesController < Businesses::BaseController
-  def edit
-    @locable_businesses_json = Array(connect_to('/businesses', email: current_user.email)[:businesses])
-    @locable_sites_json = Array(connect_to('/sites')[:sites])
+  before_action only: %i[edit update] do
+    unless @business.cce_id?
+      @locable_user = connect_to('/user', email: current_user.email)
+
+      if @locable_user[:id]
+        @locable_businesses_json = Array(connect_to('/businesses', email: current_user.email)[:businesses])
+        @locable_sites_json = Array(connect_to('/sites')[:sites])
+      end
+    end
   end
 
   def update
