@@ -42,7 +42,7 @@ ol.breadcrumb
                 .col-sm-2
                   = form.button class: 'btn btn-block btn-sm btn-success' do
                     span.fa.fa-link>
-                    | Link
+                    | Link Accounts
             hr
           - if @locable_businesses_json.any?
             h3.h5.text-muted style="margin-bottom:1em" Can‘t find what you’re looking for?
@@ -59,7 +59,7 @@ ol.breadcrumb
               .col-sm-2
                 = form.button class: 'btn btn-block btn-sm btn-success', style: 'margin-top:2em' do
                   span.fa.fa-link>
-                  | Link
+                  | Link Accounts
           hr
           = form_for @business, url: [@business, :accounts_locable] do |form|
             = hidden_field_tag :add_to_locable, true
