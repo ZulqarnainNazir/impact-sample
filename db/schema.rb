@@ -434,6 +434,7 @@ ActiveRecord::Schema.define(version: 20150709174725) do
     t.integer  "customer_id"
     t.boolean  "published",                              default: false, null: false
     t.integer  "feedback_id",                                            null: false
+    t.date     "serviced_at"
   end
 
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree

@@ -42,6 +42,8 @@ class LocableBusiness < ActiveRecord::Base
     rescue
       false
     end
+
+    false
   end
 
   def claim(impact_business, impact_user)
@@ -50,6 +52,9 @@ class LocableBusiness < ActiveRecord::Base
     begin
       Business.transaction do
         LocableBusiness.transaction do
+          locable_user = LocableUser.find(impact_user.cce_id)
+          update! impact_id: impact_business.id, owner_id: locable_user.id
+          impact_business.update! cce_id: id, automated_export_locable_events: nil, automated_import_locable_events: nil, automated_import_locable_reviews: nil
         end
       end
       true
