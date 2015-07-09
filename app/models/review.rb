@@ -10,7 +10,6 @@ class Review < ActiveRecord::Base
   validates :customer_email, presence: true
   validates :customer_name, presence: true
   validates :description, presence: true
-  validates :feedback, presence: true, associated: true
   validates :overall_rating, presence: true, numericality: { in: 1..5 }
   validates :quality_rating, presence: true, numericality: { in: 1..5 }
   validates :reviewed_at, presence: true

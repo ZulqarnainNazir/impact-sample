@@ -42,6 +42,10 @@ class Website::ReviewsController < Website::BaseController
         :title,
         :value_rating,
       ],
-    )
+    ).tap do |safe_params|
+      if safe_params[:review_attributes]
+        safe_params[:review_attributes][:serviced_at] = safe_params[:serviced_at]
+      end
+    end
   end
 end
