@@ -1,0 +1,15 @@
+tr
+  td = customer.name
+  td = customer.email
+  td = customer.phone? ? customer.phone : '--'
+  td
+    - if customer.reviews.any?
+      = pluralize customer.reviews.count, 'Review'
+    - else
+      ' No
+      = link_to 'Invite to Review', [@business, :crm, customer, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+  td = customer.reviews.order(reviewed_at: :desc).last.try(:reviewed_at).try(:strftime, '%D') || '--'
+  td = customer.reviews.order(reviewed_at: :desc).last.try(:serviced_at).try(:strftime, '%D') || '--'
+  td = link_to [:edit, customer.business, :crm, customer], class: 'btn btn-xs btn-default' do
+    => icon 'pencil'
+    | Edit

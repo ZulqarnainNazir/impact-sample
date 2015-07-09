@@ -5,30 +5,30 @@ blockquote.review
     - else
       => review.title
     span.review-rating
-      - if review.rating >= 1.0
+      - if review.overall_rating >= 1.0
         span.fa.fa-star
       - else
         span.fa.fa-star-o
-      - if review.rating >= 2.0
+      - if review.overall_rating >= 2.0
         span.fa.fa-star
       - else
         span.fa.fa-star-o
-      - if review.rating >= 3.0
+      - if review.overall_rating >= 3.0
         span.fa.fa-star
       - else
         span.fa.fa-star-o
-      - if review.rating >= 4.0
+      - if review.overall_rating >= 4.0
         span.fa.fa-star
       - else
         span.fa.fa-star-o
-      - if review.rating == 5.0
+      - if review.overall_rating == 5.0
         span.fa.fa-star
       - else
         span.fa.fa-star-o
   p.review-text.review-quote = review.description
   p.reviewer
-    span.reviewer-name => review.external_user_name
-    - if review.external_type == 'cce'
+    span.reviewer-name => review.customer_name
+    - if !'locable'
       span.text-muted> – via
       => link_to review.external_url, target: :_blank do
         => review.external_name

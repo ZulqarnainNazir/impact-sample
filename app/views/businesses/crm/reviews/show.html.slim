@@ -1,0 +1,34 @@
+- title 'Reviews'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li = link_to 'Reviews', [@business, :crm_reviews]
+  li.active Review ##{@review.id}
+
+hr
+
+dl.dl-horizontal
+  dt Serviced At
+  dd = @review.serviced_at.try(:strftime, '%D') || '--'
+  dt Reviewed At
+  dd = @review.reviewed_at.strftime('%D')
+  dt Rating
+  dd = @review.overall_rating.to_f
+  dt Published?
+  dd
+    - if @review.published?
+      strong.text-success> Yes
+      = link_to 'Hide', [@business, :crm, @review, :review_publication], method: :delete, class: 'btn btn-xs btn-default' 
+    - else
+      strong.text-muted> No
+      = link_to 'Publish', [@business, :crm, @review, :review_publication], method: :post, class: 'btn btn-xs btn-primary' 
+  dt Customer Name
+  dd = link_to @review.customer.name, [:edit, @business, :crm, @review.customer]
+  dt Email
+  dd = @review.customer.email
+  dt Title
+  dd = @review.title
+  dt Description
+  dd = @review.description

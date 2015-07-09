@@ -5,24 +5,22 @@ class Users::SessionsController < Devise::SessionsController
     if user
       super
     else
-      payload = connect_to('/session', email: user_params[:email], password: user_params[:password])
+      locable_user = LocableUser.find_by_email(user_params[:email])
 
-      if payload[:id]
+      if locable_user && locable_user.authenticate(user_params[:password])
         user = User.where(email: user_params[:email]).first_or_initialize
 
         if user.new_record?
           user.assign_attributes(
-            cce_id: payload[:id],
-            cce_url: payload[:site_url],
-            first_name: payload[:first_name],
-            last_name: payload[:last_name],
+            cce_id: locable_user.id,
+            first_name: locable_user.first_name,
+            last_name: locable_user.last_name,
           )
           user.skip_confirmation!
           user.save(validate: false)
         elsif !user.cce_id?
           user.update_attributes(
-            cce_id: payload[:id],
-            cce_url: payload[:site_url],
+            cce_id: locable_user.id,
           )
         end
 

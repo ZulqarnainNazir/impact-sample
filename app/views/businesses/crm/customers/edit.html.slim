@@ -1,0 +1,49 @@
+- title 'Edit Customer'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li = link_to 'All Customers', [@business, :crm_customers]
+  li.active Edit Customer
+
+
+= form_for @customer, url: [@business, :crm, @customer] do |form|
+  .page-header
+    h1.h4 Customer Data for #{@customer.email}
+  .row
+    .col-sm-6
+      h2.h4 Reviews
+      - if @customer.reviews.empty?
+        p
+          em> No customer reviews found.
+          = link_to 'Invite to Review', [@business, :crm, @customer, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+      - else
+        ul
+          - @customer.reviews.each do |review|
+            li = link_to review.title, [@business, :crm, review]
+      h2.h4 Submitted Forms
+      - if @customer.contact_messages.empty?
+        p: em No submitted forms found.
+      - else
+        ul
+          - @customer.contact_messages.each do |contact_message|
+            li = link_to truncate(contact_message.message, length: 140), [@business, :crm, contact_message]
+    .col-sm-6
+      .panel.panel-default
+        .panel-heading
+          h2.h4.panel-title Edit Customer Details
+        .panel-body
+          = errors_for @customer
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :phone, class: 'control-label'
+            = form.phone_field :phone, class: 'form-control'
+          hr
+          .form-group
+            = form.label :notes, class: 'control-label'
+            = form.text_area :notes, rows: 6, class: 'form-control'
+        .panel-footer
+          = form.button 'Save Changes', class: 'btn btn-primary'

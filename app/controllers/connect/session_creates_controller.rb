@@ -1,5 +1,5 @@
-class Connect::SessionsController < ApplicationController
-  def create
+class Connect::SessionCreatesController < ApplicationController
+  def locable
     payload = ConnectToken.decode(params[:token])
     user = current_user
     user = User.find_by_cce_id(payload[:id]) if payload[:id].present?
@@ -12,7 +12,6 @@ class Connect::SessionsController < ApplicationController
         user_is_new = true
         user.assign_attributes(
           cce_id: payload[:id],
-          cce_url: payload[:site_url],
           first_name: payload[:first_name],
           last_name: payload[:last_name],
         )
@@ -21,7 +20,6 @@ class Connect::SessionsController < ApplicationController
       else
         user.update_attributes(
           cce_id: payload[:id],
-          cce_url: payload[:site_url],
         )
       end
     end

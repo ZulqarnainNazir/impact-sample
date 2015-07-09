@@ -34,18 +34,4 @@ class ApplicationController < ActionController::Base
       )
     end
   end
-
-  # Makes a GET request with `payload` to the connect `path` and returns to
-  # decoded response.
-  def connect_to(path, payload = {})
-    token = ConnectToken.encode(payload)
-    uri = URI(ENV['CONNECT_URL'] + path)
-    uri.query = URI.encode_www_form({ token: token })
-    response = Net::HTTP.get_response(uri)
-
-    if response.is_a?(Net::HTTPSuccess)
-      ConnectToken.decode(response.body)
-    else {}
-    end
-  end
 end

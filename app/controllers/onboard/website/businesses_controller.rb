@@ -37,13 +37,11 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def import_cce
-    begin
-      business_slug = params[:cce_business_url].to_s.split('/').last.split('?').first
-      payload = connect_to("/businesses/#{business_slug}", email: current_user.email)
+      locable_business = LocableBusiness.find_by_slug(params[:cce_business_url].to_s.split('/').last)
 
-      if payload[:id]
-        existing_user_cce_business = current_user.businesses.where(cce_id: payload[:id]).first
-        existing_global_cce_business = Business.where(cce_id: payload[:id]).first
+      if locable_business
+        existing_user_cce_business = current_user.businesses.where(cce_id: locable_business.id).first
+        existing_global_cce_business = Business.where(cce_id: locable_business.id).first
 
         if existing_user_cce_business
           redirect_to([existing_user_cce_business, :dashboard])
@@ -52,17 +50,18 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
         elsif existing_global_cce_business
           redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that business has already been claimed.')
         else
-          create_resource @business, cce_params(payload), location: [:edit_onboard_website, @business] do |success|
+          create_resource @business, cce_params(locable_business), location: [:edit_onboard_website, @business] do |success|
             if success
-              connect_to "/businesses/#{@business.cce_id}/link", impact_id: @business.id
+              if locable_business.claimed?
+                locable_business.link(@business)
+              else
+                locable_business.claim(@business, current_user)
+              end
             end
           end
         end
       else
-        raise StandardError
-      end
-    rescue
-      redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
+        redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
     end
   end
 
@@ -121,66 +120,63 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
     )
   end
 
-  def cce_params(payload)
-    cover_image = payload[:images].try(:[], 0)
-    category_ids = Category.where(name: Array(payload[:business_categories]).map { |c| c[:name] }).pluck(:id)
+  def cce_params(locable_business)
     openings_attributes = []
 
-    Array(payload[:business_hours]).each do |business_hour|
+    locable_business.business_hours.each do |business_hour|
       opening = openings_attributes.find do |o|
-        o[:opens_at] == Time.at(Time.parse(business_hour[:open]).to_i + Time.parse(business_hour[:open]).utc_offset) &&
-        o[:closes_at] == Time.at(Time.parse(business_hour[:close]).to_i + Time.parse(business_hour[:close]).utc_offset)
+        o[:opens_at] == Time.at(Time.parse(business_hour.open).to_i + Time.parse(business_hour.open).utc_offset) &&
+        o[:closes_at] == Time.at(Time.parse(business_hour.close).to_i + Time.parse(business_hour.close).utc_offset)
       end
 
       if opening
-        opening[business_hour[:day].to_s.downcase] = true
+        opening[business_hour.day.downcase] = true
       else
         openings_attributes.push({
-          opens_at: Time.at(Time.parse(business_hour[:open]).to_i + Time.parse(business_hour[:open]).utc_offset),
-          closes_at: Time.at(Time.parse(business_hour[:close]).to_i + Time.parse(business_hour[:close]).utc_offset),
-          business_hour[:day].to_s.downcase => true,
+          opens_at: Time.at(Time.parse(business_hour.open).to_i + Time.parse(business_hour.open).utc_offset),
+          closes_at: Time.at(Time.parse(business_hour.close).to_i + Time.parse(business_hour.close).utc_offset),
+          business_hour.day.downcase => true,
         })
       end
     end
 
     {
-      cce_id: payload[:id],
-      cce_name: payload[:name],
-      cce_url: payload[:locable_url],
-      name: payload[:name],
-      description: payload[:description],
-      tagline: payload[:tagline],
-      website_url: payload[:url],
-      category_ids: category_ids,
-      facebook_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'facebook_url' }.try(:[], :value).try(:split, '/').try(:last),
-      google_plus_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'google_plus_url' }.try(:[], :value).try(:split, '/').try(:last),
-      twitter_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'twitter_url' }.try(:[], :value).try(:split, '/').try(:last),
-      linkedin_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'linkedin_url' }.try(:[], :value).try(:split, '/').try(:last),
-      pinterest_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'pinterest_url' }.try(:[], :value).try(:split, '/').try(:last),
-      instagram_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'instagram_url' }.try(:[], :value).try(:split, '/').try(:last),
-      youtube_id: Array(payload[:business_social_media_properties]).find { |p| p[:property_type].to_s == 'youtube_url' }.try(:[], :value).try(:split, '/').try(:last),
+      cce_id: locable_business.id,
+      cce_url: locable_business.locable_url,
+      name: locable_business.name,
+      description: locable_business.description,
+      tagline: locable_business.tagline,
+      website_url: locable_business.url,
+      category_ids: Category.where(name: locable_business.categories.pluck(:name)).pluck(:id),
+      facebook_id: locable_business.business_social_media_properties.where(property_type: 0).first.try(:value).to_s.split('/').last,
+      twitter_id: locable_business.business_social_media_properties.where(property_type: 1).first.try(:value).to_s.split('/').last,
+      linkedin_id: locable_business.business_social_media_properties.where(property_type: 'linkedin_url').first.try(:value).to_s.split('/').last,
+      pinterest_id: locable_business.business_social_media_properties.where(property_type: 2).first.try(:value).to_s.split('/').last,
+      instagram_id: locable_business.business_social_media_properties.where(property_type: 3).first.try(:value).to_s.split('/').last,
+      google_plus_id: locable_business.business_social_media_properties.where(property_type: 4).first.try(:value).to_s.split('/').last,
+      youtube_id: locable_business.business_social_media_properties.where(property_type: 5).first.try(:value).to_s.split('/').last,
       logo_placement_attributes: {
-        image_attachment_cache_url: payload[:logo].try(:[], :file_url),
-        image_attachment_content_type: payload[:logo].try(:[], :mime),
-        image_attachment_file_name: payload[:logo].try(:[], :filename),
-        image_attachment_file_size: payload[:logo].try(:[], :size),
-        image_alt: payload[:logo].try(:[], :caption),
+        image_attachment_cache_url: locable_business.logo.try(:file_url),
+        image_attachment_content_type: locable_business.logo.try(:mime),
+        image_attachment_file_name: locable_business.logo.try(:file),
+        image_attachment_file_size: locable_business.logo.try(:size),
+        image_alt: locable_business.logo.try(:caption),
         image_user: current_user,
         image_business: @business,
       },
       location_attributes: {
-        name: payload[:name],
-        street1: payload[:address].try(:[], :street1),
-        street2: payload[:address].try(:[], :street2),
-        city: payload[:address].try(:[], :city),
-        state: payload[:address].try(:[], :state),
-        zip_code: payload[:address].try(:[], :postal),
-        email: payload[:email],
-        phone_number: payload[:phone],
+        name: locable_business.name,
+        street1: locable_business.address.try(:street1),
+        street2: locable_business.address.try(:street2),
+        city: locable_business.address.try(:city),
+        state: locable_business.address.try(:state),
+        zip_code: locable_business.address.try(:postal),
+        email: locable_business.email,
+        phone_number: locable_business.phone,
         openings_attributes: openings_attributes,
       },
       website_attributes: {
-        subdomain: Subdomain.available(payload[:name]),
+        subdomain: Subdomain.available(locable_business.name),
         header_block_attributes: {},
         footer_block_attributes: {},
         webpages_attributes: [
@@ -188,7 +184,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
             type: 'HomePage',
             active: true,
             name: 'Homepage',
-            title: payload[:name],
+            title: locable_business.name,
             pathname: '',
             groups_attributes: [
               {
@@ -196,14 +192,14 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
                 blocks_attributes: [
                   {
                     type: 'HeroBlock',
-                    heading: payload[:name],
-                    text: payload[:description],
+                    heading: locable_business.name,
+                    text: locable_business.description,
                     block_background_placement_attributes: {
-                      image_attachment_cache_url: cover_image.try(:[], :file_url),
-                      image_attachment_content_type: cover_image.try(:[], :mime),
-                      image_attachment_file_name: cover_image.try(:[], :filename),
-                      image_attachment_file_size: cover_image.try(:[], :size),
-                      image_alt: cover_image.try(:[], :caption),
+                      image_attachment_cache_url: locable_business.images.first.try(:file_url),
+                      image_attachment_content_type: locable_business.images.first.try(:mime),
+                      image_attachment_file_name: locable_business.images.first.try(:file),
+                      image_attachment_file_size: locable_business.images.first.try(:size),
+                      image_alt: locable_business.images.first.try(:caption),
                       image_user: current_user,
                       image_business: @business,
                     },

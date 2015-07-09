@@ -1,0 +1,6 @@
+en:
+  businesses:
+    accounts:
+      locables:
+        update:
+          notice: Your Locable automation settings were updated successfully.

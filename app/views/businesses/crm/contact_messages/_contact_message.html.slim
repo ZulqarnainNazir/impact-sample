@@ -1,6 +1,5 @@
 tr
-  td = contact_message.name
-  td = contact_message.email
-  td = contact_message.phone
-  td = contact_message.message
-  td = link_to 'Read More »', [contact_message.business, :crm, contact_message]
+  td = link_to contact_message.customer.name, [:edit, contact_message.business, :crm, contact_message.customer]
+  td = contact_message.customer.email
+  td = contact_message.customer.phone? ? contact_message.customer.phone : '--'
+  td = link_to truncate(contact_message.message, length: 140), [contact_message.business, :crm, contact_message]

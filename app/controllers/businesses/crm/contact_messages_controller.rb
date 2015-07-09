@@ -4,6 +4,6 @@ class Businesses::Crm::ContactMessagesController < Businesses::BaseController
   end
 
   def index
-    @contact_messages = @business.contact_messages.chronological
+    @contact_messages = @business.contact_messages.chronological.page(params[:page]).per(20)
   end
 end

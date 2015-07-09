@@ -1,0 +1,4 @@
+p You’ve been invited to review #{@customer.business.name}!
+
+ul
+  li = link_to 'Review Business', new_website_review_url(host: @website_host)

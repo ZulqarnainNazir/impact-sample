@@ -1,6 +1,6 @@
 desc 'Import reviews'
 task import_reviews: [:environment] do
-  Business.find_each do |business|
-    ReviewsImportCce.import(business)
+  Business.where.not(cce_id: nil).find_each do |business|
+    LocableReviewsImport.import(business)
   end
 end

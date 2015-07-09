@@ -54,6 +54,10 @@ html lang="en"
                     li.list-divider = link_to [@business, :content_images] do
                       i.fa.fa-photo>
                       | Media Manager
+                    - if @business.cce_id?
+                      li.list-divider = link_to [@business, :content_event_imports] do
+                        i.fa.fa-calendar>
+                        | Import Events
                 - if @business.website
                   li class=('active' if controller_path.match(/\Abusinesses\/website/))
                     span
@@ -84,14 +88,17 @@ html lang="en"
                 li = link_to [@business, :alliances]
                   i.fa.fa-random>
                   | Manage Alliances
-                li = link_to [@business, :reviews]
-                  i.fa.fa-star>
-                  | Manage Reviews
                 li class=('active' if controller_path.match(/\Abusinesses\/crm/))
                   span
                     i.fa.fa-comments>
                     ' CRM
                   ul.list-unstyled
+                    li = link_to [@business, :crm_customers] do
+                      i.fa.fa-users>
+                      | All Customers
+                    li.list-divider = link_to [@business, :crm_reviews] do
+                      i.fa.fa-star>
+                      | Reviews
                     li = link_to [@business, :crm_contact_messages] do
                       i.fa.fa-comments>
                       | Submitted Forms

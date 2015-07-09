@@ -1,0 +1,6 @@
+en:
+  businesses:
+    crm:
+      reviews_automations:
+        update:
+          notice: 'Your reviews automation threshold was successfully updated.'

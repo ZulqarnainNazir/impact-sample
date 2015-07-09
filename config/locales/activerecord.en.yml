@@ -11,6 +11,13 @@ en:
         website_url: Website URL
         year_founded: Year Founded
         youtube_id: YouTube
+      contact_message:
+        customer_name: Name
+        customer_email: Email
+        customer_phone: Phone
+      customer:
+        notes: Additional Notes
+        service_date: Service Date
       event_definition:
         start_date: Start Date
         start_time: Start Time
@@ -38,6 +45,10 @@ en:
       redirect:
         from_path: Origin Path
         to_path: Destination
+      review:
+        customer_name: Name
+        customer_email: Email
+        customer_phone: Phone
       user:
         first_name: First Name
         last_name: Last Name

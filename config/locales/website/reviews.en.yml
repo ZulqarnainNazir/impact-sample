@@ -1,0 +1,6 @@
+en:
+  website:
+    reviews:
+      create:
+        notice: Thanks! We’ve received your review!
+        alert: There was a problem submitting your review.

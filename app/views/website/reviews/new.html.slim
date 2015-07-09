@@ -1,0 +1,57 @@
+- title 'Leave a Review'
+- canonical_url new_website_review_url
+
+= webpage_container do
+  .row
+    .col-sm-8.col-sm-offset-2
+      p.lead.text-center Thanks for taking the time to leave us a review and some feedback. This should only take a minute.
+      = errors_for @review
+      = form_for [:website, @review] do |form|
+        .row
+          .col-sm-6
+            .form-group
+              = form.label :customer_name, class: 'control-label'
+              = form.text_field :customer_name, class: 'form-control'
+          .col-sm-6
+            .form-group
+              = form.label :customer_phone, class: 'control-label'
+              = form.phone_field :customer_phone, class: 'form-control'
+        hr
+        .text-center
+          .row
+            .col-sm-6.col-sm-offset-3
+              .form-group
+                = form.label :overall_rating, class: 'control-label'
+                = form.text_field :overall_rating, class: 'form-control'
+          .row
+            .col-sm-4
+              .form-group
+                = form.label :quality_rating, class: 'control-label'
+                = form.text_field :quality_rating, class: 'form-control'
+            .col-sm-4
+              .form-group
+                = form.label :value_rating, class: 'control-label'
+                = form.text_field :value_rating, class: 'form-control'
+            .col-sm-4
+              .form-group
+                = form.label :service_rating, class: 'control-label'
+                = form.text_field :service_rating, class: 'form-control'
+        hr
+        .form-group
+          = form.label :title, 'Summarize Your Experience – Bottom Line', class: 'control-label'
+          = form.text_field :title, class: 'form-control'
+        .form-group
+          = form.label :description, 'Describe your experience in a sentence or two and what a future customer should know.', class: 'control-label'
+          = form.text_area :description, rows: 6, class: 'form-control'
+        hr
+        .row
+          .col-sm-6
+            .form-group
+              = form.label :customer_email, class: 'control-label'
+              = form.email_field :customer_email, class: 'form-control'
+            p.help-block We just need to verify your email address to ensure you’re a real person.
+        .text-right
+          .form-group
+            = form.button class: 'btn btn-lg btn-success' do
+              ' Submit Review
+              = icon 'angle-double-right'

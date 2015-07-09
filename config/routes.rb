@@ -33,8 +33,8 @@ Rails.application.routes.draw do
     end
 
     namespace :connect do
-      get :cce, to: 'cces#redirect', as: :cce
-      get :session_create, to: 'sessions#create'
+      get :locable, to: 'session_redirects#locable'
+      get :receive_locable, to: 'session_creates#locable'
     end
 
     namespace :onboard do
@@ -65,6 +65,10 @@ Rails.application.routes.draw do
           resources :event_definitions, only: %i[new create edit update destroy], path: 'events' do
             get :clone, on: :member
           end
+          resources :event_imports, only: %i[index] do
+            post :import_all, on: :collection
+            post :import, on: :member
+          end
           resources :galleries, only: %i[new create edit update destroy]
           resources :images, only: %i[index edit update destroy]
           resources :offers, only: %i[new create edit update destroy] do
@@ -91,7 +95,14 @@ Rails.application.routes.draw do
         namespace :crm do
           root to: 'roots#show'
           resource :contact_message_notifications, only: %i[edit update]
+          resource :reviews_automation, only: %i[update]
           resources :contact_messages, only: %i[index show]
+          resources :customers, only: %i[index new create edit update] do
+            resource :review_invitation, only: %i[create]
+          end
+          resources :reviews, only: %i[index show] do
+            resource :review_publication, only: %i[create destroy]
+          end
         end
 
         namespace :website do
@@ -119,11 +130,9 @@ Rails.application.routes.draw do
 
         resource :marketing, only: %i[show]
         resource :super_settings, only: %i[edit update]
-        resource :reviews_subscriptions, only: %i[update]
         resources :alliances, only: %i[index]
         resources :authorizations, only: %i[index new create destroy]
         resources :images, only: %i[index]
-        resources :reviews, only: %i[index]
       end
     end
 
@@ -145,7 +154,7 @@ Rails.application.routes.draw do
     resources :offers, only: %i[show]
     resources :posts, only: %i[show]
     resources :quick_posts, only: %i[show]
-    resources :reviews, only: %i[index show]
+    resources :reviews, only: %i[index show new create]
 
     get '*id', to: 'custom_pages#show', as: :custom_page
   end

@@ -1,0 +1,33 @@
+- title 'All Customers'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li.active All Customers
+
+.pull-right
+  = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
+    => icon 'plus-circle'
+    | Add Customer
+
+- if @customers.empty?
+  p style="margin:2em 0"
+    em No customers found.
+- else
+  p style="margin:2em 0" = page_entries_info @customers
+  .panel.panel-default
+    .table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th Name
+            th Email
+            th Phone
+            th Left Review?
+            th Review Date
+            th Service Date
+            th
+        tbody
+          = render @customers
+  = paginate @customers

@@ -10,9 +10,9 @@ ol.breadcrumb
 hr
 
 dl.dl-horizontal
-  dt Name
-  dd = @contact_message.name
+  dt Customer Name
+  dd = link_to @contact_message.customer.name, [:edit, @business, :crm, @contact_message.customer]
   dt Email
-  dd = @contact_message.email
+  dd = @contact_message.customer.email
   dt Message
   dd = @contact_message.message

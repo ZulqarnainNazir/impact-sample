@@ -1,0 +1,14 @@
+tr
+  td = link_to review.customer.name, [:edit, review.business, :crm, review.customer]
+  td = review.reviewed_at.strftime('%D')
+  td = review.serviced_at.try(:strftime, '%D') || '--'
+  td = review.overall_rating.to_f
+  td = review.title
+  td = link_to truncate(review.description, length: 140), [review.business, :crm, review]
+  td
+    - if review.published?
+      strong.text-success> Yes
+      = link_to 'Hide', [review.business, :crm, review, :review_publication, page: 1], method: :delete, class: 'btn btn-xs btn-default' 
+    - else
+      strong.text-muted> No
+      = link_to 'Publish', [review.business, :crm, review, :review_publication, page: 1], method: :post, class: 'btn btn-xs btn-primary' 

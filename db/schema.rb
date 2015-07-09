@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706184702) do
+ActiveRecord::Schema.define(version: 20150708170131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,6 @@ ActiveRecord::Schema.define(version: 20150706184702) do
     t.integer  "plan",                  default: 0, null: false
     t.integer  "cce_id"
     t.text     "cce_url"
-    t.text     "cce_name"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -117,17 +116,31 @@ ActiveRecord::Schema.define(version: 20150706184702) do
   add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
 
   create_table "contact_messages", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.string   "name",        null: false
-    t.string   "email",       null: false
-    t.text     "message",     null: false
+    t.integer  "business_id",    null: false
+    t.string   "customer_name",  null: false
+    t.string   "customer_email", null: false
+    t.text     "message",        null: false
     t.json     "settings"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.text     "phone"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.text     "customer_phone"
+    t.integer  "customer_id"
   end
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
+  add_index "contact_messages", ["customer_id"], name: "index_contact_messages_on_customer_id", using: :btree
+
+  create_table "customers", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "name",        null: false
+    t.text     "email",       null: false
+    t.text     "phone"
+    t.text     "notes"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "customers", ["business_id"], name: "index_customers_on_business_id", using: :btree
 
   create_table "event_definition_locations", force: :cascade do |t|
     t.integer  "event_definition_id", null: false
@@ -386,22 +399,30 @@ ActiveRecord::Schema.define(version: 20150706184702) do
   add_index "redirects", ["website_id"], name: "index_redirects_on_website_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
-    t.integer  "business_id",                                null: false
-    t.text     "external_id",                                null: false
-    t.text     "external_name",                              null: false
-    t.text     "external_type",                              null: false
-    t.text     "external_url",                               null: false
-    t.text     "external_user_id",                           null: false
-    t.text     "external_user_name",                         null: false
-    t.text     "title",                                      null: false
-    t.text     "description",                                null: false
-    t.decimal  "rating",             precision: 2, scale: 1, null: false
-    t.datetime "reviewed_at",                                null: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.integer  "business_id",                                            null: false
+    t.text     "title",                                                  null: false
+    t.text     "description",                                            null: false
+    t.decimal  "overall_rating", precision: 2, scale: 1,                 null: false
+    t.datetime "reviewed_at",                                            null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.text     "external_url"
+    t.text     "external_type"
+    t.text     "external_name"
+    t.text     "external_id"
+    t.decimal  "quality_rating", precision: 2, scale: 1
+    t.decimal  "service_rating", precision: 2, scale: 1
+    t.decimal  "value_rating",   precision: 2, scale: 1
+    t.text     "customer_name"
+    t.text     "customer_email"
+    t.text     "customer_phone"
+    t.integer  "customer_id"
+    t.boolean  "published",                              default: false, null: false
+    t.date     "serviced_at"
   end
 
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree
+  add_index "reviews", ["customer_id"], name: "index_reviews_on_customer_id", using: :btree
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false
@@ -447,7 +468,6 @@ ActiveRecord::Schema.define(version: 20150706184702) do
     t.datetime "updated_at"
     t.boolean  "super_user",             default: false, null: false
     t.integer  "cce_id"
-    t.text     "cce_url"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

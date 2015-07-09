@@ -13,7 +13,7 @@ module ContentHelper
 
   def errors_for(resource, message: nil)
     if resource && resource.errors.full_messages.any?
-      render partial: 'errors', locals: { message: message, error_messages: resource.errors.full_messages }
+      render partial: 'errors', locals: { message: message, error_messages: resource.errors.full_messages.uniq }
     end
   end
 

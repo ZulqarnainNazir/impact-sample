@@ -14,7 +14,7 @@
                 i.fa.fa-user>
                 | Edit Profile
               - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-                li = link_to connect_cce_url, target: :_blank do
+                li = link_to connect_locable_path, target: :_blank do
                   i.fa.fa-external-link>
                   | Go to Locable
                 li.divider

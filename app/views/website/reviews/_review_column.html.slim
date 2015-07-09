@@ -1,22 +1,22 @@
 blockquote.review.col-sm-4
   .review-rating
-    - if review.rating >= 1.0
+    - if review.overall_rating >= 1.0
       span.fa.fa-star
     - else
       span.fa.fa-star-o
-    - if review.rating >= 2.0
+    - if review.overall_rating >= 2.0
       span.fa.fa-star
     - else
       span.fa.fa-star-o
-    - if review.rating >= 3.0
+    - if review.overall_rating >= 3.0
       span.fa.fa-star
     - else
       span.fa.fa-star-o
-    - if review.rating >= 4.0
+    - if review.overall_rating >= 4.0
       span.fa.fa-star
     - else
       span.fa.fa-star-o
-    - if review.rating == 5.0
+    - if review.overall_rating == 5.0
       span.fa.fa-star
     - else
       span.fa.fa-star-o

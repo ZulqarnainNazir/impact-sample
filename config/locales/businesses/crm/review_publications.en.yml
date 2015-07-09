@@ -1,0 +1,10 @@
+en:
+  businesses:
+    crm:
+      review_publications:
+        create:
+          notice: The review was successfully published.
+          alert: There was a problem publishing the review.
+        destroy:
+          notice: The review was successfully hidden.
+          alert: There was a problem hiding the review.

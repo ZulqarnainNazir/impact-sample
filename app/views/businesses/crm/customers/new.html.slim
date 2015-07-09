@@ -1,0 +1,38 @@
+- title 'Add Customer'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li = link_to 'All Customers', [@business, :crm_customers]
+  li.active Add Customers
+
+
+= form_for @customer, url: [@business, :crm_customers] do |form|
+  .row
+    .col-sm-8
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Add a new Customer
+        .panel-body
+          = errors_for @customer
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :email, class: 'control-label'
+            = form.email_field :email, class: 'form-control'
+          .form-group
+            = form.label :phone, class: 'control-label'
+            = form.phone_field :phone, class: 'form-control'
+          hr
+          .form-group
+            = form.label :notes, class: 'control-label'
+            = form.text_area :notes, rows: 6, class: 'form-control'
+          hr
+          .checkbox
+            = label_tag :review_invitation do
+              => check_box_tag :review_invitation, 1, true
+              | Send email inviting customer to review your business?
+        .panel-footer
+          = form.button 'Add Customer', class: 'btn btn-primary'
