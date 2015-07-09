@@ -24,8 +24,8 @@ blockquote.review.col-sm-4
     h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), [:website, review]
     p.review-quote = truncate review.description, length: 300
   p.reviewer
-    span.reviewer-name => review.external_user_name
-    - if review.external_type == 'cce'
+    span.reviewer-name => review.customer.name
+    - if review.external_type == 'locable'
       span.text-muted> – via
       = link_to review.external_url, target: :_blank do
         => review.external_name

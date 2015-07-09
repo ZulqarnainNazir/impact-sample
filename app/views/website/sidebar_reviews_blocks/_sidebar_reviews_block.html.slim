@@ -3,7 +3,7 @@
   - if business.reviews.any?
     .well.well-sm.reviews-sidebar
       .text-center
-        - rating = Business.where(id: business.id).joins(:reviews).select('businesses.*, (SUM(reviews.rating) / COUNT(reviews.id)) as rating').group('businesses.id').first.try(:rating).to_f
+        - rating = Business.where(id: business.id).joins(:reviews).select('businesses.*, (SUM(reviews.overall_rating) / COUNT(reviews.id)) as rating').group('businesses.id').first.try(:rating).to_f
         span.review-rating
           - if rating >= 1.0
             span.fa.fa-star
