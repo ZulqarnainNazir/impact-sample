@@ -47,8 +47,20 @@ class Businesses::Accounts::LocablesController < Businesses::BaseController
         end
       else
         locable_business = LocableBusiness.find_by_slug(params[:locable_url])
-        if locable_business && locable_business.claim(@business, current_user)
-          redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully linked.'
+        if locable_business
+          if locable_business.claimed?
+            if locable_business.claim(@business, current_user)
+              redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully linked.'
+            else
+              redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem claiming your Locable listing.'
+            end
+          else
+            if locable_business.link(@business)
+              redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully linked.'
+            else
+              redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem claiming your Locable listing.'
+            end
+          end
         else
           redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem claiming your Locable listing.'
         end

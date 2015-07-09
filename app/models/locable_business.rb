@@ -32,12 +32,30 @@ class LocableBusiness < ActiveRecord::Base
 
   def create(impact_business, impact_user, locable_site)
     raise ArgumentError, 'only new businesses can be created from persisted businesses' if persisted? || impact_business.new_record?
-    raise ArgumentError, 'todo permissions'
+
+    begin
+      Business.transaction do
+        LocableBusiness.transaction do
+        end
+      end
+      true
+    rescue
+      false
+    end
   end
 
   def claim(impact_business, impact_user)
     raise ArgumentError, 'businesses must be persisted and unclaimed to claim' if new_record? || claimed? || impact_business.new_record?
-    raise ArgumentError, 'todo permissions'
+
+    begin
+      Business.transaction do
+        LocableBusiness.transaction do
+        end
+      end
+      true
+    rescue
+      false
+    end
   end
 
   def link(impact_business)

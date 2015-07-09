@@ -1,4 +1,4 @@
-class EventsExportJob < ApplicationJob
+class ReviewsExportJob < ApplicationJob
   queue_as :default
 
   def perform(business)
