@@ -31,7 +31,16 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
       :email,
       :phone,
       :notes,
-      :service_date,
-    )
+      feedbacks_attributes: [
+        :serviced_at,
+        :_destroy,
+      ],
+    ).tap do |safe_params|
+      if safe_params[:feedbacks_attributes]
+        safe_params[:feedbacks_attributes].map do |_, attr|
+          attr[:business] = @business
+        end
+      end
+    end
   end
 end

@@ -1,0 +1,40 @@
+- title 'Feedback'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li.active Feedback
+
+.pull-right
+  = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
+    => icon 'plus-circle'
+    | Invite a Customer
+
+- if @feedbacks.empty?
+  p style="margin:2em 0"
+    em No feedback found. #{link_to 'Add a customer', [:new, @business, :crm_customer]} to send them an email prompting for their feedback.
+  hr
+- else
+  p style="margin:2em 0" = page_entries_info @feedbacks
+  .panel.panel-default
+    .table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th Customer Name
+            th Service Date
+            th Feedback Score
+            th Message
+            th Left Feedback?
+            th Left Review?
+        tbody
+          = render @feedbacks
+  = paginate @feedbacks
+
+= form_for @business, url: [@business, :crm, :feedbacks_automation] do |form|
+  .text-center style="margin-top:2em"
+    span> Automatically prompt customers to leave a review when their feedback score is above
+    => form.select :automated_feedbacks_publishing, options_for_select((1..10).map { |n| [n, n] }, selected: form.object.automated_feedbacks_publishing), include_blank: true
+    span.text-muted> –
+    = form.button 'Save', class: 'btn btn-xs btn-default'

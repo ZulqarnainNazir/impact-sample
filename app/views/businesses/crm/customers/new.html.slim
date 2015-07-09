@@ -30,9 +30,16 @@ ol.breadcrumb
             = form.label :notes, class: 'control-label'
             = form.text_area :notes, rows: 6, class: 'form-control'
           hr
-          .checkbox
-            = label_tag :review_invitation do
-              => check_box_tag :review_invitation, 1, true
-              | Send email inviting customer to review your business?
+          = form.fields_for :feedbacks, @customer.feedbacks.last || @customer.feedbacks.new do |form|
+            h2.h5 style="margin-bottom:1.5em" Prompt Customer for Feedback About Their Visit
+            .row
+              .col-sm-8
+                .form-group
+                  = form.label :serviced_at, class: 'control-label'
+                  = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: 'datepicker' }
+            .checkbox
+              = form.label :_destroy do
+                => form.check_box :_destroy
+                | Don’t ask the customer to provide feedback for my business.
         .panel-footer
           = form.button 'Add Customer', class: 'btn btn-primary'

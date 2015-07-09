@@ -1,6 +1,7 @@
 class Review < ActiveRecord::Base
   belongs_to :business
   belongs_to :customer
+  belongs_to :feedback
 
   accepts_nested_attributes_for :customer
 
@@ -9,9 +10,13 @@ class Review < ActiveRecord::Base
   validates :customer_email, presence: true
   validates :customer_name, presence: true
   validates :description, presence: true
-  validates :overall_rating, presence: true
+  validates :feedback, presence: true, associated: true
+  validates :overall_rating, presence: true, numericality: { in: 1..5 }
+  validates :quality_rating, presence: true, numericality: { in: 1..5 }
   validates :reviewed_at, presence: true
+  validates :service_rating, presence: true, numericality: { in: 1..5 }
   validates :title, presence: true
+  validates :value_rating, presence: true, numericality: { in: 1..5 }
 
   before_validation do
     self.reviewed_at = Time.now unless reviewed_at?

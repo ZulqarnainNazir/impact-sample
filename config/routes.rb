@@ -95,9 +95,13 @@ Rails.application.routes.draw do
         namespace :crm do
           root to: 'roots#show'
           resource :contact_message_notifications, only: %i[edit update]
+          resource :feedbacks_automation, only: %i[update]
           resource :reviews_automation, only: %i[update]
           resources :contact_messages, only: %i[index show]
           resources :customers, only: %i[index new create edit update] do
+            resources :feedbacks, only: %i[new create]
+          end
+          resources :feedbacks, only: %i[index show] do
             resource :review_invitation, only: %i[create]
           end
           resources :reviews, only: %i[index show] do
@@ -145,6 +149,7 @@ Rails.application.routes.draw do
     resource :about_page, path: 'about', only: %i[show]
     resource :blog_page, path: 'blog', only: %i[show]
     resource :contact_page, path: 'contact', only: %i[show create]
+    resource :feedback, only: %i[new create show], path: 'feedback'
 
     resources :before_afters, only: %i[show]
     resources :events, only: %i[index show]

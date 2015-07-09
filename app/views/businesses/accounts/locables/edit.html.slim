@@ -30,6 +30,12 @@ ol.breadcrumb
     p.help-block You’ll have the opportunity to #{link_to 'moderate reviews in the CRM', [@business, :crm_reviews]} before they are published
     hr
     .checkbox
+      = form.label :automated_export_locable_reviews do
+        => form.check_box :automated_export_locable_reviews
+        | Automatically Export Reviews to Locable
+    p.help-block Existing reviews will be exported shortly after enabling this setting. New inbound reviews will be published to Locable immediately.
+    hr
+    .checkbox
       = form.label :automated_import_locable_events do
         => form.check_box :automated_import_locable_events
         | Include Locable in Events Import

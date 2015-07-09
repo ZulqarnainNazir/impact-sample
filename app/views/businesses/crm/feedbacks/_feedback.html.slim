@@ -1,0 +1,16 @@
+tr
+  td = link_to feedback.customer.name, [:edit, feedback.business, :crm, feedback.customer]
+  td = feedback.serviced_at.try(:strftime, '%D') || '--'
+  td = feedback.score || '--'
+  td = feedback.description? ? link_to(truncate(feedback.description, length: 140), [feedback.business, :crm, feedback]) : '--'
+  td
+    - if feedback.score?
+      | Yes
+    - else
+      ' No
+      = link_to 'Reinvite to Review', [feedback.business, :crm, feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+  td
+    - if feedback.review
+      = link_to 'Yes', [feedback.business, :crm, feedback.review]
+    - else
+      | No

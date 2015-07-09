@@ -1,0 +1,20 @@
+- title 'Leave Feedback'
+
+= webpage_container do
+  .row
+    .col-sm-8.col-sm-offset-2
+      br
+      p.lead.text-center Thanks for taking the time to leave us some feedback.
+      br
+      = errors_for @feedback
+      = form_for @feedback, url: :website_feedback, method: :post do |form|
+        = hidden_field_tag :feedback_token, params[:feedback_token]
+        = form.hidden_field :score, value: params[:feedback_score] || form.object.score
+        .form-group
+          = form.label :description, 'Please provide any additional feedback you have', class: 'control-label'
+          = form.text_area :description, rows: 6, class: 'form-control'
+        .text-right
+          .form-group
+            = form.button class: 'btn btn-lg btn-success' do
+              ' Submit Feedback
+              = icon 'angle-double-right'

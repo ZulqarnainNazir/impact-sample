@@ -17,7 +17,6 @@ en:
         customer_phone: Phone
       customer:
         notes: Additional Notes
-        service_date: Service Date
       event_definition:
         start_date: Start Date
         start_time: Start Time
@@ -29,6 +28,8 @@ en:
         event_definition_location: Event Location
       event_definition/event_definition_location:
         location: Event Location
+      feedback:
+        serviced_at: Date of Service of Completion
       location:
         name: Location Name
         email: Email Address
@@ -45,10 +46,14 @@ en:
       redirect:
         from_path: Origin Path
         to_path: Destination
-      review:
+      feedback/review:
         customer_name: Name
         customer_email: Email
         customer_phone: Phone
+        service_rating: Service
+        value_rating: Value
+        quality_rating: Quality
+        overall_rating: Overall Rating
       user:
         first_name: First Name
         last_name: Last Name

@@ -13,11 +13,18 @@ ol.breadcrumb
     h1.h4 Customer Data for #{@customer.email}
   .row
     .col-sm-6
+      h2.h4
+        ' Feedback
+        = link_to 'Ask for Feedback', [:new, @business, :crm, @customer, :feedback], class: 'btn btn-xs btn-default pull-right'
+      - if @customer.feedbacks.empty?
+        p: em No feedback found.
+      - else
+        ul
+          - @customer.feedbacks.each do |feedback|
+            li = link_to "Serviced on #{feedback.serviced_at || '--'}; Score #{feedback.score || '--'}", [@business, :crm, feedback]
       h2.h4 Reviews
       - if @customer.reviews.empty?
-        p
-          em> No customer reviews found.
-          = link_to 'Invite to Review', [@business, :crm, @customer, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+        p: em No customer reviews found.
       - else
         ul
           - @customer.reviews.each do |review|

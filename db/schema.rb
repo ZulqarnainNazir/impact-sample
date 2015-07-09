@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708170131) do
+ActiveRecord::Schema.define(version: 20150709174725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,21 @@ ActiveRecord::Schema.define(version: 20150708170131) do
 
   add_index "events", ["business_id"], name: "index_events_on_business_id", using: :btree
   add_index "events", ["event_definition_id"], name: "index_events_on_event_definition_id", using: :btree
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer  "business_id",  null: false
+    t.integer  "customer_id",  null: false
+    t.text     "token",        null: false
+    t.datetime "completed_at"
+    t.date     "serviced_at"
+    t.integer  "score"
+    t.text     "description"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "feedbacks", ["business_id"], name: "index_feedbacks_on_business_id", using: :btree
+  add_index "feedbacks", ["customer_id"], name: "index_feedbacks_on_customer_id", using: :btree
 
   create_table "galleries", force: :cascade do |t|
     t.integer  "business_id", null: false
@@ -418,7 +433,7 @@ ActiveRecord::Schema.define(version: 20150708170131) do
     t.text     "customer_phone"
     t.integer  "customer_id"
     t.boolean  "published",                              default: false, null: false
-    t.date     "serviced_at"
+    t.integer  "feedback_id",                                            null: false
   end
 
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree

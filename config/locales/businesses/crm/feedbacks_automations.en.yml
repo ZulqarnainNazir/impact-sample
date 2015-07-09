@@ -1,0 +1,6 @@
+en:
+  businesses:
+    crm:
+      feedbacks_automations:
+        update:
+          notice: 'Your feedback automation threshold was successfully updated.'

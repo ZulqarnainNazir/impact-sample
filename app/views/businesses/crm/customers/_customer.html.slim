@@ -1,15 +1,28 @@
+- last_feedback = customer.feedbacks.order(completed_at: :desc).last
+- last_complete_feedback = customer.feedbacks.complete.order(completed_at: :desc).last
+- last_complete_feedback_review = customer.feedbacks.complete.joins(:review).where.not(reviews: { id: nil }).order(completed_at: :desc).last.try(:review)
+- last_incomplete_feedback = customer.feedbacks.incomplete.order(completed_at: :desc).last
 tr
   td = customer.name
   td = customer.email
   td = customer.phone? ? customer.phone : '--'
+  td = last_feedback.try(:serviced_at).try(:strftime, '%D') || '--'
+  td = last_feedback.try(:completed_at).try(:strftime, '%D') || '--'
+  td = last_feedback.try(:score) || '--'
   td
-    - if customer.reviews.any?
-      = pluralize customer.reviews.count, 'Review'
+    - if last_complete_feedback
+      | Yes
+    - elsif last_incomplete_feedback
+      ' No
+      = link_to 'Reinvite', [customer.business, :crm, last_incomplete_feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
     - else
       ' No
-      = link_to 'Invite to Review', [@business, :crm, customer, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
-  td = customer.reviews.order(reviewed_at: :desc).last.try(:reviewed_at).try(:strftime, '%D') || '--'
-  td = customer.reviews.order(reviewed_at: :desc).last.try(:serviced_at).try(:strftime, '%D') || '--'
+      = link_to 'Invite to Review', [:new, customer.business, :crm, customer, :feedback], class: 'btn btn-xs btn-default'
+  td
+    - if last_complete_feedback_review
+      = link_to 'Yes', [customer.business, :crm, last_complete_feedback_review]
+    - else
+      | No
   td = link_to [:edit, customer.business, :crm, customer], class: 'btn btn-xs btn-default' do
     => icon 'pencil'
     | Edit

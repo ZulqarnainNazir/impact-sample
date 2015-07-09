@@ -1,7 +1,7 @@
 tr
   td = link_to review.customer.name, [:edit, review.business, :crm, review.customer]
   td = review.reviewed_at.strftime('%D')
-  td = review.serviced_at.try(:strftime, '%D') || '--'
+  td = review.feedback.serviced_at.try(:strftime, '%D') || '--'
   td = review.overall_rating.to_f
   td = review.title
   td = link_to truncate(review.description, length: 140), [review.business, :crm, review]

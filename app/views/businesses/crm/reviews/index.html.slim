@@ -9,11 +9,12 @@ ol.breadcrumb
 .pull-right
   = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
     => icon 'plus-circle'
-    | Invite a New Customer to Review
+    | Invite a Customer
 
 - if @reviews.empty?
   p style="margin:2em 0"
     em No reviews found. #{link_to 'Add a customer', [:new, @business, :crm_customer]} to send them an invitation to review your business.
+  hr
 - else
   p style="margin:2em 0" = page_entries_info @reviews
   .panel.panel-default
@@ -31,9 +32,10 @@ ol.breadcrumb
         tbody
           = render @reviews
   = paginate @reviews
-  = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
-    .text-center style="margin-top:2em"
-      span> Automatically publish reviews rated at or above
-      => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
-      span.text-muted> –
-      = form.button 'Save', class: 'btn btn-xs btn-default'
+
+= form_for @business, url: [@business, :crm, :reviews_automation] do |form|
+  .text-center style="margin-top:2em"
+    span> Automatically publish reviews rated at or above
+    => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
+    span.text-muted> –
+    = form.button 'Save', class: 'btn btn-xs btn-default'

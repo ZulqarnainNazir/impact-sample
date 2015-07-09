@@ -96,6 +96,9 @@ html lang="en"
                     li = link_to [@business, :crm_customers] do
                       i.fa.fa-users>
                       | All Customers
+                    li.list-divider = link_to [@business, :crm_feedbacks] do
+                      i.fa.fa-line-chart>
+                      | Feedback
                     li.list-divider = link_to [@business, :crm_reviews] do
                       i.fa.fa-star>
                       | Reviews

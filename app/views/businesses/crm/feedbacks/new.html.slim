@@ -1,0 +1,25 @@
+- title 'Prompt for Feedback'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li = link_to 'All Customers', [@business, :crm_customers]
+  li = link_to @customer.name, [@business, :crm, @customer]
+  li.active Prompt for Feedback
+
+= form_for @feedback, url: [@business, :crm, @customer, :feedbacks] do |form|
+  .row
+    .col-sm-8
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Prompt for Feedback
+        .panel-body
+          = errors_for @feedback
+          .row
+            .col-sm-8
+              .form-group
+                = form.label :serviced_at, class: 'control-label'
+                = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+        .panel-footer
+          = form.button 'Submit', class: 'btn btn-primary'

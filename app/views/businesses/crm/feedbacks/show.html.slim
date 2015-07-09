@@ -1,0 +1,22 @@
+- title 'Feedback'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li = link_to 'Feedback', [@business, :crm_feedbacks]
+  li.active Feedback ##{@feedback.id}
+
+hr
+
+dl.dl-horizontal
+  dt Serviced At
+  dd = @feedback.serviced_at.try(:strftime, '%D') || '--'
+  dt Feedback Score
+  dd = @feedback.score
+  dt Customer Name
+  dd = link_to @feedback.customer.name, [:edit, @business, :crm, @feedback.customer]
+  dt Email
+  dd = @feedback.customer.email
+  dt Additional Feedback
+  dd = @feedback.description

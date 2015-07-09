@@ -1,0 +1,7 @@
+en:
+  businesses:
+    crm:
+      feedbacks:
+        create:
+          notice: Your request for feedback has been received and will be sent shortly.
+          alert: There was a problem submitting your request.

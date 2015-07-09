@@ -1,0 +1,71 @@
+css:
+  * { text-align: center; }
+
+p Thanks for allowing us to serve you. We’d love your feedback on your recent experience with us.
+br
+p Would you recommend us to a friend? (Click to start your review.)
+
+table
+  tr
+    th 01
+    th 2
+    th 3
+    th 4
+    th 5
+    th 6
+    th 7
+    th 8
+    th 9
+    th 10
+  tr
+    - if 1 >= @business.automated_feedbacks_publishing
+      td = link_to '01', new_website_review_url(feedback_token: @feedback.token, feedback_score: 1, host: @website_host)
+    - else
+      td = link_to '01', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 1, host: @website_host)
+    - if 2 >= @business.automated_feedbacks_publishing
+      td = link_to '2', new_website_review_url(feedback_token: @feedback.token, feedback_score: 2, host: @website_host)
+    - else
+      td = link_to '2', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 2, host: @website_host)
+    - if 3 >= @business.automated_feedbacks_publishing
+      td = link_to '3', new_website_review_url(feedback_token: @feedback.token, feedback_score: 3, host: @website_host)
+    - else
+      td = link_to '3', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 3, host: @website_host)
+    - if 4 >= @business.automated_feedbacks_publishing
+      td = link_to '4', new_website_review_url(feedback_token: @feedback.token, feedback_score: 4, host: @website_host)
+    - else
+      td = link_to '4', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 4, host: @website_host)
+    - if 5 >= @business.automated_feedbacks_publishing
+      td = link_to '5', new_website_review_url(feedback_token: @feedback.token, feedback_score: 5, host: @website_host)
+    - else
+      td = link_to '5', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 5, host: @website_host)
+    - if 6 >= @business.automated_feedbacks_publishing
+      td = link_to '6', new_website_review_url(feedback_token: @feedback.token, feedback_score: 6, host: @website_host)
+    - else
+      td = link_to '6', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 6, host: @website_host)
+    - if 7 >= @business.automated_feedbacks_publishing
+      td = link_to '7', new_website_review_url(feedback_token: @feedback.token, feedback_score: 7, host: @website_host)
+    - else
+      td = link_to '7', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 7, host: @website_host)
+    - if 8 >= @business.automated_feedbacks_publishing
+      td = link_to '8', new_website_review_url(feedback_token: @feedback.token, feedback_score: 8, host: @website_host)
+    - else
+      td = link_to '8', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 8, host: @website_host)
+    - if 9 >= @business.automated_feedbacks_publishing
+      td = link_to '9', new_website_review_url(feedback_token: @feedback.token, feedback_score: 9, host: @website_host)
+    - else
+      td = link_to '9', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 9, host: @website_host)
+    - if 10 >= @business.automated_feedbacks_publishing
+      td = link_to '10', new_website_review_url(feedback_token: @feedback.token, feedback_score: 10, host: @website_host)
+    - else
+      td = link_to '10', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 10, host: @website_host)
+  tr
+    td colspan="3" style="text-align:left" Not at all likely
+    td colspan="4" style="text-align:center" Neutral
+    td colspan="3" style="text-align:right" Extremely Likely
+
+p = link_to 'No Feedback from me, Thanks', new_website_feedback_url(feedback_token: @feedback.token, host: @website_host)
+
+p style="text-align:left"
+  => @location.try(:address_street_line_one)
+  br>
+  => @location.try(:address_street_line_two)

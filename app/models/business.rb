@@ -2,9 +2,11 @@ class Business < ActiveRecord::Base
   include PlacedImageConcern
 
   store_accessor :settings,
-    :automated_import_locable_reviews,
     :automated_export_locable_events,
+    :automated_export_locable_reviews,
     :automated_import_locable_events,
+    :automated_import_locable_reviews,
+    :automated_feedbacks_publishing,
     :automated_reviews_publishing
 
   enum kind: { traditional_business: 0, group_or_cause: 1, }
@@ -17,6 +19,7 @@ class Business < ActiveRecord::Base
     has_many :contact_messages
     has_many :customers
     has_many :event_definitions
+    has_many :feedbacks
     has_many :galleries
     has_many :lines
     has_many :offers
@@ -69,6 +72,11 @@ class Business < ActiveRecord::Base
 
   def self.alphabetical
     order('LOWER(name) ASC')
+  end
+
+  def automated_feedbacks_publishing
+    value = super
+    value.to_i > 0 ? value.to_i : 6
   end
 
   def automated_reviews_publishing

@@ -11,7 +11,7 @@ hr
 
 dl.dl-horizontal
   dt Serviced At
-  dd = @review.serviced_at.try(:strftime, '%D') || '--'
+  dd = @review.feedback.serviced_at.try(:strftime, '%D') || '--'
   dt Reviewed At
   dd = @review.reviewed_at.strftime('%D')
   dt Rating
