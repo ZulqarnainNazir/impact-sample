@@ -2,6 +2,8 @@ class ReviewsExportJob < ApplicationJob
   queue_as :default
 
   def perform(business)
-    # Nofify locable
+    if business.automated_export_locable_reviews == '1'
+      notify_locable '/reviews/import', impact_business_id: business.id
+    end
   end
 end
