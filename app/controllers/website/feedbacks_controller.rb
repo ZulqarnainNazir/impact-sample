@@ -1,7 +1,10 @@
 class Website::FeedbacksController < Website::BaseController
   before_action only: new_actions do
-    @feedback = @business.feedbacks.incomplete.where(token: params[:feedback_token]).first!
-    @feedback.completed_at = Time.now
+    @feedback = @business.feedbacks.where(token: params[:feedback_token]).first!
+
+    if params[:feedback_score]
+      @feedback.update(completed_at: Time.now, score: params[:feedback_score])
+    end
   end
 
   def create
@@ -13,7 +16,6 @@ class Website::FeedbacksController < Website::BaseController
   def feedback_params
     params.require(:feedback).permit(
       :description,
-      :score,
     )
   end
 end

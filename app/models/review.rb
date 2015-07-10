@@ -27,6 +27,7 @@ class Review < ActiveRecord::Base
 
   after_save do
     self.customer.save if customer
+    ReviewsExportJob.perform_later(business)
   end
 
   def self.published

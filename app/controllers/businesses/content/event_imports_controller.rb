@@ -4,10 +4,17 @@ class Businesses::Content::EventImportsController < Businesses::Content::BaseCon
   end
 
   def import_all
-    redirect_to [@business, :content_event_imports], alert: 'TODO'
+    @locable_business.events.where('external_type IS NULL OR external_type != ?', 'impact').each do |locable_event|
+      locable_event.import(@business).reschedule_events!
+    end
+    EventDefinition.__elasticsearch__.refresh_index!
+    redirect_to [@business, :content_event_imports], notice: 'The events wwasere successfully imported into your content library'
   end
 
   def import
-    redirect_to [@business, :content_event_imports], alert: 'TODO'
+    locable_event = @locable_business.events.where('external_type IS NULL OR external_type != ?', 'impact').find(params[:id])
+    locable_event.import(@business).reschedule_events!
+    EventDefinition.__elasticsearch__.refresh_index!
+    redirect_to [@business, :content_event_imports], notice: 'The event was successfully imported into your content library'
   end
 end

@@ -17,9 +17,11 @@ ol.breadcrumb
         .panel-body
           = errors_for @feedback
           .row
-            .col-sm-8
+            .col-sm-8.col-md-6
               .form-group
                 = form.label :serviced_at, class: 'control-label'
-                = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+                .input-group
+                  = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+                  span.input-group-addon: i.fa.fa-calendar
         .panel-footer
           = form.button 'Submit', class: 'btn btn-primary'

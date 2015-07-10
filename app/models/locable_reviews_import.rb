@@ -14,7 +14,7 @@ class LocableReviewsImport
   end
 
   def import
-    @locable_business.reviews.map do |locable_review|
+    @locable_business.reviews.where('external_type IS NULL OR external_type != ?', 'impact').map do |locable_review|
       @business.reviews.where(
         external_type: 'locable',
         external_id: locable_review.id,

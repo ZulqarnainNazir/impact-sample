@@ -29,7 +29,7 @@ en:
       event_definition/event_definition_location:
         location: Event Location
       feedback:
-        serviced_at: Date of Service of Completion
+        serviced_at: Date of Service or Completion
       location:
         name: Location Name
         email: Email Address
@@ -46,7 +46,7 @@ en:
       redirect:
         from_path: Origin Path
         to_path: Destination
-      feedback/review:
+      review:
         customer_name: Name
         customer_email: Email
         customer_phone: Phone

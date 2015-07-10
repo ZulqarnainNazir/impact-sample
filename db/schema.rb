@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709215336) do
+ActiveRecord::Schema.define(version: 20150710052536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,8 +153,8 @@ ActiveRecord::Schema.define(version: 20150709215336) do
   add_index "event_definition_locations", ["location_id"], name: "index_event_definition_locations_on_location_id", using: :btree
 
   create_table "event_definitions", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.text     "title",       null: false
+    t.integer  "business_id",   null: false
+    t.text     "title",         null: false
     t.text     "subtitle"
     t.text     "description"
     t.text     "price"
@@ -165,8 +165,10 @@ ActiveRecord::Schema.define(version: 20150709215336) do
     t.date     "end_date"
     t.time     "start_time"
     t.time     "end_time"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.text     "external_type"
+    t.text     "external_id"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree

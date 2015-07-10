@@ -9,7 +9,6 @@
       = errors_for @feedback
       = form_for @feedback, url: :website_feedback, method: :post do |form|
         = hidden_field_tag :feedback_token, params[:feedback_token]
-        = form.hidden_field :score, value: params[:feedback_score] || form.object.score
         .form-group
           = form.label :description, 'Please provide any additional feedback you have', class: 'control-label'
           = form.text_area :description, rows: 6, class: 'form-control'

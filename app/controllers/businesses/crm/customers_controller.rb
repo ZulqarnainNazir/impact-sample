@@ -39,6 +39,7 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
       if safe_params[:feedbacks_attributes]
         safe_params[:feedbacks_attributes].map do |_, attr|
           attr[:business] = @business
+          attr[:_destroy] = '1' if params[:_inverse_destroy] != '1'
         end
       end
     end

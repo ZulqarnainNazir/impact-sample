@@ -1,7 +1,11 @@
 class Website::ReviewsController < Website::BaseController
   before_action only: new_actions do
-    @feedback = @business.feedbacks.incomplete.where(token: params[:feedback_token]).first!
-    @feedback.score = params[:feedback_score]
+    @feedback = @business.feedbacks.where(token: params[:feedback_token]).first!
+
+    if params[:feedback_score]
+      @feedback.update(completed_at: Time.now, score: params[:feedback_score])
+    end
+
     @feedback.build_review(
       business: @business,
       customer_name: @feedback.customer.name,

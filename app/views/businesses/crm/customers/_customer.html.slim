@@ -15,9 +15,11 @@ tr
     - elsif last_incomplete_feedback
       ' No
       = link_to 'Reinvite', [customer.business, :crm, last_incomplete_feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
-    - else
+    - elsif customer.reviews.empty?
       ' No
       = link_to 'Invite to Review', [:new, customer.business, :crm, customer, :feedback], class: 'btn btn-xs btn-default'
+    - else
+      | --
   td
     - if last_complete_feedback_review
       = link_to 'Yes', [customer.business, :crm, last_complete_feedback_review]

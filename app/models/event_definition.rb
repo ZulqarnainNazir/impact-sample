@@ -26,6 +26,10 @@ class EventDefinition < ActiveRecord::Base
     event_definition_location.event_definition = self if event_definition_location && !event_definition_location.event_definition
   end
 
+  after_save do
+    EventsExportJob.perform_later(business)
+  end
+
   def start_date=(*args)
     super DatepickerParser.parse(*args)
   end

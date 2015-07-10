@@ -49,13 +49,20 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
           redirect_to([existing_global_cce_business, :dashboard])
         elsif existing_global_cce_business
           redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that business has already been claimed.')
+        elsif !locable_business.claimed?
+          redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Please claim that Locable listing before upgrading it to IMPACT.')
         else
           create_resource @business, cce_params(locable_business), location: [:edit_onboard_website, @business] do |success|
             if success
-              if locable_business.claimed?
-                locable_business.link(@business)
-              else
-                locable_business.claim(@business, current_user)
+              locable_business.link(@business, current_user, LocableUser.where(email: current_user.email).first)
+              if @business.automated_export_locable_events == '1'
+                EventsExportJob.perform_later(@business)
+              end
+              if @business.automated_export_locable_reviews == '1'
+                ReviewsExportJob.perform_later(@business)
+              end
+              if @business.automated_import_locable_reviews == '1'
+                ReviewsImportJob.perform_later(@business)
               end
             end
           end

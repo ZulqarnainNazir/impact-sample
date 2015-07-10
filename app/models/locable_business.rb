@@ -30,47 +30,35 @@ class LocableBusiness < ActiveRecord::Base
     "http://#{URI.parse(site.base_url).host rescue site.domain}/businesses/#{slug}"
   end
 
-  def create(impact_business, impact_user, locable_site)
-    raise ArgumentError, 'only new businesses can be created from persisted businesses' if persisted? || impact_business.new_record?
-
+  def create(impact_business, impact_user, locable_user, locable_site)
     begin
-      Business.transaction do
-        LocableBusiness.transaction do
-        end
-      end
-      true
-    rescue
-      false
-    end
-
-    false
-  end
-
-  def claim(impact_business, impact_user)
-    raise ArgumentError, 'businesses must be persisted and unclaimed to claim' if new_record? || claimed? || impact_business.new_record?
-
-    begin
-      Business.transaction do
-        LocableBusiness.transaction do
-          locable_user = LocableUser.find(impact_user.cce_id)
-          update! impact_id: impact_business.id, owner_id: locable_user.id
-          impact_business.update! cce_id: id, automated_export_locable_events: nil, automated_import_locable_events: nil, automated_import_locable_reviews: nil
-        end
-      end
+      raise ArgumentError if persisted? || impact_business.new_record?
+      raise ArgumentError
       true
     rescue
       false
     end
   end
 
-  def link(impact_business)
-    raise ArgumentError, 'businesses must be persisted and claimed to link' if new_record? || !claimed? || impact_business.new_record?
-
+  def claim(impact_business, impact_user, locable_user)
     begin
+      raise ArgumentError if new_record? || claimed? || impact_business.new_record?
+      raise ArgumentError
+      true
+    rescue
+      false
+    end
+  end
+
+  def link(impact_business, impact_user, locable_user)
+    begin
+      raise ArgumentError unless persisted? && claimed? && impact_business.persisted?
+      raise ArgumentError unless impact_user.super_user? || users.include?(locable_user) || locable_user.managed_businesses.include?(self)
+
       Business.transaction do
         LocableBusiness.transaction do
           update! impact_id: impact_business.id
-          impact_business.update! cce_id: id, automated_export_locable_events: nil, automated_import_locable_events: nil, automated_import_locable_reviews: nil
+          impact_business.update! cce_id: id, automated_export_locable_events: '1', automated_import_locable_events: '1', automated_export_locable_reviews: '1', automated_import_locable_reviews: '1'
         end
       end
       true
@@ -80,13 +68,13 @@ class LocableBusiness < ActiveRecord::Base
   end
 
   def unlink(impact_business)
-    raise ArgumentError, 'businesses must be persisted and claimed to unlink' if new_record? || !claimed? || impact_business.new_record?
-
     begin
+      raise ArgumentError if new_record? || !claimed? || impact_business.new_record?
+
       Business.transaction do
         LocableBusiness.transaction do
           update! impact_id: nil
-          impact_business.update! cce_id: nil, automated_export_locable_events: nil, automated_import_locable_events: nil, automated_import_locable_reviews: nil
+          impact_business.update! cce_id: nil, automated_export_locable_events: nil, automated_import_locable_events: nil, automated_export_locable_reviews: nil, automated_import_locable_reviews: nil
         end
       end
       true

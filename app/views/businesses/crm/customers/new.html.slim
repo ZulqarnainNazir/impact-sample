@@ -31,15 +31,16 @@ ol.breadcrumb
             = form.text_area :notes, rows: 6, class: 'form-control'
           hr
           = form.fields_for :feedbacks, @customer.feedbacks.last || @customer.feedbacks.new do |form|
-            h2.h5 style="margin-bottom:1.5em" Prompt Customer for Feedback About Their Visit
-            .row
-              .col-sm-8
-                .form-group
-                  = form.label :serviced_at, class: 'control-label'
-                  = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: 'datepicker' }
             .checkbox
-              = form.label :_destroy do
-                => form.check_box :_destroy
-                | Don’t ask the customer to provide feedback for my business.
+              = label_tag :_inverse_destroy do
+                => check_box_tag :_inverse_destroy, '1', !params[:_inverse_destroy] || params[:_inverse_destroy] == '1'
+                ' Request that the customer leave a review (and trigger automatic email to guide them through the process)
+            .row
+              .col-sm-8.col-md-6
+                .form-group style="margin-top:1em; margin-left:1.3em"
+                  = form.label :serviced_at, class: 'control-label'
+                  .input-group
+                    = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: 'datepicker' }
+                    span.input-group-addon: i.fa.fa-calendar
         .panel-footer
           = form.button 'Add Customer', class: 'btn btn-primary'
