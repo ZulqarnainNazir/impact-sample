@@ -24,7 +24,7 @@ module PlacementAttributesConcern
   end
 
   def merge_group_blocks_required_placement_attributes(groups_attributes)
-    groups_attributes.each do |_, group_attributes|
+    Array(groups_attributes).each do |_, group_attributes|
       if group_attributes[:blocks_attributes]
         group_attributes[:blocks_attributes].each do |_, block_attributes|
           if block_attributes[:block_background_placement_attributes]

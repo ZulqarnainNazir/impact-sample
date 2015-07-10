@@ -255,7 +255,7 @@ Webpage = React.createClass
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
-        theme: 'left'
+        theme: 'banner'
         themes: ['banner', 'left']
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateSubheading: this.updateSubheading.bind(null, group_uuid, block_uuid)
@@ -264,13 +264,13 @@ Webpage = React.createClass
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         teamMembers: this.props.teamMembers
-        theme: 'left'
+        theme: 'vertical'
         themes: ['vertical', 'horizontal']
       when 'ContactBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
-        theme: 'left'
+        theme: 'right'
         themes: ['right', 'banner', 'inline', 'content']
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
         location: this.props.location
