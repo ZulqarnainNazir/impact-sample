@@ -5,18 +5,18 @@ p Thanks for allowing us to serve you. We’d love your feedback on your recent 
 br
 p Would you recommend us to a friend? (Click to start your review.)
 
-table
+table style="width:100%; text-align:center" cellspacing="0" cellpadding="0"
   tr
-    th 01
-    th 2
-    th 3
-    th 4
-    th 5
-    th 6
-    th 7
-    th 8
-    th 9
-    th 10
+    th style="width:10%" 1
+    th style="width:10%" 2
+    th style="width:10%" 3
+    th style="width:10%" 4
+    th style="width:10%" 5
+    th style="width:10%" 6
+    th style="width:10%" 7
+    th style="width:10%" 8
+    th style="width:10%" 9
+    th style="width:10%" 10
   tr
     - if 1 >= @business.automated_feedbacks_publishing
       td = link_to '01', new_website_review_url(feedback_token: @feedback.token, feedback_score: 1, host: @website_host)
@@ -58,10 +58,12 @@ table
       td = link_to '10', new_website_review_url(feedback_token: @feedback.token, feedback_score: 10, host: @website_host)
     - else
       td = link_to '10', new_website_feedback_url(feedback_token: @feedback.token, feedback_score: 10, host: @website_host)
+
+table style="width:100%; margin-top:1em" cellspacing="0" cellpadding="0"
   tr
-    td colspan="3" style="text-align:left" Not at all likely
-    td colspan="4" style="text-align:center" Neutral
-    td colspan="3" style="text-align:right" Extremely Likely
+    td style="width:33.33%; text-align:left" Not at all likely
+    td style="width:33.33%; text-align:center" Neutral
+    td style="width:33.33%; text-align:right" Extremely Likely
 
 p = link_to 'No Feedback from me, Thanks', new_website_feedback_url(feedback_token: @feedback.token, host: @website_host)
 
