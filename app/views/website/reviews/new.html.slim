@@ -26,22 +26,46 @@
           .text-center
             .row
               .col-sm-4
-                .form-group
+                .form-group.form-group-rating
+                  = form.hidden_field :quality_rating
                   = form.label :quality_rating, class: 'control-label'
-                  = form.text_field :quality_rating, class: 'form-control'
+                  .text-warning style="font-size:1.5em; cursor:pointer"
+                    span.fa> class=(form.object.quality_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.quality_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.quality_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.quality_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.quality_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
               .col-sm-4
-                .form-group
+                .form-group.form-group-rating
+                  = form.hidden_field :value_rating
                   = form.label :value_rating, class: 'control-label'
-                  = form.text_field :value_rating, class: 'form-control'
+                  .text-warning style="font-size:1.5em; cursor:pointer"
+                    span.fa> class=(form.object.value_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.value_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.value_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.value_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.value_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
               .col-sm-4
-                .form-group
+                .form-group.form-group-rating
+                  = form.hidden_field :service_rating
                   = form.label :service_rating, class: 'control-label'
-                  = form.text_field :service_rating, class: 'form-control'
-            .row
+                  .text-warning style="font-size:1.5em; cursor:pointer"
+                    span.fa> class=(form.object.service_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.service_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.service_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.service_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.service_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
+            .row style="margin-top:1em"
               .col-sm-6.col-sm-offset-3
-                .form-group
+                .form-group.form-group-rating
+                  = form.hidden_field :overall_rating
                   = form.label :overall_rating, class: 'control-label'
-                  = form.text_field :overall_rating, class: 'form-control'
+                  .text-warning style="font-size:2em; cursor:pointer"
+                    span.fa> class=(form.object.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
           hr
           .form-group
             = form.label :title, 'Summarize Your Experience – Bottom Line', class: 'control-label'
@@ -119,3 +143,17 @@
             = form.button class: 'btn btn-lg btn-success' do
               ' Submit Review
               = icon 'angle-double-right'
+
+javascript:
+  $('.form-group-rating .fa').click(function(e) {
+    e.preventDefault();
+    var value = parseInt($(this).data('rating'));
+    var group = $(this).closest('.form-group-rating');
+    var input = group.find('input[type="hidden"]');
+    group.find('.fa').removeClass('fa-star-o').addClass('fa-star')
+    if (value < 5) { group.find('[data-rating="5"]').removeClass('fa-star').addClass('fa-star-o'); }
+    if (value < 4) { group.find('[data-rating="4"]').removeClass('fa-star').addClass('fa-star-o'); }
+    if (value < 3) { group.find('[data-rating="3"]').removeClass('fa-star').addClass('fa-star-o'); }
+    if (value < 2) { group.find('[data-rating="2"]').removeClass('fa-star').addClass('fa-star-o'); }
+    input.val(value);
+  });

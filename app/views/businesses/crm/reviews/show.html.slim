@@ -14,7 +14,13 @@ dl.dl-horizontal
   dd = @review.serviced_at.try(:strftime, '%D') || '--'
   dt Reviewed At
   dd = @review.reviewed_at.strftime('%D')
-  dt Rating
+  dt Quality Rating
+  dd = @review.quality_rating.to_f
+  dt Value Rating
+  dd = @review.value_rating.to_f
+  dt Service Rating
+  dd = @review.service_rating.to_f
+  dt Overall Rating
   dd = @review.overall_rating.to_f
   dt Published?
   dd

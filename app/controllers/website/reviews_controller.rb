@@ -11,6 +11,10 @@ class Website::ReviewsController < Website::BaseController
       customer_name: @feedback.customer.name,
       customer_email: @feedback.customer.email,
       customer_phone: @feedback.customer.phone,
+      quality_rating: 5,
+      value_rating: 5,
+      service_rating: 5,
+      overall_rating: 5,
     )
   end
 
