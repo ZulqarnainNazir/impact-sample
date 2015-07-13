@@ -58,10 +58,10 @@ div style="max-width: 600px; margin-left: auto; margin-right: auto;"
     = link_to content_tag(:small, 'No Feedback from me, Thanks'), new_website_feedback_url(feedback_token: @feedback.token, host: @website_host), style: 'color: #448ccb;'
   div style="margin: 1em 0; padding: 1em; background-color: #eee"
     h3 style="margin: 0; font-size: 1.1em" Address:
-    p
-      => @location.try(:address_street_line_one)
+    p style="margin: 0.5em 0 0; font-size: 0.9em"
+      => @business.location.try(:address_line_one)
       br>
-      => @location.try(:address_street_line_two)
+      => @business.location.try(:address_line_two)
       br>
       - if @business.website_url?
         => link_to @business.website_url, @business.website_url, target: :_blank
