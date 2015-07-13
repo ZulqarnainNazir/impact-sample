@@ -1,8 +1,8 @@
 class Users::SessionsController < Devise::SessionsController
   def create
-    user = User.where(email: user_params[:email], cce_id: nil).first
+    user = User.where(email: user_params[:email]).first
 
-    if user
+    if user && user.encrypted_password?
       super
     else
       locable_user = LocableUser.find_by_email(user_params[:email])

@@ -10,8 +10,11 @@ class LocableUser < ActiveRecord::Base
   has_many :managed_businesses, class_name: LocableBusiness.name, through: :manager_invitations, source: :business
   has_many :sites, through: :roles_users
 
-  def authenticate(password_attempt)
-    raise StandardError, 'not implemented'
+  def authenticate(password)
+    token = ConnectToken.encode(email: email, password: password)
+    uri = URI(ENV['CONNECT_URL'] + '/check_authentication')
+    uri.query = URI.encode_www_form({ token: token })
+    Net::HTTP.get_response(uri).is_a?(Net::HTTPSuccess)
   end
 
   def fullname
