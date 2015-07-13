@@ -1,9 +1,12 @@
-blockquote.review
-  h2.h4
+blockquote.review itemprop="review" itemscope="true" itemtype="http://schema.org/Review"
+  h2.h4 itemprop="name"
     - if defined?(link_title)
       => link_to review.title, [:website, review]
     - else
       => review.title
+    meta itemprop="worstRating=" content="1"
+    meta itemprop="bestRating=" content="5"
+    meta itemprop="ratingValue=" content=review.overall_rating
     span.review-rating
       - if review.overall_rating >= 1.0
         span.fa.fa-star
@@ -25,13 +28,14 @@ blockquote.review
         span.fa.fa-star
       - else
         span.fa.fa-star-o
-  p.review-text.review-quote = review.description
+  p.review-text.review-quote itemprop="description" = review.description
   p.reviewer
-    span.reviewer-name => review.customer.name
+    span.reviewer-name itemprop="author" => review.customer.name
     - if review.external_type == 'locable'
       span.text-muted> – via
       => link_to review.external_url, target: :_blank do
         => review.external_name
         = image_tag 'locable.png', alt: ''
+      meta itemprop="datePublished" content=review.reviewed_at.strftime('%F')
       span.text-muted #{time_ago_in_words review.reviewed_at} ago
 hr
