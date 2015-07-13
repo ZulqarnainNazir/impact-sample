@@ -1,10 +1,11 @@
-p A new message has been posted to the IMPACT CRM at #{link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]}.
-dl
-  dt Name
-  dd = @contact_message.customer_name
-  dt Email
-  dd = @contact_message.customer_email
-  dt Phone
-  dd = @contact_message.customer_phone
-  dt Message
-  dd = @contact_message.message
+div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+  p A new message has been posted to the IMPACT CRM at #{link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]}.
+  dl
+    dt Name
+    dd = @contact_message.customer_name
+    dt Email
+    dd = @contact_message.customer_email
+    dt Phone
+    dd = @contact_message.customer_phone
+    dt Message
+    dd = @contact_message.message
