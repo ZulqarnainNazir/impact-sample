@@ -3,7 +3,7 @@ class Website::ReviewsController < Website::BaseController
     @feedback = @business.feedbacks.where(token: params[:feedback_token]).first!
 
     if params[:feedback_score]
-      @feedback.update(completed_at: Time.now, score: params[:feedback_score])
+      @feedback.update(completed_at: Time.now, score: params[:feedback_score].to_i)
     end
 
     @feedback.build_review(
@@ -11,10 +11,6 @@ class Website::ReviewsController < Website::BaseController
       customer_name: @feedback.customer.name,
       customer_email: @feedback.customer.email,
       customer_phone: @feedback.customer.phone,
-      quality_rating: 5,
-      value_rating: 5,
-      service_rating: 5,
-      overall_rating: 5,
     )
   end
 
