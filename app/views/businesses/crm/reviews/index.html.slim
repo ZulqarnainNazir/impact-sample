@@ -6,6 +6,13 @@ ol.breadcrumb
   li = link_to 'CRM', [@business, :crm_root]
   li.active Reviews
 
+- unless @business.cce_id?
+  .alert.alert-info role="alert"
+    p
+      strong> Show off your reviews
+      | by linking or claiming your Locable business!
+    p = link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
+
 .pull-right
   = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
     => icon 'plus-circle'
