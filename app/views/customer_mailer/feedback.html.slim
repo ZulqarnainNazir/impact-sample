@@ -1,8 +1,8 @@
-div style="background-color: #eee; margin-bottom: 1em; padding-top: 1em; padding-bottom: 1em;"
+div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
   div style="max-width: 600px; margin-left: auto; margin-right: auto;"
     span style="float: right;" Feedback on your recent experience
     - if @business.logo.present?
-      = image_tag @business.logo.attachment_url(:logo_large), alt: @business.name
+      = image_tag @business.logo.attachment_url(:logo_medium), alt: @business.name
     - else
       strong = @business.name
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
