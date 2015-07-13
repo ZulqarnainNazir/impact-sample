@@ -1,8 +1,15 @@
+div style="background-color: #eee; margin-bottom: 1em; padding-top: 1em; padding-bottom: 1em;"
+  div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+    span style="float: right;" Feedback on your recent experience
+    - if @business.logo.present?
+      = image_tag @business.logo.attachment_url(:logo_large), alt: @business.name
+    - else
+      strong = @business.name
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
   div style="padding: 2em 1em; background-color: #448ccb;"
     h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" Thanks for allowing us to serve you!
     p style="margin: 1em 0 0; color: #fff" We’d love your feedback on your recent experience with us.
-  h2 style="margin: 1em 0; font-size: 1.5em; color: #036;" Would you recommend us to a friend?
+  h2 style="margin: 1em 0; font-size: 1.5em; color: #036;" How likely are you to recommend us to a friend?
   table style="width:100%; text-align:center" cellspacing="0" cellpadding="0"
     tr
       - cell_style = 'display: inline-block; padding: 0.5em 1em; background-color: #eee; text-decoration: none; font-weight: bold; color: #036;'
