@@ -30,6 +30,12 @@ class Review < ActiveRecord::Base
     ReviewsExportJob.perform_later(business)
   end
 
+  after_create do
+    business.authorizations.includes(:user).where(review_notifications: true).each do |authorization|
+      AuthorizationsMailer.review_notification(authorization, self).deliver_later
+    end
+  end
+
   def self.published
     where(hide: false, published: true)
   end

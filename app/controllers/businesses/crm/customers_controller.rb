@@ -14,8 +14,21 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
 
   def create
     create_resource @customer, customer_params, location: [@business, :crm_customers] do |success|
-      if success && params[:review_invitation]
-        CustomerMailer.review_invitation(@customer).deliver_later
+      if success
+        intercom_event 'added-customer', {
+          name: @customer.name,
+          email: @customer.email,
+          phone: @customer.phone,
+          notes: @customer.customer_notes.first.try(:content),
+        }
+        if @customer.feedbacks.any?
+          intercom_event 'invited-customer-to-review', {
+            customer_name: @customer.name,
+            customer_email: @customer.email,
+            customer_phone: @customer.phone,
+            serviced_at: @customer.feedbacks.first.try(:serviced_at),
+          }
+        end
       end
     end
   end

@@ -14,10 +14,16 @@ ol.breadcrumb
     p = link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
 
 .pull-right
+
+.pull-right
   => link_to 'View Public Reviews', website_reviews_url(host: website_host(@business.website)), target: :_blank, style: 'margin-right: 0.5em'
-  = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
-    => icon 'plus-circle'
-    | Invite a Customer
+  .btn-group
+    = link_to [:edit, @business, :crm_review_notifications], class: 'btn btn-sm btn-default' do
+      => icon 'check-square-o'
+      | Set Notifications
+    = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
+      => icon 'plus-circle'
+      | Invite a Customer
 
 - if @reviews.empty?
   p style="margin:2em 0"

@@ -1,6 +1,6 @@
 en:
   businesses:
     crm:
-      contact_message_notifications:
+      review_notifications:
         update:
           notice: The Authorized users’ notification settings were updated successfully.

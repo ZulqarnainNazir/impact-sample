@@ -13,7 +13,16 @@ class Businesses::Crm::FeedbacksController < Businesses::BaseController
   end
 
   def create
-    create_resource @feedback, feedback_params, location: [@business, :crm_customers]
+    create_resource @feedback, feedback_params, location: [@business, :crm_customers] do |success|
+      if success
+        intercom_event 'invited-customer-to-review', {
+          customer_name: @feedback.customer.name,
+          customer_email: @feedback.customer.email,
+          customer_phone: @feedback.customer.phone,
+          serviced_at: @feedback.serviced_at,
+        }
+      end
+    end
   end
 
   def destroy

@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
         api_key: ENV['INTERCOM_API_KEY']
       ).events.create(
         event_name: event_name,
-        email: current_user.email,
+        email: metadata.delete(:user_email) || current_user.email,
         created_at: metadata.delete(:created_at) || Time.zone.now.to_i,
         metadata: metadata,
       )

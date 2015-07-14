@@ -1,0 +1,28 @@
+- title 'Review Notifications'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'CRM', [@business, :crm_root]
+  li = link_to 'Reviews', [@business, :crm_reviews]
+  li.active Notifications
+
+- if @business.authorizations.empty?
+  p: em No managers found. #{link_to 'Add a manager', [:new, @business, :authorization]} to enable review notifications.
+- else
+  = form_tag [@business, :crm_review_notifications], method: :patch do
+    table.table.table-bordered.table-striped
+      thead
+        tr
+          th Name
+          th Receive Notifications?
+      tbody
+        - @business.authorizations.includes(:user).each do |authorization|
+          tr
+            td = authorization.user.name
+            td
+              => hidden_field_tag "authorizations[#{authorization.id}][review_notifications]", '0'
+              = label_tag class: 'checkbox', style: 'margin-left: 20px' do
+                => check_box_tag "authorizations[#{authorization.id}][review_notifications]", '1', authorization.review_notifications?
+                | Yes
+    = button_tag 'Save', class: 'btn btn-primary'

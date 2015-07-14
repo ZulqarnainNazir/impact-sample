@@ -1,0 +1,30 @@
+div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+  p A new review has been posted to the IMPACT CRM at #{link_to @authorization.business.name, [@authorization.business, :crm_reviews]}.
+  dl
+    dt Name
+    dd = @review.customer_name
+    dt Email
+    dd = @review.customer_email
+    dt Phone
+    dd = @review.customer_phone
+  hr
+  dl
+    dt Quality Rating
+    dd = @review.quality_rating
+    dt Value Rating
+    dd = @review.value_rating
+    dt Service Rating
+    dd = @review.service_rating
+    dt Overall Rating
+    dd = @review.overall_rating
+    dt Review Title
+    dd = @review.title
+    dt Review Description
+    dd = @review.description
+  - if @review.feedback
+    hr
+    dl
+      dt Feedback Score
+      dd = @review.feedback.score
+      dt Feedback Description
+      dd = @review.feedback.description

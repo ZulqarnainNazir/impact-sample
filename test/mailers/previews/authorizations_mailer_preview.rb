@@ -7,4 +7,8 @@ class AuthorizationsMailerPreview < ActionMailer::Preview
   def contact_message_notification
     AuthorizationsMailer.contact_message_notification(Authorization.last, ContactMessage.last)
   end
+
+  def review_notification
+    AuthorizationsMailer.review_notification(Authorization.last, Review.last)
+  end
 end

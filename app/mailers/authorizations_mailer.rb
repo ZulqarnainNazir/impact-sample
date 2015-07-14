@@ -9,4 +9,10 @@ class AuthorizationsMailer < ApplicationMailer
     @contact_message = contact_message
     mail to: @authorization.user.email
   end
+
+  def review_notification(authorization, review)
+    @authorization = authorization
+    @review = review
+    mail to: @authorization.user.email
+  end
 end

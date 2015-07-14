@@ -96,6 +96,7 @@ Rails.application.routes.draw do
           root to: 'roots#show'
           resource :contact_message_notifications, only: %i[edit update]
           resource :feedbacks_automation, only: %i[update]
+          resource :review_notifications, only: %i[edit update]
           resource :reviews_automation, only: %i[update]
           resources :contact_messages, only: %i[index show destroy]
           resources :customers, only: %i[index new create edit update destroy] do

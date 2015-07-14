@@ -27,6 +27,20 @@ class Website::ReviewsController < Website::BaseController
     @feedback.assign_attributes(feedback_params)
 
     if @feedback.save
+      intercom_event 'created-review', {
+        user_email: @feedback.customer.email,
+        customer_name: @feedback.customer.email,
+        customer_phone: @feedback.customer.email,
+        customer_email: @feedback.customer.email,
+        serviced_at: @feedback.serviced_at,
+        feedback_score: @feedback.score,
+        quality_rating: @feedback.review.quality_rating,
+        service_rating: @feedback.review.service_rating,
+        value_rating: @feedback.review.value_rating,
+        overall_rating: @feedback.review.overall_rating,
+        review_title: @feedback.review.title,
+      }
+
       if @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
         @feedback.review.update_column :published, true
       end
