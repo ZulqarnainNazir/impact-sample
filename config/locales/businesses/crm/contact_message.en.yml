@@ -1,0 +1,6 @@
+en:
+  businesses:
+    crm:
+      contact_messages:
+        destroy:
+          notice: The message has been hidden from your site.

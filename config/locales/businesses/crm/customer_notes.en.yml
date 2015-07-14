@@ -1,0 +1,7 @@
+en:
+  businesses:
+    crm:
+      customer_notes:
+        create:
+          notice: Your new note was added successfully.
+          alert: There was a problem adding the note.

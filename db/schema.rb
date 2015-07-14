@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710052536) do
+ActiveRecord::Schema.define(version: 20150714184852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,28 +116,42 @@ ActiveRecord::Schema.define(version: 20150710052536) do
   add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
 
   create_table "contact_messages", force: :cascade do |t|
-    t.integer  "business_id",    null: false
-    t.string   "customer_name",  null: false
-    t.string   "customer_email", null: false
-    t.text     "message",        null: false
+    t.integer  "business_id",                    null: false
+    t.string   "customer_name",                  null: false
+    t.string   "customer_email",                 null: false
+    t.text     "message",                        null: false
     t.json     "settings"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.text     "customer_phone"
     t.integer  "customer_id"
+    t.boolean  "hide",           default: false, null: false
+    t.integer  "read_by",        default: [],    null: false, array: true
   end
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
   add_index "contact_messages", ["customer_id"], name: "index_contact_messages_on_customer_id", using: :btree
 
-  create_table "customers", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.text     "name",        null: false
-    t.text     "email",       null: false
-    t.text     "phone"
-    t.text     "notes"
+  create_table "customer_notes", force: :cascade do |t|
+    t.integer  "customer_id", null: false
+    t.text     "content",     null: false
+    t.text     "user_name",   null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  add_index "customer_notes", ["customer_id"], name: "index_customer_notes_on_customer_id", using: :btree
+
+  create_table "customers", force: :cascade do |t|
+    t.integer  "business_id",                 null: false
+    t.text     "name",                        null: false
+    t.text     "email",                       null: false
+    t.text     "phone"
+    t.text     "notes"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "hide",        default: false, null: false
+    t.integer  "read_by",     default: [],    null: false, array: true
   end
 
   add_index "customers", ["business_id"], name: "index_customers_on_business_id", using: :btree
@@ -185,15 +199,17 @@ ActiveRecord::Schema.define(version: 20150710052536) do
   add_index "events", ["event_definition_id"], name: "index_events_on_event_definition_id", using: :btree
 
   create_table "feedbacks", force: :cascade do |t|
-    t.integer  "business_id",  null: false
-    t.integer  "customer_id",  null: false
-    t.text     "token",        null: false
+    t.integer  "business_id",                  null: false
+    t.integer  "customer_id",                  null: false
+    t.text     "token",                        null: false
     t.datetime "completed_at"
     t.date     "serviced_at"
     t.integer  "score"
     t.text     "description"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "hide",         default: false, null: false
+    t.integer  "read_by",      default: [],    null: false, array: true
   end
 
   add_index "feedbacks", ["business_id"], name: "index_feedbacks_on_business_id", using: :btree
@@ -437,6 +453,8 @@ ActiveRecord::Schema.define(version: 20150710052536) do
     t.boolean  "published",                              default: false, null: false
     t.integer  "feedback_id"
     t.date     "serviced_at"
+    t.boolean  "hide",                                   default: false, null: false
+    t.integer  "read_by",                                default: [],    null: false, array: true
   end
 
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree

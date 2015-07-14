@@ -33,6 +33,7 @@ ol.breadcrumb
               - if params[:order_by] == 'phone'
                 span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
             th Message
+            th style="width:9em"
         tbody
           = render @contact_messages
   = paginate @contact_messages

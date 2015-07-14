@@ -8,3 +8,5 @@ en:
         update:
           notice: The customer record was updated successfully.
           alert: There was a problem updating the customer.
+        destroy:
+          notice: The customer has been hidden from your site.

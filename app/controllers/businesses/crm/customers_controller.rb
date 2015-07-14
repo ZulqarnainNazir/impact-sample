@@ -5,10 +5,11 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
 
   before_action only: member_actions do
     @customer = @business.customers.find(params[:id])
+    @customer.update_column :read_by, @customer.read_by + [current_user.id] unless @customer.read_by.include?(current_user.id)
   end
 
   def index
-    @customers = @business.customers.includes(:feedback).order(customers_order).page(params[:page]).per(20)
+    @customers = @business.customers.includes(:feedback).where(hide: false).order(customers_order).page(params[:page]).per(20)
   end
 
   def create
@@ -23,6 +24,10 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
     update_resource @customer, customer_params, location: [@business, :crm_customers]
   end
 
+  def destroy
+    toggle_resource_boolean_on @customer, :hide, location: [@business, :crm_customers]
+  end
+
   private
 
   def customer_params
@@ -30,12 +35,19 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
       :name,
       :email,
       :phone,
-      :notes,
+      customer_notes_attributes: [
+        :content,
+      ],
       feedbacks_attributes: [
         :serviced_at,
         :_destroy,
       ],
     ).tap do |safe_params|
+      if safe_params[:customer_notes_attributes]
+        safe_params[:customer_notes_attributes].map do |_, attr|
+          attr[:user_name] = current_user.name
+        end
+      end
       if safe_params[:feedbacks_attributes]
         safe_params[:feedbacks_attributes].map do |_, attr|
           attr[:business] = @business
@@ -51,7 +63,7 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
     elsif %w[serviced_at completed_at score].include?(params[:order_by])
       "feedbacks.#{params[:order_by]} #{customers_order_dir} NULLS LAST"
     else
-      "updated_at #{customers_order_dir} NULLS LAST"
+      'CASE WHEN cardinality(read_by) = 0 THEN 0 ELSE 1 END ASC, updated_at DESC'
     end
   end
 

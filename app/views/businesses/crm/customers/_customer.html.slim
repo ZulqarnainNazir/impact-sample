@@ -2,8 +2,8 @@
 - last_complete_feedback = customer.feedbacks.complete.order(completed_at: :desc).last
 - last_complete_feedback_review = customer.feedbacks.complete.joins(:review).where.not(reviews: { id: nil }).order(completed_at: :desc).last.try(:review)
 - last_incomplete_feedback = customer.feedbacks.incomplete.order(completed_at: :desc).last
-tr
-  td = customer.name
+tr class=('unread' unless customer.read_by.include?(current_user.id))
+  td = link_to customer.name, [:edit, customer.business, :crm, customer]
   td = customer.email
   td = customer.phone? ? customer.phone : '--'
   td = customer.feedbacks.map(&:serviced_at).sort.first.try(:strftime, '%D') || '--'
@@ -25,6 +25,11 @@ tr
       = link_to 'Yes', [customer.business, :crm, last_complete_feedback_review]
     - else
       | No
-  td = link_to [:edit, customer.business, :crm, customer], class: 'btn btn-xs btn-default' do
-    => icon 'pencil'
-    | Edit
+  td
+    .btn-group
+      = link_to [:edit, customer.business, :crm, customer], class: 'btn btn-xs btn-default' do
+        => icon 'pencil'
+        | Edit
+      = link_to [customer.business, :crm, customer], method: :delete, class: 'btn btn-xs btn-default', data: { confirm: 'Are you sure you want to remove this customer from your site?' } do
+        => icon 'minus-circle'
+        | Hide

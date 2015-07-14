@@ -31,7 +31,7 @@ class Review < ActiveRecord::Base
   end
 
   def self.published
-    where(published: true)
+    where(hide: false, published: true)
   end
 
   def to_param

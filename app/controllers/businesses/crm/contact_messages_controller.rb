@@ -1,10 +1,15 @@
 class Businesses::Crm::ContactMessagesController < Businesses::BaseController
   before_action only: member_actions do
     @contact_message = @business.contact_messages.find(params[:id])
+    @contact_message.update_column :read_by, @contact_message.read_by + [current_user.id] unless @contact_message.read_by.include?(current_user.id)
   end
 
   def index
-    @contact_messages = @business.contact_messages.includes(:customer).order(contact_messages_order).page(params[:page]).per(20)
+    @contact_messages = @business.contact_messages.includes(:customer).where(hide: false).order(contact_messages_order).page(params[:page]).per(20)
+  end
+
+  def destroy
+    toggle_resource_boolean_on @contact_message, :hide, location: [@business, :crm_contact_messages]
   end
 
   private
@@ -15,7 +20,7 @@ class Businesses::Crm::ContactMessagesController < Businesses::BaseController
     elsif %w[name].include?(params[:order_by])
       "customers.#{params[:order_by]} #{contact_messages_order_dir} NULLS LAST"
     else
-      "updated_at #{contact_messages_order_dir} NULLS LAST"
+      'CASE WHEN cardinality(read_by) = 0 THEN 0 ELSE 1 END ASC, updated_at DESC'
     end
   end
 

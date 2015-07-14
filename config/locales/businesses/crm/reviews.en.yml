@@ -1,0 +1,6 @@
+en:
+  businesses:
+    crm:
+      reviews:
+        destroy:
+          notice: The review has been hidden from your site.

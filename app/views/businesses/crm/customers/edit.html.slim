@@ -8,35 +8,48 @@ ol.breadcrumb
   li.active Edit Customer
 
 
-= form_for @customer, url: [@business, :crm, @customer] do |form|
-  .page-header
-    h1.h4 Customer Data for #{@customer.email}
-  .row
-    .col-sm-6
-      h2.h4
-        ' Feedback
-        = link_to 'Ask for Feedback', [:new, @business, :crm, @customer, :feedback], class: 'btn btn-xs btn-default pull-right'
-      - if @customer.feedbacks.empty?
-        p: em No feedback found.
-      - else
-        ul
-          - @customer.feedbacks.each do |feedback|
-            li = link_to "Serviced on #{feedback.serviced_at || '--'}; Score #{feedback.score || '--'}", [@business, :crm, feedback]
-      h2.h4 Reviews
-      - if @customer.reviews.empty?
-        p: em No customer reviews found.
-      - else
-        ul
-          - @customer.reviews.each do |review|
-            li = link_to review.title, [@business, :crm, review]
-      h2.h4 Submitted Forms
-      - if @customer.contact_messages.empty?
-        p: em No submitted forms found.
-      - else
-        ul
-          - @customer.contact_messages.each do |contact_message|
-            li = link_to truncate(contact_message.message, length: 140), [@business, :crm, contact_message]
-    .col-sm-6
+.page-header
+  h1.h4 Customer Data for #{@customer.email}
+.row
+  .col-sm-6
+    h2.h4
+      ' Feedback
+      = link_to 'Ask for Feedback', [:new, @business, :crm, @customer, :feedback], class: 'btn btn-xs btn-default pull-right'
+    - if @customer.feedbacks.empty?
+      p: em No feedback found.
+    - else
+      ul
+        - @customer.feedbacks.each do |feedback|
+          li = link_to "Serviced on #{feedback.serviced_at || '--'}; Score #{feedback.score || '--'}", [@business, :crm, feedback]
+    h2.h4 Reviews
+    - if @customer.reviews.empty?
+      p: em No customer reviews found.
+    - else
+      ul
+        - @customer.reviews.each do |review|
+          li = link_to review.title, [@business, :crm, review]
+    h2.h4 Submitted Forms
+    - if @customer.contact_messages.empty?
+      p: em No submitted forms found.
+    - else
+      ul
+        - @customer.contact_messages.each do |contact_message|
+          li = link_to truncate(contact_message.message, length: 140), [@business, :crm, contact_message]
+    hr
+    h2.h4 Customer Notes
+    - @customer.customer_notes.each do |customer_note|
+      blockquote
+        p = customer_note.content
+        p.small.text-muted by #{customer_note.user_name} #{time_ago_in_words customer_note.created_at} ago
+    hr
+    = form_for [@business, :crm, @customer, CustomerNote.new] do |form|
+      .form-group
+        = form.label :content, class: 'control-label'
+        = form.text_area :content, rows: 4, class: 'form-control'
+      .form-group
+        = form.button 'Add Note', class: 'btn btn-primary'
+  .col-sm-6
+    = form_for @customer, url: [@business, :crm, @customer] do |form|
       .panel.panel-default
         .panel-heading
           h2.h4.panel-title Edit Customer Details
@@ -48,9 +61,5 @@ ol.breadcrumb
           .form-group
             = form.label :phone, class: 'control-label'
             = form.phone_field :phone, class: 'form-control'
-          hr
-          .form-group
-            = form.label :notes, class: 'control-label'
-            = form.text_area :notes, rows: 6, class: 'form-control'
         .panel-footer
           = form.button 'Save Changes', class: 'btn btn-primary'

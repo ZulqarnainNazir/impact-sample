@@ -15,8 +15,8 @@ en:
         customer_name: Name
         customer_email: Email
         customer_phone: Phone
-      customer:
-        notes: Additional Notes
+      customer_note:
+        content: Additional Notes
       event_definition:
         start_date: Start Date
         start_time: Start Time

@@ -1,5 +1,13 @@
-tr
+tr class=('unread' unless contact_message.read_by.include?(current_user.id))
   td = link_to contact_message.customer.name, [:edit, contact_message.business, :crm, contact_message.customer]
   td = contact_message.customer.email
   td = contact_message.customer.phone? ? contact_message.customer.phone : '--'
   td = link_to truncate(contact_message.message, length: 140), [contact_message.business, :crm, contact_message]
+  td
+    .btn-group
+      = link_to [contact_message.business, :crm, contact_message], class: 'btn btn-xs btn-default' do
+        => icon 'eye'
+        | Read
+      = link_to [contact_message.business, :crm, contact_message], method: :delete, class: 'btn btn-xs btn-default', data: { confirm: 'Are you sure you want to remove this message from your site?' } do
+        => icon 'minus-circle'
+        | Hide

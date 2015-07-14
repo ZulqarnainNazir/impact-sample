@@ -26,9 +26,10 @@ ol.breadcrumb
             = form.label :phone, class: 'control-label'
             = form.phone_field :phone, class: 'form-control'
           hr
-          .form-group
-            = form.label :notes, class: 'control-label'
-            = form.text_area :notes, rows: 6, class: 'form-control'
+          = form.fields_for :customer_notes, @customer.customer_notes.last || @customer.customer_notes.new do |form|
+            .form-group
+              = form.label :content, class: 'control-label'
+              = form.text_area :content, rows: 6, class: 'form-control'
           hr
           = form.fields_for :feedbacks, @customer.feedbacks.last || @customer.feedbacks.new do |form|
             .checkbox

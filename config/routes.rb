@@ -97,14 +97,15 @@ Rails.application.routes.draw do
           resource :contact_message_notifications, only: %i[edit update]
           resource :feedbacks_automation, only: %i[update]
           resource :reviews_automation, only: %i[update]
-          resources :contact_messages, only: %i[index show]
-          resources :customers, only: %i[index new create edit update] do
+          resources :contact_messages, only: %i[index show destroy]
+          resources :customers, only: %i[index new create edit update destroy] do
             resources :feedbacks, only: %i[new create]
+            resources :customer_notes, only: %i[create]
           end
-          resources :feedbacks, only: %i[index show] do
+          resources :feedbacks, only: %i[index show destroy] do
             resource :review_invitation, only: %i[create]
           end
-          resources :reviews, only: %i[index show] do
+          resources :reviews, only: %i[index show destroy] do
             resource :review_publication, only: %i[create destroy]
           end
         end
