@@ -37,24 +37,44 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def import_cce
-      locable_business = LocableBusiness.find_by_slug(params[:cce_business_url].to_s.split('/').last)
+    locable_business = LocableBusiness.find_by_slug(params[:cce_business_url].to_s.split('/').last)
+    locable_user = LocableUser.find_by_email(current_user.email)
 
-      if locable_business
-        existing_user_cce_business = current_user.businesses.where(cce_id: locable_business.id).first
-        existing_global_cce_business = Business.where(cce_id: locable_business.id).first
+    if locable_business
+      existing_user_cce_business = current_user.businesses.where(cce_id: locable_business.id).first
+      existing_global_cce_business = Business.where(cce_id: locable_business.id).first
 
-        if existing_user_cce_business
-          redirect_to([existing_user_cce_business, :dashboard])
-        elsif existing_global_cce_business && current_user.super_user?
-          redirect_to([existing_global_cce_business, :dashboard])
-        elsif existing_global_cce_business
-          redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that business has already been claimed.')
-        elsif !locable_business.claimed?
-          redirect_to([:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Please claim that Locable listing before upgrading it to IMPACT.')
-        else
+      if existing_user_cce_business
+        redirect_to [existing_user_cce_business, :dashboard], alert: 'You’ve already linked that business.'
+      elsif existing_global_cce_business && current_user.super_user?
+        redirect_to [existing_global_cce_business, :dashboard], alert: 'That business has already been linked.'
+      elsif existing_global_cce_business
+        redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that business has already been claimed.'
+      elsif locable_business.claimed? && (!locable_user || (!current_user.super_user? && !locable_business.users.include?(locable_user) && !locable_user.businesses.include?(locable_business)))
+        redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that business has already been claimed.'
+      else
+        message = ''
+        begin
+          if locable_user.new_record?
+            locable_user.firstname = current_user.name.split(' ')[0] || 'Anonymous'
+            locable_user.lastname = current_user.name.split(' ')[1] || 'Anonymous'
+            locable_user.save!
+          end
           create_resource @business, cce_params(locable_business), location: [:edit_onboard_website, @business] do |success|
             if success
-              locable_business.link(@business, current_user, LocableUser.where(email: current_user.email).first)
+              if locable_business.claimed?
+                unless locable_business.link(@business, current_user, locable_user)
+                  flash.notice = nil
+                  flash.alert = 'There was a problem linking your Locable business.'
+                  raise StandardError
+                end
+              else
+                unless locable_business.claim(@business, current_user, locable_user)
+                  flash.notice = nil
+                  flash.alert = 'There was a problem claiming your Locable business.'
+                  raise StandardError
+                end
+              end
               if @business.automated_export_locable_events == '1'
                 EventsExportJob.perform_later(@business)
               end
@@ -66,9 +86,13 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
               end
             end
           end
+        rescue
+          @business.destroy if @business.persisted?
+          redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]]
         end
-      else
-        redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
+      end
+    else
+      redirect_to [:new_onboard_website_business, cce_business_url: params[:cce_business_url]], alert: 'Sorry, it looks like that page is missing or has a privacy setting that prevents us from importing data.'
     end
   end
 

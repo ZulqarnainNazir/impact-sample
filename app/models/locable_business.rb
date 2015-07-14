@@ -32,28 +32,127 @@ class LocableBusiness < ActiveRecord::Base
 
   def create(impact_business, impact_user, locable_user, locable_site)
     begin
-      raise ArgumentError if persisted? || impact_business.new_record?
-      raise ArgumentError
-      true
+      raise ArgumentError unless new_record? && impact_business.persisted?
+
+      Business.transaction do
+        LocableBusiness.transaction do
+          assign_attributes(
+            site: locable_site,
+            creator: locable_user,
+            owner: locable_user,
+            impact_id: impact_business.id,
+            name: impact_business.name,
+            description: impact_business.description,
+            slug: [impact_business.location.try(:state), impact_business.location.try(:city), impact_business.name].reject(&:blank?).join('-').parameterize,
+            tagline: impact_business.tagline,
+            url: impact_business.website_url,
+            phone: impact_business.location.try(:phone_number),
+            email: impact_business.location.try(:email),
+            category_ids: LocableCategory.where(site_id: nil, name: impact_business.categories.pluck(:name)).limit(1).pluck(:id),
+          )
+          save!
+          address || build_address
+          address.assign_attributes(
+            street1: impact_business.location.try(:street1),
+            street2: impact_business.location.try(:street2),
+            city: impact_business.location.try(:city),
+            state: impact_business.location.try(:state),
+            postal: impact_business.location.try(:zip_code),
+          )
+          address.save!
+          subscription || build_subscription
+          subscription.coupon_code = nil
+          subscription.subscription_plan = LocableSubscriptionPlan.find_by_plan_code('express')
+          subscription.user = locable_user
+          subscription.save!
+          impact_business.update! cce_id: id, automated_export_locable_events: '1', automated_import_locable_events: '1', automated_export_locable_reviews: '1', automated_import_locable_reviews: '1'
+        end
+      end
+
+      result = true
     rescue
-      false
+      result = false
+    end
+
+    if result
+      token = ConnectToken.encode(id: id)
+      uri = URI(ENV['CONNECT_URL'] + '/complete_business_create')
+      uri.query = URI.encode_www_form({ token: token })
+      response = Net::HTTP.get_response(uri)
+
+      if response.is_a?(Net::HTTPSuccess)
+        true
+      else
+        begin
+          Business.transaction do
+            LocableBusiness.transaction do
+              address.destroy!
+              subscription.destroy!
+              destroy!
+              impact_business.update! cce_id: nil, automated_export_locable_events: nil, automated_import_locable_events: nil, automated_export_locable_reviews: nil, automated_import_locable_reviews: nil
+            end
+          end
+        end
+
+        false
+      end
     end
   end
 
   def claim(impact_business, impact_user, locable_user)
+    result = nil
+
     begin
-      raise ArgumentError if new_record? || claimed? || impact_business.new_record?
-      raise ArgumentError
-      true
+      raise ArgumentError unless persisted? && !claimed? && impact_business.persisted?
+
+      Business.transaction do
+        LocableBusiness.transaction do
+          update! creator: locable_user, owner: locable_user, impact_id: impact_business.id
+          subscription || build_subscription
+          subscription.coupon_code = nil
+          subscription.subscription_plan = LocableSubscriptionPlan.find_by_plan_code('express')
+          subscription.user = locable_user
+          subscription.save!
+          impact_business.update! cce_id: id, automated_export_locable_events: '1', automated_import_locable_events: '1', automated_export_locable_reviews: '1', automated_import_locable_reviews: '1'
+        end
+      end
+
+      result = true
     rescue
-      false
+      result = false
+    end
+
+    if result
+      token = ConnectToken.encode(id: id)
+      uri = URI(ENV['CONNECT_URL'] + '/complete_business_claim')
+      uri.query = URI.encode_www_form({ token: token })
+      response = Net::HTTP.get_response(uri)
+
+      if response.is_a?(Net::HTTPSuccess)
+        true
+      else
+        begin
+          Business.transaction do
+            LocableBusiness.transaction do
+              update! creator: nil, owner: nil, impact_id: nil
+              subscription || build_subscription
+              subscription.coupon_code = nil
+              subscription.subscription_plan = LocableSubscriptionPlan.find_by_plan_code('free')
+              subscription.user = nil
+              subscription.save!
+              impact_business.update! cce_id: nil, automated_export_locable_events: nil, automated_import_locable_events: nil, automated_export_locable_reviews: nil, automated_import_locable_reviews: nil
+            end
+          end
+        end
+
+        false
+      end
     end
   end
 
   def link(impact_business, impact_user, locable_user)
     begin
-      raise ArgumentError unless persisted? && claimed? && impact_business.persisted?
-      raise ArgumentError unless impact_user.super_user? || users.include?(locable_user) || locable_user.managed_businesses.include?(self)
+      raise ArgumentError unless persisted? && claimed? && impact_business.persisted? && (impact_user.super_user? || users.include?(business) || locable_user.businesses.include?(self))
 
       Business.transaction do
         LocableBusiness.transaction do
@@ -61,6 +160,7 @@ class LocableBusiness < ActiveRecord::Base
           impact_business.update! cce_id: id, automated_export_locable_events: '1', automated_import_locable_events: '1', automated_export_locable_reviews: '1', automated_import_locable_reviews: '1'
         end
       end
+
       true
     rescue
       false
@@ -69,7 +169,7 @@ class LocableBusiness < ActiveRecord::Base
 
   def unlink(impact_business)
     begin
-      raise ArgumentError if new_record? || !claimed? || impact_business.new_record?
+      raise ArgumentError unless persisted? && claimed? && impact_business.persisted?
 
       Business.transaction do
         LocableBusiness.transaction do

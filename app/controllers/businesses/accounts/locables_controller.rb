@@ -9,7 +9,7 @@ class Businesses::Accounts::LocablesController < Businesses::BaseController
 
       if @locable_user
         @locable_businesses = @locable_user.businesses.to_a + @locable_user.managed_businesses.to_a
-        @locable_sites = LocableSite.all.to_a
+        @locable_sites = LocableSite.order(name: :asc).to_a
       end
     end
   end
@@ -39,19 +39,35 @@ class Businesses::Accounts::LocablesController < Businesses::BaseController
         end
       elsif params[:add_to_locable].present?
         locable_site = @locable_sites.find { |record| record.id.to_s == params[:site_id] }
-        locable_business = LocableBusiness.new
-        redirect_to [:edit, @business, :accounts_locable], alert: 'This feature is under construction.'
+        if locable_site
+          locable_business = LocableBusiness.new
+          if locable_business.create(@business, current_user, @locable_user, locable_site)
+            redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully created.'
+          else
+            redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem creating your Locable business.'
+          end
+        else
+          redirect_to [:edit, @business, :accounts_locable], alert: 'Please provide a valid Locable site.'
+        end
       else
         locable_business = LocableBusiness.find_by_slug(params[:locable_url])
         if locable_business
           if locable_business.claimed?
-            if locable_business.link(@business, current_user, @locable_user)
-              redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully linked.'
+            if current_user.super_user? || locable_business.users.include?(@locable_user) || @locable_user.businesses.include?(current_user)
+              if locable_business.link(@business, current_user, @locable_user)
+                redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully linked.'
+              else
+                redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem linking your Locable listing.'
+              end
             else
-              redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem linking your Locable listing.'
+              redirect_to [:edit, @business, :accounts_locable], alert: 'It looks like that listing has already been claimed.'
             end
           else
-            redirect_to [:edit, @business, :accounts_locable], alert: 'Please claim that Locable listing before linking.'
+            if locable_business.claim(@business, current_user, @locable_user)
+              redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully claimed.'
+            else
+              redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem claiming your Locable listing.'
+            end
           end
         else
           redirect_to [:edit, @business, :accounts_locable], alert: 'We could not find that business.'
