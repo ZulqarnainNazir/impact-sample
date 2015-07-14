@@ -38,6 +38,13 @@ ol.breadcrumb
     hr
     h2.h4 Customer Notes
     - @customer.customer_notes.each do |customer_note|
+      .btn-group.btn-group-xs.pull-right
+        = link_to [:edit, @business, :crm, @customer, customer_note], class: 'btn btn-default' do
+          => icon 'pencil'
+          | Edit
+        = link_to [@business, :crm, @customer, customer_note], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
+          => icon 'trash'
+          | Delete
       blockquote
         p = customer_note.content
         p.small.text-muted by #{customer_note.user_name} #{time_ago_in_words customer_note.created_at} ago

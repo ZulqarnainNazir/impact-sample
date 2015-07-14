@@ -33,3 +33,7 @@ tr class=('unread' unless customer.read_by.include?(current_user.id))
       = link_to [customer.business, :crm, customer], method: :delete, class: 'btn btn-xs btn-default', data: { confirm: 'Are you sure you want to remove this customer from your site?' } do
         => icon 'minus-circle'
         | Hide
+    .btn-group style="margin-top:0.5em;"
+      = link_to [:new, customer.business, :crm, customer, :customer_note], class: 'btn btn-xs btn-default' do
+        => icon 'plus-circle'
+        | Add Note
