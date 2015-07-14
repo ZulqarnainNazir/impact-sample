@@ -21,12 +21,30 @@ ol.breadcrumb
       table.table.table-striped
         thead
           tr
-            th Name
-            th Email
-            th Phone
-            th Service Date
-            th Feedback Date
-            th Feedback Score
+            th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
+              | Name
+              - if params[:order_by] == 'name'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :email, order_dir: params[:order_by] == 'email' && params[:order_dir] == 'asc' ? :desc : :asc) do
+              | Email
+              - if params[:order_by] == 'email'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :phone, order_dir: params[:order_by] == 'phone' && params[:order_dir] == 'asc' ? :desc : :asc) do
+              | Phone
+              - if params[:order_by] == 'phone'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Service Date
+              - if params[:order_by] == 'serviced_at'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :completed_on, order_dir: params[:order_by] == 'completed_on' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Feedback Date
+              - if params[:order_by] == 'completed_on'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :score, order_dir: params[:order_by] == 'score' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Feedback Score
+              - if params[:order_by] == 'score'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
             th Left Feedback?
             th Left Review?
             th

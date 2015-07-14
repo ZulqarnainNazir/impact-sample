@@ -30,10 +30,22 @@ ol.breadcrumb
       table.table.table-striped
         thead
           tr
-            th Customer Name
-            th Review Date
-            th Service Date
-            th Rating
+            th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
+              | Customer Name
+              - if params[:order_by] == 'name'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :reviewed_at, order_dir: params[:order_by] == 'reviewed_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Review Date
+              - if params[:order_by] == 'reviewed_at'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Service Date
+              - if params[:order_by] == 'serviced_at'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :overall_rating, order_dir: params[:order_by] == 'overall_rating' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Rating
+              - if params[:order_by] == 'overall_rating'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
             th Subject
             th Message
             th Published?

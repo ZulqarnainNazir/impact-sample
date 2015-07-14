@@ -8,7 +8,7 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
   end
 
   def index
-    @customers = @business.customers.page(params[:page]).per(20)
+    @customers = @business.customers.includes(:feedback).order(customers_order).page(params[:page]).per(20)
   end
 
   def create
@@ -42,6 +42,24 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
           attr[:_destroy] = '1' if params[:_inverse_destroy] != '1'
         end
       end
+    end
+  end
+
+  def customers_order
+    if %w[name email phone].include?(params[:order_by])
+      "#{params[:order_by]} #{customers_order_dir} NULLS LAST"
+    elsif %w[serviced_at completed_at score].include?(params[:order_by])
+      "feedbacks.#{params[:order_by]} #{customers_order_dir} NULLS LAST"
+    else
+      "updated_at #{customers_order_dir} NULLS LAST"
+    end
+  end
+
+  def customers_order_dir
+    if %w[asc desc].include?(params[:order_dir])
+      params[:order_dir]
+    else
+      'desc'
     end
   end
 end

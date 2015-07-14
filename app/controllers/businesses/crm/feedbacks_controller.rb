@@ -9,7 +9,7 @@ class Businesses::Crm::FeedbacksController < Businesses::BaseController
   end
 
   def index
-    @feedbacks = @business.feedbacks.page(params[:page]).per(20)
+    @feedbacks = @business.feedbacks.includes(:customer, :review).order(feedbacks_order).page(params[:page]).per(20)
   end
 
   def create
@@ -22,5 +22,23 @@ class Businesses::Crm::FeedbacksController < Businesses::BaseController
     params.require(:feedback).permit(
       :serviced_at,
     )
+  end
+
+  def feedbacks_order
+    if %w[serviced_at score].include?(params[:order_by])
+      "#{params[:order_by]} #{feedbacks_order_dir} NULLS LAST"
+    elsif %w[name].include?(params[:order_by])
+      "customers.#{params[:order_by]} #{feedbacks_order_dir} NULLS LAST"
+    else
+      "updated_at #{feedbacks_order_dir} NULLS LAST"
+    end
+  end
+
+  def feedbacks_order_dir
+    if %w[asc desc].include?(params[:order_dir])
+      params[:order_dir]
+    else
+      'desc'
+    end
   end
 end

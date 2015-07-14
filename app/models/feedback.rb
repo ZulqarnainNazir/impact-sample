@@ -18,10 +18,6 @@ class Feedback < ActiveRecord::Base
     CustomerMailer.feedback(self).deliver_later
   end
 
-  def self.default_scope
-    order(created_at: :desc)
-  end
-
   def self.complete
     where.not(score: nil)
   end

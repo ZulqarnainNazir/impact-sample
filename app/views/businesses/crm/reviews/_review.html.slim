@@ -2,7 +2,12 @@ tr
   td = link_to review.customer.name, [:edit, review.business, :crm, review.customer]
   td = review.reviewed_at.strftime('%D')
   td = review.serviced_at.try(:strftime, '%D') || '--'
-  td = review.overall_rating.to_f
+  td.text-warning
+    span.fa class=(review.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o')
+    span.fa class=(review.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o')
+    span.fa class=(review.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o')
+    span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
+    span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
   td = review.title
   td = link_to truncate(review.description, length: 140), [review.business, :crm, review]
   td

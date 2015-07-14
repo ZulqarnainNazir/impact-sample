@@ -22,9 +22,18 @@ ol.breadcrumb
       table.table.table-striped
         thead
           tr
-            th Customer Name
-            th Service Date
-            th Feedback Score
+            th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
+              | Customer Name
+              - if params[:order_by] == 'name'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Service Date
+              - if params[:order_by] == 'serviced_at'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+            th = link_to params.slice(:page).merge(order_by: :score, order_dir: params[:order_by] == 'score' && params[:order_dir] == 'desc' ? :asc : :desc) do
+              | Feedback Score
+              - if params[:order_by] == 'score'
+                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
             th Message
             th Left Feedback?
             th Left Review?

@@ -6,9 +6,9 @@ tr
   td = customer.name
   td = customer.email
   td = customer.phone? ? customer.phone : '--'
-  td = last_feedback.try(:serviced_at).try(:strftime, '%D') || '--'
-  td = last_feedback.try(:completed_at).try(:strftime, '%D') || '--'
-  td = last_feedback.try(:score) || '--'
+  td = customer.feedbacks.map(&:serviced_at).sort.first.try(:strftime, '%D') || '--'
+  td = customer.feedbacks.map(&:completed_at).sort.first.try(:strftime, '%D') || '--'
+  td = customer.feedbacks.map(&:score).sort.first || '--'
   td
     - if last_complete_feedback
       | Yes
