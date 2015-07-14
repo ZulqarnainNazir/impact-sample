@@ -151,6 +151,7 @@ Rails.application.routes.draw do
     resource :blog_page, path: 'blog', only: %i[show]
     resource :contact_page, path: 'contact', only: %i[show create]
     resource :feedback, only: %i[new create show], path: 'feedback'
+    resource :share, only: %i[show]
 
     resources :before_afters, only: %i[show]
     resources :events, only: %i[index show]

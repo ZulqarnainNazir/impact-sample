@@ -24,10 +24,23 @@ class Website::ReviewsController < Website::BaseController
   end
 
   def create
-    create_resource @feedback, feedback_params, location: :website_reviews do |success|
-      if success && @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
+    @feedback.assign_attributes(feedback_params)
+
+    if @feedback.save
+      if @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
         @feedback.review.update_column :published, true
       end
+
+      if @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
+        redirect_to [:website_share, review_url: website_review_url(@feedback.review)]
+      elsif !@business.automated_reviews_publishing && @feedback.review.overall_rating >= 4.0
+        redirect_to :website_share
+      else
+        redirect_to :website_reviews, notice: t('.notice')
+      end
+    else
+      flash.now.alert = t('.alert')
+      render :new
     end
   end
 

@@ -1,0 +1,40 @@
+- title "Share your Review of #{@business.name}"
+- canonical_url website_share_url
+- share_url = params[:review_url] ? params[:review_url] : website_root_url
+
+#fb-root
+javascript:
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+css:
+  .fb-share-button {
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    transform-origin: top left;
+    -ms-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+    -webkit-transform-origin: top left;
+  }
+
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    .text-center
+      h1.h3 Glad you had a good time, why not share the business with your friends?
+      div style="margin-top: 2em; margin-bottom: 2em;"
+        span style="position: relative; left: -28px"
+          span style="position: relative; top: 1em"
+            = link_to 'Tweet', share_url, class: 'twitter-share-button', data: { size: 'large', count: 'none', text: "Check out #{@business.name}, I just left them a review!" }
+          span style="position: relative; left: 0.5em"
+            .fb-share-button data-href=share_url data-layout="button"
+
+javascript:
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');

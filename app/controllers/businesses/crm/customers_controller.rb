@@ -45,7 +45,7 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
     ).tap do |safe_params|
       if safe_params[:customer_notes_attributes]
         safe_params[:customer_notes_attributes].map do |_, attr|
-          attr[:user_name] = current_user.name
+          attr[:user_name] = current_user.name if attr[:content].present?
         end
       end
       if safe_params[:feedbacks_attributes]
