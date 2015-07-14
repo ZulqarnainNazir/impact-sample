@@ -50,8 +50,9 @@ class Businesses::Accounts::LocablesController < Businesses::BaseController
           redirect_to [:edit, @business, :accounts_locable], alert: 'Please provide a valid Locable site.'
         end
       else
-        locable_business = LocableBusiness.find_by_slug(params[:locable_url])
-        if locable_business
+        locable_slug = params[:locable_url].to_s.split('/').last
+        locable_business = LocableBusiness.find_by_slug(locable_slug)
+        if locable_slug.present? && locable_business
           if locable_business.claimed?
             if current_user.super_user? || locable_business.users.include?(@locable_user) || @locable_user.businesses.include?(current_user)
               if locable_business.link(@business, current_user, @locable_user)
