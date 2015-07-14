@@ -23,15 +23,18 @@ class ApplicationController < ActionController::Base
   # Sends a custom event to the Intercom service, if credentials are provided.
   def intercom_event(event_name, metadata = {})
     if ENV['INTERCOM_ID'].present? && ENV['INTERCOM_API_KEY'].present?
-      Intercom::Client.new(
-        app_id: ENV['INTERCOM_ID'],
-        api_key: ENV['INTERCOM_API_KEY']
-      ).events.create(
-        event_name: event_name,
-        email: metadata.delete(:user_email) || current_user.email,
-        created_at: metadata.delete(:created_at) || Time.zone.now.to_i,
-        metadata: metadata,
-      )
+      begin
+        Intercom::Client.new(
+          app_id: ENV['INTERCOM_ID'],
+          api_key: ENV['INTERCOM_API_KEY']
+        ).events.create(
+          event_name: event_name,
+          email: metadata.delete(:user_email) || current_user.email,
+          created_at: metadata.delete(:created_at) || Time.zone.now.to_i,
+          metadata: metadata,
+        )
+      rescue Intercom::ResourceNotFound
+      end
     end
   end
 end
