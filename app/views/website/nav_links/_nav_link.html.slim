@@ -5,7 +5,7 @@
         => nav_link.label
         span.caret
       ul.dropdown-menu
-        = render partial: 'website/nav_links/nav_link', collection: nav_link.cached_children, locals:
+        = render partial: 'website/nav_links/nav_link', collection: nav_link.cached_children, locals: { }
   - elsif nav_link.internal?
     - if nav_link.webpath? && nav_link.webpath == 'galleries'
       li = link_to nav_link.label, :website_galleries
