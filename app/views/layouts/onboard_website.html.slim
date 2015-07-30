@@ -17,7 +17,7 @@ html lang="en"
             .progress: .progress-bar
             span.onboard-dot
           .onboard-step class=(controller_name == 'lines' ? 'is-active' : (%w[businesses locations].include?(controller_name) ? 'is-disabled' : 'is-complete'))
-            .onboard-stepnum = content_tag (controller_name == 'lines' ? :strong : :span), 'Products &amp;<br>Services'.html_safe
+            .onboard-stepnum = content_tag (controller_name == 'lines' ? :strong : :span), 'Lines of<br>Business'.html_safe
             .progress: .progress-bar
             span.onboard-dot
           .onboard-step class=(controller_name == 'deliveries' ? 'is-active' : (%w[businesses locations lines].include?(controller_name) ? 'is-disabled' : 'is-complete'))
