@@ -6,10 +6,10 @@
         = form.label :type, 'Select Product/Service', class: 'control-label'
         = form.select :type, options_for_select([['Product', 'ProductLine'], ['Service', 'ServiceLine']], line.type), {}, class: 'form-control'
       .form-group
-        = form.label :title, 'Summarize the product/service line', class: 'control-label'
+        = form.label :title, 'Summarize the line of business', class: 'control-label'
         = form.text_field :title, class: 'form-control'
       .form-group
-        = form.label :description, 'Describe the product/service line in more detail (brands, sizes, styles, uses, materials, etc)', class: 'control-label'
+        = form.label :description, 'Describe the line of business in more detail (brands, sizes, styles, uses, materials, etc)', class: 'control-label'
         = form.text_area :description, rows: 6, class: 'form-control'
       .line-images-associations
         - line.line_images.build
