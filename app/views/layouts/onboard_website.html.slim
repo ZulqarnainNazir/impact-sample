@@ -6,7 +6,7 @@ html lang="en"
     .container style="padding-top: 40px"
       .text-center
         = render 'alerts'
-        p.lead = content_for(:onboard_instructions) || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices pellentesque maximus. Aliquam id sollicitudin massa, nec mollis turpis.'
+        p.lead = content_for(:onboard_instructions) || 'This onboarding questionnaire will create your business profile and lay the foundation for better marketing. Be as thorough as possible and if you have any questions ask us using the ? in the lower right corner.'
         .row.onboard
           .onboard-step class=(controller_name == 'businesses' ? 'is-active' : 'is-complete')
             .onboard-stepnum = content_tag (controller_name == 'businesses' ? :strong : :span), 'Business<br>Details'.html_safe
