@@ -1,4 +1,4 @@
-- title 'Tell us about your products and services'
+- title 'Tell us about your lines of business'
 
 .row
   .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
@@ -6,7 +6,7 @@
     = form_for @business, url: [:onboard_website, @business, :lines], method: :put do |form|
       .panel.panel-default
         .panel-heading
-          h1.h4.panel-title Tell us about your products and services
+          h1.h4.panel-title Tell us about your lines of business
         .panel-body
           .lines-associations
             - form.object.lines.build
