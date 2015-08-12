@@ -8,11 +8,11 @@
         = render partial: 'website/nav_links/nav_link', collection: nav_link.cached_children, locals: { style: '' }
   - elsif nav_link.internal?
     - if nav_link.webpath? && nav_link.webpath == 'galleries'
-      li = link_to nav_link.label, :website_galleries
+      li = link_to nav_link.label, :website_galleries, style: style
     - elsif nav_link.webpath? && nav_link.webpath == 'events'
-      li = link_to nav_link.label, :website_events
+      li = link_to nav_link.label, :website_events, style: style
     - elsif nav_link.webpath? && nav_link.webpath == 'reviews'
-      li = link_to nav_link.label, :website_reviews
+      li = link_to nav_link.label, :website_reviews, style: style
     - elsif nav_link.webpage && nav_link.webpage.is_a?(HomePage)
       li = link_to nav_link.label, website_root_path, style: style
     - elsif nav_link.webpage

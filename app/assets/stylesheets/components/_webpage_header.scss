@@ -122,4 +122,13 @@
     }
     margin-bottom: $navbar-margin-bottom;
   }
+  @media (max-width: $grid-float-breakpoint) {
+    .navbar-brand-image img {
+      height: 40px !important;
+      max-height: 40px !important;
+    }
+    .navbar-nav li a {
+      line-height: 20px !important;
+    }
+  }
 }
