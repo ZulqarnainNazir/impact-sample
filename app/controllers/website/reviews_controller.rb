@@ -4,6 +4,8 @@ class Website::ReviewsController < Website::BaseController
 
     if params[:feedback_score]
       @feedback.update(completed_at: Time.now, score: params[:feedback_score].to_i)
+    else
+      @feedback.update(completed_at: Time.now)
     end
 
     @feedback.build_review(

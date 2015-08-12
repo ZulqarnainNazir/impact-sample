@@ -16,6 +16,8 @@ class Feedback < ActiveRecord::Base
 
   after_create do
     CustomerMailer.feedback(self).deliver_later
+    CustomerMailer.feedback(self).deliver_later(wait: 3.days)
+    CustomerMailer.feedback(self).deliver_later(wait: 1.week)
   end
 
   def self.complete

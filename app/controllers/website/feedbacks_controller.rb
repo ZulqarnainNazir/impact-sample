@@ -4,6 +4,8 @@ class Website::FeedbacksController < Website::BaseController
 
     if params[:feedback_score]
       @feedback.update(completed_at: Time.now, score: params[:feedback_score])
+    else
+      @feedback.update(completed_at: Time.now)
     end
   end
 
