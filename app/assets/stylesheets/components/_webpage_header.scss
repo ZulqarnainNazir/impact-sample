@@ -123,6 +123,11 @@
     margin-bottom: $navbar-margin-bottom;
   }
   @media (max-width: $grid-float-breakpoint) {
+    .navbar-header {
+      height: 60px !important;
+      max-height: 60px !important;
+      min-height: 60px !important;
+    }
     .navbar-brand-image img {
       height: 40px !important;
       max-height: 40px !important;
