@@ -42,8 +42,10 @@
           var collapse = $('.header-centered-logo #header-collapse');
           var image = brand.find('img');
           brand.css('margin-left', ('-' + (image.width() / 2) + 'px'));
-          collapse.find('.navbar-left').css('margin-right', ((image.width() / 2 + 20) + 'px'));
-          collapse.find('.navbar-right').css('margin-left', ((image.width() / 2 + 20) + 'px'));
+          if ($(window).width() > 768) {
+            collapse.find('.navbar-left').css('margin-right', ((image.width() / 2 + 20) + 'px'));
+            collapse.find('.navbar-right').css('margin-left', ((image.width() / 2 + 20) + 'px'));
+          }
         };
         centerLogo();
         setTimeout(centerLogo, 5);

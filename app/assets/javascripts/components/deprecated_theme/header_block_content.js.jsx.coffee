@@ -29,9 +29,10 @@ HeaderBlockContent = React.createClass
   centerLogo: ->
     if this.props.theme is 'logo_center' and this.refs.image and this.refs.leftNavbar and this.refs.rightNavbar
       image = $(this.refs.image.getDOMNode()).find('img')
-      $(this.refs.leftNavbar.getDOMNode()).css 'margin-right', "#{image.width() / 2 + 20}px"
-      $(this.refs.rightNavbar.getDOMNode()).css 'margin-left', "#{image.width() / 2 + 20}px"
       $(this.refs.image.getDOMNode()).find('.navbar-brand').css 'margin-left', "-#{image.width() / 2}px"
+      if $(window).width() > 768
+        $(this.refs.leftNavbar.getDOMNode()).css 'margin-right', "#{image.width() / 2 + 20}px"
+        $(this.refs.rightNavbar.getDOMNode()).css 'margin-left', "#{image.width() / 2 + 20}px"
 
   renderLogoCenter: ->
     `<nav className={this.navbarClassName('navbar-static-top header-centered-logo')} role="navigation">
