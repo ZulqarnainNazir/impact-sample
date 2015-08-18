@@ -11,7 +11,7 @@ HeaderBlock = React.createClass
 
   centerLogo: ->
     if $(window).width() > 768 and ['above', 'below'].indexOf(this.props.logo_vertical_position) is -1 and this.props.logo_horizontal_position is 'center' and this.props.navigation_horizontal_position is 'center'
-      offset = $('.navbar-brand').width() / 2 + 30
+      offset = $('.webpage-designer .navbar-brand').width() / 2 + 30
       $(this.refs.leftNavbar.getDOMNode()).css 'margin-right', "#{offset}px"
       $(this.refs.rightNavbar.getDOMNode()).css 'margin-left', "#{offset}px"
 

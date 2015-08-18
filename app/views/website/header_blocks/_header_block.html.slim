@@ -1,8 +1,11 @@
 - business = header_block.frame.business
 - cache business do
   - navbar_class = header_block.style == 'dark' ? 'navbar-inverse' : 'navbar-default'
-  - navbar_class += %w[static fixed].include?(header_block.navbar_location) ? ' navbar-static-top' : ' navbar-default-top'
-  - navbar_nav_style = "line-height: #{header_block.logo_height.present? && header_block.logo_height.to_i > 40 ? header_block.logo_height.to_i - 10 : 30}px"
+  - navbar_class += ' navbar-static-top' if header_block.navbar_location == 'static'
+  - navbar_class += ' navbar-fixed-top' if header_block.navbar_location == 'fixed'
+  - navbar_class += ' navbar-default-top' if !%w[static fixed].include?(header_block.navbar_location)
+  - navbar_nav_style = "line-height: #{!%w[above below].include?(header_block.logo_vertical_position) && header_block.logo_height.present? && header_block.logo_height.to_i > 40 ? header_block.logo_height.to_i - 10 : 30}px"
+
   - image = capture do
     - if business.logo.present?
       - if header_block.logo_height.present? && header_block.logo_height.to_i > 125
@@ -17,6 +20,7 @@
         = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: 'height: 40px'), :root, class: 'navbar-brand navbar-brand-image'
     - else
       = link_to business.name, :root, class: 'navbar-brand'
+
   - navlinks = capture do
     - webpages = header_block.frame.arranged_nav_links(:header)
     - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'
@@ -30,11 +34,15 @@
           = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2)], locals: { style: navbar_nav_style }
         ul.nav.navbar-nav.navbar-abs-half-right
           = render partial: 'website/nav_links/nav_link', collection: webpages[(webpages.length / 2 + 1)..-1], locals: { style: navbar_nav_style }
+    - elsif header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center'
+      ul.nav.navbar-nav class=(header_block.navigation_horizontal_position == 'right' ? 'navbar-abs-right' : 'navbar-abs-left')
+        = render partial: 'website/nav_links/nav_link', collection: header_block.frame.arranged_nav_links(:header), locals: { style: navbar_nav_style }
     - else
       ul.nav.navbar-nav class=(header_block.navigation_horizontal_position == 'center' ? 'navbar-center' : (header_block.navigation_horizontal_position == 'right' ? 'navbar-right' : 'navbar-left'))
         = render partial: 'website/nav_links/nav_link', collection: header_block.frame.arranged_nav_links(:header), locals: { style: navbar_nav_style }
+
   - navbar_interior = capture do
-    .navbar-header
+    .navbar-header class=(header_block.logo_horizontal_position == 'center' ? 'navbar-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-right' : 'navbar-left'))
       span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
         span.sr-only Toggle Navigation
         span.icon-bar
@@ -43,6 +51,7 @@
       = image unless %w[above below].include?(header_block.logo_vertical_position)
     #header-collapse.navbar-collapse.collapse
       = navlinks
+
   - navbar = capture do
     - if %w[static fixed].include?(header_block.navbar_location)
       .nav.navbar class=navbar_class
@@ -52,12 +61,50 @@
       .container
         .nav.navbar class=navbar_class
           = navbar_interior
-  - if header_block.logo_vertical_position == 'above'
+
+  - if header_block.logo_vertical_position == 'above' || (@location && %w[left right full].include?(header_block.contact_position))
     .container
-      div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
-      = image
+      - if header_block.contact_position == 'full'
+        .clearfix style="margin-left:-10px"
+          .vcard.nav.navbar-nav.text-left
+            li: p.navbar-text
+              i.fa.fa-map-marker>
+              span.adr
+                span.street-address => @location.address_line_one
+                span.locality = @location.address_line_two
+            - if @location.phone_number?
+              li: p.navbar-text
+                i.fa.fa-phone>
+                span.tel = number_to_phone @location.phone_number
+            - if @location.email?
+              li = link_to "mailto:#{@location.email}" do
+                i.fa.fa-envelope>
+                span.email = @location.email
+      - elsif header_block.contact_position == 'left' || header_block.contact_position == 'right'
+        .vcard.navbar-vcard class=(header_block.contact_position == 'left' ? 'pull-left text-left' : 'pull-right text-right')
+          - if @location.phone_number?
+            p.h4.tel = number_to_phone @location.phone_number
+          p.adr #{@location.address_line_one} <br> #{@location.address_line_two}
+      - if header_block.logo_vertical_position == 'above'
+        div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
+          = image
   = navbar
   - if header_block.logo_vertical_position == 'below'
     .container
       div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
         = image
+
+  - if header_block.navbar_location == 'fixed'
+    div style="height: #{(header_block.logo_height.to_i > 0 ? header_block.logo_height.to_i : 30) + 20}px"
+
+  - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'
+    javascript:
+      var centerLogo = function() {
+        if ($(window).width() > 768) {
+          var offset = $('.navbar-brand').width() / 2 + 30;
+          $('.navbar-abs-half-left').css('margin-right', offset + 'px');
+          $('.navbar-abs-half-right').css('margin-left', offset + 'px');
+        }
+      };
+      setTimeout(centerLogo, 5);
+      setTimeout(centerLogo, 100);

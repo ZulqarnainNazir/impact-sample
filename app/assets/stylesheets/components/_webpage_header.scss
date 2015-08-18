@@ -10,6 +10,14 @@
   .navbar-inverse, .navbar-inverse .navbar-collapse {
     border-color: rgba(0,0,0,0.1);
   }
+  .navbar-header.navbar-right {
+    margin-left: 15px !important;
+    margin-right: 0 !important;
+  }
+  .navbar-header.navbar-left {
+    margin-left: 0 !important;
+    margin-right: 15px !important;
+  }
   .navbar-toggle {
     background-color: rgba(0,0,0,0.1);
     border-color: rgba(0,0,0,0.1);
@@ -47,13 +55,13 @@
       float: none !important;
       position: absolute !important;
       top: 0 !important;
-      left: 15px !important;
+      left: 0 !important;
     }
     .navbar-abs-right {
       float: none !important;
       position: absolute !important;
       top: 0 !important;
-      right: 15px !important;
+      right: 0 !important;
     }
     .navbar-abs-half-left {
       float: none !important;
