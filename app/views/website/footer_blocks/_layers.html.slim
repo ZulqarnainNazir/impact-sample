@@ -47,8 +47,8 @@ footer.site-footer.site-footer-layers
           p.copyright &copy #{Time.zone.now.year} #{business.name}
         - cache location do
           .col-sm-4.footer-center
-            - if !location.hide_phone?
-              p.tel = link_to location.phone_number, "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
+            - if location.phone_number? && !location.hide_phone?
+              p.tel = link_to number_to_phone(location.phone_number), "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
             - if location.email? && !location.hide_email?
               = link_to location.email, "mailto:#{location.email}", class: 'email'
           .col-sm-4.footer-right

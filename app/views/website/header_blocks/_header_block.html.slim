@@ -72,17 +72,17 @@
               span.adr
                 span.street-address => @location.address_line_one
                 span.locality = @location.address_line_two
-            - if @location.phone_number?
+            - if @location.phone_number? && !@location.hide_phone?
               li: p.navbar-text
                 i.fa.fa-phone>
                 span.tel = number_to_phone @location.phone_number
-            - if @location.email?
+            - if @location.email? && !@location.hide_email?
               li = link_to "mailto:#{@location.email}" do
                 i.fa.fa-envelope>
                 span.email = @location.email
       - elsif header_block.contact_position == 'left' || header_block.contact_position == 'right'
         .vcard.navbar-vcard class=(header_block.contact_position == 'left' ? 'pull-left text-left' : 'pull-right text-right')
-          - if @location.phone_number?
+          - if @location.phone_number? && !@location.hide_phone?
             p.h4.tel = number_to_phone @location.phone_number
           p.adr #{@location.address_line_one} <br> #{@location.address_line_two}
       - if header_block.logo_vertical_position == 'above'
