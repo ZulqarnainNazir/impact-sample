@@ -6,11 +6,11 @@ class FooterBlock < Block
   end
 
   def as_theme_json(business)
-    as_json(methods: %i[background_color foreground_color link_color]).merge(
+    as_json(methods: %i[background_color foreground_color link_color type]).merge(
       name: business.name,
       pages: business.website.nav_links.footer.order(position: :asc),
       email: business.location.try(:email),
-      phone: business.location.try(:phone),
+      phone: business.location.try(:phone_number),
       addressLineOne: business.location.try(:address_line_one),
       addressLineTwo: business.location.try(:address_line_two),
     )

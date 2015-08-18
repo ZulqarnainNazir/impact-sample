@@ -1,9 +1,63 @@
-- cache header_block.frame.business do
-  -# Template Dependency: website/header_blocks/inline
-  -# Template Dependency: website/header_blocks/center
-  -# Template Dependency: website/header_blocks/justify
-  -# Template Dependency: website/header_blocks/logo_above
-  -# Template Dependency: website/header_blocks/logo_above_full_width
-  -# Template Dependency: website/header_blocks/logo_below
-  -# Template Dependency: website/header_blocks/logo_center
-  = render partial: "website/header_blocks/#{header_block.theme}", object: header_block, as: :block, locals: { business: header_block.frame.business, website: header_block.frame, location: header_block.frame.business.location }
+- business = header_block.frame.business
+- cache business do
+  - navbar_class = header_block.style == 'dark' ? 'navbar-inverse' : 'navbar-default'
+  - navbar_class += %w[static fixed].include?(header_block.navbar_location) ? ' navbar-static-top' : ' navbar-default-top'
+  - navbar_nav_style = "line-height: #{header_block.logo_height.present? && header_block.logo_height.to_i > 40 ? header_block.logo_height.to_i - 10 : 30}px"
+  - image = capture do
+    - if business.logo.present?
+      - if header_block.logo_height.present? && header_block.logo_height.to_i > 125
+        = link_to image_tag(business.logo.attachment_url(:logo_jumbo), alt: business.name, style: "height: #{header_block.logo_height}px; max-height: 200px"), :root, class: 'navbar-brand navbar-brand-image'
+      - elsif header_block.logo_height.present? && header_block.logo_height.to_i > 60
+        = link_to image_tag(business.logo.attachment_url(:logo_large), alt: business.name, style: "height: #{header_block.logo_height}px; max-height: 125px"), :root, class: 'navbar-brand navbar-brand-image'
+      - elsif header_block.logo_height.present? && header_block.logo_height.to_i > 40
+        = link_to image_tag(business.logo.attachment_url(:logo_medium), alt: business.name, style: "height: #{header_block.logo_height}px; max-height: 60px"), :root, class: 'navbar-brand navbar-brand-image'
+      - elsif header_block.logo_height.present? && header_block.logo_height.to_i > 0
+        = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: "height: #{header_block.logo_height}px; max-height: 40px"), :root, class: 'navbar-brand navbar-brand-image'
+      - else
+        = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: 'height: 40px'), :root, class: 'navbar-brand navbar-brand-image'
+    - else
+      = link_to business.name, :root, class: 'navbar-brand'
+  - navlinks = capture do
+    - webpages = header_block.frame.arranged_nav_links(:header)
+    - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'
+      - if webpages.length.even?
+        ul.nav.navbar-nav.navbar-abs-half-left
+          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2 - 1)], locals: { style: navbar_nav_style }
+        ul.nav.navbar-nav.navbar-abs-half-right
+          = render partial: 'website/nav_links/nav_link', collection: webpages[(webpages.length / 2)..-1], locals: { style: navbar_nav_style }
+      - else
+        ul.nav.navbar-nav.navbar-abs-half-left
+          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2)], locals: { style: navbar_nav_style }
+        ul.nav.navbar-nav.navbar-abs-half-right
+          = render partial: 'website/nav_links/nav_link', collection: webpages[(webpages.length / 2 + 1)..-1], locals: { style: navbar_nav_style }
+    - else
+      ul.nav.navbar-nav class=(header_block.navigation_horizontal_position == 'center' ? 'navbar-center' : (header_block.navigation_horizontal_position == 'right' ? 'navbar-right' : 'navbar-left'))
+        = render partial: 'website/nav_links/nav_link', collection: header_block.frame.arranged_nav_links(:header), locals: { style: navbar_nav_style }
+  - navbar_interior = capture do
+    .navbar-header
+      span.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#header-collapse"
+        span.sr-only Toggle Navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      = image unless %w[above below].include?(header_block.logo_vertical_position)
+    #header-collapse.navbar-collapse.collapse
+      = navlinks
+  - navbar = capture do
+    - if %w[static fixed].include?(header_block.navbar_location)
+      .nav.navbar class=navbar_class
+        .container
+          = navbar_interior
+    - else
+      .container
+        .nav.navbar class=navbar_class
+          = navbar_interior
+  - if header_block.logo_vertical_position == 'above'
+    .container
+      div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
+      = image
+  = navbar
+  - if header_block.logo_vertical_position == 'below'
+    .container
+      div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
+        = image

@@ -42,6 +42,7 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('items_limit')} value={this.props.items_limit} />
         <input type="hidden" name={this.inputName('well_style')} value={this.props.well_style} />
         <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
+        {this.renderHeaderInputs()}
         {this.renderBlockBackgroundPlacementInputs()}
         {this.renderBlockImagePlacementInputs()}
       </div>
@@ -58,6 +59,17 @@ Block = React.createClass
     else
       'webpage-block'
 
+  renderHeaderInputs: ->
+    if this.props.type is 'HeaderBlock'
+      `<div>
+        <input type="hidden" name={this.inputName('logo_height')} value={this.props.logo_height} />
+        <input type="hidden" name={this.inputName('style')} value={this.props.style} />
+        <input type="hidden" name={this.inputName('logo_horizontal_position')} value={this.props.logo_horizontal_position} />
+        <input type="hidden" name={this.inputName('logo_vertical_position')} value={this.props.logo_vertical_position} />
+        <input type="hidden" name={this.inputName('navigation_horizontal_position')} value={this.props.navigation_horizontal_position} />
+        <input type="hidden" name={this.inputName('contact_position')} value={this.props.contact_position} />
+        <input type="hidden" name={this.inputName('navbar_location')} value={this.props.navbar_location} />
+      </div>`
 
   renderBlockBackgroundPlacementInputs: ->
     placement = this.props.block_background_placement
@@ -94,7 +106,10 @@ Block = React.createClass
       </div>`
 
   inputName: (name) ->
-    "#{this.props.groupInputName}[#{this.props.uuid}][#{name}]"
+    if this.props.uuid and this.props.uuid.length > 0
+      "#{this.props.groupInputName}[#{this.props.uuid}][#{name}]"
+    else
+      "#{this.props.groupInputName}[#{name}]"
 
   blockBackgroundInputName: (name) ->
     this.inputName('block_background_placement_attributes') + "[#{name}]"
@@ -192,5 +207,9 @@ Block = React.createClass
         `<TeamBlock {...this.props} />`
       when 'ContactBlock'
         `<ContactBlock {...this.props} />`
+      when 'HeaderBlock'
+        `<HeaderBlock {...this.props} />`
+      when 'FooterBlock'
+        `<FooterBlock {...this.props} />`
 
 window.Block = Block

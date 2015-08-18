@@ -1,5 +1,10 @@
-FooterBlockContent = React.createClass
+FooterBlock = React.createClass
   render: ->
+    `<div className="webpage-footer">
+      {this.renderInterior()}
+    </div>`
+
+  renderInterior: ->
     switch this.props.theme
       when 'simple_full_width'
         this.renderSimpleFullWidth()
@@ -115,4 +120,4 @@ FooterBlockContent = React.createClass
       </div>
     </footer>`
 
-window.FooterBlockContent = FooterBlockContent
+window.FooterBlock = FooterBlock

@@ -11,10 +11,10 @@ ol.breadcrumb
     = errors_for @website
     = react_component 'Theme',
       browserButtonsSrc: image_path('browser-buttons.png'),
+      defaultWrapContainer: form.object.wrap_container,
       defaultBackgroundColor: form.object.background_color,
       defaultForegroundColor: form.object.foreground_color,
       defaultLinkColor: form.object.link_color,
-      defaultWrapContainer: form.object.wrap_container,
       initialHeaderBlock: form.object.header_block.try(:as_theme_json, form.object.business),
       initialFooterBlock: form.object.footer_block.try(:as_theme_json, form.object.business)
     hr

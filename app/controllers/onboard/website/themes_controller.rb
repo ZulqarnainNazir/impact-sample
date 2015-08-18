@@ -29,7 +29,7 @@ class Onboard::Website::ThemesController < Onboard::Website::BaseController
       :foreground_color,
       :link_color,
       :wrap_container,
-      header_block_attributes: block_attributes.push(:logo_height),
+      header_block_attributes: block_attributes.push(*%i[logo_height logo_horizontal_position logo_vertical_position navigation_horizontal_position contact_position navbar_location]),
       footer_block_attributes: block_attributes,
     )
   end

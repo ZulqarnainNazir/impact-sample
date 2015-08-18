@@ -1,16 +1,11 @@
 .webpage-header {
   position: relative;
-  .webpage-header-label {
-    position: absolute;
-    top: -37px;
-    right: 10px;
-  }
-  hr,
-  .page-header {
-    border-color: rgba(0,0,0,0.1);
-  }
   .navbar {
     margin-bottom: 0;
+  }
+  .navbar-default-top {
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
   .navbar-inverse, .navbar-inverse .navbar-collapse {
     border-color: rgba(0,0,0,0.1);
@@ -23,106 +18,81 @@
       background-color: rgba(0,0,0,0.2);
     }
   }
+  .navbar-brand {
+    padding: 10px;
+  }
   .navbar-brand-image {
     height: auto;
-    margin-top: -10px;
+    margin: 0;
     display: inline-block;
     img {
       display: block;
       max-width: 100%;
     }
   }
-  @media (min-width: $grid-float-breakpoint) {
-    .header-centered .navbar-brand {
-      position: absolute;
-    }
-    .navbar-centered {
-      margin: 0 auto;
-      display: table;
-      table-layout: fixed;
-      float:none;
-    }
-    .header-justified {
-      display: table;
-      width: 100%;
-      text-align: center;
-      .navbar-header,
-      .navbar-collapse {
-        display: table-cell !important;
-        float: none;
+  @media screen and (min-width: $screen-sm) {
+    text-align: center;
+    .navbar-center {
+      float: none !important;
+      li {
+        float: none !important;
+        display: inline-block !important;
       }
       .navbar-brand {
-        display: block;
-        float: none;
-        img {
-          display: inline-block;
-        }
-      }
-      .nav-justified > li {
-        float: none;
+        float: none !important;
+        margin: 0 !important;
       }
     }
-  }
-  .header-centered-logo {
-    > .container .navbar-brand,
-    > .container-fluid .navbar-brand,
-    .navbar-brand {
-      position: absolute;
+    .navbar-abs-left {
+      float: none !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 15px !important;
+    }
+    .navbar-abs-right {
+      float: none !important;
+      position: absolute !important;
+      top: 0 !important;
+      right: 15px !important;
+    }
+    .navbar-abs-half-left {
+      float: none !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 15px !important;
+      right: 50%;
+      li {
+        float: right;
+      }
+    }
+    .navbar-abs-half-right {
+      float: none !important;
+      position: absolute !important;
+      top: 0 !important;
+      right: 15px !important;
       left: 50%;
-      text-align: center;
-      float: none;
-      padding: 0;
-      margin-top: 5px;
-      @media (min-width: $grid-float-breakpoint) {
+      li {
+        float: left;
       }
     }
-    @media (min-width: $grid-float-breakpoint) {
-      .navbar-left {
-        position: absolute;
-        right: 50%;
-      }
-      .navbar-right {
-        position: absolute;
-        left: 50%;
-      }
+    .navbar-outside-left {
+      text-align: left !important;
     }
-  }
-  .header-logo-above {
-    .navbar-brand-image {
-      height: auto;
-      margin: 15px 0;
-      padding: 0;
+    .navbar-outside-center {
+      text-align: center !important;
     }
-    .navbar-toggle {
-      border-color: $navbar-default-toggle-border-color;
-      &:hover,
-      &:focus {
-        background-color: $navbar-default-toggle-hover-bg;
-      }
-      .icon-bar {
-        background-color: $navbar-default-toggle-icon-bar-bg;
+    .navbar-outside-right {
+      text-align: right !important;
+    }
+    .navbar-outside-left, .navbar-outside-center, .navbar-outside-right {
+      .navbar-brand {
+        float: none !important;
+        padding: 0 !important;
+        margin: 0.5em 0 !important;
       }
     }
   }
-  .navbar-logo-above {
-    min-height: 0;
-  }
-  @media (min-width: $grid-float-breakpoint) {
-    .navbar-vcard {
-      margin-right: $navbar-padding-horizontal;
-    }
-  }
-  .header-logo-below {
-    text-align: center;
-    .navbar-brand-image {
-      margin: 5px 0 0;
-      height: auto;
-      float: none;
-      padding: 0;
-    }
-    margin-bottom: $navbar-margin-bottom;
-  }
-  @media (max-width: $grid-float-breakpoint) {
+  @media screen and (max-width: $screen-sm) {
     .navbar-header {
       height: 60px !important;
       max-height: 60px !important;

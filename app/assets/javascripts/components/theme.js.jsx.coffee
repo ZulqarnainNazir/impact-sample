@@ -1,25 +1,25 @@
 Theme = React.createClass
   propTypes:
     browserButtonsSrc: React.PropTypes.string.isRequired
-    defaultFooterBlockAttributes: React.PropTypes.object
-    defaultHeaderBlockAttributes: React.PropTypes.object
-    initialFooterBlock: React.PropTypes.object
-    initialHeaderBlock: React.PropTypes.object
+    initialHeaderBlock: React.PropTypes.object.isRequired
+    initialFooterBlock: React.PropTypes.object.isRequired
+    defaultWrapContainer: React.PropTypes.string
+    defaultBackgroundColor: React.PropTypes.string
+    defaultForegroundColor: React.PropTypes.string
+    defaultLinkColor: React.PropTypes.string
 
   getInitialState: ->
+    wrapContainer: if this.props.defaultWrapContainer is 'true' then true else false
     background_color: this.props.defaultBackgroundColor || ''
-    editing: true
-    footerBlock: this.footerBlockInitial()
     foreground_color: this.props.defaultForegroundColor || ''
-    headerBlock: this.headerBlockInitial()
     link_color: this.props.defaultLinkColor || ''
-    wrap_container: if this.props.defaultWrapContainer is 'true' then true else false
-    logo: false
+    headerBlock: this.props.initialHeaderBlock
+    footerBlock: this.props.initialFooterBlock
+    editing: true
+    logo: !!this.props.initialHeaderBlock.logoSmall
 
   componentDidMount: ->
     this.setupMinicolors()
-    if $(this.getDOMNode()).find('.webpage-header img').length > 0
-      this.setState logo: true
 
   setupMinicolors: ->
     minicolorOptions =
@@ -29,23 +29,23 @@ Theme = React.createClass
     $('#background_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.background_color)
     $('#foreground_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.foreground_color)
     $('#link_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.link_color)
-    $('#' + this.headerBlockID('background_color')).minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.background_color || '')
-    $('#' + this.headerBlockID('foreground_color')).minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.foreground_color || '')
-    $('#' + this.headerBlockID('link_color')).minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.link_color || '')
-    $('#' + this.footerBlockID('background_color')).minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.background_color || '')
-    $('#' + this.footerBlockID('foreground_color')).minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.foreground_color || '')
-    $('#' + this.footerBlockID('link_color')).minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.link_color || '')
+    $('#header_block_attributes_background_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.background_color || '')
+    $('#header_block_attributes_foreground_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.foreground_color || '')
+    $('#header_block_attributes_link_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.link_color || '')
+    $('#footer_block_attributes_background_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.background_color || '')
+    $('#footer_block_attributes_foreground_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.foreground_color || '')
+    $('#footer_block_attributes_link_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.link_color || '')
 
   resetColors: ->
     $('#background_color').val(this.props.defaultBackgroundColor || '').minicolors('destroy')
     $('#foreground_color').val(this.props.defaultForegroundColor || '').minicolors('destroy')
     $('#link_color').val(this.props.defaultLinkColor || '').minicolors('destroy')
-    $('#' + this.headerBlockID('background_color')).val(this.props.initialHeaderBlock && this.props.initialHeaderBlock.background_color || '').minicolors('destroy')
-    $('#' + this.headerBlockID('foreground_color')).val(this.props.initialHeaderBlock && this.props.initialHeaderBlock.foreground_color || '').minicolors('destroy')
-    $('#' + this.headerBlockID('link_color')).val(this.props.initialHeaderBlock && this.props.initialHeaderBlock.link_color || '').minicolors('destroy')
-    $('#' + this.footerBlockID('background_color')).val(this.props.initialFooterBlock && this.props.initialFooterBlock.background_color || '').minicolors('destroy')
-    $('#' + this.footerBlockID('foreground_color')).val(this.props.initialFooterBlock && this.props.initialFooterBlock.foreground_color || '').minicolors('destroy')
-    $('#' + this.footerBlockID('link_color')).val(this.props.initialFooterBlock && this.props.initialFooterBlock.link_color || '').minicolors('destroy')
+    $('#header_block_attributes_background_color').val(this.props.initialHeaderBlock && this.props.initialHeaderBlock.background_color || '').minicolors('destroy')
+    $('#header_block_attributes_foreground_color').val(this.props.initialHeaderBlock && this.props.initialHeaderBlock.foreground_color || '').minicolors('destroy')
+    $('#header_block_attributes_link_color').val(this.props.initialHeaderBlock && this.props.initialHeaderBlock.link_color || '').minicolors('destroy')
+    $('#footer_block_attributes_background_color').val(this.props.initialFooterBlock && this.props.initialFooterBlock.background_color || '').minicolors('destroy')
+    $('#footer_block_attributes_foreground_color').val(this.props.initialFooterBlock && this.props.initialFooterBlock.foreground_color || '').minicolors('destroy')
+    $('#footer_block_attributes_link_color').val(this.props.initialFooterBlock && this.props.initialFooterBlock.link_color || '').minicolors('destroy')
     changes =
       background_color:
         $set: this.props.defaultBackgroundColor || ''
@@ -75,14 +75,14 @@ Theme = React.createClass
         $set: $('#link_color').val()
       headerBlock:
         $merge:
-          background_color: $('#' + this.headerBlockID('background_color')).val()
-          foreground_color: $('#' + this.headerBlockID('foreground_color')).val()
-          link_color: $('#' + this.headerBlockID('link_color')).val()
+          background_color: $('#header_block_attributes_background_color').val()
+          foreground_color: $('#header_block_attributes_foreground_color').val()
+          link_color: $('#header_block_attributes_link_color').val()
       footerBlock:
         $merge:
-          background_color: $('#' + this.footerBlockID('background_color')).val()
-          foreground_color: $('#' + this.footerBlockID('foreground_color')).val()
-          link_color: $('#' + this.footerBlockID('link_color')).val()
+          background_color: $('#footer_block_attributes_background_color').val()
+          foreground_color: $('#footer_block_attributes_foreground_color').val()
+          link_color: $('#footer_block_attributes_link_color').val()
 
   loadColors: ->
     image = new Image
@@ -107,12 +107,12 @@ Theme = React.createClass
     $('#background_color').val(colors[0]).minicolors('destroy')
     $('#foreground_color').val(colors[1]).minicolors('destroy')
     $('#link_color').val('').minicolors('destroy')
-    $('#' + this.headerBlockID('background_color')).val(colors[2]).minicolors('destroy')
-    $('#' + this.headerBlockID('foreground_color')).val(colors[3]).minicolors('destroy')
-    $('#' + this.headerBlockID('link_color')).val(colors[3]).minicolors('destroy')
-    $('#' + this.footerBlockID('background_color')).val(colors[2]).minicolors('destroy')
-    $('#' + this.footerBlockID('foreground_color')).val(colors[3]).minicolors('destroy')
-    $('#' + this.footerBlockID('link_color')).val(colors[3]).minicolors('destroy')
+    $('#header_block_attributes_background_color').val(colors[2]).minicolors('destroy')
+    $('#header_block_attributes_foreground_color').val(colors[3]).minicolors('destroy')
+    $('#header_block_attributes_link_color').val(colors[3]).minicolors('destroy')
+    $('#footer_block_attributes_background_color').val(colors[2]).minicolors('destroy')
+    $('#footer_block_attributes_foreground_color').val(colors[3]).minicolors('destroy')
+    $('#footer_block_attributes_link_color').val(colors[3]).minicolors('destroy')
     changes =
       background_color:
         $set: colors[0]
@@ -136,7 +136,10 @@ Theme = React.createClass
     this.setState editing: !this.state.editing
 
   toggleContainerWrapper: ->
-    this.setState wrap_container: !this.state.wrap_container
+    this.setState wrapContainer: !this.state.wrapContainer
+
+  webpageContainerClass: ->
+    if this.state.wrapContainer then 'webpage-container webpage-container-wrapper' else 'webpage-container'
 
    styles: ->
      """
@@ -152,6 +155,10 @@ Theme = React.createClass
      .webpage-header .navbar {
        background-color: #{this.state.headerBlock.background_color};
        color: #{this.state.headerBlock.foreground_color};
+     }
+     .webpage-header .nav a,
+     .webpage-header .nav a:hover {
+       color: #{this.state.link_color} !important;
      }
      .webpage-header .navbar a,
      .webpage-header .navbar a:hover {
@@ -174,7 +181,7 @@ Theme = React.createClass
     `<div>
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
       <div className="row webpage-fields">
-        <input name="wrap_container" type="hidden" value={this.state.wrap_container} />
+        <input name="wrap_container" type="hidden" value={this.state.wrapContainer} />
         <div className="col-sm-4">
           <p>Body Colors</p>
           <div className="well well-sm">
@@ -206,20 +213,20 @@ Theme = React.createClass
             <div className="row row-narrow">
               <div className="col-sm-4">
                 <div className="form-group">
-                  <label htmlFor={this.headerBlockName('background_color')} className="contor-label small">Background</label>
-                  <input name={this.headerBlockName('background_color')} id={this.headerBlockID('background_color')} type="text" defaultValue={this.state.headerBlock.background_color} className="form-control" />
+                  <label htmlFor="header_block_attributes_background_color" className="contor-label small">Background</label>
+                  <input name="header_block_attributes[background_color]" id="header_block_attributes_background_color"ype="text" defaultValue={this.state.headerBlock.background_color} className="form-control" />
                 </div>
               </div>
               <div className="col-sm-4">
                 <div className="form-group">
-                  <label htmlFor={this.headerBlockName('foreground_color')} className="contor-label small">Font</label>
-                  <input name={this.headerBlockName('foreground_color')} id={this.headerBlockID('foreground_color')} type="text" defaultValue={this.state.headerBlock.foreground_color} className="form-control" />
+                  <label htmlFor="header_block_attributes_foreground_color" className="contor-label small">Font</label>
+                  <input name="header_block_attributes[foreground_color]" id="header_block_attributes_foreground_color" type="text" defaultValue={this.state.headerBlock.foreground_color} className="form-control" />
                 </div>
               </div>
               <div className="col-sm-4">
                 <div className="form-group">
-                  <label htmlFor={this.headerBlockName('link_color')} className="contor-label small">Link</label>
-                  <input name={this.headerBlockName('link_color')} id={this.headerBlockID('link_color')} type="text" defaultValue={this.state.headerBlock.link_color} className="form-control" />
+                  <label htmlFor="header_block_attributes_link_color" className="contor-label small">Link</label>
+                  <input name="header_block_attributes[link_color]" id="header_block_attributes_link_color" type="text" defaultValue={this.state.headerBlock.link_color} className="form-control" />
                 </div>
               </div>
             </div>
@@ -231,20 +238,20 @@ Theme = React.createClass
             <div className="row row-narrow">
               <div className="col-sm-4">
                 <div className="form-group">
-                  <label htmlFor={this.footerBlockName('background_color')} className="contor-label small">Background</label>
-                  <input name={this.footerBlockName('background_color')} id={this.footerBlockID('background_color')} type="text" defaultValue={this.state.footerBlock.background_color} className="form-control" />
+                  <label htmlFor="footer_block_attributes_background_color" className="contor-label small">Background</label>
+                  <input name="footer_block_attributes[background_color]" id="footer_block_attributes_background_color" type="text" defaultValue={this.state.footerBlock.background_color} className="form-control" />
                 </div>
               </div>
               <div className="col-sm-4">
                 <div className="form-group">
-                  <label htmlFor={this.footerBlockName('foreground_color')} className="contor-label small">Font</label>
-                  <input name={this.footerBlockName('foreground_color')} id={this.footerBlockID('foreground_color')} type="text" defaultValue={this.state.footerBlock.foreground_color} className="form-control" />
+                  <label htmlFor="footer_block_attributes_foreground_color" className="contor-label small">Font</label>
+                  <input name="footer_block_attributes[foreground_color]" id="footer_block_attributes_foreground_color" type="text" defaultValue={this.state.footerBlock.foreground_color} className="form-control" />
                 </div>
               </div>
               <div className="col-sm-4">
                 <div className="form-group">
-                  <label htmlFor={this.footerBlockName('link_color')} className="contor-label small">Link</label>
-                  <input name={this.footerBlockName('link_color')} id={this.footerBlockID('link_color')} type="text" defaultValue={this.state.footerBlock.link_color} className="form-control" />
+                  <label htmlFor="footer_block_attributes_link_color" className="contor-label small">Link</label>
+                  <input name="footer_block_attributes[link_color]" id="footer_block_attributes_link_color" type="text" defaultValue={this.state.footerBlock.link_color} className="form-control" />
                 </div>
               </div>
             </div>
@@ -260,7 +267,9 @@ Theme = React.createClass
       </div>
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
         <div style={{position: 'relative', backgroundColor: this.state.background_color, color: this.state.foreground_color}}>
-          <HeaderBlock {...this.headerBlockProps()} />
+          <div className="webpage-group webpage-group-basic-left">
+            <Block {...this.state.headerBlock} kind="full_width" groupInputName="header_block_attributes" editing={this.state.editing} editCustom={this.editHeader} />
+          </div>
           <div className="text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', padding: '4em 2em', position: 'relative'}}>
             <span style={{fontSize: 30}}>Full-width Content</span>
           </div>
@@ -285,243 +294,141 @@ Theme = React.createClass
               </div>
             </div>
           </div>
-          <FooterBlock {...this.footerBlockProps()} />
-          <div className="webpage-fields">
-            {this.headerBlockInputs()}
-            {this.footerBlockInputs()}
+          <div className="webpage-group webpage-group-basic-left">
+            <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} />
           </div>
         </div>
         <div className="panel-footer clearfix">
           <p className="checkbox pull-right" style={{margin: 0}}>
             <label>
-              <input type="checkbox" checked={this.state.wrap_container} onChange={this.toggleContainerWrapper} />
+              <input type="checkbox" checked={this.state.wrapContainer} onChange={this.toggleContainerWrapper} />
               Wrap Interior Contents?
             </label>
           </p>
         </div>
       </BrowserPanel>
+      <div id="header_modal" className="modal fade">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Header Options</p>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="header_block_attributes_logo_height" className="control-label">Logo Height</label>
+                <input id="header_block_attributes_logo_height" name="header_block_attributes[logo_height]" type="number" className="form-control" defaultValue={this.state.headerBlock.style} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="header_block_attributes_style" className="control-label">Style</label>
+                <select id="header_block_attributes_style" name="header_block_attributes[style]" className="form-control" defaultValue={this.state.headerBlock.style}>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <hr />
+              <div className="form-group">
+                <label htmlFor="header_block_attributes_logo_horizontal_position" className="control-label">Logo Horizontal Position</label>
+                <select id="header_block_attributes_logo_horizontal_position" name="header_block_attributes[logo_horizontal_position]" className="form-control" defaultValue={this.state.headerBlock.logo_horizontal_position}>
+                  <option value="left">Left</option>
+                  <option value="center">Center</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="header_block_attributes_logo_vertical_position" className="control-label">Logo Vertical Position</label>
+                <select id="header_block_attributes_logo_vertical_position" name="header_block_attributes[logo_vertical_position]" className="form-control" defaultValue={this.state.headerBlock.logo_vertical_position}>
+                  <option value="above">Above</option>
+                  <option value="inside">Inside</option>
+                  <option value="below">Below</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="header_block_attributes_navigation_horizontal_position" className="control-label">Navigation Horizontal Position</label>
+                <select id="header_block_attributes_navigation_horizontal_position" name="header_block_attributes[navigation_horizontal_position]" className="form-control" defaultValue={this.state.headerBlock.navigation_horizontal_position}>
+                  <option value="left">Left</option>
+                  <option value="center">Center</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="header_block_attributes_contact_position" className="control-label">Contact Information Position</label>
+                <select id="header_block_attributes_contact_position" name="header_block_attributes[contact_position]" className="form-control" defaultValue={this.state.headerBlock.contact_position}>
+                  <option value="none">Hidden</option>
+                  <option value="left">Top Left</option>
+                  <option value="right">Top Right</option>
+                  <option value="full">Full Width</option>
+                </select>
+              </div>
+              <hr />
+              <div className="form-group">
+                <label htmlFor="header_block_attributes_navbar_location" className="control-label">Navbar Location</label>
+                <select id="header_block_attributes_navbar_location" name="header_block_attributes[navbar_location]" className="form-control" defaultValue={this.state.headerBlock.navbar_location}>
+                  <option value="default">Default</option>
+                  <option value="static">Static Top</option>
+                  <option value="fixed">Fixed Top</option>
+                </select>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetHeader}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeader}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>`
-
-  webpageContainerClass: ->
-    if this.state.wrap_container
-      'webpage-container webpage-container-wrapper'
-    else
-      'webpage-container'
 
   renderLoadColorsButton: ->
     if this.state.logo
       `<span onClick={this.loadColors} className="btn btn-default">Load Colors from Logo Image</span>`
 
-  prevItem: (items, currentItem) ->
-    index = items.indexOf(currentItem)
+  editHeader: (event) ->
+    event.preventDefault()
+    $('#header_modal').modal('show')
+    $('#header_block_attributes_logo_height').val this.state.headerBlock.logo_height
+    $('#header_block_attributes_style').val this.state.headerBlock.style or 'light'
+    $('#header_block_attributes_logo_horizontal_position').val this.state.headerBlock.logo_horizontal_position or 'left'
+    $('#header_block_attributes_logo_vertical_position').val this.state.headerBlock.logo_vertical_position or 'inside'
+    $('#header_block_attributes_navigation_horizontal_position').val this.state.headerBlock.navigation_horizontal_position or 'left'
+    $('#header_block_attributes_contact_position').val this.state.headerBlock.contact_position or 'none'
+    $('#header_block_attributes_navbar_location').val this.state.headerBlock.navbar_location or 'default'
 
-    if index <= 0
-      items[items.length - 1]
-    else
-      items[index - 1]
+  resetHeader: ->
+    $('#header_block_attributes_logo_height').val ''
+    $('#header_block_attributes_style').val 'light'
+    $('#header_block_attributes_logo_horizontal_position').val 'left'
+    $('#header_block_attributes_logo_vertical_position').val 'inside'
+    $('#header_block_attributes_navigation_horizontal_position').val 'left'
+    $('#header_block_attributes_contact_position').val ''
+    $('#header_block_attributes_navbar_location').val ''
 
-  nextItem: (items, currentItem) ->
-    index = items.indexOf(currentItem)
+  updateHeader: ->
+    changes =
+      $merge:
+        logo_height: $('#header_block_attributes_logo_height').val()
+        style: $('#header_block_attributes_style').val()
+        logo_horizontal_position: $('#header_block_attributes_logo_horizontal_position').val()
+        logo_vertical_position: $('#header_block_attributes_logo_vertical_position').val()
+        navigation_horizontal_position: $('#header_block_attributes_navigation_horizontal_position').val()
+        contact_position: $('#header_block_attributes_contact_position').val()
+        navbar_location: $('#header_block_attributes_navbar_location').val()
+    this.setState headerBlock: React.addons.update(this.state.headerBlock, changes)
 
-    if index >= items.length - 1
-      items[0]
-    else if index < 0
-      items[1]
-    else
-      items[index + 1]
+  prevFooterTheme: (event) ->
+    event.preventDefault()
+    availableThemes = ['simple', 'simple_full_width', 'columns', 'layers']
+    currentTheme = this.state.footerBlock.theme
+    currentThemeIndex = availableThemes.indexOf(currentTheme)
+    theme = availableThemes[currentThemeIndex - 1] or availableThemes[-1]
+    this.setState footerBlock: React.addons.update(this.state.footerBlock, $merge: { theme: theme })
 
-  ## HEADER MIXINS
-  headerBlockInputs: ->
-    if this.props.initialHeaderBlock and this.state.headerBlock
-      `<input key={this.headerBlockName('id')} type="hidden" name={this.headerBlockName('id')} value={this.props.initialHeaderBlock.id} />`
-    else if this.props.initialHeaderBlock
-      `<div>
-        <input key={this.headerBlockName('id')} type="hidden" name={this.headerBlockName('id')} value={this.props.initialHeaderBlock.id} />
-        <input key={this.headerBlockName('_destroy')} type="hidden" name={this.headerBlockName('_destroy')} value="1" />
-      </div>`
-    else
-      `<div />`
-
-  headerBlockProps: ->
-    if this.state.headerBlock
-      block: $.extend({}, this.state.headerBlock, { editing: this.state.editing })
-      blockEditor: this.headerBlockEditorProps()
-      blockInputStyle: this.headerBlockInputStyleProps()
-      blockInputNumber: this.headerBlockInputNumberProps()
-      blockOptions: this.headerBlockOptionsProps()
-      editing: this.state.editing
-      name: this.headerBlockName
-      theme: this.headerBlockThemeName(this.state.headerBlock.theme)
-    else
-      blockAdd: this.headerBlockAddProps()
-      editing: this.state.editing
-
-  # PRIVATE LEVEL 1
-
-  headerBlockInitial: ->
-    if this.props.initialHeaderBlock
-      $.extend {}, this.headerBlockDefaultProps(), this.props.initialHeaderBlock
-
-  headerBlockID: (name) ->
-    "header-block-attributes-#{name}"
-
-  headerBlockName: (name) ->
-    "header_block_attributes[#{name}]"
-
-  headerBlockThemeName: (theme) ->
-    switch theme
-      when 'center' then 'Center'
-      when 'justify' then 'Justify'
-      when 'logo_above' then 'Logo Above'
-      when 'logo_above_full_width' then 'Logo Above Full Width'
-      when 'logo_below' then 'Logo Below'
-      when 'logo_center' then 'Logo Center'
-      else 'Inline'
-
-  headerBlockAddProps: ->
-    visible: !this.state.headerBlock
-    onClick: this.headerBlockAdd
-    content: 'Add a Header Block'
-
-  headerBlockEditorProps: ->
-    id: 'header-block-editor'
-    title: 'Edit Header Block Details'
-    swapForm: this.headerBlockSwapForm
-    resetForm: this.headerBlockResetForm
-
-  headerBlockInputStyleProps: ->
-    id: this.headerBlockID('style')
-    name: this.headerBlockName('style')
-    value: this.state.headerBlock.style
-    label: 'Navbar Style'
-    options: [
-      { value: 'light', label: 'Light', },
-      { value: 'dark', label: 'Dark', },
-    ]
-
-  headerBlockInputNumberProps: ->
-    id: this.headerBlockID('logo_height')
-    name: this.headerBlockName('logo_height')
-    value: this.state.headerBlock.logo_height
-    label: 'Custom Logo Height (Pixels)'
-
-  headerBlockOptionsProps: ->
-    visible: this.state.editing
-    prev: this.headerBlockPrevTheme
-    next: this.headerBlockNextTheme
-    editorTarget: '#header-block-editor'
-    editLabel: 'Edit Details'
-    onEdit: this.headerBlockEdit
-
-  # PRIVATE LEVEL 2
-
-  headerBlockDefaultProps: ->
-    style: 'dark'
-
-  headerBlockAdd: (event, callback) ->
-    event.preventDefault() if event
-    this.headerBlockSave $set: $.extend({}, this.headerBlockDefaultProps(), (this.props.defaultHeaderBlockAttributes or {})), callback
-
-  headerBlockEdit: ->
-
-  headerBlockUpdate: (attributes, event, callback) ->
-    event.preventDefault() if event
-    this.headerBlockSave $merge: attributes, callback
-
-  headerBlockSwapForm: () ->
-    this.headerBlockUpdate
-      style: this.headerBlockInputGetVal('style')
-      logo_height: this.headerBlockInputGetVal('logo_height')
-
-  headerBlockResetForm: () ->
-    this.headerBlockInputSetVal 'style', this.state.headerBlock.style
-    this.headerBlockInputSetVal 'logo_height', this.state.headerBlock.logo_height
-
-  headerBlockPrevTheme: ->
-    this.headerBlockUpdate theme: this.prevItem(this.headerBlockThemes, this.state.headerBlock.theme)
-
-  headerBlockNextTheme: ->
-    this.headerBlockUpdate theme: this.nextItem(this.headerBlockThemes, this.state.headerBlock.theme)
-
-  # PRIVATE LEVEL 3
-
-  headerBlockSave: (changes, callback) ->
-    updated = React.addons.update(this.state, headerBlock: changes)
-    if typeof(callback) is 'function'
-      this.setState updated, callback
-    else
-      this.setState updated
-
-  headerBlockInputGetVal: (name) ->
-    $('#' + this.headerBlockID(name)).val()
-
-  headerBlockInputSetVal: (name, value) ->
-    $('#' + this.headerBlockID(name)).val(value)
-
-  headerBlockThemes: ['inline', 'center', 'justify', 'logo_above', 'logo_above_full_width', 'logo_below', 'logo_center']
-
-  ## FOOTER MIXINS
-  footerBlockInputs: ->
-    if this.props.initialFooterBlock and this.state.footerBlock
-      `<input key={this.footerBlockName('id')} type="hidden" name={this.footerBlockName('id')} value={this.props.initialFooterBlock.id} />`
-    else if this.props.initialFooterBlock
-      `<div>
-        <input key={this.footerBlockName('id')} type="hidden" name={this.footerBlockName('id')} value={this.props.initialFooterBlock.id} />
-        <input key={this.footerBlockName('_destroy')} type="hidden" name={this.footerBlockName('_destroy')} value="1" />
-      </div>`
-    else
-      `<div />`
-
-  footerBlockProps: ->
-    if this.state.footerBlock
-      block: $.extend({}, this.state.footerBlock, { editing: this.state.editing })
-      blockOptions: this.footerBlockOptionsProps()
-      name: this.footerBlockName
-
-  # PRIVATE LEVEL 1
-
-  footerBlockInitial: ->
-    if this.props.initialFooterBlock
-      $.extend {}, this.footerBlockDefaultProps(), this.props.initialFooterBlock
-
-  footerBlockID: (name) ->
-    "footer-block-attributes-#{name}"
-
-  footerBlockName: (name) ->
-    "footer_block_attributes[#{name}]"
-
-  footerBlockOptionsProps: ->
-    visible: this.state.editing
-    prev: this.footerBlockPrevTheme
-    next: this.footerBlockNextTheme
-    editorTarget: '#footer-block-editor'
-    editLabel: 'Edit Details'
-    removeLabel: 'Remove Footer Block'
-
-  # PRIVATE LEVEL 2
-
-  footerBlockDefaultProps: ->
-    {}
-
-  footerBlockUpdate: (attributes, event, callback) ->
-    event.preventDefault() if event
-    this.footerBlockSave $merge: attributes, callback
-
-  footerBlockPrevTheme: ->
-    this.footerBlockUpdate theme: this.prevItem(this.footerBlockThemes, this.state.footerBlock.theme)
-
-  footerBlockNextTheme: ->
-    this.footerBlockUpdate theme: this.nextItem(this.footerBlockThemes, this.state.footerBlock.theme)
-
-  # PRIVATE LEVEL 3
-
-  footerBlockSave: (changes, callback) ->
-    updated = React.addons.update(this.state, footerBlock: changes)
-    if typeof(callback) is 'function'
-      this.setState updated, callback
-    else
-      this.setState updated
-
-  footerBlockThemes: ['simple', 'simple_full_width', 'columns', 'layers']
+  nextFooterTheme: (event) ->
+    event.preventDefault()
+    availableThemes = ['simple', 'simple_full_width', 'columns', 'layers']
+    currentTheme = this.state.footerBlock.theme
+    currentThemeIndex = availableThemes.indexOf(currentTheme)
+    theme = availableThemes[currentThemeIndex + 1] or availableThemes[0]
+    this.setState footerBlock: React.addons.update(this.state.footerBlock, $merge: { theme: theme })
 
 window.Theme = Theme

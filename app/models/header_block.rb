@@ -1,16 +1,23 @@
 class HeaderBlock < Block
   include JsonHelper
 
-  store_accessor :settings, :background_color, :foreground_color, :link_color, :logo_height
+  store_accessor :settings, :background_color, :foreground_color, :link_color, :logo_height, :logo_horizontal_position, :logo_vertical_position, :navigation_horizontal_position, :contact_position, :navbar_location
 
   before_validation do
     self.theme = 'inline' unless theme?
     self.style = 'dark' unless theme?
+    self.logo_horizontal_position = 'left' unless logo_horizontal_position.present?
+    self.logo_vertical_position = 'inside' unless logo_vertical_position.present?
+    self.navigation_horizontal_position = 'left' unless navigation_horizontal_position.present?
   end
 
   def as_theme_json(business)
-    as_json(methods: %i[background_color foreground_color link_color logo_height]).merge(
+    as_json(methods: %i[background_color foreground_color link_color logo_height logo_horizontal_position logo_vertical_position navigation_horizontal_position contact_position navbar_location type]).merge(
       name: business.name,
+      email: business.location.try(:email),
+      phone: business.location.try(:phone_number),
+      addressLineOne: business.location.try(:address_line_one),
+      addressLineTwo: business.location.try(:address_line_two),
       pages: as_nested_json(business.website.arranged_nav_links(:header), methods: %i[cached_children]),
       logoSmall: business.logo.try(:attachment_url, :logo_small),
       logoMedium: business.logo.try(:attachment_url, :logo_medium),
