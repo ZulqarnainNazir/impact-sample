@@ -291,17 +291,16 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    passenger (5.0.7)
-      rack
-      rake (>= 0.8.1)
     pg (0.18.1)
     platform-api (0.2.0)
       heroics (~> 0.0.10)
+    puma (2.12.3)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.1)
     rack-test (0.6.3)
       rack (>= 1.0)
+    rack-timeout (0.2.4)
     rails (4.2.1)
       actionmailer (= 4.2.1)
       actionpack (= 4.2.1)
@@ -454,10 +453,11 @@ DEPENDENCIES
   newrelic_rpm
   normalize-rails
   paperclip
-  passenger
   pg
   platform-api
+  puma
   quiet_assets
+  rack-timeout
   rails
   rails_12factor
   react-rails

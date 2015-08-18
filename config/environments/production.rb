@@ -26,7 +26,7 @@ Rails.application.configure do
 
   # Memcached
   if [ENV['MEMCACHEDCLOUD_SERVERS'], ENV['MEMCACHEDCLOUD_USERNAME'], ENV['MEMCACHEDCLOUD_PASSWORD']].all?(&:present?)
-    config.cache_store = :mem_cache_store, ENV['MEMCACHEDCLOUD_SERVERS'].split(','), {
+    config.cache_store = :dalli_store, ENV['MEMCACHEDCLOUD_SERVERS'].split(','), {
       username: ENV['MEMCACHEDCLOUD_USERNAME'],
       password: ENV['MEMCACHEDCLOUD_PASSWORD'],
     }

@@ -1,2 +1,2 @@
-web: bundle exec passenger start -p $PORT --max-pool-size 3
+web: bundle exec puma -C config/puma.rb
 worker: bundle exec sidekiq -q image,3 -q mailers,2 -q default
