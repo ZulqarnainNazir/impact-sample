@@ -21,11 +21,11 @@ class Feedback < ActiveRecord::Base
   end
 
   def self.complete
-    where.not(score: nil)
+    where.not(completed_at: nil)
   end
 
   def self.incomplete
-    where(score: nil)
+    where(completed_at: nil)
   end
 
   def serviced_at=(*args)
