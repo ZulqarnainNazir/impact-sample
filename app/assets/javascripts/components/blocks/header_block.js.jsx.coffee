@@ -159,15 +159,15 @@ HeaderBlock = React.createClass
     unless this.props.hideAddress
       `<p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>`
 
-  renderContactAddress: ->
+  renderContactFullAddress: ->
     unless this.props.hideAddress
       `<li><p className="navbar-text"><i className="fa fa-map-marker"></i> <span className="adr"><span className="street-address">{this.props.addressLineOne}</span>, <span className="locality">{this.props.addressLineTwo}</span></span></p></li>`
 
-  renderContactPhone: ->
+  renderContactFullPhone: ->
     unless this.props.hidePhone
       `<li><p className="navbar-text"><i className="fa fa-phone"></i> <span className="tel">{this.props.phone}</span></p></li>`
 
-  renderContactEmail: ->
+  renderContactFullEmail: ->
     unless this.props.hideEmail
       `<li><a href="#"><i className="fa fa-envelope"></i> <span className="email">{this.props.email}</span></a></li>`
 
