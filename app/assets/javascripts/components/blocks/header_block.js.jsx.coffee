@@ -19,9 +19,11 @@ HeaderBlock = React.createClass
     lineHeight = if this.props.logo_height and ['above', 'below'].indexOf(this.props.logo_vertical_position) is -1 then parseInt(this.props.logo_height - 10) else 30
     navbarClassName = 'navbar'
     navbarClassName += ' navbar-default-top' if ['static', 'fixed'].indexOf(this.props.navbar_location) is -1
+    navbarClassName += ' navbar-default-top-alone' if ['static', 'fixed'].indexOf(this.props.navbar_location) is -1 and ['above'].indexOf(this.props.logo_vertical_position) is -1 and ['left', 'right', 'full'].indexOf(this.props.contact_position) is -1
     navbarClassName += ' navbar-static-top' unless ['static', 'fixed'].indexOf(this.props.navbar_location) is -1
     navbarClassName += ' navbar-inverse' if this.props.style is 'dark'
-    navbarClassName += ' navbar-default' unless this.props.style is 'dark'
+    navbarClassName += ' navbar-transparent' if this.props.style is 'transparent'
+    navbarClassName += ' navbar-default' if ['dark', 'transparent'].indexOf(this.props.style) is -1
     navbarHeaderClassName = 'navbar-header'
     navbarNavClassName = 'nav navbar-nav'
 
@@ -127,27 +129,47 @@ HeaderBlock = React.createClass
     if image
       `<a className="navbar-brand navbar-brand-image" href="#">{image}</a>`
     else
-      `<a className="navbar-brand" href="#">{this.props.name}</a>`
+      `<a className="navbar-brand navbar-brand-text" href="#">{this.props.name.slice(0,44)}</a>`
 
   renderContact: ->
     if this.props.contact_position is 'left'
       `<div className="vcard navbar-vcard pull-left text-left">
-        <p className="h4 tel">{this.props.phone}</p>
-        <p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>
+        {this.renderContactPhone()}
+        {this.renderContactAddress()}
       </div>`
     else if this.props.contact_position is 'right'
       `<div className="vcard navbar-vcard pull-right text-right">
-        <p className="h4 tel">{this.props.phone}</p>
-        <p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>
+        {this.renderContactPhone()}
+        {this.renderContactAddress()}
       </div>`
     else if this.props.contact_position is 'full'
       `<div className="clearfix" style={{marginLeft: -10}}>
         <ul className="nav navbar-nav vcard text-left">
-          <li><p className="navbar-text"><i className="fa fa-map-marker"></i> <span className="adr"><span className="street-address">{this.props.addressLineOne}</span>, <span className="locality">{this.props.addressLineTwo}</span></span></p></li>
-          <li><p className="navbar-text"><i className="fa fa-phone"></i> <span className="tel">{this.props.phone}</span></p></li>
-          <li><a href="#"><i className="fa fa-envelope"></i> <span className="email">{this.props.email}</span></a></li>
+          {this.renderContactFullAddress()}
+          {this.renderContactFullPhone()}
+          {this.renderContactFullEmail()}
         </ul>
       </div>`
+
+  renderContactPhone: ->
+    unless this.props.hidePhone
+      `<p className="h4 tel">{this.props.phone}</p>`
+
+  renderContactAddress: ->
+    unless this.props.hideAddress
+      `<p className="adr">{this.props.addressLineOne} <br /> {this.props.addressLineTwo}</p>`
+
+  renderContactAddress: ->
+    unless this.props.hideAddress
+      `<li><p className="navbar-text"><i className="fa fa-map-marker"></i> <span className="adr"><span className="street-address">{this.props.addressLineOne}</span>, <span className="locality">{this.props.addressLineTwo}</span></span></p></li>`
+
+  renderContactPhone: ->
+    unless this.props.hidePhone
+      `<li><p className="navbar-text"><i className="fa fa-phone"></i> <span className="tel">{this.props.phone}</span></p></li>`
+
+  renderContactEmail: ->
+    unless this.props.hideEmail
+      `<li><a href="#"><i className="fa fa-envelope"></i> <span className="email">{this.props.email}</span></a></li>`
 
   renderMainNav: (navbarNavClassName, lineHeight) ->
     unless this.props.logo_vertical_position is 'inside' and this.props.logo_horizontal_position is 'center' and this.props.navigation_horizontal_position is 'center'

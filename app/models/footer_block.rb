@@ -13,6 +13,9 @@ class FooterBlock < Block
       phone: business.location.try(:phone_number),
       addressLineOne: business.location.try(:address_line_one),
       addressLineTwo: business.location.try(:address_line_two),
+      hideEmail: business.location.try(:hide_email) || false,
+      hidePhone: business.location.try(:hide_phone) || false,
+      hideAddress: business.location.try(:hide_address) || false,
     )
   end
 end

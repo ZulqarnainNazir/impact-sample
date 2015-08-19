@@ -315,7 +315,7 @@ Theme = React.createClass
           <div className="modal-content">
             <div className="modal-header">
               <span className="close" data-dismiss="modal">&times;</span>
-              <p className="h4 modal-title">Header Options</p>
+              <p className="h4 modal-title">Header Options <small>Some combinations require fewer navbar links to fit appropriately.</small></p>
             </div>
             <div className="modal-body">
               <div className="form-group">
@@ -323,6 +323,7 @@ Theme = React.createClass
                 <select id="header_block_attributes_style" name="header_block_attributes[style]" className="form-control" defaultValue={this.state.headerBlock.style}>
                   <option value="light">Light Nav Bar</option>
                   <option value="dark">Dark Nav Bar</option>
+                  <option value="transparent">Transparent Nav Bar</option>
                 </select>
               </div>
               <hr />

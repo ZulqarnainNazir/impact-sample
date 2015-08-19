@@ -1,6 +1,9 @@
 - business = header_block.frame.business
 - cache business do
-  - navbar_class = header_block.style == 'dark' ? 'navbar-inverse' : 'navbar-default'
+  - navbar_class = case header_block.style
+  - when 'dark' then 'navbar-inverse'
+  - when 'transparent' then 'navbar-transparent'
+  - else 'navbar-default'
   - navbar_class += ' navbar-static-top' if header_block.navbar_location == 'static' || (header_block.navbar_location == 'fixed' && (header_block.logo_vertical_position == 'above' || %w[left right full].include?(header_block.contact_position)))
   - navbar_class += ' navbar-fixed-top' if header_block.navbar_location == 'fixed' && header_block.logo_vertical_position != 'above' && !%w[left right full].include?(header_block.contact_position)
   - navbar_class += ' navbar-default-top' if !%w[static fixed].include?(header_block.navbar_location)
@@ -19,7 +22,7 @@
       - else
         = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: 'height: 40px'), :root, class: 'navbar-brand navbar-brand-image'
     - else
-      = link_to business.name, :root, class: 'navbar-brand'
+      = link_to truncate(business.name, length: 45), :root, class: 'navbar-brand navbar-brand-text'
 
   - navlinks = capture do
     - webpages = header_block.frame.arranged_nav_links(:header)
@@ -67,11 +70,12 @@
       - if header_block.contact_position == 'full'
         .clearfix style="margin-left:-10px"
           .vcard.nav.navbar-nav.text-left
-            li: p.navbar-text
-              i.fa.fa-map-marker>
-              span.adr
-                span.street-address => @location.address_line_one
-                span.locality = @location.address_line_two
+            - if !@location.hide_address?
+              li: p.navbar-text
+                i.fa.fa-map-marker>
+                span.adr
+                  span.street-address => @location.address_line_one
+                  span.locality = @location.address_line_two
             - if @location.phone_number? && !@location.hide_phone?
               li: p.navbar-text
                 i.fa.fa-phone>
@@ -84,7 +88,8 @@
         .vcard.navbar-vcard class=(header_block.contact_position == 'left' ? 'pull-left text-left' : 'pull-right text-right')
           - if @location.phone_number? && !@location.hide_phone?
             p.h4.tel = number_to_phone @location.phone_number
-          p.adr #{@location.address_line_one} <br> #{@location.address_line_two}
+          - if !@location.hide_address?
+            p.adr #{@location.address_line_one} <br> #{@location.address_line_two}
       - if header_block.logo_vertical_position == 'above'
         div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
           = image
@@ -95,10 +100,11 @@
         = image
 
   - if header_block.navbar_location == 'fixed'
-    - if !%w[above below].include?(header_block.logo_vertical_position)
-      .navbar-fixed-placeholder style="display: none; height: #{(header_block.logo_height.to_i > 0 ? header_block.logo_height.to_i : 40) + 20}px"
-    - else
-      .navbar-fixed-placeholder style='display: none; height: 60px'
+    - display = 'block'
+    - display = 'none' if header_block.logo_vertical_position == 'above' || %w[left right full].include?(header_block.contact_position)
+    - placeholder_height = 60
+    - placeholder_height = header_block.logo_height.to_i + 20 if !%w[above below].include?(header_block.logo_vertical_position) && header_block.logo_height.to_i > 40
+    .navbar-fixed-placeholder style="display: #{display}; height: #{placeholder_height}px"
 
   - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'
     javascript:

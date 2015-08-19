@@ -77,11 +77,11 @@ FooterBlock = React.createClass
               <p className="copyright">© 2015 {this.props.name}</p>
             </div>
             <div className="col-sm-4 footer-center">
-              <span className="tel">{this.props.phone}</span> <br />
-              <a href="#">{this.props.email}</a>
+              {this.renderPhone()} <br />
+              {this.renderEmail()}
             </div>
             <div className="col-sm-4 footer-right">
-              <p className="adr">{this.props.address_line_one} <br /> {this.props.address_line_two}</p>
+              {this.renderAddress()}
             </div>
           </div>
         </div>
@@ -108,9 +108,9 @@ FooterBlock = React.createClass
             </div>
             <div className="site-footer-column col-sm-4 col-md-3 vcard">
               <p className="h3 fn org">{this.props.name}</p>
-              <p className="tel">{this.props.phone}</p>
-              <p className="adr">{this.props.address_line_one} <br /> {this.props.address_line_two}</p>
-              <p><a className="email" href="#">{this.props.email}</a></p>
+              <p>{this.renderPhone()}</p>
+              {this.renderAddress()}
+              <p>{this.renderEmail()}</p>
             </div>
           </div>
         </div>
@@ -119,5 +119,17 @@ FooterBlock = React.createClass
         <p className="copyright">© 2015 {this.props.name}</p>
       </div>
     </footer>`
+
+  renderAddress: ->
+    unless this.props.hideAddress
+      `<p className="adr">{this.props.address_line_one} <br /> {this.props.address_line_two}</p>`
+
+  renderEmail: ->
+    unless this.props.hideEmail
+      `<a href="#">{this.props.email}</a>`
+
+  renderPhone: ->
+    unless this.props.hidePhone
+      `<span className="tel">{this.props.phone}</span>`
 
 window.FooterBlock = FooterBlock
