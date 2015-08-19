@@ -106,7 +106,7 @@ Block = React.createClass
       </div>`
 
   inputName: (name) ->
-    if this.props.uuid and this.props.uuid.length > 0
+    if this.props.uuid is 0 or this.props.uuid
       "#{this.props.groupInputName}[#{this.props.uuid}][#{name}]"
     else
       "#{this.props.groupInputName}[#{name}]"
