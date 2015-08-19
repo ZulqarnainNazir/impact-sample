@@ -90,11 +90,11 @@
           = image
   = navbar
   - if header_block.logo_vertical_position == 'below'
-    .container
+    .container style=('margin-top:60px' if header_block.navbar_location == 'fixed')
       div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
         = image
 
-  - if header_block.navbar_location == 'fixed'
+  - if header_block.navbar_location == 'fixed' && !%w[above below].include?(header_block.logo_vertical_position)
     div style="height: #{(header_block.logo_height.to_i > 0 ? header_block.logo_height.to_i : 30) + 20}px"
 
   - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'

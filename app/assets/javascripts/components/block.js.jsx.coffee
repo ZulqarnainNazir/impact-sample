@@ -123,6 +123,7 @@ Block = React.createClass
         {this.renderPrevThemeOption()}
         {this.renderExpandOption()}
         {this.renderCompressOption()}
+        {this.renderEditLogoOption()}
         {this.renderEditTextOption()}
         {this.renderEditBackgroundOption()}
         {this.renderEditImageOption()}
@@ -144,6 +145,10 @@ Block = React.createClass
   renderCompressOption: ->
     if this.props.compress and this.props.kind is 'full_width'
       `<a href="#" onClick={this.props.compress} className="btn btn-warning" data-content="Click to contract Hero to site-width"><i className="fa fa-compress" /></a>`
+
+  renderEditLogoOption: ->
+    if this.props.editLogo
+      `<a href="#" onClick={this.props.editLogo} className="btn btn-warning" data-content="Click to change the logo size"><i className="fa fa-image" /></a>`
 
   renderEditTextOption: ->
     if this.props.editText

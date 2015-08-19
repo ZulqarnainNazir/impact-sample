@@ -20,6 +20,9 @@ Theme = React.createClass
 
   componentDidMount: ->
     this.setupMinicolors()
+    $(document).on 'click', '.logo-size-picker', (e) ->
+      e.preventDefault()
+      $(e.target).closest('.logo-size').find('input[type="radio"]').prop('checked', true)
 
   setupMinicolors: ->
     minicolorOptions =
@@ -268,7 +271,7 @@ Theme = React.createClass
       <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
         <div style={{position: 'relative', backgroundColor: this.state.background_color, color: this.state.foreground_color}}>
           <div className="webpage-group webpage-group-basic-left">
-            <Block {...this.state.headerBlock} kind="full_width" groupInputName="header_block_attributes" editing={this.state.editing} editCustom={this.editHeader} />
+            <Block {...this.state.headerBlock} kind="full_width" groupInputName="header_block_attributes" editing={this.state.editing} editCustom={this.editHeader} editLogo={this.editLogo} />
           </div>
           <div className="text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', padding: '4em 2em', position: 'relative'}}>
             <span style={{fontSize: 30}}>Full-width Content</span>
@@ -316,14 +319,10 @@ Theme = React.createClass
             </div>
             <div className="modal-body">
               <div className="form-group">
-                <label htmlFor="header_block_attributes_logo_height" className="control-label">Logo Height</label>
-                <input id="header_block_attributes_logo_height" name="header_block_attributes[logo_height]" type="number" className="form-control" defaultValue={this.state.headerBlock.style} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="header_block_attributes_style" className="control-label">Style</label>
+                <label htmlFor="header_block_attributes_style" className="control-label">Background Style</label>
                 <select id="header_block_attributes_style" name="header_block_attributes[style]" className="form-control" defaultValue={this.state.headerBlock.style}>
-                  <option value="light">Light</option>
-                  <option value="dark">Dark</option>
+                  <option value="light">Light Nav Bar</option>
+                  <option value="dark">Dark Nav Bar</option>
                 </select>
               </div>
               <hr />
@@ -351,6 +350,7 @@ Theme = React.createClass
                   <option value="right">Right</option>
                 </select>
               </div>
+              <hr />
               <div className="form-group">
                 <label htmlFor="header_block_attributes_contact_position" className="control-label">Contact Information Position</label>
                 <select id="header_block_attributes_contact_position" name="header_block_attributes[contact_position]" className="form-control" defaultValue={this.state.headerBlock.contact_position}>
@@ -364,15 +364,77 @@ Theme = React.createClass
               <div className="form-group">
                 <label htmlFor="header_block_attributes_navbar_location" className="control-label">Navbar Location</label>
                 <select id="header_block_attributes_navbar_location" name="header_block_attributes[navbar_location]" className="form-control" defaultValue={this.state.headerBlock.navbar_location}>
-                  <option value="default">Default</option>
-                  <option value="static">Static Top</option>
-                  <option value="fixed">Fixed Top</option>
+                  <option value="default">Fixed Width</option>
+                  <option value="static">Static Top (Full Width)</option>
+                  <option value="fixed">Fixed Top (Full Width)</option>
                 </select>
               </div>
             </div>
             <div className="modal-footer">
               <span className="btn btn-default" data-dismiss="modal" onClick={this.resetHeader}>Cancel</span>
               <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateHeader}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="logo_modal" className="modal fade">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Specify Logo Height</p>
+            </div>
+            <div className="modal-body text-center">
+              <input id="header_block_attributes_logo_height" name="header_block_attributes[logo_height]" type="hidden" value={this.state.headerBlock.logo_height} />
+              <div className="row">
+                <div className="col-sm-2 logo-size">
+                  <div style={{height: 200}}>
+                    <div className="logo-size-picker" style={{display: 'inline-block', width: 40, height: 40, backgroundColor: '#ccc', verticalAlign: -185}} />
+                  </div>
+                  <label className="radio" style={{marginLeft: 20}}>
+                    <input id="logo_size_40" name="logo_size" type="radio" value="40" /> 40px
+                  </label>
+                </div>
+                <div className="col-sm-2 logo-size">
+                  <div style={{height: 200}}>
+                    <div className="logo-size-picker" style={{display: 'inline-block', width: 60, height: 60, backgroundColor: '#ccc', verticalAlign: -185}} />
+                  </div>
+                  <label className="radio" style={{marginLeft: 20}}>
+                    <input id="logo_size_60" name="logo_size" type="radio" value="60" /> 60px
+                  </label>
+                </div>
+                <div className="col-sm-2 logo-size">
+                  <div style={{height: 200}}>
+                    <div className="logo-size-picker" style={{display: 'inline-block', width: 125, height: 125, backgroundColor: '#ccc', verticalAlign: -185}} />
+                  </div>
+                  <label className="radio" style={{marginLeft: 20}}>
+                    <input id="logo_size_125" name="logo_size" type="radio" value="125" /> 125px
+                  </label>
+                </div>
+                <div className="col-sm-3 logo-size">
+                  <div style={{height: 200}}>
+                    <div className="logo-size-picker" style={{display: 'inline-block', width: 200, height: 200, backgroundColor: '#ccc'}} />
+                  </div>
+                  <label className="radio" style={{marginLeft: 20}}>
+                    <input id="logo_size_200" name="logo_size" type="radio" value="200" /> 200px
+                  </label>
+                </div>
+                <div className="col-sm-3 logo-size">
+                  <div style={{height: 200}}>
+                    <div className="logo-size-picker" style={{display: 'inline-block', verticalAlign: -135}}>
+                      <div style={{display: 'inline-block', width: 125, height: 125, border: 'dashed 1px #999'}} />
+                      <input id="logo_size_custom_value" type="number" className="center-block form-control" defaultValue={this.state.headerBlock.logo_height} style={{width: '50%', marginTop: 10}} />
+                    </div>
+                  </div>
+                  <label className="radio" style={{marginLeft: 20}}>
+                    <input id="logo_size_custom" name="logo_size" type="radio" value="custom" /> Custom Height
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetLogo}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateLogo}>Save</span>
             </div>
           </div>
         </div>
@@ -386,7 +448,6 @@ Theme = React.createClass
   editHeader: (event) ->
     event.preventDefault()
     $('#header_modal').modal('show')
-    $('#header_block_attributes_logo_height').val this.state.headerBlock.logo_height
     $('#header_block_attributes_style').val this.state.headerBlock.style or 'light'
     $('#header_block_attributes_logo_horizontal_position').val this.state.headerBlock.logo_horizontal_position or 'left'
     $('#header_block_attributes_logo_vertical_position').val this.state.headerBlock.logo_vertical_position or 'inside'
@@ -395,7 +456,6 @@ Theme = React.createClass
     $('#header_block_attributes_navbar_location').val this.state.headerBlock.navbar_location or 'default'
 
   resetHeader: ->
-    $('#header_block_attributes_logo_height').val ''
     $('#header_block_attributes_style').val 'light'
     $('#header_block_attributes_logo_horizontal_position').val 'left'
     $('#header_block_attributes_logo_vertical_position').val 'inside'
@@ -406,13 +466,42 @@ Theme = React.createClass
   updateHeader: ->
     changes =
       $merge:
-        logo_height: $('#header_block_attributes_logo_height').val()
         style: $('#header_block_attributes_style').val()
         logo_horizontal_position: $('#header_block_attributes_logo_horizontal_position').val()
         logo_vertical_position: $('#header_block_attributes_logo_vertical_position').val()
         navigation_horizontal_position: $('#header_block_attributes_navigation_horizontal_position').val()
         contact_position: $('#header_block_attributes_contact_position').val()
         navbar_location: $('#header_block_attributes_navbar_location').val()
+    this.setState headerBlock: React.addons.update(this.state.headerBlock, changes)
+
+  editLogo: (event) ->
+    event.preventDefault()
+    $('#logo_modal').modal('show')
+    $('#header_block_attributes_logo_height').val this.state.headerBlock.logo_height
+    $('#logo_size_custom_value').val ''
+    switch parseInt(this.state.headerBlock.logo_height)
+      when 40
+        $('#logo_size_40').prop('checked', true)
+      when 60
+        $('#logo_size_60').prop('checked', true)
+      when 125
+        $('#logo_size_125').prop('checked', true)
+      when 200
+        $('#logo_size_200').prop('checked', true)
+      else
+        $('#logo_size_custom').prop('checked', true)
+        $('#logo_size_custom_value').val this.state.headerBlock.logo_height
+
+  resetLogo: ->
+    $('#header_block_attributes_logo_height').val ''
+    $('#logo_size_custom_value').val ''
+    $('input[name="logo_size"]').val ''
+
+  updateLogo: ->
+    logo_height = if $('#logo_size_custom').is(':checked') then $('#logo_size_custom_value').val() else $('input[name="logo_size"]:checked').val()
+    changes =
+      $merge:
+        logo_height: parseInt(logo_height)
     this.setState headerBlock: React.addons.update(this.state.headerBlock, changes)
 
   prevFooterTheme: (event) ->

@@ -4,7 +4,6 @@
     margin-bottom: 0;
   }
   .navbar-default-top {
-    margin-top: 1em;
     margin-bottom: 1em;
   }
   .navbar-inverse, .navbar-inverse .navbar-collapse {
@@ -31,11 +30,25 @@
   }
   .navbar-brand-image {
     height: auto;
-    margin: 0;
+    margin: 0 0 -0.25em;
     display: inline-block;
     img {
       display: block;
       max-width: 100%;
+    }
+  }
+  .vcard.navbar-nav {
+    float: right !important;
+    li {
+      float: right !important;
+      .navbar-text {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      a {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
     }
   }
   @media screen and (min-width: $screen-sm) {
@@ -49,6 +62,9 @@
       .navbar-brand {
         float: none !important;
         margin: 0 !important;
+      }
+      .navbar-brand-image {
+        margin: 0 0 -0.25em !important;
       }
     }
     .navbar-abs-left {
