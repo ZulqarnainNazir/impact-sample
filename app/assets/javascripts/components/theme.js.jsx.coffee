@@ -319,6 +319,14 @@ Theme = React.createClass
             </div>
             <div className="modal-body">
               <div className="form-group">
+                <label htmlFor="header_block_attributes_navbar_location" className="control-label">Navbar Location</label>
+                <select id="header_block_attributes_navbar_location" name="header_block_attributes[navbar_location]" className="form-control" defaultValue={this.state.headerBlock.navbar_location}>
+                  <option value="default">Fixed Width</option>
+                  <option value="static">Static Top (Full Width)</option>
+                  <option value="fixed">Fixed Top (Full Width)</option>
+                </select>
+              </div>
+              <div className="form-group">
                 <label htmlFor="header_block_attributes_style" className="control-label">Background Style</label>
                 <select id="header_block_attributes_style" name="header_block_attributes[style]" className="form-control" defaultValue={this.state.headerBlock.style}>
                   <option value="light">Light Nav Bar</option>
@@ -327,48 +335,115 @@ Theme = React.createClass
                 </select>
               </div>
               <hr />
-              <div className="form-group">
-                <label htmlFor="header_block_attributes_logo_horizontal_position" className="control-label">Logo Horizontal Position</label>
-                <select id="header_block_attributes_logo_horizontal_position" name="header_block_attributes[logo_horizontal_position]" className="form-control" defaultValue={this.state.headerBlock.logo_horizontal_position}>
-                  <option value="left">Left</option>
-                  <option value="center">Center</option>
-                  <option value="right">Right</option>
-                </select>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <p className="h4 panel-title">Logo Horizontal Position</p>
+                </div>
+                <p><img src={this.props.imagePathLogoHorizontal} alt="" /></p>
+                <div className="row text-center">
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[logo_horizontal_position]" value="left" />
+                      Left
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[logo_horizontal_position]" value="center" />
+                      Center
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[logo_horizontal_position]" value="right" />
+                      Right
+                    </label>
+                  </div>
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="header_block_attributes_logo_vertical_position" className="control-label">Logo Vertical Position</label>
-                <select id="header_block_attributes_logo_vertical_position" name="header_block_attributes[logo_vertical_position]" className="form-control" defaultValue={this.state.headerBlock.logo_vertical_position}>
-                  <option value="above">Above</option>
-                  <option value="inside">Inside</option>
-                  <option value="below">Below</option>
-                </select>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <p className="h4 panel-title">Logo Vertical Position</p>
+                </div>
+                <p style={{marginTop: 10}}><img src={this.props.imagePathLogoVertical} alt="" /></p>
+                <div className="row text-center">
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[logo_vertical_position]" value="above" />
+                      Above
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[logo_vertical_position]" value="inside" />
+                      Inside
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[logo_vertical_position]" value="below" />
+                      Below
+                    </label>
+                  </div>
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="header_block_attributes_navigation_horizontal_position" className="control-label">Navigation Horizontal Position</label>
-                <select id="header_block_attributes_navigation_horizontal_position" name="header_block_attributes[navigation_horizontal_position]" className="form-control" defaultValue={this.state.headerBlock.navigation_horizontal_position}>
-                  <option value="left">Left</option>
-                  <option value="center">Center</option>
-                  <option value="right">Right</option>
-                </select>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <p className="h4 panel-title">Navigation Horizontal Position</p>
+                </div>
+                <p><img src={this.props.imagePathNavigationHorizontal} alt="" /></p>
+                <div className="row text-center">
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[navigation_horizontal_position]" value="left" />
+                      Left
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[navigation_horizontal_position]" value="center" />
+                      Center
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[navigation_horizontal_position]" value="right" />
+                      Right
+                    </label>
+                  </div>
+                </div>
               </div>
-              <hr />
-              <div className="form-group">
-                <label htmlFor="header_block_attributes_contact_position" className="control-label">Contact Information Position</label>
-                <select id="header_block_attributes_contact_position" name="header_block_attributes[contact_position]" className="form-control" defaultValue={this.state.headerBlock.contact_position}>
-                  <option value="none">Hidden</option>
-                  <option value="left">Top Left</option>
-                  <option value="right">Top Right</option>
-                  <option value="full">Full Width</option>
-                </select>
-              </div>
-              <hr />
-              <div className="form-group">
-                <label htmlFor="header_block_attributes_navbar_location" className="control-label">Navbar Location</label>
-                <select id="header_block_attributes_navbar_location" name="header_block_attributes[navbar_location]" className="form-control" defaultValue={this.state.headerBlock.navbar_location}>
-                  <option value="default">Fixed Width</option>
-                  <option value="static">Static Top (Full Width)</option>
-                  <option value="fixed">Fixed Top (Full Width)</option>
-                </select>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <p className="h4 panel-title">Contact Position</p>
+                </div>
+                <p><img src={this.props.imagePathContact} alt="" /></p>
+                <div className="row text-center">
+                  <div className="col-sm-3">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[contact_position]" value="none" />
+                      Hidden
+                    </label>
+                  </div>
+                  <div className="col-sm-3">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[contact_position]" value="left" />
+                      Top Left
+                    </label>
+                  </div>
+                  <div className="col-sm-3">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[contact_position]" value="right" />
+                      Top Right
+                    </label>
+                  </div>
+                  <div className="col-sm-3">
+                    <label className="radio">
+                      <input type="radio" name="header_block_attributes[contact_position]" value="full" />
+                      Full Width
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="modal-footer">
@@ -450,29 +525,29 @@ Theme = React.createClass
     event.preventDefault()
     $('#header_modal').modal('show')
     $('#header_block_attributes_style').val this.state.headerBlock.style or 'light'
-    $('#header_block_attributes_logo_horizontal_position').val this.state.headerBlock.logo_horizontal_position or 'left'
-    $('#header_block_attributes_logo_vertical_position').val this.state.headerBlock.logo_vertical_position or 'inside'
-    $('#header_block_attributes_navigation_horizontal_position').val this.state.headerBlock.navigation_horizontal_position or 'left'
-    $('#header_block_attributes_contact_position').val this.state.headerBlock.contact_position or 'none'
     $('#header_block_attributes_navbar_location').val this.state.headerBlock.navbar_location or 'default'
+    $('input[name="header_block_attributes[logo_horizontal_position]"][value="' + (this.state.headerBlock.logo_horizontal_position or 'left')  + '"]').prop('checked', true)
+    $('input[name="header_block_attributes[logo_vertical_position]"][value="' + (this.state.headerBlock.logo_vertical_position or 'inside')  + '"]').prop('checked', true)
+    $('input[name="header_block_attributes[navigation_horizontal_position]"][value="' + (this.state.headerBlock.navigation_horizontal_position or 'right')  + '"]').prop('checked', true)
+    $('input[name="header_block_attributes[contact_position]"][value="' + (this.state.headerBlock.contact_position or 'none')  + '"]').prop('checked', true)
 
   resetHeader: ->
     $('#header_block_attributes_style').val 'light'
-    $('#header_block_attributes_logo_horizontal_position').val 'left'
-    $('#header_block_attributes_logo_vertical_position').val 'inside'
-    $('#header_block_attributes_navigation_horizontal_position').val 'left'
-    $('#header_block_attributes_contact_position').val ''
-    $('#header_block_attributes_navbar_location').val ''
+    $('#header_block_attributes_navbar_location').val 'default'
+    $('input[name="header_block_attributes[logo_horizontal_position]"][value="left"]').prop('checked', true)
+    $('input[name="header_block_attributes[logo_vertical_position]"][value="inside"]').prop('checked', true)
+    $('input[name="header_block_attributes[navigation_horizontal_position]"][value="left"]').prop('checked', true)
+    $('input[name="header_block_attributes[contact_position]"][value="none"]').prop('checked', true)
 
   updateHeader: ->
     changes =
       $merge:
         style: $('#header_block_attributes_style').val()
-        logo_horizontal_position: $('#header_block_attributes_logo_horizontal_position').val()
-        logo_vertical_position: $('#header_block_attributes_logo_vertical_position').val()
-        navigation_horizontal_position: $('#header_block_attributes_navigation_horizontal_position').val()
-        contact_position: $('#header_block_attributes_contact_position').val()
         navbar_location: $('#header_block_attributes_navbar_location').val()
+        logo_horizontal_position: $('input[name="header_block_attributes[logo_horizontal_position]"]:checked').val()
+        logo_vertical_position: $('input[name="header_block_attributes[logo_vertical_position]"]:checked').val()
+        navigation_horizontal_position: $('input[name="header_block_attributes[navigation_horizontal_position]"]:checked').val()
+        contact_position: $('input[name="header_block_attributes[contact_position]"]:checked').val()
     this.setState headerBlock: React.addons.update(this.state.headerBlock, changes)
 
   editLogo: (event) ->

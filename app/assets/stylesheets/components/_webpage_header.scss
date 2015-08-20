@@ -10,11 +10,11 @@
     margin-top: 1em;
   }
   .navbar-default {
-    background-color: rgba(200,200,200,0.2);
-    border-color: rgba(200,200,200,0.5);
+    background-color: rgba(244,244,244,0.8);
+    border-color: rgba(244,244,244,0.9);
     color: rgba(0,0,0,0.9);
     .navbar-collapse {
-      border-color: rgba(200,200,200,0.5);
+      border-color: rgba(244,244,244,0.9);
     }
   }
   .navbar-inverse {
@@ -65,16 +65,16 @@
     }
   }
   .vcard.navbar-nav {
+    text-align: right !important;
     float: right !important;
     li {
       float: right !important;
+      margin: 0 !important;
       .navbar-text {
-        margin-top: 5px;
-        margin-bottom: 5px;
+        margin: 5px 15px !important;
       }
       a {
-        padding-top: 5px;
-        padding-bottom: 5px;
+        padding: 5px 15px !important;
       }
     }
   }
@@ -110,20 +110,18 @@
       float: none !important;
       position: absolute !important;
       top: 0 !important;
-      left: 15px !important;
       right: 50%;
       li {
-        float: right;
+        float: left !important;
       }
     }
     .navbar-abs-half-right {
       float: none !important;
       position: absolute !important;
       top: 0 !important;
-      right: 15px !important;
       left: 50%;
       li {
-        float: left;
+        float: left !important;
       }
     }
     .navbar-outside-left {
