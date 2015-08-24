@@ -1,6 +1,7 @@
 class Businesses::Crm::FeedbacksController < Businesses::BaseController
   before_action only: new_actions do
     @customer = @business.customers.find(params[:customer_id])
+    @feedback = @customer.feedbacks.new(business: @business)
   end
 
   before_action only: member_actions do
