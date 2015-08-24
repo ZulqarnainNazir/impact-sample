@@ -14,5 +14,9 @@ dl.dl-horizontal
   dd = link_to @contact_message.customer.name, [:edit, @business, :crm, @contact_message.customer]
   dt Email
   dd = @contact_message.customer.email
-  dt Message
-  dd = @contact_message.message
+  dt Phone
+  dd = @contact_message.customer.phone
+  dt Date Received
+  dd = localize @contact_message.created_at, format: :long
+hr
+blockquote = simple_format @contact_message.message

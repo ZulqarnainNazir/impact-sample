@@ -15,7 +15,7 @@ class Businesses::Crm::ContactMessagesController < Businesses::BaseController
   private
 
   def contact_messages_order
-    if %w[serviced_at score].include?(params[:order_by])
+    if %w[created_at serviced_at score].include?(params[:order_by])
       "#{params[:order_by]} #{contact_messages_order_dir} NULLS LAST"
     elsif %w[name].include?(params[:order_by])
       "customers.#{params[:order_by]} #{contact_messages_order_dir} NULLS LAST"
