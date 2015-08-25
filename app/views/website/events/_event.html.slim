@@ -16,5 +16,5 @@
         - if placement && !placement.embeds? && placement.image
           = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
         .event-info
-          h2.h5.event-title = link_to event.event_definition.title, [:website, event]
+          h2.event-title = link_to event.event_definition.title, [:website, event]
           .event-desc.truncate = sanitize_html event.event_definition.description
