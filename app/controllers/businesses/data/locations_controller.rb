@@ -4,7 +4,11 @@ class Businesses::Data::LocationsController < Businesses::BaseController
   end
 
   def update
-    update_resource @location, location_params, location: [:edit, @business, :data_location]
+    update_resource @location, location_params, location: [:edit, @business, :data_location] do |success|
+      if success
+        @location.event_definitions.each(&:touch)
+      end
+    end
   end
 
   private

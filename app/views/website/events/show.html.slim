@@ -18,8 +18,10 @@
           = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive'
       .col-sm-6
         - cache @event do
+          - location = @event.event_definition.try(:location)
           .well
-            - if location = @event.event_definition.try(:location)
+            - if location
+              div style="margin-left:2em": strong = location.name
               div
                 i.fa.fa-map-marker style="width:2em"
                 = location.full_address
@@ -33,6 +35,9 @@
               div
                 i.fa.fa-currency style="width:2em"
                 = @event.event_definition.price
+          - if location
+            - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298', q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), zoom: 18}.to_param
+            iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
           - if @event.event_definition.description?
             .panel.panel-default
               .panel-heading

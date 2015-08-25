@@ -70,7 +70,7 @@
         .radio style="margin-top:1em" data-type="custom" data-id=custom_location.try(:id) data-latitude=custom_location.try(:latitude) data-longitude=custom_location.try(:longitude) data-name=custom_location.try(:name) class=('hide' if !custom_location)
           = label_tag :location_type_custom do
             => radio_button_tag :location_type, :custom, (!business_location && !!custom_location) || (!!custom_location && custom_location != business_location)
-            strong> Custom Location
+            strong> Alternate Location
             br>
             span.text-muted = custom_location.try(:full_address)
         .form-group

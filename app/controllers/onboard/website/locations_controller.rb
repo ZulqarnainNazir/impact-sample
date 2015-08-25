@@ -8,7 +8,11 @@ class Onboard::Website::LocationsController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business.location, location_params, location: [:edit_onboard_website, @business, :lines]
+    update_resource @business.location, location_params, location: [:edit_onboard_website, @business, :lines] do |success|
+      if success
+        @business.location.event_definitions.each(&:touch)
+      end
+    end
   end
 
   private

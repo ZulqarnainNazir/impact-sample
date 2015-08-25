@@ -13,34 +13,54 @@ class ContentBlogSearch
               business_id: @business.id,
             },
           },
-          or: [
-            {
-              missing: {
-                field: :published_on,
-              },
-            },
-            {
-              range: {
-                published_on: {
-                  lte: Time.zone.now,
+          {
+            or: [
+              {
+                missing: {
+                  field: :occurs_on,
                 },
               },
-            },
-          ],
-          or: [
-            {
-              missing: {
-                field: :valid_until,
-              },
-            },
-            {
-              range: {
-                valid_until: {
-                  gte: Time.zone.now,
+              {
+                range: {
+                  occurs_on: {
+                    gte: Time.zone.now,
+                  },
                 },
               },
-            },
-          ],
+            ],
+          },
+          {
+            or: [
+              {
+                missing: {
+                  field: :published_on,
+                },
+              },
+              {
+                range: {
+                  published_on: {
+                    lte: Time.zone.now,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                missing: {
+                  field: :valid_until,
+                },
+              },
+              {
+                range: {
+                  valid_until: {
+                    gte: Time.zone.now,
+                  },
+                },
+              },
+            ],
+          },
         ],
       },
     }
@@ -58,6 +78,6 @@ class ContentBlogSearch
       }
     end
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
+    Elasticsearch::Model.search(dsl, [BeforeAfter, Event, Gallery, Offer, Post, QuickPost])
   end
 end
