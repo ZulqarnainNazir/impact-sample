@@ -10,24 +10,40 @@ ol.breadcrumb
 .webpage-designer data-input-prefix="about_page"
   = form_for @about_page, url: [@business, :website_about_page], method: :patch do |form|
     = errors_for @about_page
-    .form-horizontal
-      .form-group
-        = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
-        .col-sm-6.col-lg-4
-          = form.text_field :title, value: form.object.title.present? ? form.object.title : "About #{@business.name}", class: 'form-control'
-          p.help-block Important for SEO
-    - if @about_page.persisted?
-      .row
-        .col-sm-offset-3.col-lg-offset-2
-          p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@about_page.pathname, host: website_host(@business.website)), target: :_blank do
-            ' Preview Saved Webpage
-            i.fa.fa-external-link style="margin-left:2px"
+    .row
+      .col-md-6.col-lg-7
+        .form-horizontal
+          .form-group
+            = form.label :title, class: 'col-md-2 control-label'
+            .col-md-10
+              = form.text_field :title, value: form.object.title.present? ? form.object.title : "About #{@business.name}", class: 'form-control'
+              p.help-block Important for SEO
+        - if @about_page.persisted?
+          .row
+            .col-md-offset-2
+              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@about_page.pathname, host: website_host(@business.website)), target: :_blank do
+                ' Preview Saved Webpage
+                i.fa.fa-external-link style="margin-left:2px"
+      .col-md-6.col-lg-5
+        .webpage-settings
+          #advanced-settings.well.well-sm style="display:none"
+            .form-group
+              = form.label :description, class: 'control-label'
+              = form.text_area :description, rows: 2, class: 'form-control'
+              p.help-block Helpful for SEO &amp; Social
+          p.text-right.text-muted.small style="margin: 0.8em 0 2em"
+            span.pull-left
+              ' Need to update something?
+              = link_to 'Update Business Data', [@business, :data_root], target: :_blank
+            span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
+              ' Toggle Advanced Settings
+              span.fa
     = react_component 'Webpage',
       backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       foregroundColor: form.object.website.foreground_color,
-      groups: form.object.groups.includes(blocks: [:block_image_placement, :block_background_placement]).as_json(include: { blocks: { include: { block_image_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }, block_background_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }}, methods: %i[type height items_limit well_style] }}, methods: :type),
+      groups: form.object.groups.includes(blocks: [:block_image_placement, :block_background_placement]).as_json(include: { blocks: { include: { block_image_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }, block_background_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }}, methods: %i[type height items_limit well_style background_color foreground_color custom_class] }}, methods: %i[type custom_class]),
       groupTypes: %w[AboutGroup TeamGroup],
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
       imagesPath: business_images_path(form.object.website.business),

@@ -125,6 +125,7 @@ Rails.application.routes.draw do
           resources :custom_pages, only: %i[new create edit update]
           resources :redirects, only: %i[index new create edit update destroy]
           resources :webpages, only: %i[index destroy] do
+            get :table, on: :collection
             resource :publications, only: %i[create destroy]
           end
         end

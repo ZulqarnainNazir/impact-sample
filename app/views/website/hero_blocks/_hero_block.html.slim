@@ -7,7 +7,7 @@
           - if hero_block.theme == 'right'
             .row
               .col-sm-6
-                .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light'))
+                .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{hero_block.foreground_color};"
                   h1 = sanitize_html hero_block.heading
                   = sanitize_html hero_block.text
                   - if hero_block.link?
@@ -27,13 +27,13 @@
                 - elsif hero_block.block_image
                   = image_tag hero_block.block_image.attachment_url(:medium), class: 'center-block img-responsive thumbnail'
               .col-sm-6
-                .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light'))
+                .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{hero_block.foreground_color};"
                   h1 = sanitize_html hero_block.heading
                   = sanitize_html hero_block.text
                   - if hero_block.link?
                     p = link_to hero_block.link_label, hero_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (hero_block.link_target_blank ? :_blank : nil), rel: (hero_block.link_no_follow ? 'no-follow' : nil)
           - else
-            .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light'))
+            .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{hero_block.foreground_color};"
               h1 = sanitize_html hero_block.heading
               = sanitize_html hero_block.text
               - if hero_block.link?

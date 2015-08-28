@@ -3,10 +3,10 @@
   - sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
 
   - if group.is_a?(SidebarGroup)
-    .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position}"
+    .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position} #{group.custom_class}"
       div class=('row' if group.is_a?(CallToActionGroup))
         = render blocks
   - else
-    .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position}"
+    .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position} #{group.custom_class}"
       div class=('row' if group.is_a?(CallToActionGroup))
         = render blocks

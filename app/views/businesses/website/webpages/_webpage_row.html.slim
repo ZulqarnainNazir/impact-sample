@@ -1,0 +1,22 @@
+tr
+  td = link_to webpage.name, [:edit, business, :website, webpage.type == 'CustomPage' ? webpage : webpage.type.underscore.to_sym]
+  td: code
+    | /
+    = webpage.pathname
+  td
+    - if webpage.active?
+      strong.text-success Published
+    - else
+      span.text-muted Draft
+  td
+    .btn-group.btn-group-xs
+      - if webpage.active?
+        = link_to 'Make Draft', business_website_webpage_publications_path(business, webpage), method: :delete, class: 'btn btn-default'
+      - else
+        = link_to 'Publish', business_website_webpage_publications_path(business, webpage), method: :create, class: 'btn btn-success'
+      = link_to 'Delete', business_website_webpage_path(business, webpage), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+  td
+    - webpage_url = webpage.pathname? ? website_custom_page_url(webpage.pathname, host: website_host(business.website)) : website_root_url(host: website_host(business.website))
+    = link_to webpage_url, target: :_blank do
+      ' Preview
+      i.fa.fa-external-link style="margin-left:2px"

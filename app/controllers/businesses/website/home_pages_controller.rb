@@ -17,8 +17,9 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
 
   def home_page_params
     params.require(:home_page).permit(
-      :title,
+      :description,
       :sidebar_position,
+      :title,
       groups_attributes: groups_attributes
     ).tap do |safe_params|
       merge_group_blocks_required_placement_attributes(safe_params[:groups_attributes])

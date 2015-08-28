@@ -30,7 +30,7 @@
           h2.h4 Custom Pages
           br
           .page-associations-container
-            = render partial: 'webpage', collection: @business.website.webpages.where(type: 'CustomPage').reject { |page| page.external_line_id.present? } + [@business.website.webpages.build], locals: { website_form: form }
+            = render partial: 'webpage', collection: @business.website.webpages.select { |page| page.type == 'CustomPage' }.reject { |page| page.external_line_id.present? } + [@business.website.webpages.build], locals: { website_form: form }
   .row
     .col-sm-8.col-sm-offset-2
       hr

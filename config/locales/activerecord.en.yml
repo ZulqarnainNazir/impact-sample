@@ -59,6 +59,8 @@ en:
         last_name: Last Name
         password_confirmation: Password Confirmation
         current_password: Current Password
+      webpage:
+        description: Page Description
       website:
         custom_css: Custom CSS
         google_analytics_id: Google Analytics ID

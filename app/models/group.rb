@@ -1,7 +1,9 @@
 class Group < ActiveRecord::Base
-  belongs_to :webpage
-
   enum kind: { container: 0, full_width: 1 }
+
+  store_accessor :settings, :custom_class
+
+  belongs_to :webpage
 
   has_many :blocks, as: :frame, dependent: :destroy
 

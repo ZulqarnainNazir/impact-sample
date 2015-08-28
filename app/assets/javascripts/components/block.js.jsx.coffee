@@ -47,7 +47,9 @@ Block = React.createClass
         {this.renderBlockImagePlacementInputs()}
       </div>
       {this.renderBlockOptions()}
-      {this.renderBlock()}
+      <div className="webpage-block-content">
+        {this.renderBlock()}
+      </div>
     </div>`
 
   webpageClassName: ->

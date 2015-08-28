@@ -16,9 +16,11 @@ Group = React.createClass
         <input type="hidden" name={this.inputName('kind')} value={this.props.kind} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
+        <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
         {this.renderRemovedBlocksInputs()}
       </div>
       {this.renderMoveHandle()}
+      {this.renderCustomHandle()}
       {this.renderSidebarSwitcher()}
       {this.renderCallToActionSizeChanger()}
       {this.renderCallToActionAdder()}
@@ -60,6 +62,10 @@ Group = React.createClass
   renderMoveHandle: ->
     if this.props.editing
       `<span className="fa fa-reorder webpage-group-sort-handle" />`
+
+  renderCustomHandle: ->
+    if this.props.editing
+      `<span onClick={this.props.editCustomGroup.bind(null, this.props.uuid)} className="fa fa-cog webpage-group-custom-handle" />`
 
   renderSidebarSwitcher: ->
     if this.props.editing and this.props.type is 'SidebarGroup'

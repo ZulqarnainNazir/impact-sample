@@ -198,6 +198,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
   def website_params
     params.require(:website).permit(
       webpages_attributes: [
+        :id,
         :type,
         :title,
         :_destroy,

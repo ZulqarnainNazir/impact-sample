@@ -1,0 +1,21 @@
+.webpage-settings {
+  #advanced-settings {
+    .form-group:last-child {
+      margin-bottom: 0;
+      > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  #advanced-settings-toggle {
+    cursor: pointer;
+    .fa {
+      @extend .fa-caret-square-o-down;
+    }
+    &.advanced-settings-shown {
+      .fa {
+        @extend .fa-caret-square-o-up;
+      }
+    }
+  }
+}

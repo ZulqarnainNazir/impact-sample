@@ -10,6 +10,7 @@ module GroupsAttributesConcern
       :kind,
       :max_blocks,
       :position,
+      :custom_class,
       :_destroy,
       blocks_attributes: [
         :id,

@@ -14,6 +14,10 @@ class Businesses::Website::WebpagesController < Businesses::Website::BaseControl
     @custom_pages = @website.webpages.custom
   end
 
+  def table
+    @webpages = @website.webpages.order(active: :asc, pathname: :asc)
+  end
+
   def destroy
     destroy_resource @webpage, location: [@business, :website_webpages]
   end

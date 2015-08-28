@@ -586,6 +586,21 @@ Webpage = React.createClass
       $('#media_tabs').css('display', 'block')
       $('#media_library').css('display', 'none')
 
+  editCustomGroup: (group_uuid, event) ->
+    event.preventDefault()
+    group = this.state.groups[group_uuid]
+    $('#custom_group_uuid').val group_uuid
+    $('#custom_group_custom_class').val group.custom_class
+    $('#custom_group_modal').modal('show')
+
+  updateCustomGroup: ->
+    this.updateGroup $('#custom_group_uuid').val(),
+      custom_class: $('#custom_group_custom_class').val()
+
+  resetCustomGroup: ->
+    $('#custom_group_uuid').val ''
+    $('#custom_group_custom_class').val ''
+
   editLink: (group_uuid, block_uuid, event) ->
     event.preventDefault()
     group = this.state.groups[group_uuid]
@@ -642,20 +657,28 @@ Webpage = React.createClass
     event.preventDefault()
     group = this.state.groups[group_uuid]
     block = group.blocks[block_uuid]
+    minicolorOptions =
+      control: 'wheel'
+      theme: 'block'
+    $('#hero_settings_background_color').minicolors $.extend(minicolorOptions, defaultValue: block.background_color or '')
+    $('#hero_settings_foreground_color').minicolors $.extend(minicolorOptions, defaultValue: block.foreground_color or '')
     $('#hero_settings_group_uuid').val group_uuid
     $('#hero_settings_block_uuid').val block_uuid
     $('#hero_settings_height').val if parseInt(block.height) > 0 then parseInt(block.height) else ''
     $('#hero_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
-    $('#hero_settings_custom_class').val block.custom_class
     $('#hero_settings_modal').modal('show')
 
   updateHeroSettings: (group_uuid, block_uuid) ->
     this.updateBlock $('#hero_settings_group_uuid').val(), $('#hero_settings_block_uuid').val(),
       custom_class: $('#hero_settings_custom_class').val()
+      background_color: $('#hero_settings_background_color').val()
+      foreground_color: $('#hero_settings_foreground_color').val()
       height: $('#hero_settings_height').val()
       well_style: $('#hero_settings_well_style').val()
 
   resetHeroSettings: ->
+    $('#hero_settings_background_color').val('').minicolors('destroy')
+    $('#hero_settings_foreground_color').val('').minicolors('destroy')
     $('#hero_settings_custom_class').val ''
     $('#hero_settings_height').val ''
     $('#hero_settings_well_style').val 'light'
@@ -760,7 +783,7 @@ Webpage = React.createClass
 
   render: ->
     `<div>
-      <style dangerouslySetInnerHTML={{__html: '.webpage-block a { color: ' + this.props.linkColor + '; }'}} />
+      <style dangerouslySetInnerHTML={{__html: '.webpage-block-content a { color: ' + this.props.linkColor + '; }'}} />
       <div className="webpage-fields">
         <input type="hidden" name="sidebar_position" value={this.state.sidebarPosition} />
         {this.renderRemovedGroupsInputs()}
@@ -785,6 +808,29 @@ Webpage = React.createClass
           </p>
         </div>
       </BrowserPanel>
+      <div id="custom_group_modal" className="modal fade">
+        <input id="custom_group_uuid" type="hidden" />
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <span className="close" data-dismiss="modal">&times;</span>
+              <p className="h4 modal-title">Custom Group Settings</p>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="custom_group_custom_class" className="control-label">
+                  Set a Custom Class
+                </label>
+                <input type="text" id="custom_group_custom_class" className="form-control" />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <span className="btn btn-default" data-dismiss="modal" onClick={this.resetCustomGroup}>Cancel</span>
+              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateCustomGroup}>Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div id="link_modal" className="modal fade">
         <input id="link_group_uuid" type="hidden" />
         <input id="link_block_uuid" type="hidden" />
@@ -929,16 +975,26 @@ Webpage = React.createClass
                   </select>
                 </div>
               </div>
+              <input id="hero_settings_fake_to_receive_focus" type="text" className="hide" />
+              <div className="form-group">
+                <label htmlFor="hero_settings_background_color" className="control-label">Custom Background Color</label>
+                <input id="hero_settings_background_color" type="text" className="form-control" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="hero_settings_foreground_color" className="control-label">Custom Font Color</label>
+                <input id="hero_settings_foreground_color" type="text" className="form-control" />
+              </div>
               <hr />
+              <p className="text-muted small">ADVANCED</p>
               <div className="form-group">
                 <label htmlFor="hero_settings_height" className="control-label">
-                  Set Fixed Hero Height in Pixels (Advanced)
+                  Set Fixed Hero Height in Pixels
                 </label>
                 <input type="text" id="hero_settings_height" className="form-control" />
               </div>
               <div className="form-group">
                 <label htmlFor="hero_settings_custom_class" className="control-label">
-                  Set a Custom Class (Advanced)
+                  Set a Custom Class
                 </label>
                 <input type="text" id="hero_settings_custom_class" className="form-control" />
               </div>
@@ -1246,7 +1302,7 @@ Webpage = React.createClass
 
   renderGroup: (group, uuid) ->
     if group
-      `<Group key={group.uuid} editing={this.state.editing} updateGroup={this.updateGroup} insertBlock={this.insertBlock} sidebarPosition={this.state.sidebarPosition} switchSidebarPosition={this.switchSidebarPosition} {...group} />`
+      `<Group key={group.uuid} editing={this.state.editing} updateGroup={this.updateGroup} insertBlock={this.insertBlock} editCustomGroup={this.editCustomGroup} sidebarPosition={this.state.sidebarPosition} switchSidebarPosition={this.switchSidebarPosition} {...group} />`
 
   renderInsertHeroGroup: ->
     unless this.props.groupTypes.indexOf('HeroGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'HeroGroup')

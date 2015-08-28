@@ -2,6 +2,7 @@ HeroBlock = React.createClass
   render: ->
     style =
       backgroundColor: this.props.background_color
+      color: this.props.foreground_color
       height: if parseInt(this.props.height) > 0 then parseInt(this.props.height) else 'auto'
     if this.props.block_background_placement and this.props.block_background_placement.image_attachment_jumbo_url and this.props.block_background_placement.image_attachment_jumbo_url.length > 0
       style['backgroundImage'] = "url(\"#{this.props.block_background_placement.image_attachment_jumbo_url}\")"
@@ -20,7 +21,7 @@ HeroBlock = React.createClass
       when 'right'
         `<div className="row">
           <div key="content" className="col-sm-6">
-            <div className={this.wellClass()}>
+            <div className={this.wellClass()} style={{color: this.props.foreground_color}}>
               <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
               <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
               <BlockLinkButton {...this.props} />
@@ -36,7 +37,7 @@ HeroBlock = React.createClass
             <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" copy={true} />
           </div>
           <div key="content" className="col-sm-6">
-            <div className={this.wellClass()}>
+            <div className={this.wellClass()} style={{color: this.props.foreground_color}}>
               <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
               <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
               <BlockLinkButton {...this.props} />
@@ -44,7 +45,7 @@ HeroBlock = React.createClass
           </div>
         </div>`
       else
-        `<div className={this.wellClass()}>
+        `<div className={this.wellClass()} style={{color: this.props.foreground_color}}>
           <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
           <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
           <BlockLinkButton {...this.props} />

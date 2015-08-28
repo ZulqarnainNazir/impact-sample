@@ -10,24 +10,40 @@ ol.breadcrumb
 .webpage-designer data-input-prefix="contact_page"
   = form_for @contact_page, url: [@business, :website_contact_page], method: :patch do |form|
     = errors_for @contact_page
-    .form-horizontal
-      .form-group
-        = form.label :title, class: 'col-sm-3 col-lg-2 control-label'
-        .col-sm-6.col-lg-4
-          = form.text_field :title, value: form.object.title.present? ? form.object.title : "Contact #{@business.name}", class: 'form-control'
-          p.help-block Important for SEO
-    - if @contact_page.persisted?
-      .row
-        .col-sm-offset-3.col-lg-offset-2
-          p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@contact_page.pathname, host: website_host(@business.website)), target: :_blank do
-            ' Preview Saved Webpage
-            i.fa.fa-external-link style="margin-left:2px"
+    .row
+      .col-md-6.col-lg-7
+        .form-horizontal
+          .form-group
+            = form.label :title, class: 'col-md-2 control-label'
+            .col-md-10
+              = form.text_field :title, value: form.object.title.present? ? form.object.title : "Contact #{@business.name}", class: 'form-control'
+              p.help-block Important for SEO
+        - if @contact_page.persisted?
+          .row
+            .col-md-offset-2
+              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@contact_page.pathname, host: website_host(@business.website)), target: :_blank do
+                ' Preview Saved Webpage
+                i.fa.fa-external-link style="margin-left:2px"
+      .col-md-6.col-lg-5
+        .webpage-settings
+          #advanced-settings.well.well-sm style="display:none"
+            .form-group
+              = form.label :description, class: 'control-label'
+              = form.text_area :description, rows: 2, class: 'form-control'
+              p.help-block Helpful for SEO &amp; Social
+          p.text-right.text-muted.small style="margin:0.8em 0 2em"
+            span.pull-left
+              ' Need to update something?
+              = link_to 'Update Business Data', [@business, :data_root], target: :_blank
+            span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
+              ' Toggle Advanced Settings
+              span.fa
     = react_component 'Webpage',
       backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       foregroundColor: form.object.website.foreground_color,
-      groups: form.object.groups.as_json(include: { blocks: { methods: %i[type] }}, methods: :type),
+      groups: form.object.groups.as_json(include: { blocks: { methods: %i[type] }}, methods: %i[type custom_class]),
       groupTypes: %w[ContactGroup],
       location: form.object.website.business.location.try(:as_json, methods: %i[address_line_one address_line_two]),
       openings: form.object.website.business.location.try(:openings).try(:as_json, methods: %i[days hours]),

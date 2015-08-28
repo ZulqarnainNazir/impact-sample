@@ -31,6 +31,8 @@ var ready = function() {
   $('.webpage-designer').webpageDesigner();
   $('.wysihtml-editor').wysihtmlEditor();
   $('[data-show-when-checked]').showWhenChecked();
+  $('[data-show-when-clicked]').showWhenClicked();
+  $('[data-toggle-class-when-clicked]').toggleClassWhenClicked();
   $('[data-toggle="tooltip"]').tooltip();
   $('*[data-toggle=lightbox]').click(function (e) {
     e.preventDefault();
