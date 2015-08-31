@@ -25,15 +25,15 @@ html lang="en"
                 li = link_to [@business, :dashboard] do
                   i.fa.fa-tachometer>
                   | Dashboard
-                li class=('active' if controller_path.match(/\Abusinesses\/content/))
+                li#dashboard-business-content class=('active' if controller_path.match(/\Abusinesses\/content/))
                   span
                     i.fa.fa-bar-chart>
                     ' Manage Content
                   ul.list-unstyled
-                    li = link_to [@business, :content_feed] do
+                    li#dashboard-business-content-library = link_to [@business, :content_feed] do
                       i.fa.fa-institution>
                       | Content Library
-                    li.list-divider.requires-plan-upgrade = link_to [:new, @business, :content_quick_post] do
+                    li#dashboard-business-content-posts.list-divider.requires-plan-upgrade = link_to [:new, @business, :content_quick_post] do
                       i.fa.fa-file-text-o>
                       | Quick Post
                     li = link_to [:new, @business, :content_event_definition] do
@@ -51,66 +51,65 @@ html lang="en"
                     li.requires-plan-upgrade = link_to [:new, @business, :content_post] do
                       i.fa.fa-edit>
                       | Custom Post
-                    li.list-divider = link_to [@business, :content_images] do
+                    li#dashboard-business-content-media.list-divider = link_to [@business, :content_images] do
                       i.fa.fa-photo>
                       | Media Manager
-                    - if @business.cce_id?
-                      li.list-divider = link_to [@business, :content_event_imports] do
-                        i.fa.fa-calendar>
-                        | Import Events
+                    li#dashboard-business-content-events.list-divider class=('force-plan-upgrade' unless @business.cce_id?) = link_to [@business, :content_event_imports] do
+                      i.fa.fa-calendar>
+                      | Import Events
                 - if @business.website
-                  li class=('active' if controller_path.match(/\Abusinesses\/website/))
+                  li#dashboard-business-website class=('active' if controller_path.match(/\Abusinesses\/website/))
                     span
                       i.fa.fa-table>
                       ' Manage Website
                     ul.list-unstyled
-                      li = link_to [:edit, @business, :website_details] do
-                        i.fa.fa-list>
-                        | Basic Details
-                      li.requires-plan-upgrade = link_to [:edit, @business, :website_meta] do
-                        i.fa.fa-sliders>
-                        | Meta/SEO
-                      li.requires-plan-upgrade = link_to [@business, :website_webpages] do
+                      li#dashboard-business-website-pages.requires-plan-upgrade = link_to [@business, :website_webpages] do
                         i.fa.fa-sitemap>
                         | Pages
+                      li#dashboard-business-website-menu.requires-plan-upgrade = link_to [:edit, @business, :website_menus] do
+                        i.fa.fa-random>
+                        | Navigation Menus
+                      li#dashboard-business-website-theme.requires-plan-upgrade = link_to [:edit, @business, :website_theme] do
+                        i.fa.fa-photo>
+                        | Theme &amp; Design
+                      li#dashboard-business-website-details = link_to [:edit, @business, :website_details] do
+                        i.fa.fa-list>
+                        | Basic Details
+                      li#dashboard-business-website-meta.requires-plan-upgrade = link_to [:edit, @business, :website_meta] do
+                        i.fa.fa-sliders>
+                        | Meta/SEO
                       li.requires-plan-upgrade = link_to [:edit, @business, :website_sidebars] do
                         i.fa.fa-th>
                         | Sidebars
-                      li.requires-plan-upgrade = link_to [:edit, @business, :website_menus] do
-                        i.fa.fa-random>
-                        | Navigation Menus
                       li.requires-plan-upgrade = link_to [@business, :website_redirects] do
                         i.fa.fa-reply>
                         | Redirects
-                      li.requires-plan-upgrade = link_to [:edit, @business, :website_theme] do
-                        i.fa.fa-photo>
-                        | Theme &amp; Design
                 li = link_to [@business, :alliances]
                   i.fa.fa-random>
                   | Manage Alliances
-                li class=('active' if controller_path.match(/\Abusinesses\/crm/))
+                li#dashboard-business-crm class=('active' if controller_path.match(/\Abusinesses\/crm/))
                   span
                     i.fa.fa-comments>
-                    ' CRM &amp; Reviews
+                    ' Customers
                   ul.list-unstyled
-                    li = link_to [@business, :crm_customers] do
+                    li#dashboard-business-crm-customers = link_to [@business, :crm_customers] do
                       i.fa.fa-users>
                       | All Customers
-                    li.list-divider = link_to [@business, :crm_feedbacks] do
+                    li#dashboard-business-crm-forms = link_to [@business, :crm_contact_messages] do
+                      i.fa.fa-comments>
+                      | Submitted Forms
+                    li#dashboard-business-crm-feedback.list-divider = link_to [@business, :crm_feedbacks] do
                       i.fa.fa-line-chart>
                       | Feedback
                     li.list-divider = link_to [@business, :crm_reviews] do
                       i.fa.fa-star>
                       | Reviews
-                    li = link_to [@business, :crm_contact_messages] do
-                      i.fa.fa-comments>
-                      | Submitted Forms
-                li class=('active' if controller_path.match(/\Abusinesses\/data/))
+                li#dashboard-business-data class=('active' if controller_path.match(/\Abusinesses\/data/))
                   span
                     i.fa.fa-database>
                     ' Business Data
                   ul.list-unstyled
-                    li = link_to [:edit, @business, :data_details] do
+                    li#dashboard-business-data-details = link_to [:edit, @business, :data_details] do
                       i.fa.fa-list-ul>
                       | Basic Details
                     li = link_to [:edit, @business, :data_location] do
@@ -123,22 +122,22 @@ html lang="en"
                     li = link_to [:edit, @business, :data_social_profiles] do
                       i.fa.fa-files-o>
                       | Social Profiles
-                    li = link_to [:edit, @business, :data_lines] do
+                    li#dashboard-business-data-team = link_to [@business, :data_team_members] do
+                      i.fa.fa-users>
+                      | Team Members
+                    li#dashboard-business-data-lines = link_to [:edit, @business, :data_lines] do
                       i.fa.fa-cubes>
-                      | Product/Service Lines
+                      | Business Lines
                     - if @business.lines.any?
-                      li = link_to [:edit, @business, :data_delivery] do
+                      li#dashboard-business-data-community = link_to [:edit, @business, :data_delivery] do
                         i.fa.fa-truck>
                         | Delivery Information
                       li = link_to [:edit, @business, :data_customers] do
                         i.fa.fa-briefcase>
                         | Customer Information
-                    li = link_to [:edit, @business, :data_values] do
+                    li id=('dashboard-business-data-community' if @business.lines.empty?) = link_to [:edit, @business, :data_values] do
                       i.fa.fa-heart>
                       | Community &amp; Values
-                    li = link_to [@business, :data_team_members] do
-                      i.fa.fa-users>
-                      | Team Members
                 - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
                   li = link_to [@business, :authorizations] do
                     i.fa.fa-users>
@@ -146,15 +145,15 @@ html lang="en"
                 li = link_to [@business, :marketing]
                   i.fa.fa-rocket>
                   | Marketing
-                li class=('active' if controller_path.match(/\Abusinesses\/accounts/))
+                li#dashboard-business-accounts class=('active' if controller_path.match(/\Abusinesses\/accounts/))
                   span
                     i.fa.fa-files-o>
                     ' Linked Accounts
                   ul.list-unstyled
-                    li = link_to [:edit, @business, :accounts_locable] do
+                    li#dashboard-business-accounts-locable = link_to [:edit, @business, :accounts_locable] do
                       i.fa.fa-square>
                       | Locable
-                    li style="pointer-events:none; opacity:0.4" = link_to '#' do
+                    li#dashboard-business-accounts-facebook style="pointer-events:none; opacity:0.4" = link_to '#' do
                       i.fa.fa-facebook-square>
                       | Facebook
                     li style="pointer-events:none; opacity:0.4" = link_to '#' do

@@ -5,12 +5,18 @@ ol.breadcrumb
   li.active = @business.name
 
 br
-- if @business.website
-  h2.h3 Preview Your Website
-  = link_to website_root_url(host: website_host(@business.website)), target: :_blank, class: 'btn btn-info' do
-    strong => website_root_url(host: website_host(@business.website))
-    i.fa.fa-external-link style="margin-left:5px"
-  hr
+.clearfix
+  .pull-right
+    span.text-muted> Questions?
+    span#dashboard-tour.btn.btn-sm.btn-default
+      ' Open Tour
+      span.fa.fa-arrow-circle-o-right
+  - if @business.website
+    h2.h3 style="margin-top:0" Preview Your Website
+    = link_to website_root_url(host: website_host(@business.website)), target: :_blank, class: 'btn btn-info' do
+      strong => website_root_url(host: website_host(@business.website))
+      i.fa.fa-external-link style="margin-left:5px"
+hr
 h2.h3 What do you want to do?
 .row.dashboard-root-primary-panels
   .col-sm-6.col-lg-3
@@ -126,3 +132,129 @@ h2.h3
 hr
 p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post], class: 'requires-plan-upgrade'} if you don't see a match.
 p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your allies, the Locable Publisher Network, and any linked accounts.
+
+javascript:
+  var tour = new Tour({
+    storage: false,
+    steps: [
+      {
+        title: 'Welcome to IMPACT, we want you to get a lay of the land.',
+        content: 'Over the next couple of minutes we’ll help you understand where to go to get things done. You can always access our User Wiki or contact us for help.',
+        orphan: true,
+        backdrop: true,
+        onShow: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-data',
+        content: 'Business Data is where your core information lives, the centralized hub of your business. This information can be used and reused on your website and in other marketing.',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-data').addClass('active'); },
+      },
+      {
+        element: '#dashboard-business-data-details',
+        content: 'Here you manage your business and contact information. This data is used on your website and will sync out to other listings on the internet.',
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-data-team',
+        content: 'Here you can add people you’d like to highlight on your About page.',
+      },
+      {
+        element: '#dashboard-business-data-lines',
+        content: 'Some businesses have one core line, others many. Defining your customer offerings here will be useful on your website and in marketing your business.',
+      },
+      {
+        element: '#dashboard-business-data-community',
+        content: 'Helping customers understand what the experience is like and your involvement in the community can be useful.',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-website',
+        content: 'Website Overview',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-website').addClass('active'); },
+      },
+      {
+        element: '#dashboard-business-website-pages',
+        content: 'Here you’ll find a list of pages on your website and where you can create new ones.',
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-website-menu',
+        content: 'Control how users navigate your site with your header & footer.',
+      },
+      {
+        element: '#dashboard-business-website-theme',
+        content: 'Here you’ll set the site’s basic design.',
+      },
+      {
+        element: '#dashboard-business-website-details',
+        content: 'When you’re ready to go live you’ll set your web address here.',
+      },
+      {
+        element: '#dashboard-business-website-meta',
+        content: 'A few useful areas for advanced needs.',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-content',
+        content: 'Content Overview',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-content').addClass('active'); },
+      },
+      {
+        element: '#dashboard-business-content-library',
+        content: 'Here is your feed of all posted content - you can edit, duplicate and view prior content.',
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-content-posts',
+        content: 'Creating content is a powerful way to tell your story and critical for Search Engine Optimization (SEO) and Social Media. We give you a few easy-to-use content types to help you make a bigger impact.',
+      },
+      {
+        element: '#dashboard-business-content-media',
+        content: 'Find all of the images you’ve uploaded or imported, use the Bulk Upload to quickly add more.',
+      },
+      {
+        element: '#dashboard-business-content-events',
+        content: 'Linked a profile with IMPACT? Here you’ll find events that can be imported and used with IMPACT.',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-accounts',
+        content: 'Accounts Overview',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-accounts').addClass('active'); },
+      },
+      {
+        element: '#dashboard-business-accounts-locable',
+        content: 'Link your directory listing from the Locable Publisher Network to get more out of your IMPACT account.',
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-accounts-facebook',
+        content: 'More integrations are coming soon. We’ll notify you as we add more and you’ll be able to link your account here.',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-crm',
+        content: 'Customers Overview',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-crm').addClass('active'); },
+      },
+      {
+        element: '#dashboard-business-crm-customers',
+        content: 'Here you’ll find all of the customers who have been added by completing a form or by your team. You can add new customers to track and request customer reviews here.',
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+      {
+        element: '#dashboard-business-crm-forms',
+        content: 'Here’s a quick-view of the forms that have been submitted.',
+      },
+      {
+        element: '#dashboard-business-crm-feedback',
+        content: 'As you use IMPACT to collect feedback and reviews you’ll be able to explore them here.',
+        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
+      },
+    ],
+  });
+  tour.init();
+  $('#dashboard-tour').click(function(event) {
+    event.preventDefault();
+    tour.start(true);
+  });
