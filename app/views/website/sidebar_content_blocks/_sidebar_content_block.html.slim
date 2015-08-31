@@ -8,7 +8,7 @@
             .embed-responsive.embed-responsive-4by3
               = sidebar_content_block.block_image_placement.embed.html_safe
           - elsif sidebar_content_block.block_image
-            = image_tag sidebar_content_block.block_image.attachment_url(:small), class: 'center-block img-responsive thumbnail'
+            = image_tag sidebar_content_block.block_image.attachment_url(sidebar_content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
           = sanitize_html sidebar_content_block.text
           - if sidebar_content_block.link?
             br

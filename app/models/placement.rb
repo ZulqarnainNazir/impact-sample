@@ -63,7 +63,7 @@ class Placement < ActiveRecord::Base
 
   def style_keys
     Hash.new([]).merge(
-      block_image: %i[small medium jumbo],
+      block_image: %i[small small_fixed medium medium_fixed jumbo jumbo_fixed],
       block_background: %i[jumbo],
       after_image: %i[medium],
       before_image: %i[medium],
@@ -97,16 +97,32 @@ class Placement < ActiveRecord::Base
     image.try(:attachment_small_url)
   end
 
+  def image_attachment_small_fixed_url
+    image.try(:attachment_small_fixed_url)
+  end
+
   def image_attachment_medium_url
     image.try(:attachment_medium_url)
+  end
+
+  def image_attachment_medium_fixed_url
+    image.try(:attachment_medium_fixed_url)
   end
 
   def image_attachment_large_url
     image.try(:attachment_large_url)
   end
 
+  def image_attachment_large_fixed_url
+    image.try(:attachment_large_fixed_url)
+  end
+
   def image_attachment_jumbo_url
     image.try(:attachment_jumbo_url)
+  end
+
+  def image_attachment_jumbo_fixed_url
+    image.try(:attachment_jumbo_fixed_url)
   end
 
   def image_attachment_content_type

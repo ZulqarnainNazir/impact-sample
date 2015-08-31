@@ -49,6 +49,7 @@ module PlacementAttributesConcern
       :id,
       :kind,
       :embed,
+      :full_width,
       :image_id,
       :image_alt,
       :image_title,

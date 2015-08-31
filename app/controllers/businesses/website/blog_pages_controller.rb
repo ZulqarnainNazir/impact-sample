@@ -19,10 +19,15 @@ class Businesses::Website::BlogPagesController < Businesses::Website::BaseContro
     params.require(:blog_page).permit(
       :title,
       :sidebar_position,
-      groups_attributes: groups_attributes
+      groups_attributes: groups_attributes,
+      main_image_placement_attributes: placement_attributes,
     ).deep_merge(
       pathname: 'blog',
       name: 'Blog',
+      main_image_placement_attributes: {
+        image_user: current_user,
+        image_business: @business,
+      },
     )
   end
 end

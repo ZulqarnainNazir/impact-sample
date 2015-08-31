@@ -392,9 +392,17 @@ Webpage = React.createClass
       mediaImageAttachmentFileSize: placement.image_attachment_file_size
       mediaImageProgress: 0
       mediaImageStatus: if Object.keys(placement).length > 0 then 'attached' else 'empty'
-      mediaImageAttachmentThumbnailURL: placement.image_attachment_thumbnail_url
       mediaImageAttachmentURL: placement.image_attachment_url
       mediaImageAttachmentCacheURL: undefined
+      mediaImageAttachmentThumbnailURL: placement.image_attachment_thumbnail_url
+      mediaImageAttachmentSmallURL: placement.image_attachment_small_url
+      mediaImageAttachmentSmallFixedURL: placement.image_attachment_small_fixed_url
+      mediaImageAttachmentMediumURL: placement.image_attachment_medium_url
+      mediaImageAttachmentMediumFixedURL: placement.image_attachment_medium_fixed_url
+      mediaImageAttachmentLargeURL: placement.image_attachment_large_url
+      mediaImageAttachmentLargeFixedURL: placement.image_attachment_large_fixed_url
+      mediaImageAttachmentJumboURL: placement.image_attachment_jumbo_url
+      mediaImageAttachmentJumboFixedURL: placement.image_attachment_jumbo_fixed_url
       mediaLibraryImages: []
       mediaLibraryLoaded: false
       mediaLibraryLoadedAll: false
@@ -409,6 +417,7 @@ Webpage = React.createClass
       else
         $('a[href="#media_tab_image"]').tab('show')
       $('#media_embed').val placement.embed
+      $('#media_full_width').prop('checked', placement.full_width or false)
       $('#media_image_alt').val placement.image_alt
       $('#media_image_title').val placement.image_title
       $('#media_tabs').css('display', 'block')
@@ -448,9 +457,13 @@ Webpage = React.createClass
       mediaImageAttachmentFileName: file.name
       mediaImageAttachmentFileSize: file.size
       mediaImageAttachmentJumboURL: undefined
+      mediaImageAttachmentJumboFixedURL: undefined
       mediaImageAttachmentLargeURL: undefined
+      mediaImageAttachmentLargeFixedURL: undefined
       mediaImageAttachmentMediumURL: undefined
+      mediaImageAttachmentMediumFixedURL: undefined
       mediaImageAttachmentSmallURL: undefined
+      mediaImageAttachmentSmallFixedURL: undefined
       mediaImageAttachmentThumbnailURL: undefined
       mediaImageAttachmentURL: event.target.result
       mediaImageID: undefined
@@ -488,6 +501,7 @@ Webpage = React.createClass
         id: this.state.mediaID
         destroy: this.state.mediaDestroy
         embed: $('#media_embed').val()
+        full_width: $('#media_full_width').is(':checked')
         kind: if $('#media_tab_image').is(':visible') then 'images' else 'embeds'
         image_alt: $('#media_image_alt').val()
         image_attachment_cache_url: this.state.mediaImageAttachmentCacheURL
@@ -497,9 +511,13 @@ Webpage = React.createClass
         image_attachment_url: this.state.mediaImageAttachmentURL
         image_attachment_thumbnail_url: this.state.mediaImageAttachmentURL
         image_attachment_small_url: this.state.mediaImageAttachmentSmallURL
+        image_attachment_small_fixed_url: this.state.mediaImageAttachmentSmallFixedURL
         image_attachment_medium_url: this.state.mediaImageAttachmentMediumURL
+        image_attachment_medium_fixed_url: this.state.mediaImageAttachmentMediumFixedURL
         image_attachment_large_url: this.state.mediaImageAttachmentLargeURL
+        image_attachment_large_fixed_url: this.state.mediaImageAttachmentLargeFixedURL
         image_attachment_jumbo_url: this.state.mediaImageAttachmentJumboURL
+        image_attachment_jumbo_fixed_url: this.state.mediaImageAttachmentJumboFixedURL
         image_id: this.state.mediaImageID
         image_title: $('#media_image_title').val()
     this.updateBlock $('#media_group_uuid').val(), $('#media_block_uuid').val(), changes
@@ -540,9 +558,13 @@ Webpage = React.createClass
       mediaImageAttachmentURL: image.attachment_url
       mediaImageAttachmentThumbnailURL: image.attachment_thumbnail_url
       mediaImageAttachmentSmallURL: image.attachment_small_url
+      mediaImageAttachmentSmallFixedURL: image.attachment_small_fixed_url
       mediaImageAttachmentMediumURL: image.attachment_medium_url
+      mediaImageAttachmentMediumFixedURL: image.attachment_medium_fixed_url
       mediaImageAttachmentLargeURL: image.attachment_large_url
+      mediaImageAttachmentLargeFixedURL: image.attachment_large_fixed_url
       mediaImageAttachmentJumboURL: image.attachment_jumbo_url
+      mediaImageAttachmentJumboFixedURL: image.attachment_jumbo_fixed_url
       mediaImageID: image.id
       mediaImageStatus: 'attached'
     this.setState changes, this.hideMediaLibrary, ->
@@ -580,6 +602,7 @@ Webpage = React.createClass
       mediaLibraryPage: 1
     this.setState stateChanges, ->
       $('#media_embed').val ''
+      $('#media_full_width').prop('checked', false)
       $('#media_image_alt').val ''
       $('#media_image_title').val ''
       $('a[href="#media_tab_image"]').tab('show')
@@ -1242,8 +1265,19 @@ Webpage = React.createClass
           </span>
         </span>
         {this.renderEditMediaRemoveButton()}
+        <hr />
+        {this.renderEditMediaUpscaleCheckbox()}
+        <hr />
         <p className="small" style={{marginTop: 10}}>Have a lot of images to add? <a href={this.props.bulkUploadPath} target="_blank">Try Bulk Upload</a></p>
       </div>`
+
+  renderEditMediaUpscaleCheckbox: ->
+    unless $('#media_type').val() is 'background'
+      `<p className="small checkbox" style={{marginTop: 10}}>
+        <label>
+          <input id="media_full_width" type="checkbox" style={{marginTop: 3}} /> Stretch smaller images to fit full width.
+        </label>
+      </p>`
 
   renderEditMediaRemoveButton: ->
     if ['failed', 'attached'].indexOf(this.state.mediaImageStatus) >= 0

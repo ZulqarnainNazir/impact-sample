@@ -17,6 +17,7 @@ module PlacedImageConcern
         outputs = {
           id: inputs[:id],
           kind: inputs[:kind],
+          full_width: !!inputs[:full_width],
           placer: self,
           context: association_name,
           _destroy: inputs[:_destroy],

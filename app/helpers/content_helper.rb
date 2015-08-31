@@ -11,6 +11,10 @@ module ContentHelper
     end
   end
 
+  def image(url)
+    content_for :image, url
+  end
+
   def errors_for(resource, message: nil)
     if resource && resource.errors.full_messages.any?
       render partial: 'errors', locals: { message: message, error_messages: resource.errors.full_messages.uniq }

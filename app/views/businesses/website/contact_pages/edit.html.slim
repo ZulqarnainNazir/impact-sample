@@ -31,6 +31,16 @@ ol.breadcrumb
               = form.label :description, class: 'control-label'
               = form.text_area :description, rows: 2, class: 'form-control'
               p.help-block Helpful for SEO &amp; Social
+            hr
+            = react_component 'ImagePlacement',
+              imagesPath: business_images_path(@business),
+              inputPrefix: 'contact_page[main_image_placement_attributes]',
+              label: 'Custom OG:Image',
+              placement: form.object.main_image_placement_json,
+              presignedPost: s3_presigned_post_hash,
+              bulkUploadPath: new_business_content_images_upload_path(@business),
+              allowEmbed: false,
+              buttonSize: 'small'
           p.text-right.text-muted.small style="margin:0.8em 0 2em"
             span.pull-left
               ' Need to update something?
@@ -43,7 +53,7 @@ ol.breadcrumb
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       foregroundColor: form.object.website.foreground_color,
-      groups: form.object.groups.as_json(include: { blocks: { methods: %i[type] }}, methods: %i[type custom_class]),
+      groups: form.object.groups.as_json(include: { blocks: { include: { block_image_placement: { methods: %i[full_width image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_small_fixed_url image_attachment_medium_url image_attachment_medium_fixed_url image_attachment_large_url image_attachment_large_fixed_url image_attachment_jumbo_url image_attachment_jumbo_fixed_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }, block_background_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }}, methods: %i[type height items_limit well_style background_color foreground_color custom_class] }}, methods: %i[type custom_class]),
       groupTypes: %w[ContactGroup],
       location: form.object.website.business.location.try(:as_json, methods: %i[address_line_one address_line_two]),
       openings: form.object.website.business.location.try(:openings).try(:as_json, methods: %i[days hours]),

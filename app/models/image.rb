@@ -7,8 +7,8 @@ class Image < ActiveRecord::Base
 
   has_attached_file :attachment, styles: lambda { |attachment| attachment.instance.styles }
 
-  validates :business, presence: true
-  validates :user, presence: true
+  validates :business_id, presence: true, unless: :business
+  validates :user_id, presence: true, unless: :user
   validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }, allow_nil: true
 
   validates_attachment_presence :attachment, unless: :attachment_cache_url?
@@ -40,6 +40,8 @@ class Image < ActiveRecord::Base
       attachment_cache_url
     elsif attachment? && style && cached_styles.try(:include?, style.to_s)
       attachment.url(style)
+    elsif attachment? && style && style.match(/_fixed\z/) && cached_styles.try(:include?, 'jumbo_fixed')
+      attachment.url(:jumbo_fixed)
     elsif attachment?
       attachment.url
     end
@@ -48,15 +50,19 @@ class Image < ActiveRecord::Base
   def styles
     {
       thumbnail: '260x260#',
-      jumbo: '1200x',
-      large: '800x',
-      medium: '600x',
-      small: '400x',
+      jumbo: '1200x100000>',
+      jumbo_fixed: '1200x',
+      large: '800x100000>',
+      large_fixed: '800x',
+      medium: '600x100000>',
+      medium_fixed: '600x',
+      small: '400x100000>',
+      small_fixed: '400x',
       logo_small: 'x40',
       logo_medium: 'x60',
       logo_large: 'x125',
       logo_jumbo: 'x200',
-    }.slice(*placements.map(&:style_keys).push(%i[thumbnail medium]).flatten.uniq)
+    }.slice(*placements.map(&:style_keys).push(%i[thumbnail medium jumbo_fixed]).flatten.uniq)
   end
 
   def attachment_thumbnail_url
@@ -67,15 +73,31 @@ class Image < ActiveRecord::Base
     attachment_url(:small)
   end
 
+  def attachment_small_fixed_url
+    attachment_url(:small_fixed)
+  end
+
   def attachment_medium_url
     attachment_url(:medium)
+  end
+
+  def attachment_medium_fixed_url
+    attachment_url(:medium_fixed)
   end
 
   def attachment_large_url
     attachment_url(:large)
   end
 
+  def attachment_large_fixed_url
+    attachment_url(:large_fixed)
+  end
+
   def attachment_jumbo_url
     attachment_url(:jumbo)
+  end
+
+  def attachment_jumbo_fixed_url
+    attachment_url(:jumbo_fixed)
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828185108) do
+ActiveRecord::Schema.define(version: 20150828224747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -374,16 +374,17 @@ ActiveRecord::Schema.define(version: 20150828185108) do
   add_index "openings", ["location_id"], name: "index_openings_on_location_id", using: :btree
 
   create_table "placements", force: :cascade do |t|
-    t.integer  "placer_id",                null: false
-    t.string   "placer_type",              null: false
+    t.integer  "placer_id",                   null: false
+    t.string   "placer_type",                 null: false
     t.integer  "image_id"
-    t.string   "context",     default: "", null: false
-    t.string   "style",       default: "", null: false
+    t.string   "context",     default: "",    null: false
+    t.string   "style",       default: "",    null: false
     t.json     "settings"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.text     "embed"
-    t.integer  "kind",        default: 0,  null: false
+    t.integer  "kind",        default: 0,     null: false
+    t.boolean  "full_width",  default: false, null: false
   end
 
   add_index "placements", ["image_id"], name: "index_placements_on_image_id", using: :btree

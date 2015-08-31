@@ -10,7 +10,7 @@
           .embed-responsive.embed-responsive-4by3
             = block.block_image_placement.embed.html_safe
         - elsif block.block_image
-          = image_tag block.block_image.attachment_url(:medium), alt: block.block_image.alt, class: 'img-responsive', style: 'width: 100%'
+          = image_tag block.block_image.attachment_url(block.block_image_placement.full_width ? :medium_fixed : :medium), alt: block.block_image.alt, class: 'img-responsive', style: 'width: 100%'
       section.col-sm-8
         header.page-header
           h2 = sanitize_html block.heading

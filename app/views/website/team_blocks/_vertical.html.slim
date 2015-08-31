@@ -8,7 +8,7 @@
       .team-member.row
         .col-xs-6.col-sm-2
           - if member.team_member_profile
-            p = image_tag member.team_member_profile.attachment_url(:small), alt: member.team_member_profile.alt, class: 'img-responsive', style: 'width: 100%'
+            p = image_tag member.team_member_profile.attachment_url(:small_fixed), alt: member.team_member_profile.alt, class: 'img-responsive', style: 'width: 100%'
         .col-xs-6.col-sm-4.col-md-3
           h4 = member.name
           p = member.title

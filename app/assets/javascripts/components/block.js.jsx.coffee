@@ -98,6 +98,7 @@ Block = React.createClass
         <input type="hidden" name={this.blockImageInputName('id')} value={placement.id} />
         <input type="hidden" name={this.blockImageInputName('kind')} value={placement.kind} />
         <input type="hidden" name={this.blockImageInputName('embed')} value={placement.embed} />
+        <input type="hidden" name={this.blockImageInputName('full_width')} value={placement.full_width} />
         <input type="hidden" name={this.blockImageInputName('image_id')} value={placement.image_id} />
         <input type="hidden" name={this.blockImageInputName('image_alt')} value={placement.image_alt} />
         <input type="hidden" name={this.blockImageInputName('image_title')} value={placement.image_title} />

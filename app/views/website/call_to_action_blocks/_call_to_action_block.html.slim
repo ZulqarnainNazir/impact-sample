@@ -16,9 +16,9 @@
             - elsif call_to_action_block.block_image
               - if call_to_action_block.link?
                 = link_to call_to_action_block.link_location, target: (call_to_action_block.link_target_blank ? :_blank : nil), rel: (call_to_action_block.link_no_follow ? 'no-follow' : nil) do
-                  = image_tag call_to_action_block.block_image.attachment_url(imageStyle), class: 'img-responsive center-block thumbnail'
+                  = image_tag call_to_action_block.block_image.attachment_url(call_to_action_block.block_image_placement.full_width ? imageStyle + '_fixed' : imageStyle), class: 'img-responsive center-block thumbnail'
               - else
-                = image_tag call_to_action_block.block_image.attachment_url(imageStyle), class: 'img-responsive center-block thumbnail'
+                = image_tag call_to_action_block.block_image.attachment_url(call_to_action_block.block_image_placement.full_width ? imageStyle + '_fixed' : imageStyle), class: 'img-responsive center-block thumbnail'
             = sanitize_html call_to_action_block.text
             - if call_to_action_block.link?
               p.text-center = link_to call_to_action_block.link_label, call_to_action_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (call_to_action_block.link_target_blank ? :_blank : nil), rel: (call_to_action_block.link_no_follow ? 'no-follow' : nil)
