@@ -22,4 +22,4 @@
       .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
     - elsif placement.try(:image)
       = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-    = sanitize_html truncate(post.sections_content, length: 500)
+    = truncate sanitize_html(post.sections_content), length: 500, escape: false

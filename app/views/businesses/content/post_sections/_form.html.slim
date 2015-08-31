@@ -5,10 +5,11 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
   .post-section-tolerance
     i.fa.fa-reorder.post-section-handle
     = post_form.fields_for :post_sections, post_section, child_index: appended ? 98765432101 : nil do |form|
-      = form.hidden_field :key
-      = form.hidden_field :parent_key
-      = form.hidden_field :kind
-      = form.hidden_field :position
+      .post-section-hidden-fields
+        = form.hidden_field :key
+        = form.hidden_field :parent_key
+        = form.hidden_field :kind
+        = form.hidden_field :position
       .panel.panel-default
         .panel-heading
           = form.label :heading, class: 'control-label sr-only'
