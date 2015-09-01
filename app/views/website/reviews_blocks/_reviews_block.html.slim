@@ -1,6 +1,6 @@
 - cache [reviews_block, reviews_block.cache_sensitive_key(params)] do
   - business = reviews_block.business
-  - reviews = business.reviews.order(reviewed_at: :desc).limit(6)
+  - reviews = business.reviews.published.order(reviewed_at: :desc).limit(6)
   - if reviews.length > 0
     h2 Customer Reviews
     - if reviews_block.style == 'columns'
