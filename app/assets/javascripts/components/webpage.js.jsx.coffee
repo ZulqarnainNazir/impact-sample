@@ -450,25 +450,30 @@ Webpage = React.createClass
   mediaUploadRead: (file, event) ->
     group = this.state.groups[$('#media_group_uuid').val()]
     block = group.blocks[$('#media_block_uuid')]
-    this.setState
-      mediaDestroy: undefined
-      mediaImageAttachmentCacheURL: event.target.result
-      mediaImageAttachmentContentType: file.type
-      mediaImageAttachmentFileName: file.name
-      mediaImageAttachmentFileSize: file.size
-      mediaImageAttachmentJumboURL: undefined
-      mediaImageAttachmentJumboFixedURL: undefined
-      mediaImageAttachmentLargeURL: undefined
-      mediaImageAttachmentLargeFixedURL: undefined
-      mediaImageAttachmentMediumURL: undefined
-      mediaImageAttachmentMediumFixedURL: undefined
-      mediaImageAttachmentSmallURL: undefined
-      mediaImageAttachmentSmallFixedURL: undefined
-      mediaImageAttachmentThumbnailURL: undefined
-      mediaImageAttachmentURL: event.target.result
-      mediaImageID: undefined
-      mediaImageStatus: 'uploading'
-      mediaImageTitle: ''
+    if file.type.match(/^image/)
+      this.setState
+        mediaDestroy: undefined
+        mediaImageAttachmentCacheURL: event.target.result
+        mediaImageAttachmentContentType: file.type
+        mediaImageAttachmentFileName: file.name
+        mediaImageAttachmentFileSize: file.size
+        mediaImageAttachmentJumboURL: undefined
+        mediaImageAttachmentJumboFixedURL: undefined
+        mediaImageAttachmentLargeURL: undefined
+        mediaImageAttachmentLargeFixedURL: undefined
+        mediaImageAttachmentMediumURL: undefined
+        mediaImageAttachmentMediumFixedURL: undefined
+        mediaImageAttachmentSmallURL: undefined
+        mediaImageAttachmentSmallFixedURL: undefined
+        mediaImageAttachmentThumbnailURL: undefined
+        mediaImageAttachmentURL: event.target.result
+        mediaImageID: undefined
+        mediaImageStatus: 'uploading'
+        mediaImageTitle: ''
+    else
+      this.setState
+        mediaImageStatus: if ((this.state.mediaImageAttachmentURL and this.state.mediaImageAttachmentURL.length > 0) or (this.state.mediaImageAttachmentURL and this.state.mediaImageAttachmentURL.length > 0)) then 'attached' else 'empty'
+      alert 'Only PNG, JPG and GIF images are allowed.'
 
   mediaUploadProgress: (event, data) ->
     if this.state.mediaImageStatus is 'uploading'
@@ -973,7 +978,7 @@ Webpage = React.createClass
             </div>
             <div className="modal-footer">
               <span className="btn btn-default" data-dismiss="modal" onClick={this.resetMedia}>Cancel</span>
-              <span className="btn btn-primary" data-dismiss="modal" onClick={this.updateMedia}>Save</span>
+              {this.renderMediaLibrarySaveButton()}
             </div>
           </div>
         </div>
@@ -1296,8 +1301,10 @@ Webpage = React.createClass
 
   renderMediaLibraryInterior: ->
     if this.state.mediaLibraryLoaded
-      `<div className="row row-narrow">
-        {this.renderMediaLibraryImages()}
+      `<div>
+        <div className="row row-narrow">
+          {this.renderMediaLibraryImages()}
+        </div>
         {this.renderMediaLibraryMoreButton()}
       </div>`
     else
@@ -1308,8 +1315,8 @@ Webpage = React.createClass
   renderMediaLibraryImages: ->
     if this.state.mediaLibraryImages.length > 0
       for image in this.state.mediaLibraryImages
-        `<div key={image.id} className="col-xs-2">
-          <img onClick={this.selectMediaLibraryImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{width: 90, height: 90, cursor: 'pointer'}} />
+        `<div key={image.id} className="col-xs-3 col-sm-2">
+          <img onClick={this.selectMediaLibraryImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{maxWidth: '100%', cursor: 'pointer'}} />
         </div>`
     else
       `<div className="col-sm-12"><p>Looks like you don’t have any images, go ahead and upload a few.</p></div>`
@@ -1321,6 +1328,12 @@ Webpage = React.createClass
           <div onClick={this.loadMediaLibraryImages} className="btn btn-block btn-default">Load More</div>
         </div>
       </div>`
+
+  renderMediaLibrarySaveButton: ->
+    if ['uploading', 'finishing'].indexOf(this.state.mediaImageStatus) >= 0
+      `<span className="btn btn-primary disabled" data-dismiss="modal" onClick={this.updateMedia}>Save</span>`
+    else
+      `<span className="btn btn-primary" data-dismiss="modal" onClick={this.updateMedia}>Save</span>`
 
   mediaImageUploadProgressWidthCSS: ->
     "#{this.state.mediaImageProgress}%"

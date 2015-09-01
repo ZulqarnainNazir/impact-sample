@@ -54,7 +54,8 @@ ol.breadcrumb
               presignedPost: s3_presigned_post_hash,
               bulkUploadPath: new_business_content_images_upload_path(@business),
               allowEmbed: false,
-              buttonSize: 'small'
+              buttonSize: 'small',
+              showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
           p.text-right.text-muted.small style="margin:0.8em 0 2em"
             span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
               ' Toggle Advanced Settings

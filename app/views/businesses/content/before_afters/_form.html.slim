@@ -12,7 +12,8 @@
           placement: form.object.before_image_placement_json,
           presignedPost: s3_presigned_post_hash,
           bulkUploadPath: new_business_content_images_upload_path(form.object.business),
-          buttonSize: 'small'
+          buttonSize: 'small',
+          showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
   .col-sm-6
     .panel.panel-default
       .panel-body
@@ -23,7 +24,8 @@
           placement: form.object.after_image_placement_json,
           presignedPost: s3_presigned_post_hash,
           bulkUploadPath: new_business_content_images_upload_path(form.object.business),
-          buttonSize: 'small'
+          buttonSize: 'small',
+          showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
 .form-group
   = form.label :description, class: 'control-label'
   = form.text_area :description, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Describe how you achieved what’s in the comparison above, the benefits and how the client feels about it.'

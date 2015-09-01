@@ -17,6 +17,7 @@
         placement: form.object.gallery_image_placement_json,
         bulkUploadPath: new_business_content_images_upload_path(gallery_form.object.business),
         buttonSize: 'small',
-        buttonRemove: false
+        buttonRemove: false,
+        showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
     .gallery-image-fields-warning.text-muted
       p: em Gallery Image will be removed upon Save

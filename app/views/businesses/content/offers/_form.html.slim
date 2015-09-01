@@ -23,7 +23,8 @@ hr
         presignedPost: s3_presigned_post_hash,
         bulkUploadPath: new_business_content_images_upload_path(form.object.business),
         buttonSize: 'small',
-        buttonRemove: false
+        buttonRemove: false,
+        showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
     .col-sm-6
       .form-group
         = form.label :offer, 'Describe the Discount *', class: 'control-label'

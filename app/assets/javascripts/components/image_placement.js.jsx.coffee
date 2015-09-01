@@ -41,6 +41,7 @@ ImagePlacement = React.createClass
     libraryImages: []
     libraryLoaded: false
     libraryLoadedAll: false
+    libraryLocalOnly: true
     libraryPage: 1
     libraryVisible: false
     placementID: this.props.placement.id
@@ -186,6 +187,7 @@ ImagePlacement = React.createClass
         <div className="modal-content">
           <div className="modal-header">
             <span className="close" data-dismiss="modal">&times;</span>
+            {this.renderLibraryLocalOnlyCheckbox()}
             <p className="h4 modal-title">Image Library</p>
           </div>
           <div className="modal-body">
@@ -195,10 +197,21 @@ ImagePlacement = React.createClass
       </div>
     </div>`
 
+  renderLibraryLocalOnlyCheckbox: ->
+    if this.props.showLocalOnlyOption
+      `<div className="checkbox pull-right small" style={{marginTop: 3, marginRight: 20}}>
+        <label>
+          <input type="checkbox" onChange={this.toggleLibraryLocalOnly} defaultChecked={true} style={{marginTop: 2}} />
+          Current Site Only
+        </label>
+      </div>`
+
   renderLibraryBody: ->
     if this.state.libraryLoaded
-      `<div className="row row-narrow">
-        {this.renderLibraryImages()}
+      `<div>
+        <div className="row row-narrow">
+          {this.renderLibraryImages()}
+        </div>
         {this.renderLibraryMoreButton()}
       </div>`
     else
@@ -210,8 +223,8 @@ ImagePlacement = React.createClass
     this.state.libraryImages.map this.renderLibraryImage
 
   renderLibraryImage: (image) ->
-    `<div key={image.id} className="col-xs-2">
-      <img onClick={this.selectImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{width: 90, height: 90, cursor: 'pointer'}} data-dismiss="modal" />
+    `<div key={image.id} className="col-xs-3 col-sm-2">
+      <img onClick={this.selectImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{maxWidth: '100%', cursor: 'pointer'}} data-dismiss="modal" />
     </div>`
 
   renderLibraryMoreButton: ->
@@ -247,11 +260,20 @@ ImagePlacement = React.createClass
 
   loadInitialLibraryImages: ->
     unless this.state.libraryLoaded
-      $.get "#{this.props.imagesPath}?page=#{this.state.libraryPage}", this.updateLibrary
+      $.get "#{this.props.imagesPath}?page=#{this.state.libraryPage}&local=#{this.state.libraryLocalOnly}", this.updateLibrary
 
   loadMoreLibraryImages: ->
     unless this.state.libraryLoadedAll
-      $.get "#{this.props.imagesPath}?page=#{this.state.libraryPage}", this.updateLibrary
+      $.get "#{this.props.imagesPath}?page=#{this.state.libraryPage}&local=#{this.state.libraryLocalOnly}", this.updateLibrary
+
+  toggleLibraryLocalOnly: ->
+    changes =
+      libraryImages: []
+      libraryLoaded: false
+      libraryLoadedAll: false
+      libraryLocalOnly: !this.state.libraryLocalOnly
+      libraryPage: 1
+    this.setState changes, this.loadInitialLibraryImages
 
   updateLibrary: (data) ->
     this.setState
@@ -307,19 +329,25 @@ ImagePlacement = React.createClass
     data.submit()
 
   uploadRead: (file, event) ->
-    this.setState
-      imageAlt: ''
-      imageAttachmentCacheURL: event.target.result
-      imageAttachmentContentType: file.type
-      imageAttachmentFileName: file.name
-      imageAttachmentFileSize: file.size
-      imageAttachmentURL: null
-      imageID: null
-      imageTitle: ''
-      placementDestroy: null
-      uploadState: 'uploading'
-    $('#' + this.id('image_alt')).val('')
-    $('#' + this.id('image_title')).val('')
+    if file.type.match(/^image/)
+      this.setState
+        imageAlt: ''
+        imageAttachmentCacheURL: event.target.result
+        imageAttachmentContentType: file.type
+        imageAttachmentFileName: file.name
+        imageAttachmentFileSize: file.size
+        imageAttachmentURL: null
+        imageID: null
+        imageTitle: ''
+        placementDestroy: null
+        uploadState: 'uploading'
+      $('#' + this.id('image_alt')).val('')
+      $('#' + this.id('image_title')).val('')
+    else
+      this.setState
+        uploadState: if ((this.state.imageAttachmentURL and this.state.imageAttachmentURL.length > 0) or (this.state.imageAttachmentURL and this.state.imageAttachmentURL.length > 0)) then 'attached' else 'empty'
+      this.enableClosestFormButton()
+      alert 'Only PNG, JPG and GIF images are allowed.'
 
   uploadProgress: (event, data) ->
     if this.state.uploadState is 'uploading'
@@ -371,11 +399,9 @@ ImagePlacement = React.createClass
   disableClosestFormButton: ->
     formButton = $(this.getDOMNode()).closest('form').find('button[type="submit"]')
     formButton.removeClass('btn-primary').addClass('disabled btn-default')
-    formButton.prepend($('<i class="fa fa-spinner fa-spin" style="margin-right:5px"></i>'))
 
   enableClosestFormButton: ->
     formButton = $(this.getDOMNode()).closest('form').find('button[type="submit"]')
     formButton.removeClass('disabled btn-default').addClass('btn-primary')
-    formButton.find('i').remove()
 
 window.ImagePlacement = ImagePlacement

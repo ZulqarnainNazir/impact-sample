@@ -12,7 +12,8 @@ hr
   placement: form.object.quick_post_image_placement_json,
   presignedPost: s3_presigned_post_hash,
   bulkUploadPath: new_business_content_images_upload_path(form.object.business),
-  buttonSize: 'small'
+  buttonSize: 'small',
+  showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
 hr
 .row
   .col-sm-4

@@ -31,7 +31,8 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
                     bulkUploadPath: new_business_content_images_upload_path(post_form.object.business),
                     buttonSize: 'small',
                     buttonRemove: false,
-                    allowEmbed: true
+                    allowEmbed: true,
+                    showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
           .post-section-fields-warning.text-muted: em This Section will be removed upon Save
         .panel-footer.text-right
           .post-section-fields-content.pull-left style="margin:4px"

@@ -37,7 +37,8 @@ ol.breadcrumb
             label: 'Logo Image',
             placement: form.object.logo_placement_json,
             presignedPost: s3_presigned_post_hash,
-            bulkUploadPath: new_business_content_images_upload_path(form.object)
+            bulkUploadPath: new_business_content_images_upload_path(form.object),
+            showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
           hr
           .form-group
             = form.label :name, class: 'control-label'
