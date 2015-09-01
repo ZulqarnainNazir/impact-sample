@@ -87,7 +87,7 @@ Group = React.createClass
 
   renderBlock: (block) ->
     if block
-      `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} max_blocks={this.props.max_blocks} groupInputName={this.inputName('blocks_attributes')} {...block} />`
+      `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} max_blocks={this.props.max_blocks} groupInputName={this.inputName('blocks_attributes')} contents_path={this.props.contents_path} reviews_path={this.props.reviews_path} {...block} />`
 
   nextMaxBlocksValue: ->
     if this.props.max_blocks is 3

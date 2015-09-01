@@ -1349,7 +1349,7 @@ Webpage = React.createClass
 
   renderGroup: (group, uuid) ->
     if group
-      `<Group key={group.uuid} editing={this.state.editing} updateGroup={this.updateGroup} insertBlock={this.insertBlock} editCustomGroup={this.editCustomGroup} sidebarPosition={this.state.sidebarPosition} switchSidebarPosition={this.switchSidebarPosition} {...group} />`
+      `<Group key={group.uuid} editing={this.state.editing} updateGroup={this.updateGroup} insertBlock={this.insertBlock} editCustomGroup={this.editCustomGroup} sidebarPosition={this.state.sidebarPosition} switchSidebarPosition={this.switchSidebarPosition} contents_path={this.props.contentsPath} reviews_path={this.props.reviewsPath} {...group} />`
 
   renderInsertHeroGroup: ->
     unless this.props.groupTypes.indexOf('HeroGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'HeroGroup')
