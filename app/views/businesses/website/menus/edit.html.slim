@@ -13,7 +13,7 @@ br
   = react_component 'WebsiteMenus',
     header_links: as_nested_json(@website.arranged_nav_links(:header), methods: %i[index key parent_key cached_children internal_value]),
     footer_links: as_nested_json(@website.arranged_nav_links(:footer), methods: %i[index key parent_key cached_children internal_value]),
-    webpages: @website.webpages,
+    webpages: @website.webpages.order('LOWER(name) ASC'),
     webpaths: [{ path: 'events', name: 'Events' }, { path: 'galleries', name: 'Galleries' }, { path: 'reviews', name: 'Reviews' }]
   hr
   .row
