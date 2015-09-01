@@ -27,7 +27,7 @@ h2.h3 Manage your website's content
           span.pull-left> SEO & Meta
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-lg-3
-    = link_to [@business, :website, :webpages] do
+    = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website, :webpages] do
       .panel.panel-success
         .panel-heading
           .row

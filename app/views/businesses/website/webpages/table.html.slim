@@ -42,3 +42,7 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
         th Manage
         th Preview
     = render partial: 'webpage_row', collection: @webpages, as: :webpage, locals: { business: @business }
+
+p = link_to [:new, @business, @website, :custom_page], class: 'btn btn-sm btn-default' do
+  ' Add a Custom Page'
+  i.fa.fa-plus-circle

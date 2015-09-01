@@ -63,7 +63,7 @@ html lang="en"
                       i.fa.fa-table>
                       ' Manage Website
                     ul.list-unstyled
-                      li#dashboard-business-website-pages.requires-plan-upgrade = link_to [@business, :website_webpages] do
+                      li#dashboard-business-website-pages.requires-plan-upgrade = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
                         i.fa.fa-sitemap>
                         | Pages
                       li#dashboard-business-website-menu.requires-plan-upgrade = link_to [:edit, @business, :website_menus] do

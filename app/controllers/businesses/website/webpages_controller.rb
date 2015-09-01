@@ -19,6 +19,6 @@ class Businesses::Website::WebpagesController < Businesses::Website::BaseControl
   end
 
   def destroy
-    destroy_resource @webpage, location: [@business, :website_webpages]
+    destroy_resource @webpage, location: [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages]
   end
 end
