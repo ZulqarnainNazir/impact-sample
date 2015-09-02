@@ -165,17 +165,12 @@ javascript:
       {
         element: '#dashboard-business-data-community',
         content: 'Helping customers understand what the experience is like and your involvement in the community can be useful.',
-        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
-      },
-      {
-        element: '#dashboard-business-website',
-        content: 'Website Overview',
         onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-website').addClass('active'); },
       },
       {
         element: '#dashboard-business-website-pages',
         content: 'Here you’ll find a list of pages on your website and where you can create new ones.',
-        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-data').addClass('active'); },
       },
       {
         element: '#dashboard-business-website-menu',
@@ -192,17 +187,12 @@ javascript:
       {
         element: '#dashboard-business-website-meta',
         content: 'A few useful areas for advanced needs.',
-        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
-      },
-      {
-        element: '#dashboard-business-content',
-        content: 'Content Overview',
         onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-content').addClass('active'); },
       },
       {
         element: '#dashboard-business-content-library',
         content: 'Here is your feed of all posted content - you can edit, duplicate and view prior content.',
-        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-website').addClass('active'); },
       },
       {
         element: '#dashboard-business-content-posts',
@@ -215,32 +205,22 @@ javascript:
       {
         element: '#dashboard-business-content-events',
         content: 'Linked a profile with IMPACT? Here you’ll find events that can be imported and used with IMPACT.',
-        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
-      },
-      {
-        element: '#dashboard-business-accounts',
-        content: 'Accounts Overview',
         onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-accounts').addClass('active'); },
       },
       {
         element: '#dashboard-business-accounts-locable',
         content: 'Link your directory listing from the Locable Publisher Network to get more out of your IMPACT account.',
-        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-content').addClass('active'); },
       },
       {
         element: '#dashboard-business-accounts-facebook',
         content: 'More integrations are coming soon. We’ll notify you as we add more and you’ll be able to link your account here.',
-        onNext: function() { $('#dashboard-collapse li').removeClass('active'); },
-      },
-      {
-        element: '#dashboard-business-crm',
-        content: 'Customers Overview',
         onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-crm').addClass('active'); },
       },
       {
         element: '#dashboard-business-crm-customers',
         content: 'Here you’ll find all of the customers who have been added by completing a form or by your team. You can add new customers to track and request customer reviews here.',
-        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); },
+        onPrev: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-accounts').addClass('active'); },
       },
       {
         element: '#dashboard-business-crm-forms',
@@ -254,7 +234,21 @@ javascript:
     ],
   });
   tour.init();
+  if (#{!current_user.viewed_dashboard_tour}) {
+    tour.start(true);
+    var jqxhr = $.ajax({
+      type: 'POST',
+      url: '#{business_dashboard_tour_viewed_path(@business)}',
+      beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+      cache: false,
+    });
+  }
   $('#dashboard-tour').click(function(event) {
     event.preventDefault();
     tour.start(true);
   });
+css:
+  #step-0 {
+    max-width: 450px;
+    margin-left: -87px;
+  }

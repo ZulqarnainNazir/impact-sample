@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     resources :businesses, only: %i[index] do
       scope module: :businesses do
         resource :dashboard, path: '', only: %i[show]
+        resource :dashboard_tour_viewed, only: %i[create]
 
         namespace :content do
           root to: 'roots#show'
