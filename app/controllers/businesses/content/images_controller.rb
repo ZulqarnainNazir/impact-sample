@@ -1,6 +1,6 @@
 class Businesses::Content::ImagesController < Businesses::Content::BaseController
   before_action only: member_actions do
-    @image = image_scope.includes(:placements).find_by_id!(params[:id])
+    @image = Image.where('business_id = ? OR user_id = ?', @business.id, current_user.id).includes(:placements).find_by_id!(params[:id])
   end
 
   before_action only: :destroy do
@@ -10,7 +10,17 @@ class Businesses::Content::ImagesController < Businesses::Content::BaseControlle
   end
 
   def index
-    @images = image_scope.order(created_at: :desc).page(params[:page]).per(48)
+    if current_user.businesses.count > 1 || current_user.super_user?
+      params[:local] ||= 'true'
+    else
+      params[:local] = 'true'
+    end
+
+    if params[:local] == 'true'
+      @images = Image.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
+    else
+      @images = Image.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
+    end
   end
 
   def update
@@ -22,10 +32,6 @@ class Businesses::Content::ImagesController < Businesses::Content::BaseControlle
   end
 
   private
-
-  def image_scope
-    Image.where('business_id = ? OR user_id = ?', @business.id, current_user.id)
-  end
 
   def image_params
     params.require(:image).permit(
