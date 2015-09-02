@@ -1,6 +1,5 @@
 BlockImagePlacement = React.createClass
   render: ->
-    console.log this.props
     if this.props.kind is 'embeds'
       `<div key="imageEmbed" style={{marginBottom: 15, overflow: 'hidden'}} dangerouslySetInnerHTML={{__html: this.props.embed}} />`
     else if this.imageURL().length > 0

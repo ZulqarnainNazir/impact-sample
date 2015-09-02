@@ -280,8 +280,19 @@ Webpage = React.createClass
   insertGroup: (group_type, block_type) ->
     $('.webpage-save span.btn-default').popover('hide')
     group_uuid = Math.floor(Math.random() * Math.pow(10, 10))
-    block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
+    if group_type is 'CallToActionGroup'
+      block_uuid_1 = Math.floor(Math.random() * Math.pow(10, 10))
+      block_uuid_2 = Math.floor(Math.random() * Math.pow(10, 10))
+      block_uuid_3 = Math.floor(Math.random() * Math.pow(10, 10))
+      blocks =
+        "#{block_uuid_1}": this.defaultBlockAttributes(group_uuid, block_uuid_1, block_type)
+        "#{block_uuid_2}": this.defaultBlockAttributes(group_uuid, block_uuid_2, block_type)
+        "#{block_uuid_3}": this.defaultBlockAttributes(group_uuid, block_uuid_3, block_type)
+    else
+      block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
+      blocks =
+        "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
     changes =
       "#{messageKey}":
         $set: 'Success, block appended to page.'
@@ -293,8 +304,7 @@ Webpage = React.createClass
             kind: 'container'
             max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
             position: $('.webpage-group').length
-            blocks:
-              "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
+            blocks: blocks
             removedBlocks: []
     this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
 
@@ -347,10 +357,21 @@ Webpage = React.createClass
     this.setState React.addons.update(this.state, changes)
 
   updateGroup: (group_uuid, attributes, callback) ->
+    group = this.state.groups[group_uuid]
+    blocks_count = _.size(_.reject(this.props.blocks, (block) -> block is undefined))
+    if group.type is 'CallToActionGroup' and blocks_count < attributes.max_blocks
+      blocks = $.extend {}, group.blocks
+      for n in [1..(attributes.max_blocks - blocks_count)]
+        block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
+        blocks[block_uuid] = this.defaultBlockAttributes(group_uuid, block_uuid, 'CallToActionBlock')
+      attributes['blocks'] = blocks
     changes =
       "#{group_uuid}":
         $merge: attributes
-    this.setState groups: React.addons.update(this.state.groups, changes), callback
+    if callback and !callback.target
+      this.setState groups: React.addons.update(this.state.groups, changes), callback
+    else
+      this.setState groups: React.addons.update(this.state.groups, changes)
 
   updateBlock: (group_uuid, block_uuid, attributes, callback) ->
     changes =
@@ -358,7 +379,10 @@ Webpage = React.createClass
         blocks:
           "#{block_uuid}":
             $merge: attributes
-    this.setState groups: React.addons.update(this.state.groups, changes), callback
+    if callback
+      this.setState groups: React.addons.update(this.state.groups, changes), callback
+    else
+      this.setState groups: React.addons.update(this.state.groups, changes)
 
   editText: (group_uuid, block_uuid, event) ->
     event.preventDefault()

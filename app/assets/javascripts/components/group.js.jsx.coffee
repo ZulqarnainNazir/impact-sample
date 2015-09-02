@@ -23,7 +23,6 @@ Group = React.createClass
       {this.renderCustomHandle()}
       {this.renderSidebarSwitcher()}
       {this.renderCallToActionSizeChanger()}
-      {this.renderCallToActionAdder()}
       <div className={this.groupRowClass()}>
         {this.renderBlocks()}
       </div>
@@ -74,10 +73,6 @@ Group = React.createClass
   renderCallToActionSizeChanger: ->
     if this.props.editing and this.props.type is 'CallToActionGroup'
       `<strong onClick={this.props.updateGroup.bind(null, this.props.uuid, { max_blocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle">{this.props.max_blocks}x</strong>`
-
-  renderCallToActionAdder: ->
-    if this.props.editing and this.props.type is 'CallToActionGroup' and _.reject(this.props.blocks, (block) -> block is undefined).length < this.props.max_blocks
-      `<strong onClick={this.props.insertBlock.bind(null, this.props.uuid, 'CallToActionBlock')} className="webpage-group-call-to-action-add-handle"><i className="fa fa-plus-circle" /></strong>`
 
   renderBlocks: ->
     if this.props.max_blocks

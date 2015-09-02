@@ -55,8 +55,7 @@
 
 .webpage-group-basic-left {
   .webpage-group-sort-handle,
-  .webpage-group-custom-handle,
-  .webpage-group-call-to-action-add-handle {
+  .webpage-group-custom-handle {
     left: -45px;
   }
   .webpage-group-call-to-action-size-handle {
@@ -65,8 +64,7 @@
 }
 .webpage-group-basic-right {
   .webpage-group-sort-handle,
-  .webpage-group-custom-handle,
-  .webpage-group-call-to-action-add-handle {
+  .webpage-group-custom-handle {
     right: -45px;
   }
   .webpage-group-call-to-action-size-handle {
@@ -97,8 +95,7 @@
 .webpage-container-wrapper {
   .webpage-group-basic-left {
     .webpage-group-sort-handle,
-    .webpage-group-custom-handle,
-    .webpage-group-call-to-action-add-handle {
+    .webpage-group-custom-handle {
       left: -52px;
     }
     .webpage-group-call-to-action-size-handle {
@@ -107,8 +104,7 @@
   }
   .webpage-group-basic-right {
     .webpage-group-sort-handle,
-    .webpage-group-custom-handle,
-    .webpage-group-call-to-action-add-handle {
+    .webpage-group-custom-handle {
       right: -52px;
     }
     .webpage-group-call-to-action-size-handle {
@@ -159,12 +155,6 @@
 .webpage-group-call-to-action-size-handle {
   position: absolute;
   top: 3em;
-  cursor: pointer;
-}
-
-.webpage-group-call-to-action-add-handle {
-  position: absolute;
-  top: 4.5em;
   cursor: pointer;
 }
 
