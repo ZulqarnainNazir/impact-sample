@@ -278,6 +278,7 @@ Webpage = React.createClass
     $.extend {}, commonAttributes, blockSpecificAttributes, argumentAttributes
 
   insertGroup: (group_type, block_type) ->
+    this.disableSortable()
     $('.webpage-save span.btn-default').popover('hide')
     group_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
@@ -309,6 +310,7 @@ Webpage = React.createClass
     this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
 
   insertBlock: (group_uuid, block_type) ->
+    this.disableSortable()
     $('.webpage-save span.btn-default').popover('hide')
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
@@ -323,6 +325,7 @@ Webpage = React.createClass
     this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
 
   finishInsert: (messageKey) ->
+    this.enableSortables()
     setTimeout this.clearSuccessMessage.bind(null, messageKey), 1500
 
   clearSuccessMessage: (messageKey) ->
