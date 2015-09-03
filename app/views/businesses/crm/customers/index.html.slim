@@ -7,6 +7,13 @@ ol.breadcrumb
   li.active All Customers
 
 .pull-right
+  = form_tag [@business, :crm_customers], method: :get, style: 'float:left; margin-right:0.5em' do
+    .form-group
+      = label_tag :query, 'Query', class: 'sr-only'
+      .input-group
+        = text_field_tag :query, params[:query], class: 'form-control'
+        span.input-group-btn
+          = button_tag icon('search'), class: 'btn btn-default'
   = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
     => icon 'plus-circle'
     | Add Customer

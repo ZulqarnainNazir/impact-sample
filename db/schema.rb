@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828224747) do
+ActiveRecord::Schema.define(version: 20150903172340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,15 +144,18 @@ ActiveRecord::Schema.define(version: 20150828224747) do
   add_index "customer_notes", ["customer_id"], name: "index_customer_notes_on_customer_id", using: :btree
 
   create_table "customers", force: :cascade do |t|
-    t.integer  "business_id",                 null: false
-    t.text     "name",                        null: false
-    t.text     "email",                       null: false
+    t.integer  "business_id",                     null: false
+    t.text     "name",                            null: false
+    t.text     "email",                           null: false
     t.text     "phone"
     t.text     "notes"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.boolean  "hide",        default: false, null: false
-    t.integer  "read_by",     default: [],    null: false, array: true
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "hide",            default: false, null: false
+    t.integer  "read_by",         default: [],    null: false, array: true
+    t.boolean  "business_client", default: false, null: false
+    t.text     "business_name"
+    t.text     "business_url"
   end
 
   add_index "customers", ["business_id"], name: "index_customers_on_business_id", using: :btree

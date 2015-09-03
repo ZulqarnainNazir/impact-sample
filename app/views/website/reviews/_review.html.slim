@@ -31,6 +31,14 @@ blockquote.review itemprop="review" itemscope="true" itemtype="http://schema.org
   p.review-text.review-quote itemprop="description" = review.description
   p.reviewer
     span.reviewer-name itemprop="author" => review.customer.name
+    - if review.customer.business_client? && (review.customer.business_name? || review.customer.business_url?)
+      span> from
+      - if review.customer.business_name? && review.customer.business_url?
+        = link_to review.customer.business_name, review.customer.business_url, target: :_blank
+      - elsif review.customer.business_url?
+        = link_to review.customer.business_url, review.customer.business_url, target: :_blank
+      - elsif review.customer.business_name?
+        = review.customer.business_name
     - if review.external_type == 'locable'
       span.text-muted> – via
       => link_to review.external_url, target: :_blank do

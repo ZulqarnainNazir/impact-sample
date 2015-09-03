@@ -9,7 +9,14 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
   end
 
   def index
-    @customers = @business.customers.includes(:feedback).where(hide: false).order(customers_order).page(params[:page]).per(20)
+    scope = @business.customers.includes(:feedback).where(hide: false)
+    query = params[:query].to_s.strip
+
+    if query.present?
+      scope = scope.where('name ILIKE ? OR business_name ILIKE ?', "%#{query}%", "%#{query}%")
+    end
+
+    @customers = scope.order(customers_order).page(params[:page]).per(20)
   end
 
   def create
@@ -48,6 +55,9 @@ class Businesses::Crm::CustomersController < Businesses::BaseController
       :name,
       :email,
       :phone,
+      :business_client,
+      :business_name,
+      :business_url,
       customer_notes_attributes: [
         :content,
       ],

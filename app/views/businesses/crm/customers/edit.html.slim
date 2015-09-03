@@ -66,7 +66,22 @@ ol.breadcrumb
             = form.label :name, class: 'control-label'
             = form.text_field :name, class: 'form-control'
           .form-group
+            = form.label :email, class: 'control-label'
+            = form.email_field :email, class: 'form-control'
+          .form-group
             = form.label :phone, class: 'control-label'
             = form.phone_field :phone, class: 'form-control'
+          hr
+          p.checkbox
+            = form.label :business_client do
+              => form.check_box :business_client, data: { show_when_checked: '.customer-business-data' }
+              | Business Client?
+          .well.well-sm.customer-business-data
+            .form-group
+              = form.label :business_name, class: 'control-label'
+              = form.text_field :business_name, class: 'form-control'
+            .form-group
+              = form.label :business_url, class: 'control-label'
+              = form.text_field :business_url, class: 'form-control'
         .panel-footer
           = form.button 'Save Changes', class: 'btn btn-primary'

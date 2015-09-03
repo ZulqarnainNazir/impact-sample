@@ -16,4 +16,12 @@ class Customer < ActiveRecord::Base
   validates :business, presence: true
   validates :email, presence: true
   validates :name, presence: true
+
+  def business_url=(value)
+    if value.blank? || value.to_s.match(/\Ahttp/)
+      super(value.to_s)
+    else
+      super("http://#{value}")
+    end
+  end
 end
