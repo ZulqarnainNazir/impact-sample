@@ -17,6 +17,7 @@ class Businesses::Website::BlogPagesController < Businesses::Website::BaseContro
 
   def blog_page_params
     params.require(:blog_page).permit(
+      :description,
       :title,
       :sidebar_position,
       groups_attributes: groups_attributes,

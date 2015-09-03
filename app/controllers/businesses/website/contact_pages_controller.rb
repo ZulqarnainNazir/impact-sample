@@ -17,6 +17,7 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
 
   def contact_page_params
     params.require(:contact_page).permit(
+      :description,
       :title,
       groups_attributes: groups_attributes,
       main_image_placement_attributes: placement_attributes,

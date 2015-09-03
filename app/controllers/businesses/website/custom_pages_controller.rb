@@ -32,6 +32,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
 
   def custom_page_params
     params.require(:custom_page).permit(
+      :description,
       :title,
       :pathname,
       :name,
