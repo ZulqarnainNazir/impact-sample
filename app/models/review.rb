@@ -1,6 +1,6 @@
 class Review < ActiveRecord::Base
   belongs_to :business
-  belongs_to :customer
+  belongs_to :customer, touch: true
   belongs_to :feedback
 
   accepts_nested_attributes_for :customer
