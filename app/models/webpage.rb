@@ -7,7 +7,7 @@ class Webpage < ActiveRecord::Base
 
   has_many :groups, dependent: :destroy
   has_many :linked_blocks, as: :link, class_name: Block.name
-  has_many :nav_links
+  has_many :nav_links, dependent: :destroy
 
   has_placed_image :main_image
 
