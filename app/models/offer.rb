@@ -12,7 +12,13 @@ class Offer < ActiveRecord::Base
 
   belongs_to :business, touch: true
 
+  has_many :content_categories, through: :content_categorizations
+  has_many :content_categorizations, as: :content_item
+  has_many :content_taggings, as: :content_item
+  has_many :content_tags, through: :content_taggings
+
   has_placed_image :offer_image
+  has_placed_image :main_image
 
   has_attached_file :coupon
 

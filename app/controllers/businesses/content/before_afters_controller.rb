@@ -39,16 +39,24 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
   def before_after_params
     params.require(:before_after).permit(
-      :title,
       :description,
+      :meta_description,
+      :title,
+      content_category_ids: [],
+      content_tag_ids: [],
       after_image_placement_attributes: placement_attributes,
       before_image_placement_attributes: placement_attributes,
+      main_image_placement_attributes: placement_attributes,
     ).deep_merge(
       after_image_placement_attributes: {
         image_user: current_user,
         image_business: @business,
       },
       before_image_placement_attributes: {
+        image_user: current_user,
+        image_business: @business,
+      },
+      main_image_placement_attributes: {
         image_user: current_user,
         image_business: @business,
       },

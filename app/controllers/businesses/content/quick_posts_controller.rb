@@ -39,8 +39,11 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
 
   def quick_post_params
     params.require(:quick_post).permit(
-      :title,
       :content,
+      :meta_description,
+      :title,
+      content_category_ids: [],
+      content_tag_ids: [],
       quick_post_image_placement_attributes: placement_attributes,
     ).tap do |safe_params|
       merge_placement_image_attributes safe_params, :quick_post_image_placement_attributes

@@ -4,6 +4,12 @@
     strong> Gallery
     span.pull-right
       span.text-muted> Posted #{time_ago_in_words gallery.created_at} ago
+      - if gallery.content_categories.any? || gallery.content_tags.any?
+        span.text-muted> in
+        - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
+          = link_to classification.name, '#'
+          - if i < gallery.content_categories.count + gallery.content_tags.count - 1
+            ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
         = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }

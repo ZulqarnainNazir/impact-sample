@@ -141,6 +141,8 @@ Rails.application.routes.draw do
         resources :alliances, only: %i[index]
         resources :authorizations, only: %i[index new create destroy]
         resources :images, only: %i[index]
+        resources :content_categories, only: %i[new create]
+        resources :content_tags, only: %i[index create]
       end
     end
 
@@ -157,6 +159,8 @@ Rails.application.routes.draw do
     resource :share, only: %i[show]
 
     resources :before_afters, only: %i[show]
+    resources :content_categories, only: %i[show], path: 'categories'
+    resources :content_tags, only: %i[show], path: 'tags'
     resources :events, only: %i[index show]
     resources :galleries, only: %i[index show] do
       resources :gallery_images, only: %i[show]

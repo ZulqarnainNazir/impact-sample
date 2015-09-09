@@ -4,6 +4,12 @@
     strong> Quick Post
     span.pull-right
       span.text-muted> Posted #{time_ago_in_words quick_post.created_at} ago
+      - if quick_post.content_categories.any? || quick_post.content_tags.any?
+        span.text-muted> in
+        - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
+          = link_to classification.name, '#'
+          - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
+            ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
         = link_to icon('pencil'), [:edit, @business, :content, quick_post], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, quick_post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
@@ -11,8 +17,8 @@
     h2.h3 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(@business.website)], target: :_blank
   - else
     h2.h3 = quick_post.title
-  = sanitize_html quick_post.content
   - image = quick_post.quick_post_image
   - if image
-    br
     = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+    br
+  = sanitize_html quick_post.content

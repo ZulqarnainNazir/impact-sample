@@ -41,8 +41,12 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
   def post_params
     params.require(:post).permit(
-      :title,
+      :meta_description,
       :published_on,
+      :title,
+      content_category_ids: [],
+      content_tag_ids: [],
+      main_image_placement_attributes: placement_attributes,
       post_sections_attributes: [
         :id,
         :key,
@@ -55,6 +59,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         post_section_image_placement_attributes: placement_attributes,
       ],
     ).tap do |safe_params|
+      merge_placement_image_attributes safe_params, :main_image_placement_attributes
       merge_placement_image_attributes_array safe_params[:post_sections_attributes], :post_section_image_placement_attributes
       if safe_params[:post_sections_attributes]
         safe_params[:post_sections_attributes].each do |_, attr|

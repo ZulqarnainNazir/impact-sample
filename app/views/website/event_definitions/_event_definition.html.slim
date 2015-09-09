@@ -5,6 +5,12 @@
     strong> Event
     span.pull-right
       span.text-muted> Posted #{time_ago_in_words event_definition.created_at} ago
+      - if event_definition.content_categories.any? || event_definition.content_tags.any?
+        span.text-muted> in
+        - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
+          = link_to classification.name, [:website, classification]
+          - if i < event_definition.content_categories.count + event_definition.content_tags.count - 1
+            ' ,
   - cache event_definition do
     .event-widget
       .event

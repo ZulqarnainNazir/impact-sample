@@ -76,6 +76,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       :description,
       :end_date,
       :end_time,
+      :meta_description,
       :price,
       :repetition,
       :start_date,
@@ -83,10 +84,14 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       :subtitle,
       :title,
       :url,
+      content_category_ids: [],
+      content_tag_ids: [],
       event_definition_location_attributes: [:id, :location_id],
       event_image_placement_attributes: placement_attributes,
+      main_image_placement_attributes: placement_attributes,
     ).tap do |safe_params|
       merge_placement_image_attributes safe_params, :event_image_placement_attributes
+      merge_placement_image_attributes safe_params, :main_image_placement_attributes
     end
   end
 end

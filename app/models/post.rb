@@ -1,10 +1,17 @@
 class Post < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  include PlacedImageConcern
 
   belongs_to :business, touch: true
 
+  has_many :content_categories, through: :content_categorizations
+  has_many :content_categorizations, as: :content_item
+  has_many :content_taggings, as: :content_item
+  has_many :content_tags, through: :content_taggings
   has_many :post_sections, dependent: :destroy
+
+  has_placed_image :main_image
 
   accepts_nested_attributes_for :post_sections, allow_destroy: true, reject_if: proc { |a|
     a['_destroy'] == '1' || (

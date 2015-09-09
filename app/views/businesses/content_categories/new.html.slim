@@ -1,0 +1,12 @@
+= form_for [@business, @content_category] do |form|
+  .modal-header
+    span.close &times;
+    p.h4.modal-title Add a Category
+  .modal-body
+    = errors_for @content_category
+    .form-group
+      = form.label :name, class: 'control-label'
+      = form.text_field :name, class: 'form-control'
+  .modal-footer
+    span.btn.btn-default data-dismiss="modal" Close
+    = form.button 'Add Category', class: 'btn btn-primary'

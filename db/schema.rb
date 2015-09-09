@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903172340) do
+ActiveRecord::Schema.define(version: 20150909170540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,11 +31,12 @@ ActiveRecord::Schema.define(version: 20150903172340) do
   add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id", using: :btree
 
   create_table "before_afters", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.text     "title",       null: false
+    t.integer  "business_id",      null: false
+    t.text     "title",            null: false
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.text     "meta_description"
   end
 
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
@@ -133,6 +134,46 @@ ActiveRecord::Schema.define(version: 20150903172340) do
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
   add_index "contact_messages", ["customer_id"], name: "index_contact_messages_on_customer_id", using: :btree
 
+  create_table "content_categories", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "name",        null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "content_categories", ["business_id"], name: "index_content_categories_on_business_id", using: :btree
+
+  create_table "content_categorizations", force: :cascade do |t|
+    t.integer  "content_category_id", null: false
+    t.integer  "content_item_id",     null: false
+    t.string   "content_item_type",   null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "content_categorizations", ["content_category_id"], name: "index_content_categorizations_on_content_category_id", using: :btree
+  add_index "content_categorizations", ["content_item_type", "content_item_id"], name: "index_content_categorizations_on_polymorphic_content_item", using: :btree
+
+  create_table "content_taggings", force: :cascade do |t|
+    t.integer  "content_item_id",   null: false
+    t.string   "content_item_type", null: false
+    t.integer  "content_tag_id",    null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "content_taggings", ["content_item_type", "content_item_id"], name: "index_content_taggings_on_content_item_type_and_content_item_id", using: :btree
+  add_index "content_taggings", ["content_tag_id"], name: "index_content_taggings_on_content_tag_id", using: :btree
+
+  create_table "content_tags", force: :cascade do |t|
+    t.integer  "business_id", null: false
+    t.text     "name",        null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "content_tags", ["business_id"], name: "index_content_tags_on_business_id", using: :btree
+
   create_table "customer_notes", force: :cascade do |t|
     t.integer  "customer_id", null: false
     t.text     "content",     null: false
@@ -171,8 +212,8 @@ ActiveRecord::Schema.define(version: 20150903172340) do
   add_index "event_definition_locations", ["location_id"], name: "index_event_definition_locations_on_location_id", using: :btree
 
   create_table "event_definitions", force: :cascade do |t|
-    t.integer  "business_id",   null: false
-    t.text     "title",         null: false
+    t.integer  "business_id",      null: false
+    t.text     "title",            null: false
     t.text     "subtitle"
     t.text     "description"
     t.text     "price"
@@ -183,10 +224,11 @@ ActiveRecord::Schema.define(version: 20150903172340) do
     t.date     "end_date"
     t.time     "start_time"
     t.time     "end_time"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.text     "external_type"
     t.text     "external_id"
+    t.text     "meta_description"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
@@ -220,11 +262,12 @@ ActiveRecord::Schema.define(version: 20150903172340) do
   add_index "feedbacks", ["customer_id"], name: "index_feedbacks_on_customer_id", using: :btree
 
   create_table "galleries", force: :cascade do |t|
-    t.integer  "business_id", null: false
-    t.text     "title",       null: false
+    t.integer  "business_id",      null: false
+    t.text     "title",            null: false
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.text     "meta_description"
   end
 
   add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
@@ -354,6 +397,7 @@ ActiveRecord::Schema.define(version: 20150903172340) do
     t.text     "coupon_file_name"
     t.integer  "coupon_file_size"
     t.datetime "coupon_updated_at"
+    t.text     "meta_description"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
@@ -407,12 +451,13 @@ ActiveRecord::Schema.define(version: 20150903172340) do
   add_index "post_sections", ["post_id"], name: "index_post_sections_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "business_id",  null: false
-    t.text     "title",        null: false
+    t.integer  "business_id",      null: false
+    t.text     "title",            null: false
     t.text     "description"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.date     "published_on"
+    t.text     "meta_description"
   end
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
@@ -421,8 +466,9 @@ ActiveRecord::Schema.define(version: 20150903172340) do
     t.integer  "business_id"
     t.text     "title"
     t.text     "content"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.text     "meta_description"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree

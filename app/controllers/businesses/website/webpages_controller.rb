@@ -1,8 +1,6 @@
 class Businesses::Website::WebpagesController < Businesses::Website::BaseController
   include RequiresWebPlanConcern
 
-  layout 'application'
-
   before_action only: member_actions do
     @webpage = @website.webpages.find(params[:id])
   end

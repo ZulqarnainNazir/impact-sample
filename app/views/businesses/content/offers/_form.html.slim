@@ -10,6 +10,7 @@
         i.fa.fa-caret-left
       span.btn.btn-default.offer-row-switch
         i.fa.fa-caret-right
+= render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
 hr
 .offer-row class=(form.object.kind || 'image_left')
   = form.hidden_field :kind
@@ -55,6 +56,7 @@ hr
       = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
       = form.file_field :coupon
 hr
+= render partial: 'businesses/content/classification', locals: { form: form }
 .row
   .col-sm-4.col-sm-offset-4
     .form-group.text-center

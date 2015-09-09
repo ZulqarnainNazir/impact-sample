@@ -48,17 +48,25 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
 
   def offer_params
     params.require(:offer).permit(
-      :kind,
+      :coupon,
       :description,
+      :kind,
+      :meta_description,
       :offer,
       :offer_code,
       :terms,
       :title,
       :valid_until,
-      :coupon,
+      content_category_ids: [],
+      content_tag_ids: [],
       offer_image_placement_attributes: placement_attributes,
+      main_image_placement_attributes: placement_attributes,
     ).deep_merge(
       offer_image_placement_attributes: {
+        image_user: current_user,
+        image_business: @business,
+      },
+      main_image_placement_attributes: {
         image_user: current_user,
         image_business: @business,
       },

@@ -9,6 +9,12 @@
         span.text-muted> Posted #{time_ago_in_words post.published_on} ago
       - else
         span.text-muted> Posted #{time_ago_in_words post.created_at} ago
+      - if post.content_categories.any? || post.content_tags.any?
+        span.text-muted> in
+        - (post.content_categories + post.content_tags).each_with_index do |classification, i|
+          = link_to classification.name, '#'
+          - if i < post.content_categories.count + post.content_tags.count - 1
+            ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
         = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }

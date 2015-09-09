@@ -4,6 +4,12 @@
     strong> Before &amp; After
     span.pull-right
       span.text-muted Posted #{time_ago_in_words before_after.created_at} ago
+      - if before_after.content_categories.any? || before_after.content_tags.any?
+        span.text-muted> in
+        - (before_after.content_categories + before_after.content_tags).each_with_index do |classification, i|
+          = link_to classification.name, [:website, classification]
+          - if i < before_after.content_categories.count + before_after.content_tags.count - 1
+            ' ,
   - cache before_after do
     h2.h3 = link_to before_after.title, [:website, before_after]
     - if defined?(:small)

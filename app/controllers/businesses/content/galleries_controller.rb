@@ -39,14 +39,19 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
 
   def gallery_params
     params.require(:gallery).permit(
-      :title,
       :description,
+      :meta_description,
+      :title,
+      content_category_ids: [],
+      content_tag_ids: [],
+      main_image_placement_attributes: placement_attributes,
       gallery_images_attributes: [
         :id,
         :_destroy,
         gallery_image_placement_attributes: placement_attributes,
       ],
     ).tap do |safe_params|
+      merge_placement_image_attributes safe_params, :main_image_placement_attributes
       merge_placement_image_attributes_array safe_params[:gallery_images_attributes], :gallery_image_placement_attributes
       if safe_params[:gallery_images_attributes]
         safe_params[:gallery_images_attributes].each do |_, attr|

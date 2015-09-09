@@ -1,0 +1,14 @@
+- title "Category – #{@content_category.name}"
+- canonical_url website_content_category_url(@content_category)
+
+.webpage-wrapper
+  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li.active View Category
+    .row
+      div class=(@website.content_blog_sidebar? ? 'col-sm-8' : 'col-sm-12')
+        = render posts(@business, page: params[:page])
+        - if @website.content_blog_sidebar?
+          .col-sm-4
+            = render posts(@business), small: true

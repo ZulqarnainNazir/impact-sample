@@ -17,6 +17,8 @@ class Business < ActiveRecord::Base
     has_many :before_afters
     has_many :categorizations
     has_many :contact_messages
+    has_many :content_categories
+    has_many :content_tags
     has_many :customers
     has_many :event_definitions
     has_many :feedbacks

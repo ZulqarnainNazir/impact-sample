@@ -1,6 +1,8 @@
 en:
   activerecord:
     attributes:
+      before_after:
+        meta_description: Meta Description
       blog_page:
         per_page: Items Per Page
       business:
@@ -21,6 +23,7 @@ en:
       customer_note:
         content: Additional Notes
       event_definition:
+        meta_description: Meta Description
         start_date: Start Date
         start_time: Start Time
         end_date: End Date
@@ -33,6 +36,8 @@ en:
         location: Event Location
       feedback:
         serviced_at: Date of Service or Completion
+      gallery:
+        meta_description: Meta Description
       location:
         name: Location Name
         email: Email Address
@@ -40,12 +45,17 @@ en:
         street1: Street Address
         phone_number: Phone Number
         service_area: Service Area
+      offer:
+        meta_description: Meta Description
       page:
         name: Link Name
         pathname: URL Slug
         title: HTML Title
       post:
+        meta_description: Meta Description
         published_on: Publication Date
+      quick_post:
+        meta_description: Meta Description
       redirect:
         from_path: Origin Path
         to_path: Destination

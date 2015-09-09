@@ -1,10 +1,7 @@
 .form-group
   = form.label :title, class: 'control-label'
   = form.text_field :title, class: 'form-control', placeholder: 'Add a 5-12 word description of what you’re posting.'
-.form-group
-  = form.label :content, class: 'control-label'
-  = form.text_area :content, rows: 8, class: 'form-control wysihtml-editor'
-hr
+= render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
 = react_component 'ImagePlacement',
   imagesPath: business_images_path(form.object.business),
   inputPrefix: 'quick_post[quick_post_image_placement_attributes]',
@@ -14,7 +11,11 @@ hr
   bulkUploadPath: new_business_content_images_upload_path(form.object.business),
   buttonSize: 'small',
   showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+.form-group
+  = form.label :content, class: 'control-label'
+  = form.text_area :content, rows: 8, class: 'form-control wysihtml-editor'
 hr
+= render partial: 'businesses/content/classification', locals: { form: form }
 .row
   .col-sm-4
     .form-group.text-center

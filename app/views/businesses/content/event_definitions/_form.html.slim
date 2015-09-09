@@ -6,6 +6,7 @@
     .form-group
       = form.label :subtitle, class: 'control-label'
       = form.text_field :subtitle, class: 'form-control', placeholder: 'Add a brief 4-10 word subtitle for your event.'
+    = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
     = react_component 'ImagePlacement',
       imagesPath: business_images_path(form.object.business),
       inputPrefix: 'event_definition[event_image_placement_attributes]',
@@ -84,6 +85,7 @@
         hr
         .js-event-location-map style="width:100%; height:300px; background:#eee; border:0"
 hr
+= render partial: 'businesses/content/classification', locals: { form: form }
 .row
   .col-sm-4
     = form.button 'Save Event', class: 'btn btn-block btn-primary'

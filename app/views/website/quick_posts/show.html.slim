@@ -13,11 +13,11 @@
               span.text-muted Posted #{time_ago_in_words @quick_post.created_at} ago
           - cache @quick_post do
             h2.h3 = @quick_post.title
-            = sanitize_html @quick_post.content
             - image = @quick_post.quick_post_image
             - if image
-              br
               = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+              br
+            = sanitize_html @quick_post.content
       - if @website.content_blog_sidebar? || @website.events_sidebar?
         .col-sm-4
           - if @website.content_blog_sidebar?

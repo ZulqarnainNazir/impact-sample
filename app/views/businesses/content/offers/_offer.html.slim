@@ -4,6 +4,12 @@
     strong> Offer
     span.pull-right
       span.text-muted> Posted #{time_ago_in_words offer.created_at} ago
+      - if offer.content_categories.any? || offer.content_tags.any?
+        span.text-muted> in
+        - (offer.content_categories + offer.content_tags).each_with_index do |classification, i|
+          = link_to classification.name, '#'
+          - if i < offer.content_categories.count + offer.content_tags.count - 1
+            ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
         = link_to icon('pencil'), [:edit, @business, :content, offer], class: 'btn btn-default'
         = link_to icon('copy'), [:clone, @business, :content, offer], class: 'btn btn-default'

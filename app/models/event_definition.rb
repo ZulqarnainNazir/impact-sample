@@ -5,13 +5,16 @@ class EventDefinition < ActiveRecord::Base
 
   belongs_to :business, touch: true
 
+  has_many :content_categories, through: :content_categorizations
+  has_many :content_categorizations, as: :content_item
+  has_many :content_taggings, as: :content_item
+  has_many :content_tags, through: :content_taggings
+  has_many :events, dependent: :destroy
   has_one :event_definition_location, dependent: :destroy
-
   has_one :location, through: :event_definition_location
 
-  has_many :events, dependent: :destroy
-
   has_placed_image :event_image
+  has_placed_image :main_image
 
   accepts_nested_attributes_for :event_definition_location, allow_destroy: true, reject_if: :all_blank
 
