@@ -12,7 +12,10 @@
       - if post.content_categories.any? || post.content_tags.any?
         span.text-muted> in
         - (post.content_categories + post.content_tags).each_with_index do |classification, i|
-          = link_to classification.name, '#'
+          - if @business.website
+            = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
+          - else
+            = classification.name
           - if i < post.content_categories.count + post.content_tags.count - 1
             ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
@@ -28,4 +31,4 @@
       .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
     - elsif placement.try(:image)
       = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-    = truncate sanitize_html(post.sections_content), length: 500, escape: false
+    = truncate sanitize(post.sections_content), length: 250

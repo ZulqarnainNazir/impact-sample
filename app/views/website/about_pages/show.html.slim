@@ -4,6 +4,5 @@
 - canonical_url website_about_page_url
 
 = render partial: 'website/groups/group', collection: @page.groups.full_width
-.webpage-wrapper
-  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
-    = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
+= webpage_container do
+  = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }

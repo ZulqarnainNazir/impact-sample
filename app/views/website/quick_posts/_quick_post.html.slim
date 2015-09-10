@@ -16,4 +16,4 @@
     - if image
       = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
       br
-    = sanitize_html quick_post.content
+    = truncate sanitize(quick_post.content), length: 250

@@ -53,7 +53,7 @@ class Website::BaseController < ApplicationController
       per(limit)
   end
 
-  def posts(business, page: 1, limit: 4)
-    ContentBlogSearch.new(business).search.page(page).per(limit).records
+  def posts(business, content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+    ContentBlogSearch.new(business, '', content_category_ids: content_category_ids, content_tag_ids: content_tag_ids).search.page(page).per(limit).records
   end
 end

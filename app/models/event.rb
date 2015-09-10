@@ -10,7 +10,15 @@ class Event < ActiveRecord::Base
   validates :occurs_on, presence: true
 
   def as_indexed_json(options = {})
-    as_json(methods: %i[sorting_date])
+    as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
+  end
+
+  def content_category_ids
+    event_definition.try(:content_category_ids) || []
+  end
+
+  def content_tag_ids
+    event_definition.try(:content_tag_ids) || []
   end
 
   def sorting_date

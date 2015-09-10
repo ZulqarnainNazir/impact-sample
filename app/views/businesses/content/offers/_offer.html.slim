@@ -7,7 +7,10 @@
       - if offer.content_categories.any? || offer.content_tags.any?
         span.text-muted> in
         - (offer.content_categories + offer.content_tags).each_with_index do |classification, i|
-          = link_to classification.name, '#'
+          - if @business.website
+            = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
+          - else
+            = classification.name
           - if i < offer.content_categories.count + offer.content_tags.count - 1
             ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
@@ -26,10 +29,10 @@
           = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
       .col-sm-6
         div style="margin:10px 0"
-          = sanitize_html offer.offer
+          = truncate sanitize(offer.offer), length: 250
         - if offer.valid_until?
           p.lead
             ' Offer Valid Until
             strong = offer.valid_until.strftime('%B %e, %Y')
         div style="margin:10px 0"
-          = sanitize_html offer.description
+          = truncate sanitize(offer.description), length: 250

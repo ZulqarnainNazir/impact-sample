@@ -17,8 +17,8 @@
       - if placement.try(:embeds?)
         .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
       - elsif placement.try(:image)
-        - if defined?(:small)
+        - if defined?(small)
           = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
         - else
           = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-      = truncate sanitize_html(post.sections_content), length: 500, escape: false
+      = truncate sanitize(post.sections_content), length: 250

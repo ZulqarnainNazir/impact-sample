@@ -3,6 +3,5 @@
 - image @page.main_image if @page.main_image
 - canonical_url website_blog_page_url
 
-.webpage-wrapper
-  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
-    = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
+= webpage_container do
+  = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }

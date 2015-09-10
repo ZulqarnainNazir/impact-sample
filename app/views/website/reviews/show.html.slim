@@ -1,20 +1,19 @@
 - title "Review – #{@review.title}"
 - canonical_url website_review_url(@review)
 
-.webpage-wrapper
-  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
-    ol.breadcrumb
-      li = link_to icon('home'), :website_root
-      li = link_to 'Customer Reviews', :website_reviews
-      li.active Review Details
-    .row
-      div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
-        = render partial: 'review', object: @review
-        div
-          - if @business.cce_id? && @business.cce_url?
-            = link_to @business.cce_url + '/reviews/new', class: 'btn btn-default', target: :_blank do
-              span.fa.fa-plus-circle>
-              | Leave us a Review
+= webpage_container do
+  ol.breadcrumb
+    li = link_to icon('home'), :website_root
+    li = link_to 'Customer Reviews', :website_reviews
+    li.active Review Details
+  .row
+    div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
+      = render partial: 'review', object: @review
+      div
+        - if @business.cce_id? && @business.cce_url?
+          = link_to @business.cce_url + '/reviews/new', class: 'btn btn-default', target: :_blank do
+            span.fa.fa-plus-circle>
+            | Leave us a Review
+    - if @website.content_blog_sidebar_on_reviews?
       .col-sm-4
-        - if @website.content_blog_sidebar_on_reviews?
-          = render posts(@business), small: true
+        = render posts(@business), small: true

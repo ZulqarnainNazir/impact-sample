@@ -7,7 +7,10 @@
       - if before_after.content_categories.any? || before_after.content_tags.any?
         span.text-muted> in
         - (before_after.content_categories + before_after.content_tags).each_with_index do |classification, i|
-          = link_to classification.name, '#'
+          - if @business.website
+            = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
+          - else
+            = classification.name
           - if i < before_after.content_categories.count + before_after.content_tags.count - 1
             ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
@@ -27,4 +30,4 @@
         - if before_after.after_image
           h3.h4 After
           = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
-  = sanitize_html before_after.description
+  = truncate sanitize(before_after.description), length: 250

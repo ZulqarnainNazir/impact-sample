@@ -7,7 +7,10 @@
       - if quick_post.content_categories.any? || quick_post.content_tags.any?
         span.text-muted> in
         - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
-          = link_to classification.name, '#'
+          - if @business.website
+            = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
+          - else
+            = classification.name
           - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
             ' ,
       span.btn-group.btn-group-sm style="margin-left:8px"
@@ -21,4 +24,4 @@
   - if image
     = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
     br
-  = sanitize_html quick_post.content
+  = truncate sanitize(quick_post.content), length: 250

@@ -1,5 +1,5 @@
-class Website::ContentCategoriesController < Website::BaseController
+class Website::ContentTagsController < Website::BaseController
   def show
-    @content_category = @business.content_categories.find(params[:id])
+    @content_tag = @business.content_tags.find(params[:id])
   end
 end

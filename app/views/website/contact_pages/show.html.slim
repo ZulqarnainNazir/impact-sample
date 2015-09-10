@@ -3,9 +3,8 @@
 - image @page.main_image if @page.main_image
 - canonical_url website_contact_page_url
 
-.webpage-wrapper
-  .webpage-container.container class=('webpage-container-wrapper' if @website.wrap_container == 'true')
-    = render 'alerts'
-    .page-header
-      h1 Contact
-    = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
+= webpage_container do
+  = render 'alerts'
+  .page-header
+    h1 Contact
+  = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }

@@ -1,4 +1,8 @@
 module SanitizeHelper
+  def sanitize(html)
+    Sanitize.fragment(html.to_s, Sanitize::Config::DEFAULT).html_safe
+  end
+
   def sanitize_html(html)
     Sanitize.fragment(html.to_s, Sanitize::Config.merge(Sanitize::Config::RELAXED,
       attributes: {

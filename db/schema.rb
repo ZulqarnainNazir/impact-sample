@@ -145,8 +145,8 @@ ActiveRecord::Schema.define(version: 20150909170540) do
 
   create_table "content_categorizations", force: :cascade do |t|
     t.integer  "content_category_id", null: false
-    t.integer  "content_item_id",     null: false
-    t.string   "content_item_type",   null: false
+    t.integer  "content_item_id"
+    t.string   "content_item_type"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
@@ -157,7 +157,7 @@ ActiveRecord::Schema.define(version: 20150909170540) do
   create_table "content_taggings", force: :cascade do |t|
     t.integer  "content_item_id",   null: false
     t.string   "content_item_type", null: false
-    t.integer  "content_tag_id",    null: false
+    t.integer  "content_tag_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end

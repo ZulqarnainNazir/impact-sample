@@ -19,8 +19,9 @@
       ul.list-unstyled.js-content-tags-list style="margin-top:1em"
         - form.object.content_tags.each do |content_tag|
           li
+            = form.hidden_field :content_tags, multiple: true, value: content_tag.id
             => content_tag.name
-            = icon 'close', '', 'pull-right'
+            = icon 'close', '', class: 'pull-right'
       .js-content-tags-empty style=('display:none' unless form.object.business.content_tags.empty?)
         hr
         em No tags found.
@@ -53,7 +54,7 @@
         $('#js-content-category-new-modal').modal('hide');
         $('.js-content-categories-empty').hide();
         $('.js-content-categories-list').append(
-          $('<li><div class="checkbox"><label><input type="checkbox" name="#{form.object.class.name.underscore}[content_category_ids][]" value="' + parsedData.id + '" /> ' + parsedData.name + '</label></div></li>')
+          $('<li><div class="checkbox"><label><input type="checkbox" name="#{form.object.class.name.underscore}[content_category_ids][]" value="' + parsedData.id + '" checked /> ' + parsedData.name + '</label></div></li>')
         );
       });
       jqxhr.fail(function(response) {
@@ -98,12 +99,28 @@
       if (event.which == 13) {
         var value = $('.js-content-tag-lookup').typeahead('val');
         if (value.length > 0) {
-          $('.js-content-tags-list').append(
-            $('<li>' + value + ' <i class="fa fa-close pull-right" /></li>')
-          );
-          $('.js-content-tag-lookup').typeahead('val', '');
-          $('.js-content-tags-empty').hide();
+          event.preventDefault();
+          jqxhr = $.ajax({
+            type: 'POST',
+            url: '#{business_content_tags_path(form.object.business)}',
+            beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+            cache: false,
+            data: {
+              content_tag: {
+                name: value,
+              },
+            },
+            dataType: 'html',
+          });
+          jqxhr.done(function(data) {
+            var parsedData = JSON.parse(data);
+            $('.js-content-tags-empty').hide();
+            $('.js-content-tags-list').append(
+              $('<li><input type="hidden" name="#{form.object.class.name.underscore}[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value + ' <i class="fa fa-close pull-right" /></li>')
+            );
+            $('.js-content-tag-lookup').typeahead('val', '');
+            $('.js-content-tags-empty').hide();
+          });
         }
-        event.preventDefault();
       }
     });

@@ -26,7 +26,7 @@ class Gallery < ActiveRecord::Base
   validates :title, presence: true
 
   def as_indexed_json(options = {})
-    as_json(methods: %i[sorting_date])
+    as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
 
   def sorting_date

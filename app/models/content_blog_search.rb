@@ -1,7 +1,9 @@
 class ContentBlogSearch
-  def initialize(business, query = '')
+  def initialize(business, query = '', content_category_ids: [], content_tag_ids: [])
     @business = business
     @query = query.to_s.strip
+    @content_category_ids = content_category_ids
+    @content_tag_ids = content_tag_ids
   end
 
   def search
@@ -64,6 +66,22 @@ class ContentBlogSearch
         ],
       },
     }
+
+    if @content_category_ids.any?
+      dsl[:filter][:and] << {
+        terms: {
+          content_category_ids: @content_category_ids,
+        },
+      }
+    end
+
+    if @content_tag_ids.any?
+      dsl[:filter][:and] << {
+        terms: {
+          content_tag_ids: @content_tag_ids,
+        },
+      }
+    end
 
     if @query.present?
       dsl[:query] = {
