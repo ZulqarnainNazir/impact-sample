@@ -7,7 +7,7 @@
     hr
     = react_component 'ImagePlacement',
       imagesPath: business_images_path(form.object.business),
-      inputPrefix: 'offer[main_image_placement_attributes]',
+      inputPrefix: "#{form.object.class.name.underscore}[main_image_placement_attributes]",
       label: 'Custom OG:Image',
       placement: form.object.main_image_placement_json,
       presignedPost: s3_presigned_post_hash,
