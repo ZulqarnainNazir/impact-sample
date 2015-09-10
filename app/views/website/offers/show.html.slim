@@ -11,7 +11,13 @@
           => icon 'ticket'
           strong> Offer
           span.pull-right
-            span.text-muted Posted #{time_ago_in_words @offer.created_at} ago
+            span.text-muted> Posted #{time_ago_in_words @offer.created_at} ago
+            - if @offer.content_categories.any? || @offer.content_tags.any?
+              span.text-muted> in
+              - (@offer.content_categories + @offer.content_tags).each_with_index do |classification, i|
+                = link_to classification.name, [:website, classification]
+                - if i < @offer.content_categories.count + @offer.content_tags.count - 1
+                  ' ,
       - if @offer.valid_until? && @offer.valid_until < Time.zone.now
         p.lead style="color:red" OFFER EXPIRED
       - cache @offer do

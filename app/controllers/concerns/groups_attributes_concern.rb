@@ -36,6 +36,8 @@ module GroupsAttributesConcern
         :items_limit,
         :well_style,
         :custom_class,
+        :content_category_ids,
+        :content_tag_ids,
         :_destroy,
         block_background_placement_attributes: placement_attributes,
         block_image_placement_attributes: placement_attributes,

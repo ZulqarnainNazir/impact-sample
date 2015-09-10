@@ -1,3 +1,3 @@
 - cache [sidebar_blog_feed_block, sidebar_blog_feed_block.cache_sensitive_key(params)] do
   div class=sidebar_blog_feed_block.custom_class
-    = render posts(sidebar_blog_feed_block.business, limit: sidebar_blog_feed_block.items_limit)
+    = render posts(sidebar_blog_feed_block.business, content_category_ids: sidebar_blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: sidebar_blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), limit: sidebar_blog_feed_block.items_limit)

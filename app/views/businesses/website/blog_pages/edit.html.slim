@@ -59,6 +59,8 @@ ol.breadcrumb
       contentsPath: business_content_feed_path(form.object.website.business),
       reviewsPath: business_crm_reviews_path(form.object.website.business),
       internalWebpages: form.object.website.webpages.select(:id, :name),
+      contentCategories: form.object.website.business.content_categories.as_json,
+      contentTags: form.object.website.business.content_tags.as_json,
       linkColor: form.object.website.link_color,
       presignedPost: s3_presigned_post_hash,
       showOnlyLocalMediaLibraryOption: current_user.businesses.count > 1 || current_user.super_user?,

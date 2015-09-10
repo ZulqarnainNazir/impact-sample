@@ -42,6 +42,8 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('items_limit')} value={this.props.items_limit} />
         <input type="hidden" name={this.inputName('well_style')} value={this.props.well_style} />
         <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
+        <input type="hidden" name={this.inputName('content_category_ids')} value={this.props.content_category_ids} />
+        <input type="hidden" name={this.inputName('content_tag_ids')} value={this.props.content_tag_ids} />
         {this.renderHeaderInputs()}
         {this.renderBlockBackgroundPlacementInputs()}
         {this.renderBlockImagePlacementInputs()}

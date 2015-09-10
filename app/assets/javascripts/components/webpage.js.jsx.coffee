@@ -776,16 +776,22 @@ Webpage = React.createClass
     $('#feed_settings_group_uuid').val group_uuid
     $('#feed_settings_block_uuid').val block_uuid
     $('#feed_settings_custom_class').val block.custom_class
+    $('#feed_settings_content_category_ids').val (block.content_category_ids || '').split(' ')
+    $('#feed_settings_content_tag_ids').val (block.content_tag_ids || '').split(' ')
     $('#feed_settings_items_limit').val if parseInt(block.items_limit) > 0 then parseInt(block.items_limit) else 4
     $('#feed_settings_modal').modal('show')
 
   updateFeedSettings: (group_uuid, block_uuid) ->
     this.updateBlock $('#feed_settings_group_uuid').val(), $('#feed_settings_block_uuid').val(),
       custom_class: $('#feed_settings_custom_class').val()
+      content_category_ids: ($('#feed_settings_content_category_ids').val() || []).join(' ')
+      content_tag_ids: ($('#feed_settings_content_tag_ids').val() || []).join(' ')
       items_limit: $('#feed_settings_items_limit').val()
 
   resetFeedSettings: ->
     $('#feed_settings_custom_class').val ''
+    $('#feed_settings_content_category_ids').val null
+    $('#feed_settings_content_tag_ids').val null
     $('#feed_settings_items_limit').val 4
 
   editReviewsSettings: (group_uuid, block_uuid, event) ->
@@ -1119,6 +1125,22 @@ Webpage = React.createClass
                 </label>
                 <input type="text" id="feed_settings_custom_class" className="form-control" />
               </div>
+              <div className="form-group">
+                <label htmlFor="feed_settings_content_category_ids" className="control-label">
+                  Only Include Posts for Categories:
+                </label>
+                <select type="text" id="feed_settings_content_category_ids" className="form-control" multiple>
+                  {this.renderFeedSettingsCategories()}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="feed_settings_content_tag_ids" className="control-label">
+                  Only Include Posts for Tags:
+                </label>
+                <select type="text" id="feed_settings_content_tag_ids" className="form-control" multiple>
+                  {this.renderFeedSettingsTags()}
+                </select>
+              </div>
             </div>
             <div className="modal-footer">
               <span className="btn btn-default" data-dismiss="modal" onClick={this.resetFeedSettings}>Cancel</span>
@@ -1449,6 +1471,14 @@ Webpage = React.createClass
         `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarReviewsBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a reviews widget" data-content="Keep your site fresh with a rotating reviews widget (content posted separately).">Reviews</span>`
       else if not group
         `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarReviewsBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a reviews widget" data-content="Keep your site fresh with a rotating reviews widget (content posted separately).">Reviews</span>`
+
+  renderFeedSettingsCategories: ->
+    for category in this.props.contentCategories
+      `<option value={category.id}>{category.name}</option>`
+
+  renderFeedSettingsTags: ->
+    for tag in this.props.contentTags
+      `<option value={tag.id}>{tag.name}</option>`
 
   switchSidebarPosition: ->
     if this.state.sidebarPosition is 'right'

@@ -23,6 +23,8 @@ module BlockAttributesConcern
       :background_color,
       :foreground_color,
       :link_color,
+      :content_category_ids,
+      :content_tag_ids,
       :spoof,
       :_destroy,
     ]

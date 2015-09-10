@@ -11,7 +11,13 @@
           => icon 'file-text-o'
           strong> Quick Post
           span.pull-right
-            span.text-muted Posted #{time_ago_in_words @quick_post.created_at} ago
+            span.text-muted> Posted #{time_ago_in_words @quick_post.created_at} ago
+            - if @quick_post.content_categories.any? || @quick_post.content_tags.any?
+              span.text-muted> in
+              - (@quick_post.content_categories + @quick_post.content_tags).each_with_index do |classification, i|
+                = link_to classification.name, [:website, classification]
+                - if i < @quick_post.content_categories.count + @quick_post.content_tags.count - 1
+                  ' ,
         - cache @quick_post do
           h2.h3 = @quick_post.title
           - image = @quick_post.quick_post_image

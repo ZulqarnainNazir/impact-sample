@@ -13,7 +13,13 @@
       => @gallery.title
       span.small Click to View All #{pluralize @gallery.gallery_images.count, 'Pic'}
       span.small.pull-right
-        span.small style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.created_at} ago
+        span.small> style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.created_at} ago
+        - if @gallery.content_categories.any? || @gallery.content_tags.any?
+          span.text-muted> in
+          - (@gallery.content_categories + @gallery.content_tags).each_with_index do |classification, i|
+            = link_to classification.name, [:website, classification]
+            - if i < @gallery.content_categories.count + @gallery.content_tags.count - 1
+              ' ,
   - cache @gallery do
     = sanitize_html @gallery.description
     .row.row-narrow style="margin-top:15px"
