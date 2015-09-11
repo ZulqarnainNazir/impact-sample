@@ -36,6 +36,7 @@ module GroupsAttributesConcern
         :items_limit,
         :well_style,
         :custom_class,
+        :content_types,
         :content_category_ids,
         :content_tag_ids,
         :_destroy,

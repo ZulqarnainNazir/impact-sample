@@ -245,10 +245,6 @@ Webpage = React.createClass
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
         sort: (e) -> e.preventDefault()
         items_limit: 4
-      when 'SidebarReviewsBlock'
-        editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
-        sort: (e) -> e.preventDefault()
-        items_limit: 4
       when 'AboutBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editBackground: this.editMedia.bind(null, group_uuid, block_uuid, 'background')
@@ -775,23 +771,33 @@ Webpage = React.createClass
     block = group.blocks[block_uuid]
     $('#feed_settings_group_uuid').val group_uuid
     $('#feed_settings_block_uuid').val block_uuid
-    $('#feed_settings_custom_class').val block.custom_class
+    $('#feed_settings_items_limit').val if parseInt(block.items_limit) > 0 then parseInt(block.items_limit) else 4
+    $('.feed_settings_content_type').prop 'checked', false
+    $('#feed_settings_content_type_quick_post').prop 'checked', (block.content_types || '').indexOf('QuickPost') >= 0
+    $('#feed_settings_content_type_event').prop 'checked', (block.content_types || '').indexOf('Event') >= 0
+    $('#feed_settings_content_type_gallery').prop 'checked', (block.content_types || '').indexOf('Gallery') >= 0
+    $('#feed_settings_content_type_before_after').prop 'checked', (block.content_types || '').indexOf('BeforeAfter') >= 0
+    $('#feed_settings_content_type_offer').prop 'checked', (block.content_types || '').indexOf('Offer') >= 0
+    $('#feed_settings_content_type_post').prop 'checked', (block.content_types || '').indexOf('CustomPost') >= 0
+    $('.feed_settings_content_type').prop('checked', true) if $('.feed_settings_content_type:checked').length == 0
     $('#feed_settings_content_category_ids').val (block.content_category_ids || '').split(' ')
     $('#feed_settings_content_tag_ids').val (block.content_tag_ids || '').split(' ')
-    $('#feed_settings_items_limit').val if parseInt(block.items_limit) > 0 then parseInt(block.items_limit) else 4
+    $('#feed_settings_custom_class').val block.custom_class
     $('#feed_settings_modal').modal('show')
 
   updateFeedSettings: (group_uuid, block_uuid) ->
     this.updateBlock $('#feed_settings_group_uuid').val(), $('#feed_settings_block_uuid').val(),
-      custom_class: $('#feed_settings_custom_class').val()
+      content_types: _.map($('.feed_settings_content_type:checked'), (input) -> return $(input).data().type).join(' ')
       content_category_ids: ($('#feed_settings_content_category_ids').val() || []).join(' ')
       content_tag_ids: ($('#feed_settings_content_tag_ids').val() || []).join(' ')
+      custom_class: $('#feed_settings_custom_class').val()
       items_limit: $('#feed_settings_items_limit').val()
 
   resetFeedSettings: ->
-    $('#feed_settings_custom_class').val ''
+    $('.feed_settings_content_type').prop 'checked', false
     $('#feed_settings_content_category_ids').val null
     $('#feed_settings_content_tag_ids').val null
+    $('#feed_settings_custom_class').val ''
     $('#feed_settings_items_limit').val 4
 
   editReviewsSettings: (group_uuid, block_uuid, event) ->
@@ -1118,16 +1124,45 @@ Webpage = React.createClass
                 </label>
                 <input type="number" id="feed_settings_items_limit" className="form-control" step="1" />
               </div>
+              <p><strong>What Types of Content Do You Want to Include?</strong></p>
+              <div className="row" style={{marginBottom: 5}}>
+                <div className="col-xs-4">
+                  <div className="checkbox" style={{margin: 0}}>
+                    <label><input className="feed_settings_content_type" id="feed_settings_content_type_quick_post" type="checkbox" data-type="QuickPost" defaultChecked="true" /> Quick Posts</label>
+                  </div>
+                </div>
+                <div className="col-xs-4">
+                  <div className="checkbox" style={{margin: 0}}>
+                    <label><input className="feed_settings_content_type" id="feed_settings_content_type_event" type="checkbox" data-type="Event" defaultChecked="true" /> Events</label>
+                  </div>
+                </div>
+                <div className="col-xs-4">
+                  <div className="checkbox" style={{margin: 0}}>
+                    <label><input className="feed_settings_content_type" id="feed_settings_content_type_gallery" type="checkbox" data-type="Gallery" defaultChecked="true" /> Galleries</label>
+                  </div>
+                </div>
+              </div>
+              <div className="row" style={{marginTop: 5}}>
+                <div className="col-xs-4">
+                  <div className="checkbox" style={{margin: 0}}>
+                    <label><input className="feed_settings_content_type" id="feed_settings_content_type_before_after" type="checkbox" data-type="BeforeAfter" defaultChecked="true" /> Before &amp; Afters</label>
+                  </div>
+                </div>
+                <div className="col-xs-4">
+                  <div className="checkbox" style={{margin: 0}}>
+                    <label><input className="feed_settings_content_type" id="feed_settings_content_type_offer" type="checkbox" data-type="Offer" defaultChecked="true" /> Offers</label>
+                  </div>
+                </div>
+                <div className="col-xs-4">
+                  <div className="checkbox" style={{margin: 0}}>
+                    <label><input className="feed_settings_content_type" id="feed_settings_content_type_post" type="checkbox" data-type="CustomPost" defaultChecked="true" /> Custom Posts</label>
+                  </div>
+                </div>
+              </div>
               <hr />
               <div className="form-group">
-                <label htmlFor="feed_settings_custom_class" className="control-label">
-                  Set a Custom Class (Advanced)
-                </label>
-                <input type="text" id="feed_settings_custom_class" className="form-control" />
-              </div>
-              <div className="form-group">
                 <label htmlFor="feed_settings_content_category_ids" className="control-label">
-                  Only Include Posts for Categories:
+                  Only Include Content for Categories:
                 </label>
                 <select type="text" id="feed_settings_content_category_ids" className="form-control" multiple>
                   {this.renderFeedSettingsCategories()}
@@ -1135,11 +1170,18 @@ Webpage = React.createClass
               </div>
               <div className="form-group">
                 <label htmlFor="feed_settings_content_tag_ids" className="control-label">
-                  Only Include Posts for Tags:
+                  Only Include Content for Tags:
                 </label>
                 <select type="text" id="feed_settings_content_tag_ids" className="form-control" multiple>
                   {this.renderFeedSettingsTags()}
                 </select>
+              </div>
+              <hr />
+              <div className="form-group">
+                <label htmlFor="feed_settings_custom_class" className="control-label">
+                  Set a Custom Class (Advanced)
+                </label>
+                <input type="text" id="feed_settings_custom_class" className="form-control" />
               </div>
             </div>
             <div className="modal-footer">
@@ -1421,7 +1463,7 @@ Webpage = React.createClass
       `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContentGroup', 'ContentBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Flexible content options" data-content="Can use a small image or embedded media, all text, or a larger image or embedded media.">Content Block</span>`
 
   renderInsertBlogFeedGroup: ->
-    unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'BlogFeedGroup')
+    unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1
       `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a content feed" data-content="Keep your site fresh with a large content feed (content posted separately).">Blog Feed</span>`
 
   renderInsertReviewsGroup: ->
@@ -1451,9 +1493,9 @@ Webpage = React.createClass
   renderInsertSidebarBlogFeed: ->
     unless this.props.groupTypes.indexOf('SidebarBlogFeedGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
-      if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarBlogFeedBlock')
+      if group
         `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a smaller feed of content" data-content="Keep your site fresh with a small content feed (content posted separately).">Blog Feed</span>`
-      else if not group
+      else
         `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a smaller feed of content" data-content="Keep your site fresh with a small content feed (content posted separately).">Blog Feed</span>`
 
   renderInsertSidebarEventsFeed: ->

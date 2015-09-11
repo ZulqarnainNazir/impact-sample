@@ -1,6 +1,6 @@
 - title @before_after.title
 - description @before_after.meta_description
-- image @before_after.main_image.try(:attachment_url) || @before_after.before_image.try(:attachment_url)
+- image @before_after.main_image.try(:attachment_url) || @before_after.before_image.try(:attachment_url) || @before_after.after_image.try(:attachment_url)
 - canonical_url website_before_after_url(@before_after)
 
 = webpage_container do

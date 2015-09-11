@@ -1,7 +1,8 @@
 class ContentBlogSearch
-  def initialize(business, query = '', content_category_ids: [], content_tag_ids: [])
+  def initialize(business, query = '', content_types: [], content_category_ids: [], content_tag_ids: [])
     @business = business
     @query = query.to_s.strip
+    @content_types = content_types
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
   end
@@ -96,6 +97,19 @@ class ContentBlogSearch
       }
     end
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, Event, Gallery, Offer, Post, QuickPost])
+    if @content_types.any?
+      content_classes = []
+
+      @content_types.each do |type|
+        if %w[QuickPost Event Gallery BeforeAfter Offer Post].include?(type)
+          content_classes << type.constantize
+        end
+        content_classes << Post if type == 'CustomPost'
+      end
+    else
+      content_classes = [QuickPost, Event, Gallery, BeforeAfter, Offer, Post]
+    end
+
+    Elasticsearch::Model.search(dsl, content_classes)
   end
 end
