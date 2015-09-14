@@ -1162,7 +1162,7 @@ Webpage = React.createClass
               <hr />
               <div className="form-group">
                 <label htmlFor="feed_settings_content_category_ids" className="control-label">
-                  Only Include Content for Categories:
+                  Only Include Content for Categories <small>Leave blank to include all</small>
                 </label>
                 <select type="text" id="feed_settings_content_category_ids" className="form-control" multiple>
                   {this.renderFeedSettingsCategories()}
@@ -1170,7 +1170,7 @@ Webpage = React.createClass
               </div>
               <div className="form-group">
                 <label htmlFor="feed_settings_content_tag_ids" className="control-label">
-                  Only Include Content for Tags:
+                  Only Include Content for Tags <small>Leave blank to include all</small>
                 </label>
                 <select type="text" id="feed_settings_content_tag_ids" className="form-control" multiple>
                   {this.renderFeedSettingsTags()}
