@@ -40,7 +40,7 @@ NavLinks = React.createClass
 
   renderChild: (child) ->
     `<li key={child.id}>
-      <a href="#" onClick={this.preventDefault} style={{color: '#000 !important'}}>
+      <a href="#" onClick={this.preventDefault}>
         {child.label}
       </a>
     </li>`
