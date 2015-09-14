@@ -1464,7 +1464,7 @@ Webpage = React.createClass
 
   renderInsertBlogFeedGroup: ->
     unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a content feed" data-content="Keep your site fresh with a large content feed (content posted separately).">Blog Feed</span>`
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a content feed" data-content="Keep your site fresh with a large content feed (content posted separately).">Content Feed</span>`
 
   renderInsertReviewsGroup: ->
     unless this.props.groupTypes.indexOf('ReviewsGroup') is -1 or _.find(this.state.groups, (group) -> group and group.type is 'ReviewsGroup')
@@ -1494,9 +1494,9 @@ Webpage = React.createClass
     unless this.props.groupTypes.indexOf('SidebarBlogFeedGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group
-        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a smaller feed of content" data-content="Keep your site fresh with a small content feed (content posted separately).">Blog Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a smaller feed of content" data-content="Keep your site fresh with a small content feed (content posted separately).">Content Feed</span>`
       else
-        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a smaller feed of content" data-content="Keep your site fresh with a small content feed (content posted separately).">Blog Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarBlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a smaller feed of content" data-content="Keep your site fresh with a small content feed (content posted separately).">Content Feed</span>`
 
   renderInsertSidebarEventsFeed: ->
     unless this.props.groupTypes.indexOf('SidebarEventsFeedGroup') is -1
