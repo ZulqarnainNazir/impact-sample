@@ -41,6 +41,12 @@ ol.breadcrumb
       .col-md-6.col-lg-5
         .webpage-settings
           #advanced-settings.well.well-sm style="display:none"
+            .checkbox
+              = form.label :hide_navigation do
+                => form.check_box :hide_navigation
+                strong> Hide Navigation?
+                small Acts like a landing page.
+            hr
             .form-group
               = form.label :description, class: 'control-label'
               = form.text_area :description, rows: 2, class: 'form-control'

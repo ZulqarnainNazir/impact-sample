@@ -37,6 +37,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
       :pathname,
       :name,
       :sidebar_position,
+      :hide_navigation,
       groups_attributes: groups_attributes,
       main_image_placement_attributes: placement_attributes,
     ).deep_merge(
