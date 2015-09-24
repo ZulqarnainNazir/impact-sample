@@ -1,8 +1,9 @@
 - title @business.name
 - canonical_url website_root_url
 
-.webpage-container.container
+= webpage_container
   .jumbotron.hero-full
-    .webpage-block-col-6.webpage-block-col-6-offset
-      h1 = @business.name
-      = sanitize_html @business.description
+    .row
+      .col-sm-6.col-sm-offset-6
+        h1 = @business.name
+        = sanitize_html @business.description

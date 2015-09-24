@@ -1,13 +1,11 @@
 AboutBlock = React.createClass
   render: ->
-    `<div style={{marginLeft: -15, marginRight: -15}}>
-      <div className="container">
-        <article>
-          <header className="page-header">
-            <h1>About</h1>
-          </header>
-        </article>
-      </div>
+    `<div className="webpage-about">
+      <article>
+        <header className="page-header">
+          <h1>About</h1>
+        </header>
+      </article>
       {this.renderInterior()}
     </div>`
 
@@ -19,39 +17,31 @@ AboutBlock = React.createClass
         this.renderBanner()
 
   renderLeft: ->
-    `<div className="container">
-      <article>
-        <div className="row">
-          <section className="col-sm-4" style={{marginTop: 40}}>
-            <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
-          </section>
-          <section className="col-sm-8">
-            <header className="page-header">
-              <h2>
-                <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
-              </h2>
-              <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.subheading} inline={true} update={this.props.updateSubheading} />
-            </header>
-            <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
-          </section>
+    `<div className="row">
+      <section className="col-sm-4" style={{marginTop: 40}}>
+        <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
+      </section>
+      <section className="col-sm-8">
+        <div className="page-header">
+          <h2>
+            <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
+          </h2>
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.subheading} inline={true} update={this.props.updateSubheading} />
         </div>
-      </article>
+        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
+      </section>
     </div>`
 
   renderBanner: ->
     `<div>
       {this.renderBackgroundImage()}
-      <div className="container">
-        <article>
-          <header className="page-header">
-            <h2>
-              <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
-            </h2>
-            <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.subheading} inline={true} update={this.props.updateSubheading} />
-          </header>
-          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
-        </article>
+      <div className="page-header">
+        <h2>
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />
+        </h2>
+        <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.subheading} inline={true} update={this.props.updateSubheading} />
       </div>
+      <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
     </div>`
 
   renderBackgroundImage: ->

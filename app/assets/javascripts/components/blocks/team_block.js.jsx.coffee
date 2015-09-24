@@ -1,14 +1,12 @@
 TeamBlock = React.createClass
   render: ->
     `<div>
-      <div className="container">
-        <article>
-          <header className="page-header">
-            <h1>Our Team</h1>
-          </header>
-        </article>
-        {this.renderInterior()}
-      </div>
+      <article>
+        <header className="page-header">
+          <h1>Our Team</h1>
+        </header>
+      </article>
+      {this.renderInterior()}
     </div>`
 
   renderInterior: ->
