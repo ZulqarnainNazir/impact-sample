@@ -1,7 +1,9 @@
 $ = jQuery
 
 $.fn.wysihtmlEditor = ->
-  this.summernote
+  editor = this
+
+  editor.summernote
     height: 200
     toolbar: [
       ['display', ['style']],
@@ -18,3 +20,10 @@ $.fn.wysihtmlEditor = ->
         'http://' + link
       else
         link
+    onPaste: (event) ->
+      setTimeout( ->
+        code = editor.code()
+        container = $('<div>').html(code).get(0)
+        sanitizer = new Sanitize(Sanitize.Config.BASIC)
+        editor.code sanitizer.clean_node(container)
+      , 10)

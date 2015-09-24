@@ -37,6 +37,7 @@ RichTextEditor = React.createClass
     defaults =
       toolbar: this.summernoteToolbar()
       onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
+      onPaste: this.onPaste
     if this.props.update
       $.extend {}, defaults, onChange: this.props.update
     else defaults
@@ -58,6 +59,15 @@ RichTextEditor = React.createClass
         ['clear', ['clear']],
         ['misc', ['codeview']],
       ]
+
+  onPaste: (event) ->
+    setTimeout this.onPasteTimeout.bind(null, event), 10
+
+  onPasteTimeout: (event) ->
+    code = $(this.getDOMNode()).code()
+    container = $('<div>').html(code).get(0)
+    sanitizer = new Sanitize(Sanitize.Config.BASIC)
+    $(this.getDOMNode()).code sanitizer.clean_node(container)
 
   html: ->
     if this.props.html and this.props.html.length > 0
