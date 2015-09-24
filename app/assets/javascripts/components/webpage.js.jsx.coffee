@@ -1502,9 +1502,9 @@ Webpage = React.createClass
     unless this.props.groupTypes.indexOf('SidebarEventsFeedGroup') is -1
       group = _.find(this.state.groups, (group) -> group and group.type is 'SidebarGroup')
       if group and not _.find(group.blocks, (block) -> block and block.type is 'SidebarEventsFeedBlock')
-        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add an event-specific feed" data-content="Highlight upcoming events automatically showing nearest events first (content posted separately).">Events Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertBlock.bind(null, group.uuid, 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add an event-specific feed" data-content="Highlight upcoming events automatically showing nearest events first (content posted separately).">Event Feed</span>`
       else if not group
-        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add an event-specific feed" data-content="Highlight upcoming events automatically showing nearest events first (content posted separately).">Events Feed</span>`
+        `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SidebarGroup', 'SidebarEventsFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add an event-specific feed" data-content="Highlight upcoming events automatically showing nearest events first (content posted separately).">Event Feed</span>`
 
   renderInsertSidebarReviews: ->
     unless this.props.groupTypes.indexOf('SidebarReviewsGroup') is -1
