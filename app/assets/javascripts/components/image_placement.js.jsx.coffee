@@ -63,7 +63,7 @@ ImagePlacement = React.createClass
   render: ->
     if this.props.allowEmbed
       `<div>
-        <ul className="nav nav-tabs" style={{marginTop: 0}}>
+        <ul className="nav nav-tabs" style={{marginTop: 0, marginBottom: 12}}>
           <li onClick={this.setKind.bind(null, 'images')} id={this.id('nav_tab_image')} className="active"><a href={'#' + this.id('tab_image')} data-toggle="tab">Image</a></li>
           <li onClick={this.setKind.bind(null, 'embeds')} id={this.id('nav_tab_embed')}><a href={'#' + this.id('tab_embed')} data-toggle="tab">Embed</a></li>
         </ul>

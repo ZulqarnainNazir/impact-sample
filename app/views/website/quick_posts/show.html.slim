@@ -20,9 +20,12 @@
                   ' ,
         - cache @quick_post do
           h2.h3 = @quick_post.title
-          - image = @quick_post.quick_post_image
-          - if image
-            = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'thumbnail', style: 'max-width: 100%'
+          - placement = @quick_post.quick_post_image_placement
+          - if placement.try(:embeds?)
+            .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+            br
+          - elsif placement.try(:image)
+            = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
             br
           = sanitize_html @quick_post.content
     - if @website.content_blog_sidebar? || @website.events_sidebar?

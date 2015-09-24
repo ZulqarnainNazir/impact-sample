@@ -14,6 +14,7 @@
       placement: form.object.event_image_placement_json,
       presignedPost: s3_presigned_post_hash,
       bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+      allowEmbed: true,
       showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
     .form-group
       = form.label :description, class: 'control-label'
