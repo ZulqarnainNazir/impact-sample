@@ -19,13 +19,13 @@ class Businesses::Accounts::LocablesController < Businesses::BaseController
       update_resource @business, locable_params, location: [:edit, @business, :accounts_locable] do |success|
         if success
           if @business.automated_export_locable_events == '1'
-            EventsExportJob.perform_later(@business)
+            LocableEventsExportJob.perform_later(@business)
           end
           if @business.automated_export_locable_reviews == '1'
-            ReviewsExportJob.perform_later(@business)
+            LocableReviewsExportJob.perform_later(@business)
           end
           if @business.automated_import_locable_reviews == '1'
-            ReviewsImportJob.perform_later(@business)
+            LocableReviewsImportJob.perform_later(@business)
           end
         end
       end

@@ -153,7 +153,7 @@ html lang="en"
                     li#dashboard-business-accounts-locable = link_to [:edit, @business, :accounts_locable] do
                       i.fa.fa-square>
                       | Locable
-                    li#dashboard-business-accounts-facebook style="pointer-events:none; opacity:0.4" = link_to '#' do
+                    li#dashboard-business-accounts-facebook = link_to [:edit, @business, :accounts_facebook] do
                       i.fa.fa-facebook-square>
                       | Facebook
                     li style="pointer-events:none; opacity:0.4" = link_to '#' do

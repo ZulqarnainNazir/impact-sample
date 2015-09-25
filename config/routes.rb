@@ -134,6 +134,9 @@ Rails.application.routes.draw do
         namespace :accounts do
           root to: 'roots#show'
           resource :locable, only: %i[edit update destroy]
+          resource :facebook, only: %i[edit update destroy] do
+            get :authenticate
+          end
         end
 
         resource :marketing, only: %i[show]

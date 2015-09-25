@@ -1,4 +1,4 @@
-class EventsExportJob < ApplicationJob
+class LocableEventsExportJob < ApplicationJob
   queue_as :default
 
   def perform(business)

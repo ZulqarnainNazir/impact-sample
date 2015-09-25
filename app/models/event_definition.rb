@@ -30,7 +30,7 @@ class EventDefinition < ActiveRecord::Base
   end
 
   after_save do
-    EventsExportJob.perform_later(business)
+    LocableEventsExportJob.perform_later(business)
   end
 
   def start_date=(*args)

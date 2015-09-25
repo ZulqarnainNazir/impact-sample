@@ -13,6 +13,7 @@ ol.post-sections-associations
   = render partial: 'businesses/content/post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form }
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
+= render partial: 'businesses/content/social', locals: { form: form }
 .row
   .col-sm-4.col-sm-offset-4
     = form.button 'Save Post', class: 'btn btn-block btn-primary'

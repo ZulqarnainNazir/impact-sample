@@ -1,0 +1,50 @@
+- title 'Link Your Facebook Page'
+
+ol.breadcrumb
+  li = link_to icon('home'), :root
+  li = link_to @business.name, [@business, :dashboard]
+  li = link_to 'Linked Accounts', [@business, :accounts_root]
+  li.active Facebook
+
+- if @linked_facebook_page
+  .page-header
+    h1.h2 Your Linked Facebook Page
+  .panel.panel-default style="margin-bottom:2em"
+    .panel-body
+      .row
+        .col-sm-9
+          h2.h4 = link_to "https://www.facebook.com/#{@business.facebook_id}", target: :_blank do
+            => @business.facebook_id
+            span.fa.fa-external-link
+          p: code = "https://www.facebook.com/#{@business.facebook_id}"
+        .col-sm-3
+          = form_for @business, url: [@business, :accounts_facebook], method: :delete do |form|
+            = form.button class: 'btn btn-block btn-danger' do
+              span.fa.fa-chain-broken>
+              | Unlink
+  = form_for @business, url: [@business, :accounts_facebook] do |form|
+    .checkbox
+      = form.label :automated_export_facebook_reviews do
+        => form.check_box :automated_export_facebook_reviews
+        | Automatically Export Reviews to Facebook
+    p.help-block Existing reviews will be exported shortly after enabling this setting. New inbound reviews will be published to Facebook immediately.
+    hr
+    .form-group
+      = form.button 'Save Changes', class: 'btn btn-primary'
+- else
+  .page-header
+    h1.h2 Link Your Facebook Page
+  = form_for @business, url: [@business, :accounts_facebook] do |form|
+    .row
+      .col-sm-9
+        .form-group
+          = form.label :facebook_id, 'Specify your Facebook Page URL or slug', class: 'control-label'
+          = form.text_field :facebook_id, class: 'form-control'
+        p.help-block
+          ' e.g.
+          code
+            | /my-facebook-business
+      .col-sm-3
+        = form.button class: 'btn btn-block btn-sm btn-success', style: 'margin-top:2em' do
+          span.fa.fa-link>
+          | Link Accounts

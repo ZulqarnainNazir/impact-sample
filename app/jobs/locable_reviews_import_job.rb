@@ -1,4 +1,4 @@
-class ReviewsImportJob < ApplicationJob
+class LocableReviewsImportJob < ApplicationJob
   queue_as :default
 
   def perform(business)

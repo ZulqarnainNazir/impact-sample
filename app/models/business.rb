@@ -2,6 +2,7 @@ class Business < ActiveRecord::Base
   include PlacedImageConcern
 
   store_accessor :settings,
+    :automated_export_facebook_reviews,
     :automated_export_locable_events,
     :automated_export_locable_reviews,
     :automated_import_locable_events,
