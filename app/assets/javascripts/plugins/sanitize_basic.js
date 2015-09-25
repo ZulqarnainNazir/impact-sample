@@ -6,7 +6,7 @@ Sanitize.Config.BASIC = {
   elements: [
      'a', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'dl', 'dt', 'em',
      'i', 'li', 'ol', 'p', 'pre', 'q', 'small', 'strike', 'strong', 'sub',
-     'sup', 'u', 'ul'],
+     'sup', 'u', 'ul', 'h2', 'h3', 'h4', 'h5', 'h6'],
 
    attributes: {
      'a'         : ['href'],
