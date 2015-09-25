@@ -5,6 +5,8 @@
         = link_to image_tag('impact-light.png', alt: 'IMPACT Marketing Suite'), :root, class: 'navbar-brand', style: 'padding: 5px 15px;'
       ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
+          li = link_to 'http://impactsupport.locable.com/', target: :_blank, style: 'color:#bababa' do
+            i.fa.fa-life-ring
           li.dropdown
             = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }, role: 'button', aria: { expanded: false } do
               i.fa.fa-user>
