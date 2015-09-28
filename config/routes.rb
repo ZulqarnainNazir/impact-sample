@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   scope constraints: PlatformConstraint.new do
     root to: 'landings#show'
 
+    get :authenticate_facebook_page, to: 'authentications#facebook_page'
+
     devise_for :users, controllers: {
       confirmations: 'users/confirmations',
       passwords: 'users/passwords',
@@ -134,9 +136,7 @@ Rails.application.routes.draw do
         namespace :accounts do
           root to: 'roots#show'
           resource :locable, only: %i[edit update destroy]
-          resource :facebook, only: %i[edit update destroy] do
-            get :authenticate
-          end
+          resource :facebook, only: %i[edit update destroy]
         end
 
         resource :marketing, only: %i[show]

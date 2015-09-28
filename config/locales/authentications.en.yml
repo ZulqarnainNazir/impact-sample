@@ -1,0 +1,5 @@
+en:
+  authentications:
+    facebook_page:
+      alert: There was a problem linking your Facebook account.
+      notice: Your Facebook Page was linked successfully.

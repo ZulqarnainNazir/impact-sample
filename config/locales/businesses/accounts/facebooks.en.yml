@@ -5,8 +5,5 @@ en:
         update:
           alert: There was a problem linking your Facebook account.
           notice: Your Facebook automation settings were updated successfully.
-        authenticate:
-          alert: There was a problem linking your Facebook account.
-          notice: Your Facebook Page was linked successfully.
         destroy:
           notice: Your Facebook account was successfully unlinked.
