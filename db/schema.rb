@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925184825) do
+ActiveRecord::Schema.define(version: 20150928180435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20150925184825) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
+    t.text     "facebook_id"
   end
 
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
@@ -230,6 +231,7 @@ ActiveRecord::Schema.define(version: 20150925184825) do
     t.text     "external_type"
     t.text     "external_id"
     t.text     "meta_description"
+    t.text     "facebook_id"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
@@ -269,6 +271,7 @@ ActiveRecord::Schema.define(version: 20150925184825) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
+    t.text     "facebook_id"
   end
 
   add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
@@ -399,6 +402,7 @@ ActiveRecord::Schema.define(version: 20150925184825) do
     t.integer  "coupon_file_size"
     t.datetime "coupon_updated_at"
     t.text     "meta_description"
+    t.text     "facebook_id"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
@@ -459,6 +463,7 @@ ActiveRecord::Schema.define(version: 20150925184825) do
     t.datetime "updated_at",       null: false
     t.date     "published_on"
     t.text     "meta_description"
+    t.text     "facebook_id"
   end
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
@@ -470,6 +475,7 @@ ActiveRecord::Schema.define(version: 20150925184825) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
+    t.text     "facebook_id"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree
