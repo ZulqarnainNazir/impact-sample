@@ -13,6 +13,11 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     create_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
       if success
+        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
+          @gallery.update_column :facebook_id, result['id']
+        end
         Gallery.__elasticsearch__.refresh_index!
         intercom_event 'created-gallery'
       end
@@ -22,6 +27,15 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def update
     update_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
       if success
+        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          if @gallery.facebook_id?
+            page_graph.put_connections @gallery.facebook_id, gallery_facebook_params
+          else
+            result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
+            @gallery.update_column :facebook_id, result['id']
+          end
+        end
         Gallery.__elasticsearch__.refresh_index!
       end
     end
@@ -30,6 +44,10 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def destroy
     destroy_resource @gallery, location: [@business, :content_feed] do |success|
       if success
+        if @business.facebook_id? && @business.facebook_token? && @gallery.facebook_id?
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          page_graph.delete_object @gallery.facebook_id
+        end
         Gallery.__elasticsearch__.refresh_index!
       end
     end
@@ -59,5 +77,15 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         end
       end
     end
+  end
+
+  def gallery_facebook_params
+    {
+      backdated_time: @gallery.created_at,
+      caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
+      link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
+      name: @gallery.title,
+      picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
+    }
   end
 end

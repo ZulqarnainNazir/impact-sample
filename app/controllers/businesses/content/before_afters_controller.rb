@@ -13,6 +13,11 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def create
     create_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
       if success
+        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
+          @before_after.update_column :facebook_id, result['id']
+        end
         BeforeAfter.__elasticsearch__.refresh_index!
         intercom_event 'created-before-after'
       end
@@ -22,6 +27,15 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def update
     update_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
       if success
+        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          if @before_after.facebook_id?
+            page_graph.put_connections @before_after.facebook_id, before_after_facebook_params
+          else
+            result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
+            @before_after.update_column :facebook_id, result['id']
+          end
+        end
         BeforeAfter.__elasticsearch__.refresh_index!
       end
     end
@@ -30,6 +44,10 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def destroy
     destroy_resource @before_after, location: [@business, :content_feed] do |success|
       if success
+        if @business.facebook_id? && @business.facebook_token? && @before_after.facebook_id?
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          page_graph.delete_object @before_after.facebook_id
+        end
         BeforeAfter.__elasticsearch__.refresh_index!
       end
     end
@@ -61,5 +79,15 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
         image_business: @business,
       },
     )
+  end
+
+  def before_after_facebook_params
+    {
+      backdated_time: @before_after.created_at,
+      caption: Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT),
+      link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
+      name: @before_after.title,
+      picture: @before_after.after_image.try(:attachment_url),
+    }
   end
 end

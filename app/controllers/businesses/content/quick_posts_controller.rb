@@ -15,7 +15,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       if success
         if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
           page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          result = page_graph.put_connections @business.facebook_id, 'feed', message: @quick_post.title
+          result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
           @quick_post.update_column :facebook_id, result['id']
         end
         QuickPost.__elasticsearch__.refresh_index!
@@ -30,10 +30,10 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
         if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
           page_graph = Koala::Facebook::API.new(@business.facebook_token)
           if @quick_post.facebook_id?
-            #page_graph.put_connections @business.facebook_id, @quick_post.facebook_id, message: @quick_post.title
+            page_graph.put_connections @quick_post.facebook_id, quick_post_facebook_params
           else
-            result = page_graph.put_connections @business.facebook_id, 'feed', message: @quick_post.title
-            @quick_post.update_column :facebook_id, result['id'].split('_').last
+            result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+            @quick_post.update_column :facebook_id, result['id']
           end
         end
         QuickPost.__elasticsearch__.refresh_index!
@@ -66,5 +66,15 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     ).tap do |safe_params|
       merge_placement_image_attributes safe_params, :quick_post_image_placement_attributes
     end
+  end
+
+  def quick_post_facebook_params
+    {
+      backdated_time: @quick_post.created_at,
+      caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
+      link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
+      name: @quick_post.title,
+      picture: @quick_post.quick_post_image.try(:attachment_url),
+    }
   end
 end

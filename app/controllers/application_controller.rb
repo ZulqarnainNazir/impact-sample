@@ -37,4 +37,13 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  # Find the website‘s custom host or IMPACT subdomain.
+  def website_host(website)
+    if website.webhost.try(:primary?)
+      website.webhost.name
+    else
+      [website.subdomain, Rails.application.secrets.host].join('.')
+    end
+  end
 end

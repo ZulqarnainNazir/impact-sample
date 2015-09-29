@@ -16,6 +16,11 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     create_resource @post, post_params, location: [@business, :content_feed] do |success|
       if success
         fix_post_section_parent_ids(@post.post_sections)
+        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
+          @post.update_column :facebook_id, result['id']
+        end
         Post.__elasticsearch__.refresh_index!
         intercom_event 'created-custom-post'
       end
@@ -26,6 +31,15 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     update_resource @post, post_params, location: [@business, :content_feed] do |success|
       if success
         fix_post_section_parent_ids(@post.post_sections)
+        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          if @post.facebook_id?
+            page_graph.put_connections @post.facebook_id, post_facebook_params
+          else
+            result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
+            @post.update_column :facebook_id, result['id']
+          end
+        end
         Post.__elasticsearch__.refresh_index!
       end
     end
@@ -33,7 +47,13 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
   def destroy
     destroy_resource @post, location: [@business, :content_feed] do |success|
-      Post.__elasticsearch__.refresh_index! if success
+      if success
+        if @business.facebook_id? && @business.facebook_token? && @post.facebook_id?
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
+          page_graph.delete_object @post.facebook_id
+        end
+        Post.__elasticsearch__.refresh_index!
+      end
     end
   end
 
@@ -79,6 +99,27 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       else
         section.update! parent_id: nil
       end
+    end
+  end
+
+  def post_facebook_params
+    if @post.published_on > Time.now
+      {
+        caption: Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @post, only_path: false, host: website_host(@business.website)]),
+        name: @post.title,
+        picture: @post.post_sections.first.try(:post_section_image).try(:attachment_url),
+        published: false,
+        scheduled_publish_time: @post.published_at.to_i,
+      }
+    else
+      {
+        backdated_time: @post.published_at,
+        caption: Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @post, only_path: false, host: website_host(@business.website)]),
+        name: @post.title,
+        picture: @post.post_sections.first.try(:post_section_image).try(:attachment_url),
+      }
     end
   end
 end
