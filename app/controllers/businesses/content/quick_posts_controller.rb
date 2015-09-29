@@ -45,6 +45,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     destroy_resource @quick_post, location: [@business, :content_feed] do |success|
       if success
         if @business.facebook_id? && @business.facebook_token? && @quick_post.facebook_id?
+          page_graph = Koala::Facebook::API.new(@business.facebook_token)
           page_graph.delete_object @quick_post.facebook_id
         end
         QuickPost.__elasticsearch__.refresh_index!
