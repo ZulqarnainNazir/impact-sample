@@ -59,23 +59,13 @@ $.fn.postSectionsAssociations = ->
 
     updateAssociationsFields = (i, item, parent) ->
       item = $(item)
-      item.find('> .post-section-tolerance > input[name*="position"]').val(i)
+      item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="position"]').val(i)
       if parent
-        item.find('> .post-section-tolerance > input[name*="parent_key"]').val(parent.data().key)
+        item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="parent_key"]').val(parent.data().key)
       else
-        item.find('> .post-section-tolerance > input[name*="parent_key"]').val('')
+        item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="parent_key"]').val('')
       item.find('> ol > li').each (i, child) ->
         updateAssociationsFields(i, child, item)
-
-    disableWYSIHTML = ->
-      associations.find('.wysihtml5-sandbox').remove()
-      $('body').removeClass('wysihtml5-supported')
-      associations.find('iframe.wysihtml5-sandbox, input[name="_wysihtml5_mode"]').remove();
-      associations.find('.wysihtml5-toolbar').remove()
-      associations.find('textarea').css('display', 'block')
-
-    enableWYSIHTML = ->
-      associations.find('textarea').wysihtmlEditor()
 
     # Enable nested sortable
     associations.nestedSortable
@@ -92,8 +82,6 @@ $.fn.postSectionsAssociations = ->
       tabSize: 20
       tolerance: 'pointer'
       toleranceElement: '> .post-section-tolerance'
-      start: disableWYSIHTML
-      stop: enableWYSIHTML
       update: updateAssociations
 
     # Cycle through the previous post section kinds.
