@@ -6,14 +6,25 @@ ol.breadcrumb
   li = link_to 'CRM', [@business, :crm_root]
   li.active Reviews
 
-- unless @business.cce_id?
+- unless @business.cce_id? && @business.facebook_id? && @business.facebook_token?
   .alert.alert-info role="alert"
-    p
-      strong> Show off your reviews
-      | by linking or claiming your Locable business!
-    p = link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
-
-.pull-right
+    - if @business.cce_id?
+      p
+        strong> Show off your reviews
+        | by linking your Facebook business page!
+      p = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
+    - elsif @business.facebook_id? && @business.facebook_token?
+      p
+        strong> Show off your reviews
+        | by linking or claiming your Locable business!
+      p = link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
+    - else
+      p
+        strong> Show off your reviews
+        | by linking or claiming your Locable or Facebook business pages!
+      p
+        => link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
+        = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
 
 .pull-right
   - if @reviews.any?
@@ -29,9 +40,21 @@ ol.breadcrumb
 - if @reviews.empty?
   p style="margin:2em 0"
     em No reviews found. #{link_to 'Add a customer', [:new, @business, :crm_customer]} to send them an invitation to review your business.
+  = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
+    .text-right style="margin-top:1em"
+      span> Automatically publish reviews rated at or above
+      => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
+      span.text-muted> –
+      = form.button 'Save', class: 'btn btn-xs btn-default'
   hr
 - else
   p style="margin:2em 0" = page_entries_info @reviews
+  = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
+    .text-right style="margin-top:1em; margin-bottom: 1em;"
+      span> Automatically publish reviews rated at or above
+      => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
+      span.text-muted> –
+      = form.button 'Save', class: 'btn btn-xs btn-default'
   .panel.panel-default
     .table-responsive
       table.table.table-striped
@@ -60,10 +83,3 @@ ol.breadcrumb
         tbody
           = render @reviews
   = paginate @reviews
-
-= form_for @business, url: [@business, :crm, :reviews_automation] do |form|
-  .text-center style="margin-top:2em"
-    span> Automatically publish reviews rated at or above
-    => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
-    span.text-muted> –
-    = form.button 'Save', class: 'btn btn-xs btn-default'

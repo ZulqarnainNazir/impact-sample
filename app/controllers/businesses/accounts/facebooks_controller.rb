@@ -18,7 +18,7 @@ class Businesses::Accounts::FacebooksController < Businesses::BaseController
       end
     else
       begin
-        @business.facebook_id = params[:business].try(:[], :facebook_id).to_s.split('/').last.split('?').first
+        @business.facebook_id = facebook_id
         callback_url = url_for([:authenticate_facebook_page, business_id: @business.id, facebook_id: @business.facebook_id, only_path: false])
         oauth = Koala::Facebook::OAuth.new(Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, callback_url)
         redirect_to oauth.url_for_oauth_code(permissions: 'manage_pages publish_pages')
@@ -39,5 +39,10 @@ class Businesses::Accounts::FacebooksController < Businesses::BaseController
     params.require(:business).permit(
       :automated_export_facebook_reviews,
     )
+  end
+
+  def facebook_id
+    path = URI.parse(params[:business].try(:[], :facebook_id)).path rescue ''
+    path.sub(/\A\//, '').split('/').first
   end
 end

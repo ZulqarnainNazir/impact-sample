@@ -24,9 +24,10 @@ ol.breadcrumb
               | Unlink
   = form_for @business, url: [@business, :accounts_facebook] do |form|
     .checkbox
-      = form.label :automated_export_facebook_reviews do
+      => form.label :automated_export_facebook_reviews do
         => form.check_box :automated_export_facebook_reviews
         | Automatically Export Reviews to Facebook
+      small = link_to 'Edit Settings', [@business, :crm_reviews]
     p.help-block Existing reviews will be exported shortly after enabling this setting. New inbound reviews will be published to Facebook immediately.
     hr
     .form-group

@@ -27,7 +27,8 @@ class Review < ActiveRecord::Base
 
   after_save do
     self.customer.save if customer
-    ReviewsExportJob.perform_later(business)
+    FacebookReviewsExportJob.perform_later(business)
+    LocableReviewsExportJob.perform_later(business)
   end
 
   after_create do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928180435) do
+ActiveRecord::Schema.define(version: 20151009163145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -514,6 +514,7 @@ ActiveRecord::Schema.define(version: 20150928180435) do
     t.date     "serviced_at"
     t.boolean  "hide",                                   default: false, null: false
     t.integer  "read_by",                                default: [],    null: false, array: true
+    t.text     "facebook_id"
   end
 
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree
