@@ -18,6 +18,16 @@
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           p.help-block Currently awaiting confirmation for: <em>#{resource.unconfirmed_email}</em>
       hr
+      p: strong Would you like us to send you simple marketing reminders?
+      .checkbox
+        => form.label :email_marketing_reminders do
+          => form.check_box :email_marketing_reminders
+          | Send them via email?
+      .checkbox
+        => form.label :app_marketing_reminders do
+          => form.check_box :app_marketing_reminders
+          | Remind me when I'm signed in?
+      hr
       .form-group
         => form.label :password, class: 'control-label'
         = form.password_field :password, autocomplete: 'off', class: 'form-control'

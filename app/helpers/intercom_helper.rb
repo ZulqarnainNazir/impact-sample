@@ -14,6 +14,8 @@ module IntercomHelper
         created_at: current_user.created_at.to_i,
         last_sign_in_at: current_user.last_sign_in_at.to_i,
         last_url_visited: url_for(url_options),
+        app_marketing_reminders: current_user.app_marketing_reminders,
+        email_marketing_reminders: current_user.email_marketing_reminders,
         owned_free_businesses: current_user.owned_businesses.free.count,
         owned_web_businesses: current_user.owned_businesses.web.count,
         owned_primary_businesses: current_user.owned_businesses.primary.count,
