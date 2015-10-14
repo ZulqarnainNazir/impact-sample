@@ -5,6 +5,7 @@
 
 = webpage_container do
   = render 'alerts'
+  = errors_for @contact_message
   .page-header
     h1 Contact
   = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
