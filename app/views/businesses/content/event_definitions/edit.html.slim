@@ -8,5 +8,5 @@ ol.breadcrumb
   li.active Edit Event
 
 = errors_for @event_definition
-= form_for @event_definition, url: [@business, :content, @event_definition] do |form|
+= form_for @event_definition, url: [@business, :content, @event_definition], html: { class: 'save-once' } do |form|
   = render form

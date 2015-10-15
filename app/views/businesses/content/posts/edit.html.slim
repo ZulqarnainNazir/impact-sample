@@ -8,5 +8,5 @@ ol.breadcrumb
   li.active Custom Post
 
 = errors_for @post
-= form_for @post, url: [@business, :content, @post] do |form|
+= form_for @post, url: [@business, :content, @post], html: { class: 'save-once' } do |form|
   = render form

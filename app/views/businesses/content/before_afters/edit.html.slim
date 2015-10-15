@@ -8,5 +8,5 @@ ol.breadcrumb
   li.active Edit Before &amp; After
 
 = errors_for @before_after
-= form_for @before_after, url: [@business, :content, @before_after] do |form|
+= form_for @before_after, url: [@business, :content, @before_after], html: { class: 'save-once' } do |form|
   = render form

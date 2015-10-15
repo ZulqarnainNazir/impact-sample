@@ -7,5 +7,5 @@ ol.breadcrumb
   li.active New Before &amp; After
 
 = errors_for @before_after
-= form_for @before_after, url: [@business, :content_before_afters] do |form|
+= form_for @before_after, url: [@business, :content_before_afters], html: { class: 'save-once' } do |form|
   = render form

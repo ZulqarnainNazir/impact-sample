@@ -8,5 +8,5 @@ ol.breadcrumb
   li.active Edit Gallery
 
 = errors_for @gallery
-= form_for @gallery, url: [@business, :content, @gallery] do |form|
+= form_for @gallery, url: [@business, :content, @gallery], html: { class: 'save-once' } do |form|
   = render form

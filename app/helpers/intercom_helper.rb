@@ -22,6 +22,7 @@ module IntercomHelper
         managed_businesses: current_user.managed_businesses.count,
         custom_primary_domain_in_use: current_user.businesses.any? { |business| business.website && business.website.webhosts.any? },
         invited_any_managers: current_user.owned_businesses.any? { |business| business.managers.any? },
+        linked_facebook_page: current_user.businesses.any? { |business| business.facebook_id? && business.facebook_token? },
       )
     end
 

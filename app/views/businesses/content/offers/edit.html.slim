@@ -8,5 +8,5 @@ ol.breadcrumb
   li.active Edit Offer
 
 = errors_for @offer
-= form_for @offer, url: [@business, :content, @offer] do |form|
+= form_for @offer, url: [@business, :content, @offer], html: { class: 'save-once' } do |form|
   = render form

@@ -1,6 +1,12 @@
 - if form.object.business.facebook_id? && form.object.business.facebook_token?
   .checkbox
     = label_tag :facebook_publish do
-      => check_box_tag :facebook_publish, '1', form.object.facebook_id?
+      => check_box_tag :facebook_publish, '1', form.object.facebook_id == nil || form.object.facebook_id?
       | #{form.object.facebook_id? ? 'Update' : 'Publish to'} the Linked Facebook Page (#{link_to form.object.business.facebook_id, "https://www.facebook.com/#{form.object.business.facebook_id}", target: :_blank})
-  hr
+- else
+  .checkbox
+    = label_tag :facebook_publish do
+      => check_box_tag :facebook_publish, '1', false, disabled: true
+      span.text-muted> Publish to Facebook
+      | (#{link_to 'Add Page', [:edit, form.object.business, :accounts_facebook], target: :_blank})
+hr
