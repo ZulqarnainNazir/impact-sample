@@ -32,8 +32,12 @@ class BeforeAfter < ActiveRecord::Base
     as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
 
+  def published_at
+    published_on.to_time + created_at.seconds_since_midnight.seconds
+  end
+
   def sorting_date
-    published_on
+    published_at
   end
 
   def to_param

@@ -11,7 +11,7 @@
           => icon 'tasks'
           strong> Before &amp; After
           span.pull-right
-            span.text-muted Posted #{time_ago_in_words @before_after.created_at} ago
+            span.text-muted Posted #{time_ago_in_words @before_after.published_at} ago
         - cache @before_after do
           h2.h3 = @before_after.title
           - if @before_after.before_image || @before_after.after_image

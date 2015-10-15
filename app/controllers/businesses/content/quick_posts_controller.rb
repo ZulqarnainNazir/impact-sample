@@ -70,18 +70,18 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def quick_post_facebook_params
-    if @quick_post.published_on > Time.now
+    if @quick_post.published_at > Time.now
       {
         caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),
         published: false,
-        scheduled_published_time: @quick_post.published_on.to_i,
+        scheduled_published_time: @quick_post.published_at.to_i,
       }
     else
       {
-        backdated_time: @quick_post.published_on,
+        backdated_time: @quick_post.published_at,
         caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,

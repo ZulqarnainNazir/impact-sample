@@ -81,18 +81,18 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   end
 
   def gallery_facebook_params
-    if @gallery.published_on > Time.now
+    if @gallery.published_at > Time.now
       {
         caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
         link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
         name: @gallery.title,
         picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
         published: false,
-        scheduled_published_time: @gallery.published_on.to_i,
+        scheduled_published_time: @gallery.published_at.to_i,
       }
     else
       {
-        backdated_time: @gallery.published_on,
+        backdated_time: @gallery.published_at,
         caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
         link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
         name: @gallery.title,

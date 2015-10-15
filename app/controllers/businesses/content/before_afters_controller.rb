@@ -83,18 +83,18 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   end
 
   def before_after_facebook_params
-    if @before_after.published_on > Time.now
+    if @before_after.published_at > Time.now
       {
         caption: Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT),
         link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
         name: @before_after.title,
         picture: @before_after.after_image.try(:attachment_url),
         published: false,
-        scheduled_published_time: @before_after.published_on.to_i,
+        scheduled_published_time: @before_after.published_at.to_i,
       }
     else
       {
-        backdated_time: @before_after.published_on,
+        backdated_time: @before_after.published_at,
         caption: Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT),
         link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
         name: @before_after.title,
