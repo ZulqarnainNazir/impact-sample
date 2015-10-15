@@ -59,6 +59,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     params.require(:quick_post).permit(
       :content,
       :meta_description,
+      :published_on,
       :title,
       content_category_ids: [],
       content_tag_ids: [],
@@ -69,12 +70,23 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def quick_post_facebook_params
-    {
-      backdated_time: @quick_post.created_at,
-      caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
-      link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
-      name: @quick_post.title,
-      picture: @quick_post.quick_post_image.try(:attachment_url),
-    }
+    if @quick_post.published_on > Time.now
+      {
+        caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
+        name: @quick_post.title,
+        picture: @quick_post.quick_post_image.try(:attachment_url),
+        published: false,
+        scheduled_published_time: @quick_post.published_on.to_i,
+      }
+    else
+      {
+        backdated_time: @quick_post.published_on,
+        caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
+        name: @quick_post.title,
+        picture: @quick_post.quick_post_image.try(:attachment_url),
+      }
+    end
   end
 end

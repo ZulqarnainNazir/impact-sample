@@ -72,6 +72,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       :meta_description,
       :offer,
       :offer_code,
+      :published_on,
       :terms,
       :title,
       :valid_until,
@@ -92,12 +93,23 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   end
 
   def offer_facebook_params
-    {
-      backdated_time: @offer.created_at,
-      caption: Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT),
-      link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
-      name: @offer.title,
-      picture: @offer.offer_image.try(:attachment_url),
-    }
+    if @offer.published_on > Time.now
+      {
+        caption: Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
+        name: @offer.title,
+        picture: @offer.offer_image.try(:attachment_url),
+        published: false,
+        scheduled_published_time: @offer.published_on.to_i,
+      }
+    else
+      {
+        backdated_time: @offer.published_on,
+        caption: Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
+        name: @offer.title,
+        picture: @offer.offer_image.try(:attachment_url),
+      }
+    end
   end
 end

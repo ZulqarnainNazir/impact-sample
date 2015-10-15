@@ -15,14 +15,25 @@ class BeforeAfter < ActiveRecord::Base
   has_placed_image :main_image
 
   validates :business, presence: true
+  validates :published_on, presence: true
   validates :title, presence: true
+
+  def published_on=(value)
+    if value.to_s.split('/').length == 3
+      values = value.split('/')
+      values = values[-1..-1] + values[0..-2]
+      super(Date.parse(values.join('/')))
+    else
+      super
+    end
+  end
 
   def as_indexed_json(options = {})
     as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
 
   def sorting_date
-    created_at
+    published_on
   end
 
   def to_param

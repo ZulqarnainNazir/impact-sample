@@ -59,6 +59,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     params.require(:before_after).permit(
       :description,
       :meta_description,
+      :published_on,
       :title,
       content_category_ids: [],
       content_tag_ids: [],
@@ -82,12 +83,23 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   end
 
   def before_after_facebook_params
-    {
-      backdated_time: @before_after.created_at,
-      caption: Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT),
-      link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
-      name: @before_after.title,
-      picture: @before_after.after_image.try(:attachment_url),
-    }
+    if @before_after.published_on > Time.now
+      {
+        caption: Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
+        name: @before_after.title,
+        picture: @before_after.after_image.try(:attachment_url),
+        published: false,
+        scheduled_published_time: @before_after.published_on.to_i,
+      }
+    else
+      {
+        backdated_time: @before_after.published_on,
+        caption: Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
+        name: @before_after.title,
+        picture: @before_after.after_image.try(:attachment_url),
+      }
+    end
   end
 end

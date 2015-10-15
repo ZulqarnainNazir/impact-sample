@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151014175311) do
+ActiveRecord::Schema.define(version: 20151015193532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20151014175311) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
+    t.date     "published_on"
   end
 
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
@@ -272,6 +273,7 @@ ActiveRecord::Schema.define(version: 20151014175311) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
+    t.date     "published_on"
   end
 
   add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
@@ -403,6 +405,7 @@ ActiveRecord::Schema.define(version: 20151014175311) do
     t.datetime "coupon_updated_at"
     t.text     "meta_description"
     t.text     "facebook_id"
+    t.date     "published_on"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
@@ -476,6 +479,7 @@ ActiveRecord::Schema.define(version: 20151014175311) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
+    t.date     "published_on"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree

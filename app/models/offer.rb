@@ -26,6 +26,7 @@ class Offer < ActiveRecord::Base
   validates_attachment_size :coupon, in: 0..10.megabytes
 
   validates :business, presence: true
+  validates :published_on, presence: true
 
   with_options unless: :minimal_validations do
     validates :description, presence: true
@@ -33,6 +34,16 @@ class Offer < ActiveRecord::Base
     validates :offer, presence: true
     validates :title, presence: true
     validates :offer_image_placement, presence: true
+  end
+
+  def published_on=(value)
+    if value.to_s.split('/').length == 3
+      values = value.split('/')
+      values = values[-1..-1] + values[0..-2]
+      super(Date.parse(values.join('/')))
+    else
+      super
+    end
   end
 
   def valid_until=(*args)
@@ -44,7 +55,7 @@ class Offer < ActiveRecord::Base
   end
 
   def sorting_date
-    created_at
+    published_on
   end
 
   def to_param

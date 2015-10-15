@@ -59,6 +59,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     params.require(:gallery).permit(
       :description,
       :meta_description,
+      :published_on,
       :title,
       content_category_ids: [],
       content_tag_ids: [],
@@ -80,12 +81,23 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   end
 
   def gallery_facebook_params
-    {
-      backdated_time: @gallery.created_at,
-      caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
-      link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
-      name: @gallery.title,
-      picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
-    }
+    if @gallery.published_on > Time.now
+      {
+        caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
+        name: @gallery.title,
+        picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
+        published: false,
+        scheduled_published_time: @gallery.published_on.to_i,
+      }
+    else
+      {
+        backdated_time: @gallery.published_on,
+        caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
+        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
+        name: @gallery.title,
+        picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
+      }
+    end
   end
 end
