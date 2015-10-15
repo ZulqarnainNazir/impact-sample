@@ -300,6 +300,7 @@ Webpage = React.createClass
             uuid: group_uuid
             kind: 'container'
             max_blocks: if group_type is 'CallToActionGroup' then 3 else undefined
+            current_block: if group_type is'HeroGroup' then block_uuid else undefined
             position: $('.webpage-group').length
             blocks: blocks
             removedBlocks: []
@@ -332,6 +333,7 @@ Webpage = React.createClass
     group = this.state.groups[group_uuid]
     if _.reject(group.blocks, (block) -> block is undefined).length > 1
       block = group.blocks[block_uuid]
+      new_current = _.reject(group.blocks, (block) -> block is undefined or block.uuid is block_uuid)[0]
       changes =
         groups:
           "#{group_uuid}":
@@ -343,6 +345,8 @@ Webpage = React.createClass
                 index: block_uuid
                 id: block.id
               ]
+            current_block:
+              $set: new_current.uuid
     else
       changes =
         groups:

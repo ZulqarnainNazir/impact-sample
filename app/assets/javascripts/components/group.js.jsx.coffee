@@ -15,6 +15,7 @@ Group = React.createClass
         <input type="hidden" name={this.inputName('type')} value={this.props.type} />
         <input type="hidden" name={this.inputName('kind')} value={this.props.kind} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
+        <input type="hidden" name={this.inputName('current_block')} value={this.props.current_block} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
         <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
         {this.renderRemovedBlocksInputs()}
@@ -23,6 +24,7 @@ Group = React.createClass
       {this.renderCustomHandle()}
       {this.renderSidebarSwitcher()}
       {this.renderCallToActionSizeChanger()}
+      {this.renderHeroToggles()}
       <div className={this.groupRowClass()}>
         {this.renderBlocks()}
       </div>
@@ -74,9 +76,31 @@ Group = React.createClass
     if this.props.editing and this.props.type is 'CallToActionGroup'
       `<strong onClick={this.props.updateGroup.bind(null, this.props.uuid, { max_blocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle">{this.props.max_blocks}x</strong>`
 
+  renderHeroToggles: ->
+    if this.props.editing and this.props.type is 'HeroGroup'
+      `<span>
+        {this.renderHeroAdder()}
+        {this.renderHeroSwitchers()}
+      </span>`
+
+  renderHeroAdder: ->
+    if Object.keys(this.props.blocks).length < 3
+      `<span onClick={this.props.insertBlock.bind(null, this.props.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle" />`
+
+  renderHeroSwitchers: ->
+    _.map _.reject(this.props.blocks, (block) -> block is undefined), this.renderHeroSwitcher
+
+  renderHeroSwitcher: (block) ->
+    if this.props.current_block == block.uuid
+      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" />`
+    else
+      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle" />`
+
   renderBlocks: ->
     if this.props.max_blocks
       _.map _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.max_blocks), 'position'), this.renderBlock
+    else if this.props.current_block
+      this.renderBlock this.props.blocks[this.props.current_block]
     else
       _.map _.sortBy(this.props.blocks, 'position'), this.renderBlock
 

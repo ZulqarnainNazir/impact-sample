@@ -163,3 +163,29 @@
   top: 3em;
   cursor: pointer;
 }
+
+.webpage-group-hero-add-handle {
+  @extend .fa-2x;
+  position: absolute;
+  z-index: 1;
+  bottom: 1em;
+  right: 1em;
+  cursor: pointer;
+}
+
+.webpage-group-hero-switch-handle {
+  @extend .fa-2x;
+  position: absolute;
+  z-index: 1;
+  bottom: 1em;
+  right: 2em;
+  cursor: pointer;
+}
+
+.webpage-group-hero-switch-handle + .webpage-group-hero-switch-handle {
+  right: 3em;
+}
+
+.webpage-group-hero-switch-handle + .webpage-group-hero-switch-handle + .webpage-group-hero-switch-handle {
+  right: 4em;
+}
