@@ -167,6 +167,7 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
             description: line.customer_benefit,
             terms: 'Not to be combined with any other offer. No Cash Value. Always Awesome.',
             offer_image_placement_attributes: { image_id: image.try(:id) },
+	    published_on: Time.now,
           )
           if images.length > 4
             @business.galleries.create!(
