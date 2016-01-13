@@ -86,6 +86,8 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
           attr.merge! post: @post
         end
       end
+      safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
+      safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
     end
   end
 

@@ -89,7 +89,10 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
         image_user: current_user,
         image_business: @business,
       },
-    )
+    ).tap do |safe_params|
+      safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
+      safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
+    end
   end
 
   def offer_facebook_params

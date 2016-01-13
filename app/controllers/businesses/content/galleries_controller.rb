@@ -77,6 +77,8 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
           attr.merge! gallery: @gallery
         end
       end
+      safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
+      safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
     end
   end
 

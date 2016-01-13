@@ -79,7 +79,10 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
         image_user: current_user,
         image_business: @business,
       },
-    )
+    ).tap do |safe_params|
+      safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
+      safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
+    end
   end
 
   def before_after_facebook_params

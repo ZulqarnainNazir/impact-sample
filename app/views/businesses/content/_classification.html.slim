@@ -19,9 +19,9 @@
       ul.list-unstyled.js-content-tags-list style="margin-top:1em"
         - form.object.content_tags.each do |content_tag|
           li
-            = form.hidden_field :content_tags, multiple: true, value: content_tag.id
+            = form.hidden_field :content_tag_ids, multiple: true, value: content_tag.id
             => content_tag.name
-            = icon 'close', '', class: 'pull-right'
+            = icon 'close pull-right js-content-tag-remove', '', style: 'cursor: pointer'
       .js-content-tags-empty style=('display:none' unless form.object.business.content_tags.empty?)
         hr
         em No tags found.
@@ -88,7 +88,7 @@
     $('.js-content-tag-lookup').closest('.twitter-typeahead').find('.tt-dropdown-menu').css('right', '0');
     $('.js-content-tag-lookup').on('typeahead:selected', function(event, selection, dataset) {
       $('.js-content-tags-list').append(
-        $('<li>' + selection.name + '</li>')
+        $('<li><input type="hidden" name="#{form.object.class.name.underscore}[content_tag_ids][]" value="' + selection.id + '" /> ' + selection.name + ' <i class="fa fa-close pull-right js-content-tag-remove" style="cursor:pointer"></i></li>')
       );
       $('.js-content-tags-empty').hide();
     });
@@ -116,11 +116,14 @@
             var parsedData = JSON.parse(data);
             $('.js-content-tags-empty').hide();
             $('.js-content-tags-list').append(
-              $('<li><input type="hidden" name="#{form.object.class.name.underscore}[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value + ' <i class="fa fa-close pull-right" /></li>')
+              $('<li><input type="hidden" name="#{form.object.class.name.underscore}[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value + ' <i class="fa fa-close pull-right js-content-tag-remove" style="cursor:pointer"></i></li>')
             );
             $('.js-content-tag-lookup').typeahead('val', '');
             $('.js-content-tags-empty').hide();
           });
         }
       }
+    });
+    $(document).on('click', '.js-content-tag-remove', function() {
+      $(this).closest('li').remove();
     });

@@ -110,6 +110,8 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     ).tap do |safe_params|
       merge_placement_image_attributes safe_params, :event_image_placement_attributes
       merge_placement_image_attributes safe_params, :main_image_placement_attributes
+      safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
+      safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
     end
   end
 
