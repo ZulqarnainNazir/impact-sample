@@ -55,7 +55,7 @@ class Offer < ActiveRecord::Base
   end
 
   def published_at
-    published_on.to_time + created_at.seconds_since_midnight.seconds
+    published_on.to_time + created_at.seconds_since_midnight.seconds rescue nil
   end
 
   def sorting_date
