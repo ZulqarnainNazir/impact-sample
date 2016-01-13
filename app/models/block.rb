@@ -34,6 +34,10 @@ class Block < ActiveRecord::Base
     end
   end
 
+  def cache_withdraw
+    false
+  end
+
   def cache_sensitive?
     false
   end

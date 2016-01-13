@@ -1,3 +1,2 @@
-- cache [contact_block, contact_block.cache_sensitive_key(params)] do
-  .webpage-contact itemscope="" itemtype="http://schema.org/LocalBusiness" logo=(contact_block.business.logo.attachment_url(:logo_large) if contact_block.business.logo.present?)
-    = render partial: "website/contact_blocks/#{contact_block.theme}", object: contact_block, as: :block, locals: { business: contact_block.business, location: contact_block.business.location, website: contact_block.business.website }
+.webpage-contact itemscope="" itemtype="http://schema.org/LocalBusiness" logo=(contact_block.business.logo.attachment_url(:logo_large) if contact_block.business.logo.present?)
+  = render partial: "website/contact_blocks/#{contact_block.theme}", object: contact_block, as: :block, locals: { business: contact_block.business, location: contact_block.business.location, website: contact_block.business.website }

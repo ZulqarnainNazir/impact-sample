@@ -14,7 +14,7 @@ class ContactBlock < Block
     end
   end
 
-  def cache_sensitive_key(params)
-    [[business, business.try(:location)].compact.map(&:cache_key).join('-'), Digest::MD5.hexdigest(params[:contact_message].to_s)].join('-')
+  def cache_withdraw
+    true
   end
 end
