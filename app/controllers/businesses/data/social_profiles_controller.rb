@@ -7,6 +7,7 @@ class Businesses::Data::SocialProfilesController < Businesses::BaseController
 
   def social_profile_params
     params.require(:business).permit(
+      :cce_url,
       :citysearch_id,
       :facebook_id,
       :google_plus_id,
