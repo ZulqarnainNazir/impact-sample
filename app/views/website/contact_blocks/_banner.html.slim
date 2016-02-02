@@ -39,8 +39,8 @@
     - cache location do
       .vcard
         h3.fn.org itemprop="name" = location.name
-        - if !location.hide_phone?
-          p.tel itemprop="telephone" = location.phone_number
+        - if location.phone_number? && !location.hide_phone?
+          p.tel = link_to number_to_phone(location.phone_number), "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: 'telephone'
         - if !location.hide_address?
           - if location.latitude? && location.longitude?
             p.adr = link_to "http://maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do

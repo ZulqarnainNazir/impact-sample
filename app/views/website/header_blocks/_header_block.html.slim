@@ -79,7 +79,7 @@
             - if @location.phone_number? && !@location.hide_phone?
               li: p.navbar-text
                 i.fa.fa-phone>
-                span.tel = number_to_phone @location.phone_number
+                span.tel = link_to number_to_phone(@location.phone_number), "tel:#{@location.phone_number.gsub(/[^0-9]/, '')}"
             - if @location.email? && !@location.hide_email?
               li = link_to "mailto:#{@location.email}" do
                 i.fa.fa-envelope>
@@ -87,7 +87,7 @@
       - elsif header_block.contact_position == 'left' || header_block.contact_position == 'right'
         .vcard.navbar-vcard class=(header_block.contact_position == 'left' ? 'pull-left text-left' : 'pull-right text-right')
           - if @location.phone_number? && !@location.hide_phone?
-            p.h4.tel = number_to_phone @location.phone_number
+            p.h4.tel = link_to number_to_phone(@location.phone_number), "tel:#{@location.phone_number.gsub(/[^0-9]/, '')}"
           - if !@location.hide_address?
             p.adr #{@location.address_line_one} <br> #{@location.address_line_two}
       - if header_block.logo_vertical_position == 'above'
