@@ -128,7 +128,7 @@ html lang="en"
                     li#dashboard-business-data-lines = link_to [:edit, @business, :data_lines] do
                       i.fa.fa-cubes>
                       | Business Lines
-                    - if @business.lines.any?
+                    - if @business.lines.any?(&:persisted?)
                       li#dashboard-business-data-community = link_to [:edit, @business, :data_delivery] do
                         i.fa.fa-truck>
                         | Delivery Information
