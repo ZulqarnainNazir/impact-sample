@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151015193532) do
+ActiveRecord::Schema.define(version: 20160205002941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                  null: false
@@ -97,6 +98,13 @@ ActiveRecord::Schema.define(version: 20151015193532) do
     t.integer  "cce_id"
     t.text     "cce_url"
     t.text     "facebook_token"
+    t.text     "foursquare_id"
+    t.text     "zillow_id"
+    t.text     "opentable_id"
+    t.text     "trulia_id"
+    t.text     "realtor_id"
+    t.text     "tripadvisor_id"
+    t.text     "houzz_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -496,16 +504,16 @@ ActiveRecord::Schema.define(version: 20151015193532) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "business_id",                                            null: false
+    t.text     "external_id"
+    t.text     "external_name"
+    t.text     "external_type"
+    t.text     "external_url"
     t.text     "title",                                                  null: false
     t.text     "description",                                            null: false
     t.decimal  "overall_rating", precision: 2, scale: 1,                 null: false
     t.datetime "reviewed_at",                                            null: false
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
-    t.text     "external_url"
-    t.text     "external_type"
-    t.text     "external_name"
-    t.text     "external_id"
     t.decimal  "quality_rating", precision: 2, scale: 1
     t.decimal  "service_rating", precision: 2, scale: 1
     t.decimal  "value_rating",   precision: 2, scale: 1
@@ -514,8 +522,8 @@ ActiveRecord::Schema.define(version: 20151015193532) do
     t.text     "customer_phone"
     t.integer  "customer_id"
     t.boolean  "published",                              default: false, null: false
-    t.integer  "feedback_id"
     t.date     "serviced_at"
+    t.integer  "feedback_id"
     t.boolean  "hide",                                   default: false, null: false
     t.integer  "read_by",                                default: [],    null: false, array: true
     t.text     "facebook_id"

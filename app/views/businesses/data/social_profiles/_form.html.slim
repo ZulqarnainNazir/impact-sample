@@ -1,0 +1,213 @@
+.form-group
+  = form.label :cce_url, class: 'control-label' do
+    i.fa.fa-square>
+    = Business.human_attribute_name(:cce_url)
+  = form.text_field :cce_url, autocomplete: 'off', class: 'form-control'
+.form-group
+  = form.label :facebook_id, class: 'control-label' do
+    i.fa.fa-facebook-square>
+    = Business.human_attribute_name(:facebook_id)
+  = form.text_field :facebook_id, autocomplete: 'off', class: 'form-control js-facebook-input'
+  p.help-block
+    | https://www.facebook.com/
+    strong.text-info.js-facebook-label = form.object.facebook_id
+hr
+.form-group
+  = form.label :twitter_id, class: 'control-label'
+    i.fa.fa-twitter-square>
+    = Business.human_attribute_name(:twitter_id)
+  = form.text_field :twitter_id, autocomplete: 'off', class: 'form-control js-twitter-input'
+  p.help-block
+    | https://www.twitter.com/
+    strong.text-info.js-twitter-label = form.object.twitter_id
+hr
+.form-group
+  = form.label :google_plus_id, class: 'control-label'
+    i.fa.fa-google-plus-square>
+    = Business.human_attribute_name(:google_plus_id)
+  = form.text_field :google_plus_id, autocomplete: 'off', class: 'form-control js-google-plus-input'
+  p.help-block
+    | https://plus.google.com/+
+    strong.text-info.js-google-plus-label = form.object.google_plus_id
+hr
+.form-group
+  = form.label :linkedin_id, class: 'control-label'
+    i.fa.fa-linkedin-square>
+    = Business.human_attribute_name(:linkedin_id)
+  = form.text_field :linkedin_id, autocomplete: 'off', class: 'form-control js-linkedin-input'
+  p.help-block
+    | https://www.linkedin.com/
+    strong.text-info.js-linkedin-label = form.object.linkedin_id
+hr
+.form-group
+  = form.label :youtube_id, class: 'control-label'
+    i.fa.fa-youtube-square>
+    = Business.human_attribute_name(:youtube_id)
+  = form.text_field :youtube_id, autocomplete: 'off', class: 'form-control js-youtube-input'
+  p.help-block
+    | https://www.youtube.com/user/
+    strong.text-info.js-youtube-label = form.object.youtube_id
+hr
+.form-group
+  = form.label :pinterest_id, class: 'control-label'
+    i.fa.fa-pinterest-square>
+    = Business.human_attribute_name(:pinterest_id)
+  = form.text_field :pinterest_id, autocomplete: 'off', class: 'form-control js-pinterest-input'
+  p.help-block
+    | https://www.pinterest.com/
+    strong.text-info.js-pinterest-label = form.object.pinterest_id
+hr
+.form-group
+  = form.label :instagram_id, class: 'control-label'
+    i.fa.fa-instagram>
+    = Business.human_attribute_name(:instagram_id)
+  = form.text_field :instagram_id, autocomplete: 'off', class: 'form-control js-instagram-input'
+  p.help-block
+    | https://www.instagram.com/
+    strong.text-info.js-instagram-label = form.object.instagram_id
+hr
+.form-group
+  = form.label :yelp_id, class: 'control-label'
+    i.fa.fa-yelp>
+    = Business.human_attribute_name(:yelp_id)
+  = form.text_field :yelp_id, autocomplete: 'off', class: 'form-control js-yelp-input'
+  p.help-block
+    | https://www.yelp.com/biz/
+    strong.text-info.js-yelp-label = form.object.yelp_id
+hr
+.form-group
+  = form.label :citysearch_id, 'City Search', class: 'control-label'
+    i.fa.fa-square>
+    = Business.human_attribute_name(:citysearch_id)
+  = form.text_field :citysearch_id, autocomplete: 'off', class: 'form-control js-citysearch-input'
+  p.help-block
+    | https://www.citysearch.com/
+    strong.text-info.js-citysearch-label = form.object.citysearch_id
+hr
+.form-group
+  = form.label :foursquare_id, class: 'control-label'
+    i.fa.fa-foursquare>
+    = Business.human_attribute_name(:foursquare_id)
+  = form.text_field :foursquare_id, autocomplete: 'off', class: 'form-control js-foursquare-input'
+  p.help-block
+    | https://foursquare.com/v/
+    strong.text-info.js-foursquare-label = form.object.foursquare_id
+hr
+.form-group
+  = form.label :zillow_id, class: 'control-label'
+    i.fa.fa-square>
+    = Business.human_attribute_name(:zillow_id)
+  = form.text_field :zillow_id, autocomplete: 'off', class: 'form-control js-zillow-input'
+  p.help-block
+    | https://www.zillow.com/profile/
+    strong.text-info.js-zillow-label = form.object.zillow_id
+hr
+.form-group
+  = form.label :opentable_id, 'Open Table', class: 'control-label'
+    i.fa.fa-square>
+    = Business.human_attribute_name(:opentable_id)
+  = form.text_field :opentable_id, autocomplete: 'off', class: 'form-control js-opentable-input'
+  p.help-block
+    | https://www.opentable.com/
+    strong.text-info.js-opentable-label = form.object.opentable_id
+hr
+.form-group
+  = form.label :trulia_id, class: 'control-label'
+    i.fa.fa-square>
+    = Business.human_attribute_name(:trulia_id)
+  = form.text_field :trulia_id, autocomplete: 'off', class: 'form-control js-trulia-input'
+  p.help-block
+    | https://www.trulia.com/profile/
+    strong.text-info.js-trulia-label = form.object.trulia_id
+hr
+.form-group
+  = form.label :realtor_id, class: 'control-label'
+    i.fa.fa-square>
+    = Business.human_attribute_name(:realtor_id)
+  = form.text_field :realtor_id, autocomplete: 'off', class: 'form-control js-realtor-input'
+  p.help-block
+    | https://www.realtor.com/realestateagents/
+    strong.text-info.js-realtor-label = form.object.realtor_id
+hr
+.form-group
+  = form.label :tripadvisor_id, 'Trip Advisor', class: 'control-label'
+    i.fa.fa-tripadvisor>
+    = Business.human_attribute_name(:tripadvisor_id)
+  = form.text_field :tripadvisor_id, autocomplete: 'off', class: 'form-control js-tripadvisor-input'
+  p.help-block
+    | https://www.tripadvisor.com/
+    strong.text-info.js-tripadvisor-label = form.object.tripadvisor_id
+hr
+.form-group
+  = form.label :houzz_id, class: 'control-label'
+    i.fa.fa-square>
+    = Business.human_attribute_name(:houzz_id)
+  = form.text_field :houzz_id, autocomplete: 'off', class: 'form-control js-houzz-input'
+  p.help-block
+    | https://www.houzz.com/pro/
+    strong.text-info.js-houzz-label = form.object.houzz_id
+javascript:
+  $('.js-facebook-label').text($('.js-facebook-input').val());
+  $('.js-facebook-input').on('input', function(e) {
+    $('.js-facebook-label').text(e.target.value);
+  });
+  $('.js-twitter-label').text($('.js-twitter-input').val());
+  $('.js-twitter-input').on('input', function(e) {
+    $('.js-twitter-label').text(e.target.value);
+  });
+  $('.js-google-plus-label').text($('.js-google-plus-input').val());
+  $('.js-google-plus-input').on('input', function(e) {
+    $('.js-google-plus-label').text(e.target.value);
+  });
+  $('.js-linkedin-label').text($('.js-linkedin-input').val());
+  $('.js-linkedin-input').on('input', function(e) {
+    $('.js-linkedin-label').text(e.target.value);
+  });
+  $('.js-youtube-label').text($('.js-youtube-input').val());
+  $('.js-youtube-input').on('input', function(e) {
+    $('.js-youtube-label').text(e.target.value);
+  });
+  $('.js-pinterest-label').text($('.js-pinterest-input').val());
+  $('.js-pinterest-input').on('input', function(e) {
+    $('.js-pinterest-label').text(e.target.value);
+  });
+  $('.js-instagram-label').text($('.js-instagram-input').val());
+  $('.js-instagram-input').on('input', function(e) {
+    $('.js-instagram-label').text(e.target.value);
+  });
+  $('.js-yelp-label').text($('.js-yelp-input').val());
+  $('.js-yelp-input').on('input', function(e) {
+    $('.js-yelp-label').text(e.target.value);
+  });
+  $('.js-citysearch-label').text($('.js-citysearch-input').val());
+  $('.js-citysearch-input').on('input', function(e) {
+    $('.js-citysearch-label').text(e.target.value);
+  });
+  $('.js-foursquare-label').text($('.js-foursquare-input').val());
+  $('.js-foursquare-input').on('input', function(e) {
+    $('.js-foursquare-label').text(e.target.value);
+  });
+  $('.js-zillow-label').text($('.js-zillow-input').val());
+  $('.js-zillow-input').on('input', function(e) {
+    $('.js-zillow-label').text(e.target.value);
+  });
+  $('.js-opentable-label').text($('.js-opentable-input').val());
+  $('.js-opentable-input').on('input', function(e) {
+    $('.js-opentable-label').text(e.target.value);
+  });
+  $('.js-trulia-label').text($('.js-trulia-input').val());
+  $('.js-trulia-input').on('input', function(e) {
+    $('.js-trulia-label').text(e.target.value);
+  });
+  $('.js-realtor-label').text($('.js-realtor-input').val());
+  $('.js-realtor-input').on('input', function(e) {
+    $('.js-realtor-label').text(e.target.value);
+  });
+  $('.js-tripadvisor-label').text($('.js-tripadvisor-input').val());
+  $('.js-tripadvisor-input').on('input', function(e) {
+    $('.js-tripadvisor-label').text(e.target.value);
+  });
+  $('.js-houzz-label').text($('.js-houzz-input').val());
+  $('.js-houzz-input').on('input', function(e) {
+    $('.js-houzz-label').text(e.target.value);
+  });

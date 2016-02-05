@@ -29,6 +29,27 @@
         - if business.citysearch_id?
           li = link_to "https://www.citysearch.com/#{business.citysearch_id}", target: :_blank do
             i.fa.fa-square.fa-2x
+        - if business.foursquare_id?
+          li = link_to "https://foursquare.com/v/#{business.foursquare_id}", target: :_blank do
+            i.fa.fa-foursquare.fa-2x
+        - if business.zillow_id?
+          li = link_to "https://www.zillow.com/profile/#{business.zillow_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if business.opentable_id?
+          li = link_to "https://www.opentable.com/#{business.opentable_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if business.trulia_id?
+          li = link_to "https://www.trulia.com/profile/#{business.trulia_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if business.realtor_id?
+          li = link_to "https://www.realtor.com/realestateagents/#{business.realtor_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if business.tripadvisor_id?
+          li = link_to "https://www.tripadvisor.com/#{business.tripadvisor_id}", target: :_blank do
+            i.fa.fa-tripadvisor.fa-2x
+        - if business.houzz_id?
+          li = link_to "https://www.houzz.com/pro/#{business.houzz_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
         - if location.email? && !location.hide_email?
           li = link_to "mailto:#{location.email}" do
             i.fa.fa-envelope-square.fa-2x
