@@ -15,7 +15,6 @@ Group = React.createClass
         <input type="hidden" name={this.inputName('type')} value={this.props.type} />
         <input type="hidden" name={this.inputName('kind')} value={this.props.kind} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
-        <input type="hidden" name={this.inputName('current_block')} value={this.props.current_block} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
         <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
         {this.renderRemovedBlocksInputs()}
@@ -78,29 +77,31 @@ Group = React.createClass
 
   renderHeroToggles: ->
     if this.props.editing and this.props.type is 'HeroGroup'
-      `<span>
-        {this.renderHeroAdder()}
+      `<span className="webpage-group-hero-handles">
         {this.renderHeroSwitchers()}
+        {this.renderHeroAdder()}
       </span>`
 
-  renderHeroAdder: ->
-    if Object.keys(this.props.blocks).length < 3
-      `<span onClick={this.props.insertBlock.bind(null, this.props.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle" />`
-
   renderHeroSwitchers: ->
-    _.map _.reject(this.props.blocks, (block) -> block is undefined), this.renderHeroSwitcher
+    blocks = _.reject(this.props.blocks, (block) -> block is undefined)
+    if Object.keys(blocks).length > 1
+      _.map _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined), 'position'), this.renderHeroSwitcher
 
   renderHeroSwitcher: (block) ->
-    if this.props.current_block == block.uuid
+    if this.props.current_block is block.uuid
       `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" />`
     else
       `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle" />`
 
+  renderHeroAdder: ->
+    if Object.keys(_.reject(this.props.blocks, (block) -> block is undefined)).length < 3
+      `<span onClick={this.props.insertBlock.bind(null, this.props.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle" />`
+
   renderBlocks: ->
-    if this.props.max_blocks
-      _.map _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.max_blocks), 'position'), this.renderBlock
-    else if this.props.current_block
+    if this.props.type is 'HeroGroup'
       this.renderBlock this.props.blocks[this.props.current_block]
+    else if this.props.max_blocks
+      _.map _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.max_blocks), 'position'), this.renderBlock
     else
       _.map _.sortBy(this.props.blocks, 'position'), this.renderBlock
 

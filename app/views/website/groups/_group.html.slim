@@ -1,17 +1,5 @@
-- group_html = capture do
-  - blocks = group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks
-  - sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
-  - if group.is_a?(SidebarGroup)
-    .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position} #{group.custom_class}"
-      div class=('row' if group.is_a?(CallToActionGroup))
-        = render blocks
-  - else
-    .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position} #{group.custom_class}"
-      div class=('row' if group.is_a?(CallToActionGroup))
-        = render blocks
-
 - if group.blocks.any?(&:cache_withdraw)
-  = group_html
+  = render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }
 - else
   - cache [group, sidebar_position, *group.blocks.map { |b| b.cache_sensitive_key(params) }.reject(&:blank?)] do
-    = group_html
+    = render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }

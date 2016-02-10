@@ -1,0 +1,25 @@
+- blocks = group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks
+- sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
+- content = capture do
+  div class=('row' if group.is_a?(CallToActionGroup))
+    - if group.is_a?(HeroGroup) && group.blocks.length > 1
+      .carousel.slide id="carousel-group-#{group.id}" data-ride="carousel"
+        ol.carousel-indicators
+          - blocks.each_with_index do |block, i|
+            li class=('active' if i == 0) data-target="#carousel-group-#{group.id}" data-slide-to="#{i}"
+        .carousel-inner role="listbox"
+          = render blocks, carousel: true
+        = link_to "#carousel-group-#{group.id}", role: 'button', class: 'left carousel-control', data: { slide: 'prev' } do
+          span.glyphicon.glyphicon-chevron-left aria-hidden="true"
+          span.sr-only Previous
+        = link_to "#carousel-group-#{group.id}", role: 'button', class: 'right carousel-control', data: { slide: 'next' } do
+          span.glyphicon.glyphicon-chevron-right aria-hidden="true"
+          span.sr-only Next
+    - else
+      = render blocks
+- if group.is_a?(SidebarGroup)
+  .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position} #{group.custom_class}"
+    = content
+- else
+  .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position} #{group.custom_class}"
+    = content

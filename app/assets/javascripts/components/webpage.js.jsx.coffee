@@ -40,6 +40,11 @@ Webpage = React.createClass
       for block, j in blocks
         block.uuid = j
         group.blocks[j] = this.defaultBlockAttributes i, j, block.type, block
+      if group.type is 'HeroGroup'
+        if Object.keys(group.blocks).length > 0
+          group.current_block = 0
+        else
+          group.current_block = undefined
     groups
 
   componentDidMount: ->
@@ -309,6 +314,7 @@ Webpage = React.createClass
   insertBlock: (group_uuid, block_type) ->
     this.disableSortable()
     $('.webpage-save span.btn-default').popover('hide')
+    group = this.state.groups[group_uuid]
     block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
     messageKey = if /Sidebar/.exec(block_type) then 'insertSidebarSuccessMessage' else 'insertMainSuccessMessage'
     changes =
@@ -319,6 +325,8 @@ Webpage = React.createClass
           blocks:
             $merge:
               "#{block_uuid}": this.defaultBlockAttributes(group_uuid, block_uuid, block_type)
+          current_block:
+            $set: if group.type is 'HeroGroup' then block_uuid else undefined
     this.setState React.addons.update(this.state, changes), this.finishInsert.bind(null, messageKey)
 
   finishInsert: (messageKey) ->
@@ -333,7 +341,10 @@ Webpage = React.createClass
     group = this.state.groups[group_uuid]
     if _.reject(group.blocks, (block) -> block is undefined).length > 1
       block = group.blocks[block_uuid]
-      new_current = _.reject(group.blocks, (block) -> block is undefined or block.uuid is block_uuid)[0]
+      if group.type is 'HeroGroup'
+        current_block = _.reject(group.blocks, (b) -> b.uuid is block_uuid or b is undefined)[0].uuid
+      else
+        current_block = undefined
       changes =
         groups:
           "#{group_uuid}":
@@ -346,7 +357,7 @@ Webpage = React.createClass
                 id: block.id
               ]
             current_block:
-              $set: new_current.uuid
+              $set: current_block
     else
       changes =
         groups:
