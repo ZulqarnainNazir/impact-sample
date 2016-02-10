@@ -3,7 +3,7 @@ HeroBlock = React.createClass
     style =
       backgroundColor: this.props.background_color
       color: this.props.foreground_color
-      height: if parseInt(this.props.height) > 0 then parseInt(this.props.height) else 'auto'
+      height: if parseInt(this.props.groupHeight) > 0 then parseInt(this.props.groupHeight) else 'auto'
     if this.props.block_background_placement and this.props.block_background_placement.image_attachment_jumbo_url and this.props.block_background_placement.image_attachment_jumbo_url.length > 0
       style['backgroundImage'] = "url(\"#{this.props.block_background_placement.image_attachment_jumbo_url}\")"
     else if this.props.block_background_placement and this.props.block_background_placement.image_attachment_url and this.props.block_background_placement.image_attachment_url.length > 0

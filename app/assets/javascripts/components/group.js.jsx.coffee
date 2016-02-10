@@ -8,12 +8,22 @@ Group = React.createClass
     updateGroup: React.PropTypes.func
     uuid: React.PropTypes.number
 
+  componentDidMount: ->
+    $(this.getDOMNode()).find('.webpage-group-popover').popover
+      container: 'body'
+      placement: 'top'
+      trigger: 'hover'
+      delay:
+        show: 500
+        hide: 0
+
   render: ->
     `<div className={this.groupClass()} data-uuid={this.props.uuid}>
       <div className="webpage-fields">
         <input type="hidden" name={this.inputName('id')} value={this.props.id} />
         <input type="hidden" name={this.inputName('type')} value={this.props.type} />
         <input type="hidden" name={this.inputName('kind')} value={this.props.kind} />
+        <input type="hidden" name={this.inputName('height')} value={this.props.height} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
         <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
@@ -91,11 +101,15 @@ Group = React.createClass
     if this.props.current_block is block.uuid
       `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" />`
     else
-      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle" />`
+      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle webpage-group-popover" data-content="Click to edit this slide" />`
 
   renderHeroAdder: ->
-    if Object.keys(_.reject(this.props.blocks, (block) -> block is undefined)).length < 3
-      `<span onClick={this.props.insertBlock.bind(null, this.props.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle" />`
+    blocksLength = Object.keys(_.reject(this.props.blocks, (block) -> block is undefined)).length
+
+    if blocksLength is 1
+      `<span onClick={this.props.insertBlock.bind(null, this.props.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle webpage-group-popover" data-content="Click to turn hero into rotating carousel" />`
+    else if blocksLength < 6
+      `<span onClick={this.props.insertBlock.bind(null, this.props.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle webpage-group-popover" data-content="Click to add slide to carousel" />`
 
   renderBlocks: ->
     if this.props.type is 'HeroGroup'
@@ -107,7 +121,7 @@ Group = React.createClass
 
   renderBlock: (block) ->
     if block
-      `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} max_blocks={this.props.max_blocks} groupInputName={this.inputName('blocks_attributes')} contents_path={this.props.contents_path} reviews_path={this.props.reviews_path} {...block} />`
+      `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} groupHeight={this.props.height} max_blocks={this.props.max_blocks} groupInputName={this.inputName('blocks_attributes')} contents_path={this.props.contents_path} reviews_path={this.props.reviews_path} {...block} />`
 
   nextMaxBlocksValue: ->
     if this.props.max_blocks is 3

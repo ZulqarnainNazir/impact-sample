@@ -8,6 +8,7 @@ module GroupsAttributesConcern
       :id,
       :type,
       :kind,
+      :height,
       :max_blocks,
       :position,
       :custom_class,

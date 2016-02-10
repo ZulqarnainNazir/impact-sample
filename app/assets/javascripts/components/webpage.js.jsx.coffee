@@ -657,15 +657,29 @@ Webpage = React.createClass
     group = this.state.groups[group_uuid]
     $('#custom_group_uuid').val group_uuid
     $('#custom_group_custom_class').val group.custom_class
+    if group.type is 'HeroGroup'
+      $('#custom_group_height_fields').show()
+      $('#custom_group_height').val if parseInt(group.height) > 0 then parseInt(group.height) else ''
+    else
+      $('#custom_group_height_fields').hide()
+      $('#custom_group_height').val('')
     $('#custom_group_modal').modal('show')
 
   updateCustomGroup: ->
-    this.updateGroup $('#custom_group_uuid').val(),
-      custom_class: $('#custom_group_custom_class').val()
+    group = this.state.groups[$('#custom_group_uuid').val()]
+    if group.type is 'HeroGroup'
+      this.updateGroup $('#custom_group_uuid').val(),
+        custom_class: $('#custom_group_custom_class').val()
+        height: $('#custom_group_height').val()
+    else
+      this.updateGroup $('#custom_group_uuid').val(),
+        custom_class: $('#custom_group_custom_class').val()
+        height: undefined
 
   resetCustomGroup: ->
     $('#custom_group_uuid').val ''
     $('#custom_group_custom_class').val ''
+    $('#custom_group_height').val ''
 
   editLink: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -730,7 +744,7 @@ Webpage = React.createClass
     $('#hero_settings_foreground_color').minicolors $.extend(minicolorOptions, defaultValue: block.foreground_color or '')
     $('#hero_settings_group_uuid').val group_uuid
     $('#hero_settings_block_uuid').val block_uuid
-    $('#hero_settings_height').val if parseInt(block.height) > 0 then parseInt(block.height) else ''
+    $('#hero_settings_custom_class').val block.custom_class
     $('#hero_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
     $('#hero_settings_modal').modal('show')
 
@@ -739,14 +753,12 @@ Webpage = React.createClass
       custom_class: $('#hero_settings_custom_class').val()
       background_color: $('#hero_settings_background_color').val()
       foreground_color: $('#hero_settings_foreground_color').val()
-      height: $('#hero_settings_height').val()
       well_style: $('#hero_settings_well_style').val()
 
   resetHeroSettings: ->
     $('#hero_settings_background_color').val('').minicolors('destroy')
     $('#hero_settings_foreground_color').val('').minicolors('destroy')
     $('#hero_settings_custom_class').val ''
-    $('#hero_settings_height').val ''
     $('#hero_settings_well_style').val 'light'
 
   expandHero: (group_uuid, event) ->
@@ -905,6 +917,12 @@ Webpage = React.createClass
                 </label>
                 <input type="text" id="custom_group_custom_class" className="form-control" />
               </div>
+	      <div className="form-group" id="custom_group_height_fields">
+		<label htmlFor="custom_group_height" className="control-label">
+		  Set Fixed Hero Height in Pixels
+		</label>
+		<input type="text" id="custom_group_height" className="form-control" />
+	      </div>
             </div>
             <div className="modal-footer">
               <span className="btn btn-default" data-dismiss="modal" onClick={this.resetCustomGroup}>Cancel</span>
@@ -1068,12 +1086,6 @@ Webpage = React.createClass
               </div>
               <hr />
               <p className="text-muted small">ADVANCED</p>
-              <div className="form-group">
-                <label htmlFor="hero_settings_height" className="control-label">
-                  Set Fixed Hero Height in Pixels
-                </label>
-                <input type="text" id="hero_settings_height" className="form-control" />
-              </div>
               <div className="form-group">
                 <label htmlFor="hero_settings_custom_class" className="control-label">
                   Set a Custom Class
