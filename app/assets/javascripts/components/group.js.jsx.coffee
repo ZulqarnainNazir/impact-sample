@@ -88,7 +88,7 @@ Group = React.createClass
   renderHeroToggles: ->
     if this.props.editing and this.props.type is 'HeroGroup'
       `<span className="webpage-group-hero-handles">
-        {this.renderHeroSwitchers()}
+	{this.renderHeroSwitchers()}
         {this.renderHeroAdder()}
       </span>`
 
@@ -99,9 +99,9 @@ Group = React.createClass
 
   renderHeroSwitcher: (block) ->
     if this.props.current_block is block.uuid
-      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" />`
+      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" data-uuid={block.uuid} key={block.uuid} />`
     else
-      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle webpage-group-popover" data-content="Click to edit this slide" />`
+      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle webpage-group-popover" data-content="Click to edit this slide" data-uuid={block.uuid} key={block.uuid} />`
 
   renderHeroAdder: ->
     blocksLength = Object.keys(_.reject(this.props.blocks, (block) -> block is undefined)).length
@@ -112,16 +112,14 @@ Group = React.createClass
       `<span onClick={this.props.insertBlock.bind(null, this.props.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle webpage-group-popover" data-content="Click to add slide to carousel" />`
 
   renderBlocks: ->
-    if this.props.type is 'HeroGroup'
-      this.renderBlock this.props.blocks[this.props.current_block]
-    else if this.props.max_blocks
+    if this.props.max_blocks
       _.map _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.max_blocks), 'position'), this.renderBlock
     else
       _.map _.sortBy(this.props.blocks, 'position'), this.renderBlock
 
   renderBlock: (block) ->
     if block
-      `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} groupHeight={this.props.height} max_blocks={this.props.max_blocks} groupInputName={this.inputName('blocks_attributes')} contents_path={this.props.contents_path} reviews_path={this.props.reviews_path} {...block} />`
+      `<Block key={block.uuid} editing={this.props.editing} kind={this.props.kind} current_block={this.props.current_block} groupHeight={this.props.height} max_blocks={this.props.max_blocks} groupInputName={this.inputName('blocks_attributes')} contents_path={this.props.contents_path} reviews_path={this.props.reviews_path} {...block} />`
 
   nextMaxBlocksValue: ->
     if this.props.max_blocks is 3

@@ -17,7 +17,7 @@ Block = React.createClass
         hide: 0
 
   render: ->
-    `<div className={this.webpageClassName()} data-uuid={this.props.uuid}>
+    `<div className={this.webpageClassName()} style={this.blockStyle()} data-uuid={this.props.uuid}>
       <div className="webpage-fields">
         <input type="hidden" name={this.inputName('id')} value={this.props.id} />
         <input type="hidden" name={this.inputName('type')} value={this.props.type} />
@@ -63,6 +63,11 @@ Block = React.createClass
         else 'webpage-block col-sm-4'
     else
       'webpage-block'
+
+  blockStyle: ->
+    if this.props.type is 'HeroBlock'
+      display: if this.props.current_block is this.props.uuid then '' else 'none'
+      marginTop: 0
 
   renderHeaderInputs: ->
     if this.props.type is 'HeaderBlock'

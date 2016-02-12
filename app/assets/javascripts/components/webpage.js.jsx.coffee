@@ -173,7 +173,7 @@ Webpage = React.createClass
       removeBlock: this.removeBlock.bind(null, group_uuid, block_uuid)
       type: block_type
       uuid: block_uuid
-      position: $('.webpage-group[data-uuid="' + group_uuid + '"] .webpage-blocks').length
+      position: $('.webpage-group[data-uuid="' + group_uuid + '"] .webpage-block').length
     blockSpecificAttributes = switch block_type
       when 'HeroBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
@@ -342,7 +342,7 @@ Webpage = React.createClass
     if _.reject(group.blocks, (block) -> block is undefined).length > 1
       block = group.blocks[block_uuid]
       if group.type is 'HeroGroup'
-        current_block = _.reject(group.blocks, (b) -> b.uuid is block_uuid or b is undefined)[0].uuid
+        current_block = _.reject(group.blocks, (b) -> b is undefined or b.uuid is block_uuid)[0].uuid
       else
         current_block = undefined
       changes =
