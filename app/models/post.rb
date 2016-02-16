@@ -26,6 +26,10 @@ class Post < ActiveRecord::Base
   validates :title, presence: true
   validates :published_on, presence: true
 
+  if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
+    settings index: { number_of_replicas: 1 }
+  end
+
   def published_on=(value)
     if value.to_s.split('/').length == 3
       values = value.split('/')

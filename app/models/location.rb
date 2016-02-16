@@ -33,6 +33,10 @@ class Location < ActiveRecord::Base
     event_definitions.each(&:touch)
   end
 
+  if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
+    settings index: { number_of_replicas: 1 }
+  end
+
   def as_indexed_json(options = {})
     as_json(methods: %i[full_address])
   end

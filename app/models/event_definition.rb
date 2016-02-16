@@ -33,6 +33,10 @@ class EventDefinition < ActiveRecord::Base
     LocableEventsExportJob.perform_later(business)
   end
 
+  if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
+    settings index: { number_of_replicas: 1 }
+  end
+
   def start_date=(*args)
     super DatepickerParser.parse(*args)
   end

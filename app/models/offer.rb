@@ -36,6 +36,10 @@ class Offer < ActiveRecord::Base
     validates :offer_image_placement, presence: true
   end
 
+  if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
+    settings index: { number_of_replicas: 1 }
+  end
+
   def published_on=(value)
     if value.to_s.split('/').length == 3
       values = value.split('/')
