@@ -13,10 +13,13 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def create
     create_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
       if success
-        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-          @quick_post.update_column :facebook_id, result['id']
+        begin
+          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+            @quick_post.update_column :facebook_id, result['id']
+          end
+        rescue
         end
         QuickPost.__elasticsearch__.refresh_index!
         intercom_event 'created-quick-post'
@@ -27,14 +30,17 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def update
     update_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
       if success
-        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          if @quick_post.facebook_id?
-            page_graph.put_connections @quick_post.facebook_id, quick_post_facebook_params
-          else
-            result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-            @quick_post.update_column :facebook_id, result['id']
+        begin
+          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            if @quick_post.facebook_id?
+              page_graph.put_connections @quick_post.facebook_id, quick_post_facebook_params
+            else
+              result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+              @quick_post.update_column :facebook_id, result['id']
+            end
           end
+        rescue
         end
         QuickPost.__elasticsearch__.refresh_index!
       end
@@ -44,9 +50,12 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def destroy
     destroy_resource @quick_post, location: [@business, :content_feed] do |success|
       if success
-        if @business.facebook_id? && @business.facebook_token? && @quick_post.facebook_id?
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          page_graph.delete_object @quick_post.facebook_id
+        begin
+          if @business.facebook_id? && @business.facebook_token? && @quick_post.facebook_id?
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            page_graph.delete_object @quick_post.facebook_id
+          end
+        rescue
         end
         QuickPost.__elasticsearch__.refresh_index!
       end
@@ -74,7 +83,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def quick_post_facebook_params
     if @quick_post.published_at > Time.now
       {
-        caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
+        caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),
@@ -84,7 +93,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     else
       {
         backdated_time: @quick_post.published_at,
-        caption: Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT),
+        caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),

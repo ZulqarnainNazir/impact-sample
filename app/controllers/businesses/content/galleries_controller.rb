@@ -13,10 +13,13 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     create_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
       if success
-        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
-          @gallery.update_column :facebook_id, result['id']
+        begin
+          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
+            @gallery.update_column :facebook_id, result['id']
+          end
+        rescue
         end
         Gallery.__elasticsearch__.refresh_index!
         intercom_event 'created-gallery'
@@ -27,14 +30,17 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def update
     update_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
       if success
-        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          if @gallery.facebook_id?
-            page_graph.put_connections @gallery.facebook_id, gallery_facebook_params
-          else
-            result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
-            @gallery.update_column :facebook_id, result['id']
+        begin
+          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            if @gallery.facebook_id?
+              page_graph.put_connections @gallery.facebook_id, gallery_facebook_params
+            else
+              result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
+              @gallery.update_column :facebook_id, result['id']
+            end
           end
+        rescue
         end
         Gallery.__elasticsearch__.refresh_index!
       end
@@ -44,9 +50,12 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def destroy
     destroy_resource @gallery, location: [@business, :content_feed] do |success|
       if success
-        if @business.facebook_id? && @business.facebook_token? && @gallery.facebook_id?
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          page_graph.delete_object @gallery.facebook_id
+        begin
+          if @business.facebook_id? && @business.facebook_token? && @gallery.facebook_id?
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            page_graph.delete_object @gallery.facebook_id
+          end
+        rescue
         end
         Gallery.__elasticsearch__.refresh_index!
       end
@@ -85,7 +94,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def gallery_facebook_params
     if @gallery.published_at > Time.now
       {
-        caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
+        caption: truncate(Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
         name: @gallery.title,
         picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
@@ -95,7 +104,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     else
       {
         backdated_time: @gallery.published_at,
-        caption: Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT),
+        caption: truncate(Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
         name: @gallery.title,
         picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),

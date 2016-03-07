@@ -42,10 +42,13 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     create_resource @event_definition, event_definition_params, location: [@business, :content_feed] do |success|
       if success
         @event_definition.reschedule_events!
-        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
-          @event_definition.update_column :facebook_id, result['id']
+        begin
+          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
+            @event_definition.update_column :facebook_id, result['id']
+          end
+        rescue
         end
         EventDefinition.__elasticsearch__.refresh_index!
         intercom_event 'created-event'
@@ -57,14 +60,17 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     update_resource @event_definition, event_definition_params, location: [@business, :content_feed] do |success|
       if success
         @event_definition.reschedule_events!
-        if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          if @event_definition.facebook_id?
-            page_graph.put_connections @event_definition.facebook_id, event_definition_facebook_params
-          else
-            result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
-            @event_definition.update_column :facebook_id, result['id']
+        begin
+          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            if @event_definition.facebook_id?
+              page_graph.put_connections @event_definition.facebook_id, event_definition_facebook_params
+            else
+              result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
+              @event_definition.update_column :facebook_id, result['id']
+            end
           end
+        rescue
         end
         EventDefinition.__elasticsearch__.refresh_index!
       end
@@ -74,9 +80,12 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   def destroy
     destroy_resource @event_definition, location: [@business, :content_feed] do |success|
       if success
-        if @business.facebook_id? && @business.facebook_token? && @event_definition.facebook_id?
-          page_graph = Koala::Facebook::API.new(@business.facebook_token)
-          page_graph.delete_object @event_definition.facebook_id
+        begin
+          if @business.facebook_id? && @business.facebook_token? && @event_definition.facebook_id?
+            page_graph = Koala::Facebook::API.new(@business.facebook_token)
+            page_graph.delete_object @event_definition.facebook_id
+          end
+        rescue
         end
         EventDefinition.__elasticsearch__.refresh_index!
       end
@@ -118,7 +127,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   def event_definition_facebook_params
     {
       backdated_time: @event_definition.created_at,
-      caption: Sanitize.fragment(@event_definition.description, Sanitize::Config::DEFAULT),
+      caption: truncate(Sanitize.fragment(@event_definition.description, Sanitize::Config::DEFAULT), length: 10000),
       link: url_for([:website, @event_definition.events.first, only_path: false, host: website_host(@business.website)]),
       name: @event_definition.title,
       picture: @event_definition.event_image.try(:attachment_url),
