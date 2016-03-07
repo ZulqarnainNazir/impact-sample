@@ -64,7 +64,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
           if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
             page_graph = Koala::Facebook::API.new(@business.facebook_token)
             if @event_definition.facebook_id?
-              page_graph.put_connections @event_definition.facebook_id, event_definition_facebook_params
+              # Update Post
             else
               result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
               @event_definition.update_column :facebook_id, result['id']

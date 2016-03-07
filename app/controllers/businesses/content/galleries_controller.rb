@@ -34,7 +34,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
           if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
             page_graph = Koala::Facebook::API.new(@business.facebook_token)
             if @gallery.facebook_id?
-              page_graph.put_connections @gallery.facebook_id, gallery_facebook_params
+              # Update Post
             else
               result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
               @gallery.update_column :facebook_id, result['id']

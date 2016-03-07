@@ -38,7 +38,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
           if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
             page_graph = Koala::Facebook::API.new(@business.facebook_token)
             if @post.facebook_id?
-              page_graph.put_connections @post.facebook_id, post_facebook_params
+              # Update Post
             else
               result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
               @post.update_column :facebook_id, result['id']

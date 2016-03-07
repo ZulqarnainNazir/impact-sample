@@ -34,7 +34,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
           if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
             page_graph = Koala::Facebook::API.new(@business.facebook_token)
             if @quick_post.facebook_id?
-              page_graph.put_connections @quick_post.facebook_id, quick_post_facebook_params
+              # Update Post
             else
               result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
               @quick_post.update_column :facebook_id, result['id']

@@ -1,4 +1,5 @@
 class FacebookReviewsExportJob < ApplicationJob
+  include ActionView::Helpers::TextHelper
   include Rails.application.routes.url_helpers
 
   def perform(business)
@@ -7,13 +8,7 @@ class FacebookReviewsExportJob < ApplicationJob
 
       business.reviews.published.each do |review|
         if review.facebook_id?
-          begin
-            graph.put_connections review.facebook_id, review_data(review)
-          rescue Koala::Facebook::ServerError => e
-            if e.fb_error_code == 100 && e.fb_error_subcode == 1607025
-              graph.put_connections review.facebook_id, review_data(review).except(:backdated_time)
-            end
-          end
+          # Update Post
         else
           begin
             result = graph.put_connections business.facebook_id, 'feed', review_data(review)
@@ -32,7 +27,7 @@ class FacebookReviewsExportJob < ApplicationJob
   def review_data(review)
     {
       backdated_time: review.created_at,
-      caption: Sanitize.fragment(review.description, Sanitize::Config::DEFAULT),
+      caption: truncate(Sanitize.fragment(review.description, Sanitize::Config::DEFAULT), length: 1000),
       link: website_review_url(review, host: website_host(review.business.website)),
       name: review_stars(review.overall_rating) + review.title,
     }
