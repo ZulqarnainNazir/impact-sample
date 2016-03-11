@@ -3,7 +3,10 @@
     => icon 'photo'
     strong> Gallery
     span.pull-right
-      span.text-muted> Posted #{time_ago_in_words gallery.created_at} ago
+      - if gallery.published_on > Time.zone.now
+        span.text-muted> Will Post #{time_ago_in_words gallery.published_at} from now
+      - else
+        span.text-muted> Posted #{time_ago_in_words gallery.published_at} ago
       - if gallery.content_categories.any? || gallery.content_tags.any?
         span.text-muted> in
         - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
