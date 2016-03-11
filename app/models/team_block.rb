@@ -5,7 +5,7 @@ class TeamBlock < Block
 
   def cache_sensitive_key(params)
     if business
-      business.team_members.order(updated_at: :desc).pluck(:updated_at)[0]
+      business.team_members.reorder(updated_at: :desc).pluck(:updated_at)[0]
     end
   end
 end
