@@ -171,7 +171,7 @@ Block = React.createClass
 
   renderEditImageOption: ->
     if this.props.editImage
-      `<a href="#" onClick={this.props.editImage} className="btn btn-warning" title="Click to add or edit the main image" data-content="Highlight something specific with an image or embedded video"><i className="fa fa-photo" /></a>`
+      `<a href="#" onClick={this.props.editImage} className="btn btn-warning" title="Click to add or edit the main image" data-content="Highlight something specific with an image or embedded video"><i className="fa fa-photo" /> / <i className="fa fa-code" /></a>`
 
   renderEditLinkOption: ->
     if this.props.editLink
@@ -201,8 +201,6 @@ Block = React.createClass
         `<TaglineBlock {...this.props} />`
       when 'CallToActionBlock'
         `<CallToActionBlock {...this.props} />`
-      when 'SpecialtyBlock'
-        `<SpecialtyBlock {...this.props} />`
       when 'ContentBlock'
         `<ContentBlock {...this.props} />`
       when 'BlogFeedBlock'

@@ -208,16 +208,6 @@ Webpage = React.createClass
         sort: (e) -> e.preventDefault()
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
-      when 'SpecialtyBlock'
-        editText: this.editText.bind(null, group_uuid, block_uuid)
-        editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
-        editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
-        prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
-        nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
-        theme: 'left'
-        themes: ['left', 'right']
-        updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
-        updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'ContentBlock'
         editText: this.editText.bind(null, group_uuid, block_uuid)
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
@@ -225,7 +215,8 @@ Webpage = React.createClass
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         theme: 'left'
-        themes: ['left', 'right', 'text', 'image']
+        themes: ['left', 'left_half', 'right_half', 'right', 'text', 'image']
+        updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'BlogFeedBlock'
         editCustom: this.editFeedSettings.bind(null, group_uuid, block_uuid)
@@ -406,12 +397,15 @@ Webpage = React.createClass
       richText: if block.richText then false else true
 
   updateHeading: (group_uuid, block_uuid, richText) ->
+    richText = '' if richText is '<br>'
     this.updateBlock group_uuid, block_uuid, heading: richText
 
   updateSubheading: (group_uuid, block_uuid, richText) ->
+    richText = '' if richText is '<br>'
     this.updateBlock group_uuid, block_uuid, subheading: richText
 
   updateText: (group_uuid, block_uuid, richText) ->
+    richText = '' if richText is '<br>'
     this.updateBlock group_uuid, block_uuid, text: richText
 
   editMedia: (group_uuid, block_uuid, type, event) ->
@@ -1282,7 +1276,6 @@ Webpage = React.createClass
                 {this.renderInsertHeroGroup()}
                 {this.renderInsertTaglineGroup()}
                 {this.renderInsertCallToActionGroup()}
-                {this.renderInsertSpecialtyGroup()}
                 {this.renderInsertContentGroup()}
                 {this.renderInsertBlogFeedGroup()}
                 {this.renderInsertReviewsGroup()}
@@ -1480,10 +1473,6 @@ Webpage = React.createClass
   renderInsertCallToActionGroup: ->
     unless this.props.groupTypes.indexOf('CallToActionGroup') is -1
       `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'CallToActionGroup', 'CallToActionBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add 2 to 4 columns" data-content="Highlight services or product lines with text, linkable buttons and images.">Columns</span>`
-
-  renderInsertSpecialtyGroup: ->
-    unless this.props.groupTypes.indexOf('SpecialtyGroup') is -1
-      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'SpecialtyGroup', 'SpecialtyBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Equal parts text and image" data-content="A common, clean and simple element that includes title, image and text.">50/50 Content</span>`
 
   renderInsertContentGroup: ->
     unless this.props.groupTypes.indexOf('ContentGroup') is -1

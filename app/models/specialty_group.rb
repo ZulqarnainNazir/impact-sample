@@ -1,2 +1,0 @@
-class SpecialtyGroup < Group
-end

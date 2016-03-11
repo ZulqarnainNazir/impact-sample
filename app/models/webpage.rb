@@ -34,7 +34,7 @@ class Webpage < ActiveRecord::Base
     super.try(:attachment_url) ||
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_background).try(:attachment_url) ||
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url) ||
-      Block.where(type: 'SpecialtyBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url)
+      Block.where(type: 'ContentBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url)
   end
 
   def sidebar_position

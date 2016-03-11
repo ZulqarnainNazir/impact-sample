@@ -35,8 +35,6 @@ class Placement < ActiveRecord::Base
       placer_block_location
     when 'content_block_image'
       placer_block_location
-    when 'specialty_block_image'
-      placer_block_location
     when 'before_image'
       Rails.application.routes.url_helpers.edit_business_content_before_after_path(placer.business, placer)
     when 'after_image'

@@ -114,12 +114,13 @@ class Onboard::Website::WebsitesController < Onboard::Website::BaseController
                 ],
               },
               {
-                type: 'SpecialtyGroup',
+                type: 'ContentGroup',
                 blocks_attributes: [
                   {
-                    type: 'SpecialtyBlock',
+                    type: 'ContentBlock',
                     heading: line.delivery_experience,
                     text: line.delivery_process,
+                    theme: 'left_half',
                   },
                 ],
               },

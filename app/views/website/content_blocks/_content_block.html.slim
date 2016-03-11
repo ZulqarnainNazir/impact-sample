@@ -1,6 +1,9 @@
 - cache content_block do
   .webpage-block class=content_block.custom_class
     .webpage-content
+      - if content_block.heading?
+        .lead.text-center = sanitize_html content_block.heading
+        hr
       - if content_block.theme == 'text'
         = sanitize_html content_block.text
       - elsif content_block.theme == 'image'
@@ -19,7 +22,7 @@
                 = content_block.block_image_placement.embed.html_safe
             - elsif content_block.block_image
               = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
-      - else
+      - elsif content_block.theme == 'right'
         .row
           .col-sm-4
             - if content_block.block_image_placement.try(:embeds?)
@@ -28,4 +31,24 @@
             - elsif content_block.block_image
               = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
           .col-sm-8
+            = sanitize_html content_block.text
+      - elsif content_block.theme == 'left_half'
+        .row
+          .col-sm-6
+            = sanitize_html content_block.text
+          .col-sm-6
+            - if content_block.block_image_placement.try(:embeds?)
+              .embed-responsive.embed-responsive-4by3
+                = content_block.block_image_placement.embed.html_safe
+            - elsif content_block.block_image
+              = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
+      - elsif content_block.theme == 'right_half'
+        .row
+          .col-sm-6
+            - if content_block.block_image_placement.try(:embeds?)
+              .embed-responsive.embed-responsive-4by3
+                = content_block.block_image_placement.embed.html_safe
+            - elsif content_block.block_image
+              = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
+          .col-sm-6
             = sanitize_html content_block.text
