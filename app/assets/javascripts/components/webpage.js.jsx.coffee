@@ -185,6 +185,8 @@ Webpage = React.createClass
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
         compress: this.compressHero.bind(null, group_uuid)
         expand: this.expandHero.bind(null, group_uuid)
+        heading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
         theme: 'full'
         themes: ['full', 'right', 'left']
         well_style: 'light'
@@ -196,6 +198,7 @@ Webpage = React.createClass
         editCustom: this.editTaglineSettings.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
         theme: 'left'
         themes: ['left', 'center', 'right']
         well_style: 'light'
@@ -205,6 +208,8 @@ Webpage = React.createClass
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
         editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
+        heading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
         sort: (e) -> e.preventDefault()
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
@@ -214,6 +219,8 @@ Webpage = React.createClass
         editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        heading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
         theme: 'left'
         themes: ['left', 'left_half', 'right_half', 'right', 'text', 'image']
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
@@ -230,6 +237,8 @@ Webpage = React.createClass
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         editLink: this.editLink.bind(null, group_uuid, block_uuid)
         editCustom: this.editDefaultSettings.bind(null, group_uuid, block_uuid)
+        heading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
         sort: (e) -> e.preventDefault()
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
@@ -247,6 +256,9 @@ Webpage = React.createClass
         editImage: this.editMedia.bind(null, group_uuid, block_uuid, 'image')
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        heading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        subheading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
         theme: 'banner'
         themes: ['banner', 'left']
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
@@ -262,6 +274,7 @@ Webpage = React.createClass
         editText: this.editText.bind(null, group_uuid, block_uuid)
         prevTheme: this.prevTheme.bind(null, group_uuid, block_uuid)
         nextTheme: this.nextTheme.bind(null, group_uuid, block_uuid)
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ut tortor quis mattis. Donec sit amet hendrerit risus. Maecenas sed orci metus. Nulla viverra bibendum quam, eu ullamcorper felis dignissim sit amet. Pellentesque quis urna nec arcu malesuada accumsan. Nunc eu lacinia est. Vestibulum cursus consequat interdum.'
         theme: 'right'
         themes: ['right', 'banner', 'inline', 'content']
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
