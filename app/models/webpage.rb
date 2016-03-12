@@ -18,6 +18,7 @@ class Webpage < ActiveRecord::Base
   validates :pathname, uniqueness: { scope: :website, case_sensitive: false }
   validates :pathname, absence: true, if: -> { type == 'HomePage' }
   validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: -> { type == 'HomePage' }
+  validates :pathname, exclusion: { in: %w[about blog contact events feedback share] }
   validates :title, presence: true
   validates :type, presence: true, exclusion: { in: %w[Webpage] }
 
