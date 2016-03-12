@@ -1193,6 +1193,12 @@ Webpage = React.createClass
               <p className="h4 modal-title">Change Feed Settings</p>
             </div>
             <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="feed_settings_items_limit" className="control-label">
+                  Maximum Number of Feed Items to Display
+                </label>
+                <input type="number" id="feed_settings_items_limit" className="form-control" step="1" />
+              </div>
               <div className="radio">
                 <label>
                   <input id="feed_settings_link_version_none" type="radio" name="link_version" value="link_none" defaultChecked="true"/>
@@ -1248,13 +1254,6 @@ Webpage = React.createClass
                     Add "no-follow" to the link?
                   </label>
                 </div>
-              </div>
-              <hr />
-              <div className="form-group">
-                <label htmlFor="feed_settings_items_limit" className="control-label">
-                  Maximum Number of Feed Items to Display
-                </label>
-                <input type="number" id="feed_settings_items_limit" className="form-control" step="1" />
               </div>
               <p><strong>What Types of Content Do You Want to Include?</strong></p>
               <div className="row" style={{marginBottom: 5}}>
