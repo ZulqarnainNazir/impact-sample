@@ -42,6 +42,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
           end
         rescue
         end
+        @gallery.__elasticsearch__.index_document
         Gallery.__elasticsearch__.refresh_index!
       end
     end

@@ -46,6 +46,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
           end
         rescue
         end
+        @post.__elasticsearch__.index_document
         Post.__elasticsearch__.refresh_index!
       end
     end

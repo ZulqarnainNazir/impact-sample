@@ -4,7 +4,7 @@ class ContentTag < ActiveRecord::Base
   has_many :content_taggings
   has_many :content_items, through: :content_taggings
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { scope: :business }
 
   def to_param
     "#{id}-#{name}".parameterize

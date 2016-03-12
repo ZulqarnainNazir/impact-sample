@@ -50,6 +50,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
           end
         rescue
         end
+        @event_definition.__elasticsearch__.index_document
         EventDefinition.__elasticsearch__.refresh_index!
         intercom_event 'created-event'
       end

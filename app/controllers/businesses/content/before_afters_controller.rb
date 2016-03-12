@@ -42,6 +42,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
           end
         rescue
         end
+        @before_after.__elasticsearch__.index_document
         BeforeAfter.__elasticsearch__.refresh_index!
       end
     end

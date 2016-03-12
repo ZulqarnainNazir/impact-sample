@@ -42,6 +42,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
           end
         rescue
         end
+        @quick_post.__elasticsearch__.index_document
         QuickPost.__elasticsearch__.refresh_index!
       end
     end

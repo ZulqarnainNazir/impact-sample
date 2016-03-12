@@ -51,6 +51,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
           end
         rescue
         end
+        @offer.__elasticsearch__.index_document
         Offer.__elasticsearch__.refresh_index!
       end
     end
