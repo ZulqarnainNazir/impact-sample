@@ -1,7 +1,7 @@
 - cache content_block do
   .webpage-block class=content_block.custom_class
     .webpage-content
-      - if content_block.heading?
+      - if content_block.heading? && content_block.heading != '<br>'
         .lead.text-center = sanitize_html content_block.heading
         hr
       - if content_block.theme == 'text'
