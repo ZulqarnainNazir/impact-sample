@@ -49,11 +49,14 @@ Webpage = React.createClass
 
   componentDidMount: ->
     $('#link_modal').on 'change', 'input[type="radio"]', this.toggleLinkOptions
+    $('#feed_settings_modal').on 'change', 'input[type="radio"]', this.toggleFeedLinkOptions
     $('.webpage-save-toggle-on').on 'click', -> $('.webpage-save').addClass('webpage-save-visible'); $('.webpage-save-toggle-on').hide(); $('.webpage-save-toggle-off').show()
     $('.webpage-save-toggle-off').hide().on 'click', -> $('.webpage-save').removeClass('webpage-save-visible'); $('.webpage-save-toggle-off').hide(); $('.webpage-save-toggle-on').show()
     this.enableSortables()
     this.resetLink()
     this.toggleLinkOptions()
+    this.resetFeedSettings()
+    this.toggleFeedLinkOptions()
     this.resetMedia()
     $('.webpage-save span.btn-default').popover
       container: 'body'
@@ -817,6 +820,16 @@ Webpage = React.createClass
     $('#feed_settings_content_category_ids').val (block.content_category_ids || '').split(' ')
     $('#feed_settings_content_tag_ids').val (block.content_tag_ids || '').split(' ')
     $('#feed_settings_custom_class').val block.custom_class
+    $('#feed_settings_link_id').val block.link_id
+    $('#feed_settings_link_external_url').val if block.link_external_url and block.link_external_url.length > 0 then block.link_external_url else 'http://'
+    $('#feed_settings_link_label').val if block.link_label and block.link_label.length > 0 then block.link_label else 'View More'
+    $('#feed_settings_link_no_follow').prop 'checked', if block.link_no_follow then true else false
+    $('#feed_settings_link_target_blank').prop 'checked', if block.link_target_blank then true else false
+    $('#feed_settings_link_version_none').prop 'checked', if ['link_paginate', 'link_internal', 'link_external'].indexOf(block.link_version) >= 0 then false else true
+    $('#feed_settings_link_version_paginate').prop 'checked', block.link_version is 'link_paginate'
+    $('#feed_settings_link_version_internal').prop 'checked', block.link_version is 'link_internal'
+    $('#feed_settings_link_version_external').prop 'checked', block.link_version is 'link_external'
+    this.toggleFeedLinkOptions()
     $('#feed_settings_modal').modal('show')
 
   updateFeedSettings: (group_uuid, block_uuid) ->
@@ -826,6 +839,13 @@ Webpage = React.createClass
       content_tag_ids: ($('#feed_settings_content_tag_ids').val() || []).join(' ')
       custom_class: $('#feed_settings_custom_class').val()
       items_limit: $('#feed_settings_items_limit').val()
+      link_external_url: $('#feed_settings_link_external_url').val()
+      link_id: $('#feed_settings_link_id').val()
+      link_label: $('#feed_settings_link_label').val()
+      link_no_follow: $('#feed_settings_link_no_follow').prop('checked')
+      link_target_blank: $('#feed_settings_link_target_blank').prop('checked')
+      link_version: $('input[name="link_version"]:checked').val()
+    this.resetFeedSettings()
 
   resetFeedSettings: ->
     $('.feed_settings_content_type').prop 'checked', false
@@ -833,6 +853,27 @@ Webpage = React.createClass
     $('#feed_settings_content_tag_ids').val null
     $('#feed_settings_custom_class').val ''
     $('#feed_settings_items_limit').val 4
+    $('#feed_settings_link_id').val ''
+    $('#feed_settings_link_external_url').val 'http://'
+    $('#feed_settings_link_label').val 'View More'
+    $('#feed_settings_link_no_follow').prop 'checked', false
+    $('#feed_settings_link_target_blank').prop 'checked', false
+    $('#feed_settings_link_version_none').prop 'checked', true
+    this.toggleFeedLinkOptions()
+
+  toggleFeedLinkOptions: ->
+    if $('#feed_settings_link_version_internal').prop('checked')
+      $('#feed_settings_link_inputs_default').show()
+      $('#feed_settings_link_inputs_internal').show()
+      $('#feed_settings_link_inputs_external').hide()
+    else if $('#feed_settings_link_version_external').prop('checked')
+      $('#feed_settings_link_inputs_default').show()
+      $('#feed_settings_link_inputs_internal').hide()
+      $('#feed_settings_link_inputs_external').show()
+    else
+      $('#feed_settings_link_inputs_default').hide()
+      $('#feed_settings_link_inputs_internal').hide()
+      $('#feed_settings_link_inputs_external').hide()
 
   editReviewsSettings: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -1152,6 +1193,65 @@ Webpage = React.createClass
               <p className="h4 modal-title">Change Feed Settings</p>
             </div>
             <div className="modal-body">
+              <div className="radio">
+                <label>
+                  <input id="feed_settings_link_version_none" type="radio" name="link_version" value="link_none" defaultChecked="true"/>
+                  Don‘t include a linked button
+                </label>
+              </div>
+              <div className="radio">
+                <label>
+                  <input id="feed_settings_link_version_paginate" type="radio" name="link_version" value="link_paginate" defaultChecked="true"/>
+                  Paginate the current page
+                </label>
+              </div>
+              <div className="radio">
+                <label>
+                  <input id="feed_settings_link_version_internal" type="radio" name="link_version" value="link_internal" />
+                  Link to an internal webpage on your site
+                </label>
+              </div>
+              <div className="radio">
+                <label>
+                  <input id="feed_settings_link_version_external" type="radio" name="link_version" value="link_external" />
+                  Link to an external webpage
+                </label>
+              </div>
+              <div id="feed_settings_link_inputs_internal">
+                <hr />
+                <div className="form-group">
+                  <label htmlFor="feed_settings_link_id" className="control-label">IMPACT Webpage</label>
+                  <select id="feed_settings_link_id" className="form-control">
+                    {this.renderEditLinkOptions()}
+                  </select>
+                </div>
+              </div>
+              <div id="feed_settings_link_inputs_external">
+                <hr />
+                <div className="form-group">
+                  <label htmlFor="feed_settings_link_external_url" className="control-label">External URL</label>
+                  <input id="feed_settings_link_external_url" type="text" className="form-control" />
+                </div>
+              </div>
+              <div id="feed_settings_link_inputs_default">
+                <div className="form-group">
+                  <label htmlFor="feed_settings_link_label" className="control-label">Button Label</label>
+                  <input id="feed_settings_link_label" type="text" className="form-control" />
+                </div>
+                <div className="checkbox">
+                  <label>
+                    <input id="feed_settings_link_target_blank" type="checkbox" value="1" />
+                    Open link in a new window?
+                  </label>
+                </div>
+                <div className="checkbox">
+                  <label>
+                    <input id="feed_settings_link_no_follow" type="checkbox" value="1" />
+                    Add "no-follow" to the link?
+                  </label>
+                </div>
+              </div>
+              <hr />
               <div className="form-group">
                 <label htmlFor="feed_settings_items_limit" className="control-label">
                   Maximum Number of Feed Items to Display

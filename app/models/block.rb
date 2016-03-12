@@ -3,7 +3,7 @@ class Block < ActiveRecord::Base
 
   store_accessor :settings, :background_color, :foreground_color, :link_color, :height, :items_limit, :well_style, :custom_class, :content_types, :content_category_ids, :content_tag_ids
 
-  enum link_version: { link_none: 0, link_internal: 1, link_external: 2, }
+  enum link_version: { link_none: 0, link_internal: 1, link_external: 2, link_paginate: 3, }
 
   belongs_to :frame, polymorphic: true, touch: true
   belongs_to :link, polymorphic: true
@@ -18,7 +18,7 @@ class Block < ActiveRecord::Base
   before_validation do
     self.link_no_follow = false if !link_no_follow?
     self.link_target_blank = false if !link_target_blank?
-    self.link_version = :link_none unless link_internal? || link_external?
+    self.link_version = :link_none unless link_internal? || link_external? || link_paginate?
     self.position = 0 unless position?
   end
 
