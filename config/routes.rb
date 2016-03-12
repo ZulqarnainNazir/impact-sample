@@ -173,6 +173,8 @@ Rails.application.routes.draw do
     resources :quick_posts, only: %i[show]
     resources :reviews, only: %i[index show new create]
 
+    get '/:year/:month/:day/:id/:slug', to: 'generic_posts#show', as: :generic_post
+
     get '*id', to: 'custom_pages#show', as: :custom_page
   end
 end

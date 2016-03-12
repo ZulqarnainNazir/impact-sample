@@ -58,20 +58,7 @@ if blog_feed_group && blog_feed_block
             xml.media :content, url: post.main_image.try(:attachment_url) || post.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_url)
           end
 
-          case post.class.name
-          when 'QuickPost'
-            xml.link website_quick_post_url(post)
-          when 'Event'
-            xml.link website_event_url(post)
-          when 'Gallery'
-            xml.link website_gallery_url(post)
-          when 'BeforeAfter'
-            xml.link website_before_after_url(post)
-          when 'Offer'
-            xml.link website_offer_url(post)
-          when 'Post'
-            xml.link website_post_url(post)
-          end
+          xml.link website_generic_post_url(post.to_generic_param)
         end
       end
     end

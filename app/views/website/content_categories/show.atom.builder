@@ -5,22 +5,7 @@ atom_feed do |atom|
   atom.updated posts.first.updated_at if posts.first
 
   posts.each do |post|
-    post_url = case post.class.name
-    when 'QuickPost'
-      website_quick_post_url(post)
-    when 'Event'
-      website_event_url(post)
-    when 'Gallery'
-      website_gallery_url(post)
-    when 'BeforeAfter'
-      website_before_after_url(post)
-    when 'Offer'
-      website_offer_url(post)
-    when 'Post'
-      website_post_url(post)
-    end
-
-    atom.entry post, url: post_url do |entry|
+    atom.entry post, url: website_generic_post_url(post.to_generic_param) do |entry|
       entry.title post.title, type: 'html'
 
       post.content_categories.each do |category|

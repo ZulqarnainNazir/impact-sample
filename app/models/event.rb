@@ -29,7 +29,13 @@ class Event < ActiveRecord::Base
     occurs_on
   end
 
-  def to_param
-    "#{id}-#{event_definition.title}".parameterize
+  def to_generic_param
+    {
+      year: occurs_on.strftime('%Y'),
+      month: occurs_on.strftime('%m'),
+      day: occurs_on.strftime('%d'),
+      id: id,
+      slug: event_definition.slug,
+    }
   end
 end

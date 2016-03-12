@@ -11,7 +11,7 @@
           - if i < before_after.content_categories.count + before_after.content_tags.count - 1
             ' ,
   - cache before_after do
-    h2.h3 = link_to before_after.title, [:website, before_after]
+    h2.h3 = link_to before_after.title, website_generic_post_path(before_after.to_generic_param)
     - if defined?(small)
       - if before_after.before_image
         h3.h4 Before
@@ -20,7 +20,7 @@
         h3.h4 After
         = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
       = truncate sanitize(before_after.description), length: 250, omission: '... ' do
-        = link_to 'Read More', [:website, before_after]
+        = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)
     - else
       - if before_after.before_image || before_after.after_image
         .row style="margin-top: 20px"
@@ -33,4 +33,4 @@
               h3.h4 After
               = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
       = truncate sanitize(before_after.description), length: 250, omission: '... ' do
-        = link_to 'Read More', [:website, before_after]
+        = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)

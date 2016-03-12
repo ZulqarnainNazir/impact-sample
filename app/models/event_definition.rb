@@ -2,6 +2,7 @@ class EventDefinition < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
+  include ContentSlugConcern
 
   belongs_to :business, touch: true
 

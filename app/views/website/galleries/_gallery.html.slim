@@ -12,7 +12,7 @@
             ' ,
   - cache gallery do
     h2
-      => link_to gallery.title, [:website, gallery]
+      => link_to gallery.title, website_generic_post_path(gallery.to_generic_param)
       span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
     .row.row-narrow
       - gallery.gallery_images.limit(6).each do |gallery_image|

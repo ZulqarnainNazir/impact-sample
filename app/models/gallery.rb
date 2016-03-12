@@ -2,6 +2,7 @@ class Gallery < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
+  include ContentSlugConcern
 
   belongs_to :business, touch: true
 
@@ -52,7 +53,13 @@ class Gallery < ActiveRecord::Base
     published_at
   end
 
-  def to_param
-    "#{id}-#{title}".parameterize
+  def to_generic_param
+    {
+      year: published_on.strftime('%Y'),
+      month: published_on.strftime('%m'),
+      day: published_on.strftime('%d'),
+      id: id,
+      slug: title.gsub(/['’]/, '').parameterize,
+    }
   end
 end

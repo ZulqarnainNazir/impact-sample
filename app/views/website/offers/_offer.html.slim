@@ -12,7 +12,7 @@
           - if i < offer.content_categories.count + offer.content_tags.count - 1
             ' ,
   - cache offer do
-    h2 = link_to offer.title, [:website, offer]
+    h2 = link_to offer.title, website_generic_post_path(offer.to_generic_param)
     - if defined?(small)
       - if image
         = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
@@ -25,7 +25,7 @@
       div style="margin:10px 0"
         = truncate sanitize(offer.description), length: 250
       p.text-right
-        = link_to [:website, offer], class: 'btn btn-primary' do
+        = link_to website_generic_post_path(offer.to_generic_param), class: 'btn btn-primary' do
           ' Learn More
           i.fa.fa-angle-right
     - else
@@ -44,6 +44,6 @@
             div style="margin:10px 0"
               = truncate sanitize(offer.description), length: 250
             p.text-right
-              = link_to [:website, offer], class: 'btn btn-primary' do
+              = link_to website_generic_post_path(offer.to_generic_param), class: 'btn btn-primary' do
                 ' Learn More
                 i.fa.fa-angle-right

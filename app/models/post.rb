@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
+  include ContentSlugConcern
 
   belongs_to :business, touch: true
 
@@ -73,10 +74,6 @@ class Post < ActiveRecord::Base
     add_keyed_cached_children roots, sections
   end
 
-  def to_param
-    "#{id}-#{title}".parameterize
-  end
-
   def sections_html
     html = ''
     add_sections_html html, post_sections.arrange(order: :position)
@@ -99,6 +96,16 @@ class Post < ActiveRecord::Base
 
   def published_at
     published_on.to_time + created_at.seconds_since_midnight.seconds
+  end
+
+  def to_generic_param
+    {
+      year: published_on.strftime('%Y'),
+      month: published_on.strftime('%m'),
+      day: published_on.strftime('%d'),
+      id: id,
+      slug: slug,
+    }
   end
 
   private

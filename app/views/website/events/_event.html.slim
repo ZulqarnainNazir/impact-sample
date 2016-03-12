@@ -18,6 +18,6 @@
         - elsif placement.try(:image)
           = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
         .event-info
-          h2.event-title = link_to event.event_definition.title, [:website, event]
+          h2.event-title = link_to event.event_definition.title, website_generic_post_path(event.to_generic_param)
           .event-desc.truncate = truncate sanitize(event.event_definition.description), length: 250, omission: '... ' do
-            = link_to 'Read More', [:website, event]
+            = link_to 'Read More', website_generic_post_path(event.to_generic_param)

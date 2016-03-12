@@ -9,11 +9,6 @@ class Website::EventsController < Website::BaseController
 
   def show
     @event = @business.events.find(params[:id])
-    @upcoming_events = @event.event_definition.events.
-      where.not(id: @event.id).
-      where('occurs_on >= ?', Time.zone.now).
-      order(occurs_on: :asc).
-      page(1).
-      per(4)
+    redirect_to website_generic_post_path(@event.to_generic_param), status: 301
   end
 end

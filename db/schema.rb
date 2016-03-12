@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205002941) do
+ActiveRecord::Schema.define(version: 20160312051023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,9 +40,11 @@ ActiveRecord::Schema.define(version: 20160205002941) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.date     "published_on"
+    t.text     "slug"
   end
 
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
+  add_index "before_afters", ["id", "slug"], name: "index_before_afters_on_id_and_slug", unique: true, using: :btree
 
   create_table "blocks", force: :cascade do |t|
     t.integer  "frame_id",                              null: false
@@ -241,9 +243,11 @@ ActiveRecord::Schema.define(version: 20160205002941) do
     t.text     "external_id"
     t.text     "meta_description"
     t.text     "facebook_id"
+    t.text     "slug"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
+  add_index "event_definitions", ["id", "slug"], name: "index_event_definitions_on_id_and_slug", unique: true, using: :btree
 
   create_table "events", force: :cascade do |t|
     t.integer  "business_id",         null: false
@@ -282,9 +286,11 @@ ActiveRecord::Schema.define(version: 20160205002941) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.date     "published_on"
+    t.text     "slug"
   end
 
   add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
+  add_index "galleries", ["id", "slug"], name: "index_galleries_on_id_and_slug", unique: true, using: :btree
 
   create_table "gallery_images", force: :cascade do |t|
     t.integer  "gallery_id",              null: false
@@ -414,9 +420,11 @@ ActiveRecord::Schema.define(version: 20160205002941) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.date     "published_on"
+    t.text     "slug"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
+  add_index "offers", ["id", "slug"], name: "index_offers_on_id_and_slug", unique: true, using: :btree
 
   create_table "openings", force: :cascade do |t|
     t.integer  "location_id",                 null: false
@@ -475,9 +483,11 @@ ActiveRecord::Schema.define(version: 20160205002941) do
     t.date     "published_on"
     t.text     "meta_description"
     t.text     "facebook_id"
+    t.text     "slug"
   end
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
+  add_index "posts", ["id", "slug"], name: "index_posts_on_id_and_slug", unique: true, using: :btree
 
   create_table "quick_posts", force: :cascade do |t|
     t.integer  "business_id"
@@ -488,9 +498,11 @@ ActiveRecord::Schema.define(version: 20160205002941) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.date     "published_on"
+    t.text     "slug"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree
+  add_index "quick_posts", ["id", "slug"], name: "index_quick_posts_on_id_and_slug", unique: true, using: :btree
 
   create_table "redirects", force: :cascade do |t|
     t.integer  "website_id", null: false
