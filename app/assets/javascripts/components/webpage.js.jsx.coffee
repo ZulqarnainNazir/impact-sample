@@ -1218,7 +1218,6 @@ Webpage = React.createClass
                 </label>
               </div>
               <div id="feed_settings_link_inputs_internal">
-                <hr />
                 <div className="form-group">
                   <label htmlFor="feed_settings_link_id" className="control-label">IMPACT Webpage</label>
                   <select id="feed_settings_link_id" className="form-control">
@@ -1227,7 +1226,6 @@ Webpage = React.createClass
                 </div>
               </div>
               <div id="feed_settings_link_inputs_external">
-                <hr />
                 <div className="form-group">
                   <label htmlFor="feed_settings_link_external_url" className="control-label">External URL</label>
                   <input id="feed_settings_link_external_url" type="text" className="form-control" />
