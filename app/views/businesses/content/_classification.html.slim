@@ -67,7 +67,8 @@
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       minLength: 2,
       remote: {
-        url: '#{business_content_tags_path(form.object.business)}'
+        cache: false,
+        url: '#{business_content_tags_path(form.object.business)}?query=%QUERY'
       }
     });
     tagLookup.initialize();
