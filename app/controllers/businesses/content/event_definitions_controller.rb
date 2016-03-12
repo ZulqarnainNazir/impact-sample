@@ -127,7 +127,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   def event_definition_facebook_params
     {
       backdated_time: @event_definition.created_at,
-      caption: truncate(Sanitize.fragment(@event_definition.description, Sanitize::Config::DEFAULT), length: 10000),
+      caption: truncate(Sanitize.fragment(@event_definition.description, Sanitize::Config::DEFAULT), length: 1000),
       link: url_for([:website, @event_definition.events.first, only_path: false, host: website_host(@business.website)]),
       name: @event_definition.title,
       picture: @event_definition.event_image.try(:attachment_url),
