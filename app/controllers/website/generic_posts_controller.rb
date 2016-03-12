@@ -14,7 +14,7 @@ class Website::GenericPostsController < Website::BaseController
       return
     end
 
-    @event = @business.events.find_by_id_and_slug(params[:id], params[:slug])
+    @event = @business.events.joins(:event_definition).where(id: params[:id], event_definitions: { slug: params[:slug] }).first
 
     if @event
       @upcoming_events = @event.event_definition.events.
