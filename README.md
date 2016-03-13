@@ -3,7 +3,7 @@
 Impact is a Ruby on Rails 4.2.x application with the following system
 dependencies:
 
-* Ruby 2.2.0
+* Ruby 2.3.0
 * PostgreSQL
 * AWS S3
 * Redis
