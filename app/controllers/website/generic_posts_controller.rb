@@ -47,5 +47,7 @@ class Website::GenericPostsController < Website::BaseController
       render 'website/before_afters/show'
       return
     end
+
+    raise ActiveRecord::RecordNotFound
   end
 end
