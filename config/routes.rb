@@ -18,8 +18,6 @@ end
 
 Rails.application.routes.draw do
   scope constraints: PlatformConstraint.new do
-    root to: 'landings#show'
-
     get :authenticate_facebook_page, to: 'authentications#facebook_page'
 
     devise_for :users, controllers: {
@@ -30,8 +28,14 @@ Rails.application.routes.draw do
       unlocks: 'users/unlocks',
     }
 
-    as :user do
-      patch '/users/confirmation', to: 'users/confirmations#update'
+    devise_scope :user do
+      authenticated :user do
+        root to: 'businesses#index', as: :authenticated_root
+      end
+      unauthenticated :user do
+        root to: 'users/sessions#new'
+      end
+      patch '/users/confirmation' => 'users/confirmations#update'
     end
 
     namespace :connect do

@@ -6,4 +6,9 @@ class LandingsController < ApplicationController
       redirect_to :new_onboard_website_business
     end
   end
+
+  def show
+    render template: 'landings/show', layout: 'landing'
+  end
+
 end

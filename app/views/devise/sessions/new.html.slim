@@ -1,24 +1,68 @@
-- title 'Sign In to IMPACT Marketing Suite'
+- title 'IMPACT Marketing Suite'
 
-.panel.panel-default
-  .panel-heading
-    h1.h3.panel-title Sign In to IMPACT
-  .panel-body
-    = form_for resource, as: resource_name, url: session_path(resource_name) do |form|
-      .form-group
-        => form.label :email
-        = form.email_field :email, autofocus: true, class: 'form-control'
-      .form-group
-        => form.label :password
-        = form.password_field :password, autocomplete: 'off', class: 'form-control'
-      - if devise_mapping.rememberable?
-        .checkbox
-          = form.label :remember_be do
-            => form.check_box :remember_me
-            ' Remember me?
-      hr
+- cache do
+  .intro-header
+    .container
       .row
-        .col-sm-8.col-sm-offset-2
-          = form.button 'Sign In', class: 'btn btn-primary btn-block'
-  .panel-footer
-    = render 'devise/shared/links'
+        .col-lg-12
+          .intro-message
+            h1 For the 5-Minute Local Marketer
+            h3 Digital Marketing Essentials Platform for Local Businesses Operators
+            hr.intro-divider
+      .row
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h4.modal-title Login to your <b>IMPACT Account</b>
+            .modal-body
+              .row
+                .col-xs-6
+                  .well
+                    = form_for resource, as: resource_name, url: session_path(resource_name) do |form|
+                      .form-group
+                        => form.label :email_address, :class => 'control-label control-label-dark'
+                        = form.email_field :email, autofocus: true, class: 'form-control', :placeholder => "Email address"
+                        span.help-block
+                      .form-group
+                        => form.label :password, :class => 'control-label control-label-dark'
+                        = form.password_field :password, autocomplete: 'off', class: 'form-control', :placeholder => "Password"
+                        span.help-block
+                      = render 'alerts'
+                      - if devise_mapping.rememberable?
+                        = form.label :remember_be, :class => 'control-label control-label-dark' do
+                          => form.check_box :remember_me, :class => 'control-label-dark'
+                          ' Remember login
+                        p.help-block class="small" (if this is a private computer)
+                      = form.button 'Login', :class => 'btn btn-success btn-block'
+                      .login-links
+                        = render 'devise/shared/links'
+                .col-xs-6
+                  p.lead Get the most out of <i>YOUR</i> marketing
+                  ul.list-unstyled style="line-height: 2"
+                    li
+                      span.fa class="fa-check text-success"
+                      |  Manage Your Website
+                    li
+                      span.fa class="fa-check text-success"
+                      |  Create & Distribute Content
+                    li
+                      span.fa class="fa-check text-success"
+                      |  Collect Customer Reviews
+                    li
+                      span.fa class="fa-check text-success"
+                      |  Get Marketing Help
+                    li
+                      span.fa class="fa-check text-success"
+                      i = link_to '#SupportLocal', 'http://locable.pgtb.me/qNcV6Q', target: :_blank
+                  hr
+                  p You don't use IMPACT yet?!?
+                  p = link_to 'Learn More About 5-Minute Marketing', :root, target: :_blank
+    footer
+      .container
+        .row
+          .col-lg-12
+            ul.list-inline
+              li = link_to 'Example Sites', 'http://www.impactmarketingsuite.com/portfolio', target: :_blank
+              li.footer-menu-divider
+              li = link_to 'Customer Support', 'http://impactsupport.locable.com/', target: :_blank
+          p.copyright class="text-muted small" Copyright © Locable 2016. All Rights Reserved

@@ -1,4 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
+  layout 'landing'
+  
   def create
     user = User.where(email: user_params[:email]).first
 
