@@ -40,13 +40,15 @@ RichTextEditor = React.createClass
   summernoteToolbar: ->
     if this.props.inline
       [
-        ['style', ['bold', 'italic', 'underline', 'superscript']],
+        ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
+        ['align', ['paragraph']],
         ['clear', ['clear']],
+        ['misc', ['codeview']],
       ]
     else
       [
         ['display', ['style']],
-        ['style', ['bold', 'italic', 'underline', 'superscript']],
+        ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
         ['insert', ['link']],
         ['lists', ['ul', 'ol']],
         ['align', ['paragraph']],
