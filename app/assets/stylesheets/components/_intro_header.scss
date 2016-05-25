@@ -1,25 +1,18 @@
-body,
-html {
-    width: 100%;
-    height: 100%;
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight: 700;
-}
-
 .intro-header {
   margin: 0;
   text-align: center;
   color: #f8f8f8;
-  width: 100%;
+
+  .container,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+  }
 
   > .container {
     background: image-url('intro-bg.jpg') no-repeat center center;
@@ -105,13 +98,12 @@ h6 {
   .text-success {
       color: #227DAB;
   }
-}
 
-footer {
-    padding: 50px 0;
-    background-color: #f8f8f8;
+  footer {
+      padding: 50px 0;
 
-    p.copyright {
-      margin: 15px 0 0;
-    }
+      p.copyright {
+        margin: 15px 0 0;
+      }
+  }
 }
