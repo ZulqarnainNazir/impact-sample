@@ -63,8 +63,15 @@ RichTextEditor = React.createClass
   onPasteTimeout: (event) ->
     code = $(this.getDOMNode()).code()
     container = $('<div>').html(code).get(0)
-    sanitizer = new Sanitize(Sanitize.Config.BASIC)
-    $(this.getDOMNode()).code sanitizer.clean_node(container)
+    if this.props.inline
+      sanitizer = new Sanitize(Sanitize.Config.RESTRICTED)
+    else
+      sanitizer = new Sanitize(Sanitize.Config.BASIC)
+
+    $(this.getDOMNode()).code divToP(sanitizer.clean_node(container))
+
+  divToP: (content) ->
+    return content.replace /<div[^>]*>(.*)<\/div>/, "<p>$1</p>"
 
   render: ->
     `<div dangerouslySetInnerHTML={{__html: this.props.html}} />`
