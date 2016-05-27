@@ -58,20 +58,26 @@ RichTextEditor = React.createClass
       ]
 
   onPaste: (event) ->
-    setTimeout this.onPasteTimeout.bind(null, event), 10
+    event.preventDefault
+    editorText = $('<div>').html($(this.getDOMNode()).code()).get(0)
+    clipboardData = (event.originalEvent || event).clipboardData
+    if clipboardData == undefined || clipboardData == null
+      # IE does not expose the clipboard data via the event.
+      clipboardText = window.clipboardData.getData('Text')
+    else
+      if /text\/html/.test(clipboardData.types)
+        clipboardText = clipboardData.getData('text/html')
+      else
+        clipboardText = clipboardData.getData('text/plain')
 
-  onPasteTimeout: (event) ->
-    code = $(this.getDOMNode()).code()
-    container = $('<div>').html(code).get(0)
     if this.props.inline
       sanitizer = new Sanitize(Sanitize.Config.RESTRICTED)
     else
       sanitizer = new Sanitize(Sanitize.Config.BASIC)
 
-    $(this.getDOMNode()).code divToP(sanitizer.clean_node(container))
-
-  divToP: (content) ->
-    return content.replace /<div[^>]*>(.*)<\/div>/, "<p>$1</p>"
+    clipboardText = $('<div>').html(clipboardText).get(0)
+    $(editorText).append(sanitizer.clean_node(clipboardText).children)
+    $(this.getDOMNode()).code(editorText)
 
   render: ->
     `<div dangerouslySetInnerHTML={{__html: this.props.html}} />`
