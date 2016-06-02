@@ -3,7 +3,7 @@ html lang="en"
   = render 'head'
   body.dashboard-background style="margin-bottom:4em"
     = render 'navbar'
-    .container
+    .container-fluid
       .row
         .col-md-3.col-lg-2.dashboard-menu
           = form_tag [@business, :content_feed], method: :get do
@@ -13,6 +13,14 @@ html lang="en"
                 = text_field_tag :query, params[:query], class: 'form-control'
                 span.input-group-btn
                   = button_tag icon('search'), class: 'btn btn-default'
+          div.well.text-center.text-muted
+            = link_to [:edit, @business, :data_details] do
+              - if @business.logo
+                = image_tag @business.logo.attachment_cache_url, alt: 'Logo image'
+              - else
+                  i.fa.fa-photo.fa-3x
+              div style='padding-top:10px'
+                  = content_tag :span, 'Click to edit logo image', class: 'small'
           .navbar
             .navbar-header
               span.navbar-toggle.collapsed data-toggle="collapse" data-target="#dashboard-collapse"
