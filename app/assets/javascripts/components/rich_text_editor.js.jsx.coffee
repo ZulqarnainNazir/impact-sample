@@ -58,26 +58,30 @@ RichTextEditor = React.createClass
       ]
 
   onPaste: (event) ->
+    # TODO: get the pasted text from the clipboard and preserve the formatting
+    # of the original text.
+    #
+    # clipboardData = (event.originalEvent || event).clipboardData
+    # if clipboardData == undefined || clipboardData == null
+    #   # IE does not expose the clipboard data via the event.
+    #   clipboardText = window.clipboardData.getData('Text')
+    # else
+    #   if /text\/html/.test(clipboardData.types)
+    #     clipboardText = clipboardData.getData('text/html')
+    #   else
+    #     clipboardText = clipboardData.getData('text/plain')
     event.preventDefault
-    editorText = $('<div>').html($(this.getDOMNode()).code()).get(0)
-    clipboardData = (event.originalEvent || event).clipboardData
-    if clipboardData == undefined || clipboardData == null
-      # IE does not expose the clipboard data via the event.
-      clipboardText = window.clipboardData.getData('Text')
-    else
-      if /text\/html/.test(clipboardData.types)
-        clipboardText = clipboardData.getData('text/html')
+    self = this
+    editor = $(self.getDOMNode())
+    setTimeout( ->
+      editorText = editor.code()
+      container = $('<div>').html(editorText).get(0)
+      if self.props.inline
+        sanitizer = new Sanitize(Sanitize.Config.RESTRICTED)
       else
-        clipboardText = clipboardData.getData('text/plain')
-
-    if this.props.inline
-      sanitizer = new Sanitize(Sanitize.Config.RESTRICTED)
-    else
-      sanitizer = new Sanitize(Sanitize.Config.BASIC)
-
-    clipboardText = $('<div>').html(clipboardText).get(0)
-    $(editorText).append(sanitizer.clean_node(clipboardText).children)
-    $(this.getDOMNode()).code(editorText)
+        sanitizer = new Sanitize(Sanitize.Config.BASIC)
+      editor.code sanitizer.clean_node(container)
+    , 10)
 
   render: ->
     `<div dangerouslySetInnerHTML={{__html: this.props.html}} />`
