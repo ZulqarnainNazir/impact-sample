@@ -2,35 +2,6 @@ doctype html
 html lang="en"
   = render 'head'
   body.dashboard-background style="margin-bottom:4em"
-
-    css:
-      .fluid-nav > ul.nav {
-        white-space: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: -ms-autohiding-scrollbar;
-        border-bottom: #e9ebee solid 1px;
-      }
-
-      .fluid-nav > ul.nav::-webkit-scrollbar {
-        display: none;
-      }
-
-      .fluid-nav > ul.nav li {
-        vertical-align: middle;
-        display: inline-block;
-        float: none;
-      }
-
-      .fluid-nav > ul.nav li a {
-        padding: 16px;
-        color: #777;
-      }
-
-      .fluid-nav > ul.nav li:not(:first-child) {
-        border-left: #e9ebee solid 1px;
-      }
-
     = render 'navbar'
     .container-fluid
       .row

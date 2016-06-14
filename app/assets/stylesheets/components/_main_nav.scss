@@ -1,0 +1,30 @@
+.main-nav {
+
+  ul.nav {
+    margin-right: 15px;
+  }
+
+  ul.nav li {
+    display: inline-block;
+  }
+
+  ul.nav li a {
+    color:#bababa;
+    padding: 15px 3px;
+  }
+
+  ul.dropdown-menu li {
+    display: block;
+  }
+
+  ul.nav li ul.dropdown-menu li a {
+    color: #333;
+    padding: 3px 20px;
+  }
+
+  ul.nav > li > a:hover, .nav > li > a:focus,
+  ul.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: inherit;
+  }
+
+}
