@@ -4,9 +4,9 @@ html lang="en"
   body.dashboard-background style="margin-bottom:4em"
     = render 'navbar'
     .container-fluid
-      .row
-        .col-md-3.col-lg-2.dashboard-menu.hidden-xs
-          div.well.text-center.text-muted.hidden-sm.hidden-xs
+      .row.row-offcanvas.row-offcanvas-left
+        .col-md-3.dashboard-menu.sidebar-offcanvas
+          div.well.text-center.text-muted.hidden-xs
             = link_to [:edit, @business, :data_details] do
               - if @business.logo
                 = image_tag @business.logo.attachment_cache_url, alt: 'Logo image'
@@ -15,12 +15,6 @@ html lang="en"
               div style='padding-top:10px'
                   = content_tag :span, 'Click to edit logo image', class: 'small'
           .navbar
-            .navbar-header
-              span.navbar-toggle.collapsed data-toggle="collapse" data-target="#dashboard-collapse"
-                span.sr-only Toggle Dashboard Navigation
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
             #dashboard-collapse.collapse.navbar-collapse
               ul.navbar-nav.list-unstyled
                 li = link_to [@business, :dashboard] do
@@ -164,9 +158,12 @@ html lang="en"
                   li = link_to [:edit, @business, :super_settings]
                     i.fa.fa-cog>
                     | Super Settings
-        .col-md-9.col-lg-10.dashboard-content
+        .col-md-9.dashboard-content
           .fluid-nav
             ul.nav
+              li.visible-sm.visible-xs
+                button.btn.btn-primary.btn-xs data-toggle='offcanvas'
+                  | Toggle Sidebar
               li = link_to [:new, @business, :content_quick_post] do
                 i.fa.fa-bolt>
                 | Quick Post
@@ -191,8 +188,13 @@ html lang="en"
             = yield
     = yield :javascript
     javascript:
-      $('#dashboard-collapse span').click(function() {
-        $(this).closest('li').toggleClass('active')
+      $(document).ready(function () {
+        $('[data-toggle="offcanvas"]').click(function () {
+          $('.row-offcanvas').toggleClass('active')
+        });
+        $('#dashboard-collapse span').click(function() {
+          $(this).closest('li').toggleClass('active')
+        });
       });
     - if @business.free?
       javascript:
