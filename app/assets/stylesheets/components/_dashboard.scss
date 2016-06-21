@@ -219,24 +219,24 @@
 @media screen and (max-width: $screen-sm-min) {
   .row-offcanvas-right
   .sidebar-offcanvas {
-    right: -40%;
+    right: -50%;
   }
 
   .row-offcanvas-left
   .sidebar-offcanvas {
-    left: -40%;
+    left: -50%;
   }
 
   .row-offcanvas-right.active {
-    right: 40%;
+    right: 50%;
   }
 
   .row-offcanvas-left.active {
-    left: 40%;
+    left: 50%;
   }
 
   .sidebar-offcanvas {
-    width: 40%;
+    width: 50%;
   }
 }
 

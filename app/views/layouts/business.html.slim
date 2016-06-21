@@ -9,7 +9,7 @@ html lang="en"
           div.well.text-center.text-muted.hidden-xs
             = link_to [:edit, @business, :data_details] do
               - if @business.logo
-                = image_tag @business.logo.attachment_cache_url, alt: 'Logo image'
+                = image_tag @business.logo.attachment_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
               - else
                   i.fa.fa-photo.fa-3x
               div style='padding-top:10px'
@@ -161,9 +161,9 @@ html lang="en"
         .col-md-9.dashboard-content
           .fluid-nav
             ul.nav
-              li.visible-sm.visible-xs
-                button.btn.btn-primary.btn-xs data-toggle='offcanvas'
-                  | Toggle Sidebar
+              li.visible-sm.visible-xs.pull-left
+                a data-toggle='offcanvas'
+                  i.glyphicon.glyphicon-menu-hamburger
               li = link_to [:new, @business, :content_quick_post] do
                 i.fa.fa-bolt>
                 | Quick Post
