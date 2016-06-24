@@ -224,7 +224,8 @@
 
   .row-offcanvas-left
   .sidebar-offcanvas {
-    left: -57%;
+    left: -68%;
+    padding-left:24px;
   }
 
   .row-offcanvas-right.active {
@@ -232,11 +233,11 @@
   }
 
   .row-offcanvas-left.active {
-    left: 60%;
+    left: 68%;
   }
 
   .sidebar-offcanvas {
-    width: 60%;
+    width: 68%;
   }
 }
 
