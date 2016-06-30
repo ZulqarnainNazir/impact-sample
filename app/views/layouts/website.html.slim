@@ -76,7 +76,7 @@ html lang="en"
         .webpage-footer
           = render @website.footer_block
     .text-center style="margin: 1em 0"
-      = link_to 'http://impact.locable.com', target: :_blank do
+      = link_to 'http://www.impactmarketingsuite.com', target: :_blank do
         = image_tag 'impact-footer.png', alt: 'IMPACT Marketing Suite for Local Businesses'
     = @website.footer_injection.try(:html_safe)
     = yield :javascript
