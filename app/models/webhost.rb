@@ -9,13 +9,13 @@ class Webhost < ActiveRecord::Base
 
   before_update -> { !name_changed? }
 
-  if ENV['HEROKU_APP_NAME'] && ENV['HEROKU_API_KEY']
+  if ENV['HEROKU_APP_NAME'] && ENV['HEROKU_OAUTH_TOKEN']
     after_create do
-      PlatformAPI.connect(ENV['HEROKU_API_KEY']).domain.create(ENV['HEROKU_APP_NAME'], hostname: name)
+      PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN']).domain.create(ENV['HEROKU_APP_NAME'], hostname: name)
     end
 
     after_destroy do
-      PlatformAPI.connect(ENV['HEROKU_API_KEY']).domain.delete(ENV['HEROKU_APP_NAME'], name)
+      PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN']).domain.delete(ENV['HEROKU_APP_NAME'], name)
     end
   end
 
