@@ -268,8 +268,9 @@
   > ul.nav li:not(:first-child) {
     border-left: #e9ebee solid 1px;
   }
-}
 
-.navbar-collapse.collapse {
-  display: block;
+  .navbar-collapse.collapse {
+    display: block;
+  }
+
 }
