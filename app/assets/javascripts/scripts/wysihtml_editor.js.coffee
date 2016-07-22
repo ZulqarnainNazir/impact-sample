@@ -7,7 +7,7 @@ $.fn.wysihtmlEditor = ->
     height: 200
     toolbar: [
       ['display', ['style']],
-      ['style', ['bold', 'italic', 'underline', 'superscript']],
+      ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
       ['insert', ['link']],
       ['lists', ['ul', 'ol']],
       ['align', ['paragraph']],
@@ -21,6 +21,7 @@ $.fn.wysihtmlEditor = ->
       else
         link
     onPaste: (event) ->
+      event.preventDefault
       setTimeout( ->
         code = editor.code()
         container = $('<div>').html(code).get(0)

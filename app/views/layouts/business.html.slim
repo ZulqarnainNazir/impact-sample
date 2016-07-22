@@ -3,23 +3,18 @@ html lang="en"
   = render 'head'
   body.dashboard-background style="margin-bottom:4em"
     = render 'navbar'
-    .container
-      .row
-        .col-md-3.col-lg-2.dashboard-menu
-          = form_tag [@business, :content_feed], method: :get do
-            .form-group
-              = label_tag :query, 'Query', class: 'sr-only'
-              .input-group
-                = text_field_tag :query, params[:query], class: 'form-control'
-                span.input-group-btn
-                  = button_tag icon('search'), class: 'btn btn-default'
+    .container-fluid
+      .row.row-offcanvas.row-offcanvas-left
+        .col-md-3.col-lg-2.dashboard-menu.sidebar-offcanvas
+          div.well.text-center.text-muted.hidden-xs
+            = link_to [:edit, @business, :data_details] do
+              - if @business.logo
+                = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
+              - else
+                  i.fa.fa-photo.fa-3x
+              div style='padding-top:10px'
+                  = content_tag :span, 'Click to edit logo image', class: 'small'
           .navbar
-            .navbar-header
-              span.navbar-toggle.collapsed data-toggle="collapse" data-target="#dashboard-collapse"
-                span.sr-only Toggle Dashboard Navigation
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
             #dashboard-collapse.collapse.navbar-collapse
               ul.navbar-nav.list-unstyled
                 li = link_to [@business, :dashboard] do
@@ -164,13 +159,42 @@ html lang="en"
                     i.fa.fa-cog>
                     | Super Settings
         .col-md-9.col-lg-10.dashboard-content
+          .fluid-nav
+            ul.nav
+              li.visible-sm.visible-xs.pull-left
+                a data-toggle='offcanvas'
+                  i.glyphicon.glyphicon-menu-hamburger
+              li = link_to [:new, @business, :content_quick_post] do
+                i.fa.fa-bolt>
+                | Quick Post
+              li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
+                i.fa.fa-tasks>
+                | New Before &amp; After
+              li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
+                i.fa.fa-photo>
+                | Gallery
+              li = link_to [:new, @business, :content_event_definition] do
+                i.fa.fa-calendar>
+                | Event
+              li = link_to [:new, @business, :content_offer] do
+                i.fa.fa-ticket>
+                | Offer
+              li.list-divider = link_to [@business, :crm_reviews] do
+                i.fa.fa-star>
+                | Customer Review
+
           .container style="background-color: #fff; padding-top: 15px; padding-bottom: 30px; width: auto;"
             = render 'alerts'
             = yield
     = yield :javascript
     javascript:
-      $('#dashboard-collapse span').click(function() {
-        $(this).closest('li').toggleClass('active')
+      $(document).ready(function () {
+        $('[data-toggle="offcanvas"]').click(function () {
+          $('.row-offcanvas').toggleClass('active')
+        });
+        $('#dashboard-collapse span').click(function() {
+          $(this).closest('li').toggleClass('active')
+        });
       });
     - if @business.free?
       javascript:

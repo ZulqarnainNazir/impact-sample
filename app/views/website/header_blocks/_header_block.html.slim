@@ -41,11 +41,11 @@
       ul.nav.navbar-nav class=(header_block.navigation_horizontal_position == 'right' ? 'navbar-abs-right' : 'navbar-abs-left')
         = render partial: 'website/nav_links/nav_link', collection: header_block.frame.arranged_nav_links(:header), locals: { style: navbar_nav_style }
     - else
-      ul.nav.navbar-nav class=(header_block.navigation_horizontal_position == 'center' ? 'navbar-center' : (header_block.navigation_horizontal_position == 'right' ? 'navbar-right' : 'navbar-left'))
+      ul.nav.navbar-nav class=(header_block.navigation_horizontal_position == 'center' ? 'navbar-center' : (header_block.navigation_horizontal_position == 'right' ? 'navbar-right' : ''))
         = render partial: 'website/nav_links/nav_link', collection: header_block.frame.arranged_nav_links(:header), locals: { style: navbar_nav_style }
 
   - navbar_interior = capture do
-    .navbar-header class=(header_block.logo_horizontal_position == 'center' ? 'navbar-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-right' : 'navbar-left'))
+    .navbar-header class=(header_block.logo_horizontal_position == 'center' ? 'navbar-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-right' : ''))
       a.navbar-toggle.collapsed href="#" type="button" data-toggle="collapse" data-target="#header-collapse"
         span.sr-only Toggle Navigation
         span.icon-bar
