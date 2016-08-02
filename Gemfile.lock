@@ -73,7 +73,7 @@ GEM
     choice (0.1.7)
     climate_control (0.0.3)
       activesupport (>= 3.0)
-    cocaine (0.5.7)
+    cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -271,7 +271,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.99.1)
-    mini_magick (4.2.4)
+    mimemagic (0.3.0)
     mini_portile2 (2.0.0)
     minimalizer (0.0.2)
       active_model-errors_details (~> 1.1)
@@ -291,11 +291,12 @@ GEM
       nokogiri
     normalize-rails (3.0.3)
     orm_adapter (0.5.0)
-    paperclip (4.2.1)
-      activemodel (>= 3.0.0)
-      activesupport (>= 3.0.0)
-      cocaine (~> 0.5.3)
+    paperclip (4.3.7)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      cocaine (~> 0.5.5)
       mime-types
+      mimemagic (= 0.3.0)
     pg (0.18.1)
     platform-api (0.2.0)
       heroics (~> 0.0.10)
@@ -454,11 +455,10 @@ DEPENDENCIES
   kaminari
   kaminari-bootstrap
   koala
-  mini_magick
   minimalizer
   newrelic_rpm
   normalize-rails
-  paperclip
+  paperclip (~> 4.3)
   pg
   platform-api
   puma
@@ -478,5 +478,8 @@ DEPENDENCIES
   twitter-typeahead-rails
   uglifier
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.11.2
+   1.12.5
