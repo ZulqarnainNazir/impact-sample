@@ -16,3 +16,68 @@
 .feed-event {
   margin-bottom: 2em;
 }
+
+.slider-content {
+    border-right: 1px solid transparent;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.5s ease-in-out 0s;
+}
+.single_blog {
+    margin-top: 30px;
+    width: 375px;
+    height: 350px;
+}
+
+.slider-text {
+    background: #f5f6fa none repeat scroll 0 0;
+    color: #7a8188;
+    padding: 0px 20px;
+    transition: all 0.5s ease-in-out 0s;
+    font-family: Helvetica;
+    text-align: center;
+}
+
+.slider-imaging {
+    display: block;
+    height: 185px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 340px;
+    transition: all 0.5s ease-in-out 0s;
+    vertical-align: middle;
+}
+
+.slider-imaging-ba {
+    overflow: hidden;
+    transition: all 0.5s ease-in-out 0s;
+    max-width: 130px;
+    vertical-align: middle;
+    height: auto;
+}
+
+.ba-container {
+  position: relative;
+  height: auto;
+  width: auto;
+}
+
+.before-image {
+   width: 50%;
+   position: absolute;
+   left: 0px;
+   height: 100%;
+}
+.after-image {
+   width: 50%;
+   position: absolute;
+   right: 0px;
+   height: 100%;
+}
+
+.slider-p {
+  text-align: center;
+  font-family: Helvetica;
+  color: #777;
+}
+

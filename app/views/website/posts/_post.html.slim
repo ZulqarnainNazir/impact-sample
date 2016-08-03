@@ -1,25 +1,28 @@
-.feed-item.feed-post
-  .feed-item-meta
-    => icon 'edit'
-    strong> Post
-    span.pull-right
-      span.text-muted> Posted #{time_ago_in_words post.published_at} ago
-      - if post.content_categories.any? || post.content_tags.any?
-        span.text-muted> in
-        - (post.content_categories + post.content_tags).each_with_index do |classification, i|
-          = link_to classification.name, [:website, classification]
-          - if i < post.content_categories.count + post.content_tags.count - 1
-            ' ,
-  - cache post do
-    h2 = link_to post.title, website_generic_post_path(post.to_generic_param)
-    .clearfix
-      - placement = post.sections_placement
-      - if placement.try(:embeds?)
-        .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-      - elsif placement.try(:image)
-        - if defined?(small)
-          = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
-        - else
-          = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-      = truncate sanitize(post.sections_content), length: 250, omission: '... ' do
-        = link_to 'Read More', website_generic_post_path(post.to_generic_param)
+- if masonry == true 
+  .col-md-4.slider_content.single_blog
+- else
+  .feed-item.feed-post
+    .feed-item-meta
+      => icon 'edit'
+      strong> Post
+      span.pull-right
+        span.text-muted> Posted #{time_ago_in_words post.published_at} ago
+        - if post.content_categories.any? || post.content_tags.any?
+          span.text-muted> in
+          - (post.content_categories + post.content_tags).each_with_index do |classification, i|
+            = link_to classification.name, [:website, classification]
+            - if i < post.content_categories.count + post.content_tags.count - 1
+              ' ,
+    - cache post do
+      h2 = link_to post.title, website_generic_post_path(post.to_generic_param)
+      .clearfix
+        - placement = post.sections_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        - elsif placement.try(:image)
+          - if defined?(small)
+            = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
+          - else
+            = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
+        = truncate sanitize(post.sections_content), length: 250, omission: '... ' do
+          = link_to 'Read More', website_generic_post_path(post.to_generic_param)
