@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20160312051023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                  null: false
