@@ -81,3 +81,31 @@
   color: #777;
 }
 
+@media (min-width: $screen-xs-min) {
+  .col-before {
+    height: 185px;
+  }
+
+  .mid-col {
+
+  }
+
+  .col-after {
+    height: 185px;
+  }
+}
+
+@media (max-width: $screen-xs-min) {
+  .col-before {
+    height: 185px;
+  }
+
+  .mid-col {
+    height: 0px;
+  }
+
+  .col-after {
+    height: 185px;
+  }
+}
+
