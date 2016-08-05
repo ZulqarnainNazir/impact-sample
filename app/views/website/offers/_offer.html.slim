@@ -1,10 +1,12 @@
 - image = offer.offer_image
 - if masonry == true 
-  .col-md-4.slider_content.single_blog
-    - if image
-      = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
-    h3.slider-text = link_to offer.title, website_generic_post_path(offer.to_generic_param)
-    p.slider-p = truncate sanitize(offer.offer), length: 75, omission: '... '
+  - cache offer do
+    .col-md-4.slider_content.single_blog
+      = link_to website_generic_post_path(offer.to_generic_param) do
+        - if image
+          = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
+        h3.slider-text = link_to offer.title, website_generic_post_path(offer.to_generic_param)
+        p.slider-p = truncate sanitize(offer.offer), length: 75, omission: '... '
 - else
   .feed-item.feed-offer
     .feed-item-meta

@@ -1,15 +1,16 @@
 - if masonry == true 
   .col-md-4.slider_content.single_blog
     - cache quick_post do
-      - placement = quick_post.quick_post_image_placement
-      - if placement.try(:embeds?)
-        .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-        br
-      - elsif placement.try(:image)
-        = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
-      h3.slider-text = link_to quick_post.title, website_generic_post_path(quick_post.to_generic_param)
-      p.slider-p = truncate sanitize(quick_post.content), length: 75, omission: '... ' do
-        = link_to 'Read More', website_generic_post_path(quick_post.to_generic_param)
+      = link_to website_generic_post_path(quick_post.to_generic_param) do
+        - placement = quick_post.quick_post_image_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+          br
+        - elsif placement.try(:image)
+          = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
+        h3.slider-text = link_to quick_post.title, website_generic_post_path(quick_post.to_generic_param)
+        p.slider-p = truncate sanitize(quick_post.content), length: 75, omission: '... ' do
+          = link_to 'Read More', website_generic_post_path(quick_post.to_generic_param)
 - else
   .feed-item.feed-quick_post
     .feed-item-meta

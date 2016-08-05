@@ -1,18 +1,17 @@
 - if masonry == true 
   .col-md-4.slider_content.single_blog
     - cache before_after do
-      - image_before = before_after.before_image.attachment_url(:medium)
-      - image_after = before_after.after_image.attachment_url(:medium)
-      div.image-container.container style="width:350px;"
-        div.image-row.row
-          div.col-before.col-xs-5 style="background-image: url(#{image_before});"
-          div-mid-col.col-xs-1 style="height:185px;"
-          div.col-after.col-xs-5 style="background-image: url(#{image_after});"
-      / = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'before-clip', style: 'max-width: 100%'
-      / = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'after-clip', style: 'max-width: 100%'
-      h3.slider-text = link_to before_after.title, website_generic_post_path(before_after.to_generic_param)
-      p.slider-p = truncate sanitize(before_after.description), length: 75, omission: '... ' do
-          = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)
+      = link_to website_generic_post_path(before_after.to_generic_param)
+        - image_before = before_after.before_image.attachment_url(:medium)
+        - image_after = before_after.after_image.attachment_url(:medium)
+        div.ba-container
+          div.col-before style="background-image: url(#{image_before});"
+          div.col-after style="background-image: url(#{image_after});"
+        / = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'before-clip', style: 'max-width: 100%'
+        / = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'after-clip', style: 'max-width: 100%'
+        h3.slider-text = link_to before_after.title, website_generic_post_path(before_after.to_generic_param)
+        p.slider-p = truncate sanitize(before_after.description), length: 75, omission: '... ' do
+            = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)
 - else
   .feed-item.feed-before_after
     .feed-item-meta
