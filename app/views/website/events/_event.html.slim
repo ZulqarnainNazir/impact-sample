@@ -1,5 +1,5 @@
 - if masonry == true 
-  .col-md-4.slider_content.single_blog
+  .col-md-4.slider-content.single-blog
     - cache event do
       = link_to website_generic_post_path(event.to_generic_param) do
         - placement = event.event_definition.event_image_placement
@@ -11,9 +11,8 @@
             = event.occurs_on.strftime('%b')
           div.pickgradient
             = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
-        h3.slider-text = link_to event.event_definition.title, website_generic_post_path(event.to_generic_param)
-        p.slider-p = truncate sanitize(event.event_definition.description), length: 75, omission: '... ' do
-          = link_to 'Read More', website_generic_post_path(event.to_generic_param)
+        h3.slider-text = event.event_definition.title
+        p.slider-p = truncate sanitize(event.event_definition.description), length: 75, omission: '... '
 - else
   .feed-item.feed-event
     .feed-item-meta

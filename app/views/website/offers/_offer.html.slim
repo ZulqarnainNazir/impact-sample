@@ -1,12 +1,18 @@
 - image = offer.offer_image
 - if masonry == true 
   - cache offer do
-    .col-md-4.slider_content.single_blog
+    .col-md-4.slider-content.single-blog.coupon style="padding: 0px;"
       = link_to website_generic_post_path(offer.to_generic_param) do
+        h3.slider-text style="margin-top:10px;" = offer.title
         - if image
           = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
-        h3.slider-text = link_to offer.title, website_generic_post_path(offer.to_generic_param)
-        p.slider-p = truncate sanitize(offer.offer), length: 75, omission: '... '
+          p.slider-p style="padding-top: 10px; margin-bottom: 0px; padding-bottom: 5px;" = truncate sanitize(offer.offer), length: 75, omission: '... '
+        p.disclosure = truncate sanitize(offer.terms), length: 75, omission: '...'
+        div.offer-footer
+          p.exp
+            - if offer.valid_until?
+              ' Offer Valid Until
+              strong = offer.valid_until.strftime('%B %e, %Y')
 - else
   .feed-item.feed-offer
     .feed-item-meta
@@ -37,6 +43,8 @@
           = link_to website_generic_post_path(offer.to_generic_param), class: 'btn btn-primary' do
             ' Learn More
             i.fa.fa-angle-right
+        div
+          = offer.terms
       - else
         .offer-row class=(offer.kind || 'image_left')
           .row

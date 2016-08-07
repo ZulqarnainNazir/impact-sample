@@ -1,5 +1,5 @@
 - if masonry == true 
-  .col-md-4.slider_content.single_blog
+  .col-md-4.slider-content.single-blog
     - gallery_count = gallery.gallery_images.count
     - cache gallery do
       = link_to website_generic_post_path(gallery.to_generic_param)
@@ -43,7 +43,7 @@
           h2 No Image - Will Use Placeholder
 
         h3.slider-text 
-          = link_to gallery.title, website_generic_post_path(gallery.to_generic_param)
+          = gallery.title
         p.slider-p Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
 - else
   .feed-item.feed-gallery
