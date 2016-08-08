@@ -6,7 +6,7 @@
     /   		- slice.each do |posts|
 			 /    = render posts, masonry: true
     div class="row"
-      - posts.to_a.each do |posts|
+      - order_the_events(posts.to_a).each do |posts|
         = render posts
     - if blog_feed_block.link_version == 'link_paginate'
       = paginate posts

@@ -1,5 +1,5 @@
 class Website::BaseController < ApplicationController
-  helper_method :events, :posts
+  helper_method :events, :posts, :order_the_events
   layout 'website'
 
   before_action do
@@ -44,6 +44,34 @@ class Website::BaseController < ApplicationController
   end
 
   private
+
+  def order_the_events(array)
+    #purpose of method is to take an array containing various content types
+    #pluck the events, and rearrange them from earliest to latest
+    #while maintaining the original integrity of order
+    events = []
+    position = []
+    array.each_with_index do |n, index|
+      if n.class.name == "Event"
+         events << n
+         position << index
+      end
+    end
+
+    if events.count >= 2
+      events = events.reverse
+      position = position.reverse
+
+      events.each do |n|
+        place = position.pop
+        array.insert(place, n)
+        array.delete_at(place + 1)
+      end
+    end
+
+    return array
+
+  end
 
   def events(business, page: 1, limit: 4)
     business.events.
