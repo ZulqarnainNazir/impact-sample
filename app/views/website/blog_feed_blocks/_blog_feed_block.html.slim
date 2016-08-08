@@ -1,10 +1,13 @@
 - cache [blog_feed_block, blog_feed_block.cache_sensitive_key(params)] do
   div class=blog_feed_block.custom_class
     - posts = posts(blog_feed_block.business, content_types: blog_feed_block.content_types.to_s.split(' '), content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
-    - posts.to_a.each_slice(3) do |slice|
-      	div class="row"
-      		- slice.each do |posts|
-			    = render posts, masonry: true
+    / - posts.to_a.each_slice(3) do |slice|
+    /   	div class="row"
+    /   		- slice.each do |posts|
+			 /    = render posts, masonry: true
+    div class="row"
+      - posts.to_a.each do |posts|
+        = render posts, masonry: true
     - if blog_feed_block.link_version == 'link_paginate'
       = paginate posts
     - elsif blog_feed_block.link?

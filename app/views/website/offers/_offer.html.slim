@@ -1,12 +1,14 @@
 - image = offer.offer_image
 - if masonry == true 
   - cache offer do
-    .col-md-4.slider-content.single-blog.coupon style="padding: 0px;"
+    .col-md-4.slider-content.single-blog.coupon style="padding: 0px; margin-left: 6px; margin-right: 6px;"
       = link_to website_generic_post_path(offer.to_generic_param) do
-        h3.slider-text style="margin-top:10px;" = offer.title
+        h3.slider-text style="margin-top:10px;" = truncate sanitize(offer.title), length: 75, omission: '...'
         - if image
           = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
-          p.slider-p style="padding-top: 10px; margin-bottom: 0px; padding-bottom: 5px;" = truncate sanitize(offer.offer), length: 75, omission: '... '
+        - else
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+        p.slider-p style="padding-top: 10px; margin-bottom: 0px; padding-bottom: 5px;" = truncate sanitize(offer.offer), length: 75, omission: '... '
         p.disclosure = truncate sanitize(offer.terms), length: 75, omission: '...'
         div.offer-footer
           p.exp

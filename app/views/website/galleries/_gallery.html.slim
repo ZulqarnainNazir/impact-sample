@@ -1,5 +1,5 @@
 - if masonry == true 
-  .col-md-4.slider-content.single-blog
+  .col-xs-4.slider-content.single-blog
     - gallery_count = gallery.gallery_images.count
     - cache gallery do
       = link_to website_generic_post_path(gallery.to_generic_param)
@@ -40,11 +40,11 @@
               /     figure
               /       = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging-special'
         -elsif gallery_count == 0
-          h2 No Image - Will Use Placeholder
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
 
         h3.slider-text 
-          = gallery.title
-        p.slider-p Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
+          = truncate sanitize(gallery.title), length: 75, omission: '... '
+        p.slider-p Click to View All #{pluralize gallery.gallery_images.count, 'Pictures'}
 - else
   .feed-item.feed-gallery
     .feed-item-meta

@@ -29,9 +29,9 @@
 }
 
 .single-blog {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 375px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 375px !important;
     width: 375px !important;
 }
 
@@ -67,8 +67,8 @@
   background-image: url("//impactdevbucket.s3.amazonaws.com/cache/59253d79-5f20-4a7d-a387-b6a35f37e2db/truchas.png");
   background-repeat: no-repeat;
   border: 1px solid white;
-  height: 90px;
-  margin-left: 49%;
+  height: 93px;
+  margin-left: 53%;
   width: 160px;
 }
 
@@ -206,12 +206,12 @@
 
 .exp {
   color: #f34235;
+  margin: 5px;
 }
 
 .disclosure {
     color: #bcbcbc;
     font-size: 11px;
     text-align: center;
-    padding: 7px;
-    padding-top: 5px;
+    margin: 7px;
 }

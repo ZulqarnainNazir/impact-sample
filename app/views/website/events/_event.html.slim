@@ -1,5 +1,5 @@
 - if masonry == true 
-  .col-md-4.slider-content.single-blog
+  .col-xs-4.slider-content.single-blog
     - cache event do
       = link_to website_generic_post_path(event.to_generic_param) do
         - placement = event.event_definition.event_image_placement
@@ -10,8 +10,11 @@
             = event.occurs_on.day
             = event.occurs_on.strftime('%b')
           div.pickgradient
-            = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
-        h3.slider-text = event.event_definition.title
+            - if placement.image.present?
+              = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
+            - else
+              = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+        h3.slider-text = truncate sanitize(event.event_definition.title), length: 75, omission: '... '
         p.slider-p = truncate sanitize(event.event_definition.description), length: 75, omission: '... '
 - else
   .feed-item.feed-event
