@@ -7,7 +7,7 @@
 			 /    = render posts, masonry: true
     div class="row"
       - posts.to_a.each do |posts|
-        = render posts, masonry: true
+        = render posts
     - if blog_feed_block.link_version == 'link_paginate'
       = paginate posts
     - elsif blog_feed_block.link?

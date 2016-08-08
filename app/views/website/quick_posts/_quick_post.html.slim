@@ -1,4 +1,4 @@
-- if masonry == true 
+- if @masonry.present? && @masonry == true 
   .col-xs-4.slider-content.single-blog
     - cache quick_post do
       = link_to website_generic_post_path(quick_post.to_generic_param) do

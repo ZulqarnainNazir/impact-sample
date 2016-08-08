@@ -1,5 +1,5 @@
 - image = offer.offer_image
-- if masonry == true 
+- if @masonry.present? && @masonry == true 
   - cache offer do
     .col-md-4.slider-content.single-blog.coupon style="padding: 0px; margin-left: 6px; margin-right: 6px;"
       = link_to website_generic_post_path(offer.to_generic_param) do

@@ -1,4 +1,4 @@
-- if masonry == true 
+- if @masonry.present? && @masonry == true 
   .col-xs-4.slider-content.single-blog
     - cache before_after do
       = link_to website_generic_post_path(before_after.to_generic_param)

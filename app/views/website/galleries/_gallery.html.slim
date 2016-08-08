@@ -1,4 +1,4 @@
-- if masonry == true 
+- if @masonry.present? && @masonry == true 
   .col-xs-4.slider-content.single-blog
     - gallery_count = gallery.gallery_images.count
     - cache gallery do
