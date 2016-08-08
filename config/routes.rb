@@ -160,7 +160,7 @@ Rails.application.routes.draw do
     root to: 'home_pages#show'
 
     resource :about_page, path: 'about', only: %i[show]
-    resource :blog_page, path: 'blog', only: %i[show]
+    resource :blog_page, path: 'blog', only: %i[index show]
     resource :contact_page, path: 'contact', only: %i[show create]
     resource :feedback, only: %i[new create show], path: 'feedback'
     resource :share, only: %i[show]

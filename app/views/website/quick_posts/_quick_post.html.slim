@@ -1,23 +1,36 @@
-.feed-item.feed-quick_post
-  .feed-item-meta
-    => icon 'file-text-o'
-    strong> Quick Post
-    span.pull-right
-      span.text-muted> Posted #{time_ago_in_words quick_post.published_at} ago
-      - if quick_post.content_categories.any? || quick_post.content_tags.any?
-        span.text-muted> in
-        - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
-          = link_to classification.name, [:website, classification]
-          - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
-            ' ,
-  - cache quick_post do
-    h2.h3 = link_to quick_post.title, website_generic_post_path(quick_post.to_generic_param)
-    - placement = quick_post.quick_post_image_placement
-    - if placement.try(:embeds?)
-      .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-      br
-    - elsif placement.try(:image)
-      = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
-      br
-    = truncate sanitize(quick_post.content), length: 250, omission: '... ' do
-      = link_to 'Read More', website_generic_post_path(quick_post.to_generic_param)
+- if masonry == true 
+  .col-md-4.slider_content.single_blog
+    - cache quick_post do
+      - placement = quick_post.quick_post_image_placement
+      - if placement.try(:embeds?)
+        .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        br
+      - elsif placement.try(:image)
+        = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
+      h3.slider-text = link_to quick_post.title, website_generic_post_path(quick_post.to_generic_param)
+      p.slider-p = truncate sanitize(quick_post.content), length: 75, omission: '... ' do
+        = link_to 'Read More', website_generic_post_path(quick_post.to_generic_param)
+- else
+  .feed-item.feed-quick_post
+    .feed-item-meta
+      => icon 'file-text-o'
+      strong> Quick Post
+      span.pull-right
+        span.text-muted> Posted #{time_ago_in_words quick_post.published_at} ago
+        - if quick_post.content_categories.any? || quick_post.content_tags.any?
+          span.text-muted> in
+          - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
+            = link_to classification.name, [:website, classification]
+            - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
+              ' ,
+    - cache quick_post do
+      h2.h3 = link_to quick_post.title, website_generic_post_path(quick_post.to_generic_param)
+      - placement = quick_post.quick_post_image_placement
+      - if placement.try(:embeds?)
+        .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        br
+      - elsif placement.try(:image)
+        = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
+        br
+      = truncate sanitize(quick_post.content), length: 250, omission: '... ' do
+        = link_to 'Read More', website_generic_post_path(quick_post.to_generic_param)

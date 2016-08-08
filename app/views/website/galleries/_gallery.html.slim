@@ -1,24 +1,42 @@
-.feed-item.feed-gallery
-  .feed-item-meta
-    => icon 'photo'
-    strong> Gallery
-    span.pull-right
-      span.text-muted> Posted #{time_ago_in_words gallery.published_at} ago
-      - if gallery.content_categories.any? || gallery.content_tags.any?
-        span.text-muted> in
-        - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
-          = link_to classification.name, [:website, classification]
-          - if i < gallery.content_categories.count + gallery.content_tags.count - 1
-            ' ,
-  - cache gallery do
-    h2
-      => link_to gallery.title, website_generic_post_path(gallery.to_generic_param)
-      span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
-    .row.row-narrow
-      - gallery.gallery_images.limit(6).each do |gallery_image|
+- if masonry == true 
+  .col-md-4.slider_content.single_blog
+    - cache gallery do
+      - gallery.gallery_images.limit(1).each do |gallery_image|
         - image = gallery_image.gallery_image
-        .col-xs-3.col-lg-2
-          = link_to [:website, gallery, gallery_image], class: 'gallery-item' do
-              figure
-                .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                  = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+          = link_to [:website, gallery, gallery_image], class: 'slider-imaging' do
+            = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
+      / - gallery.gallery_images.limit(1).each do |gallery_image|
+      /   - image = gallery_image.gallery_image
+      /   .col-xs-3.col-lg-2
+      /     = link_to [:website, gallery, gallery_image], class: 'slider-imaging' do
+      /         figure
+      /           .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+      /             = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
+      h3.slider-text 
+        => link_to gallery.title, website_generic_post_path(gallery.to_generic_param)
+        span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
+- else
+  .feed-item.feed-gallery
+    .feed-item-meta
+      => icon 'photo'
+      strong> Gallery
+      span.pull-right
+        span.text-muted> Posted #{time_ago_in_words gallery.published_at} ago
+        - if gallery.content_categories.any? || gallery.content_tags.any?
+          span.text-muted> in
+          - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
+            = link_to classification.name, [:website, classification]
+            - if i < gallery.content_categories.count + gallery.content_tags.count - 1
+              ' ,
+    - cache gallery do
+      h2
+        => link_to gallery.title, website_generic_post_path(gallery.to_generic_param)
+        span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
+      .row.row-narrow
+        - gallery.gallery_images.limit(6).each do |gallery_image|
+          - image = gallery_image.gallery_image
+          .col-xs-3.col-lg-2
+            = link_to [:website, gallery, gallery_image], class: 'gallery-item' do
+                figure
+                  .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                    = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
