@@ -31,17 +31,30 @@
 .single-blog {
     margin-top: 15px;
     margin-bottom: 15px;
-    height: 375px !important;
+    height: 305px !important;
     width: 375px !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #FBFBFB;
+    border: 1px lightgray solid;
 }
 
 .slider-text {
-    background: #f5f6fa none repeat scroll 0 0;
     color: black;
     padding: 0px 20px;
     transition: all 0.5s ease-in-out 0s;
     font-family: Helvetica;
-    text-align: center;
+    text-align: left;
+    font-size: 18px;
+    padding-left: 5px;
+}
+
+.slider-text-sub {
+  font-weight: 200;
+  color: black;
+  font-family: Helvetica;
+  font-size: 15px;
+  text-align: left;
 }
 
 .slider-imaging {
@@ -112,9 +125,10 @@
 }
 
 .slider-p {
-  text-align: center;
+  text-align: left;
   font-family: Helvetica;
   color: #777;
+  padding-left: 5px;
 }
 
 .col-before {
@@ -183,7 +197,7 @@
     width: 100%;
 }
 
-.webpage-container {
+.webpage-container-blog {
   text-align:center;
 }
 
@@ -214,4 +228,8 @@
     font-size: 11px;
     text-align: center;
     margin: 7px;
+}
+
+.blog-image-position {
+  background-position: center center;
 }
