@@ -31,9 +31,9 @@
 .single-blog {
     margin-top: 15px;
     margin-bottom: 15px;
-    height: 305px !important;
+    height: 275px !important;
     width: 375px !important;
-    padding-top: 8px;
+    padding-top: 1px;
     padding-bottom: 8px;
     background-color: #FBFBFB;
     border: 1px lightgray solid;
@@ -41,12 +41,12 @@
 
 .slider-text {
     color: black;
-    padding: 0px 20px;
+    padding: 5px;
+    margin: 0px;
     transition: all 0.5s ease-in-out 0s;
     font-family: Helvetica;
     text-align: left;
     font-size: 18px;
-    padding-left: 5px;
 }
 
 .slider-text-sub {
@@ -67,22 +67,61 @@
     vertical-align: middle;
 }
 
+.offer-imaging {
+  display: block;
+  height: 125px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 306px;
+  transition: all 0.5s ease-in-out 0s;
+  vertical-align: middle;
+}
+
 .gallery-row {
   margin-left: auto;
   margin-right: auto;
   vertical-align:middle;
   background-repeat:no-repeat;
+  background-size: cover;
   width: 340px;
   height: 185px;
 }
 
 .gallery-row-mini {
-  background-image: url("//impactdevbucket.s3.amazonaws.com/cache/59253d79-5f20-4a7d-a387-b6a35f37e2db/truchas.png");
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
   border: 1px solid white;
   height: 93px;
   margin-left: 53%;
   width: 160px;
+  overflow:hidden;
+}
+
+.event-blog-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow:hidden;
+  height:180px;
+}
+
+.post-blog-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow:hidden;
+  height:130px;
+}
+
+.offer-blog-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow:hidden;
+  height:70px;
+  width: 315px;
+  border-radius: 3px;
 }
 
 .slider-imaging-special {
@@ -107,6 +146,7 @@
   width: 345px;
   height: 185px;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .before-image {
@@ -127,27 +167,28 @@
 .slider-p {
   text-align: left;
   font-family: Helvetica;
-  color: #777;
+  color: black;
   padding-left: 5px;
 }
 
 .col-before {
-  width: 170px;
+  width: 172px;
   height: 185px;
   float: left;
-  border-right: 9px solid white;
+  border-right: 4px solid white;
 }
 
 .col-after {
-  width: 170px;
+  width: 172px;
   height: 185px;
   overflow: hidden;
-  border-left: 9px solid white;
+  border-left: 4px solid white;
 }
 
 .gallery_single {
   width: 345px;
   height: 185px;
+  overflow: hidden;
 }
 
 .gallery_side_one {
@@ -155,6 +196,7 @@
   height: 185px;
   float: left;
   border-right: 1px solid white;
+  overflow: hidden;
 }
 
 .gallery_side_two {
@@ -162,6 +204,7 @@
   height: 185px;
   overflow: hidden;
   border-left: 1px solid white;
+  overflow: hidden;
 }
 
 .row-mini-text {
@@ -202,8 +245,10 @@
 }
 
 .coupon {
-  border: 3px dashed #bcbcbc;
+  border: 2px dashed #bcbcbc;
   border-radius: 10px;
+  width: 330px;
+  height: 210px;
 }
 
 .coupon #offer-head {
@@ -211,16 +256,36 @@
 }
 
 .offer-footer {
-    background-color: #f5f5f5;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-top: 1px solid #ddd;
-    padding: 10px 15px;
+  background-color: #f1f1f1;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 5px;
+  height: 35px;
+  overflow:hidden;
+}
+
+.offer-header {
+  background-color: #d1eeee;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  padding: 5px;
+  height: 35px;
+  overflow:hidden;
+}
+
+.offer-center {
+  height: 56px;
+  overflow:hidden;
+}
+
+.offer-para {
+  font-weight:bold;
 }
 
 .exp {
   color: #f34235;
   margin: 5px;
+  font-size:11px;
 }
 
 .disclosure {

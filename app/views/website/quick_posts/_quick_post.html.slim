@@ -1,18 +1,19 @@
 - if @masonry.present? && @masonry == true 
   .col-xs-4.slider-content.single-blog
-    - cache quick_post do
-      = link_to website_generic_post_path(quick_post.to_generic_param) do
+    = link_to website_generic_post_path(quick_post.to_generic_param) do
+      - cache quick_post do
         - placement = quick_post.quick_post_image_placement
         - if placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
           br
         - elsif placement.try(:image)
-          = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
+          div.post-blog-image style="background-image: url(#{placement.image.attachment_url(:small)});" 
+          / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
         - else
-          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+          div.post-blog-image style="background-image: url(/assets/impact_gs.jpg);" 
         h3.slider-text = truncate sanitize(quick_post.title), length: 75, omission: '... '
-        button.btn.btn-primary.btn-sm Read More
-        / p.slider-p = truncate sanitize(quick_post.content), length: 75, omission: '... '
+        p.slider-p = truncate sanitize(quick_post.content), length: 100, omission: '... '
+        button.btn.btn-primary.btn-sm.pull-left Read More
 - else
   .feed-item.feed-quick_post
     .feed-item-meta

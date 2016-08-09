@@ -1,21 +1,31 @@
 - if @masonry.present? && @masonry == true 
   .col-xs-4.slider-content.single-blog
-    - cache event do
+    - cache event do 
       = link_to website_generic_post_path(event.to_generic_param) do
         - placement = event.event_definition.event_image_placement
         - if placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
         - elsif placement.try(:image)
-          h3.row-ba-text
-            = event.occurs_on.day
-            = event.occurs_on.strftime('%b')
-          div.pickgradient
-            - if placement.image.present?
-              = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
-            - else
-              = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+          / h3.row-ba-text
+          /   = event.occurs_on.day
+          /   = event.occurs_on.strftime('%b')
+          / div.pickgradient
+          - if placement.image.present?
+            div.event-blog-image style="background-image: url(#{placement.image.attachment_url(:small)});"
+            / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
+        - else
+          div.event-blog-image style="background-image: url(/assets/impact_gs.jpg);"   
+          / = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
         h3.slider-text = truncate sanitize(event.event_definition.title), length: 75, omission: '... '
-        p.slider-p = truncate sanitize(event.event_definition.description), length: 75, omission: '... '
+        p.slider-text.slider-text-sub
+          i.fa.fa-clock-o style="width:1.2em"
+          span = event.occurs_on.strftime('%b %d, %Y')
+          span style="padding-left:5px;" = event.event_definition.start_time.strftime('%I:%M %p')
+        p.slider-text.slider-text-sub
+          - if event.event_definition.try(:location)
+            i.fa.fa-map-marker style="width:1.2em"
+            = truncate sanitize(event.event_definition.location.street1), length: 50, omission: '...'
+        / p.slider-p = truncate sanitize(event.event_definition.description), length: 75, omission: '... '
 - else
   .feed-item.feed-event
     .feed-item-meta
