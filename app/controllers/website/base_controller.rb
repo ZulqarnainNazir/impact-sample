@@ -1,5 +1,5 @@
 class Website::BaseController < ApplicationController
-  helper_method :events, :posts, :order_the_events
+  helper_method :events, :posts, :order_the_events, :blog_search_base
   layout 'website'
 
   before_action do
@@ -82,6 +82,23 @@ class Website::BaseController < ApplicationController
   end
 
   def posts(business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
-    ContentBlogSearch.new(business, '', content_types: content_types, content_category_ids: content_category_ids, content_tag_ids: content_tag_ids).search.page(page).per(limit).records
+    ContentBlogSearch.new(
+      business, 
+      '', 
+      content_types: content_types, 
+      content_category_ids: content_category_ids, 
+      content_tag_ids: content_tag_ids
+    ).search.page(page).per(limit).records
   end
+
+ def blog_search_base(business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+    ContentBlogSearch.new(
+      business, 
+      search_string, 
+      content_types: content_types,
+      content_category_ids: content_category_ids, 
+      content_tag_ids: content_tag_ids
+    ).search.page(page).per(limit).records
+  end
+
 end

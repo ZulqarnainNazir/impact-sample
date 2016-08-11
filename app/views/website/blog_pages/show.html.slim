@@ -5,4 +5,12 @@
 
 = webpage_container do
 	div.webpage-container-blog
+		div.col-md-12
+		  = form_tag '/blog', method: :get do
+		    div.input-group
+		      = text_field_tag '[blog_search]', params[:blog_search], placeholder: 'Search for...', class: 'form-control'
+		      div.input-group-btn
+		        = button_tag class: 'btn btn-default' do
+		          ' Search
+	div.webpage-container-blog
 		  = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
