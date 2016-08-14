@@ -5,28 +5,36 @@
 
 = webpage_container do
 	div.webpage-container-blog
-		= form_tag '/blog', class: "form-inline", method: :get do
-			div.form-group
-				span style="font-size:16px; padding-right:5px; font-weight: bold;"
-					'View:
-				- @content_types.each do |n|
-					- if params[:content_types].present? && params[:content_types].include?(n)
-						- val = true
-					- else
-						- val = false
-					span style="font-size:16px; padding-right:3px;"
-				      = check_box_tag "content_types[]", "#{n}", val, class: '', style: 'padding-right: 2px; margin:0px;'
-				    span style="font-size:16px; padding-right:10px;"
-				      = n.titlecase
+		div.row
+			div.col-md-9
+				= form_tag '/blog', method: :get do
 
-		    div.form-group
-		      = text_field_tag '[blog_search]', params[:blog_search], placeholder: 'search for keywords...', class: 'form-control'
-		    div.form-group
-		        = button_tag class: 'btn btn-default' do
-		          ' Go
+				    div.input-group
+				        = text_field_tag '[blog_search]', params[:blog_search], placeholder: 'search for keywords...', class: 'form-control'
 
-			- if params[:blog_search].present? && !params[:blog_search].empty?
-			    = link_to '/blog', class: "pull-right", role: :button do
-			        'Clear Search
+					    div.input-group-btn
+					        = button_tag class: 'btn btn-default' do
+					          ' Go
+					- if params[:blog_search].present? && !params[:blog_search].empty?
+					    = link_to '/blog', class: "pull-right", role: :button do
+					        'Clear Search
+				    span.dropdown.pull-right style="right:12px;"
+			            a.dropdown-toggle aria-expanded="false" data-toggle="collapse" type="button" aria-haspopup="true" style="cursor:pointer;" data-target="#types"
+			                'Advanced Search Options
+			                .span.caret
+						div.collapse.dropdown-menu.panel.panel-default#types aria-labelledby="dropdownMenu1"
+							div.panel-body 
+								span style="font-size:16px; padding-right:5px; font-weight: bold;"
+									'View:
+								- @content_types_all.each do |n|
+									br
+									- if @content_types.present? && params[:content_types].present? && params[:content_types].include?(n)
+										- val = true
+									- else
+										- val = false
+									span style="font-size:16px; padding-right:3px;"
+								      = check_box_tag "content_types[]", "#{n}", val, class: '', style: 'padding-right: 2px; margin:0px;'
+								    span style="font-size:16px; padding-right:10px;"
+								      = n.titlecase
 	div.webpage-container-blog
-		  = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
+		= render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
