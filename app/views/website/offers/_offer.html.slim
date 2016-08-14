@@ -10,7 +10,7 @@
             - if offer.try(:offer_image)
               - image = offer.offer_image
               - if image && !image.nil?
-                div.offer-blog-image style="background-image: url(#{image.attachment_url(:small)});"
+                div.offer-blog-image style="background-image: url(#{image.attachment_url(:medium)});"
                 / = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
             - else
               div.offer-blog-image style="background-image: url(/assets/impact_gs.jpg);"

@@ -3,8 +3,8 @@
     - cache before_after do
       = link_to website_generic_post_path(before_after.to_generic_param)
         - if before_after.before_image.present? && before_after.after_image.present?
-          - image_before = before_after.before_image.attachment_url(:small)
-          - image_after = before_after.after_image.attachment_url(:small)
+          - image_before = before_after.before_image.attachment_url(:thumbnail)
+          - image_after = before_after.after_image.attachment_url(:thumbnail)
           div.ba-container
             div.col-before.blog-image-position style="background-image: url(#{image_before});"
             div.col-after.blog-image-position style="background-image: url(#{image_after});"

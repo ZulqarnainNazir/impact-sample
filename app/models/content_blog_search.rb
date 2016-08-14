@@ -106,8 +106,11 @@ class ContentBlogSearch
         end
         content_classes << Post if type == 'CustomPost'
       end
+      if @content_types.include?("Event")
+        content_classes << EventDefinition
+      end
     else
-      content_classes = [QuickPost, Event, Gallery, BeforeAfter, Offer, Post]
+      content_classes = [QuickPost, Event, EventDefinition, Gallery, BeforeAfter, Offer, Post]
     end
 
     Elasticsearch::Model.search(dsl, content_classes)
