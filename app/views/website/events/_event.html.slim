@@ -11,7 +11,7 @@
           /   = event.occurs_on.strftime('%b')
           / div.pickgradient
           - if placement.image.present?
-            div.event-blog-image style="background-image: url(#{placement.image.attachment_url(:small)});"
+            div.event-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});"
             / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
         - else
           div.event-blog-image style="background-image: url(/assets/impact_gs.jpg);"   

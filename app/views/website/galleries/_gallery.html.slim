@@ -31,9 +31,9 @@
               /       = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging-special'
             div.gallery-row-mini.blog-image-position style="background-image: url(#{gallery_images.third.gallery_image.attachment_url(:thumbnail)});"
               - if gallery_count > 3
-                h1.row-mini-text + #{gallery_count - 3} more
+                  h3.row-mini-text + #{gallery_count - 3} more
               - else
-                h1.row-mini-text see all
+                  h3.row-mini-text see all
               .col-xs-12
               /   - image = gallery_images.third.gallery_image
               /   = link_to [:website, gallery, gallery_images.third] do
