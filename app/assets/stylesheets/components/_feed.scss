@@ -302,3 +302,16 @@
 .blog-image-position {
   background-position: center center;
 }
+
+.search-full {
+  @media (max-width: $screen-lg-min) {
+    display:none;
+  }
+}
+
+.search-collapsed {
+  display: none;
+  @media (max-width: $screen-lg-min) {
+    display:inline;
+  }
+}
