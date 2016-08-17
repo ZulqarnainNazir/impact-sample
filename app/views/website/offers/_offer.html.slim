@@ -13,7 +13,8 @@
                 div.offer-blog-image style="background-image: url(#{image.attachment_url(:medium)});"
                 / = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
             - else
-              div.offer-blog-image style="background-image: url(/assets/impact_gs.jpg);"
+              / div.offer-blog-image style="background-image: url(/assets/impact_gs.jpg);"
+              = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging", style: "width: 125px; height: 70px;"
           div.offer-center
           div.offer-footer
             p.exp.pull-left
