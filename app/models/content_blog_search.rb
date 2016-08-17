@@ -97,7 +97,7 @@ class ContentBlogSearch
       }
     end
 
-    if @content_types.any?
+    if @content_types.present? && @content_types.any?
       content_classes = []
 
       @content_types.each do |type|

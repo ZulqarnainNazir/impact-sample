@@ -8,7 +8,7 @@
         - elsif placement.try(:image)
           div.post-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});"
         - else
-          div.post-blog-image style="background-image: url(/assets/impact_gs.jpg);" 
+          div.post-blog-image style="background-image: #{asset_path("impact_gs.jpg")};"
         h3.slider-text = truncate sanitize(post.title), length: 75, omission: '... '
         p.slider-p = truncate sanitize(post.sections_content), length: 90, omission: '... '
         / button.btn.btn-primary.btn-sm.pull-left Read More
