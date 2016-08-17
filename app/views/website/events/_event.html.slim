@@ -14,7 +14,7 @@
             div.event-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});"
             / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
         - else
-          div.event-blog-image style="background-image: #{asset_path("impact_gs.jpg")};"   
+          div.event-blog-image style="background-image: url(/assets/impact_gs.jpg);"   
           / = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
         h3.slider-text = truncate sanitize(event.event_definition.title), length: 75, omission: '... '
         p.slider-text.slider-text-sub
