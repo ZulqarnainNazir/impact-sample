@@ -144,12 +144,12 @@ ImagePlacement = React.createClass
     if this.state.uploadState is 'uploading' or this.state.uploadState is 'finishing' or this.state.uploadState is 'attached'
       `<div>
         <div className="form-group">
-          <label htmlFor={this.id('image_alt')} className="control-label"><code>ALT</code> Attribute</label>
+          <label htmlFor={this.id('image_alt')} className="control-label"><code>ALT</code> HTML Attribute</label>
           <input id={this.id('image_alt')} name={this.name('image_alt')} type="text" defaultValue={this.state.imageAlt} className="form-control" />
         </div>
         <div className="form-group">
-          <label htmlFor={this.id('image_title')} className="control-label"><code>Title</code> Attribute</label>
-          <input id={this.id('image_title')} name={this.name('image_title')} type="text" defaultValue={this.state.imageTitle} className="form-control" />
+          <label htmlFor={this.id('image_title')} className="control-label"><code>Title</code> HTML Attribute</label>
+          <input id={this.id('image_title')} name={this.name('image_title')} type="text" defaultValue={this.state.imageTitle} className="form-control" placeholder="Add a description of the image. Can be more than 1 sentence." />
         </div>
       </div>`
 
