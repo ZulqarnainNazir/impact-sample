@@ -3,6 +3,10 @@ class Website::BaseController < ApplicationController
   layout 'website'
 
   before_action do
+    @masonry = true
+  end
+
+  before_action do
     @webhost = Webhost.find_by_name(request.host)
 
     if @webhost && @webhost.website
