@@ -1,10 +1,37 @@
-- image = offer.offer_image
-- if masonry == true 
-  .col-md-4.slider_content.single_blog
-    - if image
-      = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
-    h3.slider-text = link_to offer.title, website_generic_post_path(offer.to_generic_param)
-    p.slider-p = truncate sanitize(offer.offer), length: 75, omission: '... '
+- if @masonry.present? && @masonry == true 
+  - cache offer do
+    .col-md-4.slider-content.single-blog
+      = link_to website_generic_post_path(offer.to_generic_param) do
+        .coupon style="padding: 0px; margin-left: 6px; margin-right: 6px;"
+          div.offer-header
+            = image_tag '/assets/impact-light-xs.png', size: '70x26', alt: '', title: 'icon', class: 'pull-left'
+            p.offer-para.pull-right = offer.business.name
+          div style="padding:5px;"
+            - if offer.try(:offer_image)
+              - image = offer.offer_image
+              - if image && !image.nil?
+                div.offer-blog-image style="background-image: url(#{image.attachment_url(:medium)});"
+                / = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
+            - else
+              / div.offer-blog-image style="background-image: url(/assets/impact_gs.jpg);"
+              = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging", style: "width: 125px; height: 70px;"
+          div.offer-center
+          div.offer-footer
+            p.exp.pull-left
+              - if offer.valid_until?
+                ' Expires
+                = offer.valid_until.strftime('%B %e, %Y')
+              - else
+                ' No Expiration
+              / = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+          / p.slider-p style="padding-top: 10px; margin-bottom: 0px; padding-bottom: 5px;" = truncate sanitize(offer.offer), length: 75, omission: '... '
+          / p.disclosure = truncate sanitize(offer.terms), length: 75, omission: '...'
+          / div.offer-footer
+          /   p.exp
+          /     - if offer.valid_until?
+          /       ' Offer Valid Until
+          /       strong = offer.valid_until.strftime('%B %e, %Y')
+        h3.slider-text style="margin-top:5px;" = truncate sanitize(offer.title), length: 75, omission: '...'
 - else
   .feed-item.feed-offer
     .feed-item-meta
@@ -21,8 +48,14 @@
     - cache offer do
       h2 = link_to offer.title, website_generic_post_path(offer.to_generic_param)
       - if defined?(small)
-        - if image
-          = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+        - if offer.try(:offer_image)
+          - image = offer.offer_image
+          - if image && !image.nil?
+            = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+        - else
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: 'img-responsive thumbnail'
+        / - if image
+        /   = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
         div style="margin:10px 0"
           = truncate sanitize(offer.offer), length: 250
         - if offer.valid_until?
@@ -35,12 +68,20 @@
           = link_to website_generic_post_path(offer.to_generic_param), class: 'btn btn-primary' do
             ' Learn More
             i.fa.fa-angle-right
+        div
+          = offer.terms
       - else
         .offer-row class=(offer.kind || 'image_left')
           .row
             .col-sm-6.offer-col-image
-              - if image
-                = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+              - if offer.try(:offer_image)
+                - image = offer.offer_image
+                - if image && !image.nil?
+                  = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+              - else
+                = image_tag "impact_gs.jpg", alt: "image", title: "image", class: 'img-responsive thumbnail'
+              / - if image
+              /   = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
             .col-sm-6
               div style="margin:10px 0"
                 = truncate sanitize(offer.offer), length: 250

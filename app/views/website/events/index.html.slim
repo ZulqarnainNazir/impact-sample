@@ -2,12 +2,14 @@
 - canonical_url website_events_url
 
 = webpage_container do
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li.active Events
-  .page-header
-    h1 Browse Events
-    = page_entries_info @events, entry_name: 'events'
-    = render @events
-    hr
-    = paginate @events
+    ol.breadcrumb
+	    li = link_to icon('home'), :website_root
+	    li.active Events
+	div.page-header
+	  	div
+		    h1 Browse Events
+			= page_entries_info @events, entry_name: 'events'
+		br
+    div
+	   = render @events
+	   = paginate @events

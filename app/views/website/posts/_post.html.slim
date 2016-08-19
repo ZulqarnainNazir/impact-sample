@@ -1,5 +1,18 @@
-- if masonry == true 
-  .col-md-4.slider_content.single_blog
+- if @masonry.present? && @masonry == true
+  .col-xs-4.slider-content.single-blog
+    = link_to website_generic_post_path(post.to_generic_param) do
+      - cache post do
+        - placement = post.sections_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        - elsif placement.try(:image)
+          div.post-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});"
+        - else
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+          / div.post-blog-image.content-no-photo
+        h3.slider-text = truncate sanitize(post.title), length: 75, omission: '... '
+        p.slider-p = truncate sanitize(post.sections_content), length: 90, omission: '... '
+        / button.btn.btn-primary.btn-sm.pull-left Read More
 - else
   .feed-item.feed-post
     .feed-item-meta
