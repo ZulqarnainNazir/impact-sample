@@ -11,7 +11,7 @@
     - image = @gallery_image.gallery_image
     - cache @gallery_image do
       .col-xs-12.col-md-4.pull-right
-        h1.h2 = image.title
+        p = image.title
       .col-md-8.gallery-item-page-image
         = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive', style: 'object-fit:cover; max-height:700px;'
     .col-md-4
