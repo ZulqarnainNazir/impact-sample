@@ -107,7 +107,7 @@ class ContentBlogSearch
         content_classes << Post if type == 'CustomPost'
       end
       if content_classes.include?(Event)
-        content_classes.delete(Event)
+        # content_classes.delete(Event)
         content_classes << EventDefinition
       end
     else
