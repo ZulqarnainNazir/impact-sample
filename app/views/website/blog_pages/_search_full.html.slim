@@ -1,0 +1,26 @@
+div.row.search-full
+	= form_tag '/blog', method: :get do
+		div.col-md-7.form-inline style="padding-top: 1%;"
+			div.form-group
+				span style="font-size:16px; padding-right:5px; font-weight: bold;"
+					'View:
+				- @content_types_all.each do |n|
+					- if @content_types.present? && params[:content_types].present? && params[:content_types].include?(n)
+						- val = true
+					- else
+						- val = false
+					span style="font-size:16px; padding-right:3px;"
+				      = check_box_tag "content_types[]", "#{n}", val, class: '', style: 'padding-right: 2px; margin:0px;'
+				    span style="font-size:16px; padding-right:10px;"
+				      = n.titlecase
+		
+		div.col-md-4
+		    div.input-group
+		        = text_field_tag '[blog_search]', params[:blog_search], placeholder: 'search for keywords...', class: 'form-control'
+
+			    div.input-group-btn
+			        = button_tag class: 'btn btn-default' do
+			          ' Go
+			- if params[:blog_search].present? && !params[:blog_search].empty?
+			    = link_to '/blog', class: "pull-right", role: :button do
+			        'Clear Search

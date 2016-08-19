@@ -1,20 +1,50 @@
-- if masonry == true 
-  .col-md-4.slider_content.single_blog
+- if @masonry.present? && @masonry == true 
+  .col-xs-4.slider-content.single-blog
+    - gallery_count = gallery.gallery_images.count
     - cache gallery do
-      - gallery.gallery_images.limit(1).each do |gallery_image|
-        - image = gallery_image.gallery_image
-          = link_to [:website, gallery, gallery_image], class: 'slider-imaging' do
-            = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
-      / - gallery.gallery_images.limit(1).each do |gallery_image|
-      /   - image = gallery_image.gallery_image
-      /   .col-xs-3.col-lg-2
-      /     = link_to [:website, gallery, gallery_image], class: 'slider-imaging' do
-      /         figure
-      /           .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-      /             = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
-      h3.slider-text 
-        => link_to gallery.title, website_generic_post_path(gallery.to_generic_param)
-        span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
+      = link_to website_generic_post_path(gallery.to_generic_param)
+        - if gallery_count > 0 && gallery_count <= 2
+          div.ba-container
+            - gallery.gallery_images.limit(2).each_with_index do |gallery_image, index|
+                - image = gallery_image.gallery_image
+                - if gallery_count == 1
+                    div.gallery_single.blog-image-position style="background-image: url(#{image.attachment_url(:thumbnail)});"
+                      / = link_to [:website, gallery, gallery_image], class: 'slider-imaging' do
+                      /     figure
+                      /       = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
+                - elsif gallery_count == 2
+                  - if index == 0
+                      div.gallery_side_one.blog-image-position style="background-image: url(#{image.attachment_url(:thumbnail)});"
+                  - elsif index == 1
+                      div.gallery_side_two.blog-image-position style="background-image: url(#{image.attachment_url(:thumbnail)});"
+                      / = link_to [:website, gallery, gallery_image], class: 'slider-imaging' do
+                      /     figure
+                      /       = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
+        - elsif gallery_count >= 3
+          - gallery_images = gallery.gallery_images.limit(3).to_a
+          div.gallery-row.blog-image-position style="background-image: url(#{gallery_images.first.gallery_image.attachment_url(:thumbnail)});"
+            div.gallery-row-mini.blog-image-position style="background-image: url(#{gallery_images.second.gallery_image.attachment_url(:thumbnail)}); border-top: 0px;"
+              / .col-xs-12
+              /   - image = gallery_images.second.gallery_image
+              /   = link_to [:website, gallery, gallery_images.second] do
+              /     figure
+              /       = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging-special'
+            div.gallery-row-mini.blog-image-position style="background-image: url(#{gallery_images.third.gallery_image.attachment_url(:thumbnail)});"
+              - if gallery_count > 3
+                  h3.row-mini-text + #{gallery_count - 3} more
+              - else
+                  h3.row-mini-text see all
+              .col-xs-12
+              /   - image = gallery_images.third.gallery_image
+              /   = link_to [:website, gallery, gallery_images.third] do
+              /     figure
+              /       = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging-special'
+        -elsif gallery_count == 0
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+        h3.slider-text 
+          = truncate sanitize(gallery.title), length: 75, omission: '... '
+        p.slider-text.slider-text-sub
+          i #{pluralize(gallery.gallery_images.count, 'photo').upcase}
 - else
   .feed-item.feed-gallery
     .feed-item-meta

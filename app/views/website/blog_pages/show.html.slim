@@ -4,4 +4,8 @@
 - canonical_url website_blog_page_url
 
 = webpage_container do
-  = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
+	div.webpage-container-blog
+		= render partial: 'search_full'
+		= render partial: 'search_collapsed'
+	div.webpage-container-blog
+		= render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
