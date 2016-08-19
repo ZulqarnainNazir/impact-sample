@@ -1469,12 +1469,12 @@ Webpage = React.createClass
     if ['uploading', 'finishing', 'attached'].indexOf(this.state.mediaImageStatus) >= 0
       `<div>
         <div className="form-group">
-          <label htmlFor="media_image_alt" className="control-label"><code>ALT</code> Attribute</label>
+          <label htmlFor="media_image_alt" className="control-label"><code>ALT</code> HTML Attribute</label>
           <input id="media_image_alt" type="text" className="form-control" />
         </div>
         <div className="form-group">
-          <label htmlFor="media_image_title" className="control-label"><code>Title</code> Attribute</label>
-          <input id="media_image_title" type="text" className="form-control" />
+          <label htmlFor="media_image_title" className="control-label"><code>Title</code> HTML Attribute</label>
+          <input id="media_image_title" type="text" className="form-control" placeholder="Add a description of the image. Can be more than 1 sentence." />
         </div>
       </div>`
 
