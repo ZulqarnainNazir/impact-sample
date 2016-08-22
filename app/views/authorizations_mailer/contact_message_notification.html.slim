@@ -1,5 +1,5 @@
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-  p A new message has been posted to the IMPACT CRM at #{link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]}.
+  p A form has been submitted to your IMPACT account at #{link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]}.
   dl
     dt Name
     dd = @contact_message.customer_name
