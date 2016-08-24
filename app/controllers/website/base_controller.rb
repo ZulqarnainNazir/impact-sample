@@ -118,13 +118,39 @@ class Website::BaseController < ApplicationController
   #e.g., if the homepage is scoped to show events and before and after, 
   #this method should be used in the
   #home_pages_controller.
-  def get_content_types(group_type, page_instance_variable)
-    @content_types_all = page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types.split
-    if !params[:content_types].present?
+
+    def get_content_types(group_type, page_instance_variable)
+    if page_instance_variable.groups.where(type: group_type).first.try(:blocks)
+      @content_types_all = page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types
+      if @content_types_all.nil? || @content_types_all.empty? # ||....<=checks to see if "", empty string, is in db, signifying "show all content types"
+        @content_types_all = "QuickPost Event Gallery BeforeAfter Offer CustomPost"
+      end
+      if @content_types_all.present?
+        @content_types_all = @content_types_all.split
+      end
+    end
+    if !params[:content_types].present? && !@content_types_all.nil?
       params[:content_types] = @content_types_all
     elsif params[:content_types].present?
       @content_types = params[:content_types]
     end
   end
+
+  # def get_content_types_test(group_type, page_instance_variable)
+  #   if page_instance_variable.groups.where(type: group_type).first.try(:blocks)
+  #     @content_types_all ||= page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types
+  #   end
+  #   if @content_types_all.present? && @content_types_all.nil? || @content_types_all.present? && @content_types_all == ""
+  #     @content_types_all = "QuickPost Event Gallery BeforeAfter Offer CustomPost"
+  #   end
+  #   if @content_types_all.present? && !@content_types_all.nil?
+  #     @content_types_all = @content_types_all.split
+  #   end
+  #   if !params[:content_types].present? && !@content_types_all.nil?
+  #     params[:content_types] = @content_types_all
+  #   elsif params[:content_types].present?
+  #     @content_types = params[:content_types]
+  #   end
+  # end
 
 end
