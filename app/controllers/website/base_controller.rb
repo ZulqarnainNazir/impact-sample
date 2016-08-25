@@ -119,7 +119,7 @@ class Website::BaseController < ApplicationController
   #this method should be used in the
   #home_pages_controller.
 
-    def get_content_types(group_type, page_instance_variable)
+  def get_content_types(group_type, page_instance_variable)
     if page_instance_variable.groups.where(type: group_type).first.try(:blocks)
       @content_types_all = page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types
       if @content_types_all.nil? || @content_types_all.empty? # ||....<=checks to see if "", empty string, is in db, signifying "show all content types"
