@@ -1,5 +1,5 @@
 - if group.blocks.any?(&:cache_withdraw)
-  = render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }
+	= render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }
 - else
-  - cache [group, sidebar_position, *group.blocks.map { |b| b.cache_sensitive_key(params) }.reject(&:blank?)] do
-    = render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }
+	- cache_unless params[:blog_search].present? || params[:content_types].present?, [group, sidebar_position, *group.blocks.map { |b| b.cache_sensitive_key(params) }.reject(&:blank?)] do
+	  = render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }
