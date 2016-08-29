@@ -24,6 +24,6 @@
     - if post_section.post_section_image_placement.try(:embeds?)
       .embed-responsive.embed-responsive-4by3 = post_section.post_section_image_placement.embed.html_safe
     - elsif post_section.post_section_image
-      = image_tag post_section.post_section_image.attachment_url(:medium), alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive thumbnail'
+      = image_tag post_section.post_section_image.attachment_url(:large_fixed), alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive thumbnail'
 
 = render partial: 'website/post_sections/post_section', collection: post_section.cached_children, locals: { level: level + 1 }
