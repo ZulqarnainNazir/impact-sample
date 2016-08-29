@@ -62,7 +62,7 @@ class Image < ActiveRecord::Base
       logo_medium: 'x60',
       logo_large: 'x125',
       logo_jumbo: 'x200',
-    }.slice(*placements.map(&:style_keys).push(%i[thumbnail medium jumbo_fixed]).flatten.uniq)
+    }.slice(*placements.map(&:style_keys).push(%i[thumbnail medium large_fixed jumbo_fixed]).flatten.uniq)
   end
 
   def attachment_thumbnail_url
