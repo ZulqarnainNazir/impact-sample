@@ -4,7 +4,7 @@
       = link_to website_generic_post_path(offer.to_generic_param) do
         .coupon style="padding: 0px; margin-left: 6px; margin-right: 6px;"
           div.offer-header
-            = image_tag '/assets/impact-light-xs.png', size: '70x26', alt: '', title: 'icon', class: 'pull-left'
+            -# = image_tag '/assets/impact-light-xs.png', size: '70x26', alt: '', title: 'icon', class: 'pull-left'
             p.offer-para.pull-right = offer.business.name
           div style="padding:5px;"
             - if offer.try(:offer_image)
