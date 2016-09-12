@@ -1427,7 +1427,16 @@ Webpage = React.createClass
       </div>`
 
   renderEditLinkOptions: ->
-    `<option key={webpage.id} value={webpage.id}>{webpage.name}</option>` for webpage in this.props.internalWebpages
+    sorted = this.props.internalWebpages.sort (a,b) ->
+      if a.name > b.name
+        return 1
+      else if a.name < b.name
+        return -1
+      else
+        return 0
+
+    `<option key={webpage.id} value={webpage.id}>{webpage.name}</option>` for webpage in sorted
+
 
   renderEditMediaThumbnail: ->
     if this.state.mediaImageAttachmentURL
