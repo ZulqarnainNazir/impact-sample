@@ -172,7 +172,7 @@ Rails.application.routes.draw do
     resources :galleries, only: %i[index show] do
       resources :gallery_images, only: %i[show]
     end
-    resources :offers, only: %i[show], as: :offer, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
+    resources :offers, only: %i[show]
     resources :posts, only: %i[show]
     resources :quick_posts, only: %i[show]
     resources :reviews, only: %i[index show new create]
