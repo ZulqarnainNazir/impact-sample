@@ -1,7 +1,7 @@
 - title @post.title
 - description @post.meta_description
 - image @post.main_image.try(:attachment_url) || @post.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_url)
-- canonical_url website_post_url(@post)
+- canonize_obj({url: website_post_url, params: @post.to_generic_param})
 
 = webpage_container do
   .row

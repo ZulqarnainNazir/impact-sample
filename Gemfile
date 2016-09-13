@@ -53,6 +53,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'erd'
   gem 'spring'
+  gem 'pry'
 end
 
 group :production do
