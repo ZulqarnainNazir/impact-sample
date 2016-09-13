@@ -52,8 +52,9 @@
         span.icon-bar
         span.icon-bar
       = image unless %w[above below].include?(header_block.logo_vertical_position)
-    #header-collapse.navbar-collapse.collapse
-      = navlinks
+    div.header-block-collapse
+      #header-collapse.navbar-collapse.collapse
+        = navlinks
 
   - navbar = capture do
     - if %w[static fixed].include?(header_block.navbar_location)
