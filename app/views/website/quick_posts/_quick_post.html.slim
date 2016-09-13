@@ -5,7 +5,6 @@
         - placement = quick_post.quick_post_image_placement
         - if placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-          br
         - elsif placement.try(:image)
           div.post-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});" 
           / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
