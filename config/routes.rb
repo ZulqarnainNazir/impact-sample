@@ -178,6 +178,8 @@ Rails.application.routes.draw do
     resources :reviews, only: %i[index show new create]
 
     get '/:year/:month/:day/:id/:slug', to: 'generic_posts#show', as: :generic_post, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
+    get '/:year/:month/:day/:id/:gallery_slug/:image_id/:image_slug', to: 'generic_posts#show', as: :gallery_image, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
+    get '/:year/:month/:day/:id/:gallery_slug/:image_id', to: 'generic_posts#show', as: :gallery_image_no_title, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
 
     get '*id', to: 'custom_pages#show', as: :custom_page
   end

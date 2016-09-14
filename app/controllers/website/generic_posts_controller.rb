@@ -47,12 +47,13 @@ class Website::GenericPostsController < Website::BaseController
       render 'website/before_afters/show'
       return
     end
-
-    @gallery_image = GalleryImage.find(params[:id])
+    # binding.pry
+    @gallery_image = GalleryImage.find(params[:image_id])
 
     if @gallery_image
+      # binding.pry
       @gallery = @gallery_image.gallery
-      binding.pry
+
       render 'website/gallery_images/show'
       return
     end
