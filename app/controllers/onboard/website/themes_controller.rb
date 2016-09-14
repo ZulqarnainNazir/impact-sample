@@ -31,10 +31,10 @@ class Onboard::Website::ThemesController < Onboard::Website::BaseController
       :background_color,
       :foreground_color,
       :link_color,
-      :footer_embed,
-      :hide_on_landing,
-      :hide_on_blog,
       :wrap_container,
+      :footer_embed,
+      :hide_embed_on_landing,
+      :hide_embed_on_blog,
       header_block_attributes: block_attributes.push(*%i[logo_height logo_horizontal_position logo_vertical_position navigation_horizontal_position contact_position navbar_location]),
       footer_block_attributes: block_attributes,
     )

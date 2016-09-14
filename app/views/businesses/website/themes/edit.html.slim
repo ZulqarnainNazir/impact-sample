@@ -44,12 +44,15 @@ p.text-right = link_to website_root_url(host: website_host(@business.website)), 
           <div class="modal-body">
             .form-group
               = form.text_area :footer_embed, rows:8, class: 'form-control', placeholder: "Enter Text Here"
+<<<<<<< b6e0ec93921f724ac27239652abaf4ef97896abc
               .checkbox_section
                 = form.check_box :hide_on_blog, class: 'checkbox', rows:3
                 = form.label :hide_on_blog, "Hide on Blog Posts", rows:3
               .checkbox_section
                 = form.check_box :hide_on_landing, class: 'checkbox', rows:3
                 = form.label :hide_on_landing, "Hide on Landing Pages", rows:3, checked: true
+=======
+>>>>>>> basic text form for footer embed: need to finish by adding it to the layout and restricting where it appears
 
           </div>
           <div class="modal-footer">
