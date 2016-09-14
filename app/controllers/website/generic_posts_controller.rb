@@ -52,7 +52,7 @@ class Website::GenericPostsController < Website::BaseController
 
     if @gallery_image
       @gallery = @gallery_image.gallery
-      # binding.pry
+      binding.pry
       render 'website/gallery_images/show'
       return
     end
