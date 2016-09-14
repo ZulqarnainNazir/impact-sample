@@ -302,7 +302,17 @@ Theme = React.createClass
             </div>
           </div>
           <div className="webpage-group webpage-group-basic-left">
-                  <div className="webpage-footer-embed" dangerouslySetInnerHTML={{__html: this.state.footerEmbed}}></div>
+            <div className="webpage-group webpage-group-basic webpage-group-basic-left">
+              <div className="container">
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '1em 0.5em'}}>
+                      <span style={{fontSize: 12}}>Footer Embed – <a href="#">Example Link</a></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
           </div>
         </div>
