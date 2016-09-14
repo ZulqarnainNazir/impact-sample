@@ -28,7 +28,7 @@ module ContentHelper
     end
 
     def canonize_obj(post_vars = {})
-        # get the url from @post.generic_param, without railsy query string for resources
+        # get the url from @post.generic_param , without railsy query string for resources
         url = post_vars[:url]
         ind = url.index('/posts/') || url.index('/offers/') || url.index('/events/') || url.index('/quick_posts') || url.index('/galleries')
         base = post_vars[:url][0..ind]
@@ -43,21 +43,11 @@ module ContentHelper
       content_for :canonical_url
     end
 
-    def generic_post_defined?
-      # returns true if any generic_post_controller object exists
-      types = [@post, @quick_post, @event, @gallery, @offer, @before_after, @gallery_image]
-      types.each do |type|
-        if defined? type
-          return true
-        end
-      end
-    end
-
     def has_footer_embed(website, page)
       if website.footer_embed
-        is_blog = (page.class == BlogPage) || generic_post_defined? # <--- BlogPage entry or generic post page
+        is_blog = (page.class == BlogPage) || !page # <--- BlogPage entry or generic post page
         is_landing_page = page.respond_to?(:hide_navigation) && page.hide_navigation == '1'
-        if (is_blog && website.embed_on_blog) || (is_landing_page && website.embed_on_landing)
+        if (is_blog && website.hide_on_blog) || (is_landing_page && website.hide_on_landing)
           return false
         elsif is_blog || is_landing_page
           return true

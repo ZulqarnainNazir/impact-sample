@@ -196,8 +196,13 @@ Block = React.createClass
       `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning" title="Cycle through layout options" data-content="Pick the layout that's right for you."><i className="fa fa-caret-right" /></a>`
 
   renderFooterEmbed: ->
+<<<<<<< 0f7c8959819432c9db5c52de317f7e3fb242931f
     if this.props.footerEmbed
       `<a href="#" className="btn btn-warning add-footer-embed" title="Add Custom Site Footer Embed" data-content="Appears immediately above site footer." data-toggle="modal" data-target="#footer-embed-modal"><i className="fa fa-cog" /></a>`
+=======
+    if this.props.nextTheme
+      `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning add-footer-embed" title="Add Custom Site Footer Embed" data-content="Appears immediately above site footer." data-toggle="modal" data-target="#footer-embed-modal"><i className="fa fa-cog" /></a>`
+>>>>>>> basic text form for footer embed: need to finish by adding it to the layout and restricting where it appears
 
   renderBlock: ->
     switch this.props.type
