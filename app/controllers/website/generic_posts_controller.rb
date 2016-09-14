@@ -48,6 +48,15 @@ class Website::GenericPostsController < Website::BaseController
       return
     end
 
+    @gallery_image = GalleryImage.find(params[:id])
+
+    if @gallery_image
+      @gallery = @gallery_image.gallery
+      # binding.pry
+      render 'website/gallery_images/show'
+      return
+    end
+
     raise ActiveRecord::RecordNotFound
   end
 end
