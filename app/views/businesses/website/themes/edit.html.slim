@@ -29,6 +29,30 @@ p.text-right = link_to website_root_url(host: website_host(@business.website)), 
     .form-group
       => form.label :custom_css, 'For Advanced Users Only – Add Custom CSS to Apply Sitewide', class: 'control-label'
       = form.text_area :custom_css, rows: 8, class: 'form-control'
+
+    <!-- Modal -->
+    <div class="modal fade" id="footer-embed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Add text to your Footer Embed block</h4>
+          </div>
+          <div class="modal-body">
+            .form-group
+              = form.text_area :footer_embed, rows:8, class: 'form-control', placeholder: "Enter Text Here"
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            = form.submit class: "btn btn-primary", placeholder: "Save Changes"
+          </div>
+        </div>
+      </div>
+    </div>
+
     .webpage-submit
       .row
         .col-sm-4.col-sm-offset-4

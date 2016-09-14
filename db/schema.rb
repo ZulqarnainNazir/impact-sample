@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160312051023) do
+ActiveRecord::Schema.define(version: 20160914220022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                  null: false
@@ -276,6 +275,15 @@ ActiveRecord::Schema.define(version: 20160312051023) do
 
   add_index "feedbacks", ["business_id"], name: "index_feedbacks_on_business_id", using: :btree
   add_index "feedbacks", ["customer_id"], name: "index_feedbacks_on_customer_id", using: :btree
+
+  create_table "footer_embeds", force: :cascade do |t|
+    t.text     "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "website_id"
+  end
+
+  add_index "footer_embeds", ["website_id"], name: "index_footer_embeds_on_website_id", using: :btree
 
   create_table "galleries", force: :cascade do |t|
     t.integer  "business_id",      null: false
@@ -638,11 +646,13 @@ ActiveRecord::Schema.define(version: 20160312051023) do
     t.boolean  "content_blog_sidebar",            default: true, null: false
     t.boolean  "events_sidebar",                  default: true, null: false
     t.boolean  "content_blog_sidebar_on_reviews", default: true, null: false
+    t.text     "footer_embed"
   end
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
+  add_foreign_key "footer_embeds", "websites"
   add_foreign_key "lines", "businesses"
   add_foreign_key "post_sections", "posts"
   add_foreign_key "quick_posts", "businesses"
