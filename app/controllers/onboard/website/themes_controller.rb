@@ -18,11 +18,9 @@ class Onboard::Website::ThemesController < Onboard::Website::BaseController
   end
 
   def edit
-    binding.pry
   end
 
   def update
-    binding.pry
     update_resource @business.website, theme_params, location: [@business, :dashboard]
   end
 
