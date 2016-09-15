@@ -31,7 +31,6 @@ p.text-right = link_to website_root_url(host: website_host(@business.website)), 
       => form.label :custom_css, 'For Advanced Users Only – Add Custom CSS to Apply Sitewide', class: 'control-label'
       = form.text_area :custom_css, rows: 8, class: 'form-control'
 
-    <!-- Modal -->
     <div class="modal fade" id="footer-embed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -44,29 +43,12 @@ p.text-right = link_to website_root_url(host: website_host(@business.website)), 
           <div class="modal-body">
             .form-group
               = form.text_area :footer_embed, rows:8, class: 'form-control', placeholder: "Enter Text Here"
-<<<<<<< 9adc3f0f83a03dcd33b75b53e106a69e0b679e2a
-<<<<<<< b6e0ec93921f724ac27239652abaf4ef97896abc
               .checkbox_section
-                = form.check_box :hide_on_blog, class: 'checkbox', rows:3
-                = form.label :hide_on_blog, "Hide on Blog Posts", rows:3
+                = form.check_box :hide_embed_on_blog, class: 'checkbox', rows:3
+                = form.label :hide_embed_on_blog, "Hide on Blog Posts", rows:3
               .checkbox_section
-                = form.check_box :hide_on_landing, class: 'checkbox', rows:3
-                = form.label :hide_on_landing, "Hide on Landing Pages", rows:3, checked: true
-=======
->>>>>>> basic text form for footer embed: need to finish by adding it to the layout and restricting where it appears
-
-=======
-              .checkbox_section
-                = form.check_box :embed_on_blog, class: 'checkbox', rows:3
-                = form.label :embed_on_blog, "Hide on Blog Posts", rows:3
-              .checkbox_section
-                = form.check_box :embed_on_landing, class: 'checkbox', rows:3
-<<<<<<< e379b8f082651e16ada52ee57c461203107c1029
-                = form.label :embed_on_landing, "Embed on Landing Pages", rows:3
->>>>>>> footer embed options for blog posts and landing pages
-=======
-                = form.label :embed_on_landing, "Hide on Landing Pages", rows:3, checked: false
->>>>>>> reversing logic
+                = form.check_box :hide_embed_on_landing, class: 'checkbox', rows:3
+                = form.label :hide_embed_on_landing, "Hide on Landing Pages", rows:3, checked: true
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
