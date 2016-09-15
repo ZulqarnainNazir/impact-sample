@@ -312,6 +312,7 @@ Theme = React.createClass
                 </div>
               </div>
             <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />          </div>
+          </div>
         </div>
         <div className="panel-footer clearfix">
           <p className="checkbox pull-right" style={{margin: 0}}>
