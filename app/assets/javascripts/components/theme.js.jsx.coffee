@@ -300,7 +300,7 @@ Theme = React.createClass
           </div>
           <div className="webpage-group webpage-group-basic-left">
                   <div className="webpage-footer-embed" dangerouslySetInnerHTML={{__html: this.state.footerEmbed}}></div>
-            <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} />
+            <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
           </div>
         </div>
         <div className="panel-footer clearfix">

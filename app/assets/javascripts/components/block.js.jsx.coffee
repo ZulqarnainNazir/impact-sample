@@ -196,7 +196,7 @@ Block = React.createClass
       `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning" title="Cycle through layout options" data-content="Pick the layout that's right for you."><i className="fa fa-caret-right" /></a>`
 
   renderFooterEmbed: ->
-    if this.props.nextTheme
+    if this.props.footerEmbed
       `<a href="#" className="btn btn-warning add-footer-embed" title="Add Custom Site Footer Embed" data-content="Appears immediately above site footer." data-toggle="modal" data-target="#footer-embed-modal"><i className="fa fa-cog" /></a>`
 
   renderBlock: ->
