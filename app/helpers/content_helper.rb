@@ -48,4 +48,18 @@ module ContentHelper
       end
       content_for :canonical_url
     end
+
+    def has_footer_embed(website, page)
+      if website.footer_embed
+        is_blog = (page.class == BlogPage) || defined? @quick_post
+        is_landing_page = page.respond_to?(:hide_navigation) && page.hide_navigation == '1'
+        if (is_blog && website.embed_on_blog) || (is_landing_page && website.embed_on_landing)
+          return false
+        elsif is_blog || is_landing_page
+          return true
+        else
+          return true
+        end
+      end
+    end
 end
