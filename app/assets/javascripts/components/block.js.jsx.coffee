@@ -196,7 +196,11 @@ Block = React.createClass
       `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning" title="Cycle through layout options" data-content="Pick the layout that's right for you."><i className="fa fa-caret-right" /></a>`
 
   renderFooterEmbed: ->
+<<<<<<< 24bc90b6b9303156f64a5c73b724d741de94f39a
     if this.props.footerEmbed
+=======
+    if this.props.nextTheme
+>>>>>>> better site footer embed - restrict landing pages next
       `<a href="#" className="btn btn-warning add-footer-embed" title="Add Custom Site Footer Embed" data-content="Appears immediately above site footer." data-toggle="modal" data-target="#footer-embed-modal"><i className="fa fa-cog" /></a>`
 
   renderBlock: ->
