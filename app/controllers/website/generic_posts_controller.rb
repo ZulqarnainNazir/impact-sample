@@ -47,11 +47,9 @@ class Website::GenericPostsController < Website::BaseController
       render 'website/before_afters/show'
       return
     end
-    # binding.pry
     @gallery_image = GalleryImage.find(params[:image_id])
 
     if @gallery_image
-      # binding.pry
       @gallery = @gallery_image.gallery
 
       render 'website/gallery_images/show'
