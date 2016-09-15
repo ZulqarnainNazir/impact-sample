@@ -147,6 +147,9 @@ Theme = React.createClass
 
    styles: ->
      """
+     .checkbox_section{
+       display:flex
+     }
      .webpage-container a {
        color: #{this.state.link_color};
      }
