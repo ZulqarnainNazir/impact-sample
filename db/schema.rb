@@ -11,11 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< 65fafb1107bcea5f6c4686d912853935a7da8605
+
 ActiveRecord::Schema.define(version: 20160915183628) do
-=======
-ActiveRecord::Schema.define(version: 20160914220022) do
->>>>>>> basic text form for footer embed: need to finish by adding it to the layout and restricting where it appears
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -651,11 +648,16 @@ ActiveRecord::Schema.define(version: 20160914220022) do
     t.boolean  "events_sidebar",                  default: true, null: false
     t.boolean  "content_blog_sidebar_on_reviews", default: true, null: false
     t.text     "footer_embed"
+<<<<<<< d6acea325b6cd977041c806a09b0109973b6e006
 <<<<<<< 65fafb1107bcea5f6c4686d912853935a7da8605
     t.boolean  "embed_on_landing"
     t.boolean  "embed_on_blog"
 =======
 >>>>>>> basic text form for footer embed: need to finish by adding it to the layout and restricting where it appears
+=======
+    t.boolean  "embed_on_landing"
+    t.boolean  "embed_on_blog"
+>>>>>>> footer embed options for blog posts and landing pages
   end
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
