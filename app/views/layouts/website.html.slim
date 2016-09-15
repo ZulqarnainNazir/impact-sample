@@ -72,9 +72,14 @@ html lang="en"
           = render @website.header_block
     = yield
     - if @website.footer_embed
+<<<<<<< deceb6c478a2cf9ef4b6f601f349c92cfaa61f81
       - unless(((@page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1') unless @website.embed_on_landing) || ((@page.class == BlogPage) || !@website.embed_on_blog))
         .webpage-footer-embed
           == @website.footer_embed
+=======
+      .webpage-footer-embed
+        == @website.footer_embed
+>>>>>>> better site footer embed - restrict landing pages next
     - if @website.footer_block
       - unless @page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1'
         .webpage-footer
