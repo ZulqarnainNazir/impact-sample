@@ -5,6 +5,7 @@ class Businesses::Website::ThemesController < Businesses::Website::BaseControlle
   layout 'application'
 
   def update
+    binding.pry
     update_resource @website, website_params, location: [:edit, @business, :website_theme]
   end
 

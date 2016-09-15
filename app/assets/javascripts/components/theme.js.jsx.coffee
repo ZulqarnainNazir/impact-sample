@@ -185,7 +185,7 @@ Theme = React.createClass
      """
 
   render: ->
-    `<div>
+    `<div style={{width: '107%', left: '50%', transform: 'translate(-50%)', position:'relative'}}>
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
       <div className="row webpage-fields">
         <input name="wrap_container" type="hidden" value={this.state.wrapContainer} />
@@ -302,7 +302,6 @@ Theme = React.createClass
             </div>
           </div>
           <div className="webpage-group webpage-group-basic-left">
-            <div className="webpage-group webpage-group-basic webpage-group-basic-left">
               <div className="container">
                 <div className="row">
                   <div className="col-sm-12">
@@ -312,7 +311,6 @@ Theme = React.createClass
                   </div>
                 </div>
               </div>
-            </div>
             <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
           </div>
         </div>
