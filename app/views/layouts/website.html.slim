@@ -71,6 +71,9 @@ html lang="en"
         .webpage-header
           = render @website.header_block
     = yield
+    - if @website.footer_embed
+      .webpage-footer-embed
+        == @website.footer_embed
     - if @website.footer_block
       - unless @page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1'
         .webpage-footer
