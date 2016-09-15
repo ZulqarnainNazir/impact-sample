@@ -1,5 +1,5 @@
 - title [@gallery_image.title, @gallery.title].reject(&:blank?).join(' – ')
-- canonical_url website_gallery_gallery_image_url(@gallery, @gallery_image)
+- canonize_nested_resource(@gallery, @gallery_image)
 
 = webpage_container do
   ol.breadcrumb
