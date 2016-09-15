@@ -303,7 +303,11 @@ Theme = React.createClass
           </div>
           <div className="webpage-group webpage-group-basic-left">
                   <div className="webpage-footer-embed" dangerouslySetInnerHTML={{__html: this.state.footerEmbed}}></div>
+<<<<<<< 6565bdc10cd2044a4a0a6b03a65a766c0fe1303c
             <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
+=======
+            <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} />
+>>>>>>> better site footer embed - restrict landing pages next
           </div>
         </div>
         <div className="panel-footer clearfix">
