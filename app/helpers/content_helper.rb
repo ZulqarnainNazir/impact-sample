@@ -47,7 +47,7 @@ module ContentHelper
       if website.footer_embed
         is_blog = (page.class == BlogPage) || !page # <--- BlogPage entry or generic post page
         is_landing_page = page.respond_to?(:hide_navigation) && page.hide_navigation == '1'
-        if (is_blog && website.hide_on_blog) || (is_landing_page && website.hide_on_landing)
+        if (is_blog && website.hide_embed_on_blog) || (is_landing_page && website.hide_embed_on_landing)
           return false
         elsif is_blog || is_landing_page
           return true

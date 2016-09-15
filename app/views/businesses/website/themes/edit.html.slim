@@ -58,11 +58,15 @@ p.text-right = link_to website_root_url(host: website_host(@business.website)), 
 =======
               .checkbox_section
                 = form.check_box :embed_on_blog, class: 'checkbox', rows:3
-                = form.label :embed_on_blog, "Embed on Blog Posts", rows:3
+                = form.label :embed_on_blog, "Hide on Blog Posts", rows:3
               .checkbox_section
                 = form.check_box :embed_on_landing, class: 'checkbox', rows:3
+<<<<<<< e379b8f082651e16ada52ee57c461203107c1029
                 = form.label :embed_on_landing, "Embed on Landing Pages", rows:3
 >>>>>>> footer embed options for blog posts and landing pages
+=======
+                = form.label :embed_on_landing, "Hide on Landing Pages", rows:3, checked: false
+>>>>>>> reversing logic
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
