@@ -15,6 +15,7 @@ Theme = React.createClass
     link_color: this.props.defaultLinkColor || ''
     headerBlock: this.props.initialHeaderBlock
     footerBlock: this.props.initialFooterBlock
+    footerEmbed: this.props.initialFooterEmbed
     editing: true
     logo: !!this.props.initialHeaderBlock.logoSmall
 
@@ -298,6 +299,7 @@ Theme = React.createClass
             </div>
           </div>
           <div className="webpage-group webpage-group-basic-left">
+                  <div className="webpage-footer-embed" dangerouslySetInnerHTML={{__html: this.state.footerEmbed}}></div>
             <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} />
           </div>
         </div>
@@ -506,7 +508,7 @@ Theme = React.createClass
                     <input id="logo_size_custom" name="logo_size" type="radio" value="custom" /> Custom Height
                   </label>
                 </div>
-              </div>
+              </div>e
             </div>
             <div className="modal-footer">
               <span className="btn btn-default" data-dismiss="modal" onClick={this.resetLogo}>Cancel</span>
