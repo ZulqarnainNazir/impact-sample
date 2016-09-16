@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< fb301fadb877e3d83b59d7d5c390b3ac6995ef45
 ActiveRecord::Schema.define(version: 20160918232637) do
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+ActiveRecord::Schema.define(version: 20160915183628) do
+>>>>>>> stashed
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
