@@ -185,7 +185,7 @@ Theme = React.createClass
      """
 
   render: ->
-    `<div>
+    `<div style={{width: '107%', left: '50%', transform: 'translate(-50%)', position:'relative'}}>
       <style dangerouslySetInnerHTML={{__html: this.styles()}} />
       <div className="row webpage-fields">
         <input name="wrap_container" type="hidden" value={this.state.wrapContainer} />
