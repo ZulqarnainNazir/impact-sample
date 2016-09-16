@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< 72e4a70b1ad536d2361f808be5b4cef55b34ee79
 <<<<<<< fb301fadb877e3d83b59d7d5c390b3ac6995ef45
 ActiveRecord::Schema.define(version: 20160918232637) do
 =======
@@ -18,6 +19,8 @@ ActiveRecord::Schema.define(version: 20160918232637) do
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> merge branch to stash
 ActiveRecord::Schema.define(version: 20160915183628) do
 >>>>>>> stashed
 
@@ -648,8 +651,8 @@ ActiveRecord::Schema.define(version: 20160915183628) do
     t.text     "footer_embed"
     t.boolean  "hide_embed_on_landing"
     t.boolean  "hide_embed_on_blog"
-    t.boolean  "embed_on_landing"
-    t.boolean  "embed_on_blog"
+    t.boolean  "hide_on_landing"
+    t.boolean  "hide_on_blog"
   end
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
