@@ -6,7 +6,6 @@ class Onboard::Website::ThemesController < Onboard::Website::BaseController
   end
 
   before_action do
-    # hello rebase
     if @business.free?
       redirect_to [@business, :dashboard], alert: 'Please upgrade your listing to add a website.'
     end
