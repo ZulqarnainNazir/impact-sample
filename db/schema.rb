@@ -10,23 +10,7 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
-
-<<<<<<< 1c59b060d24c014a20608ccecaf06a4bfc575dc2
-<<<<<<< 72e4a70b1ad536d2361f808be5b4cef55b34ee79
-<<<<<<< fb301fadb877e3d83b59d7d5c390b3ac6995ef45
 ActiveRecord::Schema.define(version: 20160918232637) do
-=======
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> merge branch to stash
-ActiveRecord::Schema.define(version: 20160915183628) do
->>>>>>> stashed
-=======
-ActiveRecord::Schema.define(version: 20160915183628) do
->>>>>>> fix schema merge conflict
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"

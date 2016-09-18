@@ -198,7 +198,7 @@ Block = React.createClass
   renderFooterEmbed: ->
     if this.props.footerEmbed
       `<a href="#" className="btn btn-warning add-footer-embed" title="Add Custom Site Footer Embed" data-content="Appears immediately above site footer." data-toggle="modal" data-target="#footer-embed-modal"><i className="fa fa-cog" /></a>`
-      
+
   renderBlock: ->
     switch this.props.type
       when 'HeroBlock'
