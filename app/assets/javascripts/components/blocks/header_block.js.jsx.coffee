@@ -56,7 +56,7 @@ HeaderBlock = React.createClass
     navinterior =
       `<div>
         <div className={navbarHeaderClassName}>
-          <a href="#" type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar-collapse">
+          <a href="#" type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-collapse">
             <span className="sr-only">Toggle Navigation</span>
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
