@@ -145,44 +145,44 @@ Theme = React.createClass
     webpageContainerClass: ->
         if this.state.wrapContainer then 'webpage-container webpage-container-wrapper' else 'webpage-container'
 
-        styles: ->
-            """
-            .checkbox_section{
-              display:flex
-            }
-            .webpage-container a {
-              color: #{this.state.link_color};
-            }
-            .webpage-footer .site-footer-simple {
-              color: #{this.state.foreground_color};
-            }
-            .webpage-footer .site-footer-simple a {
-              color: #{this.state.link_color};
-            }
-            .webpage-header .navbar {
-              background-color: #{this.state.headerBlock.background_color};
-              color: #{this.state.headerBlock.foreground_color};
-            }
-            .webpage-header .nav a,
-            .webpage-header .nav a:hover {
-              color: #{this.state.link_color} !important;
-            }
-            .webpage-header .navbar a,
-            .webpage-header .navbar a:hover {
-              color: #{this.state.headerBlock.link_color} !important;
-            }
-            .webpage-footer .site-footer-columns .site-footer-upper,
-            .webpage-footer .site-footer-layers {
-              background-color: #{this.state.footerBlock.background_color};
-              color: #{this.state.footerBlock.foreground_color};
-            }
-            .webpage-footer .site-footer-columns .site-footer-upper a,
-            .webpage-footer .site-footer-columns .site-footer-upper a:hover,
-            .webpage-footer .site-footer-layers a,
-            .webpage-footer .site-footer-layers a:hover {
-              color: #{this.state.footerBlock.link_color} !important;
-            }
-            """
+    styles: ->
+        """
+        .checkbox_section{
+          display:flex
+        }
+        .webpage-container a {
+          color: #{this.state.link_color};
+        }
+        .webpage-footer .site-footer-simple {
+          color: #{this.state.foreground_color};
+        }
+        .webpage-footer .site-footer-simple a {
+          color: #{this.state.link_color};
+        }
+        .webpage-header .navbar {
+          background-color: #{this.state.headerBlock.background_color};
+          color: #{this.state.headerBlock.foreground_color};
+        }
+        .webpage-header .nav a,
+        .webpage-header .nav a:hover {
+          color: #{this.state.link_color} !important;
+        }
+        .webpage-header .navbar a,
+        .webpage-header .navbar a:hover {
+          color: #{this.state.headerBlock.link_color} !important;
+        }
+        .webpage-footer .site-footer-columns .site-footer-upper,
+        .webpage-footer .site-footer-layers {
+          background-color: #{this.state.footerBlock.background_color};
+          color: #{this.state.footerBlock.foreground_color};
+        }
+        .webpage-footer .site-footer-columns .site-footer-upper a,
+        .webpage-footer .site-footer-columns .site-footer-upper a:hover,
+        .webpage-footer .site-footer-layers a,
+        .webpage-footer .site-footer-layers a:hover {
+          color: #{this.state.footerBlock.link_color} !important;
+        }
+        """
 
     render: ->
         `<div style={{width: '107%', left: '50%', transform: 'translate(-50%)', position:'relative'}}>
@@ -311,8 +311,8 @@ Theme = React.createClass
                                 </div>
                             </div>
                         </div>
-                        <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
                     </div>
+                    <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
                 </div>
                 <div className="panel-footer clearfix">
                     <p className="checkbox pull-right" style={{margin: 0}}>
