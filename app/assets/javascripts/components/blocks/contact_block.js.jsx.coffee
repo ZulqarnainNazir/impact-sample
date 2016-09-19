@@ -235,6 +235,7 @@ ContactBlock = React.createClass
   mapSrc: ->
     mapBase = 'https://www.google.com/maps/embed/v1/place'
     mapKey = 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298'
+    console.log("#{mapBase}?#{$.param(center: "#{this.props.location.latitude},#{this.props.location.longitude}", q: "#{this.props.location.address_line_one},#{this.props.location.address_line_two}", key: mapKey, zoom: 18)}")
     "#{mapBase}?#{$.param(center: "#{this.props.location.latitude},#{this.props.location.longitude}", q: "#{this.props.location.address_line_one},#{this.props.location.address_line_two}", key: mapKey, zoom: 18)}"
 
 window.ContactBlock = ContactBlock
