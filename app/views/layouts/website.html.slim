@@ -71,12 +71,9 @@ html lang="en"
         .webpage-header
           = render @website.header_block
     = yield
-    .container
-      .row
-        .col-sm-12
-          - if has_footer_embed(@website, @page)
-            .webpage-footer-embed
-              == @website.footer_embed
+    - if has_footer_embed(@website, @page)
+      .webpage-footer-embed
+        == @website.footer_embed
     - if @website.footer_block
       - unless @page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1'
         .webpage-footer
