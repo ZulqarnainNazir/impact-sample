@@ -6,7 +6,6 @@ class Businesses::Website::ThemesController < Businesses::Website::BaseControlle
 
   def update
     update_resource @website, website_params, location: [:edit, @business, :website_theme]
-    binding.pry
   end
 
   private
