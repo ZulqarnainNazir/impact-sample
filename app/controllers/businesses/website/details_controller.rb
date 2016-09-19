@@ -12,7 +12,7 @@ class Businesses::Website::DetailsController < Businesses::Website::BaseControll
   private
 
   def website_params
-    if !@business.free? && (current_user.super_user? || current_user.custom_domains == 'true')
+    if !@business.free? && (current_user.confirmed_at)
       params.require(:website).permit(
         :subdomain,
         webhosts_attributes: [
