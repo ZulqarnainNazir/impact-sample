@@ -24,8 +24,9 @@ class Location < ActiveRecord::Base
     validates :state, presence: true
     validates :zip_code, presence: true
   end
-
+  Geocoder.configure(:timeout => 30)
   geocoded_by :full_address
+
 
   after_validation :geocode, if: :requires_geocode?
 
