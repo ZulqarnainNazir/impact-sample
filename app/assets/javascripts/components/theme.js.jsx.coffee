@@ -306,7 +306,7 @@ Theme = React.createClass
                             <div className="row">
                                 <div className="col-sm-12">
                                     <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '1em 0.5em'}}>
-                                        <span style={{fontSize: 12}}>Footer Embed – <a href="#">Example Link</a></span>
+                                        <span style={{fontSize: 20}}>Embedded Footer Content – <a href="#" data-toggle="modal" data-target="#footer-embed-modal">View/Edit</a></span>
                                     </div>
                                 </div>
                             </div>
