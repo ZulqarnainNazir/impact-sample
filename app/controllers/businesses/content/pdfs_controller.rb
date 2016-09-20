@@ -3,6 +3,15 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   skip_before_action :verify_authenticity_token
 
   def index
+    if current_user.businesses.count > 1 || current_user.super_user?
+      params[:local] ||= 'true'
+    else
+      params[:local] = 'true'
+    end
+    @business = Business.find(params['business_id'])
+    if params[:local] == 'true'
+      @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
+    else
       @pdfs = Pdf.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
     end
   end
@@ -36,9 +45,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     @pdf = Pdf.find(params[:id])
   end
 
-  def create
-    update_resource @pdf, pdf_params
-  end
   private
 
   def pdf_params
