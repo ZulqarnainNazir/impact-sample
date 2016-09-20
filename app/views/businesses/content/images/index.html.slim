@@ -17,6 +17,7 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   li = link_to 'Bulk Upload', [:new, @business, :content_images_upload]
   li = link_to 'Existing PDFs', [@business, :content_pdfs]
   li = link_to 'New PDF', [:new, @business, :content_pdf]
+
 .row.row-narrow
   = render partial: 'image', collection: @images, locals: { business: @business }
 hr
