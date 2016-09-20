@@ -7,13 +7,10 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     end
     @business = Business.find(params['business_id'])
     if params[:local] == 'true'
-      binding.pry
       @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
-      binding.pry
     else
-      binding.pry
+
       @pdfs = Pdf.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
-      binding.pry
     end
   end
 
@@ -23,7 +20,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   end
 
   def create
-    binding.pry
     update_resource @pdf, pdf_params
   end
 
