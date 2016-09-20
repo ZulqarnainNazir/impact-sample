@@ -3,14 +3,8 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   skip_before_action :verify_authenticity_token
 
   def index
-    if current_user.businesses.count > 1 || current_user.super_user?
-      params[:local] ||= 'true'
-    else
-      params[:local] = 'true'
-    end
     @business = Business.find(params['business_id'])
-    if params[:local] == 'true'
-      @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
+    @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
     else
       @pdfs = Pdf.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
     end
@@ -29,7 +23,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
       if @pdf.save
         flash[:notice] = 'PDF was successfully created.'
         format.html { redirect_to [@business, :content_pdfs] }
-        format.js 
+        format.js
         format.json { render :show, status: :created, location: @pdf }
       else
         flash[:notice] = 'PDF not created - must include a file under 20 GB.'
