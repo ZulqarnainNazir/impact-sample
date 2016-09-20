@@ -17,3 +17,13 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   li = link_to 'Bulk Upload', [:new, @business, :content_images_upload]
   li = link_to 'Existing PDFs', [@business, :content_pdfs]
   li.active = link_to 'New PDF', "#"
+
+
+= form_for @pdf, url: [@business, :content, @pdf], method: :post do |form|
+  .row
+    .col-sm-6
+      = form.label :attachment
+      = form.file_field :attachment
+      br>
+      div.actions
+        = form.submit 'Upload PDF', class: 'btn btn-primary'
