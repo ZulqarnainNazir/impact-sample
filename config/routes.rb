@@ -78,6 +78,7 @@ Rails.application.routes.draw do
           end
           resources :galleries, only: %i[new create edit update destroy]
           resources :images, only: %i[index edit update destroy]
+          resources :pdfs
           resources :offers, only: %i[new create edit update destroy] do
             get :clone, on: :member
           end

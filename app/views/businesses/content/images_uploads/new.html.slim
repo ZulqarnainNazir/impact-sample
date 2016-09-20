@@ -9,5 +9,7 @@ ol.breadcrumb
 ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
   li = link_to 'Existing Images', [@business, :content_images]
   li.active = link_to 'Bulk Upload', '#'
+  li = link_to 'Existing PDFs', [@business, :content_pdfs]
+  li = link_to 'New PDF', [:new, @business, :content_pdf]
 
 = react_component 'ImagesUpload', presignedPost: s3_presigned_post_hash, uploadURL: business_content_images_upload_path(@business)
