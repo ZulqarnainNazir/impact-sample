@@ -24,3 +24,7 @@ input[type="checkbox"] {
 .modal-dialog .nav {
   margin-bottom: 15px;
 }
+html, body {
+  width: auto !important;
+  overflow-x: hidden !important;
+}
