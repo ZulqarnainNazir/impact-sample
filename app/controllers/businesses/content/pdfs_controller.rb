@@ -5,6 +5,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   def index
     @business = Business.find(params['business_id'])
     @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
+
   end
 
   def new
@@ -34,6 +35,12 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     @business = Business.find(params[:business_id])
     @pdf = Pdf.find(params[:id])
   end
+
+
+  def create
+    update_resource @pdf, pdf_params
+  end
+
   private
 
   def pdf_params
