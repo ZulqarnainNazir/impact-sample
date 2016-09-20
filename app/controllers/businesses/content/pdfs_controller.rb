@@ -10,6 +10,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     end
     @business = Business.find(params['business_id'])
     if params[:local] == 'true'
+      @business = Business.find(params['business_id'])
       @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
     else
       @pdfs = Pdf.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
@@ -18,6 +19,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
 
   def new
     @business = Business.find(params['business_id'])
+
     @pdf = @business.pdfs.new(user: current_user)
   end
 
@@ -29,7 +31,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
       if @pdf.save
         flash[:notice] = 'PDF was successfully created.'
         format.html { redirect_to [@business, :content_pdfs] }
-        format.js 
+        format.js
         format.json { render :show, status: :created, location: @pdf }
       else
         flash[:notice] = 'PDF not created - must include a file under 20 GB.'
@@ -43,6 +45,9 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   def show
     @business = Business.find(params[:business_id])
     @pdf = Pdf.find(params[:id])
+  end
+  def create
+    update_resource @pdf, pdf_params
   end
 
   private

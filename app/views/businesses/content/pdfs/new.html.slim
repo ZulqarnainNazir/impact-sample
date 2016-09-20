@@ -21,6 +21,4 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
 = form_for @pdf, notice: 'PDF not created', url: [@business, :content, @pdf], method: :post, :html => { :multipart => true }, remote: true do |form|
   = render form
 
-
-
 #pdf-form style="display:none;"
