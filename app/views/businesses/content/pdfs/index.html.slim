@@ -18,7 +18,6 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   li.active = link_to 'Existing PDFs', "#"
   li = link_to 'New PDF', [:new, @business, :content_pdf]
 
-
 - if !@pdfs
   p Sorry, you don't have any PDFs yet!
 - else
