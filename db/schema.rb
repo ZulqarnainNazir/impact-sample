@@ -456,6 +456,7 @@ ActiveRecord::Schema.define(version: 20160920195843) do
   create_table "pdfs", force: :cascade do |t|
     t.string   "file_name"
     t.string   "file_size"
+    t.string   "attachment"
     t.integer  "user_id"
     t.integer  "business_id"
     t.datetime "created_at",  null: false
