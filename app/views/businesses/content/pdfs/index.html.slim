@@ -19,4 +19,6 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   li = link_to 'New PDF', [:new, @business, :content_pdf]
 
 - if !@pdfs
-  Sorry, you don't have any PDFs yet!
+  p Sorry, you don't have any PDFs yet!
+- else
+  p Hey! there are some pdfs!
