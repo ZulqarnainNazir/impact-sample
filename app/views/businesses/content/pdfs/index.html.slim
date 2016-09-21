@@ -21,4 +21,15 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
 - if !@pdfs
   p Sorry, you don't have any PDFs yet!
 - else
-  p Hey! there are some pdfs!
+  .pdfs
+    - @pdfs.each do |pdf|
+      .pdf-upload
+        .img-thumbnail
+          i.glyphicon.glyphicon-file
+        .pdf-details
+          b = pdf.file_name.truncate(30)
+          div
+            |  PDF Size - #{pdf.file_size}
+        a Copy Link
+        br>
+        a Show Link
