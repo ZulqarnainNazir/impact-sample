@@ -22,24 +22,20 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   def create
     @pdf = Pdf.new(pdf_params)
     @pdf.file_name = params[:pdf][:attachment].original_filename
-    binding.pry
     @pdf.file_size = ActionView::Base.new.number_to_human_size params[:pdf][:attachment].size
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
-    binding.pry
-    # figure this out
     respond_to do |format|
       if @pdf.save
-        binding.pry
         format.html { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
+        format.js { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
         format.json { render :show, status: :created, location: @pdf }
       else
-        binding.pry
-        format.html { render :new }
+        format.html { render :new, notice: 'PDF not created' }
+        format.js { render :new, notice: 'PDF not created' }
         format.json { render json: @pdf.errors, status: :unprocessable_entity }
       end
     end
-    binding.pry
   end
 
   def show
