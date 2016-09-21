@@ -21,7 +21,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
 
   def create
     @pdf = Pdf.new(pdf_params)
-    binding.pry
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
     respond_to do |format|
