@@ -185,7 +185,7 @@ Theme = React.createClass
         """
 
     render: ->
-        `<div style={{width: '107%', left: '50%', transform: 'translate(-50%)', position:'relative'}}>
+        `<div>
             <style dangerouslySetInnerHTML={{__html: this.styles()}} />
             <div className="row webpage-fields">
                 <input name="wrap_container" type="hidden" value={this.state.wrapContainer} />
@@ -519,7 +519,7 @@ Theme = React.createClass
                                         <input id="logo_size_custom" name="logo_size" type="radio" value="custom" /> Custom Height
                                     </label>
                                 </div>
-                            </div>e
+                            </div>
                         </div>
                         <div className="modal-footer">
                             <span className="btn btn-default" data-dismiss="modal" onClick={this.resetLogo}>Cancel</span>
