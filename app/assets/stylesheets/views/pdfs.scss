@@ -1,4 +1,5 @@
 .pdfs {
+<<<<<<< fef18df61dd047586c7a14147c2772c13a493645
 <<<<<<< de7d81c8d2a1e8e60ceef3afe0b98658e0987e4e
 
     .pdf-upload {
@@ -19,20 +20,28 @@
 =======
     display: flex;
     flex-direction: row;
+=======
+    // display: flex;
+    // flex-direction: row;
+>>>>>>> errors, validations, migrations, form, and index page for pdfs
 
     .pdf-upload {
         padding: 10px;
-        min-height: 50%;
-        width: 50%;
+        // min-height: 50%;
+        // width: 50%;
         border: 1px solid #f1f1f1;
 
         .img-thumbnail {
             color: #337ab7;
             font-size: 4vw;
-            flex: 1;
-            display: flex;
+            width: 100%;
+            // flex: 1;
+            // display: flex;
             padding-left: calc(50% - 2vw);
 >>>>>>> some layout for pdfs index
+        }
+        .copy-pdf{
+          cursor: pointer;
         }
     }
 }
