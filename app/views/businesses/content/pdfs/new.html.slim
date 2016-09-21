@@ -19,7 +19,7 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   li.active = link_to 'New PDF', "#"
 
 
-= form_for @pdf, url: [@business, :content, @pdf], method: :post do |form|
+= form_for @pdf, notice: 'PDF not created', url: [@business, :content, @pdf], method: :post do |form|
   .row
     .col-sm-6
       = form.label :attachment
