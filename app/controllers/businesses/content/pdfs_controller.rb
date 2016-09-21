@@ -19,14 +19,13 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     respond_to do |format|
       if @pdf.save
         flash[:notice] = 'PDF was successfully created.'
-        format.html { redirect_to [@business, :content_pdfs] }
-        format.js
+        format.html { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
+        format.js { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
         format.json { render :show, status: :created, location: @pdf }
       else
-        flash[:notice] = 'PDF not created - must include a file under 20 GB.'
-        format.html { render :new }
+        format.html { render :new, notice: 'PDF not created' }
+        format.js { render :new, notice: 'PDF not created' }
         format.json { render json: @pdf.errors, status: :unprocessable_entity }
-        format.js
       end
     end
   end
