@@ -19,5 +19,16 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   li.active = link_to 'New PDF', "#"
 
 
+<<<<<<< eedc1005a848a49f09121a8be0ee1cbe17a8d7ae
 = form_for @pdf, notice: 'PDF not created', url: [@business, :content, @pdf], :html => { :multipart => true }, remote: true do |form|
   = render form
+=======
+= form_for @pdf, notice: 'PDF not created', url: [@business, :content, @pdf], method: :post do |form|
+  .row
+    .col-sm-6
+      = form.label :attachment
+      = form.file_field :attachment
+      br>
+      div.actions
+        = form.submit 'Upload PDF', class: 'btn btn-primary'
+>>>>>>> ajaxy form for pdfs
