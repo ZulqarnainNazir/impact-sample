@@ -22,8 +22,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   def create
     @pdf = Pdf.new(pdf_params)
     binding.pry
-    @pdf.file_name = params[:pdf][:attachment].original_filename
-    @pdf.file_size = ActionView::Base.new.number_to_human_size params[:pdf][:attachment].size
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
     respond_to do |format|
@@ -32,8 +30,8 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
         format.js { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
         format.json { render :show, status: :created, location: @pdf }
       else
-        format.html { render :new, notice: 'PDF not created' }
-        format.js { render :new, notice: 'PDF not created' }
+        format.html { render :new, notice: 'PDF not created - must include a file under 20 GB' }
+        format.js { render :new, notice: 'PDF not created - must include a file under 20 GB' }
         format.json { render json: @pdf.errors, status: :unprocessable_entity }
       end
     end
@@ -50,7 +48,9 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     params.require(:pdf).permit(
       :file_name,
       :file_size,
-      :attachment
+      :attachment,
+      :attachment_file_name,
+      :attachment_file_size
     )
   end
 end

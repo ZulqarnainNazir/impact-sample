@@ -454,13 +454,14 @@ ActiveRecord::Schema.define(version: 20160920195843) do
   add_index "openings", ["location_id"], name: "index_openings_on_location_id", using: :btree
 
   create_table "pdfs", force: :cascade do |t|
-    t.string   "file_name"
-    t.string   "file_size"
-    t.string   "attachment"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
     t.integer  "user_id"
     t.integer  "business_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "pdfs", ["business_id"], name: "index_pdfs_on_business_id", using: :btree

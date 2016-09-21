@@ -22,14 +22,25 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   p Sorry, you don't have any PDFs yet!
 - else
   .pdfs
-    - @pdfs.each do |pdf|
-      .pdf-upload
-        .img-thumbnail
-          i.glyphicon.glyphicon-file
-        .pdf-details
-          b = pdf.file_name.truncate(30)
-          div
-            |  PDF Size - #{pdf.file_size}
-        a Copy Link
-        br>
-        a Show Link
+    - @pdfs.in_groups_of(4, false).each do | group |
+      .row
+        - group.each do | pdf |
+          .col-sm-3
+            .pdf-upload
+              .img-thumbnail
+                i.glyphicon.glyphicon-file
+              .pdf-details
+                b = pdf.attachment_file_name.truncate(30)
+                div
+                  |  PDF Size - #{ActionView::Base.new.number_to_human_size pdf.attachment_file_size}
+              a.copy-pdf target="_blank" onclick="copyToClipboard('#{pdf.attachment.url}')" Copy URL
+              br>
+              .pdf-url = link_to pdf.attachment.url
+                |
+                  Link
+
+                  <script>
+                    function copyToClipboard(text) {
+                      window.prompt("Copy to clipboard: Ctrl+C, then press Enter", text);
+                    }
+                  </script>
