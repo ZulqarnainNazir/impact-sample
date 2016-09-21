@@ -1,19 +1,23 @@
 .pdfs {
-    display: flex;
-    flex-direction: row;
+    // display: flex;
+    // flex-direction: row;
 
     .pdf-upload {
         padding: 10px;
-        min-height: 50%;
-        width: 50%;
+        // min-height: 50%;
+        // width: 50%;
         border: 1px solid #f1f1f1;
 
         .img-thumbnail {
             color: #337ab7;
             font-size: 4vw;
-            flex: 1;
-            display: flex;
+            width: 100%;
+            // flex: 1;
+            // display: flex;
             padding-left: calc(50% - 2vw);
+        }
+        .copy-pdf{
+          cursor: pointer;
         }
     }
 }
