@@ -21,6 +21,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
 
   def create
     @pdf = Pdf.new(pdf_params)
+    binding.pry
     @pdf.file_name = params[:pdf][:attachment].original_filename
     @pdf.file_size = ActionView::Base.new.number_to_human_size params[:pdf][:attachment].size
     @pdf.business = Business.find(params['business_id'])
