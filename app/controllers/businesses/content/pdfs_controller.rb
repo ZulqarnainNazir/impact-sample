@@ -1,4 +1,7 @@
 class Businesses::Content::PdfsController < Businesses::Content::BaseController
+  respond_to(:html, :js, :json)
+  skip_before_action :verify_authenticity_token
+
   def index
     if current_user.businesses.count > 1 || current_user.super_user?
       params[:local] ||= 'true'
@@ -9,7 +12,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     if params[:local] == 'true'
       @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
     else
-
       @pdfs = Pdf.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
     end
   end
@@ -25,13 +27,15 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     @pdf.user = current_user
     respond_to do |format|
       if @pdf.save
-        format.html { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
-        format.js { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
+        flash[:notice] = 'PDF was successfully created.'
+        format.html { redirect_to [@business, :content_pdfs] }
+        format.js 
         format.json { render :show, status: :created, location: @pdf }
       else
-        format.html { render :new, notice: 'PDF not created - must include a file under 20 GB' }
-        format.js { render :new, notice: 'PDF not created - must include a file under 20 GB' }
+        flash[:notice] = 'PDF not created - must include a file under 20 GB.'
+        format.html { render :new }
         format.json { render json: @pdf.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
