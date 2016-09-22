@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918232637) do
+ActiveRecord::Schema.define(version: 20160922180311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -380,6 +380,16 @@ ActiveRecord::Schema.define(version: 20160918232637) do
     t.json     "settings"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.string   "business_street_1"
+    t.string   "business_street_2"
+    t.string   "business_city"
+    t.string   "business_state"
+    t.string   "business_zip_code"
+    t.string   "business_fax_number"
+    t.boolean  "hide_business_address"
+    t.boolean  "hide_business_fax"
+    t.float    "business_lat"
+    t.float    "business_long"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
@@ -439,9 +449,24 @@ ActiveRecord::Schema.define(version: 20160918232637) do
     t.json     "settings"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.boolean  "by_appt"
   end
 
   add_index "openings", ["location_id"], name: "index_openings_on_location_id", using: :btree
+
+  create_table "pdfs", force: :cascade do |t|
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
+    t.integer  "user_id"
+    t.integer  "business_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "pdfs", ["business_id"], name: "index_pdfs_on_business_id", using: :btree
+  add_index "pdfs", ["user_id"], name: "index_pdfs_on_user_id", using: :btree
 
   create_table "placements", force: :cascade do |t|
     t.integer  "placer_id",                   null: false
@@ -646,6 +671,8 @@ ActiveRecord::Schema.define(version: 20160918232637) do
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
   add_foreign_key "lines", "businesses"
+  add_foreign_key "pdfs", "businesses"
+  add_foreign_key "pdfs", "users"
   add_foreign_key "post_sections", "posts"
   add_foreign_key "quick_posts", "businesses"
 end
