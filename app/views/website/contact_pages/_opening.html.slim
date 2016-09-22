@@ -1,6 +1,7 @@
 - cache opening do
   div itemprop="openingHours"
     => opening.days
-    span.pull-right = opening.hours
     - if opening.by_appt
-      | - By Appointment
+      span.pull-right By Appointment
+    - else
+      span.pull-right = opening.hours
