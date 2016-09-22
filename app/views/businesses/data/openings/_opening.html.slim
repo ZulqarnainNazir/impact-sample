@@ -1,11 +1,15 @@
 - appended = opening.new_record? && opening.errors.empty? && %i[opens_at closes_at sunday monday tuesday wednesday thursday friday saturday].all? { |a| opening.send(a).blank? }
 tr class=('is-appended' if appended)
   = location_form.fields_for :openings, opening, child_index: (appended ? 98765432101 : nil) do |form|
-    td = form.time_select :opens_at, ampm: true, minute_step: 5, default: { hour: 8, min: 0 }, class: 'form-control'
-    td = form.time_select :closes_at, ampm: true, minute_step: 5, default: { hour: 17, min: 0 }, class: 'form-control'
+    - if opening.by_appt
+      td = form.time_select :opens_at, ampm: true, minute_step: 5, default: { hour: 8, min: 0 }, class: 'form-control', disabled: true
+      td = form.time_select :closes_at, ampm: true, minute_step: 5, default: { hour: 17, min: 0 }, class: 'form-control', disabled: true
+    - else
+      td = form.time_select :opens_at, ampm: true, minute_step: 5, default: { hour: 8, min: 0 }, class: 'form-control'
+      td = form.time_select :closes_at, ampm: true, minute_step: 5, default: { hour: 17, min: 0 }, class: 'form-control'
     td
       = form.label :by_appt, class: 'btn btn-sm btn-default checked-highlight' do
-        => form.check_box :by_appt
+        => form.check_box :by_appt, :onclick => "var that=this;setTimeEnabled(that);"
         | By Appointment
     td
       = form.label :sunday, class: 'btn btn-sm btn-default checked-highlight' do
@@ -40,3 +44,19 @@ tr class=('is-appended' if appended)
         => form.check_box :_destroy
         span.sr-only> Destroy
         i.fa.fa-trash-o
+
+javascript:
+  var setTimeEnabled = function(received_this){
+    var el = $(received_this)
+    var opens = el.parent().parent().parent().children()[0]
+    var closes = el.parent().parent().parent().children()[1]
+
+    openselects = opens.getElementsByTagName("SELECT")
+    closeselects = closes.getElementsByTagName("SELECT")
+
+    openselects[0].disabled=el.context.checked;
+    openselects[1].disabled=el.context.checked;
+    closeselects[0].disabled=el.context.checked;
+    closeselects[1].disabled=el.context.checked;
+
+  }
