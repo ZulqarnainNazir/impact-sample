@@ -30,6 +30,7 @@ class Businesses::Data::OpeningsController < Businesses::BaseController
         :friday,
         :saturday,
         :_destroy,
+        :by_appt
       ]
     )
   end
