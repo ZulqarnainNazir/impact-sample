@@ -8,3 +8,10 @@ html lang="en"
       = yield
     = yield :javascript
     = intercom_tag
+
+javascript:
+  window.onbeforeunload = function(e) {
+    var dialogText = "Are you sure you want to leave? Doing so will lose all your changes!";
+    e.returnValue = dialogText;
+    return dialogText;
+  };
