@@ -16,7 +16,7 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
   li.active = link_to 'Existing Images', '#'
   li = link_to 'Bulk Upload', [:new, @business, :content_images_upload]
   li = link_to 'Existing PDFs', [@business, :content_pdfs]
-  li = link_to 'New PDF', [:new, @business, :content_pdf]
+  li = link_to 'New PDF', [:new, @business, :content_pdf], remote: true
 
 .row.row-narrow
   = render partial: 'image', collection: @images, locals: { business: @business }
@@ -29,3 +29,6 @@ javascript:
     var local = $('input#local').is(':checked');
     Turbolinks.visit(path + '?local=' + local);
   });
+
+
+#pdf-form style="display:none;"
