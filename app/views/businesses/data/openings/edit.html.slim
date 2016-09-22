@@ -22,5 +22,6 @@ ol.breadcrumb
               th
           tbody
             = render partial: 'opening', collection: @location.openings, locals: { location_form: form }
+    p.help-block style="padding-left: 28px;margin-top: -20px;" Selecting "By Appointment" will disable the Opening and Closing time select for that row.
     .panel-footer
       = form.button 'Save', class: 'btn btn-primary'
