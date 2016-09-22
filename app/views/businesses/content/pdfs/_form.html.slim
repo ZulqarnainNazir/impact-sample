@@ -1,0 +1,7 @@
+.row
+  .col-sm-6
+    = form.label :attachment
+    = form.file_field :attachment
+    br>
+    div.actions
+      = form.submit 'Upload PDF', class: 'btn btn-primary'
