@@ -8,13 +8,16 @@
         // width: 50%;
         // border: 1px solid #f1f1f1;
 
-        .img-thumbnail {
+        .img-responsive {
             color: #337ab7;
-            font-size: 4vw;
+            font-size: 8vw;
             width: 100%;
             // flex: 1;
             // display: flex;
-            padding-left: calc(50% - 2vw);
+            // padding-left: calc(50% - 2vw);
+        }
+        .pdf-details{
+          font-size: 12px;
         }
         .copy-pdf{
           cursor: pointer;
