@@ -13,11 +13,7 @@ tr class=('is-appended' if appended)
         | By Appointment
     td
       = form.label :by_appt, class: 'btn btn-sm btn-default checked-highlight' do
-        => form.check_box :by_appt
-        | By Appointment
-    td
-      = form.label :by_appt, class: 'btn btn-sm btn-default checked-highlight' do
-        => form.check_box :by_appt
+        => form.check_box :by_appt, :onclick => "var that=this;setTimeEnabled(that);"
         | By Appointment
     td
       = form.label :sunday, class: 'btn btn-sm btn-default checked-highlight' do
