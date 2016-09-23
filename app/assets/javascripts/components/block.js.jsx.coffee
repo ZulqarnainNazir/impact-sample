@@ -194,8 +194,8 @@ Block = React.createClass
     else
       warning = "Are you sure? Hitting save after this change will delete this block forever."
     if this.props.removeBlock
-      `<a href="#" onClick={this.props.removeBlock} className="btn btn-warning" title="Click to remove element" data-confirm="Are you sure? Hitting save after this change will delete this block and it's custom class(es) forever." data-content="Cannot be undone after saving the page"><i className="fa fa-trash" /></a>`
-
+      `<a href="#" onClick={this.props.removeBlock} className="btn btn-warning" title="Click to remove element" data-confirm={warning} data-content="Cannot be undone after saving the page"><i className="fa fa-trash" /></a>`
+      
   renderNextThemeOption: ->
     if this.props.nextTheme
       `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning" title="Cycle through layout options" data-content="Pick the layout that's right for you."><i className="fa fa-caret-right" /></a>`
