@@ -6,6 +6,7 @@ Block = React.createClass
     max_blocks: React.PropTypes.number
     removeBlock: React.PropTypes.func
     type: React.PropTypes.string
+    custom_class: React.PropTypes.string
 
   componentDidMount: ->
     $(this.getDOMNode()).find('.webpage-options a').popover
@@ -188,9 +189,13 @@ Block = React.createClass
       `<a href="#" onClick={this.props.sort} className="btn btn-warning webpage-block-sort-handle" title="Click and drag to reorder the block" data-content="This give you control over how the blocks are sorted"><i className="fa fa-reorder" /></a>`
 
   renderRemoveBlockOption: ->
+    if this.props.custom_class
+      warning = "Are you sure? Hitting save after this change will delete this block and it's custom class(es) forever."
+    else
+      warning = "Are you sure? Hitting save after this change will delete this block forever."
     if this.props.removeBlock
-      `<a href="#" onClick={this.props.removeBlock} className="btn btn-warning" title="Click to remove element" data-confirm="Are you sure? Hitting save after this change will delete this block and it's custom class(es) forever." data-content="Cannot be undone after saving the page"><i className="fa fa-trash" /></a>`
-
+      `<a href="#" onClick={this.props.removeBlock} className="btn btn-warning" title="Click to remove element" data-confirm={warning} data-content="Cannot be undone after saving the page"><i className="fa fa-trash" /></a>`
+      
   renderNextThemeOption: ->
     if this.props.nextTheme
       `<a href="#" onClick={this.props.nextTheme} className="btn btn-warning" title="Cycle through layout options" data-content="Pick the layout that's right for you."><i className="fa fa-caret-right" /></a>`
