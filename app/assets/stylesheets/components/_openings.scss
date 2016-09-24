@@ -1,6 +1,11 @@
 .openings-associations {
   width: 100%;
   margin: 1em 0;
+  td{
+    select:disabled{
+      opacity: 0.5;
+    }
+  }
   th, td {
     padding: 0.1em;
   }
