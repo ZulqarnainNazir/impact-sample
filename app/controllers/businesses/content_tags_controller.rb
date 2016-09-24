@@ -2,7 +2,7 @@ class Businesses::ContentTagsController < Businesses::BaseController
   layout false
 
   def index
-    @content_tags = @business.content_tags.where('lower(name) ILIKE ?', "%#{params[:query].to_s.strip.downcase}%").limit(5)
+    @content_tags = @business.content_tags.where('name ILIKE ?', "%#{params[:query].to_s.strip.downcase}%").uniq.limit(5)
     render json: @content_tags.as_json
   end
 
