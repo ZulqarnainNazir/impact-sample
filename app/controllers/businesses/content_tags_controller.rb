@@ -13,7 +13,7 @@ class Businesses::ContentTagsController < Businesses::BaseController
     end
 
     @content_tag = @business.content_tags.new(content_tag_params)
-
+    @content_tag.name.downcase!
     if @content_tag.save
       render json: @content_tag.to_json
     else
