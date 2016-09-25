@@ -22,6 +22,8 @@ html lang="en"
     = javascript_include_tag 'application', data: { turbolinks_track: true }
     - cache @website do
       = @website.head_injection.try(:html_safe)
+    - cache @page do
+      = @page.page_head_injection.try(:html_safe)
       css:
         body {
           background-color: #{@website.background_color};
