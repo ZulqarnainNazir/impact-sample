@@ -1,7 +1,7 @@
 class Webpage < ActiveRecord::Base
   include PlacedImageConcern
 
-  store_accessor :settings, :external_line_id, :sidebar_position
+  store_accessor :settings, :external_line_id, :sidebar_position, :page_head_injection
 
   belongs_to :website
 
