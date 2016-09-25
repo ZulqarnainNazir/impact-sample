@@ -23,7 +23,11 @@ html lang="en"
     - cache @website do
       = @website.head_injection.try(:html_safe)
     - cache @page do
+<<<<<<< af9a68081bf4f0f2e9176dced5c1e28f5902fd9c
       = @page.try(:page_head_injection).try(:html_safe)
+=======
+      = @page.page_head_injection.try(:html_safe)
+>>>>>>> added page_head_injection to controller permitted params and website layout meta tag
       css:
         body {
           background-color: #{@website.background_color};
