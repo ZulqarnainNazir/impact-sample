@@ -35,6 +35,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
       :description,
       :title,
       :pathname,
+      :page_head_injection,
       :name,
       :sidebar_position,
       :hide_navigation,

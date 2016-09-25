@@ -19,6 +19,7 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
     params.require(:contact_page).permit(
       :description,
       :title,
+      :page_head_injection,
       groups_attributes: groups_attributes,
       main_image_placement_attributes: placement_attributes,
     ).deep_merge(
