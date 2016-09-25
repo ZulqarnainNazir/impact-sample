@@ -14,8 +14,6 @@ br
     = link_to new_business_website_custom_page_path
       i.fa.fa-plus-circle
         .link-text Create New Page
-
-
   = react_component 'WebsiteMenus',
     header_links: as_nested_json(@website.arranged_nav_links(:header), methods: %i[index key parent_key cached_children internal_value]),
     footer_links: as_nested_json(@website.arranged_nav_links(:footer), methods: %i[index key parent_key cached_children internal_value]),
