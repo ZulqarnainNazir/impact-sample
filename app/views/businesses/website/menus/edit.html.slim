@@ -10,6 +10,10 @@ br
 
 = errors_for @website
 = form_for @website, url: [@business, :website_menus], method: :patch do |form|
+  = link_to new_business_website_custom_page_path, :class => 'btn btn-link'
+      i.fa.fa-plus-circle  Create new Page
+
+
   = react_component 'WebsiteMenus',
     header_links: as_nested_json(@website.arranged_nav_links(:header), methods: %i[index key parent_key cached_children internal_value]),
     footer_links: as_nested_json(@website.arranged_nav_links(:footer), methods: %i[index key parent_key cached_children internal_value]),
