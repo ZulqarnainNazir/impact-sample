@@ -18,6 +18,7 @@ class Businesses::Website::AboutPagesController < Businesses::Website::BaseContr
   def about_page_params
     params.require(:about_page).permit(
       :description,
+      :page_head_injection,
       :title,
       groups_attributes: groups_attributes,
       main_image_placement_attributes: placement_attributes,
