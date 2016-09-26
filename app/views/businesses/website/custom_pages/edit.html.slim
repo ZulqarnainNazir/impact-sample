@@ -73,10 +73,9 @@ ol.breadcrumb
               span.fa
           p.text-right.text-muted.small
             - if form.object.in_navbar?
-              | This page is in the site navbar. Adjust navbar settings
+              .list-group-item.list-group-item-success = link_to "This page is in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
             - else
-              | This page is not in the site navbar. Adjust navbar settings
-            = link_to " here", edit_business_website_menus_path
+              .list-group-item.disabled = link_to "This page is not in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
 
     javascript:
       var setPathname = function(inputVal) {
