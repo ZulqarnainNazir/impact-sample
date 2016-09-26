@@ -50,6 +50,13 @@ ol.breadcrumb
             span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
               ' Toggle Advanced Settings
               span.fa
+        .toggle-in-nav
+          - if form.object.in_navbar?
+            p.yay This page is in the navbar
+          - else
+            p.woops This page is not in the navbar
+
+
     = react_component 'Webpage',
       backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
