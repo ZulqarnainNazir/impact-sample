@@ -23,7 +23,7 @@ html lang="en"
     - cache @website do
       = @website.head_injection.try(:html_safe)
     - cache @page do
-      = @page.page_head_injection.try(:html_safe)
+      = @page.try(:page_head_injection).try(:html_safe)
       css:
         body {
           background-color: #{@website.background_color};
