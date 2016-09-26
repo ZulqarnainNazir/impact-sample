@@ -33,7 +33,9 @@ ol.breadcrumb
               p.help-block Helpful for SEO &amp; Social
               = form.label :page_head_injection, class: 'control-label'
               = form.text_area :page_head_injection, rows: 2, class: 'form-control'
-              p.help-block Create a page specific metadata tag
+              p.help-block i.e.
+              code
+                | &lt;script&gt;, &lt;style&gt;, etc.
             hr
             = react_component 'ImagePlacement',
               imagesPath: business_images_path(@business),
@@ -49,12 +51,6 @@ ol.breadcrumb
             span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
               ' Toggle Advanced Settings
               span.fa
-          p.text-right.text-muted.small
-            - if form.object.in_navbar?
-              | This page is in the site navbar. Adjust navbar settings
-            - else
-              | This page is not in the site navbar. Adjust navbar settings
-            = link_to " here", edit_business_website_menus_path
     = react_component 'Webpage',
       backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),

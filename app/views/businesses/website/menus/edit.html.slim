@@ -10,7 +10,8 @@ br
 
 = errors_for @website
 = form_for @website, url: [@business, :website_menus], method: :patch do |form|
-  = link_to new_business_website_custom_page_path
+  .pull-right
+    = link_to new_business_website_custom_page_path
       i.fa.fa-plus-circle
         .link-text Create new Page
 
