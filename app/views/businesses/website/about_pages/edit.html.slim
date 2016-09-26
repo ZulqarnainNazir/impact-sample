@@ -59,7 +59,6 @@ ol.breadcrumb
               .list-group-item.list-group-item-success = link_to "This page is in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
             - else
               .list-group-item.disabled = link_to "This page is not in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
-
     = react_component 'Webpage',
       backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
