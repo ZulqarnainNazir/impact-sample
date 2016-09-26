@@ -10,9 +10,9 @@ html lang="en"
     meta property="og:title" content=content_for(:title)
     meta property="og:type" content="website"
     - if content_for?(:description)
-      meta name="og:description" content=content_for(:description)
+      meta property="og:description" content=content_for(:description)
     - if content_for?(:image)
-      meta name="og:image" content=content_for(:image)
+      meta property="og:image" content=content_for(:image)
     - if content_for?(:canonical_url)
       meta property="og:url" content=content_for(:canonical_url)
     = csrf_meta_tags
