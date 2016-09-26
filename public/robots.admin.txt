@@ -3,3 +3,5 @@
 # To ban all spiders from the entire site uncomment the next two lines:
 # User-agent: *
 # Disallow: /
+
+Sitemap: http://impact-app.s3-us-west-1.amazonaws.com/sitemaps/2/sitemap.xml.gz

@@ -3,3 +3,5 @@
 /tmp
 *pid*
 dump.rdb
+.DS_Store
+public/.DS_Store
