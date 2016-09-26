@@ -50,11 +50,12 @@ ol.breadcrumb
             span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
               ' Toggle Advanced Settings
               span.fa
-        .toggle-in-nav
+        p.text-right.text-muted.small
           - if form.object.in_navbar?
-            p.yay This page is in the navbar
+            | This page is in the site navbar. Adjust navbar settings
           - else
-            p.woops This page is not in the navbar
+            | This page is not in the site navbar. Adjust navbar settings
+          = link_to " here", edit_business_website_menus_path
 
 
     = react_component 'Webpage',
