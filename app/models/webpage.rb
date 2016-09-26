@@ -49,16 +49,16 @@ class Webpage < ActiveRecord::Base
     # returns true if the page is in its website's navbar
     navbar_links = website.arranged_nav_links(:header)
     # ^ navigation links currently in this webpage's website's navbar
-    nav_links.each do |nav_link|
+    navbar_links.each do |nav_link|
       if nav_link.kind == "dropdown"
         # get children of dropdown links and check them
         nav_link.cached_children.each do |child_link|
-          if navbar_links.include? child_link
+          if nav_links.include? child_link
             return true
           end
         end
       end
-      if navbar_links.include? nav_link
+      if nav_links.include? nav_link
         return true
       end
     end
