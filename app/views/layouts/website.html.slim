@@ -5,6 +5,8 @@ html lang="en"
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="viewport" content="width=device-width, initial-scale=1"
+    - if @page.settings['no_index']
+      meta name="robots" content="noindex, follow"
     - if content_for?(:description)
       meta name="description" content=content_for(:description)
     meta property="og:title" content=content_for(:title)
@@ -24,6 +26,7 @@ html lang="en"
       = @website.head_injection.try(:html_safe)
     - cache @page do
       = @page.try(:page_head_injection).try(:html_safe)
+
       css:
         body {
           background-color: #{@website.background_color};
