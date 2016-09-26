@@ -7,5 +7,6 @@
  *= require recurring_select
  *= require summernote
  *= require_tree ./plugins
+ *= require_tree ./views
  *= require ./base
  */

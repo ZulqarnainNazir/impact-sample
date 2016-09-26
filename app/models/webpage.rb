@@ -44,4 +44,16 @@ class Webpage < ActiveRecord::Base
   def sidebar_reverse_position
     sidebar_position == 'left' ? 'right' : 'left'
   end
+
+  def in_navbar?
+    navbar_links = website.arranged_nav_links(:header)
+    # ^ navigation links currently in this webpage's website's navbar
+    nav_links.each do |nav_link|
+      if navbar_links.include? nav_link
+        # the page is in its website's navbar
+        return true
+      end
+    end
+    return false
+  end
 end
