@@ -46,7 +46,6 @@ class Webpage < ActiveRecord::Base
   end
 
   def in_navbar?
-<<<<<<< d461f1181d8029eb8c6ce395e9b34e6fd6e0e0db
     # returns true if the page is in its website's navbar
     navbar_links = website.arranged_nav_links(:header)
     # ^ navigation links currently in this webpage's website's navbar
@@ -60,13 +59,6 @@ class Webpage < ActiveRecord::Base
         end
       end
       if nav_links.include? nav_link
-=======
-    navbar_links = website.arranged_nav_links(:header)
-    # ^ navigation links currently in this webpage's website's navbar
-    nav_links.each do |nav_link|
-      if navbar_links.include? nav_link
-        # the page is in its website's navbar
->>>>>>> basic class method to check if page is in navbar
         return true
       end
     end
