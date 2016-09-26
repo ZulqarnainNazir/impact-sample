@@ -46,6 +46,11 @@ ol.breadcrumb
                 => form.check_box :hide_navigation
                 strong> Hide Navigation?
                 small Acts like a landing page.
+            .checkbox
+              = form.label :no_index do
+                => form.check_box :no_index
+                strong> Hide Page from Spiders?
+                small If checked, this page is hidden from search engines
             hr
             .form-group
               = form.label :description, class: 'control-label'
