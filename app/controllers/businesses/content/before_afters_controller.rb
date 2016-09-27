@@ -11,41 +11,53 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   end
 
   def create
-    create_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
-            @before_after.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        BeforeAfter.__elasticsearch__.refresh_index!
-        intercom_event 'created-before-after'
-      end
+    @before_after = BeforeAfter.new(before_after_params)
+    @before_after.business = @business
+    @before_after.save!
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
+      @before_after.update_column :facebook_id, result['id']
     end
+    if params[:draft]
+       @before_after.published_status = false
+       if @before_after.save
+         redirect_to edit_business_content_before_after_path(@business, @before_after), alert: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @before_after.published_status = true
+       @before_after.save
+    end
+    BeforeAfter.__elasticsearch__.refresh_index!
+    intercom_event 'created-before-after'
   end
 
   def update
-    update_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @before_after.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
-              @before_after.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        @before_after.__elasticsearch__.index_document
-        BeforeAfter.__elasticsearch__.refresh_index!
+    @before_after.update(before_after_params)
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @before_after.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
+        @before_after.update_column :facebook_id, result['id']
       end
     end
+    if params[:draft]
+       @before_after.published_status = false
+       if @before_after.save
+         redirect_to edit_business_content_quick_post_path(@business, @before_after), alert: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @before_after.published_status = true
+       @before_after.save
+    end
+    @before_after.__elasticsearch__.index_document
+    BeforeAfter.__elasticsearch__.refresh_index!
   end
 
   def destroy

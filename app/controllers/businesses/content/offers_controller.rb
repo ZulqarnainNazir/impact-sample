@@ -20,41 +20,53 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   end
 
   def create
-    create_resource @offer, offer_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
-            @offer.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        Offer.__elasticsearch__.refresh_index!
-        intercom_event 'created-offer'
-      end
+    @offer = Offer.new(offer_params)
+    @offer.business = @business
+    @offer.save!
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
+      @offer.update_column :facebook_id, result['id']
     end
+    if params[:draft]
+       @offer.published_status = false
+       if @offer.save
+         redirect_to edit_business_content_offer_path(@business, @offer), alert: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @offer.published_status = true
+       @offer.save
+    end
+    Offer.__elasticsearch__.refresh_index!
+    intercom_event 'created-offer'
   end
 
   def update
-    update_resource @offer, offer_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @offer.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
-              @offer.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        @offer.__elasticsearch__.index_document
-        Offer.__elasticsearch__.refresh_index!
+    @offer.update(offer_params)
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @offer.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
+        @offer.update_column :facebook_id, result['id']
       end
     end
+    if params[:draft]
+       @offer.published_status = false
+       if @offer.save
+         redirect_to edit_business_content_offer_path(@business, @offer), alert: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @offer.published_status = true
+       @offer.save
+    end
+    @offer.__elasticsearch__.index_document
+    Offer.__elasticsearch__.refresh_index!
   end
 
   def destroy

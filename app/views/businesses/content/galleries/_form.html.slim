@@ -9,7 +9,7 @@
       br>
       = form.label :published_time, class: 'control-label'
       br>
-      = form.time_select :published_time, ampm: true, minute_step: 5, class: 'form-control', default: { hour: Time.now.hour, min: (Time.now.strftime("%M").to_i/5.0).ceil * 5 }
+      = form.time_select :published_time, ampm: true, minute_step: 5, class: 'form-control', default: { hour: Time.now.hour, min: (Time.now.strftime("%M").to_i/5.0).floor * 5 }
 .form-group
   = form.label :description, class: 'control-label'
   = form.text_area :description, rows: 3, class: 'form-control wysihtml-editor', placeholder: 'Describe what the gallery is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the gallery is about.'
@@ -21,6 +21,9 @@ hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
 .row
-  .col-sm-4
+  .col-sm-4.col-sm-offset-2
     .form-group.text-center
       = form.button 'Save Gallery', class: 'btn btn-block btn-primary'
+  .col-sm-4
+    .form-group.text-center
+      = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
