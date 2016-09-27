@@ -73,6 +73,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     params.require(:post).permit(
       :meta_description,
       :published_on,
+      :published_time,
       :title,
       content_category_ids: [],
       content_tag_ids: [],

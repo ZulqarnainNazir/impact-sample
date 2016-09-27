@@ -70,6 +70,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       :description,
       :meta_description,
       :published_on,
+      :published_time,
       :title,
       content_category_ids: [],
       content_tag_ids: [],
