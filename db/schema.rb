@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927210402) do
+ActiveRecord::Schema.define(version: 20160927170803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -522,7 +522,6 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "facebook_id"
     t.datetime "published_on"
     t.text     "slug"
-    t.time     "published_time"
     t.boolean  "published_status"
   end
 
