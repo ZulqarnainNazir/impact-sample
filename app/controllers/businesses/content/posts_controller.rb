@@ -13,43 +13,61 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def create
-    create_resource @post, post_params, location: [@business, :content_feed] do |success|
-      if success
-        fix_post_section_parent_ids(@post.post_sections)
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
-            @post.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        Post.__elasticsearch__.refresh_index!
-        intercom_event 'created-custom-post'
-      end
+    binding.pry
+    @post = Post.new(post_params)
+    binding.pry
+    @post.business = @business
+    binding.pry
+    @post.save!
+    binding.pry
+    fix_post_section_parent_ids(@post.post_sections)
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
+      @post.update_column :facebook_id, result['id']
     end
+    if params[:draft]
+       @post.published_status = false
+       if @post.save
+         redirect_to edit_business_content_post_path(@business, @post), alert: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @post.published_status = true
+       @post.save
+    end
+    Post.__elasticsearch__.refresh_index!
+    intercom_event 'created-custom-post'
   end
 
   def update
-    update_resource @post, post_params, location: [@business, :content_feed] do |success|
-      if success
-        fix_post_section_parent_ids(@post.post_sections)
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @post.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
-              @post.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        @post.__elasticsearch__.index_document
-        Post.__elasticsearch__.refresh_index!
+    @post.update(post_params)
+    @post.save!
+    fix_post_section_parent_ids(@post.post_sections)
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @post.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
+        @post.update_column :facebook_id, result['id']
       end
     end
+    if params[:draft]
+       @post.published_status = false
+       if @post.save
+         redirect_to edit_business_content_post_path(@business, @post), alert: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @post.published_status = true
+       @post.save
+    end
+    @post.__elasticsearch__.index_document
+    Post.__elasticsearch__.refresh_index!
+
   end
 
   def destroy

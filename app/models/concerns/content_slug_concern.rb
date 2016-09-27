@@ -7,6 +7,7 @@ module ContentSlugConcern
   end
 
   def generate_slug
+    binding.pry
     self.slug = find_available_slug(title.gsub(/['’]/, '').parameterize, 1)
   end
 

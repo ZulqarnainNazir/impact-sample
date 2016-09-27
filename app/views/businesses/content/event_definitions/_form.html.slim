@@ -89,8 +89,11 @@ hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
 .row
-  .col-sm-4
+  .col-sm-4.col-sm-offset-2
     = form.button 'Save Event', class: 'btn btn-block btn-primary'
+  .col-sm-4
+    .form-group.text-center
+      = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
 
 - content_for :javascript do
   #js-event-location-new-modal.modal.fade
