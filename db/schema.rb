@@ -522,6 +522,7 @@ ActiveRecord::Schema.define(version: 20160927170803) do
     t.text     "facebook_id"
     t.datetime "published_on"
     t.text     "slug"
+    t.time     "published_time"
     t.boolean  "published_status"
   end
 
