@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160922180311) do
+ActiveRecord::Schema.define(version: 20160927170803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -513,6 +513,7 @@ ActiveRecord::Schema.define(version: 20160922180311) do
     t.text     "facebook_id"
     t.date     "published_on"
     t.text     "slug"
+    t.datetime "published_time"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree
