@@ -52,9 +52,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
 
 
   def update
-    binding.pry
     @offer.update(offer_params)
-    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @offer.facebook_id?
