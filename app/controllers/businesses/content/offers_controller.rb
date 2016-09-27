@@ -83,6 +83,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       :offer,
       :offer_code,
       :published_on,
+      :published_time,
       :terms,
       :title,
       :valid_until,
