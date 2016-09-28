@@ -246,6 +246,7 @@ ActiveRecord::Schema.define(version: 20161025101640) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
+    t.boolean  "published_status"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
