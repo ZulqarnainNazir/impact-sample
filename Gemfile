@@ -48,6 +48,7 @@ gem 'summernote-rails'
 gem 'turbolinks'
 gem 'twitter-typeahead-rails'
 gem 'uglifier'
+gem 'remotipart', '~> 1.2'
 
 group :development, :test do
   gem 'dotenv-rails'

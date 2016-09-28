@@ -6,10 +6,11 @@ copyToClipboard = (text) ->
 
 
 $ ->
-  $("#new_pdf").on("ajax:success", (e, data, status, xhr) ->
-    console.log("sucessful ajax")
-  ).on "ajax:error", (e, xhr, status, error) ->
-    console.log("unsucessful ajax")
   $('#new_pdf').bind("ajax:complete", (data) ->
     console.log(data)
+    if(data.currentTarget[1].files[0].type != "application/pdf")
+      alert('This uploader only works for PDFs')
+    if(data.currentTarget[1].files[0].type == "application/pdf")
+      alert("PDF uploaded");
+      window.location=data.currentTarget.action;
   );

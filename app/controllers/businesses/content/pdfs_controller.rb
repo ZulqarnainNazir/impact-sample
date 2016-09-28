@@ -14,12 +14,12 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     end
     @business = Business.find(params['business_id'])
     if params[:local] == 'true'
-      binding.pry
+
       @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
     else
-      binding.pry
+
       @pdfs = Pdf.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
-      binding.pry
+
     end
   end
 

@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.remotipart
 //= require turbolinks
 //= require react
 //= require react_ujs
@@ -15,6 +16,8 @@
 //= require twitter/typeahead.min
 //= require_tree ./plugins
 //= require_tree ./scripts
+//= require_tree .
+
 
 Turbolinks.enableProgressBar();
 
