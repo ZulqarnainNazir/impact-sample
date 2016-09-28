@@ -54,5 +54,5 @@ var ready = function() {
     $(this).closest('.checked-highlight').toggleClass('checked-highlight-active');
   });
 };
-
-$(document).on('ready page:load', ready);
+$(document).ready(ready)
+$(document).on('page:load', ready);
