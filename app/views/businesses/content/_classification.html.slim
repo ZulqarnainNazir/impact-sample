@@ -81,7 +81,7 @@
       displayKey: 'name',
       source: tagLookup.ttAdapter(),
       templates: {
-        empty: '<div class="tt-template"><p>No results found.</p></div>',
+        empty: '<div class="tt-template"><p>Press Enter to Add Tag.</p></div>',
       },
     };
     $('.js-content-tag-lookup').typeahead(typeaheadOptions, typeaheadLookupOptions);
@@ -117,7 +117,7 @@
             var parsedData = JSON.parse(data);
             $('.js-content-tags-empty').hide();
             $('.js-content-tags-list').append(
-              $('<li><input type="hidden" name="#{form.object.class.name.underscore}[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value + ' <i class="fa fa-close pull-right js-content-tag-remove" style="cursor:pointer"></i></li>')
+              $('<li><input type="hidden" name="#{form.object.class.name.underscore}[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value.toLowerCase() + ' <i class="fa fa-close pull-right js-content-tag-remove" style="cursor:pointer"></i></li>')
             );
             $('.js-content-tag-lookup').typeahead('val', '');
             $('.js-content-tags-empty').hide();
