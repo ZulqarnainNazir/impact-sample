@@ -8,13 +8,9 @@ class Pdf < ActiveRecord::Base
   belongs_to :business
 
 
-
+  validates_attachment_presence :attachment
   has_attached_file :attachment
 
-  validates_attachment_file_name :attachment, :matches => [/png\Z/, /jpe?g\Z/, /pdf\Z/]
-
-  validates :attachment, attachment_presence: true
-  validates_with AttachmentPresenceValidator, attributes: :attachment
   validates_with AttachmentSizeValidator, attributes: :attachment, less_than: 20.gigabytes
 
   validates :business_id, presence: true, unless: :business
