@@ -22,22 +22,16 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   end
 
   def create
-    binding.pry
     if pdf_params['attachment'].content_type != "application/pdf"
-      binding.pry
       flash[:error] = 'This uploader only works for PDFS'
-      binding.pry
+      # ^ TODO: fix me
       return
     end
-    binding.pry
     @pdf = Pdf.new(pdf_params)
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
-    binding.pry
     respond_to do |format|
-      binding.pry
       if @pdf.save
-        binding.pry
         flash[:notice] = 'PDF was successfully created.'
         format.js if remotipart_submitted?
 
