@@ -241,8 +241,6 @@ GEM
       actionpack (>= 3.1)
       railties (>= 3.1)
       sass (>= 3.2)
-    jquery-form-rails (1.0.1)
-      jquery-rails
     jquery-minicolors-rails (2.1.4.0)
       jquery-rails
       rails (>= 3.2.8)
@@ -458,7 +456,6 @@ DEPENDENCIES
   intercom
   jbuilder
   jquery-fileupload-rails
-  jquery-form-rails
   jquery-minicolors-rails
   jquery-rails
   jquery-ui-rails
