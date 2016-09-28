@@ -54,11 +54,11 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
 
   def pdf_params
     params.require(:pdf).permit(
-      :file_name,
-      :file_size,
       :attachment,
       :attachment_file_name,
-      :attachment_file_size
+      :attachment_updated_at,
+      :attachment_file_size,
+      :attachment_content_type,
     )
   end
 end
