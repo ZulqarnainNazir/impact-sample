@@ -1,8 +1,10 @@
 class Pdf < ActiveRecord::Base
+  attr_accessor :attachment
+  attr_accessor :attachment_file_name
   belongs_to :user
   belongs_to :business
-  attr_accessor :attachment
-  # attr_accessor :attachment_file_name
+
+
 
   has_attached_file :attachment
 
