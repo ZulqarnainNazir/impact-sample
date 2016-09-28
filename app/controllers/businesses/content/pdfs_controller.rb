@@ -22,14 +22,26 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   end
 
   def create
+    binding.pry
+    if pdf_params['attachment'].content_type != "application/pdf"
+      binding.pry
+      flash[:error] = 'This uploader only works for PDFS'
+      binding.pry
+      return
+    end
+    binding.pry
     @pdf = Pdf.new(pdf_params)
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
+    binding.pry
     respond_to do |format|
+      binding.pry
       if @pdf.save
+        binding.pry
         flash[:notice] = 'PDF was successfully created.'
+        format.js if remotipart_submitted?
+
         format.html { redirect_to [@business, :content_pdfs] }
-        format.js 
         format.json { render :show, status: :created, location: @pdf }
       else
         flash[:notice] = 'PDF not created - must include a file under 20 GB.'
