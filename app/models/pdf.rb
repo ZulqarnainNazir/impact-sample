@@ -1,6 +1,9 @@
 class Pdf < ActiveRecord::Base
   attr_accessor :attachment
   attr_accessor :attachment_file_name
+  attr_accessor :attachment_file_size
+  attr_accessor :attachment_content_type
+  attr_accessor :attachment_updated_at
   belongs_to :user
   belongs_to :business
 
