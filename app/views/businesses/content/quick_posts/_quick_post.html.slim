@@ -2,6 +2,9 @@
   .feed-item-meta
     => icon 'text-file-o'
     strong> Quick Post
+    - if !quick_post.published_status
+      code
+        small Draft
     span.pull-right
       - if quick_post.published_on > Time.zone.now
         span.text-muted> Will Post #{time_ago_in_words quick_post.published_at} from now

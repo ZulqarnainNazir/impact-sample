@@ -2,6 +2,9 @@
   .feed-item-meta
     => icon 'edit'
     strong> Post
+    - if !post.published_status
+      code
+        small Draft
     span.pull-right
       - if post.published_on > Time.zone.now
         span.text-muted> Will Post #{time_ago_in_words post.published_at} from now

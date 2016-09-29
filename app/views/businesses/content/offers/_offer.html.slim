@@ -2,6 +2,9 @@
   .feed-item-meta
     => icon 'ticket'
     strong> Offer
+    - if !offer.published_status
+      code
+        small Draft
     span.pull-right
       - if offer.published_on > Time.zone.now
         span.text-muted> Will Post #{time_ago_in_words offer.published_at} from now

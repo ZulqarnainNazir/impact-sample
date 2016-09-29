@@ -59,7 +59,7 @@ module ContentHelper
 
     def preview_access(item, user)
       # returns true if user has publishing access
-      binding.pry
+      # binding.pry
       rv =  false if item.published_status == false
       # binding.pry
       # rv =  true if @current_user.super_user == true

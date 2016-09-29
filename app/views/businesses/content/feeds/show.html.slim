@@ -12,6 +12,11 @@ ol.breadcrumb
       div.input-group-btn
         = button_tag class: 'btn btn-default' do
           ' Search
+    br>
+    span.pull-right
+      = label_tag :published_status, "Show drafts "
+      = check_box_tag :published_status, params[:published_status]
+br>
 hr
 p
   = page_entries_info @results, entry_name: 'item'

@@ -2,6 +2,9 @@
   .feed-item-meta
     => icon 'photo'
     strong> Gallery
+    - if !gallery.published_status
+      code
+        small Draft
     span.pull-right
       - if gallery.published_on > Time.zone.now
         span.text-muted> Will Post #{time_ago_in_words gallery.published_at} from now

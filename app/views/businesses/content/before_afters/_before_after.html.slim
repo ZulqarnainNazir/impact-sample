@@ -2,6 +2,9 @@
   .feed-item-meta
     => icon 'tasks'
     strong> Before &amp; After
+    - if !before_after.published_status
+      code
+        small Draft
     span.pull-right
       - if before_after.published_on > Time.zone.now
         span.text-muted> Will Post #{time_ago_in_words before_after.published_at} from now

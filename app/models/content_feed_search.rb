@@ -29,7 +29,7 @@ class ContentFeedSearch
         created_at: :desc,
       }
     end
-
+    binding.pry
     Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
   end
 end

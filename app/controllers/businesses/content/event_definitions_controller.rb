@@ -95,13 +95,9 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     def edit
       port = ":#{request.try(:port)}" if request.port
       host = website_host @business.website
-      binding.pry
       e = @event_definition.events.first
-      binding.pry
       post_path = website_event_path
-      binding.pry
       @preview_url = host + port + post_path
-      binding.pry
     end
 
   def destroy
