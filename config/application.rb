@@ -22,6 +22,8 @@ module Impact
       s3_permissions: :public_read,
       s3_credentials: {
         bucket: Rails.application.secrets.aws_s3_bucket,
+        :access_key_id => ENV['S3_KEY'],
+        :secret_access_key => ENV['S3_SECRET']
       }
     }
 
