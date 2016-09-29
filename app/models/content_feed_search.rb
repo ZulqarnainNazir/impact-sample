@@ -1,7 +1,8 @@
 class ContentFeedSearch
-  def initialize(business, query = '')
+  def initialize(business, query = '', filters)
     @business = business
     @query = query.to_s.strip
+    @filters = filters
   end
 
   def search
@@ -29,7 +30,7 @@ class ContentFeedSearch
         created_at: :desc,
       }
     end
+    @results = Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
   end
 end

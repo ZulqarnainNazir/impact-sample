@@ -11,9 +11,9 @@
 /           = link_to classification.name, [:website, classification]
 /           - if i < event_definition.content_categories.count + event_definition.content_tags.count - 1
 /             ' ,
-- if @masonry.present? && @masonry == true 
+- if @masonry.present? && @masonry == true
   .col-xs-4.slider-content.single-blog
-    - cache event_definition do 
+    - cache event_definition do
       = link_to website_generic_post_path(event.to_generic_param) do
         - placement = event_definition.event_image_placement
         - if placement.try(:embeds?)
@@ -27,7 +27,7 @@
             div.event-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});"
             / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
         - else
-          div.event-blog-image style="background-image: url(/assets/impact_gs.jpg);"   
+          div.event-blog-image style="background-image: url(/assets/impact_gs.jpg);"
           / = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
         h3.slider-text = truncate sanitize(event_definition.title), length: 75, omission: '... '
         p.slider-text.slider-text-sub

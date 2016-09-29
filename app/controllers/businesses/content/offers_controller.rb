@@ -31,20 +31,30 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     if params[:draft]
        @offer.published_status = false
        if @offer.save
-         redirect_to edit_business_content_offer_path(@business, @offer), alert: "Draft created successfully"
+         redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
     else
        @offer.published_status = true
-       @offer.save
+       redirect_to business_content_feed_path @business if @offer.save
     end
     Offer.__elasticsearch__.refresh_index!
     intercom_event 'created-offer'
   end
 
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_offer_path(@offer)
+    @preview_url = @offer.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @offer.id]
+  end
+
+
   def update
+    binding.pry
     @offer.update(offer_params)
+    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @offer.facebook_id?
@@ -57,13 +67,13 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     if params[:draft]
        @offer.published_status = false
        if @offer.save
-         redirect_to edit_business_content_offer_path(@business, @offer), alert: "Draft created successfully"
+         redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
     else
        @offer.published_status = true
-       @offer.save
+       redirect_to business_content_feed_path @business if @offer.save
     end
     @offer.__elasticsearch__.index_document
     Offer.__elasticsearch__.refresh_index!

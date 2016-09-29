@@ -7,7 +7,10 @@ module ContentSlugConcern
   end
 
   def generate_slug
+    binding.pry
+    binding.pry
     self.slug = find_available_slug(title.gsub(/['’]/, '').parameterize, 1) if title.present?
+    binding.pry
   end
 
   private
@@ -18,7 +21,7 @@ module ContentSlugConcern
     else
       test_slug = "#{slug}-#{n}"
     end
-
+    binding.pry
     duplicate = false
     duplicate = true if business.before_afters.where(slug: test_slug).any?
     duplicate = true if business.event_definitions.where(slug: test_slug).any?

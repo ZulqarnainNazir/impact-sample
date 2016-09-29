@@ -51,7 +51,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     if params[:draft]
        @event_definition.published_status = false
        if @event_definition.save
-         redirect_to edit_business_content_event_definition_path(@business, @event_definition), alert: "Draft created successfully"
+         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -80,16 +80,24 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     if params[:draft]
        @event_definition.published_status = false
        if @event_definition.save
-         redirect_to edit_business_content_event_definition_path(@business, @event_definition), alert: "Draft created successfully"
+         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
     else
-       @event_definition.published_status = true
-       @event_definition.save
+      @event_definition.published_status = true
+      redirect_to business_content_feed_path @business if @event_definition.save
     end
     EventDefinition.__elasticsearch__.refresh_index!
   end
+
+
+    def edit
+      port = ":#{request.try(:port)}" if request.port
+      host = website_host @business.website
+      post_path = website_event_path
+      @preview_url = @event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event_definition.id]
+    end
 
   def destroy
     destroy_resource @event_definition, location: [@business, :content_feed] do |success|

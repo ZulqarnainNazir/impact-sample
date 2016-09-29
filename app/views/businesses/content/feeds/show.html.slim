@@ -12,6 +12,16 @@ ol.breadcrumb
       div.input-group-btn
         = button_tag class: 'btn btn-default' do
           ' Search
+    br>
+    span.pull-right.content-checkboxes
+      p Filter By:
+      = label_tag :published_status, "Drafts "
+      = check_box_tag :draft_items, params[:draft_items], true
+      = label_tag :published_status, "Published"
+      = check_box_tag :published_items, params[:published_items], true
+      br>
+br>
+br>
 hr
 p
   = page_entries_info @results, entry_name: 'item'

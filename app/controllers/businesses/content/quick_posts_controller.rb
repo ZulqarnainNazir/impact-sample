@@ -50,7 +50,10 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def update
+    binding.pry
     @quick_post.update(quick_post_params)
+    binding.pry
+    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @quick_post.facebook_id?

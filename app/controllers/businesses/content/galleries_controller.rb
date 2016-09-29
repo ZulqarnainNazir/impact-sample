@@ -22,7 +22,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     if params[:draft]
        @gallery.published_status = false
        if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
+         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -33,6 +33,14 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
   end
+
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_gallery_path(@gallery)
+    @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => @gallery.id]
+  end
+
 
   def update
     @gallery.update(gallery_params)
@@ -48,7 +56,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     if params[:draft]
        @gallery.published_status = false
        if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
+         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end

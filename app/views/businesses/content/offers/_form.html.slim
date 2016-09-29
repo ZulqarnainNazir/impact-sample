@@ -3,14 +3,17 @@
     .form-group
       = form.label :title, 'Title *', class: 'control-label'
       = form.text_field :title, class: 'form-control', placeholder: 'Add your big bold offer title, should be 8-15 words in most cases.'
+      br>
+      - if @offer.persisted?
+        = link_to "Preview Post", url_for(@preview_url), class: 'btn btn-block btn-default', :target => "_blank"
   .col-sm-4
     .form-group
       = form.label :published_on, class: 'control-label'
-      = form.text_field :published_on, value: (form.object.published_on? ? form.object.published_on : Time.zone.now).try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
-      br>
-      = form.label :published_time, class: 'control-label'
-      br>
-      = form.time_select :published_time, ampm: true, minute_step: 5, class: 'form-control', default: { hour: Time.now.hour, min: (Time.now.strftime("%M").to_i/5.0).floor * 5 }
+      .input-group.date#datetimepicker
+        = form.text_field :published_on, :class => "form-control"
+        span.input-group-addon
+          span.glyphicon.glyphicon-calendar
+
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
 hr
 .text-right
@@ -66,13 +69,26 @@ hr
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
+
 .row
-  .col-sm-4.col-sm-offset-2
-    .form-group.text-center
-      = form.button 'Save Offer', class: 'btn btn-block btn-primary'
-  .col-sm-4
-    .form-group.text-center
-      = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - if (form.object.persisted? && form.object.published_status == false)
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - elsif form.object.persisted?
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Update Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - else
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Save and Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
 
 
 javascript:
@@ -86,4 +102,10 @@ javascript:
       $('.offer-row-kind').text('Image Left');
       $('.offer-row input[name*="kind"]').val('image_left');
     }
+  });
+
+
+javascript:
+  $(function () {
+    $('#datetimepicker').datetimepicker();
   });
