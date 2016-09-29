@@ -27,8 +27,8 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
          return
        end
     else
-       @gallery.published_status = true
-       @gallery.save
+     @gallery.published_status = true
+    redirect_to business_content_feed_path @business if @gallery.save
     end
     Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
@@ -61,8 +61,8 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
          return
        end
     else
-       @gallery.published_status = true
-       @gallery.save
+     @gallery.published_status = true
+    redirect_to business_content_feed_path @business if @gallery.save
     end
     @gallery.__elasticsearch__.index_document
     Gallery.__elasticsearch__.refresh_index!
