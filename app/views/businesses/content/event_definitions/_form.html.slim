@@ -6,6 +6,9 @@
     .form-group
       = form.label :subtitle, class: 'control-label'
       = form.text_field :subtitle, class: 'form-control', placeholder: 'Add a brief 4-10 word subtitle for your event.'
+      br>
+      - if form.object.persisted?
+        = link_to "Preview Post", "http://#{@preview_url}", class: 'btn btn-block btn-default', :target => "_blank"
     = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
     = react_component 'ImagePlacement',
       imagesPath: business_images_path(form.object.business),

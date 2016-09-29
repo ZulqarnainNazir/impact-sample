@@ -34,6 +34,14 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     intercom_event 'created-before-after'
   end
 
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_quick_post_path(@before_after)
+    @preview_url = host + port + post_path
+  end
+
+
   def update
     @before_after.update(before_after_params)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]

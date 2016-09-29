@@ -21,7 +21,7 @@ ol.post-sections-associations
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
-- if !@post.published_status
+- if @post.published_status == false
   p This post has not been published yet.
 - else
   p This post has been published.

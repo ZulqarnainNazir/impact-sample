@@ -3,6 +3,9 @@
     .form-group
       = form.label :title, 'Title *', class: 'control-label'
       = form.text_field :title, class: 'form-control', placeholder: 'Add your big bold offer title, should be 8-15 words in most cases.'
+      br>
+      - if @offer.persisted?
+        = link_to "Preview Post", "http://#{@preview_url}", class: 'btn btn-block btn-default', :target => "_blank"
   .col-sm-4
     .form-group
       = form.label :published_on, class: 'control-label'
@@ -66,6 +69,10 @@ hr
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
+- if @offer.published_status == false
+  p This post has not been published yet.
+- else
+  p This post has been published.
 .row
   .col-sm-4.col-sm-offset-2
     .form-group.text-center

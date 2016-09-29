@@ -28,10 +28,17 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
        end
     else
        @quick_post.published_status = true
-       @quick_post.save
+       redirect_to business_content_feed_path @business if @quick_post.save
     end
     QuickPost.__elasticsearch__.refresh_index!
     intercom_event 'created-quick-post'
+  end
+
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_quick_post_path(@quick_post)
+    @preview_url = host + port + post_path
   end
 
   def update
@@ -54,7 +61,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
        end
     else
        @quick_post.published_status = true
-       @quick_post.save
+       redirect_to business_content_feed_path @business if @quick_post.save
     end
     @quick_post.__elasticsearch__.index_document
     QuickPost.__elasticsearch__.refresh_index!

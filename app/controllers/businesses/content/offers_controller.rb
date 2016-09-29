@@ -37,11 +37,19 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
        end
     else
        @offer.published_status = true
-       @offer.save
+       redirect_to business_content_feed_path @business if @offer.save
     end
     Offer.__elasticsearch__.refresh_index!
     intercom_event 'created-offer'
   end
+
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_offer_path(@offer)
+    @preview_url = host + port + post_path
+  end
+
 
   def update
     @offer.update(offer_params)
@@ -63,7 +71,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
        end
     else
        @offer.published_status = true
-       @offer.save
+       redirect_to business_content_feed_path @business if @offer.save
     end
     @offer.__elasticsearch__.index_document
     Offer.__elasticsearch__.refresh_index!

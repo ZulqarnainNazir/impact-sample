@@ -56,4 +56,16 @@ module ContentHelper
         end
       end
     end
+
+    def preview_access(item, user)
+      # returns true if user has publishing access
+      binding.pry
+      rv =  false if item.published_status == false
+      # binding.pry
+      # rv =  true if @current_user.super_user == true
+      # binding.pry
+      # rv =  true if current_user.businesses.contains? @business
+      # binding.pry
+      # rv = false
+    end
 end

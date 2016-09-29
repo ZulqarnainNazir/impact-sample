@@ -13,20 +13,25 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     @gallery = Gallery.new(gallery_params)
     @gallery.business = @business
+    binding.pry
     @gallery.save!
+    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
       @gallery.update_column :facebook_id, result['id']
     end
     if params[:draft]
+      binding.pry
        @gallery.published_status = false
+       binding.pry
        if @gallery.save
          redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
     else
+       binding.pry
        @gallery.published_status = true
        @gallery.save
     end
