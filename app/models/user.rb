@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
 
   has_many :authorizations, dependent: :destroy
   has_many :businesses, through: :authorizations
-
+  has_many :pdfs
+  
   has_many :manager_authorizations, -> { manager }, class_name: Authorization.name
   has_many :owner_authorizations, -> { owner }, class_name: Authorization.name
 

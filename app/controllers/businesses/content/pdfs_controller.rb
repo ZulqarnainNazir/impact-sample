@@ -3,17 +3,9 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   skip_before_action :verify_authenticity_token
 
   def index
-    if current_user.businesses.count > 1 || current_user.super_user?
-      params[:local] ||= 'true'
-    else
-      params[:local] = 'true'
-    end
     @business = Business.find(params['business_id'])
-    if params[:local] == 'true'
-      @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
-    else
-      @pdfs = Pdf.where('business_id = ? OR user_id = ?', @business.id, current_user.id).order(created_at: :desc).page(params[:page]).per(48)
-    end
+    @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
+    binding.pry
   end
 
   def new
@@ -27,11 +19,15 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
       # ^ TODO: fix me
       return
     end
+    binding.pry
     @pdf = Pdf.new(pdf_params)
+    binding.pry
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
+    binding.pry
     respond_to do |format|
       if @pdf.save
+        binding.pry
         flash[:notice] = 'PDF was successfully created.'
         format.html { redirect_to [@business, :content_pdfs] }
         format.js if remotipart_submitted?
@@ -59,6 +55,12 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
       :attachment_updated_at,
       :attachment_file_size,
       :attachment_content_type,
+      :attachment_attributes => [
+        :attachment_file_name,
+        :attachment_updated_at,
+        :attachment_file_size,
+        :attachment_content_type,
+      ]
     )
   end
 end
