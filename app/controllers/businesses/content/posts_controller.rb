@@ -21,6 +21,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     @post.save!
     binding.pry
     fix_post_section_parent_ids(@post.post_sections)
+    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
@@ -43,6 +44,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
   def update
     @post.update(post_params)
+    binding.pry
     @post.save!
     fix_post_section_parent_ids(@post.post_sections)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
