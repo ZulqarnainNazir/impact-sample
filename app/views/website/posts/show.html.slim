@@ -7,20 +7,23 @@
   .row
     div class=(@website.content_blog_sidebar? || @website.events_sidebar? ? 'col-sm-8' : 'col-sm-12')
       .feed-item.feed-post
-        .feed-item-meta
-          => icon 'edit'
-          strong> Post
-          span.pull-right
-            span.text-muted> Posted #{time_ago_in_words @post.published_at} ago
-            - if @post.content_categories.any? || @post.content_tags.any?
-              span.text-muted> in
-              - (@post.content_categories + @post.content_tags).each_with_index do |classification, i|
-                = link_to classification.name, [:website, classification]
-                - if i < @post.content_categories.count + @post.content_tags.count - 1
-                  ' ,
-        - cache @post do
-          h1 = @post.title
-          = render partial: 'website/post_sections/post_section', collection: @post.arranged_sections, locals: { level: 2 }
+        - if @post.published_status == false
+          p This post has not been published by the business owner yet. Check back later!
+        - else
+          .feed-item-meta
+            => icon 'edit'
+            strong> Post
+            span.pull-right
+              span.text-muted> Posted #{time_ago_in_words @post.published_at} ago
+              - if @post.content_categories.any? || @post.content_tags.any?
+                span.text-muted> in
+                - (@post.content_categories + @post.content_tags).each_with_index do |classification, i|
+                  = link_to classification.name, [:website, classification]
+                  - if i < @post.content_categories.count + @post.content_tags.count - 1
+                    ' ,
+          - cache @post do
+            h1 = @post.title
+            = render partial: 'website/post_sections/post_section', collection: @post.arranged_sections, locals: { level: 2 }
     - if @website.content_blog_sidebar? || @website.events_sidebar?
       .col-sm-4
         - if @website.content_blog_sidebar?

@@ -1,7 +1,6 @@
 class Website::GenericPostsController < Website::BaseController
   def show
     @post = @business.posts.find_by_id_and_slug(params[:id], params[:slug])
-
     if @post
       render 'website/posts/show'
       return

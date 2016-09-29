@@ -13,15 +13,10 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def create
-    binding.pry
     @post = Post.new(post_params)
-    binding.pry
     @post.business = @business
-    binding.pry
     @post.save!
-    binding.pry
     fix_post_section_parent_ids(@post.post_sections)
-    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
@@ -36,7 +31,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
        end
     else
        @post.published_status = true
-       @post.save
+       redirect_to business_content_feed_path @business if @post.save
     end
     Post.__elasticsearch__.refresh_index!
     intercom_event 'created-custom-post'
@@ -44,7 +39,6 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
   def update
     @post.update(post_params)
-    binding.pry
     @post.save!
     fix_post_section_parent_ids(@post.post_sections)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
@@ -65,11 +59,18 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
        end
     else
        @post.published_status = true
-       @post.save
+       redirect_to business_content_feed_path @business if @post.save
     end
-    @post.__elasticsearch__.index_document
+    Post.__elasticsearch__.index_document
     Post.__elasticsearch__.refresh_index!
 
+  end
+
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_post_path(@post)
+    @preview_url = host + port + post_path
   end
 
   def destroy
