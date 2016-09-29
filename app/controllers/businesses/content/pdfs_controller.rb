@@ -5,7 +5,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   def index
     @business = Business.find(params['business_id'])
     @pdfs = Pdf.where(business_id: @business.id).order(created_at: :desc).page(params[:page]).per(48)
-    binding.pry
+    # binding.pry
   end
 
   def new
@@ -19,15 +19,15 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
       # ^ TODO: fix me
       return
     end
-    binding.pry
+    # binding.pry
     @pdf = Pdf.new(pdf_params)
-    binding.pry
+    # binding.pry
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
-    binding.pry
+    # binding.pry
     respond_to do |format|
       if @pdf.save
-        binding.pry
+        # binding.pry
         flash[:notice] = 'PDF was successfully created.'
         format.html { redirect_to [@business, :content_pdfs] }
         format.js if remotipart_submitted?
