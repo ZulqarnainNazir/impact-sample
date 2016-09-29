@@ -29,7 +29,6 @@
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
-
 .row
   - if (form.object.persisted? && form.object.published_status == false)
     .col-sm-4.col-sm-offset-2

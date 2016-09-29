@@ -68,9 +68,7 @@ hr
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
-
 .row
-<<<<<<< dcf1960ce6cbac035b86bd572b9706a797c56f2a
   - if (form.object.persisted? && form.object.published_status == false)
     .col-sm-4.col-sm-offset-2
       = form.button 'Publish Post', class: 'btn btn-block btn-primary'

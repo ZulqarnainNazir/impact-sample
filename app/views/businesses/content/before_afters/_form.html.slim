@@ -43,7 +43,7 @@
   = form.text_area :description, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Describe how you achieved what’s in the comparison above, the benefits and how the client feels about it.'
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
-
+hr
 .row
   - if (form.object.persisted? && form.object.published_status == false)
     .col-sm-4.col-sm-offset-2
