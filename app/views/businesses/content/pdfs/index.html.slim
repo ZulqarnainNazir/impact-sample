@@ -26,14 +26,14 @@ ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
           .col-sm-3.col-lg-2
             .pdf-upload
               .img-responsive
-                i.glyphicon.glyphicon-file
+                i.fa.fa-file-pdf-o
               .pdf-details
                 b = pdf.attachment_file_name.truncate(30)
                 div
                   |  PDF Size - #{ActionView::Base.new.number_to_human_size pdf.attachment_file_size}
                 a.copy-pdf target="_blank" onclick="copyToClipboard('#{pdf.attachment.url}')" Copy URL
                 br>
-                .pdf-url = link_to pdf.attachment.url
+                .pdf-url = link_to pdf.attachment.url, :target => "_blank"
                   |
                     Link
 
