@@ -13,5 +13,16 @@ Rails.application.configure do
   config.eager_load = false
 
   # Paperclip
-  config.paperclip_defaults[:url] = ':s3_domain_url'
+
+  config.paperclip_defaults = {
+    storage: :s3,
+    path: ':class/:id/:attachment-:style-:attachment_timestamp-:filename',
+    s3_permissions: :public_read,
+    s3_credentials: {
+      bucket: Rails.application.secrets.aws_s3_bucket,
+      :access_key_id => ENV['S3_KEY'],
+      :secret_access_key => ENV['S3_SECRET']
+    }
+  }
+  # config.paperclip_defaults[:url] = ':s3_domain_url'
 end
