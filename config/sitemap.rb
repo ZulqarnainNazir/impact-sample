@@ -17,16 +17,16 @@ Website.find_each do |website|
 
 
   SitemapGenerator::Sitemap.create do
-    add website_root_path(website), :lastmod => website.updated_at
-    add website_about_page_path(website), :lastmod => website.updated_at
-    add website_blog_page_path(website), :lastmod => website.updated_at
-    add website_contact_page_path(website), :lastmod => website.updated_at
-    add new_website_feedback_path(website), :lastmod => website.updated_at
+    add website_root_path(website), :lastmod => website.updated_at unless website.home_page.try(:settings).try(:no_index)
+    add website_about_page_path(website), :lastmod => website.updated_at unless website.about_page.try(:settings).try(:no_index)
+    add website_blog_page_path(website), :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
+    add website_contact_page_path(website), :lastmod => website.updated_at unless website.contact_page.try(:settings).try(:no_index)
+    add new_website_feedback_path(website), :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
     add website_share_path(website), :lastmod => website.updated_at
-    add website_events_path(website), :lastmod => website.updated_at
-    add website_galleries_path(website), :lastmod => website.updated_at
-    add website_reviews_path(website), :lastmod => website.updated_at
-    add new_website_review_path(website), :lastmod => website.updated_at
+    add website_events_path(website), :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
+    add website_galleries_path(website), :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
+    add website_reviews_path(website), :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
+    add new_website_review_path(website), :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
 
     website.business.before_afters.find_each do |before_after|
       add website_before_after_path(before_after), :lastmod => before_after.updated_at

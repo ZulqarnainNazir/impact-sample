@@ -51,6 +51,7 @@ gem 'uglifier'
 gem 'remotipart', '~> 1.2'
 gem 'fog-aws'
 gem 'sitemap_generator'
+gem 'whenever', :require => false
 
 group :development, :test do
   gem 'dotenv-rails'
