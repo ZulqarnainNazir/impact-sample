@@ -49,6 +49,8 @@ gem 'turbolinks'
 gem 'twitter-typeahead-rails'
 gem 'uglifier'
 gem 'remotipart', '~> 1.2'
+gem 'fog-aws'
+gem 'sitemap_generator'
 
 group :development, :test do
   gem 'dotenv-rails'
