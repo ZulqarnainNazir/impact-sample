@@ -1,7 +1,13 @@
 - cache opening do
   div itemprop="openingHours"
     => opening.days
+<<<<<<< HEAD
     - if opening.by_appt
       span.pull-right By Appointment
     - else
       span.pull-right = opening.hours
+=======
+    span.pull-right = opening.hours
+    - if opening.by_appt
+      | - By Appointment
+>>>>>>> 718e4e8... added by_appointment for business hours/openings at data/openings/edit
