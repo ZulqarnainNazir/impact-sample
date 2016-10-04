@@ -14,8 +14,11 @@ ol.breadcrumb
           ' Search
     br>
     span.pull-right
-      = label_tag :published_status, "Show drafts "
-      = check_box_tag :published_status, params[:published_status]
+      = label_tag :published_status, "Drafts "
+      = check_box_tag :draft_items, params[:draft_items]
+      = label_tag :published_status, "Published"
+      = check_box_tag :published_items, params[:published_items]
+
 br>
 hr
 p

@@ -1,7 +1,8 @@
 class ContentFeedSearch
-  def initialize(business, query = '')
+  def initialize(business, query = '', filters)
     @business = business
     @query = query.to_s.strip
+    @filters = filters
   end
 
   def search
@@ -30,6 +31,20 @@ class ContentFeedSearch
       }
     end
     binding.pry
-    Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
+    @results = Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
+    binding.pry
+    if @filters[:drafts] and ! @filters[:published]
+      binding.pry
+      @results.results.reject { |rec| rec['_source']['published_status'] == false }
+      binding.pry
+    elsif @filters[:drafts] and ! @filters[:published]
+      binding.pry
+      @results.results = @results.results.reject { |rec| rec['_source']['published_status'] == (true || nil) }
+      binding.pry
+    end
+    binding.pry
+    binding.pry
+    @results
+    binding.pry
   end
 end
