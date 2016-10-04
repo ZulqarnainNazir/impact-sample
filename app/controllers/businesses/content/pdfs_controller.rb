@@ -21,10 +21,12 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
         flash[:notice] = 'PDF was successfully created.'
         format.html { redirect_to [@business, :content_pdfs] }
         format.js
-    if pdf_params['attachment'].content_type != "application/pdf"
-      flash[:error] = 'This uploader only works for PDFS'
-      # ^ TODO: fix me
-      return
+      end
+      if pdf_params['attachment'].content_type != "application/pdf"
+        flash[:error] = 'This uploader only works for PDFS'
+        # ^ TODO: fix me
+        return
+      end
     end
   end
 
@@ -36,8 +38,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   private
 
   def pdf_params
-    params.require(:pdf).permit(
-      :attachment,
-    )
+    params.require(:pdf).permit(:attachment)
   end
 end

@@ -483,7 +483,7 @@ DEPENDENCIES
   rails_12factor
   react-rails
   recurring_select
-  remotipart (~> 1.2)
+  remotipart (~> 1.3)
   sanitize
   sass-rails
   sidekiq
