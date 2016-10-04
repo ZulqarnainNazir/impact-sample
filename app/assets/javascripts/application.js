@@ -1,7 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require jquery.remotipart
+//= require jquery.remotipart.js
 //= require turbolinks
 //= require react
 //= require react_ujs

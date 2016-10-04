@@ -48,7 +48,10 @@ gem 'summernote-rails'
 gem 'turbolinks'
 gem 'twitter-typeahead-rails'
 gem 'uglifier'
-gem 'remotipart', '~> 1.2'
+gem 'remotipart', '~> 1.3'
+gem 'fog-aws'
+gem 'sitemap_generator'
+gem 'whenever', :require => false
 
 group :development, :test do
   gem 'dotenv-rails'

@@ -1,3 +1,6 @@
+//= require ./jquery.iframe-transport.js
+//= require_self
+
 (function($) {
 
   var remotipart;

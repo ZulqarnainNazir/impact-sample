@@ -13,18 +13,14 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
   end
 
   def create
-    binding.pry
     @pdf = Pdf.new(pdf_params)
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
-    binding.pry
     respond_to do |format|
       if @pdf.save
-        binding.pry
         flash[:notice] = 'PDF was successfully created.'
         format.html { redirect_to [@business, :content_pdfs] }
         format.js
-
       end
       if pdf_params['attachment'].content_type != "application/pdf"
         flash[:error] = 'This uploader only works for PDFS'

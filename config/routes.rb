@@ -160,6 +160,7 @@ Rails.application.routes.draw do
   scope module: :website, as: :website, constraints: WebsiteConstraint.new do
     root to: 'home_pages#show'
 
+    get '/robots.:format' => 'robots#txt'
     resource :about_page, path: 'about', only: %i[show]
     resource :blog_page, path: 'blog', only: %i[index show]
     resource :contact_page, path: 'contact', only: %i[show create]
