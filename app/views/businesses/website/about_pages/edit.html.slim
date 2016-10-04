@@ -36,10 +36,7 @@ ol.breadcrumb
               p.help-block i.e.
               code
                 | &lt;script&gt;, &lt;style&gt;, etc.
-              = form.label :page_head_injection, class: 'control-label'
-              = form.text_area :page_head_injection, rows: 2, class: 'form-control'
-              p.help-block Add page-specific header content, include necessary tags i.e. <script>, <style> etc.
-            hr
+              hr
             = react_component 'ImagePlacement',
               imagesPath: business_images_path(@business),
               inputPrefix: 'about_page[main_image_placement_attributes]',

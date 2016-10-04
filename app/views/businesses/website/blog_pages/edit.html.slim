@@ -7,7 +7,6 @@ ol.breadcrumb
   li = link_to 'Webpages', [@business, :website_webpages]
   li.active Blog Page
 
-
 .webpage-designer data-input-prefix="blog_page"
   = form_for @blog_page, url: [@business, :website_blog_page], method: :patch do |form|
     = errors_for @blog_page
