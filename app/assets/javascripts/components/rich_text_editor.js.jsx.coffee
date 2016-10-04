@@ -33,6 +33,7 @@ RichTextEditor = React.createClass
       toolbar: this.summernoteToolbar()
       onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
       onPaste: this.onPaste
+      airMode: true
     if this.props.update
       $.extend {}, defaults, onChange: this.props.update
     else defaults
