@@ -21,12 +21,11 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
         flash[:notice] = 'PDF was successfully created.'
         format.html { redirect_to [@business, :content_pdfs] }
         format.js
-        format.json { render :show, status: :created, location: @pdf }
-      else
-        flash[:notice] = 'PDF not created - must include a file under 20 GB.'
-        format.html { render :new }
-        format.json { render json: @pdf.errors, status: :unprocessable_entity }
-        format.js
+      end
+      if pdf_params['attachment'].content_type != "application/pdf"
+        flash[:error] = 'This uploader only works for PDFS'
+        # ^ TODO: fix me
+        return
       end
     end
   end
