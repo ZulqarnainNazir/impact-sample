@@ -2,7 +2,7 @@
   .feed-item-meta
     => icon 'text-file-o'
     strong> Quick Post
-    - if !quick_post.published_status
+    - if quick_post.published_status == false
       code
         small Draft
     span.pull-right

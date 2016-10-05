@@ -3,7 +3,7 @@
   .feed-item-meta
     => icon 'calendar'
     strong> Event
-    - if !event_definition.published_status
+    - if event_definition.published_status == false
       code
         small Draft
     span.pull-right

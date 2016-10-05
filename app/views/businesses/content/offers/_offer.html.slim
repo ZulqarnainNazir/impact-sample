@@ -2,7 +2,7 @@
   .feed-item-meta
     => icon 'ticket'
     strong> Offer
-    - if !offer.published_status
+    - if offer.published_status == false
       code
         small Draft
     span.pull-right

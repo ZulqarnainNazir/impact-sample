@@ -2,7 +2,7 @@
   .feed-item-meta
     => icon 'tasks'
     strong> Before &amp; After
-    - if !before_after.published_status
+    - if before_after.published_status == false
       code
         small Draft
     span.pull-right

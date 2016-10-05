@@ -30,21 +30,7 @@ class ContentFeedSearch
         created_at: :desc,
       }
     end
-    binding.pry
     @results = Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
-    binding.pry
-    if @filters[:drafts] and ! @filters[:published]
-      binding.pry
-      @results.results.reject { |rec| rec['_source']['published_status'] == false }
-      binding.pry
-    elsif @filters[:drafts] and ! @filters[:published]
-      binding.pry
-      @results.results = @results.results.reject { |rec| rec['_source']['published_status'] == (true || nil) }
-      binding.pry
-    end
-    binding.pry
-    binding.pry
-    @results
-    binding.pry
+
   end
 end

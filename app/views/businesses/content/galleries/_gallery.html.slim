@@ -2,7 +2,7 @@
   .feed-item-meta
     => icon 'photo'
     strong> Gallery
-    - if !gallery.published_status
+    - if gallery.published_status == false
       code
         small Draft
     span.pull-right

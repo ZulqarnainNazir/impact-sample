@@ -2,7 +2,7 @@
   .feed-item-meta
     => icon 'edit'
     strong> Post
-    - if !post.published_status
+    - if post.published_status == false
       code
         small Draft
     span.pull-right
