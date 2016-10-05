@@ -1,4 +1,4 @@
-- if !(@post.published_status == false)
+- if !(@quick_post.published_status == false)
   - title @quick_post.title
   - description @quick_post.meta_description
   - image @quick_post.quick_post_image.attachment_url if @quick_post.quick_post_image

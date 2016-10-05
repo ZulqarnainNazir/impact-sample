@@ -1,4 +1,4 @@
-- if !(@post.published_status == false)
+- if !(@gallery.published_status == false)
   - title @gallery.title
   - description @gallery.meta_description
   - image @gallery.main_image.try(:attachment_url) || @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url)

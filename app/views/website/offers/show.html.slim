@@ -1,4 +1,4 @@
-- if !(@post.published_status == false)
+- if !(@offer.published_status == false)
   - title @offer.title
   - description @offer.meta_description
   - image @offer.main_image.try(:attachment_url) || @offer.offer_image.try(:attachment_url)

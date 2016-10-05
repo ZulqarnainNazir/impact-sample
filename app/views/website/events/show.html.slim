@@ -1,4 +1,4 @@
-- if !(@post.published_status == false)
+- if !(@event.published_status == false)
   - title @event.event_definition.title
   - description @event.event_definition.meta_description
   - image @event.event_definition.main_image.try(:attachment_url) || @event.event_definition.try(:event_image_placement).try(:attachment_url)
