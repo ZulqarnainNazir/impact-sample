@@ -63,19 +63,12 @@ class Website::GenericPostsController < Website::BaseController
 
     case params[:type]
     when "before_afters"
-          binding.pry
       @before_after = @business.before_afters.find(params[:id])
-          binding.pry
     when "posts"
-          binding.pry
       @post = @business.posts.find(params[:id])
-          binding.pry
     when "quick_posts"
-          binding.pry
       @quick_post = @business.quick_posts.find(params[:id])
-          binding.pry
     when "events"
-          binding.pry
       @event = @business.events.joins(:event_definition).where(id: params[:id]).first
       if @event
         @upcoming_events = @event.event_definition.events.
@@ -86,23 +79,17 @@ class Website::GenericPostsController < Website::BaseController
           per(4)
       end
     when "offers"
-          binding.pry
       @offer = @business.offers.find(params[:id])
     when "galleries"
-          binding.pry
       @gallery = @business.galleries.find(params[:id])
     when "gallery_images"
-          binding.pry
       @gallery = @business.galleries.find(params[:id])
       @gallery_image = GalleryImage.find(params[:image_id])
-      binding.pry
     else
-      binding.pry
       raise ActiveRecord::RecordNotFound
     end
 
     @preview = true
-    binding.pry
     render "website/#{params[:type]}/show"
 
   end

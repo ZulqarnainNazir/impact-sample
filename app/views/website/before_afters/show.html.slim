@@ -11,7 +11,7 @@
   .row
     div class=(@website.content_blog_sidebar? || @website.events_sidebar? ? 'col-sm-8' : 'col-sm-12')
       .feed-item.feed-before_after
-        - if !preview_access(@before_after, @current_user)
+        - if (@before_after.published_status == false && !@preview)
           p This post has not been published by the business owner yet. Check back later!
         - else
           .feed-item-meta

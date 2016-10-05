@@ -1,4 +1,4 @@
-- if (@post.published_status == false unless @preview)
+- if (@offer.published_status == false unless @preview)
   - title "This post is not yet published"
   - description "This post is not yet published"
 - else
@@ -8,7 +8,7 @@
   - canonize_obj({url: website_offer_url, params: @offer.to_generic_param})
 
 = webpage_container do
-  - if (@offer.published_status == false && !preview)
+  - if (@offer.published_status == false && !@preview)
     p This post has not been published by the business owner yet. Check back later!
   - else
     .row

@@ -23,7 +23,10 @@
         = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   - if @business.website
-    h2 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website)], target: :_blank
+    - if post.published_status == false
+      h2.h3 = link_to post.title, [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), :id => post.id], target: :_blank
+    - else
+      h2 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website)], target: :_blank
   - else
     h2 = post.title
   .clearfix

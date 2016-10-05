@@ -24,7 +24,10 @@
         = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   h2
     - if @business.website
-      => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
+      - if gallery.published_status == false
+        h2.h3 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => gallery.id], target: :_blank
+      - else
+        => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
     - else
       => gallery.title
     span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
