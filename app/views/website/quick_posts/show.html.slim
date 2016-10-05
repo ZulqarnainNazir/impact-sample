@@ -3,6 +3,9 @@
   - description @quick_post.meta_description
   - image @quick_post.quick_post_image.attachment_url if @quick_post.quick_post_image
   - canonize_obj({url: website_quick_post_url, params: @quick_post.to_generic_param})
+- else
+  - title "This post is not yet published"
+  - description "This post is not yet published"
 
 = webpage_container do
   .row

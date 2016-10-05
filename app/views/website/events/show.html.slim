@@ -3,6 +3,9 @@
   - description @event.event_definition.meta_description
   - image @event.event_definition.main_image.try(:attachment_url) || @event.event_definition.try(:event_image_placement).try(:attachment_url)
   - canonize_obj({url: website_event_url, params: @event.to_generic_param})
+- else
+  - title "This post is not yet published"
+  - description "This post is not yet published"
 
 = webpage_container do
   ol.breadcrumb
