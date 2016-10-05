@@ -1,38 +1,41 @@
-- if !(@gallery.published_status == false)
+- if (@post.published_status == false unless @preview)
+  - title "This post is not yet published"
+  - description "This post is not yet published"
+- else
   - title @gallery.title
   - description @gallery.meta_description
   - image @gallery.main_image.try(:attachment_url) || @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url)
   - canonize_obj({url: website_gallery_url, params: @gallery.to_generic_param})
-- else
-  - title "This post is not yet published"
-  - description "This post is not yet published"
 
 = webpage_container do
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li = link_to 'Galleries', :website_galleries
-    li.active = @gallery.title
-  .page-header
-    h1
-      => @gallery.title
-      span.small Click to View All #{pluralize @gallery.gallery_images.count, 'Pic'}
-      span.small.pull-right
-        span.small> style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.published_at} ago
-        - if @gallery.content_categories.any? || @gallery.content_tags.any?
-          span.text-muted> in
-          - (@gallery.content_categories + @gallery.content_tags).each_with_index do |classification, i|
-            = link_to classification.name, [:website, classification]
-            - if i < @gallery.content_categories.count + @gallery.content_tags.count - 1
-              ' ,
-  - cache @gallery do
-    = sanitize_html @gallery.description
-    .row.row-narrow style="margin-top:15px"
-      - @gallery.gallery_images.each do |gallery_image|
-        - image = gallery_image.gallery_image
-        .col-xs-3.col-lg-2
-          = link_to [:website, @gallery, gallery_image], class: 'gallery-item' do
-              figure
-                .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                  = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
-                figcaption.gallery-item-caption
-                  h4.truncate = image.title
+  - if (@offer.published_status == false && !preview)
+    p This post has not been published by the business owner yet. Check back later!
+  - else  
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li = link_to 'Galleries', :website_galleries
+      li.active = @gallery.title
+    .page-header
+      h1
+        => @gallery.title
+        span.small Click to View All #{pluralize @gallery.gallery_images.count, 'Pic'}
+        span.small.pull-right
+          span.small> style="position:relative;top:16px;" Created #{time_ago_in_words @gallery.published_at} ago
+          - if @gallery.content_categories.any? || @gallery.content_tags.any?
+            span.text-muted> in
+            - (@gallery.content_categories + @gallery.content_tags).each_with_index do |classification, i|
+              = link_to classification.name, [:website, classification]
+              - if i < @gallery.content_categories.count + @gallery.content_tags.count - 1
+                ' ,
+    - cache @gallery do
+      = sanitize_html @gallery.description
+      .row.row-narrow style="margin-top:15px"
+        - @gallery.gallery_images.each do |gallery_image|
+          - image = gallery_image.gallery_image
+          .col-xs-3.col-lg-2
+            = link_to [:website, @gallery, gallery_image], class: 'gallery-item' do
+                figure
+                  .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                    = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+                  figcaption.gallery-item-caption
+                    h4.truncate = image.title
