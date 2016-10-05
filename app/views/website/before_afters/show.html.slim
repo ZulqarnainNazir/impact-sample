@@ -1,4 +1,5 @@
-- if !(@before_after.published_status == false)
+
+- if !(@before_after.published_status == false || @preview)
   - title @before_after.title
   - description @before_after.meta_description
   - image @before_after.main_image.try(:attachment_url) || @before_after.before_image.try(:attachment_url) || @before_after.after_image.try(:attachment_url)
