@@ -180,7 +180,6 @@ Rails.application.routes.draw do
     resources :reviews, only: %i[index show new create]
 
     get '/:type/preview/:id', to: 'generic_posts#preview', as: :generic_post_preview
-    get '/:type/preview/:id/:gallery_id', to: 'generic_posts#preview'
 
     get '/:year/:month/:day/:id/:slug', to: 'generic_posts#show', as: :generic_post, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
     get '/:year/:month/:day/:id/:gallery_slug/:image_id/:image_slug', to: 'generic_posts#show', as: :gallery_image, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
