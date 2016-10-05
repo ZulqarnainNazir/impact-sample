@@ -1,7 +1,8 @@
-- title @quick_post.title
-- description @quick_post.meta_description
-- image @quick_post.quick_post_image.attachment_url if @quick_post.quick_post_image
-- canonize_obj({url: website_quick_post_url, params: @quick_post.to_generic_param})
+- if !(@post.published_status == false)
+  - title @quick_post.title
+  - description @quick_post.meta_description
+  - image @quick_post.quick_post_image.attachment_url if @quick_post.quick_post_image
+  - canonize_obj({url: website_quick_post_url, params: @quick_post.to_generic_param})
 
 = webpage_container do
   .row

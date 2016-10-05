@@ -1,7 +1,8 @@
-- title @gallery.title
-- description @gallery.meta_description
-- image @gallery.main_image.try(:attachment_url) || @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url)
-- canonize_obj({url: website_gallery_url, params: @gallery.to_generic_param})
+- if !(@post.published_status == false)
+  - title @gallery.title
+  - description @gallery.meta_description
+  - image @gallery.main_image.try(:attachment_url) || @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url)
+  - canonize_obj({url: website_gallery_url, params: @gallery.to_generic_param})
 
 = webpage_container do
   ol.breadcrumb
