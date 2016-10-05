@@ -10,9 +10,7 @@ SitemapGenerator::Sitemap.public_path = 'tmp/'
 SitemapGenerator::Sitemap.sitemaps_host = "http://#{ENV['AWS_S3_BUCKET']}.s3-#{ENV['AWS_S3_REGION']}.amazonaws.com/sitemap_generator"
 
 Website.find_each do |website|
-  url = website.business.website_url.split(" ").first if website.business.website_url
-
-  SitemapGenerator::Sitemap.default_host = url
+  SitemapGenerator::Sitemap.default_host = "http://www.#{website.subdomain}.#{Rails.application.secrets.host}"
   SitemapGenerator::Sitemap.sitemaps_path = "sitemaps/#{website.id}"
 
 
@@ -31,6 +29,11 @@ Website.find_each do |website|
     website.business.before_afters.find_each do |before_after|
       add website_before_after_path(before_after), :lastmod => before_after.updated_at
     end
+
+    website.custom_pages.find_each do |page|
+      add website_custom_page_path(page), :lastmod => page.updated_at
+    end
+
     website.business.categories.find_each do |content_category|
       add website_content_category_path(content_category), :lastmod => content_category.updated_at
     end
