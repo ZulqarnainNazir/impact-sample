@@ -1,7 +1,4 @@
 class Website::GenericPostsController < Website::BaseController
-  # before_action :authenticate_user!
-  # yuck
-
   def show
     @post = @business.posts.find_by_id_and_slug(params[:id], params[:slug])
     if @post

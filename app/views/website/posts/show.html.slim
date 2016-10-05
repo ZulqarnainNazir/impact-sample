@@ -6,9 +6,6 @@
   - description @post.meta_description
   - image @post.main_image.try(:attachment_url) || @post.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_url)
   - canonize_obj({url: website_post_url, params: @post.to_generic_param})
-- else
-  - title "This post is not yet published"
-  - description "This post is not yet published"
 
 = webpage_container do
   .row
