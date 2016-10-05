@@ -1,8 +1,12 @@
 
-- if (@event.event_definition.published_status == false || @preview)
+- if !(@post.published_status == false)
+  - title @event.event_definition.title
+  - description @event.event_definition.meta_description
+  - image @event.event_definition.main_image.try(:attachment_url) || @event.event_definition.try(:event_image_placement).try(:attachment_url)
+  - canonize_obj({url: website_event_url, params: @event.to_generic_param})
+- else
   - title "This post is not yet published"
   - description "This post is not yet published"
-- else
 = webpage_container do
   ol.breadcrumb
     li = link_to icon('home'), :website_root
