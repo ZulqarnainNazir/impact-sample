@@ -35,9 +35,21 @@ hr
 - else
   p This post has been published.
 .row
-  .col-sm-4.col-sm-offset-2
-    .form-group.text-center
-      = form.button 'Save Quick Post'.html_safe, class: 'btn btn-block btn-primary', name: "save", value: "save"
-  .col-sm-4
-    .form-group.text-center
-      = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - if (form.object.persisted? && form.object.published_status == false)
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - elsif form.object.persisted?
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Update Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - else
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Save and Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
