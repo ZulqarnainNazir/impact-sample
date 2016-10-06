@@ -13,12 +13,14 @@ ol.breadcrumb
         = button_tag class: 'btn btn-default' do
           ' Search
     br>
-    span.pull-right
+    span.pull-right.content-checkboxes
+      p Filter By:
       = label_tag :published_status, "Drafts "
-      = check_box_tag :draft_items, params[:draft_items]
+      = check_box_tag :draft_items, params[:draft_items], true
       = label_tag :published_status, "Published"
-      = check_box_tag :published_items, params[:published_items]
-
+      = check_box_tag :published_items, params[:published_items], true
+      br>
+br>
 br>
 hr
 p
