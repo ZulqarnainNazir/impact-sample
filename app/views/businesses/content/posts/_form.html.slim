@@ -17,7 +17,7 @@
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
 ol.post-sections-associations
   - form.object.post_sections.build
-  = render partial: 'businesses/content/post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form }
+  = render partial: 'businesses/content/post_sections/form', collection: form.object.arranged_sections, as: :post_section, locals: { post_form: form }
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
