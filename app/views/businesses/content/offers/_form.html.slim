@@ -69,10 +69,7 @@ hr
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
-- if @offer.published_status == false
-  p This post has not been published yet.
-- else
-  p This post has been published.
+
 .row
   - if (form.object.persisted? && form.object.published_status == false)
     .col-sm-4.col-sm-offset-2
