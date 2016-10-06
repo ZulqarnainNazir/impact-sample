@@ -22,7 +22,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     if params[:draft]
        @before_after.published_status = false
        if @before_after.save
-         redirect_to edit_business_content_before_after_path(@business, @before_after), alert: "Draft created successfully"
+         redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -56,7 +56,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     if params[:draft]
        @before_after.published_status = false
        if @before_after.save
-         redirect_to edit_business_content_quick_post_path(@business, @before_after), alert: "Draft created successfully"
+         redirect_to edit_business_content_quick_post_path(@business, @before_after), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end

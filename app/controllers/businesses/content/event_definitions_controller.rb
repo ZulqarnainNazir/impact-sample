@@ -51,7 +51,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     if params[:draft]
        @event_definition.published_status = false
        if @event_definition.save
-         redirect_to edit_business_content_event_definition_path(@business, @event_definition), alert: "Draft created successfully"
+         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -80,7 +80,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     if params[:draft]
        @event_definition.published_status = false
        if @event_definition.save
-         redirect_to edit_business_content_event_definition_path(@business, @event_definition), alert: "Draft created successfully"
+         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end

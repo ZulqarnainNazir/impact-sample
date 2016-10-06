@@ -25,7 +25,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     if params[:draft]
        @post.published_status = false
        if @post.save
-         redirect_to edit_business_content_post_path(@business, @post), alert: "Draft created successfully"
+         redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -53,7 +53,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     if params[:draft]
        @post.published_status = false
        if @post.save
-         redirect_to edit_business_content_post_path(@business, @post), alert: "Draft created successfully"
+         redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end

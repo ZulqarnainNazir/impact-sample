@@ -22,7 +22,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     if params[:draft]
        @gallery.published_status = false
        if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
+         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -48,7 +48,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     if params[:draft]
        @gallery.published_status = false
        if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
+         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end

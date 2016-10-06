@@ -22,7 +22,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     if params[:draft]
        @quick_post.published_status = false
        if @quick_post.save
-         redirect_to edit_business_content_quick_post_path(@business, @quick_post), alert: "Draft created successfully"
+         redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -55,7 +55,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     if params[:draft]
        @quick_post.published_status = false
        if @quick_post.save
-         redirect_to edit_business_content_quick_post_path(@business, @quick_post), alert: "Draft created successfully"
+         redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
