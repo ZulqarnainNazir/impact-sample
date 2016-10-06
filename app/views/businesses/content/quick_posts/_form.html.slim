@@ -12,7 +12,7 @@
       br>
       = form.label :published_time, class: 'control-label'
       br>
-      = form.time_select :published_time, ampm: true, minute_step: 5, class: 'form-control', default: { hour: Time.now.hour, min: (Time.now.strftime("%M").to_i/5.0).floor * 5 }
+      = form.time_select :published_time, ampm: true, minute_step: 5, class: 'form-control', default: { hour: Time.now.hour, min: (Time.now.strftime("%M").to_i/5.0).floor * 5 }, :ignore_date => true
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
 = react_component 'ImagePlacement',
   imagesPath: business_images_path(form.object.business),

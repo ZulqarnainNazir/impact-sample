@@ -38,9 +38,9 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
+    t.datetime "published_on"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
   end
 
@@ -287,9 +287,9 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
+    t.datetime "published_on"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
   end
 
@@ -423,9 +423,9 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "coupon_updated_at"
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
+    t.datetime "published_on"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
   end
 
@@ -501,11 +501,11 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "description"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.date     "published_on"
+    t.datetime "published_on"
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
   end
 
@@ -520,9 +520,9 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
+    t.datetime "published_on"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
   end
 
