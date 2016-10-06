@@ -36,7 +36,6 @@ Website.find_each do |website|
     end
 
     website.custom_pages.find_each do |page|
-      binding.pry
       add website_custom_page_path(page.pathname), :lastmod => page.updated_at
     end
 
