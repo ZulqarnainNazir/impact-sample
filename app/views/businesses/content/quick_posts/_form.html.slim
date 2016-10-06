@@ -6,7 +6,10 @@
     .form-group
       = form.label :published_on, class: 'control-label'
       = form.text_field :published_on, value: (form.object.published_on? ? form.object.published_on : Time.zone.now).try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
-
+      br>
+      = form.label :published_time, class: 'control-label'
+      br>
+      = form.time_select :published_time, ampm: true, minute_step: 5, class: 'form-control', default: { hour: Time.now.hour, min: Time.now.strftime("%M").to_i }
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
 = react_component 'ImagePlacement',
   imagesPath: business_images_path(form.object.business),
