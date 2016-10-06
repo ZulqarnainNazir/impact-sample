@@ -47,7 +47,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
     post_path = website_offer_path(@offer)
-    @preview_url = host + port + post_path
+    @preview_url = @offer.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @offer.id]
   end
 
 

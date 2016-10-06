@@ -4,7 +4,7 @@
     = form.text_field :title, class: 'form-control', placeholder: 'Add a 5-12 word description of what you’re comparing in your post.'
     br>
     - if @before_after.persisted?
-      = link_to "Preview Post", "http://#{@preview_url}", class: 'btn btn-block btn-default', :target => "_blank"
+      = link_to "Preview Post", url_for(@preview_url), class: 'btn btn-block btn-default', :target => "_blank"
   .col-sm-4
     .form-group
       = form.label :published_on, class: 'control-label'

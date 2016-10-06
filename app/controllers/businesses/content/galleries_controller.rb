@@ -34,6 +34,14 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     intercom_event 'created-gallery'
   end
 
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_gallery_path(@gallery)
+    @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => @gallery.id]
+  end
+
+
   def update
     @gallery.update(gallery_params)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]

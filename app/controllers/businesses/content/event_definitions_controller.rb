@@ -95,9 +95,8 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     def edit
       port = ":#{request.try(:port)}" if request.port
       host = website_host @business.website
-      e = @event_definition.events.first
       post_path = website_event_path
-      @preview_url = host + port + post_path
+      @preview_url = @event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event_definition.id]
     end
 
   def destroy

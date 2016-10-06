@@ -70,7 +70,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
     post_path = website_post_path(@post)
-    @preview_url = host + port + post_path
+    @preview_url = @post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), :id => @post.id]
   end
 
   def destroy
