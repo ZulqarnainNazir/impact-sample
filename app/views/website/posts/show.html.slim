@@ -1,4 +1,4 @@
-- if (@post.published_status == false unless @preview)
+- if (@post.published_status == false || @preview)
   - title "This post is not yet published"
   - description "This post is not yet published"
 - else
