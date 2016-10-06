@@ -46,8 +46,20 @@ class Post < ActiveRecord::Base
   end
 
   def arranged_sections
-    post_sections.arrange(order: :id).map do |section, arrangement|
-      add_cached_children(section, arrangement)
+    sections = false
+    p = post_sections.each do |f|
+      if !f.position.nil? && f.position.integer? && f.position > 0
+        sections = true
+      end
+    end
+    if sections == false
+      post_sections.arrange(order: :id).map do |section, arrangement|
+        add_cached_children(section, arrangement)
+      end
+    elsif sections == true
+      post_sections.arrange(order: :position).map do |section, arrangement|
+        add_cached_children(section, arrangement)
+      end
     end
   end
 
