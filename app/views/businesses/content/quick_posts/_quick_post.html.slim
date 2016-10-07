@@ -6,10 +6,10 @@
       code
         small Draft
     span.pull-right
-      - if quick_post.published_on > Time.zone.now
-        span.text-muted> Will Post #{time_ago_in_words quick_post.published_at} from now
+      - if quick_post.published_on || quick_post.updated_at > Time.zone.now
+        span.text-muted> Will Post #{time_ago_in_words quick_post.published_at || quick_post.updated_at } from now
       - else
-        span.text-muted> Posted #{time_ago_in_words quick_post.published_at} ago
+        span.text-muted> Posted #{time_ago_in_words quick_post.published_at || quick_post.updated_at } ago
       - if quick_post.content_categories.any? || quick_post.content_tags.any?
         span.text-muted> in
         - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|

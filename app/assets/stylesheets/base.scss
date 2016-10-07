@@ -1,10 +1,12 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+@import 'bootstrap-datetimepicker';
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 @import 'components/**/*';
 @import 'views/**/*';
 @import 'variables';
+
 
 input[type="checkbox"] {
   cursor: pointer;

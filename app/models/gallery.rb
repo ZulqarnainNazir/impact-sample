@@ -46,7 +46,7 @@ class Gallery < ActiveRecord::Base
   end
 
   def published_at
-    published_on.to_time + created_at.seconds_since_midnight.seconds
+    published_on + created_at.seconds_since_midnight.seconds if published_on
   end
 
   def sorting_date
