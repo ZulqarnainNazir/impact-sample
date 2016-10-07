@@ -7,6 +7,7 @@ RichTextEditor = React.createClass
 
   getDefaultProps: ->
     inline: false
+    enabled: true
 
   componentDidMount: ->
     if this.props.enabled
@@ -34,6 +35,13 @@ RichTextEditor = React.createClass
       onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
       onPaste: this.onPaste
       airMode: true
+      cleaner: {
+            notTime:2400,
+            action:'both',
+            newline:'<br>',
+            notStyle:'position:absolute;bottom:0;left:2px',
+            icon:'<i class="note-icon">[Your Button]</i>'
+          }
     if this.props.update
       $.extend {}, defaults, onChange: this.props.update
     else defaults
@@ -41,6 +49,7 @@ RichTextEditor = React.createClass
   summernoteToolbar: ->
     if this.props.inline
       [
+        ['cleaner',['cleaner']],
         ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
         ['align', ['paragraph']],
         ['clear', ['clear']],
@@ -48,6 +57,7 @@ RichTextEditor = React.createClass
       ]
     else
       [
+        ['cleaner',['cleaner']],
         ['display', ['style']],
         ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
         ['insert', ['link']],
