@@ -64,6 +64,7 @@ hr
       .form-group.text-center
         = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
 
-$('#datetimepicker').datetimepicker({
-    format: 'ddd, D MMM YYYY h:mm:ss ZZ'
-});
+javascript:
+  $('#datetimepicker').datetimepicker({
+      format: 'ddd, D MMM YYYY h:mm:ss ZZ'
+  });
