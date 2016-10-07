@@ -41,6 +41,10 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def default_published_on
+    self.published_on ||= self.created_at
+  end
+
   def as_indexed_json(options = {})
     as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
@@ -107,7 +111,7 @@ class Post < ActiveRecord::Base
   end
 
   def published_at
-    published_on + created_at.seconds_since_midnight.seconds if published_on
+    published_on || updated_at
   end
 
   def to_generic_param

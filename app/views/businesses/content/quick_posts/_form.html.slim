@@ -12,7 +12,6 @@
         = form.text_field :published_on, :class => "form-control"
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
-
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
 = react_component 'ImagePlacement',
   imagesPath: business_images_path(form.object.business),
@@ -55,5 +54,7 @@ hr
 
 javascript:
   $(function () {
-    $('#datetimepicker').datetimepicker();
+    $('#datetimepicker').datetimepicker({
+        format: 'ddd, D MMM YYYY h:mm:ss ZZ'
+    });
   });

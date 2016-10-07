@@ -137,7 +137,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def post_facebook_params
-    if @post.published_on > Time.now
+    if @post.published_at > Time.now
       {
         caption: truncate(Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @post, only_path: false, host: website_host(@business.website)]),
