@@ -40,7 +40,7 @@ class QuickPost < ActiveRecord::Base
   end
 
   def published_at
-    published_on || updated_at
+    published_on.present? ? published_on : updated_at
   end
 
   def sorting_date

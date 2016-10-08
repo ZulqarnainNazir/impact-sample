@@ -13,9 +13,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def create
     @before_after = BeforeAfter.new(before_after_params)
     @before_after.business = @business
-    binding.pry
     @before_after.save!
-    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params

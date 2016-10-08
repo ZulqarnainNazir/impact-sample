@@ -11,9 +11,15 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def create
+    binding.pry
+    binding.pry
+    # quick_post_params['published_on'].to_datetime.change(:offset => "+0000")
     @quick_post = QuickPost.new(quick_post_params)
+    binding.pry
     @quick_post.business = @business
+    binding.pry
     @quick_post.save!
+    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
@@ -42,7 +48,10 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def update
+    binding.pry
+    binding.pry
     @quick_post.update(quick_post_params)
+    binding.pry
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @quick_post.facebook_id?
