@@ -15,6 +15,7 @@ Rails.application.configure do
   config.log_level = :warn
   config.log_tags = [:uuid]
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.time_zone = 'UTC'
 
   config.action_mailer.smtp_settings = {
     address: Rails.application.secrets.aws_ses_smtp_address,

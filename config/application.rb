@@ -14,7 +14,7 @@ module Impact
     config.generators { |g| g.helper false }
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/*.yml')]
     config.session_store :cookie_store, key: '_impact_session'
-
+    config.time_zone = "Pacific Time (US & Canada)"
     # Paperclip
     config.paperclip_defaults = {
       storage: :s3,
