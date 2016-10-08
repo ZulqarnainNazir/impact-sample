@@ -1,10 +1,7 @@
 class ContentFeedSearch
   def initialize(business, unpublished, query = '')
-    binding.pry
     @business = business
     @query = query.to_s.strip
-    binding.pry
-    binding.pry
     @unpublished = unpublished
   end
 
