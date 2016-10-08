@@ -14,21 +14,25 @@ ol.breadcrumb
           ' Search
     br>
     span.pull-right.content-checkboxes
-      p Filter By:
-      = label_tag :published_status, "Drafts "
-      = check_box_tag :draft_items, params[:draft_items], true
-      = label_tag :published_status, "Published"
-      = check_box_tag :published_items, params[:published_items], true
+      p Include:
+      span style="font-size:14px;"
+        = check_box_tag "unpublished", true, class: '', style: 'padding-right: 2px; margin:0px;'
+      span style="font-size:14px;"
+        ' Unpublished
       br>
 br>
 br>
 hr
-p
-  = page_entries_info @results, entry_name: 'item'
-  - if params[:query].to_s.strip.present?
-    '  matching
-    strong: em = params[:query].to_s.strip
-  | .
+- if @results.empty?
+   p
+     'Sorry, there are no results matching that query.
+- else
+   p
+    = page_entries_info @results, entry_name: 'item'
+    - if params[:query].to_s.strip.present?
+      '  matching
+      strong: em = params[:query].to_s.strip
+    | .
 = render @results
 hr
 = paginate @results

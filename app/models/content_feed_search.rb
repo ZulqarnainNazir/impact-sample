@@ -1,8 +1,8 @@
 class ContentFeedSearch
-  def initialize(business, query = '', filters)
+  def initialize(business, unpublished, query = '')
     @business = business
     @query = query.to_s.strip
-    @filters = filters
+    @unpublished = unpublished
   end
 
   def search
@@ -17,6 +17,14 @@ class ContentFeedSearch
         ],
       },
     }
+
+    if @unpublished == 'false'
+      dsl[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
 
     if @query.present?
       dsl[:query] = {
