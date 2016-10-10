@@ -74,6 +74,15 @@ class Business < ActiveRecord::Base
     validates :category_ids, presence: true
   end
 
+  def self.search(search)
+    if search
+      where('LOWER(name) LIKE ?', "%#{search.downcase}%")
+    else
+      all
+    end
+  end
+
+
   def self.alphabetical
     order('LOWER(name) ASC')
   end

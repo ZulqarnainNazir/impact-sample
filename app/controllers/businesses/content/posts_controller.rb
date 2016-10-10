@@ -12,14 +12,11 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     @post = @business.posts.find(params[:id])
   end
 
-  def edit
-    binding.pry
-    @b = 1
-    binding.pry
-  end
-
   def create
     @post = Post.new(post_params)
+    @post.post_sections.each do |ps|
+      ps.post = @post
+    end
     @post.business = @business
     @post.save!
     fix_post_section_parent_ids(@post.post_sections)
@@ -39,6 +36,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
        @post.published_status = true
        redirect_to business_content_feed_path @business if @post.save
     end
+
     Post.__elasticsearch__.refresh_index!
     intercom_event 'created-custom-post'
   end
@@ -67,9 +65,8 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
        @post.published_status = true
        redirect_to business_content_feed_path @business if @post.save
     end
-    Post.__elasticsearch__.index_document
+    Post.__elasticsearch__.index_name
     Post.__elasticsearch__.refresh_index!
-
   end
 
   def edit

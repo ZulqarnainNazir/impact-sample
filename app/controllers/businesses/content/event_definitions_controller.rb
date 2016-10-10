@@ -57,7 +57,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
        end
     else
        @event_definition.published_status = true
-       @event_definition.save
+       redirect_to business_content_feed_path @business if @event_definition.save
     end
     @event_definition.__elasticsearch__.index_document
     EventDefinition.__elasticsearch__.refresh_index!
