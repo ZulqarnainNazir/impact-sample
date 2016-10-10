@@ -12,12 +12,6 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     @post = @business.posts.find(params[:id])
   end
 
-  def edit
-    binding.pry
-    @b = 1
-    binding.pry
-  end
-
   def create
     @post = Post.new(post_params)
     @post.business = @business

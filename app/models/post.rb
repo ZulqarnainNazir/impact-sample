@@ -88,7 +88,6 @@ class Post < ActiveRecord::Base
     roots = sections.select do |section|
       section.parent_key.blank?
     end
-    # binding.pry
     add_keyed_cached_children roots, sections
     # binding.pry
     # roots.arrange(order: :id).map do |section, arrangement|
@@ -140,11 +139,7 @@ class Post < ActiveRecord::Base
       section.cached_children = add_keyed_cached_children(children, all_sections)
       section
     end.sort do |a, b|
-      if(a.position == nil || b.position == nil)
-         binding.pry
-         a.id.to_i < b.id.to_i
-      end
-      a.position.to_i <=> b.position.to_i
+      a.id.to_i <=> b.id.to_i
     end
   end
 
