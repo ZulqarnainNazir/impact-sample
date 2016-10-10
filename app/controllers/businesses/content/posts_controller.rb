@@ -38,6 +38,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def update
+    binding.pry
     @post.update(post_params)
     @post.save!
     fix_post_section_parent_ids(@post.post_sections)
@@ -61,9 +62,10 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
        @post.published_status = true
        redirect_to business_content_feed_path @business if @post.save
     end
-    Post.__elasticsearch__.index_document
+    binding.pry
+    Post.__elasticsearch__.index_name
+    binding.pry
     Post.__elasticsearch__.refresh_index!
-
   end
 
   def edit
