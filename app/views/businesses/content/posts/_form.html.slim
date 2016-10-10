@@ -5,13 +5,12 @@
       = form.text_field :title, class: 'form-control', placeholder: 'Add a descriptive 5-12 word title for your post'
       br>
       - if @post.persisted?
-
         = link_to "Preview Post", url_for(@preview_url), class: 'btn btn-block btn-default', :target => "_blank"
   .col-sm-4
     .form-group
       = form.label :published_on, class: 'control-label'
       .input-group.date#datetimepicker
-        = form.text_field :published_on, :class => "form-control"
+        = form.text_field :published_on, :value => (@post.published_on.present? ? @post.published_on.strftime("%a, %d %b %Y %H:%M:%S") : DateTime.now.strftime("%a, %d %b %Y %H:%M:%S") ), :class => "form-control"
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
