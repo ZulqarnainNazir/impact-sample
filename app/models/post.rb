@@ -69,30 +69,21 @@ class Post < ActiveRecord::Base
 
   def keyed_arranged_sections
     sections = post_sections.to_a
-    # binding.pry
     sections.each do |section|
       if section.key.blank?
         section.key = SecureRandom.uuid
       end
     end
-    # binding.pry
     sections.each do |section|
       if section.parent_key.blank?
-        # binding.pry
         parent = sections.find { |s| s.persisted? && s.id == section.parent_id }
         section.parent_key = parent.key if parent
-        # binding.pry
       end
     end
-    # binding.pry
     roots = sections.select do |section|
       section.parent_key.blank?
     end
     add_keyed_cached_children roots, sections
-    # binding.pry
-    # roots.arrange(order: :id).map do |section, arrangement|
-    #   add_keyed_cached_children(section, arrangement)
-    # end
   end
 
   def sections_html
