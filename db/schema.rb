@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927210402) do
+ActiveRecord::Schema.define(version: 20161010232652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,10 +38,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
@@ -287,10 +287,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
@@ -385,6 +385,16 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.json     "settings"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.string   "business_street_1"
+    t.string   "business_street_2"
+    t.string   "business_city"
+    t.string   "business_state"
+    t.string   "business_zip_code"
+    t.string   "business_fax_number"
+    t.boolean  "hide_business_address"
+    t.boolean  "hide_business_fax"
+    t.float    "business_lat"
+    t.float    "business_long"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
@@ -423,10 +433,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "coupon_updated_at"
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
@@ -501,12 +511,12 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "description"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.datetime "published_on"
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
@@ -520,10 +530,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree

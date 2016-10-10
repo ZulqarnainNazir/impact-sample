@@ -34,12 +34,24 @@ html lang="en"
       .webpage-background a {
         color: #{@website.link_color};
       }
+      .webpage-block a {
+        color: #{@website.link_color};
+      }
+      .webpage-footer {
+        background-color: #{@website.footer_block.settings['background_color']} !important;
+        color: #{@website.footer_block.settings['foreground_color']} !important;
+      }
+      .webpage-footer a{
+        color: #{@website.footer_block.settings['link_color']} !important;
+      }
       .webpage-footer .site-footer-simple {
-        color: #{@website.foreground_color};
+        background-color: #{@website.footer_block.settings['background_color']} !important;
+        color: #{@website.footer_block.settings['foreground_color']} !important;
       }
       .webpage-footer .site-footer-simple a,
       .webpage-footer .site-footer-simple a:hover {
-        color: #{@website.link_color} !important;
+        background-color: #{@website.footer_block.settings['background_color']} !important;
+        color: #{@website.footer_block.settings['link_color']} !important;
       }
       .webpage-header .navbar {
         background-color: #{@website.header_block.try(:background_color)};
@@ -51,14 +63,14 @@ html lang="en"
       }
       .webpage-footer .site-footer-columns .site-footer-upper,
       .webpage-footer .site-footer-layers {
-        background-color: #{@website.footer_block.try(:background_color)};
-        color: #{@website.footer_block.try(:foreground_color)};
+        background-color: #{@website.footer_block.settings['background_color']} !important;
+        color: #{@website.footer_block.settings['foreground_color']} !important;
       }
       .webpage-footer .site-footer-columns .site-footer-upper a,
       .webpage-footer .site-footer-columns .site-footer-upper a:hover,
       .webpage-footer .site-footer-layers a,
       .webpage-footer .site-footer-layers a:hover {
-        color: #{@website.footer_block.try(:link_color)} !important;
+        color: #{@website.footer_block.settings['link_color']} !important;
       }
       #{@website.custom_css}
   - if ENV['GOOGLE_ANALYTICS'].present?
@@ -83,9 +95,9 @@ html lang="en"
       - unless @page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1'
         .webpage-footer
           = render @website.footer_block
-    .text-center style="margin: 1em 0"
-      = link_to 'http://www.impactmarketingsuite.com', target: :_blank do
-        = image_tag 'impact-footer.png', alt: 'IMPACT Marketing Suite for Local Businesses'
-    = @website.footer_injection.try(:html_safe)
-    = yield :javascript
-    = intercom_tag
+          .text-center style="margin: 1em 0"
+            = link_to 'http://www.impactmarketingsuite.com', target: :_blank do
+              = image_tag 'impact-footer.png', alt: 'IMPACT Marketing Suite for Local Businesses'
+            = @website.footer_injection.try(:html_safe)
+          = yield :javascript
+          = intercom_tag

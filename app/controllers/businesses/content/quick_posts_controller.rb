@@ -42,13 +42,6 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     @preview_url = @quick_post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @quick_post.id]
   end
 
-  def edit
-    port = ":#{request.try(:port)}" if request.port
-    host = website_host @business.website
-    post_path = website_quick_post_path(@quick_post)
-    @preview_url = host + port + post_path
-  end
-
   def update
     @quick_post.update(quick_post_params)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
@@ -61,6 +54,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
          @quick_post.published_status = true
          redirect_to business_content_feed_path @business if @quick_post.save
       end
+    end
     if params[:draft]
        @quick_post.published_status = false
        if @quick_post.save
