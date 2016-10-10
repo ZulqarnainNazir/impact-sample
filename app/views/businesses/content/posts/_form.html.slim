@@ -10,7 +10,7 @@
     .form-group
       = form.label :published_on, class: 'control-label'
       .input-group.date#datetimepicker
-        = form.text_field :published_on, :value => (@post.published_on.present? ? @post.published_on.strftime("%a, %d %b %Y %H:%M:%S") : DateTime.now.strftime("%a, %d %b %Y %H:%M:%S") ), :class => "form-control"
+        = form.text_field :published_on, :value => (@post.published_on.present? ? @post.published_on.strftime("%a, %d %b %Y %H:%M:%S") : DateTime.now.strftime("%a, %d %b %Y %H:%M:%S %p") ), :class => "form-control"
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
