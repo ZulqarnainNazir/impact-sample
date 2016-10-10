@@ -41,7 +41,6 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => @before_after.id]
   end
 
-
   def update
     @before_after.update(before_after_params)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
@@ -56,7 +55,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     if params[:draft]
        @before_after.published_status = false
        if @before_after.save
-         redirect_to edit_business_content_quick_post_path(@business, @before_after), notice: "Draft created successfully"
+         redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end

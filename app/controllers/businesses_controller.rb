@@ -2,6 +2,6 @@ class BusinessesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @businesses = current_user.authorized_businesses.alphabetical.page(params[:page]).per(24)
+    @businesses = current_user.authorized_businesses.alphabetical.search(params[:search]).page(params[:page]).per(24)
   end
 end

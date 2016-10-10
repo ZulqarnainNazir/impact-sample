@@ -13,6 +13,9 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     @gallery = Gallery.new(gallery_params)
     @gallery.business = @business
+    @gallery.gallery_images.each do |image|
+      image.gallery = @gallery
+    end
     @gallery.save!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -22,13 +25,13 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     if params[:draft]
        @gallery.published_status = false
        if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
+         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
     else
-     @gallery.published_status = true
-    redirect_to business_content_feed_path @business if @gallery.save
+      @gallery.published_status = true
+      redirect_to business_content_feed_path @business if @gallery.save
     end
     Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
@@ -41,9 +44,9 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => @gallery.id]
   end
 
-
   def update
     @gallery.update(gallery_params)
+    @gallery.generate_slug
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @gallery.facebook_id?
@@ -61,7 +64,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
          return
        end
     else
-     @gallery.published_status = true
+    @gallery.published_status = true
     redirect_to business_content_feed_path @business if @gallery.save
     end
     @gallery.__elasticsearch__.index_document
