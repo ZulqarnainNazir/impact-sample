@@ -4,7 +4,6 @@ $.fn.wysihtmlEditor = ->
   editor = this
 
   editor.summernote
-    airMode: true
     height: 200
     toolbar: [
       ['display', ['style']],
