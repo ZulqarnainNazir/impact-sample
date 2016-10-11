@@ -29,7 +29,7 @@ class ContentFeedSearch
     if @unpublished != 'true' && @published == 'true'
       dsl[:filter][:and] << {
         term: {
-          published_status: true,
+          published_status: !false,
         },
       }
     end
