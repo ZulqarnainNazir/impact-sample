@@ -6,7 +6,7 @@
       code
         small Draft
     span.pull-right
-      - if offer.published_at > DateTime.new
+      - if offer.published_at > DateTime.now
         span.text-muted> Will Post #{time_ago_in_words offer.published_at} from now
       - else
         span.text-muted> Posted #{time_ago_in_words offer.published_at} ago
