@@ -8,6 +8,8 @@
     span.pull-right
       - if gallery.published_at > DateTime.now
         span.text-muted> Will Post #{time_ago_in_words gallery.published_at} from now
+      - elsif gallery.published_status == false
+        div
       - else
         span.text-muted> Posted #{time_ago_in_words gallery.published_at} ago
       - if gallery.content_categories.any? || gallery.content_tags.any?

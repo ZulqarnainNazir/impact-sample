@@ -8,6 +8,8 @@
     span.pull-right
       - if post.published_at > DateTime.now
         span.text-muted> Will Post #{time_ago_in_words post.published_at } from now
+      - elsif post.published_status == false
+        div
       - else
         span.text-muted> Posted #{time_ago_in_words post.published_at } ago
       - if post.content_categories.any? || post.content_tags.any?
