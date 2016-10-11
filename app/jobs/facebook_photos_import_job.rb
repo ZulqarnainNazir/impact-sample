@@ -4,7 +4,7 @@ class FacebookPhotosImportJob < ApplicationJob
     token = oauth.get_app_access_token
     graph = Koala::Facebook::API.new(token)
     album_limit = 10
-    photo_limit = 20
+    photo_limit = 50
 
     graph.get_connections(business.facebook_id, 'albums')[0..album_limit].each do |album|
       graph.get_connections(album['id'], 'photos')[0..photo_limit].each do |photo|

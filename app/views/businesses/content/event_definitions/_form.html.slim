@@ -6,6 +6,9 @@
     .form-group
       = form.label :subtitle, class: 'control-label'
       = form.text_field :subtitle, class: 'form-control', placeholder: 'Add a brief 4-10 word subtitle for your event.'
+      br>
+      - if form.object.persisted?
+        = link_to "Preview Post", url_for(@preview_url), class: 'btn btn-block btn-default', :target => "_blank"
     = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
     = react_component 'ImagePlacement',
       imagesPath: business_images_path(form.object.business),
@@ -89,8 +92,24 @@ hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
 .row
-  .col-sm-4
-    = form.button 'Save Event', class: 'btn btn-block btn-primary'
+  - if (form.object.persisted? && form.object.published_status == false)
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - elsif form.object.persisted?
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Update Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - else
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Save and Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
 
 - content_for :javascript do
   #js-event-location-new-modal.modal.fade

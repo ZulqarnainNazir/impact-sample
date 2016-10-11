@@ -2,8 +2,11 @@
   .feed-item-meta
     => icon 'ticket'
     strong> Offer
+    - if offer.published_status == false
+      code
+        small Draft
     span.pull-right
-      - if offer.published_on > Time.zone.now
+      - if offer.published_at > DateTime.now
         span.text-muted> Will Post #{time_ago_in_words offer.published_at} from now
       - else
         span.text-muted> Posted #{time_ago_in_words offer.published_at} ago
@@ -21,7 +24,10 @@
         = link_to icon('copy'), [:clone, @business, :content, offer], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, offer], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   - if @business.website
-    h2 = link_to offer.title, [:website, offer, only_path: false, host: website_host(@business.website)], target: :_blank
+    - if offer.published_status == false
+      h2.h3 = link_to offer.title, [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => website_host(@business.website), :id => offer.id], target: :_blank
+    -else
+      h2 = link_to offer.title, [:website, offer, only_path: false, host: website_host(@business.website)], target: :_blank
   - else
     h2 = offer.title
   .offer-row class=(offer.kind || 'image_left')

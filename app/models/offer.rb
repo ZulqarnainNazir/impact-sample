@@ -3,7 +3,6 @@ class Offer < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
-
   attr_accessor :minimal_validations
 
   enum kind: {
@@ -60,8 +59,14 @@ class Offer < ActiveRecord::Base
   end
 
   def published_at
-    published_on.to_time + created_at.seconds_since_midnight.seconds rescue nil
+    published_on || updated_at
   end
+
+
+  def default_published_on
+    self.published_on ||= self.created_at
+  end
+
 
   def sorting_date
     published_at
@@ -69,9 +74,9 @@ class Offer < ActiveRecord::Base
 
   def to_generic_param
     {
-      year: published_on.strftime('%Y'),
-      month: published_on.strftime('%m'),
-      day: published_on.strftime('%d'),
+      year: published_at.strftime('%Y'),
+      month: published_at.strftime('%m'),
+      day: published_at.strftime('%d'),
       id: id,
       slug: slug,
     }

@@ -2,9 +2,14 @@
   .feed-item-meta
     => icon 'tasks'
     strong> Before &amp; After
+    - if before_after.published_status == false
+      code
+        small Draft
     span.pull-right
-      - if before_after.published_on > Time.zone.now
+      - if before_after.published_at > DateTime.now
         span.text-muted> Will Post #{time_ago_in_words before_after.published_at} from now
+      - elsif quick_post.published_status == false
+        div
       - else
         span.text-muted> Posted #{time_ago_in_words before_after.published_at} ago
       - if before_after.content_categories.any? || before_after.content_tags.any?
@@ -20,7 +25,10 @@
         = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   - if @business.website
-    h2.h3 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website)], target: :_blank
+    - if before_after.published_status == false
+      h2.h3 = link_to before_after.title, [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => before_after.id], target: :_blank
+    - else
+      h2.h3 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website)], target: :_blank
   - else
     h2.h3 = before_after.title
   - if before_after.before_image || before_after.after_image

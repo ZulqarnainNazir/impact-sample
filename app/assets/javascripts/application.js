@@ -1,7 +1,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require jquery.remotipart.js
 //= require turbolinks
 //= require react
 //= require react_ujs
@@ -13,6 +12,8 @@
 //= require jquery.minicolors
 //= require recurring_select
 //= require summernote
+//= require moment
+//= require bootstrap-datetimepicker
 //= require twitter/typeahead.min
 //= require_tree ./plugins
 //= require_tree ./scripts

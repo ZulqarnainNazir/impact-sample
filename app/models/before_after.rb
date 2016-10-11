@@ -38,7 +38,7 @@ class BeforeAfter < ActiveRecord::Base
   end
 
   def published_at
-    published_on.to_time + created_at.seconds_since_midnight.seconds
+    published_on || updated_at
   end
 
   def sorting_date
@@ -47,9 +47,9 @@ class BeforeAfter < ActiveRecord::Base
 
   def to_generic_param
     {
-      year: published_on.strftime('%Y'),
-      month: published_on.strftime('%m'),
-      day: published_on.strftime('%d'),
+      year: published_at.strftime('%Y'),
+      month: published_at.strftime('%m'),
+      day: published_at.strftime('%d'),
       id: id,
       slug: slug,
     }

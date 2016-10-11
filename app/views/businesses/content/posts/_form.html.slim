@@ -3,10 +3,16 @@
     .form-group
       = form.label :title, class: 'control-label'
       = form.text_field :title, class: 'form-control', placeholder: 'Add a descriptive 5-12 word title for your post'
+      br>
+      - if @post.persisted?
+        = link_to "Preview Post", url_for(@preview_url), class: 'btn btn-block btn-default', :target => "_blank"
   .col-sm-4
     .form-group
       = form.label :published_on, class: 'control-label'
-      = form.text_field :published_on, value: (form.object.published_on? ? form.object.published_on : Time.zone.now).try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+      .input-group.date#datetimepicker
+        = form.text_field :published_on, :value => (@post.published_at.present? ? @post.published_at.strftime("%a, %d %b %Y %H:%M:%S %p") : DateTime.now.strftime("%a, %d %b %Y %H:%M:%S %p") ), :class => "form-control"
+        span.input-group-addon
+          span.glyphicon.glyphicon-calendar
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
 ol.post-sections-associations
   - form.object.post_sections.build
@@ -14,6 +20,29 @@ ol.post-sections-associations
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
+
 .row
-  .col-sm-4.col-sm-offset-4
-    = form.button 'Save Post', class: 'btn btn-block btn-primary'
+  - if (form.object.persisted? && form.object.published_status == false)
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - elsif form.object.persisted?
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Update Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+  - else
+    .col-sm-4.col-sm-offset-2
+      = form.button 'Save and Publish Post', class: 'btn btn-block btn-primary'
+    .col-sm-4
+      .form-group.text-center
+        = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+javascript:
+  $(function () {
+    $('#datetimepicker').datetimepicker({
+        format: 'ddd, D MMM YYYY h:mm A ZZ'
+    });
+  });

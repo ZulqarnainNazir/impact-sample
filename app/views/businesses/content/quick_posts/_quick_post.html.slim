@@ -1,11 +1,15 @@
-h1 A
 .feed-item.feed-quick_post
   .feed-item-meta
     => icon 'text-file-o'
     strong> Quick Post
+    - if quick_post.published_status == false
+      code
+        small Draft
     span.pull-right
-      - if quick_post.published_on > Time.zone.now
-        span.text-muted> Will Post #{time_ago_in_words quick_post.published_at} from now
+      - if quick_post.published_at > DateTime.now
+        span.text-muted> Will Post #{time_ago_in_words quick_post.published_at } from now
+      - elsif quick_post.published_status == false
+        div
       - else
         span.text-muted> Posted #{time_ago_in_words quick_post.published_at} ago
       - if quick_post.content_categories.any? || quick_post.content_tags.any?
@@ -21,7 +25,10 @@ h1 A
         = link_to icon('pencil'), [:edit, @business, :content, quick_post], class: 'btn btn-default'
         = link_to icon('trash'), [@business, :content, quick_post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   - if @business.website
-    h2.h3 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(@business.website)], target: :_blank
+    - if quick_post.published_status == false
+      h2.h3 = link_to quick_post.title, [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => quick_post.id], target: :_blank
+    - else
+      h2.h3 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(@business.website)], target: :_blank
   - else
     h2.h3 = quick_post.title
   - placement = quick_post.quick_post_image_placement

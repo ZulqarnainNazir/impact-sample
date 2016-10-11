@@ -11,41 +11,62 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   end
 
   def create
-    create_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
-            @gallery.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        Gallery.__elasticsearch__.refresh_index!
-        intercom_event 'created-gallery'
-      end
+    @gallery = Gallery.new(gallery_params)
+    @gallery.business = @business
+    @gallery.save!
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
+      @gallery.update_column :facebook_id, result['id']
     end
+    if params[:draft]
+       @gallery.published_status = false
+       if @gallery.save
+         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+     @gallery.published_status = true
+    redirect_to business_content_feed_path @business if @gallery.save
+    end
+    Gallery.__elasticsearch__.refresh_index!
+    intercom_event 'created-gallery'
   end
 
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_gallery_path(@gallery)
+    @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => @gallery.id]
+  end
+
+
   def update
-    update_resource @gallery, gallery_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @gallery.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
-              @gallery.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        @gallery.__elasticsearch__.index_document
-        Gallery.__elasticsearch__.refresh_index!
+    @gallery.update(gallery_params)
+    @gallery.generate_slug
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @gallery.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
+        @gallery.update_column :facebook_id, result['id']
       end
     end
+    if params[:draft]
+       @gallery.published_status = false
+       if @gallery.save
+         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+    @gallery.published_status = true
+    redirect_to business_content_feed_path @business if @gallery.save
+    end
+    @gallery.__elasticsearch__.index_document
+    Gallery.__elasticsearch__.refresh_index!
   end
 
   def destroy
@@ -70,6 +91,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       :description,
       :meta_description,
       :published_on,
+      :published_time,
       :title,
       content_category_ids: [],
       content_tag_ids: [],

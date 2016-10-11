@@ -2,8 +2,18 @@
     .pdf-upload {
         padding: 10px;
 
+        .img-responsive {
+            color: #337ab7;
+            font-size: 8vw;
+            width: 100%;
+
+        }
+
         .pdf-details {
             font-size: 12px;
+        }
+        .img-responsive i{
+          font-size: 10vw;
         }
 
         .copy-pdf {

@@ -34,7 +34,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     @business = Business.find(params[:business_id])
     @pdf = Pdf.find(params[:id])
   end
-
   private
 
   def pdf_params

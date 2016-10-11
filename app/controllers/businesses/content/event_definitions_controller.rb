@@ -39,44 +39,65 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   end
 
  def create
-    create_resource @event_definition, event_definition_params, location: [@business, :content_feed] do |success|
-      if success
-        @event_definition.reschedule_events!
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
-            @event_definition.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        @event_definition.__elasticsearch__.index_document
-        EventDefinition.__elasticsearch__.refresh_index!
-        intercom_event 'created-event'
-      end
+    @event_definition = EventDefinition.new(event_definition_params)
+    @event_definition.business = @business
+    @event_definition.save!
+    @event_definition.reschedule_events!
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
+      @event_definition.update_column :facebook_id, result['id']
     end
+    if params[:draft]
+       @event_definition.published_status = false
+       if @event_definition.save
+         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @event_definition.published_status = true
+       @event_definition.save
+    end
+    @event_definition.__elasticsearch__.index_document
+    EventDefinition.__elasticsearch__.refresh_index!
+    intercom_event 'created-event'
   end
 
   def update
-    update_resource @event_definition, event_definition_params, location: [@business, :content_feed] do |success|
-      if success
-        @event_definition.reschedule_events!
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @event_definition.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
-              @event_definition.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        EventDefinition.__elasticsearch__.refresh_index!
+    @event_definition.update(event_definition_params)
+    @event_definition.save!
+    @event_definition.reschedule_events!
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @event_definition.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
+        @event_definition.update_column :facebook_id, result['id']
       end
     end
+    if params[:draft]
+       @event_definition.published_status = false
+       if @event_definition.save
+         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+      @event_definition.published_status = true
+      redirect_to business_content_feed_path @business if @event_definition.save
+    end
+    EventDefinition.__elasticsearch__.refresh_index!
   end
+
+
+    def edit
+      port = ":#{request.try(:port)}" if request.port
+      host = website_host @business.website
+      post_path = website_event_path
+      @preview_url = @event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event_definition.id]
+    end
 
   def destroy
     destroy_resource @event_definition, location: [@business, :content_feed] do |success|

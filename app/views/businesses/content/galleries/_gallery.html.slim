@@ -2,9 +2,14 @@
   .feed-item-meta
     => icon 'photo'
     strong> Gallery
+    - if gallery.published_status == false
+      code
+        small Draft
     span.pull-right
-      - if gallery.published_on > Time.zone.now
+      - if gallery.published_at > DateTime.now
         span.text-muted> Will Post #{time_ago_in_words gallery.published_at} from now
+      - elsif gallery.published_status == false
+        div
       - else
         span.text-muted> Posted #{time_ago_in_words gallery.published_at} ago
       - if gallery.content_categories.any? || gallery.content_tags.any?
@@ -21,7 +26,10 @@
         = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   h2
     - if @business.website
-      => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
+      - if gallery.published_status == false
+        h2.h3 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => gallery.id], target: :_blank
+      - else
+        => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
     - else
       => gallery.title
     span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
