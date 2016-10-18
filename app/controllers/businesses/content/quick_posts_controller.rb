@@ -11,41 +11,69 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def create
-    create_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-            @quick_post.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        QuickPost.__elasticsearch__.refresh_index!
-        intercom_event 'created-quick-post'
-      end
+    @quick_post = QuickPost.new(quick_post_params)
+    @quick_post.business = @business
+    @quick_post.save!
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+      @quick_post.update_column :facebook_id, result['id']
     end
+
+    if params[:draft]
+       @quick_post.published_status = false
+       if @quick_post.save
+         redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @quick_post.published_status = true
+       redirect_to business_content_feed_path @business if @quick_post.save
+    end
+    QuickPost.__elasticsearch__.refresh_index!
+    intercom_event 'created-quick-post'
+  end
+
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_quick_post_path(@quick_post)
+    @preview_url = @quick_post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @quick_post.id]
+  end
+
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_quick_post_path(@quick_post)
+    @preview_url = host + port + post_path
   end
 
   def update
-    update_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @quick_post.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-              @quick_post.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        @quick_post.__elasticsearch__.index_document
-        QuickPost.__elasticsearch__.refresh_index!
+    @quick_post.update(quick_post_params)
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @quick_post.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+        @quick_post.update_column :facebook_id, result['id']
+         @quick_post.published_status = true
+         redirect_to business_content_feed_path @business if @quick_post.save
       end
+    if params[:draft]
+       @quick_post.published_status = false
+       if @quick_post.save
+         redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully"
+         # go straight to post edit page if saved as draft
+         return
+       end
+    else
+       @quick_post.published_status = true
+       redirect_to business_content_feed_path @business if @quick_post.save
     end
+    @quick_post.__elasticsearch__.index_document
+    QuickPost.__elasticsearch__.refresh_index!
   end
 
   def destroy
@@ -70,6 +98,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       :content,
       :meta_description,
       :published_on,
+      :published_time,
       :title,
       content_category_ids: [],
       content_tag_ids: [],

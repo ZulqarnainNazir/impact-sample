@@ -11,12 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-
 ActiveRecord::Schema.define(version: 20160927210402) do
-=======
-ActiveRecord::Schema.define(version: 20160922180311) do
->>>>>>> 718e4e8... added by_appointment for business hours/openings at data/openings/edit
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
