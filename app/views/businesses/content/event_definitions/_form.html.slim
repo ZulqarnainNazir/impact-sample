@@ -11,7 +11,7 @@
         - if @event_definition.published_status == false
           = link_to "Preview Post", [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event_definition.id], class: 'btn btn-block btn-default', :target => "_blank"
         - else
-          = link_to "View Post", @preview_url, class: 'btn btn-block btn-default'
+          = link_to "View Post", [:website, event, only_path: false, host: website_host(@business.website)], class: 'btn btn-block btn-default'
     = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
     = react_component 'ImagePlacement',
       imagesPath: business_images_path(form.object.business),
