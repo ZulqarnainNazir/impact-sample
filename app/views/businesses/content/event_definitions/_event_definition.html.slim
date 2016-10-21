@@ -33,8 +33,8 @@
       - if placement && !placement.embeds? && placement.image
         = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
       .event-info
-        - if @business.website
+        - if event_definition.published_status != true
           h2.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => event_definition.id], target: :_blank
         - else
-          h2.event-title = event_definition.title
+          h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website)], target: :_blank
         .event-desc.truncate = truncate sanitize(event_definition.description), length: 250
