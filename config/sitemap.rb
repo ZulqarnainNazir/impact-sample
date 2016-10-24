@@ -71,7 +71,7 @@ Website.find_each do |website|
       return if website.business.galleries.empty?  
       add website_gallery_path(gallery), :lastmod => gallery.updated_at
       gallery.gallery_images.find_each do |image|
-        return if gallerygallery_images.empty?  
+        return if gallery.gallery_images.empty?  
         add website_gallery_gallery_image_path(gallery, image), :lastmod => image.updated_at
       end
     end
