@@ -16,7 +16,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     @quick_post.save!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+      result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params, scheduled_publish_time: DateTime.now
       @quick_post.update_column :facebook_id, result['id']
     end
 
@@ -105,14 +105,14 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def quick_post_facebook_params
-    
-    if @quick_post.published_at > DateTime.now
+    if @quick_post.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),
         published: true,
+        scheduled_published_time: @quick_post.published_on,
       }
     else
       {

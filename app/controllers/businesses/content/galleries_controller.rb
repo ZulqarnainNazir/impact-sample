@@ -117,13 +117,14 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   end
 
   def gallery_facebook_params
-    if @gallery.published_at > DateTime.now
+    if @gallery.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
         name: @gallery.title,
         picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
         published: true,
+        scheduled_published_time: @gallery.published_on,
       }
     else
       {

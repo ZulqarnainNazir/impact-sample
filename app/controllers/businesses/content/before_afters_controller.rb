@@ -116,13 +116,14 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   end
 
   def before_after_facebook_params
-    if @before_after.published_at > DateTime.now
+    if @before_after.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
         name: @before_after.title,
         picture: @before_after.after_image.try(:attachment_url),
         published: true,
+        scheduled_published_time: @before_after.published_on,
       }
     else
       {
