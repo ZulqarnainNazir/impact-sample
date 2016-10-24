@@ -127,18 +127,17 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   end
 
   def offer_facebook_params
-    if @offer.published_at > Time.now
+    if @offer.published_at > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
         name: @offer.title,
         picture: @offer.offer_image.try(:attachment_url),
-        published: false,
-        scheduled_published_time: @offer.published_at.to_i,
+        published: true,
       }
     else
       {
-        backdated_time: @offer.published_at,
+        backdated_time: @offer.created_at,
         caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
         name: @offer.title,

@@ -140,18 +140,17 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def post_facebook_params
-    if @post.published_at > Time.now
+    if @post.published_at > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @post, only_path: false, host: website_host(@business.website)]),
         name: @post.title,
         picture: @post.post_sections.first.try(:post_section_image).try(:attachment_url),
-        published: false,
-        scheduled_publish_time: @post.published_at.to_i,
+        published: true,
       }
     else
       {
-        backdated_time: @post.published_at,
+        backdated_time: @post.created_at,
         caption: truncate(Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @post, only_path: false, host: website_host(@business.website)]),
         name: @post.title,
