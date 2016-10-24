@@ -17,6 +17,7 @@ dependencies:
 IMPACT uses subdomains, which means you will need to configure your etc/hosts file (on OSX) for the app to run. You can also use Pow if you're familiar with it - it is much easier in general and it is highly recommended that you use it **if** you know how. Otherwise, open your finder on your Mac, then click 'go' in the top toolbar, then paste etc/hosts into "go to folder" and proceed from there. IMPACT listens at port 5000, which means you should add this to the file:
 
 `0.0.0.0     impact.dev  #for IMPACT's homepage`
+
 `0.0.0.0     test-01.impact.dev  #for your own site`
 
 What does "#for your own site" mean? Keep in mind that when you create a user and sign-in, you'll need to create a business to start using IMPACT. That business will get its own subdomain, and this will need to be reflected in your hosts file. The nomenclature for your etc/hosts file should match the name of your business. Therefore, the second entry above could just as easily be "test0001.impact.dev" or "foo.impact.dev" if the business created was "test0001" or "foo". Your hosts file just needs to know what the subdomain is.
