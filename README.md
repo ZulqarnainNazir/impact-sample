@@ -13,6 +13,7 @@ dependencies:
 ## Development
 
 **Configuring Your Hosts File**
+
 IMPACT uses subdomains, which means you will need to configure your etc/hosts file (on OSX) for the app to run. You can also use Pow if you're familiar with it - it is much easier in general and it is highly recommended that you use it **if** you know how. Otherwise, open your finder on your Mac, then click 'go' in the top toolbar, then paste etc/hosts into "go to folder" and proceed from there. IMPACT listens at port 5000, which means you should add this to the file:
 
 `0.0.0.0     impact.dev  #for IMPACT's homepage`
@@ -21,6 +22,7 @@ IMPACT uses subdomains, which means you will need to configure your etc/hosts fi
 What does "#for your own site" mean? Keep in mind that when you create a user and sign-in, you'll need to create a business to start using IMPACT. That business will get its own subdomain, and this will need to be reflected in your hosts file. The nomenclature for your etc/hosts file should match the name of your business. Therefore, the second entry above could just as easily be "test0001.impact.dev" or "foo.impact.dev" if the business created was "test0001" or "foo". Your hosts file just needs to know what the subdomain is.
 
 **Setting Up Your Environment Variables**
+
 Make sure to set the following ENV variables in a `.env` file:
 
 * `AWS_ACCESS_KEY_ID`
@@ -48,6 +50,7 @@ To refresh the indices at a later time, run:
 `rake environment elasticsearch:import:all`
 
 **What You Need Running in Terminal**
+
 As indicated by the dependencies listed earlier, you will need to have ElasticSearch and Redis running for the app to work. If you do not have these installed, do so, preferably using Homebrew where applicable. You should also be passingly familiar (at least) with what ElasticSearch and Redis do and how they work. This is especially relevant for ElasticSearch, as it is leveraged in the app extensively and a fundamental knowledge of how it works and how to manipulate it will save you time and frustration. Please keep in mind that IMPACT does **not** use SearchKick to handle ElasticSearch. If you're only familiar with SearchKick, read the documentation on the gems used for ES in IMPACT. It should make sense after a read through or two.
 
 Once you have completed the above (the dependencies installed; your host file configured; your AWS configured and env variables set and ElasticSearch indices created, etc.), cd to your root Rails folder in Terminal. Open up a few tabs. In one tab, run the command:
