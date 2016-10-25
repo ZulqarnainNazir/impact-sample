@@ -14,7 +14,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     @before_after = BeforeAfter.new(before_after_params)
     @before_after.business = @business
     @before_after.save!
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @before_after.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
       @before_after.update_column :facebook_id, result['id']
@@ -43,7 +43,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
   def update
     @before_after.update(before_after_params)
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @before_after.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @before_after.facebook_id?
         # Update Post

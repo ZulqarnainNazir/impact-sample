@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
 	// check when clicking off or on timepicker and when visiting page for first time
+    // checkTime();
 	$('#datetimepicker').click(function(){
 		checkTime();
 	});
