@@ -14,20 +14,17 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     @pdf = @business.pdfs.new(user: current_user)
   end
 
-  def create
+  def create    
     @pdf = Pdf.new(pdf_params)
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
+
     respond_to do |format|
       if @pdf.save
         flash[:notice] = 'PDF was successfully created.'
-        format.html { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
         format.js { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
-        format.json { render :show, status: :created, location: @pdf }
       else
-        format.html { render :new, notice: 'PDF not created' }
         format.js { render :new, notice: 'PDF not created' }
-        format.json { render json: @pdf.errors, status: :unprocessable_entity }
       end
     end
   end
