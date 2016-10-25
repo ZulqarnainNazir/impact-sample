@@ -16,8 +16,16 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     @quick_post.save!
 
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+      oauth = Koala::Facebook::OAuth.try(:new, Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, nil)
+      begin        
+        page_graph = Koala::Facebook::API.new(@business.facebook_token)
+        result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+      rescue Koala::Facebook::APIError => exc
+        # use oauth to authorize and post
+        logger.error("Problems posting to Facebook Wall, trying to circumvent..."+self.inspect+" "+exc.message)
+        graph = Koala::Facebook::API.try(:new, oauth.get_app_access_token)
+        result = graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+      end
       @quick_post.update_column :facebook_id, result['id']
     end
 
