@@ -2,7 +2,6 @@
 
 $(document).ready(function() {
 	// check when clicking off or on timepicker and when visiting page for first time
-	checkTime();
 	$('#datetimepicker').click(function(){
 		checkTime();
 	});
@@ -21,6 +20,7 @@ function checkTime() {
 
     
     if (moment(moment(then).toISOString()).isAfter(moment(now).toISOString())) {
+    	// datetime is later than now
         // do disable and gray out checkbox
         $('.fbshare input')[0].disabled = true;
         var label = $('.fbshare label')[0];
