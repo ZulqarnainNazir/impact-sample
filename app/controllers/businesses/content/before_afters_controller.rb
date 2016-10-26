@@ -37,7 +37,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def edit
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
-    post_path = website_quick_post_path(@before_after)
+    post_path = website_before_after_path(@before_after)
     @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => @before_after.id]
   end
 
@@ -56,7 +56,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     if params[:draft]
        @before_after.published_status = false
        if @before_after.save
-         redirect_to edit_business_content_quick_post_path(@business, @before_after), notice: "Draft created successfully"
+         redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
