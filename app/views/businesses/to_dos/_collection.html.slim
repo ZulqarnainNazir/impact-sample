@@ -1,0 +1,27 @@
+- if local_assigns[:group].present?
+  li.list-group-item
+    .row
+      .col-md-6.col-sm-6
+        h3 = group
+
+- to_dos.each do |to_do|
+  - if to_do.active? || current_user.super_user?
+    li.list-group-item
+      .row
+        .col-md-6.col-sm-6
+          - if to_do.removed?
+            = raw(to_do.title)
+          - else
+            = link_to business_to_do_path(@business, to_do) do
+              = raw(to_do.title)
+          = render partial: 'businesses/to_dos/labels', locals: { to_do: to_do }
+          div
+            - if to_do.due_date?
+              small.text-muted.p-t-2px= "Due #{to_do.due_date.strftime('%m/%d/%Y')}"
+            - unless to_do.comments.none?
+              i.m-l-10px.fa.fa-comment-o
+
+
+        .col-md-6.col-sm-6
+          .pull-right
+            = render partial: 'businesses/to_dos/controls', locals: { business: business, to_do: to_do }

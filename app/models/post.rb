@@ -41,36 +41,49 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def default_published_on
+    self.published_on ||= self.created_at
+  end
+
   def as_indexed_json(options = {})
     as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
-
   def arranged_sections
-    post_sections.arrange(order: :position).map do |section, arrangement|
-      add_cached_children(section, arrangement)
+    sections = false
+    p = post_sections.each do |f|
+      if !f.position.nil? && f.position.integer? && f.position > 0
+        sections = true
+      end
+    end
+    if sections == false
+      post_sections.arrange(order: :id).map do |section, arrangement|
+        add_cached_children(section, arrangement)
+      end
+    elsif sections == true
+      post_sections.arrange(order: :position).map do |section, arrangement|
+        add_cached_children(section, arrangement)
+      end
     end
   end
 
   def keyed_arranged_sections
     sections = post_sections.to_a
-
     sections.each do |section|
       if section.key.blank?
         section.key = SecureRandom.uuid
       end
     end
-
     sections.each do |section|
       if section.parent_key.blank?
+
         parent = sections.find { |s| s.persisted? && s.id == section.parent_id }
         section.parent_key = parent.key if parent
+
       end
     end
-
     roots = sections.select do |section|
       section.parent_key.blank?
     end
-
     add_keyed_cached_children roots, sections
   end
 
@@ -82,7 +95,7 @@ class Post < ActiveRecord::Base
 
   def sections_content
     content = ''
-    add_sections_content content, post_sections.arrange(order: :position)
+    add_sections_content content, arranged_sections
     content
   end
 
@@ -95,14 +108,14 @@ class Post < ActiveRecord::Base
   end
 
   def published_at
-    published_on.to_time + created_at.seconds_since_midnight.seconds
+    published_on || updated_at
   end
 
   def to_generic_param
     {
-      year: published_on.strftime('%Y'),
-      month: published_on.strftime('%m'),
-      day: published_on.strftime('%d'),
+      year: published_at.strftime('%Y'),
+      month: published_at.strftime('%m'),
+      day: published_at.strftime('%d'),
       id: id,
       slug: slug,
     }
@@ -118,9 +131,14 @@ class Post < ActiveRecord::Base
       section.cached_children = add_keyed_cached_children(children, all_sections)
       section
     end.sort do |a, b|
-      a.position.to_i <=> b.position.to_i
+      if a.position.nil? && b.position.nil?
+        a.id.to_i <=> b.id.to_i
+      else
+        a.position.to_i <=> b.position.to_i
+      end
     end
   end
+
 
   def add_cached_children(section, arrangement)
     section.cached_children = arrangement.keys
@@ -139,6 +157,7 @@ class Post < ActiveRecord::Base
   end
 
   def add_sections_content(content, sections)
+    return if sections.nil?
     sections.each do |section, children|
       content << " #{section.content} "
       add_sections_content(content, children)

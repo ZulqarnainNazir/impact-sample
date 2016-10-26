@@ -12,8 +12,6 @@ class Businesses::SuperSettingsController < Businesses::BaseController
   private
 
   def business_params
-    params.require(:business).permit(
-      :plan,
-    )
+    params.require(:business).permit(:plan, :to_dos_enabled)
   end
 end
