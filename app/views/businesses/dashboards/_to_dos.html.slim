@@ -8,7 +8,7 @@
             span.small Here are a few things that will move the process along
 
         ul.list-group
-          = render partial: 'businesses/to_dos/collection', locals: { to_dos: business.to_dos.by_due_date.first(5), business: business }
+          = render partial: 'businesses/to_dos/collection', locals: { to_dos: business.first_five_to_dos, business: business }
 
   .row
     .col-md-12.col-sm-12
