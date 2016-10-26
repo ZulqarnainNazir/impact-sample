@@ -1,0 +1,17 @@
+.p-t-3
+  = link_to 'Update Notification Settings', super_to_do_notification_settings_path, class: 'btn btn-primary pull-right'
+  ul.nav.nav-tabs
+    li.active role="presentation" style="width:33%%;"
+      a href="#active" data-toggle="tab" Active Projects
+    li role="presentation" style="width:33%%;"
+      a href="#review" data-toggle="tab" Tasks for Review
+    li role="presentation" style="width:33%%;"
+      a href="#pending" data-toggle="tab" Pending Tasks
+
+  .p-t-3
+    .tab-content
+      = render partial: 'super/to_dos/active_tab'
+      = render partial: 'super/to_dos/review_tab'
+      = render partial: 'super/to_dos/pending_tab'
+
+  = paginate @businesses

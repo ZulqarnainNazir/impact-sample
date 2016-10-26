@@ -1,0 +1,33 @@
+.modal.fade#addToDoModal
+  .modal-dialog
+    .modal-content
+      = form_for :to_do, remote: true, url: business_to_dos_path(business) do |f|
+        .modal-header
+          button.close data-dismiss="modal"
+            span &times;
+          h4.modal-title#exampleModalLabel Add ToDo
+
+        .modal-body
+          .form-group
+            label.control-label Name
+            = f.text_field :title, class: 'form-control'
+
+          .form-group
+            label.control-label Details
+            = f.text_area :description, class: 'form-control'
+
+          .form-group
+            label.control-label Due Date (Optional)
+            = f.text_field :due_date, class: 'form-control', data: { provide: 'datepicker' }
+
+        .modal-footer
+          button.btn.btn-default data-dismiss="modal" Close
+          = f.submit 'Save ToDo', class: 'btn btn-primary'
+javascript:
+  $(document).ready(function(){
+    $("#addToDoModal form").on("ajax:success", function(e, data, status, xhr) {
+      window.location.reload()
+    }).on("ajax:error", function(e, data, status, xhr) {
+      $("#addToDoModal form").render_form_errors('to_do', data.responseJSON)
+    })
+  })

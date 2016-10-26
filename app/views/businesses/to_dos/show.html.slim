@@ -1,0 +1,47 @@
+ol.breadcrumb
+  li = link_to icon('home'), :businesses
+  li = link_to @business.name, business_dashboard_path(@business)
+  li = link_to "ToDo's", business_to_dos_path(@business)
+  li.active = "ToDo ##{@to_do.id}"
+
+.panel.panel-default.container-fluid
+  .panel-heading.row
+    .col-md-6.p-l-0
+      h3
+        = @to_do.title
+
+      - if @to_do.submitted?
+        span.label.label-primary.m-r-1 Submitted for Review
+      - elsif @to_do.accepted?
+        span.label.label-success.m-r-1 Accepted
+
+      - if @to_do.removed?
+        span.label.label-danger.m-r-1 Removed by User
+      - if @to_do.due_date
+        .text-muted.p-t-10px= "Due #{@to_do.due_date.strftime('%m/%d/%Y')}"
+
+    .col-md-6.p-r-0
+      div.pull-right.p-t-15px
+        = render partial: 'businesses/to_dos/controls', locals: { business: @business, to_do: @to_do, current_user: current_user }
+  .panel-body.p-l-0
+    = raw(@to_do.description)
+
+.panel.panel-default
+  .panel-heading
+    h3.panel-title Comments
+  ul.list-group
+    - @to_do.comments.each do |comment|
+      li.list-group-item
+        strong
+          = comment.commenter.name
+        span.p-l-5px
+          = comment.content
+        .text-muted
+          small = comment.created_at.strftime('%B %d, %Y')
+
+    li.list-group-item
+      = form_tag business_to_do_comments_path(@business, @to_do) do
+        .form-group
+          = text_area_tag 'comment[content]', nil, class: 'form-control'
+        = submit_tag 'Add', class: 'btn btn-default'
+
