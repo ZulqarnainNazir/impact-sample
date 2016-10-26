@@ -8,16 +8,13 @@ SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(
 SitemapGenerator::Sitemap.public_path = 'tmp/'
 SitemapGenerator::Sitemap.sitemaps_host = "http://#{ENV['AWS_S3_BUCKET']}.s3-#{ENV['AWS_S3_REGION']}.amazonaws.com/sitemap_generator"
 
-Website.find_each do |website|
-<<<<<<< HEAD
-=======
-  begin
-    Business.find(website.business_id)
-  rescue
-    return
-    # return if the website doesn't have an active business
-  end
->>>>>>> 793017e4bf23a33f235f10756449984d93a6fb47
+
+
+
+Business.find_each do |business|
+  website = business.try(:website)
+  return if website.nil?
+
   webhost = website.webhosts.try(:find_by, :primary => true).try(:name)
   if webhost.nil?
     SitemapGenerator::Sitemap.default_host = "http://#{website.subdomain}.#{Rails.application.secrets.host}"
@@ -48,10 +45,7 @@ Website.find_each do |website|
     end
 
     website.custom_pages.find_each do |page|
-<<<<<<< HEAD
-=======
       return if website.custom_pages.empty?
->>>>>>> 793017e4bf23a33f235f10756449984d93a6fb47
       add website_custom_page_path(page), :lastmod => page.updated_at
     end
 
