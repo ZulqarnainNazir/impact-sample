@@ -33,6 +33,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
         format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
       end
     end
+
     BeforeAfter.__elasticsearch__.refresh_index!
     intercom_event 'created-before-after'
   end
@@ -40,9 +41,10 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def edit
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
-    post_path = website_quick_post_path(@before_after)
+    post_path = website_before_after_path(@before_after)
     @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => @before_after.id]
   end
+
 
   def update
     @before_after.update(before_after_params)
@@ -70,6 +72,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
         format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
       end
     end
+
     @before_after.__elasticsearch__.index_document
     BeforeAfter.__elasticsearch__.refresh_index!
   end

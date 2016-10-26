@@ -53,6 +53,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     @preview_url = @offer.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @offer.id]
   end
 
+
   def update
     @offer.update(offer_params)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @offer.published_on < DateTime.now
@@ -78,6 +79,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
         format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
       end
     end
+
     @offer.__elasticsearch__.index_document
     Offer.__elasticsearch__.refresh_index!
   end

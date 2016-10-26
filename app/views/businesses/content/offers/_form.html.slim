@@ -90,6 +90,7 @@ hr
     .col-sm-4
       .form-group.text-center
         = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+
 javascript:
   $('.offer-row-switch').on('click', function(event) {
     if ($('.offer-row').hasClass('image_left')) {

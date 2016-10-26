@@ -2,6 +2,7 @@
   - title @before_after.title
   - description @before_after.meta_description
   - image @before_after.main_image.try(:attachment_url) || @before_after.before_image.try(:attachment_url)
+  - image @before_after.main_image.try(:attachment_url) || @before_after.after_image.try(:attachment_url)
   - canonical_url website_generic_post_url(@before_after.to_generic_param)
 - else
   - title "This post is not yet published"

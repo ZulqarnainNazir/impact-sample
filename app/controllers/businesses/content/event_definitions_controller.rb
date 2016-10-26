@@ -62,6 +62,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
         format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
       end
     end
+
     @event_definition.__elasticsearch__.index_document
     EventDefinition.__elasticsearch__.refresh_index!
     intercom_event 'created-event'
@@ -94,6 +95,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
         format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
       end
     end
+
     end
     EventDefinition.__elasticsearch__.refresh_index!
   end

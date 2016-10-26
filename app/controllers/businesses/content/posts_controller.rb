@@ -39,6 +39,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         format.html { redirect_to new_business_content_post_path, :alert => "Post must have a title" }
       end
     end
+
     Post.__elasticsearch__.refresh_index!
     intercom_event 'created-custom-post'
   end
@@ -145,7 +146,11 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def post_facebook_params
+<<<<<<< HEAD
     if @post.published_on > DateTime.now
+=======
+    if @post.published_at > Time.now
+>>>>>>> 130134669_text_editor_cleanup
       {
         caption: truncate(Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @post, only_path: false, host: website_host(@business.website)]),

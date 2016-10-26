@@ -9,12 +9,7 @@ SitemapGenerator::Sitemap.public_path = 'tmp/'
 SitemapGenerator::Sitemap.sitemaps_host = "http://#{ENV['AWS_S3_BUCKET']}.s3-#{ENV['AWS_S3_REGION']}.amazonaws.com/sitemap_generator"
 
 Website.find_each do |website|
-  begin
-    Business.find(website.business_id)
-  rescue
-    return
-    # return if the website doesn't have an active business
-  end
+
   webhost = website.webhosts.try(:find_by, :primary => true).try(:name)
   if webhost.nil?
     SitemapGenerator::Sitemap.default_host = "http://#{website.subdomain}.#{Rails.application.secrets.host}"
