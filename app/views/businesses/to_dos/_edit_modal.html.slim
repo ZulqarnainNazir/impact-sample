@@ -1,0 +1,35 @@
+.modal.fade id=("editModal#{to_do.id}") class="editToDo"
+  .modal-dialog
+    .modal-content
+      = form_for to_do, url: business_to_do_path(business, to_do), remote: true do |f|
+        .modal-header
+          button.close data-dismiss="modal"
+            span &times;
+          h4.modal-title#exampleModalLabel Edit ToDo
+
+        .modal-body
+          .form-group
+            label.control-label Name
+            = f.text_field :title, class: 'form-control'
+
+          .form-group
+            label.control-label Details
+            = f.text_area :description, class: 'form-control'
+
+          .form-group
+            label.control-label Due Date (Optional)
+            = f.text_field :due_date, value: to_do.due_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+
+        .modal-footer
+          button.btn.btn-default data-dismiss="modal" Close
+          = f.submit 'Update ToDo', class: 'btn btn-primary'
+
+javascript:
+  $(document).ready(function(){
+    $(".editToDo form").on("ajax:success", function(e, data, status, xhr) {
+      window.location.reload()
+    }).on("ajax:error", function(e, data, status, xhr) {
+      $(".editToDo form").render_form_errors('to_do', data.responseJSON)
+    })
+  })
+

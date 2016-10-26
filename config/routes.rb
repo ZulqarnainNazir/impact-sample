@@ -43,6 +43,11 @@ Rails.application.routes.draw do
       get :receive_locable, to: 'session_creates#locable'
     end
 
+    namespace :super do
+      resources :to_dos, only: :index
+      resources :to_do_notification_settings, only: %i[index create]
+    end
+
     namespace :onboard do
       namespace :website do
         resources :businesses, only: %i[new create edit update destroy] do
@@ -151,6 +156,20 @@ Rails.application.routes.draw do
         resources :images, only: %i[index]
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
+        resources :to_dos, only: %i[index show create update destroy] do
+          resources :comments, only: :create
+
+          member do
+            put :submit_for_review
+            put :mark_as_complete
+            put :remove
+            put :reactivate
+          end
+
+          collection do
+            resources :notification_settings, only: %i[index update]
+          end
+        end
       end
     end
 

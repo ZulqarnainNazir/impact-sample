@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
   has_many :authorizations, dependent: :destroy
   has_many :businesses, through: :authorizations
   has_many :pdfs
-  
+
+  has_many :to_do_notification_settings, dependent: :destroy
+  has_many :following_businesses, through: :to_do_notification_settings, source: :business
+
   has_many :manager_authorizations, -> { manager }, class_name: Authorization.name
   has_many :owner_authorizations, -> { owner }, class_name: Authorization.name
 
@@ -12,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :owned_businesses, through: :owner_authorizations, source: :business
 
   has_many :images
+
+  has_many :to_do_comments, as: :commenter
 
   devise *%i[confirmable database_authenticatable lockable registerable recoverable rememberable trackable validatable]
 
