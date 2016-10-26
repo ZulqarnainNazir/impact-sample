@@ -30,7 +30,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
         format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_before_after_path, :alert => "Title cannot be empty!" }
+        format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
       end
     end
     BeforeAfter.__elasticsearch__.refresh_index!
@@ -57,14 +57,18 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     end
     if params[:draft]
       @before_after.published_status = false
-      if @before_after.save
-        redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully"
-        # go straight to post edit page if saved as draft
-        return
-      end
     else
       @before_after.published_status = true
-      redirect_to business_content_feed_path @business if @before_after.save
+    end
+
+    respond_to do |format|
+      if @before_after.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
+      end
     end
     @before_after.__elasticsearch__.index_document
     BeforeAfter.__elasticsearch__.refresh_index!
