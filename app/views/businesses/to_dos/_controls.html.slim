@@ -1,0 +1,22 @@
+- if current_user.super_user?
+  - if to_do.submission_status == 'submitted'
+    = link_to mark_as_complete_business_to_do_path(business, to_do), method: :put, class: 'btn btn-success btn-sm' do
+      i.fa.fa-check
+
+  - if to_do.removed?
+    = link_to reactivate_business_to_do_path(business, to_do), method: :put, class: 'btn btn-warning btn-sm' do
+      i.fa.fa-undo
+
+  button.m-l-2px.btn.btn-default.btn-sm data-toggle="modal" data-target=("#editModal#{to_do.id}")
+    i.fa.fa-pencil
+
+  = render partial: 'businesses/to_dos/edit_modal', locals: { business: business, to_do: to_do }
+  = link_to business_to_do_path(business, to_do), method: :delete, class: 'btn btn-danger btn-sm m-l-2px', data: { confirm: 'Are you sure?' } do
+    i.fa.fa-times
+- elsif to_do.pending?
+  = link_to submit_for_review_business_to_do_path(business, to_do), method: :put do
+    button.btn.btn-success.btn-sm
+      i.fa.fa-check
+      span.p-l-1 Submit for Review
+  = link_to remove_business_to_do_path(business, to_do), method: :put, class: 'btn btn-danger btn-sm m-l-2px', data: { confirm: 'Are you sure?' } do
+    i.fa.fa-times

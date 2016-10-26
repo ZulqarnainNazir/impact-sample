@@ -1,0 +1,21 @@
+div.tab-pane#review role="tabpanel"
+  table.table
+    thead
+      th Logo
+      th Company
+      th Tasks For Review
+    tbody
+      - @businesses.each do |business|
+        - unless business.to_dos.submitted.empty?
+          tr
+            td
+              - if (business.logo.attachment_url? rescue nil)
+                = image_tag business.logo.attachment_url(:thumbnail), alt: business.logo.alt, title: business.logo.title, class: 'table-logo'
+              - else
+                i.fa.fa-photo
+            td = link_to business.name, business_dashboard_path(business)
+            td
+              - business.to_dos.submitted.each do |todo|
+                ul
+                  li
+                    small= link_to truncate(todo.title, length: 20), business_to_do_path(business, todo)

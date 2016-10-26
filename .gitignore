@@ -3,5 +3,6 @@
 /tmp
 *pid*
 dump.rdb
+notes.txt
 .DS_Store
 public/.DS_Store
