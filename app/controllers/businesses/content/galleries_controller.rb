@@ -13,7 +13,6 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     @gallery = Gallery.new(gallery_params)
     @gallery.business = @business
-
     @gallery.gallery_images.each do |image|
       image.gallery = @gallery
     end
@@ -24,12 +23,12 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       @gallery.update_column :facebook_id, result['id']
     end
     if params[:draft]
-       @gallery.published_status = false
-       if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @gallery.published_status = false
+      if @gallery.save
+        redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
+        # go straight to post edit page if saved as draft
+        return
+      end
     else
       @gallery.published_status = true
       redirect_to business_content_feed_path @business if @gallery.save
@@ -59,12 +58,11 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       end
     end
     if params[:draft]
-       @gallery.published_status = false
-       if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @gallery.published_status = false
+        redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" if @gallery.save
+        # go straight to post edit page if saved as draft
+        return
+      end
     else
     @gallery.published_status = true
     redirect_to business_content_feed_path @business if @gallery.save

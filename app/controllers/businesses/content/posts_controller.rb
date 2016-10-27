@@ -14,7 +14,6 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
   def create
     @post = Post.new(post_params)
-
     @post.post_sections.each do |ps|
       ps.post = @post
     end
