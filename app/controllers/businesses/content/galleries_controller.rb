@@ -33,7 +33,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
       end
     end
     Gallery.__elasticsearch__.refresh_index!
@@ -71,7 +71,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
       end
     end
 
