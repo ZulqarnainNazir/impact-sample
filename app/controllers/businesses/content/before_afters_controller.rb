@@ -29,9 +29,10 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
         format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
         format.html { redirect_to business_content_feed_path @business, notice: "Post created successfully" } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_before_after_path, :alert => "Title cannot be empty!" }
+        format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
       end
     end
+
     BeforeAfter.__elasticsearch__.refresh_index!
     intercom_event 'created-before-after'
   end

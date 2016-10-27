@@ -136,7 +136,6 @@ class Post < ActiveRecord::Base
       else
         a.position.to_i <=> b.position.to_i
       end
-
     end
   end
 
