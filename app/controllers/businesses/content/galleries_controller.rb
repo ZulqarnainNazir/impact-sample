@@ -23,12 +23,12 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       @gallery.update_column :facebook_id, result['id']
     end
     if params[:draft]
-       @gallery.published_status = false
-       if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @gallery.published_status = false
+      if @gallery.save
+        redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
+        # go straight to post edit page if saved as draft
+        return
+      end
     else
       @gallery.published_status = true
       redirect_to business_content_feed_path @business if @gallery.save
@@ -44,8 +44,10 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => @gallery.id]
   end
 
+
   def update
     @gallery.update(gallery_params)
+
     @gallery.generate_slug
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @gallery.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -57,15 +59,14 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       end
     end
     if params[:draft]
-       @gallery.published_status = false
-       if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @gallery.published_status = false
+        redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" if @gallery.save
+        # go straight to post edit page if saved as draft
+        return
+      end
     else
-    @gallery.published_status = true
-    redirect_to business_content_feed_path @business if @gallery.save
+      @gallery.published_status = true
+      redirect_to business_content_feed_path @business if @gallery.save
     end
     @gallery.__elasticsearch__.index_document
     Gallery.__elasticsearch__.refresh_index!

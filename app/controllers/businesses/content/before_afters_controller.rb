@@ -26,9 +26,8 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
     respond_to do |format|
       if @before_after.save
-        flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to business_content_feed_path @business, notice: "Post created successfully" } if !params[:draft]
       else
         format.html { redirect_to new_business_content_before_after_path, :alert => "Title cannot be empty!" }
       end
@@ -44,6 +43,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => @before_after.id]
   end
 
+
   def update
     @before_after.update(before_after_params)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @before_after.published_on < DateTime.now
@@ -56,15 +56,17 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
       end
     end
     if params[:draft]
-      @before_after.published_status = false
-      if @before_after.save
-        redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully"
-        # go straight to post edit page if saved as draft
-        return
-      end
+       @before_after.published_status = false
     else
-      @before_after.published_status = true
-      redirect_to business_content_feed_path @business if @before_after.save
+       @before_after.published_status = true
+    end
+    respond_to do |format|
+      if @before_after.save
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business, notice: "Post created successfully" } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_before_after_path, :alert => "Title cannot be empty!" }
+      end
     end
     @before_after.__elasticsearch__.index_document
     BeforeAfter.__elasticsearch__.refresh_index!

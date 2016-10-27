@@ -31,7 +31,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     if params[:draft]
        @offer.published_status = false
        if @offer.save
-         redirect_to edit_business_content_offer_path(@business, @offer), alert: "Draft created successfully"
+         redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully"
          # go straight to post edit page if saved as draft
          return
        end
@@ -49,6 +49,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     post_path = website_offer_path(@offer)
     @preview_url = @offer.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @offer.id]
   end
+
 
   def update
     @offer.update(offer_params)

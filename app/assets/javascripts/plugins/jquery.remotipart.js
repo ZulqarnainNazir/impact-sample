@@ -1,4 +1,4 @@
-//= require jquery.iframe-transport.js
+//= require ./jquery.iframe-transport.js
 //= require_self
 
 (function($) {

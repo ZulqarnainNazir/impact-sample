@@ -36,7 +36,6 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
        @post.published_status = true
        redirect_to business_content_feed_path @business if @post.save
     end
-
     Post.__elasticsearch__.refresh_index!
     intercom_event 'created-custom-post'
   end

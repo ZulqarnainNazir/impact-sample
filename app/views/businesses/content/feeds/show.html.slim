@@ -12,8 +12,7 @@ ol.breadcrumb
       div.input-group-btn
         = button_tag class: 'btn btn-default' do
           ' Search
-    br>
-    span.pull-right.content-checkboxes
+      br>
       p Filter:
       span style="font-size:14px;"
         = check_box_tag "unpublished", true, class: '', style: 'padding-right: 2px; margin:0px;'
@@ -24,9 +23,6 @@ ol.breadcrumb
       span style="font-size:14px;"
         ' Published
       br>
-br>
-br>
-br>
 hr
 - if @results.empty?
    p
