@@ -28,15 +28,18 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       @offer.update_column :facebook_id, result['id']
     end
     if params[:draft]
-       @offer.published_status = false
-       if @offer.save
-         redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @offer.published_status = false
     else
-       @offer.published_status = true
-       redirect_to business_content_feed_path @business if @offer.save
+      @offer.published_status = true
+    end
+    respond_to do |format|
+      if @offer.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+      end
     end
     Offer.__elasticsearch__.refresh_index!
     intercom_event 'created-offer'
@@ -62,16 +65,20 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       end
     end
     if params[:draft]
-       @offer.published_status = false
-       if @offer.save
-         redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @offer.published_status = false
     else
-       @offer.published_status = true
-       redirect_to business_content_feed_path @business if @offer.save
+      @offer.published_status = true
     end
+    respond_to do |format|
+      if @offer.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+      end
+    end
+
     @offer.__elasticsearch__.index_document
     Offer.__elasticsearch__.refresh_index!
   end

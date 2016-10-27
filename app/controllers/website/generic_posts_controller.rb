@@ -94,6 +94,7 @@ class Website::GenericPostsController < Website::BaseController
     else
       raise ActiveRecord::RecordNotFound
     end
+
     @preview = true
     render "website/#{params[:type]}/show"
   end

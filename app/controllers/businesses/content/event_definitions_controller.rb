@@ -49,16 +49,20 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       @event_definition.update_column :facebook_id, result['id']
     end
     if params[:draft]
-       @event_definition.published_status = false
-       if @event_definition.save
-         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @event_definition.published_status = false
     else
-       @event_definition.published_status = true
-       redirect_to business_content_feed_path @business if @event_definition.save
+      @event_definition.published_status = true
     end
+    respond_to do |format|
+      if @event_definition.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
+      end
+    end
+
     @event_definition.__elasticsearch__.index_document
     EventDefinition.__elasticsearch__.refresh_index!
     intercom_event 'created-event'
@@ -78,15 +82,20 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       end
     end
     if params[:draft]
-       @event_definition.published_status = false
-       if @event_definition.save
-         redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @event_definition.published_status = false
     else
       @event_definition.published_status = true
-      redirect_to business_content_feed_path @business if @event_definition.save
+    end
+    respond_to do |format|
+      if @event_definition.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
+      end
+    end
+
     end
     EventDefinition.__elasticsearch__.refresh_index!
   end
