@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require jquery-ui
 //= require turbolinks
 //= require react
@@ -57,6 +58,13 @@ var ready = function() {
   $(document).on('change', '.checked-highlight input', function() {
     $(this).closest('.checked-highlight').toggleClass('checked-highlight-active');
   });
+
+  $("#products_search input").keyup(function() {
+    $.get($("#products_search").attr("action"), $("#products_search").serialize(), null, "script");
+      return false;
+  });
+
 };
+
 $(document).ready(ready)
 $(document).on('page:load', ready);

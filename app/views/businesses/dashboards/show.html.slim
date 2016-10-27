@@ -16,6 +16,10 @@ ol.breadcrumb
       strong => website_root_url(host: website_host(@business.website))
       i.fa.fa-external-link style="margin-left:5px"
   hr
+
+- if @business.to_dos_enabled
+  = render partial: 'businesses/dashboards/to_dos', locals: { business: @business }
+
 h2.h3.hidden-xs What do you want to do?
 .row.dashboard-root-primary-panels
   .col-sm-6.col-lg-3

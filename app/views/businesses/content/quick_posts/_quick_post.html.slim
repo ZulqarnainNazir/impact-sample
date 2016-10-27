@@ -6,12 +6,12 @@
       code
         small Draft
     span.pull-right
-      - if quick_post.published_at > DateTime.now
-        span.text-muted> Will Post #{time_ago_in_words quick_post.published_at } from now
+      - if quick_post.published_at > DateTime.now && quick_post.published_status != false
+        span.text-muted> Will Post #{time_ago_in_words quick_post.published_at.in_time_zone("Pacific Time (US & Canada)") } from now
       - elsif quick_post.published_status == false
         div
       - else
-        span.text-muted> Posted #{time_ago_in_words quick_post.published_at} ago
+        span.text-muted> Posted #{time_ago_in_words quick_post.published_at.in_time_zone("Pacific Time (US & Canada)") } ago
       - if quick_post.content_categories.any? || quick_post.content_tags.any?
         span.text-muted> in
         - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|

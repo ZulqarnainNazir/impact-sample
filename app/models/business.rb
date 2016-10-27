@@ -30,6 +30,8 @@ class Business < ActiveRecord::Base
     has_many :quick_posts
     has_many :reviews
     has_many :team_members
+    has_many :to_dos
+    has_many :to_do_notification_settings
     has_one :location
     has_one :website
   end
@@ -74,6 +76,16 @@ class Business < ActiveRecord::Base
     validates :category_ids, presence: true
   end
 
+  before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
+
+  def self.search(search)
+    if search
+      where('LOWER(name) LIKE ?', "%#{search.downcase}%")
+    else
+      all
+    end
+  end
+
   def self.alphabetical
     order('LOWER(name) ASC')
   end
@@ -97,6 +109,14 @@ class Business < ActiveRecord::Base
       super(value.to_s)
     else
       super("http://#{value}")
+    end
+  end
+
+  private
+
+  def bootstrap_to_dos
+    if to_dos_enabled && to_dos.none?
+      ToDosBootstrap.new(self).run
     end
   end
 end

@@ -14,11 +14,12 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     @quick_post = QuickPost.new(quick_post_params)
     @quick_post.business = @business
     @quick_post.save!
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
       @quick_post.update_column :facebook_id, result['id']
     end
+
     if params[:draft]
        @quick_post.published_status = false
        if @quick_post.save
@@ -43,7 +44,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
 
   def update
     @quick_post.update(quick_post_params)
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @quick_post.facebook_id?
         # Update Post
@@ -102,14 +103,14 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def quick_post_facebook_params
-    if @quick_post.published_at > Time.now
+    if @quick_post.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),
-        published: false,
-        scheduled_published_time: @quick_post.published_at.to_i,
+        published: true,
+        scheduled_published_time: @quick_post.published_on,
       }
     else
       {

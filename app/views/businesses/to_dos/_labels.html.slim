@@ -1,0 +1,7 @@
+- if to_do.submitted?
+  span.label.label-primary.m-l-1 Submitted for Review
+- elsif to_do.accepted?
+  span.label.label-success.m-l-1 Accepted
+
+- if to_do.removed?
+  span.label.label-danger.m-l-1 Removed by User
