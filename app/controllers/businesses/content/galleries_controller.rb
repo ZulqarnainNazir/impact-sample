@@ -62,10 +62,9 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" if @gallery.save
         # go straight to post edit page if saved as draft
         return
-      end
     else
-    @gallery.published_status = true
-    redirect_to business_content_feed_path @business if @gallery.save
+      @gallery.published_status = true
+      redirect_to business_content_feed_path @business if @gallery.save
     end
     @gallery.__elasticsearch__.index_document
     Gallery.__elasticsearch__.refresh_index!
