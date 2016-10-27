@@ -1,8 +1,4 @@
 class ContentFeedSearch
-<<<<<<< HEAD
-=======
-
->>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
   def initialize(business, unpublished, published, query = '')
     @business = business
     @query = query.to_s.strip

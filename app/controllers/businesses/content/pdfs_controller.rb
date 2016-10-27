@@ -21,10 +21,6 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
 
     respond_to do |format|
       if @pdf.save
-<<<<<<< HEAD
-        flash[:notice] = 'PDF was successfully created.'
-=======
->>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
         format.js { redirect_to [@business, :content_pdfs], notice: 'PDF was successfully created.' }
       else
         format.js { render :new, notice: 'PDF not created' }

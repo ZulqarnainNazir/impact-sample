@@ -29,16 +29,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       @offer.update_column :facebook_id, result['id']
     end
     if params[:draft]
-<<<<<<< HEAD
       @offer.published_status = false
-=======
-       @offer.published_status = false
-       if @offer.save
-         redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
->>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     else
       @offer.published_status = true
     end

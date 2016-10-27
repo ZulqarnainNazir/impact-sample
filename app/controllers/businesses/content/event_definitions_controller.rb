@@ -51,12 +51,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     if params[:draft]
       @event_definition.published_status = false
     else
-<<<<<<< HEAD
       @event_definition.published_status = true
-=======
-       @event_definition.published_status = true
-       redirect_to business_content_feed_path @business if @event_definition.save
->>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     end
     respond_to do |format|
       if @event_definition.save

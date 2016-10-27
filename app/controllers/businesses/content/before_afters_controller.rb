@@ -32,10 +32,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
         format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
       end
     end
-<<<<<<< HEAD
 
-=======
->>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     BeforeAfter.__elasticsearch__.refresh_index!
     intercom_event 'created-before-after'
   end
@@ -60,11 +57,6 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
       end
     end
     if params[:draft]
-<<<<<<< HEAD
-      @before_after.published_status = false
-    else
-      @before_after.published_status = true
-=======
        @before_after.published_status = false
     else
        @before_after.published_status = true
@@ -76,19 +68,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
       else
         format.html { redirect_to new_business_content_before_after_path, :alert => "Title cannot be empty!" }
       end
->>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     end
-
-    respond_to do |format|
-      if @before_after.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
-      else
-        format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
-      end
-    end
-
     @before_after.__elasticsearch__.index_document
     BeforeAfter.__elasticsearch__.refresh_index!
   end
