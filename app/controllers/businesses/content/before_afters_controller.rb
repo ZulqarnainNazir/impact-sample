@@ -57,7 +57,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
       end
     end
     if params[:draft]
-       @before_after.published_status = false
+      @before_after.published_status = false
     else
        @before_after.published_status = true
     end
