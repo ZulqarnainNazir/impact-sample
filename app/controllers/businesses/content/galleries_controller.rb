@@ -36,6 +36,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       else
         format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
       end
+    end
     Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
   end

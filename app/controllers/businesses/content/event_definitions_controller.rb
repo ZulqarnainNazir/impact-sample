@@ -38,7 +38,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     render :new
   end
 
- def create
+  def create
     @event_definition = EventDefinition.new(event_definition_params)
     @event_definition.business = @business
     @event_definition.save!
@@ -56,13 +56,12 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     respond_to do |format|
       if @event_definition.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
         format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
       end
     end
-
     @event_definition.__elasticsearch__.index_document
     EventDefinition.__elasticsearch__.refresh_index!
     intercom_event 'created-event'
@@ -89,24 +88,22 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     respond_to do |format|
       if @event_definition.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
         format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
       end
     end
-
-    end
     EventDefinition.__elasticsearch__.refresh_index!
   end
 
 
-    def edit
-      port = ":#{request.try(:port)}" if request.port
-      host = website_host @business.website
-      post_path = website_event_path
-      @preview_url = @event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event_definition.id]
-    end
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_event_path
+    @preview_url = @event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event_definition.id]
+  end
 
   def destroy
     destroy_resource @event_definition, location: [@business, :content_feed] do |success|
