@@ -14,7 +14,6 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     @quick_post = QuickPost.new(quick_post_params)
     @quick_post.business = @business
     @quick_post.save!
-
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params

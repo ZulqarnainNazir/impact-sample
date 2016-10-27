@@ -22,7 +22,6 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   def create
     @offer = Offer.new(offer_params)
     @offer.business = @business
-    @offer.save!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @offer.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params

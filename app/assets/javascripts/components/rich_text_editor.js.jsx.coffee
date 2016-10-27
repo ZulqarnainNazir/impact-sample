@@ -7,6 +7,7 @@ RichTextEditor = React.createClass
 
   getDefaultProps: ->
     inline: false
+    enabled: true
 
   componentDidMount: ->
     if this.props.enabled
@@ -32,7 +33,13 @@ RichTextEditor = React.createClass
     defaults =
       toolbar: this.summernoteToolbar()
       onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
-      onPaste: this.onPaste
+      cleaner: {
+            notTime:2400,
+            action:'both',
+            newline:'<br>',
+            notStyle:'position:absolute;bottom:0;left:2px',
+            icon:'<i class="note-icon">[Your Button]</i>'
+          }
     if this.props.update
       $.extend {}, defaults, onChange: this.props.update
     else defaults
@@ -40,6 +47,7 @@ RichTextEditor = React.createClass
   summernoteToolbar: ->
     if this.props.inline
       [
+        ['cleaner',['cleaner']],
         ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
         ['align', ['paragraph']],
         ['clear', ['clear']],
@@ -47,6 +55,7 @@ RichTextEditor = React.createClass
       ]
     else
       [
+        ['cleaner',['cleaner']],
         ['display', ['style']],
         ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
         ['insert', ['link']],
@@ -56,33 +65,7 @@ RichTextEditor = React.createClass
         ['clear', ['clear']],
         ['misc', ['codeview']],
       ]
-
-  onPaste: (event) ->
-    # TODO: get the pasted text from the clipboard and preserve the formatting
-    # of the original text.
-    #
-    # clipboardData = (event.originalEvent || event).clipboardData
-    # if clipboardData == undefined || clipboardData == null
-    #   # IE does not expose the clipboard data via the event.
-    #   clipboardText = window.clipboardData.getData('Text')
-    # else
-    #   if /text\/html/.test(clipboardData.types)
-    #     clipboardText = clipboardData.getData('text/html')
-    #   else
-    #     clipboardText = clipboardData.getData('text/plain')
-    event.preventDefault
-    self = this
-    editor = $(self.getDOMNode())
-    setTimeout( ->
-      editorText = editor.code()
-      container = $('<div>').html(editorText).get(0)
-      if self.props.inline
-        sanitizer = new Sanitize(Sanitize.Config.RESTRICTED)
-      else
-        sanitizer = new Sanitize(Sanitize.Config.BASIC)
-      editor.code sanitizer.clean_node(container)
-    , 10)
-
+      
   render: ->
     `<div dangerouslySetInnerHTML={{__html: this.props.html}} />`
 

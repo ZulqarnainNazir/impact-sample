@@ -47,7 +47,6 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
 
   def update
     @gallery.update(gallery_params)
-
     @gallery.generate_slug
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @gallery.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -65,8 +64,8 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         return
       end
     else
-      @gallery.published_status = true
-      redirect_to business_content_feed_path @business if @gallery.save
+    @gallery.published_status = true
+    redirect_to business_content_feed_path @business if @gallery.save
     end
     @gallery.__elasticsearch__.index_document
     Gallery.__elasticsearch__.refresh_index!
