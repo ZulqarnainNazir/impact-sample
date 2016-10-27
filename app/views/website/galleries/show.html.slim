@@ -33,9 +33,16 @@
         - @gallery.gallery_images.each do |gallery_image|
           - image = gallery_image.gallery_image
           .col-xs-3.col-lg-2
-            = link_to [:website, @gallery, gallery_image], class: 'gallery-item' do
-                figure
-                  .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                    = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
-                  figcaption.gallery-item-caption
+            - if @gallery.published_status != false
+              = link_to website_gallery_gallery_image_path(@gallery, gallery_image), class: 'gallery-item' do
+                  figure
+                    .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                      = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+            - else
+              = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(@business.website), :gallery_id => @gallery.id, :id => gallery_image.id], class: 'gallery-item' do
+                  figure
+                    .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                      = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+            figcaption.gallery-item-caption
                     h4.truncate = image.title
+

@@ -59,9 +59,9 @@ class Gallery < ActiveRecord::Base
 
   def to_generic_param
     {
-      year: published_on.strftime('%Y'),
-      month: published_on.strftime('%m'),
-      day: published_on.strftime('%d'),
+      year: published_at.strftime('%Y'),
+      month: published_at.strftime('%m'),
+      day: published_at.strftime('%d'),
       id: id,
       slug: title.gsub(/['’]/, '').parameterize,
     }

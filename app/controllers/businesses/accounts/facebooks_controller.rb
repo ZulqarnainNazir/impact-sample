@@ -1,9 +1,24 @@
 class Businesses::Accounts::FacebooksController < Businesses::BaseController
   before_action only: %i[edit update] do
     if @business.facebook_id? && @business.facebook_token?
-      oauth = Koala::Facebook::OAuth.new(Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, nil)
-      graph = Koala::Facebook::API.new(@business.facebook_token)
-      @linked_facebook_page = graph.get_object(@business.facebook_id).with_indifferent_access
+      oauth = Koala::Facebook::OAuth.try(:new, Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, nil)
+
+      begin 
+        graph = Koala::Facebook::API.try(:new, @business.facebook_token)
+        @linked_facebook_page = graph.try(:get_object, @business.facebook_id).try(:with_indifferent_access)
+      rescue
+        # handle users that have logged out/changed pw
+        graph = Koala::Facebook::API.try(:new, oauth.get_app_access_token)
+        @linked_facebook_page = graph.try(:get_object, @business.facebook_id).try(:with_indifferent_access)
+      end
+    end
+  end
+
+  def edit
+    if @business.facebook_id? && @business.facebook_token? && @linked_facebook_page && !@linked_facebook_page.nil?
+      @linked_facebook_page
+    else 
+      @linked_facebook_page = nil
     end
   end
 

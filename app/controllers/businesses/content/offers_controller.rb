@@ -23,7 +23,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     @offer = Offer.new(offer_params)
     @offer.business = @business
     @offer.save!
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @offer.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
       @offer.update_column :facebook_id, result['id']
@@ -53,7 +53,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
 
   def update
     @offer.update(offer_params)
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @offer.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       if @offer.facebook_id?
         # Update Post
@@ -76,6 +76,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     @offer.__elasticsearch__.index_document
     Offer.__elasticsearch__.refresh_index!
   end
+
 
   def destroy
     destroy_resource @offer, location: [@business, :content_feed] do |success|
@@ -127,18 +128,18 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   end
 
   def offer_facebook_params
-    if @offer.published_at > Time.now
+    if @offer.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
         name: @offer.title,
         picture: @offer.offer_image.try(:attachment_url),
-        published: false,
-        scheduled_published_time: @offer.published_at.to_i,
+        published: true,
+        scheduled_published_time: @offer.published_on,
       }
     else
       {
-        backdated_time: @offer.published_at,
+        backdated_time: @offer.created_at,
         caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
         name: @offer.title,

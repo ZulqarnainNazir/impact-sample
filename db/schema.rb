@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927210402) do
+ActiveRecord::Schema.define(version: 20161025101640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,10 +38,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "realtor_id"
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
+    t.boolean  "to_dos_enabled"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -245,7 +246,6 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.boolean  "published_status"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
@@ -287,10 +287,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
@@ -423,10 +423,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "coupon_updated_at"
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
@@ -501,12 +501,12 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "description"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.datetime "published_on"
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
@@ -520,10 +520,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.datetime "published_on"
     t.text     "slug"
     t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree
@@ -587,6 +587,47 @@ ActiveRecord::Schema.define(version: 20160927210402) do
   end
 
   add_index "team_members", ["business_id"], name: "index_team_members_on_business_id", using: :btree
+
+  create_table "to_do_comments", force: :cascade do |t|
+    t.integer  "commenter_id"
+    t.integer  "to_do_id"
+    t.text     "content"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "to_do_comments", ["commenter_id"], name: "index_to_do_comments_on_commenter_id", using: :btree
+  add_index "to_do_comments", ["to_do_id"], name: "index_to_do_comments_on_to_do_id", using: :btree
+
+  create_table "to_do_notification_settings", force: :cascade do |t|
+    t.boolean  "assigned",                  default: true
+    t.boolean  "updates_or_comments",       default: true
+    t.boolean  "deadline_approaching",      default: true
+    t.boolean  "due",                       default: true
+    t.boolean  "accepted",                  default: true
+    t.integer  "overdue_reminder_interval", default: 0
+    t.integer  "business_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "to_do_notification_settings", ["business_id"], name: "index_to_do_notification_settings_on_business_id", using: :btree
+  add_index "to_do_notification_settings", ["user_id"], name: "index_to_do_notification_settings_on_user_id", using: :btree
+
+  create_table "to_dos", force: :cascade do |t|
+    t.integer  "business_id"
+    t.text     "title"
+    t.text     "description"
+    t.integer  "submission_status", default: 0
+    t.integer  "status",            default: 0
+    t.datetime "due_date"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "group",             default: 0
+  end
+
+  add_index "to_dos", ["business_id"], name: "index_to_dos_on_business_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                                null: false

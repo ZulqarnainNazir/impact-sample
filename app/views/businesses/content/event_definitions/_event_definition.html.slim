@@ -7,7 +7,8 @@
       code
         small Draft
     span.pull-right
-      span.text-muted> Posted #{time_ago_in_words event_definition.created_at} ago
+      - if event_definition.published_status != false
+        span.text-muted> Posted #{time_ago_in_words event_definition.created_at} ago
       - if event_definition.content_categories.any? || event_definition.content_tags.any?
         span.text-muted> in
         - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
@@ -35,8 +36,8 @@
       - if placement && !placement.embeds? && placement.image
         = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
       .event-info
-        - if @business.website
-          h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website)], target: :_blank
+        - if event_definition.published_status != true
+          h2.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => event_definition.id], target: :_blank
         - else
-          h2.event-title = event_definition.title
+          h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website)], target: :_blank
         .event-desc.truncate = truncate sanitize(event_definition.description), length: 250

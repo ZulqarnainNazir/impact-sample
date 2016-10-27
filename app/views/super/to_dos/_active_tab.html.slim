@@ -1,0 +1,18 @@
+div.tab-pane.active#active role="tabpanel"
+  table.table
+    thead
+      th Logo
+      th Company
+      th Tasks For Review
+      th Pending Tasks
+    tbody
+      - @businesses.each do |business|
+        tr
+          td
+            - if (business.logo.attachment_url? rescue nil)
+              = image_tag business.logo.attachment_url(:thumbnail), alt: business.logo.alt, title: business.logo.title, class: 'table-logo'
+            - else
+              i.fa.fa-photo
+          td = link_to business.name, business_dashboard_path(business)
+          td = link_to business.to_dos.submitted.count, business_to_dos_path(business)
+          td = link_to business.to_dos.pending.count, business_to_dos_path(business)

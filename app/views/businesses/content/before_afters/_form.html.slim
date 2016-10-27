@@ -4,12 +4,15 @@
     = form.text_field :title, class: 'form-control', placeholder: 'Add a 5-12 word description of what you’re comparing in your post.'
     br>
     - if @before_after.persisted?
-      = link_to "Preview Post", url_for(@preview_url), class: 'btn btn-block btn-default', :target => "_blank"
+      - if @before_after.published_status == false
+        = link_to "Preview Post", [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => @before_after.id], class: 'btn btn-block btn-default', :target => "_blank"
+      - else
+        = link_to "View Post", [:website, @before_after, only_path: false, host: website_host(@business.website)], class: 'btn btn-block btn-default', :target => "_blank"
   .col-sm-4
     .form-group
       = form.label :published_on, class: 'control-label'
       .input-group.date#datetimepicker
-        = form.text_field :published_on, :class => "form-control"
+        = form.text_field :published_on, :value => (@before_after.published_at.present? ? @before_after.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") ), :class => "form-control"
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
 = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
@@ -66,5 +69,5 @@ hr
 
 javascript:
   $('#datetimepicker').datetimepicker({
-      format: 'ddd, D MMM YYYY h:mm:ss A ZZ'
+      format: 'MMM D YYYY h:mm A ZZ'
   });
