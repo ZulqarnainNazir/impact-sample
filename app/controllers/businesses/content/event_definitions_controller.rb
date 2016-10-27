@@ -41,7 +41,6 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   def create
     @event_definition = EventDefinition.new(event_definition_params)
     @event_definition.business = @business
-    @event_definition.save!
     @event_definition.reschedule_events!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -69,7 +68,6 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
 
   def update
     @event_definition.update(event_definition_params)
-    @event_definition.save!
     @event_definition.reschedule_events!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
