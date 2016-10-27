@@ -70,6 +70,13 @@ class Website::GenericPostsController < Website::BaseController
       @post = @business.posts.find(params[:id])
     when "quick_posts"
       @quick_post = @business.quick_posts.find(params[:id])
+<<<<<<< HEAD
+=======
+    when "posts"
+      @post = @business.posts.find(params[:id])
+    when "quick_posts"
+      @quick_post = @business.quick_posts.find(params[:id])
+>>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     when "events"
       @event = @business.events.joins(:event_definition).where(id: params[:id]).first
       if @event
@@ -93,6 +100,9 @@ class Website::GenericPostsController < Website::BaseController
 
     @preview = true
     render "website/#{params[:type]}/show"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
   end
 end

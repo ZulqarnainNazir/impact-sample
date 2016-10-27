@@ -24,9 +24,18 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     end
     if params[:draft]
       @gallery.published_status = false
+<<<<<<< HEAD
+=======
+      if @gallery.save
+        redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
+        # go straight to post edit page if saved as draft
+        return
+      end
+>>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     else
       @gallery.published_status = true
     end
+<<<<<<< HEAD
     respond_to do |format|
       if @gallery.save
         flash[:notice] = 'Post was successfully created.'
@@ -36,6 +45,8 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
       end
 
+=======
+>>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
   end
@@ -50,6 +61,10 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
 
   def update
     @gallery.update(gallery_params)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     @gallery.generate_slug
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @gallery.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -62,8 +77,18 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     end
     if params[:draft]
       @gallery.published_status = false
+<<<<<<< HEAD
     else
       @gallery.published_status = true
+=======
+        redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" if @gallery.save
+        # go straight to post edit page if saved as draft
+        return
+      end
+    else
+      @gallery.published_status = true
+      redirect_to business_content_feed_path @business if @gallery.save
+>>>>>>> 1282ea15881b4a2260f1ab993005874bde3e5c44
     end
     respond_to do |format|
       if @gallery.save
