@@ -5,7 +5,7 @@ class Businesses::ToDosController < Businesses::BaseController
     end
   end
 
-  before_action :set_to_to, except: %w[index create show]
+  before_action :set_to_do, except: %w[index create show]
 
   def index
     @get_started_to_dos = @business.to_dos.getting_started.by_due_date
@@ -84,7 +84,7 @@ class Businesses::ToDosController < Businesses::BaseController
     params.require(:to_do).permit(:title, :description, :due_date)
   end
 
-  def set_to_to
+  def set_to_do
     @to_do = @business.to_dos.find(params[:id])
   end
 end
