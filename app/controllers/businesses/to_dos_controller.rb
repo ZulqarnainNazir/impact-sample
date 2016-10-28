@@ -8,10 +8,10 @@ class Businesses::ToDosController < Businesses::BaseController
   before_action :set_to_to, except: %w[index create show]
 
   def index
-    @get_started_to_dos = @business.to_dos.getting_started.by_due_date
-    @prepare_launch_to_dos = @business.to_dos.preparing_to_launch.by_due_date
-    @after_launch_to_dos = @business.to_dos.after_launch.by_due_date
-    @custom_to_dos = @business.to_dos.custom.by_due_date
+    @get_started_to_dos = @business.to_dos.getting_started.by_due_date.order(:created_at)
+    @prepare_launch_to_dos = @business.to_dos.preparing_to_launch.by_due_date.order(:created_at)
+    @after_launch_to_dos = @business.to_dos.after_launch.by_due_date.order(:created_at)
+    @custom_to_dos = @business.to_dos.custom.by_due_date.order(:created_at)
   end
 
   def show
