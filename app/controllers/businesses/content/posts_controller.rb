@@ -18,7 +18,6 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       ps.post = @post
     end
     @post.business = @business
-    @post.save!
     fix_post_section_parent_ids(@post.post_sections)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -26,24 +25,25 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       @post.update_column :facebook_id, result['id']
     end
     if params[:draft]
-       @post.published_status = false
-       if @post.save
-         redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @post.published_status = false
     else
-       @post.published_status = true
-       redirect_to business_content_feed_path @business if @post.save
+      @post.published_status = true
     end
-
+    respond_to do |format|
+      if @post.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_post_path, :alert => "Post must have a title" }
+      end
+    end
     Post.__elasticsearch__.refresh_index!
     intercom_event 'created-custom-post'
   end
 
   def update
     @post.update(post_params)
-    @post.save!
     fix_post_section_parent_ids(@post.post_sections)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -55,15 +55,18 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       end
     end
     if params[:draft]
-       @post.published_status = false
-       if @post.save
-         redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @post.published_status = false
     else
-       @post.published_status = true
-       redirect_to business_content_feed_path @business if @post.save
+      @post.published_status = true
+    end
+    respond_to do |format|
+      if @post.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_post_path, :alert => "Post must have a title" }
+      end
     end
     Post.__elasticsearch__.index_name
     Post.__elasticsearch__.refresh_index!

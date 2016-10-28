@@ -112,6 +112,10 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def first_five_to_dos
+    to_dos.where.not(group: 0).order(:created_at).by_due_date.order(:group).limit(5)
+  end
+
   private
 
   def bootstrap_to_dos

@@ -13,25 +13,28 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     @gallery = Gallery.new(gallery_params)
     @gallery.business = @business
+    @gallery.generate_slug
     @gallery.gallery_images.each do |image|
       image.gallery = @gallery
     end
-    @gallery.save!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @gallery.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
       @gallery.update_column :facebook_id, result['id']
     end
     if params[:draft]
-       @gallery.published_status = false
-       if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), alert: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @gallery.published_status = false
     else
       @gallery.published_status = true
-      redirect_to business_content_feed_path @business if @gallery.save
+    end
+    respond_to do |format|
+      if @gallery.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
+      end
     end
     Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
@@ -43,6 +46,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     post_path = website_gallery_path(@gallery)
     @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => @gallery.id]
   end
+
 
   def update
     @gallery.update(gallery_params)
@@ -57,16 +61,20 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       end
     end
     if params[:draft]
-       @gallery.published_status = false
-       if @gallery.save
-         redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @gallery.published_status = false
     else
-    @gallery.published_status = true
-    redirect_to business_content_feed_path @business if @gallery.save
+      @gallery.published_status = true
     end
+    respond_to do |format|
+      if @gallery.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
+      end
+    end
+
     @gallery.__elasticsearch__.index_document
     Gallery.__elasticsearch__.refresh_index!
   end

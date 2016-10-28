@@ -13,24 +13,24 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def create
     @quick_post = QuickPost.new(quick_post_params)
     @quick_post.business = @business
-    @quick_post.save!
-
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
       @quick_post.update_column :facebook_id, result['id']
     end
-
     if params[:draft]
-       @quick_post.published_status = false
-       if @quick_post.save
-         redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @quick_post.published_status = false
     else
-       @quick_post.published_status = true
-       redirect_to business_content_feed_path @business if @quick_post.save
+      @quick_post.published_status = true
+    end
+    respond_to do |format|
+      if @quick_post.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
+      end
     end
     QuickPost.__elasticsearch__.refresh_index!
     intercom_event 'created-quick-post'
@@ -55,16 +55,20 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       end
     end
     if params[:draft]
-       @quick_post.published_status = false
-       if @quick_post.save
-         redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully"
-         # go straight to post edit page if saved as draft
-         return
-       end
+      @quick_post.published_status = false
     else
-       @quick_post.published_status = true
-       redirect_to business_content_feed_path @business if @quick_post.save
+      @quick_post.published_status = true
     end
+    respond_to do |format|
+      if @quick_post.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
+      end
+    end
+
     @quick_post.__elasticsearch__.index_document
     QuickPost.__elasticsearch__.refresh_index!
   end
