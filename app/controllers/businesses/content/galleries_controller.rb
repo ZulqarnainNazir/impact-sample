@@ -13,10 +13,10 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     @gallery = Gallery.new(gallery_params)
     @gallery.business = @business
+    @gallery.generate_slug
     @gallery.gallery_images.each do |image|
       image.gallery = @gallery
     end
-    @gallery.save!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @gallery.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
@@ -33,9 +33,9 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
       end
-
+    end
     Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
   end
@@ -71,7 +71,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
       end
     end
 

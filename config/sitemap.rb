@@ -5,10 +5,13 @@ SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(
   aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
   aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
 )
+
 SitemapGenerator::Sitemap.public_path = 'tmp/'
 SitemapGenerator::Sitemap.sitemaps_host = "http://#{ENV['AWS_S3_BUCKET']}.s3-#{ENV['AWS_S3_REGION']}.amazonaws.com/sitemap_generator"
 
-Website.find_each do |website|
+Business.find_each do |business|
+  website = business.try(:website)
+  return if website.nil?
 
   webhost = website.webhosts.try(:find_by, :primary => true).try(:name)
   if webhost.nil?
@@ -16,8 +19,6 @@ Website.find_each do |website|
   else
     SitemapGenerator::Sitemap.default_host = "http://#{webhost}"
   end
-
-  SitemapGenerator::Sitemap.sitemaps_path = "sitemaps/#{website.id}"
 
 
   SitemapGenerator::Sitemap.create do

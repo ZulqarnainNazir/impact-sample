@@ -18,7 +18,6 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       ps.post = @post
     end
     @post.business = @business
-    @post.save!
     fix_post_section_parent_ids(@post.post_sections)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -39,14 +38,12 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         format.html { redirect_to new_business_content_post_path, :alert => "Post must have a title" }
       end
     end
-
     Post.__elasticsearch__.refresh_index!
     intercom_event 'created-custom-post'
   end
 
   def update
     @post.update(post_params)
-    @post.save!
     fix_post_section_parent_ids(@post.post_sections)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -146,11 +143,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def post_facebook_params
-<<<<<<< HEAD
     if @post.published_on > DateTime.now
-=======
-    if @post.published_at > Time.now
->>>>>>> 130134669_text_editor_cleanup
       {
         caption: truncate(Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @post, only_path: false, host: website_host(@business.website)]),
