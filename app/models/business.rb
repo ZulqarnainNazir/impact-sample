@@ -113,7 +113,7 @@ class Business < ActiveRecord::Base
   end
 
   def first_five_to_dos
-    to_dos.where.not(group: 0).order(:created_at).by_due_date.order(:group).limit(5)
+    to_dos.where.not(group: 0).by_due_date.order(:group).limit(5)
   end
 
   private
