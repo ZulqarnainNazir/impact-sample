@@ -15,10 +15,9 @@ class ToDosBootstrap
   end
 
   def run
-    config[:default_to_dos].map do |todo|
-      create_to_do(todo)
-      subscribe_admins_to_updates
-    end
+    config[:default_to_dos].map { |todo| create_to_do(todo) }
+
+    subscribe_admins_to_updates
   end
 
   private
