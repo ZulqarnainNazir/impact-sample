@@ -3,7 +3,7 @@
     :description: "If you have a logo you’d like to use that is not currently selected please <a href='/businesses/<%= @business.id %>/data/details/edit' target='_blank'>upload it</a>"
     :group: "getting_started"
   - :title: "Bookmark Your IMPACT Account"
-    :description: "Make sure it’s easy for you to get back to manage your account by bookmarking <a href='/businesses/<%= @business.id %>' target='_blank'>your account</a> you can also add it to the home screen of your smartphone for easy access on the go."
+    :description: "Make sure it’s easy for you to get back to manage your account by book marking <a href='/businesses/<%= @business.id %>' target='_blank'>your account</a> you can also add it to the home screen of your smartphone for easy access on the go."
     :group: "getting_started"
   - :title: "Upload initial images in bulk"
     :description: "Images make a website, please <a href='/businesses/<%= @business.id %>/content/images_upload/new' target='_blank'>upload initial images</a>, you can always add more later. Things to keep in mind: images should be larger than 1200px on each side so we can downscale them if needed and only .jpg, .jpeg, .gif or .png file types are supported. Images from smartphones are fine. Pro Tip: If you name the files something descriptive prior to uploading them rather than 1234.jpg or 2015-03-07 07.48.01.jpg it will help with search engines."
