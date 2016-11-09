@@ -47,6 +47,7 @@ class ContentFeedSearch
       }
     end
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
+    @results = Elasticsearch::Model.search('asdcadsc', [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
+
   end
 end

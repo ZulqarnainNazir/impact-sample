@@ -53,7 +53,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       @event_definition.published_status = true
     end
     respond_to do |format|
-      if @event_definition.save
+      if @event_definition.save!
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]

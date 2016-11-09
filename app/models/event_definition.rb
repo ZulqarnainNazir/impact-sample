@@ -89,7 +89,7 @@ class EventDefinition < ActiveRecord::Base
         if occurrence && event
           event.update(occurs_on: occurrence) unless event.occurs_on == occurrence
         elsif occurrence
-          events.create(business: business, occurs_on: occurrence)
+          Event.create(business: business, occurs_on: occurrence)
         elsif event
           event.destroy
         end
