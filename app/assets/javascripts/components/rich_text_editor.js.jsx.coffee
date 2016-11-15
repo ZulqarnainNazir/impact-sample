@@ -37,7 +37,7 @@ RichTextEditor = React.createClass
             notTime:2400,
             action:'both',
             newline:'<br>',
-            notStyle:'position:absolute;bottom:0;left:2px',
+            notStyle:'position:absolute;bottom:0;left:2px;',
             icon:'<i class="note-icon">[Your Button]</i>'
           }
     if this.props.update
@@ -65,7 +65,7 @@ RichTextEditor = React.createClass
         ['clear', ['clear']],
         ['misc', ['codeview']],
       ]
-      
+
   render: ->
     `<div dangerouslySetInnerHTML={{__html: this.props.html}} />`
 
