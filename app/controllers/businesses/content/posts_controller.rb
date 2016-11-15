@@ -59,6 +59,8 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     else
       @post.published_status = true
     end
+
+
     respond_to do |format|
       if @post.save
         flash[:notice] = 'Post was successfully created.'
