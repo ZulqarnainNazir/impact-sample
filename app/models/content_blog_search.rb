@@ -15,9 +15,6 @@ class ContentBlogSearch
             term: {
               business_id: @business.id,
             },
-            term: {
-                published_status: true,
-            },
           },
           {
             or: [
