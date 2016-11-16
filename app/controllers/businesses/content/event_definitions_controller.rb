@@ -33,6 +33,8 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     cloned_event_definition = @business.event_definitions.find(params[:id])
     cloned_attributes = cloned_event_definition.attributes.slice(*cloneable_attributes)
     @event_definition = @business.event_definitions.new(cloned_attributes)
+    @event_definition.content_category_ids = cloned_event_definition.content_category_ids
+    @event_definition.content_tag_ids = cloned_event_definition.content_tag_ids
     @event_definition.event_definition_location_attributes = { location_id: cloned_event_definition.location.try(:id) }
     @event_definition.event_image_placement_attributes = { image_id: cloned_event_definition.event_image.try(:id) }
     render :new
@@ -53,7 +55,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       @event_definition.published_status = true
     end
     respond_to do |format|
-      if @event_definition.save
+      if @event_definition.save!
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]

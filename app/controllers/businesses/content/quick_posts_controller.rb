@@ -10,6 +10,16 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     @quick_post = @business.quick_posts.find(params[:id])
   end
 
+  def clone
+    cloned_post = @business.quick_posts.find(params[:id])
+    cloned_attributes = cloned_post.attributes.slice(*cloneable_attributes)
+    @quick_post = @business.quick_posts.new(cloned_attributes)
+    @quick_post.content_category_ids = cloned_post.content_category_ids
+    @quick_post.content_tag_ids = cloned_post.content_tag_ids
+    @quick_post.quick_post_image_placement_attributes = { image_id: cloned_post.quick_post_image.try(:attachment_url) }
+    render :new
+  end
+
   def create
     @quick_post = QuickPost.new(quick_post_params)
     @quick_post.business = @business
@@ -105,6 +115,10 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
       safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
     end
+  end
+
+  def cloneable_attributes
+    %w[title content]
   end
 
   def quick_post_facebook_params

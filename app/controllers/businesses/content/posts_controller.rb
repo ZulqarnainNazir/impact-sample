@@ -12,6 +12,23 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     @post = @business.posts.find(params[:id])
   end
 
+  def clone
+    post = @business.posts.find(params[:id])
+    ps_array = []
+    @post = post.dup
+    post.post_sections.each do |ps|
+      cloned_ps = ps.dup
+      cloned_ps.post_section_image_placement_attributes = { image_id: ps.post_section_image.try(:id) }
+      ps_array.push(cloned_ps)
+    end
+    @post.post_sections = ps_array
+    @post.content_category_ids = post.content_category_ids
+    @post.content_tag_ids = post.content_tag_ids
+    @post.main_image_placement_attributes = { image_id: post.main_image.try(:id) }
+    @post.published_on = nil
+    render :new
+  end
+
   def create
     @post = Post.new(post_params)
     @post.post_sections.each do |ps|
@@ -59,6 +76,8 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     else
       @post.published_status = true
     end
+
+
     respond_to do |format|
       if @post.save
         flash[:notice] = 'Post was successfully created.'
@@ -140,6 +159,10 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         section.update! parent_id: nil
       end
     end
+  end
+
+  def cloneable_attributes
+    %w[title description meta_description post_sections_attributes content_category_ids content_tag_ids main_image_placement_attributes]
   end
 
   def post_facebook_params

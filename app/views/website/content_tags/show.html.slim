@@ -9,7 +9,9 @@
       strong “#{@content_tag.name}”
   .row
     div class=(@website.content_blog_sidebar? ? 'col-sm-8' : 'col-sm-12')
-      = render posts(@business, content_tag_ids: [@content_tag.id], page: params[:page])
+      = render posts(@business, content_tag_ids: [@content_tag.id], page: params[:page], limit: 12)
     - if @website.content_blog_sidebar?
       .col-sm-4
         = render posts(@business), small: true
+    = paginate posts(@business, content_category_ids: [@content_tag.id], page: params[:page], limit: 12)
+

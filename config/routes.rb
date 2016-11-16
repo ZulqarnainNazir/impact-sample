@@ -87,8 +87,12 @@ Rails.application.routes.draw do
           resources :offers, only: %i[new create edit update destroy] do
             get :clone, on: :member
           end
-          resources :posts, only: %i[new create edit update destroy]
-          resources :quick_posts, only: %i[new create edit update destroy]
+          resources :posts, only: %i[new create edit update destroy] do
+            get :clone, on: :member
+          end
+          resources :quick_posts, only: %i[new create edit update destroy] do
+            get :clone, on: :member
+          end
         end
 
         namespace :data do
