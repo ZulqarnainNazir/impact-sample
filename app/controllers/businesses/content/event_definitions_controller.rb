@@ -33,6 +33,8 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     cloned_event_definition = @business.event_definitions.find(params[:id])
     cloned_attributes = cloned_event_definition.attributes.slice(*cloneable_attributes)
     @event_definition = @business.event_definitions.new(cloned_attributes)
+    @event_definition.content_category_ids = cloned_event_definition.content_category_ids
+    @event_definition.content_tag_ids = cloned_event_definition.content_tag_ids
     @event_definition.event_definition_location_attributes = { location_id: cloned_event_definition.location.try(:id) }
     @event_definition.event_image_placement_attributes = { image_id: cloned_event_definition.event_image.try(:id) }
     render :new
