@@ -17,6 +17,11 @@ class ContentBlogSearch
             },
           },
           {
+              term: {
+                  published_status: true,
+              },
+          },
+          {
             or: [
               {
                 missing: {
