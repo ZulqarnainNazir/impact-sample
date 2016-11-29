@@ -14,7 +14,7 @@
         - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
           - if @business.website
             - if event_definition.published_status == false
-              h2.h3 = link_to classification.title, [:website, :generic_post, :preview, :type => "event_definitions", only_path: false, :host => website_host(@business.website), :id => event_definition.id], target: :_blank
+              = link_to classification.name, [:website, :generic_post, :preview, :type => "event_definitions", only_path: false, :host => website_host(@business.website), :id => event_definition.id], target: :_blank
             - else
               = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
           - else
