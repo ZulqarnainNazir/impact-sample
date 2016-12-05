@@ -77,8 +77,11 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('style')} value={this.props.style} />
         <input type="hidden" name={this.inputName('logo_horizontal_position')} value={this.props.logo_horizontal_position} />
         <input type="hidden" name={this.inputName('logo_vertical_position')} value={this.props.logo_vertical_position} />
+        <input type="hidden" name={this.inputName('logo_bar_fixed')} value={this.props.logo_bar_fixed} />
+        <input type="hidden" name={this.inputName('social_enabled')} value={this.props.social_enabled} />
         <input type="hidden" name={this.inputName('navigation_horizontal_position')} value={this.props.navigation_horizontal_position} />
         <input type="hidden" name={this.inputName('contact_position')} value={this.props.contact_position} />
+        <input type="hidden" name={this.inputName('social_position')} value={this.props.social_position} />
         <input type="hidden" name={this.inputName('navbar_location')} value={this.props.navbar_location} />
       </div>`
 

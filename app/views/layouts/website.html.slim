@@ -61,6 +61,24 @@ html lang="en"
       .webpage-header .navbar a:hover {
         color: #{@website.header_block.try(:link_color)} !important;
       }
+      .webpage-header.navbar-fixed-top {
+        background-color: #{@website.background_color};
+      }
+      .webpage-group .webpage-hero > div > div {
+        padding-top: 20px;
+      }
+      .webpage-header.navbar-fixed-top.hero-behind.transparent {
+        background-color: transparent;
+      }
+      .webpage-header.hero-behind.transparent .navbar {
+        background-color: transparent;
+      }
+      body.hero-behind .webpage-group .webpage-hero > div {
+        margin-top: 0 !important;
+      }
+      body.hero-below .webpage-group .webpage-hero > div {
+        padding-top: 0 !important;
+      }
       .webpage-footer .site-footer-columns .site-footer-upper,
       .webpage-footer .site-footer-layers {
         background-color: #{@website.footer_block.settings['background_color']} !important;
@@ -82,10 +100,15 @@ html lang="en"
       #{{"ga('create', '#{@website.google_analytics_id}', 'auto');" if @website.google_analytics_id.present?}}
       ga('create', '#{ENV['GOOGLE_ANALYTICS']}', 'auto', {'name': 'rollup'});
 
-  body
+  - hero_position = "hero-below"
+  - @page.groups.each do |group| 
+    - if group.attributes['type'] == 'HeroGroup' && !group.attributes['settings']['hero_position'].nil? 
+       - hero_position = 'hero-' + group.attributes['settings']['hero_position']
+
+  body[class="#{hero_position}"]
     - if @website.header_block
       - unless @page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1'
-        .webpage-header
+        .webpage-header[class="#{hero_position}"]
           = render @website.header_block
     = yield
     - if has_footer_embed(@website, @page)

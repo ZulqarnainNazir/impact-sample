@@ -135,23 +135,41 @@ HeaderBlock = React.createClass
 
   renderContact: ->
     if this.props.contact_position is 'left'
-      `<div className="vcard navbar-vcard pull-left text-left">
-        {this.renderContactPhone()}
-        {this.renderContactAddress()}
+      `<div>
+        <div className="vcard navbar-vcard pull-right text-right">
+          {this.renderSocial()}
+        </div>
+        <div className="vcard navbar-vcard pull-left text-left">
+          {this.renderContactPhone()}
+          {this.renderContactAddress()}
+        </div>
       </div>`
     else if this.props.contact_position is 'right'
       `<div className="vcard navbar-vcard pull-right text-right">
+        {this.renderSocial()}
         {this.renderContactPhone()}
         {this.renderContactAddress()}
       </div>`
     else if this.props.contact_position is 'full'
       `<div className="clearfix" style={{marginLeft: -10}}>
         <ul className="nav navbar-nav vcard text-left">
+          {this.renderSocial()}
           {this.renderContactFullAddress()}
           {this.renderContactFullPhone()}
           {this.renderContactFullEmail()}
         </ul>
       </div>`
+
+  renderSocial: ->
+    unless this.props.social_enabled is 'hidden'
+      `<ul className="list-inline header-social">
+        <li><a href="#"><i className="fa fa-facebook-square fa-2x"></i></a></li>
+        <li><a href="#"><i className="fa fa-twitter-square fa-2x"></i></a></li>
+        <li><a href="#"><i className="fa fa-google-plus-square fa-2x"></i></a></li>
+        <li><a href="#"><i className="fa fa-youtube-square fa-2x"></i></a></li>
+        <li><a href="#"><i className="fa fa-linkedin-square fa-2x"></i></a></li>
+        <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
+      </ul>`
 
   renderContactPhone: ->
     unless this.props.hidePhone

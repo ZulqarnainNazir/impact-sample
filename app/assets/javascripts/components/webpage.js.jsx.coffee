@@ -193,6 +193,7 @@ Webpage = React.createClass
         theme: 'full'
         themes: ['full', 'right', 'left']
         well_style: 'light'
+        postion_header: 'below'
         updateHeading: this.updateHeading.bind(null, group_uuid, block_uuid)
         updateText: this.updateText.bind(null, group_uuid, block_uuid)
       when 'TaglineBlock'
@@ -670,9 +671,12 @@ Webpage = React.createClass
     if group.type is 'HeroGroup'
       $('#custom_group_height_fields').show()
       $('#custom_group_height').val if parseInt(group.height) > 0 then parseInt(group.height) else ''
+      $('#hero_position_fields').show()
+      $('#hero_position').val if ['below', 'behind'].indexOf(group.hero_position) > 0 then group.hero_position else 'below'
     else
       $('#custom_group_height_fields').hide()
       $('#custom_group_height').val('')
+      $('#hero_position_fields').hide()
     $('#custom_group_modal').modal('show')
 
   updateCustomGroup: ->
@@ -681,6 +685,7 @@ Webpage = React.createClass
       this.updateGroup $('#custom_group_uuid').val(),
         custom_class: $('#custom_group_custom_class').val()
         height: $('#custom_group_height').val()
+        hero_position: $('#hero_position').val()
     else
       this.updateGroup $('#custom_group_uuid').val(),
         custom_class: $('#custom_group_custom_class').val()
@@ -690,6 +695,7 @@ Webpage = React.createClass
     $('#custom_group_uuid').val ''
     $('#custom_group_custom_class').val ''
     $('#custom_group_height').val ''
+    $('#hero_position').val 'below' 
 
   editLink: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -971,6 +977,15 @@ Webpage = React.createClass
 		</label>
 		<input type="text" id="custom_group_height" className="form-control" />
 	      </div>
+              <div className="form-group" id="hero_position_fields">
+                <label htmlFor="hero_position" className="control-label">Position With Header</label>
+                <div>
+                  <select ref="selectpicker" id="hero_position" className="form-control" defaultValue="false">
+                    <option key="below" value="below">Below Header</option>
+                    <option key="behind" value="behind">Behind Header</option>
+                  </select>
+                </div>
+              </div>
             </div>
             <div className="modal-footer">
               <span className="btn btn-default" data-dismiss="modal" onClick={this.resetCustomGroup}>Cancel</span>

@@ -26,6 +26,7 @@ Group = React.createClass
         <input type="hidden" name={this.inputName('height')} value={this.props.height} />
         <input type="hidden" name={this.inputName('max_blocks')} value={this.props.max_blocks} />
         <input type="hidden" name={this.inputName('position')} value={this.props.position} />
+        <input type="hidden" name={this.inputName('hero_position')} value={this.props.hero_position} />
         <input type="hidden" name={this.inputName('custom_class')} value={this.props.custom_class} />
         {this.renderRemovedBlocksInputs()}
       </div>
