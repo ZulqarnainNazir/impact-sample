@@ -81,8 +81,9 @@
       - if header_block.contact_position == 'full'
         .clearfix style="margin-left:-10px"
           .vcard.nav.navbar-nav.text-left
-            ul.list-inline.header-social
-              = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
+            - if header_block.social_enabled == 'show'
+              ul.list-inline.header-social
+                = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
             - if !@location.hide_address?
               li: p.navbar-text
                 i.fa.fa-map-marker>
