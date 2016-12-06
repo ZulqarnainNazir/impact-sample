@@ -98,9 +98,10 @@ html lang="en"
       ga('create', '#{ENV['GOOGLE_ANALYTICS']}', 'auto', {'name': 'rollup'});
 
   - hero_position = "hero-below"
-  - @page.groups.each do |group| 
-    - if group.attributes['type'] == 'HeroGroup' && !group.attributes['settings']['hero_position'].nil? 
-       - hero_position = 'hero-' + group.attributes['settings']['hero_position']
+  - if !@page.nil?
+    - @page.groups.each do |group| 
+      - if group.attributes['type'] == 'HeroGroup' && !group.attributes['settings']['hero_position'].nil? 
+         - hero_position = 'hero-' + group.attributes['settings']['hero_position']
 
   body[class="#{hero_position}"]
     - if @website.header_block
