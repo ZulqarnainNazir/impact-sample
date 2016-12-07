@@ -14,13 +14,14 @@ class ContentBlogSearch
           {
             term: {
               business_id: @business.id,
+              published_status: true,
             },
           },
-          {
-              term: {
-                  published_status: true,
-              },
-          },
+          # {
+          #     term: {
+          #         published_status: true,
+          #     },
+          # },
           {
             or: [
               {
