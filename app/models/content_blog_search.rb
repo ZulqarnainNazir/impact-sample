@@ -9,12 +9,18 @@ class ContentBlogSearch
 
   def search
     dsl = {
+
+      query: {
+          match: {
+              published_status: true
+          }
+      },
+
       filter: {
         and: [
           {
             term: {
               business_id: @business.id,
-              published_status: true,
             },
           },
           # {
