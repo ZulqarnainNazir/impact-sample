@@ -1,6 +1,6 @@
 class Feedback < ActiveRecord::Base
   belongs_to :business
-  belongs_to :customer
+  belongs_to :contact
 
   has_one :review, dependent: :destroy
 

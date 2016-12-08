@@ -10,12 +10,12 @@ ol.breadcrumb
 hr
 
 dl.dl-horizontal
-  dt Customer Name
-  dd = link_to @contact_message.customer.name, [:edit, @business, :crm, @contact_message.customer]
+  dt Contact Name
+  dd = link_to @contact_message.contact.name, [:edit, @business, :crm, @contact_message.contact]
   dt Email
-  dd = @contact_message.customer.email
+  dd = @contact_message.contact.email
   dt Phone
-  dd = @contact_message.customer.phone
+  dd = @contact_message.contact.phone
   dt Date Received
   dd = localize @contact_message.created_at, format: :long
 hr

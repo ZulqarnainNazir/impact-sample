@@ -1,5 +1,5 @@
 tr class=('unread' unless review.read_by.include?(current_user.id))
-  td = link_to review.customer.name, [:edit, review.business, :crm, review.customer]
+  td = link_to review.contact.name, [:edit, review.business, :crm, review.contact]
   td = review.reviewed_at.strftime('%D')
   td = review.serviced_at.try(:strftime, '%D') || '--'
   td.text-warning

@@ -5,7 +5,7 @@ class Businesses::Crm::ReviewsController < Businesses::BaseController
   end
 
   def index
-    @reviews = @business.reviews.includes(:customer).where(hide: false).order(reviews_order).page(params[:page]).per(20)
+    @reviews = @business.reviews.includes(:contact).where(hide: false).order(reviews_order).page(params[:page]).per(20)
   end
 
   def destroy
@@ -18,7 +18,7 @@ class Businesses::Crm::ReviewsController < Businesses::BaseController
     if %w[reviewed_at serviced_at overall_rating].include?(params[:order_by])
       "#{params[:order_by]} #{reviews_order_dir} NULLS LAST"
     elsif %w[name].include?(params[:order_by])
-      "customers.#{params[:order_by]} #{reviews_order_dir} NULLS LAST"
+      "contacts.#{params[:order_by]} #{reviews_order_dir} NULLS LAST"
     else
       'CASE WHEN cardinality(read_by) = 0 THEN 0 ELSE 1 END ASC, updated_at DESC'
     end

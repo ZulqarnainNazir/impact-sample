@@ -1,12 +1,12 @@
 class Review < ActiveRecord::Base
   belongs_to :business
-  belongs_to :customer, touch: true
+  belongs_to :contact, touch: true
   belongs_to :feedback
 
-  accepts_nested_attributes_for :customer
+  accepts_nested_attributes_for :contact
 
   validates :business, presence: true
-  validates :customer, presence: true, associated: true
+  validates :contact, presence: true, associated: true
   validates :customer_email, presence: true
   validates :customer_name, presence: true
   validates :description, presence: true
@@ -20,13 +20,13 @@ class Review < ActiveRecord::Base
   before_validation do
     self.reviewed_at = Time.now unless reviewed_at?
 
-    if business && !customer
-      self.customer = business.customers.where(email: customer_email).first || business.customers.build(name: customer_name, email: customer_email, phone: customer_phone)
+    if business && !contact
+      self.contact = business.contacts.where(email: customer_email).first || business.contacts.build(name: customer_name, email: customer_email, phone: customer_phone)
     end
   end
 
   after_save do
-    self.customer.save if customer
+    self.contact.save if contact
     FacebookReviewsExportJob.perform_later(business)
     LocableReviewsExportJob.perform_later(business)
   end

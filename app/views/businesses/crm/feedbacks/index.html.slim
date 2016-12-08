@@ -7,13 +7,13 @@ ol.breadcrumb
   li.active Feedback
 
 .pull-right
-  = link_to [:new, @business, :crm_customer], class: 'btn btn-sm btn-default' do
+  = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
     => icon 'plus-circle'
-    | Invite a Customer
+    | Invite a Contact
 
 - if @feedbacks.empty?
   p style="margin:2em 0"
-    em No feedback found. #{link_to 'Add a customer', [:new, @business, :crm_customer]} to send them an email prompting for their feedback.
+    em No feedback found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an email prompting for their feedback.
   hr
 - else
   p style="margin:2em 0" = page_entries_info @feedbacks
@@ -23,7 +23,7 @@ ol.breadcrumb
         thead
           tr
             th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
-              | Customer Name
+              | Contact Name
               - if params[:order_by] == 'name'
                 span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
             th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
@@ -44,7 +44,7 @@ ol.breadcrumb
 
 = form_for @business, url: [@business, :crm, :feedbacks_automation] do |form|
   .text-center style="margin-top:2em"
-    span> Automatically prompt customers to leave a review when their feedback score is above
+    span> Automatically prompt contacts to leave a review when their feedback score is above
     => form.select :automated_feedbacks_publishing, options_for_select((1..10).map { |n| [n, n] }, selected: form.object.automated_feedbacks_publishing), include_blank: true
     span.text-muted> –
     = form.button 'Save', class: 'btn btn-xs btn-default'

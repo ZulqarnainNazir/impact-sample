@@ -4,11 +4,11 @@ ol.breadcrumb
   li = link_to icon('home'), :root
   li = link_to @business.name, [@business, :dashboard]
   li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'All Customers', [@business, :crm_customers]
-  li = link_to @customer.name, [@business, :crm, @customer]
+  li = link_to 'All Contacts', [@business, :crm_contact]
+  li = link_to @contact.name, [@business, :crm, @contact]
   li.active Prompt for Feedback
 
-= form_for @feedback, url: [@business, :crm, @customer, :feedbacks] do |form|
+= form_for @feedback, url: [@business, :crm, @contact, :feedbacks] do |form|
   .row
     .col-sm-8
       .panel.panel-default
