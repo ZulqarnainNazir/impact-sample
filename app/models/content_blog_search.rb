@@ -100,7 +100,8 @@ class ContentBlogSearch
       dsl[:query] = {
         query_string: {
           fields: %w[title^2 description],
-          query: "#{@query}~",
+          # query: "#{@query}~", #tilde is for fuzzy searches
+          query: @query,
         },
       }
     else
