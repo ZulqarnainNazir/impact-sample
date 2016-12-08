@@ -87,7 +87,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         format.html { redirect_to new_business_content_post_path, :alert => "Post must have a title" }
       end
     end
-    Post.__elasticsearch__.index_name
+    @post.__elasticsearch__.index_document
     Post.__elasticsearch__.refresh_index!
   end
 

@@ -9,6 +9,13 @@ class ContentBlogSearch
 
   def search
     dsl = {
+
+      query: {
+          match: {
+              published_status: true
+          }
+      },
+
       filter: {
         and: [
           {
@@ -16,11 +23,11 @@ class ContentBlogSearch
               business_id: @business.id,
             },
           },
-          {
-              term: {
-                  published_status: true,
-              },
-          },
+          # {
+          #     term: {
+          #         published_status: true,
+          #     },
+          # },
           {
             or: [
               {

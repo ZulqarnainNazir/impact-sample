@@ -386,16 +386,6 @@ ActiveRecord::Schema.define(version: 20161025101640) do
     t.json     "settings"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.string   "business_street_1"
-    t.string   "business_street_2"
-    t.string   "business_city"
-    t.string   "business_state"
-    t.string   "business_zip_code"
-    t.string   "business_fax_number"
-    t.boolean  "hide_business_address"
-    t.boolean  "hide_business_fax"
-    t.float    "business_lat"
-    t.float    "business_long"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
@@ -515,7 +505,7 @@ ActiveRecord::Schema.define(version: 20161025101640) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.time     "published_time"
+    t.datetime "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -532,7 +522,7 @@ ActiveRecord::Schema.define(version: 20161025101640) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.time     "published_time"
+    t.datetime "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
