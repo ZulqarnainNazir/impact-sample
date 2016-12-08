@@ -5,7 +5,7 @@ class Businesses::Crm::ContactMessagesController < Businesses::BaseController
   end
 
   def index
-    @contact_messages = @business.contact_messages.includes(:customer).where(hide: false).order(contact_messages_order).page(params[:page]).per(20)
+    @contact_messages = @business.contact_messages.includes(:contact).where(hide: false).order(contact_messages_order).page(params[:page]).per(20)
   end
 
   def destroy
@@ -18,7 +18,7 @@ class Businesses::Crm::ContactMessagesController < Businesses::BaseController
     if %w[created_at serviced_at score].include?(params[:order_by])
       "#{params[:order_by]} #{contact_messages_order_dir} NULLS LAST"
     elsif %w[name].include?(params[:order_by])
-      "customers.#{params[:order_by]} #{contact_messages_order_dir} NULLS LAST"
+      "contacts.#{params[:order_by]} #{contact_messages_order_dir} NULLS LAST"
     else
       'CASE WHEN cardinality(read_by) = 0 THEN 0 ELSE 1 END ASC, updated_at DESC'
     end

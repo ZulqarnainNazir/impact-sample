@@ -2,22 +2,22 @@ class ContactMessage < ActiveRecord::Base
   attr_accessor :honey
 
   belongs_to :business
-  belongs_to :customer
+  belongs_to :contact
 
   validates :business, presence: true
-  validates :customer, presence: true, associated: true
+  validates :contact, presence: true, associated: true
   validates :customer_email, presence: true
   validates :customer_name, presence: true
   validates :message, presence: true
 
   before_validation do
-    if business && !customer
-      self.customer = business.customers.where(email: customer_email).first || business.customers.build(name: customer_name, email: customer_email, phone: customer_phone)
+    if business && !contact
+      self.contact = business.contacts.where(email: customer_email).first || business.contacts.build(name: customer_name, email: customer_email, phone: customer_phone)
     end
   end
 
   after_save do
-    self.customer.save if customer
+    self.contact.save if contact
   end
 
   after_create do

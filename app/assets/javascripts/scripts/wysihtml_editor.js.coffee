@@ -6,6 +6,7 @@ $.fn.wysihtmlEditor = ->
   editor.summernote
     height: 200
     toolbar: [
+      ['cleaner',['cleaner']],
       ['display', ['style']],
       ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
       ['insert', ['link']],
@@ -20,11 +21,10 @@ $.fn.wysihtmlEditor = ->
         'http://' + link
       else
         link
-    onPaste: (event) ->
-      event.preventDefault
-      setTimeout( ->
-        code = editor.code()
-        container = $('<div>').html(code).get(0)
-        sanitizer = new Sanitize(Sanitize.Config.BASIC)
-        editor.code sanitizer.clean_node(container)
-      , 10)
+    cleaner: {
+          notTime:2400,
+          action:'both',
+          newline:'<br>',
+          notStyle:'position:absolute;bottom:0;left:2px',
+          icon:'<i class="note-icon">[Your Button]</i>'
+        }

@@ -3,59 +3,7 @@ footer.site-footer.site-footer-simple
   .container
     p.copyright &copy #{Time.zone.now.year} #{business.name}
     ul.list-inline.footer-social
-      - if (location.email? && !location.hide_email?) || %i[facebook_id? twitter_id? google_plus_id? youtube_id? linkedin_id?].any? { |social| business.send(social) }
-        li: b Follow Us:
-      - if business.facebook_id?
-        li = link_to "https://www.facebook.com/#{business.facebook_id}", target: :_blank do
-          i.fa.fa-facebook-square.fa-2x
-      - if business.twitter_id?
-        li = link_to "https://www.twitter.com/#{business.twitter_id}", target: :_blank do
-          i.fa.fa-twitter-square.fa-2x
-      - if business.google_plus_id?
-        li = link_to "https://plus.google.com/+#{business.google_plus_id}", target: :_blank do
-          i.fa.fa-google-plus-square.fa-2x
-      - if business.youtube_id?
-        li = link_to "https://www.youtube.com/user/#{business.youtube_id}", target: :_blank do
-          i.fa.fa-youtube-square.fa-2x
-      - if business.linkedin_id?
-        li = link_to "https://www.linkedin.com/#{business.linkedin_id}", target: :_blank do
-          i.fa.fa-linkedin-square.fa-2x
-      - if business.pinterest_id?
-        li = link_to "https://www.pinterest.com/#{business.pinterest_id}", target: :_blank do
-          i.fa.fa-pinterest-square.fa-2x
-      - if business.instagram_id?
-        li = link_to "https://www.instagram.com/#{business.instagram_id}", target: :_blank do
-          i.fa.fa-instagram.fa-2x
-      - if business.yelp_id?
-        li = link_to "https://www.yelp.com/biz/#{business.yelp_id}", target: :_blank do
-          i.fa.fa-yelp.fa-2x
-      - if business.citysearch_id?
-        li = link_to "https://www.citysearch.com/#{business.citysearch_id}", target: :_blank do
-          i.fa.fa-square.fa-2x
-      - if business.foursquare_id?
-        li = link_to "https://foursquare.com/v/#{business.foursquare_id}", target: :_blank do
-          i.fa.fa-foursquare.fa-2x
-      - if business.zillow_id?
-        li = link_to "https://www.zillow.com/profile/#{business.zillow_id}", target: :_blank do
-          i.fa.fa-square.fa-2x
-      - if business.opentable_id?
-        li = link_to "https://www.opentable.com/#{business.opentable_id}", target: :_blank do
-          i.fa.fa-square.fa-2x
-      - if business.trulia_id?
-        li = link_to "https://www.trulia.com/profile/#{business.trulia_id}", target: :_blank do
-          i.fa.fa-square.fa-2x
-      - if business.realtor_id?
-        li = link_to "https://www.realtor.com/realestateagents/#{business.realtor_id}", target: :_blank do
-          i.fa.fa-square.fa-2x
-      - if business.tripadvisor_id?
-        li = link_to "https://www.tripadvisor.com/#{business.tripadvisor_id}", target: :_blank do
-          i.fa.fa-tripadvisor.fa-2x
-      - if business.houzz_id?
-        li = link_to "https://www.houzz.com/pro/#{business.houzz_id}", target: :_blank do
-          i.fa.fa-houzz.fa-2x
-      - if location.email? && !location.hide_email?
-        li = link_to "mailto:#{location.email}" do
-          i.fa.fa-envelope-square.fa-2x
+      = render partial: 'website/nav_links/social', locals: {business: business, location: location}
     - cache website do
       ul.list-inline.footer-links
         = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }

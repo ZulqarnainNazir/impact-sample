@@ -25,7 +25,7 @@ html lang="en"
             .progress: .progress-bar
             span.onboard-dot
           .onboard-step class=(controller_name == 'customers' ? 'is-active' : (%w[themes websites values].include?(controller_name) ? 'is-complete' : 'is-disabled'))
-            .onboard-stepnum = content_tag (controller_name == 'customers' ? :strong : :span), 'Customer<br>Information'.html_safe
+            .onboard-stepnum = content_tag (controller_name == 'contacts' ? :strong : :span), 'Contact<br>Information'.html_safe
             .progress: .progress-bar
             span.onboard-dot
           .onboard-step class=(controller_name == 'values' ? 'is-active' : (%w[themes websites].include?(controller_name) ? 'is-complete' : 'is-disabled'))

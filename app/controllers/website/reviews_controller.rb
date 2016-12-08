@@ -10,9 +10,9 @@ class Website::ReviewsController < Website::BaseController
 
     @feedback.build_review(
       business: @business,
-      customer_name: @feedback.customer.name,
-      customer_email: @feedback.customer.email,
-      customer_phone: @feedback.customer.phone,
+      customer_name: @feedback.contact.name,
+      customer_email: @feedback.contact.email,
+      customer_phone: @feedback.contact.phone,
     )
   end
 
@@ -30,10 +30,10 @@ class Website::ReviewsController < Website::BaseController
 
     if @feedback.save
       intercom_event 'created-review', {
-        user_email: @feedback.customer.email,
-        customer_name: @feedback.customer.email,
-        customer_phone: @feedback.customer.email,
-        customer_email: @feedback.customer.email,
+        user_email: @feedback.contact.email,
+        customer_name: @feedback.contact.email,
+        customer_phone: @feedback.contact.email,
+        customer_email: @feedback.contact.email,
         serviced_at: @feedback.serviced_at,
         feedback_score: @feedback.score,
         quality_rating: @feedback.review.quality_rating,

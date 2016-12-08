@@ -1,7 +1,7 @@
 tr class=('unread' unless contact_message.read_by.include?(current_user.id))
-  td = link_to contact_message.customer.name, [:edit, contact_message.business, :crm, contact_message.customer]
-  td = contact_message.customer.email
-  td = contact_message.customer.phone? ? contact_message.customer.phone : '--'
+  td = link_to contact_message.contact.name, [:edit, contact_message.business, :crm, contact_message.contact]
+  td = contact_message.contact.email
+  td = contact_message.contact.phone? ? contact_message.contact.phone : '--'
   td = localize contact_message.created_at, format: :long
   td = link_to truncate(contact_message.message, length: 140), [contact_message.business, :crm, contact_message]
   td

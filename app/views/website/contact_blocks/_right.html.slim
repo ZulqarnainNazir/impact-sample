@@ -72,7 +72,7 @@
               = location.address_line_two
         - if location.email? && !location.hide_email?
           p = link_to location.email, "mailto:#{location.email}", class: 'email', itemprop: 'email'
-        = render partial: 'opening', collection: location.openings
+        = render partial: 'opening', collection: location.try(:openings)
     hr
     = render 'form'
   .col-sm-8

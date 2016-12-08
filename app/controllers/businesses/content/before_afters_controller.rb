@@ -11,41 +11,66 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   end
 
   def create
-    create_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
-            @before_after.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        BeforeAfter.__elasticsearch__.refresh_index!
-        intercom_event 'created-before-after'
+    @before_after = BeforeAfter.new(before_after_params)
+    @before_after.business = @business
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @before_after.published_on < DateTime.now
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
+      @before_after.update_column :facebook_id, result['id']
+    end
+    if params[:draft]
+      @before_after.published_status = false
+    else
+      @before_after.published_status = true
+    end
+
+    respond_to do |format|
+      if @before_after.save
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business, notice: "Post created successfully" } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
       end
     end
+
+    BeforeAfter.__elasticsearch__.refresh_index!
+    intercom_event 'created-before-after'
   end
 
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_before_after_path(@before_after)
+    @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => @before_after.id]
+  end
+
+
   def update
-    update_resource @before_after, before_after_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @before_after.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
-              @before_after.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        @before_after.__elasticsearch__.index_document
-        BeforeAfter.__elasticsearch__.refresh_index!
+    @before_after.update(before_after_params)
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @before_after.published_on < DateTime.now
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @before_after.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
+        @before_after.update_column :facebook_id, result['id']
       end
     end
+    if params[:draft]
+      @before_after.published_status = false
+    else
+       @before_after.published_status = true
+    end
+    respond_to do |format|
+      if @before_after.save
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business, notice: "Post created successfully" } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_before_after_path, :alert => "Title cannot be empty!" }
+      end
+    end
+    @before_after.__elasticsearch__.index_document
+    BeforeAfter.__elasticsearch__.refresh_index!
   end
 
   def destroy
@@ -70,6 +95,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
       :description,
       :meta_description,
       :published_on,
+      :published_time,
       :title,
       content_category_ids: [],
       content_tag_ids: [],
@@ -96,18 +122,18 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   end
 
   def before_after_facebook_params
-    if @before_after.published_at > Time.now
+    if @before_after.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
         name: @before_after.title,
         picture: @before_after.after_image.try(:attachment_url),
-        published: false,
-        scheduled_published_time: @before_after.published_at.to_i,
+        published: true,
+        scheduled_published_time: @before_after.published_on,
       }
     else
       {
-        backdated_time: @before_after.published_at,
+        backdated_time: @before_after.created_at,
         caption: truncate(Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
         name: @before_after.title,

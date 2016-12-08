@@ -16,6 +16,10 @@ ol.breadcrumb
       strong => website_root_url(host: website_host(@business.website))
       i.fa.fa-external-link style="margin-left:5px"
   hr
+
+- if @business.to_dos_enabled
+  = render partial: 'businesses/dashboards/to_dos', locals: { business: @business }
+
 h2.h3.hidden-xs What do you want to do?
 .row.dashboard-root-primary-panels
   .col-sm-6.col-lg-3
@@ -163,7 +167,7 @@ javascript:
       },
       {
         element: '#dashboard-business-data-community',
-        content: 'Helping customers understand what the experience is like and your involvement in the community can be useful.',
+        content: 'Helping contacts understand what the experience is like and your involvement in the community can be useful.',
         onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-website').addClass('active'); },
       },
       {
@@ -217,8 +221,8 @@ javascript:
         onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-crm').addClass('active'); },
       },
       {
-        element: '#dashboard-business-crm-customers',
-        content: 'Here you’ll find all of the customers who have been added by completing a form or by your team. You can add new customers to track and request customer reviews here.',
+        element: '#dashboard-business-crm-contacts',
+        content: 'Here you’ll find all of the contacts who have been added by completing a form or by your team. You can add new contacts to track and request customer reviews here.',
         onPrev: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-accounts').addClass('active'); },
       },
       {

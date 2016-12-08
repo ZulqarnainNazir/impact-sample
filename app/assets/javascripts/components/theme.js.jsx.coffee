@@ -24,21 +24,29 @@ Theme = React.createClass
         $(document).on 'click', '.logo-size-picker', (e) ->
             e.preventDefault()
             $(e.target).closest('.logo-size').find('input[type="radio"]').prop('checked', true)
+        $(document).on 'change', '#header_block_attributes_navbar_location', this.showLogoFixedOption
+        $(document).on 'click', '[name="header_block_attributes[logo_vertical_position]"]', this.showLogoFixedOption
+
+    showLogoFixedOption: ->
+        if $('#header_block_attributes_navbar_location option:selected').val() is 'fixed' and $('[name="header_block_attributes[logo_vertical_position]"]:checked').val() is "above"
+            $("#header_block_attributes_logo_bar_fixed_wrapper").show();
+        else
+            $("#header_block_attributes_logo_bar_fixed_wrapper").hide();
 
     setupMinicolors: ->
         minicolorOptions =
             change: this.setColorStates
             control: 'wheel'
             theme: 'block'
-        $('#background_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.background_color)
-        $('#foreground_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.foreground_color)
-        $('#link_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.link_color)
-        $('#header_block_attributes_background_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.background_color || '')
-        $('#header_block_attributes_foreground_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.foreground_color || '')
-        $('#header_block_attributes_link_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.headerBlock && this.state.headerBlock.link_color || '')
-        $('#footer_block_attributes_background_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.background_color || '')
-        $('#footer_block_attributes_foreground_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.foreground_color || '')
-        $('#footer_block_attributes_link_color').minicolors $.extend(minicolorOptions, defaultValue: this.state.footerBlock && this.state.footerBlock.link_color || '')
+        $('#background_color').minicolors minicolorOptions
+        $('#foreground_color').minicolors minicolorOptions
+        $('#link_color').minicolors minicolorOptions
+        $('#header_block_attributes_background_color').minicolors minicolorOptions
+        $('#header_block_attributes_foreground_color').minicolors minicolorOptions
+        $('#header_block_attributes_link_color').minicolors minicolorOptions
+        $('#footer_block_attributes_background_color').minicolors minicolorOptions
+        $('#footer_block_attributes_foreground_color').minicolors minicolorOptions
+        $('#footer_block_attributes_link_color').minicolors minicolorOptions
 
     resetColors: ->
         $('#background_color').val(this.props.defaultBackgroundColor || '').minicolors('destroy')
@@ -181,6 +189,10 @@ Theme = React.createClass
         .webpage-footer .site-footer-layers a,
         .webpage-footer .site-footer-layers a:hover {
           color: #{this.state.footerBlock.link_color} !important;
+        }
+        #header_block_attributes_logo_bar_fixed_wrapper {
+          width:90%;
+          margin: 10px auto;
         }
         """
 
@@ -399,6 +411,13 @@ Theme = React.createClass
                                         </label>
                                     </div>
                                 </div>
+                                <div id="header_block_attributes_logo_bar_fixed_wrapper" className="form-group">
+                                    <label htmlFor="header_block_attributes_logo_bar_fixed" className="control-label">Logo Bar Fixed</label>
+                                    <select id="header_block_attributes_logo_bar_fixed" name="header_block_attributes[logo_bar_fixed]" className="form-control" defaultValue={this.state.headerBlock.logo_bar_fixed}>
+                                        <option value="default">Only Fix Nav</option>
+                                        <option value="fixed">Fixed Nav & Logo Bar to Top</option>
+                                    </select>
+                                </div>
                             </div>
                             <div className="panel panel-default">
                                 <div className="panel-heading">
@@ -454,6 +473,25 @@ Theme = React.createClass
                                         <label className="radio">
                                             <input type="radio" name="header_block_attributes[contact_position]" value="full" />
                                             Full Width
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="panel panel-default">
+                                <div className="panel-heading">
+                                    <p className="h4 panel-title">Display Social Above Nav</p>
+                                </div>
+                                <div className="row text-center">
+                                    <div className="col-sm-6">
+                                        <label className="radio">
+                                            <input type="radio" name="header_block_attributes[social_enabled]" value="hidden" />
+                                            Hidden
+                                        </label>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <label className="radio">
+                                            <input type="radio" name="header_block_attributes[social_enabled]" value="show" />
+                                            Show
                                         </label>
                                     </div>
                                 </div>
@@ -539,28 +577,35 @@ Theme = React.createClass
         $('#header_modal').modal('show')
         $('#header_block_attributes_style').val this.state.headerBlock.style or 'light'
         $('#header_block_attributes_navbar_location').val this.state.headerBlock.navbar_location or 'default'
+        $('#header_block_attributes_logo_bar_fixed').val this.state.headerBlock.logo_bar_fixed or 'default'
         $('input[name="header_block_attributes[logo_horizontal_position]"][value="' + (this.state.headerBlock.logo_horizontal_position or 'left') + '"]').prop('checked', true)
         $('input[name="header_block_attributes[logo_vertical_position]"][value="' + (this.state.headerBlock.logo_vertical_position or 'inside') + '"]').prop('checked', true)
         $('input[name="header_block_attributes[navigation_horizontal_position]"][value="' + (this.state.headerBlock.navigation_horizontal_position or 'right') + '"]').prop('checked', true)
         $('input[name="header_block_attributes[contact_position]"][value="' + (this.state.headerBlock.contact_position or 'none') + '"]').prop('checked', true)
+        $('input[name="header_block_attributes[social_enabled]"][value="' + (this.state.headerBlock.social_enabled or 'hidden') + '"]').prop('checked', true)
+        this.showLogoFixedOption()
 
     resetHeader: ->
         $('#header_block_attributes_style').val 'light'
         $('#header_block_attributes_navbar_location').val 'default'
+        $('#header_block_attributes_logo_bar_fixed').val 'default'
         $('input[name="header_block_attributes[logo_horizontal_position]"][value="left"]').prop('checked', true)
         $('input[name="header_block_attributes[logo_vertical_position]"][value="inside"]').prop('checked', true)
         $('input[name="header_block_attributes[navigation_horizontal_position]"][value="left"]').prop('checked', true)
         $('input[name="header_block_attributes[contact_position]"][value="none"]').prop('checked', true)
+        $('input[name="header_block_attributes[social_enabled]"][value="hidden"]').prop('checked', true)
 
     updateHeader: ->
         changes =
             $merge:
                 style: $('#header_block_attributes_style').val()
                 navbar_location: $('#header_block_attributes_navbar_location').val()
+                logo_bar_fixed: $('#header_block_attributes_logo_bar_fixed').val()
                 logo_horizontal_position: $('input[name="header_block_attributes[logo_horizontal_position]"]:checked').val()
                 logo_vertical_position: $('input[name="header_block_attributes[logo_vertical_position]"]:checked').val()
                 navigation_horizontal_position: $('input[name="header_block_attributes[navigation_horizontal_position]"]:checked').val()
                 contact_position: $('input[name="header_block_attributes[contact_position]"]:checked').val()
+                social_enabled: $('input[name="header_block_attributes[social_enabled]"]:checked').val()
         this.setState headerBlock: React.addons.update(this.state.headerBlock, changes)
 
     editLogo: (event) ->

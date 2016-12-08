@@ -1,0 +1,39 @@
+- last_feedback = contact.feedbacks.order(completed_at: :desc).last
+- last_complete_feedback = contact.feedbacks.complete.order(completed_at: :desc).last
+- last_complete_feedback_review = contact.feedbacks.complete.joins(:review).where.not(reviews: { id: nil }).order(completed_at: :desc).last.try(:review)
+- last_incomplete_feedback = contact.feedbacks.incomplete.order(completed_at: :desc).last
+tr class=('unread' unless contact.read_by.include?(current_user.id))
+  td = link_to contact.name, [:edit, contact.business, :crm, contact]
+  td = contact.email
+  td = contact.phone? ? contact.phone : '--'
+  td = contact.feedbacks.map(&:serviced_at).sort.first.try(:strftime, '%D') || '--'
+  td = contact.feedbacks.map(&:completed_at).sort.first.try(:strftime, '%D') || '--'
+  td = contact.feedbacks.map(&:score).sort.first || '--'
+  td
+    - if last_complete_feedback
+      | Yes
+    - elsif last_incomplete_feedback
+      ' No
+      = link_to 'Reinvite', [contact.business, :crm, last_incomplete_feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+    - elsif contact.reviews.empty?
+      ' No
+      = link_to 'Invite to Review', [:new, contact.business, :crm, contact, :feedback], class: 'btn btn-xs btn-default'
+    - else
+      | --
+  td
+    - if last_complete_feedback_review
+      = link_to 'Yes', [contact.business, :crm, last_complete_feedback_review]
+    - else
+      | No
+  td
+    .btn-group
+      = link_to [:edit, contact.business, :crm, contact], class: 'btn btn-xs btn-default' do
+        => icon 'pencil'
+        | Edit
+      = link_to [contact.business, :crm, contact], method: :delete, class: 'btn btn-xs btn-default', data: { confirm: 'Are you sure you want to remove this contact from your site?' } do
+        => icon 'minus-circle'
+        | Hide
+    .btn-group style="margin-top:0.5em;"
+      = link_to [:new, contact.business, :crm, contact, :contact_note], class: 'btn btn-xs btn-default' do
+        => icon 'plus-circle'
+        | Add Note

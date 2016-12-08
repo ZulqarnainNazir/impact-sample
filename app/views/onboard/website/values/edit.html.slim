@@ -28,7 +28,7 @@
               i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="What community organizations do you support or are involved with?"
             = form.text_area :community_involvement, rows: 6, class: 'form-control wysihtml-editor'
         .panel-footer
-          => link_to [:edit_onboard_website, @business, (@business.lines.any? ? :customers : :lines)], class: 'btn btn-default' do
+          => link_to [:edit_onboard_website, @business, (@business.lines.any? ? :contacts : :lines)], class: 'btn btn-default' do
             i.fa.fa-angle-left>
             | Back
           - unless @business.free?

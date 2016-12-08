@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927210402) do
+ActiveRecord::Schema.define(version: 20161205172508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,10 +38,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "before_afters", ["business_id"], name: "index_before_afters_on_business_id", using: :btree
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "realtor_id"
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
+    t.boolean  "to_dos_enabled"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -140,13 +141,46 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.text     "customer_phone"
-    t.integer  "customer_id"
+    t.integer  "contact_id"
     t.boolean  "hide",           default: false, null: false
     t.integer  "read_by",        default: [],    null: false, array: true
   end
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
-  add_index "contact_messages", ["customer_id"], name: "index_contact_messages_on_customer_id", using: :btree
+  add_index "contact_messages", ["contact_id"], name: "index_contact_messages_on_contact_id", using: :btree
+
+  create_table "contact_notes", force: :cascade do |t|
+    t.integer  "contact_id", null: false
+    t.text     "content",    null: false
+    t.text     "user_name",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "contact_notes", ["contact_id"], name: "index_contact_notes_on_contact_id", using: :btree
+
+  create_table "contacts", force: :cascade do |t|
+    t.integer  "business_id",                     null: false
+    t.text     "name",                            null: false
+    t.text     "email",                           null: false
+    t.text     "phone"
+    t.text     "notes"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "hide",            default: false, null: false
+    t.integer  "read_by",         default: [],    null: false, array: true
+    t.boolean  "business_client", default: false, null: false
+    t.text     "business_name"
+    t.text     "business_url"
+    t.string   "street1"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.text     "relationship"
+  end
+
+  add_index "contacts", ["business_id"], name: "index_contacts_on_business_id", using: :btree
 
   create_table "content_categories", force: :cascade do |t|
     t.integer  "business_id", null: false
@@ -187,33 +221,6 @@ ActiveRecord::Schema.define(version: 20160927210402) do
   end
 
   add_index "content_tags", ["business_id"], name: "index_content_tags_on_business_id", using: :btree
-
-  create_table "customer_notes", force: :cascade do |t|
-    t.integer  "customer_id", null: false
-    t.text     "content",     null: false
-    t.text     "user_name",   null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "customer_notes", ["customer_id"], name: "index_customer_notes_on_customer_id", using: :btree
-
-  create_table "customers", force: :cascade do |t|
-    t.integer  "business_id",                     null: false
-    t.text     "name",                            null: false
-    t.text     "email",                           null: false
-    t.text     "phone"
-    t.text     "notes"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "hide",            default: false, null: false
-    t.integer  "read_by",         default: [],    null: false, array: true
-    t.boolean  "business_client", default: false, null: false
-    t.text     "business_name"
-    t.text     "business_url"
-  end
-
-  add_index "customers", ["business_id"], name: "index_customers_on_business_id", using: :btree
 
   create_table "event_definition_locations", force: :cascade do |t|
     t.integer  "event_definition_id", null: false
@@ -264,7 +271,7 @@ ActiveRecord::Schema.define(version: 20160927210402) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.integer  "business_id",                  null: false
-    t.integer  "customer_id",                  null: false
+    t.integer  "contact_id",                   null: false
     t.text     "token",                        null: false
     t.datetime "completed_at"
     t.date     "serviced_at"
@@ -277,7 +284,7 @@ ActiveRecord::Schema.define(version: 20160927210402) do
   end
 
   add_index "feedbacks", ["business_id"], name: "index_feedbacks_on_business_id", using: :btree
-  add_index "feedbacks", ["customer_id"], name: "index_feedbacks_on_customer_id", using: :btree
+  add_index "feedbacks", ["contact_id"], name: "index_feedbacks_on_contact_id", using: :btree
 
   create_table "galleries", force: :cascade do |t|
     t.integer  "business_id",      null: false
@@ -287,10 +294,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "galleries", ["business_id"], name: "index_galleries_on_business_id", using: :btree
@@ -433,10 +440,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "coupon_updated_at"
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "offers", ["business_id"], name: "index_offers_on_business_id", using: :btree
@@ -511,12 +518,12 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "description"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.date     "published_on"
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
     t.datetime "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
@@ -530,10 +537,10 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.datetime "updated_at",       null: false
     t.text     "meta_description"
     t.text     "facebook_id"
-    t.date     "published_on"
     t.text     "slug"
     t.datetime "published_time"
     t.boolean  "published_status"
+    t.datetime "published_on"
   end
 
   add_index "quick_posts", ["business_id"], name: "index_quick_posts_on_business_id", using: :btree
@@ -567,7 +574,7 @@ ActiveRecord::Schema.define(version: 20160927210402) do
     t.text     "customer_name"
     t.text     "customer_email"
     t.text     "customer_phone"
-    t.integer  "customer_id"
+    t.integer  "contact_id"
     t.boolean  "published",                              default: false, null: false
     t.date     "serviced_at"
     t.integer  "feedback_id"
@@ -577,7 +584,7 @@ ActiveRecord::Schema.define(version: 20160927210402) do
   end
 
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree
-  add_index "reviews", ["customer_id"], name: "index_reviews_on_customer_id", using: :btree
+  add_index "reviews", ["contact_id"], name: "index_reviews_on_contact_id", using: :btree
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false
@@ -597,6 +604,47 @@ ActiveRecord::Schema.define(version: 20160927210402) do
   end
 
   add_index "team_members", ["business_id"], name: "index_team_members_on_business_id", using: :btree
+
+  create_table "to_do_comments", force: :cascade do |t|
+    t.integer  "commenter_id"
+    t.integer  "to_do_id"
+    t.text     "content"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "to_do_comments", ["commenter_id"], name: "index_to_do_comments_on_commenter_id", using: :btree
+  add_index "to_do_comments", ["to_do_id"], name: "index_to_do_comments_on_to_do_id", using: :btree
+
+  create_table "to_do_notification_settings", force: :cascade do |t|
+    t.boolean  "assigned",                  default: true
+    t.boolean  "updates_or_comments",       default: true
+    t.boolean  "deadline_approaching",      default: true
+    t.boolean  "due",                       default: true
+    t.boolean  "accepted",                  default: true
+    t.integer  "overdue_reminder_interval", default: 0
+    t.integer  "business_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "to_do_notification_settings", ["business_id"], name: "index_to_do_notification_settings_on_business_id", using: :btree
+  add_index "to_do_notification_settings", ["user_id"], name: "index_to_do_notification_settings_on_user_id", using: :btree
+
+  create_table "to_dos", force: :cascade do |t|
+    t.integer  "business_id"
+    t.text     "title"
+    t.text     "description"
+    t.integer  "submission_status", default: 0
+    t.integer  "status",            default: 0
+    t.datetime "due_date"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "group",             default: 0
+  end
+
+  add_index "to_dos", ["business_id"], name: "index_to_dos_on_business_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                                null: false

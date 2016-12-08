@@ -7,7 +7,7 @@ module ContentSlugConcern
   end
 
   def generate_slug
-    self.slug = find_available_slug(title.gsub(/['’]/, '').parameterize, 1)
+    self.slug = find_available_slug(title.gsub(/['’]/, '').gsub(/,/, '').parameterize, 1) if title.present?
   end
 
   private
@@ -18,7 +18,6 @@ module ContentSlugConcern
     else
       test_slug = "#{slug}-#{n}"
     end
-
     duplicate = false
     duplicate = true if business.before_afters.where(slug: test_slug).any?
     duplicate = true if business.event_definitions.where(slug: test_slug).any?

@@ -43,6 +43,11 @@ Rails.application.routes.draw do
       get :receive_locable, to: 'session_creates#locable'
     end
 
+    namespace :super do
+      resources :to_dos, only: :index
+      resources :to_do_notification_settings, only: %i[index create]
+    end
+
     namespace :onboard do
       namespace :website do
         resources :businesses, only: %i[new create edit update destroy] do
@@ -82,13 +87,17 @@ Rails.application.routes.draw do
           resources :offers, only: %i[new create edit update destroy] do
             get :clone, on: :member
           end
-          resources :posts, only: %i[new create edit update destroy]
-          resources :quick_posts, only: %i[new create edit update destroy]
+          resources :posts, only: %i[new create edit update destroy] do
+            get :clone, on: :member
+          end
+          resources :quick_posts, only: %i[new create edit update destroy] do
+            get :clone, on: :member
+          end
         end
 
         namespace :data do
           root to: 'roots#show'
-          resource :customers, only: %i[edit update]
+          resource :contacts, only: %i[edit update]
           resource :delivery, only: %i[edit update]
           resource :details, only: %i[edit update]
           resource :lines, only: %i[edit update]
@@ -107,9 +116,9 @@ Rails.application.routes.draw do
           resource :review_notifications, only: %i[edit update]
           resource :reviews_automation, only: %i[update]
           resources :contact_messages, only: %i[index show destroy]
-          resources :customers, only: %i[index new create edit update destroy] do
+          resources :contacts, only: %i[index new create edit update destroy] do
             resources :feedbacks, only: %i[new create]
-            resources :customer_notes, only: %i[new create edit update destroy]
+            resources :contact_notes, only: %i[new create edit update destroy]
           end
           resources :feedbacks, only: %i[index show destroy] do
             resource :review_invitation, only: %i[create]
@@ -151,6 +160,20 @@ Rails.application.routes.draw do
         resources :images, only: %i[index]
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
+        resources :to_dos, only: %i[index show create update destroy] do
+          resources :comments, only: :create
+
+          member do
+            put :submit_for_review
+            put :mark_as_complete
+            put :remove
+            put :reactivate
+          end
+
+          collection do
+            resources :notification_settings, only: %i[index update]
+          end
+        end
       end
     end
 
@@ -179,6 +202,9 @@ Rails.application.routes.draw do
     resources :quick_posts, only: %i[show]
     resources :reviews, only: %i[index show new create]
 
+    get '/:type/preview/:id', to: 'generic_posts#preview', as: :generic_post_preview
+    get '/:galleries/:gallery_id/:type/preview/:id', to: 'generic_posts#preview'
+    # ^ preview route for gallery images
     get '/:year/:month/:day/:id/:slug', to: 'generic_posts#show', as: :generic_post, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
     get '/:year/:month/:day/:id/:gallery_slug/:image_id/:image_slug', to: 'generic_posts#show', as: :gallery_image, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
     get '/:year/:month/:day/:id/:gallery_slug/:image_id', to: 'generic_posts#show', as: :gallery_image_no_title, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/

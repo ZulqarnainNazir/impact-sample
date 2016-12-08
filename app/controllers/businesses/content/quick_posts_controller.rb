@@ -10,42 +10,77 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     @quick_post = @business.quick_posts.find(params[:id])
   end
 
+  def clone
+    cloned_post = @business.quick_posts.find(params[:id])
+    cloned_attributes = cloned_post.attributes.slice(*cloneable_attributes)
+    @quick_post = @business.quick_posts.new(cloned_attributes)
+    @quick_post.content_category_ids = cloned_post.content_category_ids
+    @quick_post.content_tag_ids = cloned_post.content_tag_ids
+    @quick_post.quick_post_image_placement_attributes = { image_id: cloned_post.quick_post_image.try(:attachment_url) }
+    render :new
+  end
+
   def create
-    create_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-            @quick_post.update_column :facebook_id, result['id']
-          end
-        rescue
-        end
-        QuickPost.__elasticsearch__.refresh_index!
-        intercom_event 'created-quick-post'
+    @quick_post = QuickPost.new(quick_post_params)
+    @quick_post.business = @business
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+      @quick_post.update_column :facebook_id, result['id']
+    end
+    if params[:draft]
+      @quick_post.published_status = false
+    else
+      @quick_post.published_status = true
+    end
+    respond_to do |format|
+      if @quick_post.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
       end
     end
+    QuickPost.__elasticsearch__.refresh_index!
+    intercom_event 'created-quick-post'
+  end
+
+  def edit
+    port = ":#{request.try(:port)}" if request.port
+    host = website_host @business.website
+    post_path = website_quick_post_path(@quick_post)
+    @preview_url = @quick_post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @quick_post.id]
   end
 
   def update
-    update_resource @quick_post, quick_post_params, location: [@business, :content_feed] do |success|
-      if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            if @quick_post.facebook_id?
-              # Update Post
-            else
-              result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-              @quick_post.update_column :facebook_id, result['id']
-            end
-          end
-        rescue
-        end
-        @quick_post.__elasticsearch__.index_document
-        QuickPost.__elasticsearch__.refresh_index!
+    @quick_post.update(quick_post_params)
+    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
+      page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      if @quick_post.facebook_id?
+        # Update Post
+      else
+        result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
+        @quick_post.update_column :facebook_id, result['id']
       end
     end
+    if params[:draft]
+      @quick_post.published_status = false
+    else
+      @quick_post.published_status = true
+    end
+    respond_to do |format|
+      if @quick_post.save
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+      else
+        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
+      end
+    end
+
+    @quick_post.__elasticsearch__.index_document
+    QuickPost.__elasticsearch__.refresh_index!
   end
 
   def destroy
@@ -70,6 +105,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       :content,
       :meta_description,
       :published_on,
+      :published_time,
       :title,
       content_category_ids: [],
       content_tag_ids: [],
@@ -81,15 +117,19 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     end
   end
 
+  def cloneable_attributes
+    %w[title content]
+  end
+
   def quick_post_facebook_params
-    if @quick_post.published_at > Time.now
+    if @quick_post.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),
-        published: false,
-        scheduled_published_time: @quick_post.published_at.to_i,
+        published: true,
+        scheduled_published_time: @quick_post.published_on,
       }
     else
       {

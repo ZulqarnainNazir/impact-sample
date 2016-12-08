@@ -1,0 +1,12 @@
+en:
+  businesses:
+    crm:
+      contacts:
+        create:
+          notice: Your new contact was added successfully.
+          alert: There was a problem adding the contact.
+        update:
+          notice: The contact record was updated successfully.
+          alert: There was a problem updating the contact.
+        destroy:
+          notice: The contact has been hidden from your site.

@@ -11,6 +11,7 @@ module GroupsAttributesConcern
       :height,
       :max_blocks,
       :position,
+      :hero_position,
       :custom_class,
       :_destroy,
       blocks_attributes: [

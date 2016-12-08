@@ -1,8 +1,13 @@
 class FooterBlock < Block
   store_accessor :settings, :background_color, :foreground_color, :link_color
+  after_initialize :set_defaults
 
   before_validation do
     self.theme = 'simple' unless theme?
+  end
+
+  def set_defaults
+    self.settings  ||= {"background_color"=>"", "foreground_color"=>"", "link_color"=>"", "content_types"=>"", "content_category_ids"=>"", "content_tag_ids"=>""}
   end
 
   def as_theme_json(business)

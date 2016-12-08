@@ -1,11 +1,12 @@
 - business = header_block.frame.business
+- logo_fixed = true if header_block.navbar_location == 'fixed' && header_block.logo_vertical_position == 'above' && header_block.logo_bar_fixed == 'fixed'
 - cache business do
   - navbar_class = case header_block.style
   - when 'dark' then 'navbar-inverse'
   - when 'transparent' then 'navbar-transparent'
   - else 'navbar-default'
-  - navbar_class += ' navbar-static-top' if header_block.navbar_location == 'static' || (header_block.navbar_location == 'fixed' && (header_block.logo_vertical_position == 'above' || %w[left right full].include?(header_block.contact_position)))
-  - navbar_class += ' navbar-fixed-top' if header_block.navbar_location == 'fixed' && header_block.logo_vertical_position != 'above' && !%w[left right full].include?(header_block.contact_position)
+  - navbar_class += ' navbar-static-top' if header_block.navbar_location == 'static' || (header_block.navbar_location == 'fixed' && (header_block.logo_vertical_position == 'above' || %w[left right full].include?(header_block.contact_position)) && logo_fixed != true)
+  - navbar_class += ' navbar-fixed-top' if header_block.navbar_location == 'fixed' && header_block.logo_vertical_position != 'above' && !%w[left right full].include?(header_block.contact_position) && logo_fixed != true
   - navbar_class += ' navbar-default-top' if !%w[static fixed].include?(header_block.navbar_location)
   - navbar_nav_style = "line-height: #{!%w[above below].include?(header_block.logo_vertical_position) && header_block.logo_height.present? && header_block.logo_height.to_i > 40 ? header_block.logo_height.to_i - 10 : 30}px"
 
@@ -66,11 +67,23 @@
         .nav.navbar class=navbar_class
           = navbar_interior
 
+  - if header_block.social_enabled == 'show' && header_block.contact_position == 'none' && header_block.logo_vertical_position != 'above'
+    .container
+      .vcard.navbar-vcard.pull-right.text-right
+        ul.list-inline.header-social
+          = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
   - if header_block.logo_vertical_position == 'above' || (@location && %w[left right full].include?(header_block.contact_position))
     .container
+      - if header_block.social_enabled == 'show' && header_block.contact_position == 'none' && header_block.logo_vertical_position == 'above'
+        .vcard.navbar-vcard.pull-right.text-right
+          ul.list-inline.header-social
+            = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
       - if header_block.contact_position == 'full'
         .clearfix style="margin-left:-10px"
           .vcard.nav.navbar-nav.text-left
+            - if header_block.social_enabled == 'show'
+              ul.list-inline.header-social
+                = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
             - if !@location.hide_address?
               li: p.navbar-text
                 i.fa.fa-map-marker>
@@ -86,7 +99,14 @@
                 i.fa.fa-envelope>
                 span.email = @location.email
       - elsif header_block.contact_position == 'left' || header_block.contact_position == 'right'
+        - if header_block.social_enabled == 'show' && header_block.contact_position == 'left'
+          .vcard.navbar-vcard.pull-right.text-right
+            ul.list-inline.header-social
+              = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
         .vcard.navbar-vcard class=(header_block.contact_position == 'left' ? 'pull-left text-left' : 'pull-right text-right')
+          - if header_block.social_enabled == 'show' && header_block.contact_position == 'right'
+            ul.list-inline.header-social
+              = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
           - if @location.phone_number? && !@location.hide_phone?
             p.h4.tel = link_to number_to_phone(@location.phone_number), "tel:#{@location.phone_number.gsub(/[^0-9]/, '')}"
           - if !@location.hide_address?
@@ -96,7 +116,7 @@
           = image
   = navbar
   - if header_block.logo_vertical_position == 'below'
-    .container style=('margin-top:60px' if header_block.navbar_location == 'fixed')
+    .container 
       div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
         = image
 
@@ -120,13 +140,37 @@
       setTimeout(centerLogo, 100);
 
   - if header_block.navbar_location == 'fixed' && (header_block.logo_vertical_position == 'above' || %w[left right full].include?(header_block.contact_position))
-    javascript:
-      $(window).scroll(function() {
-        if ($(window).scrollTop() > $('.webpage-header > .container:first-child').height()) {
-          $('.webpage-header .navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
-          $('.navbar-fixed-placeholder').show()
-        } else {
-          $('.webpage-header .navbar').removeClass('navbar-fixed-top').addClass('navbar-static-top');
-          $('.navbar-fixed-placeholder').hide()
-        }
-      });
+    - if logo_fixed == true
+      javascript:
+        $(document).ready(function () {
+          $('.webpage-header').addClass('navbar-fixed-top');
+        });
+    - else
+      javascript:
+        $(window).scroll(function() {
+          if ($(window).scrollTop() > $('.webpage-header > .container:first-child').height()) {
+            $('.webpage-header .navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $('.navbar-fixed-placeholder').show()
+          } else {
+            $('.webpage-header .navbar').removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $('.navbar-fixed-placeholder').hide()
+          }
+        });
+  javascript:
+    $('.webpage-header.hero-behind').addClass('transparent');
+    $(window).scroll(function() {
+      if ($(window).scrollTop() > $('.webpage-group .webpage-hero > div').height()) {
+        $('.webpage-header.hero-behind').removeClass('transparent');
+      } else {
+        $('.webpage-header.hero-behind').addClass('transparent');
+      }
+    });
+    $(document).ready(function () {
+      var header_height = $('.webpage-header.hero-behind, .webpage-header.navbar-fixed-top').height();
+      if($('body > .webpage-group .webpage-hero > div').length > 0) {
+        $('body > .webpage-group .webpage-hero > div').css({marginTop: header_height, paddingTop: header_height});
+      } else {
+        $('body > .webpage-wrapper').css({marginTop: header_height});
+      }
+    });
+

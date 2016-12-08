@@ -1,50 +1,56 @@
-- title @event.event_definition.title
-- description @event.event_definition.meta_description
-- image @event.event_definition.main_image.try(:attachment_url) || @event.event_definition.try(:event_image_placement).try(:attachment_url)
-- canonize_obj({url: website_event_url, params: @event.to_generic_param})
-
+- if (@event.event_definition.published_status == false || @preview)
+  - title "This post is not yet published"
+  - description "This post is not yet published"
+- else
+  - title @event.event_definition.title
+  - description @event.event_definition.meta_description
+  -image @event.event_definition.main_image.try(:attachment_url) || @event.event_definition.try(:event_image_placement).try(:attachment_url)
+  -canonize_obj({url: website_event_url, params: @event.to_generic_param})
 = webpage_container do
   ol.breadcrumb
     li = link_to icon('home'), :website_root
     li = link_to 'Events', :website_events
     li.active = @event.event_definition.title
   .page-header
-    h1 = @event.event_definition.title
-  .row
-    .col-sm-6
-      - placement = @event.event_definition.event_image_placement
-      - if placement.try(:embeds?)
-        .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-      - elsif placement.try(:image)
-        = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive'
-    .col-sm-6
-      - cache @event do
-        - location = @event.event_definition.try(:location)
-        .well
-          - if location
-            div style="margin-left:2em": strong = location.name
-            div
-              i.fa.fa-map-marker style="width:2em"
-              = location.full_address
-          div
-            i.fa.fa-calendar style="width:2em"
-            = @event.occurs_on.strftime('%b %d, %Y')
-          div
-            i.fa.fa-clock-o style="width:2em"
-            = @event.event_definition.start_time.strftime('%I:%M %p')
-          - if @event.event_definition.price?
-            div
-              i.fa.fa-currency style="width:2em"
-              = @event.event_definition.price
-        - if location
-          - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298', q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), zoom: 15}.to_param
-          iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
-        - if @event.event_definition.description?
-          .panel.panel-default
-            .panel-heading
-              p.panel-title.h4 Description
-            .panel-body
-              = sanitize_html @event.event_definition.description
-      - if @upcoming_events.any?
-        p.h4 Other Upcoming Instances
-        = render partial: 'website/events/event', collection: @upcoming_events, locals: { small: true }
+    - if (@event.event_definition.published_status == false && !@preview)
+      p This post has not been published by the business owner yet. Check back later!
+    - else
+      h1 = @event.event_definition.title
+      .row
+        .col-sm-6
+          - placement = @event.event_definition.event_image_placement
+          - if placement.try(:embeds?)
+            .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+          - elsif placement.try(:image)
+            = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive'
+        .col-sm-6
+          - cache @event do
+            - location = @event.event_definition.try(:location)
+            .well
+              - if location
+                div style="margin-left:2em": strong = location.name
+                div
+                  i.fa.fa-map-marker style="width:2em"
+                  = location.full_address
+              div
+                i.fa.fa-calendar style="width:2em"
+                = @event.occurs_on.strftime('%b %d, %Y')
+              div
+                i.fa.fa-clock-o style="width:2em"
+                = @event.event_definition.start_time.strftime('%I:%M %p')
+              - if @event.event_definition.price?
+                div
+                  i.fa.fa-currency style="width:2em"
+                  = @event.event_definition.price
+            - if location
+              - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298', q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), zoom: 15}.to_param
+              iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+            - if @event.event_definition.description?
+              .panel.panel-default
+                .panel-heading
+                  p.panel-title.h4 Description
+                .panel-body
+                  = sanitize_html @event.event_definition.description
+          - if @upcoming_events.any?
+            p.h4 Other Upcoming Instances
+            = render partial: 'website/events/event', collection: @upcoming_events, locals: { small: true }

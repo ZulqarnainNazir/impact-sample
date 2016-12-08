@@ -13,7 +13,7 @@ ol.breadcrumb
     .panel-body
       .row
         .col-sm-9
-          h2.h4 = link_to "https://www.facebook.com/#{@business.facebook_id}", target: :_blank do
+          h2.h4 = link_to "https://www.facebook.com/#{@business.try(:facebook_id)}", target: :_blank do
             => @business.facebook_id
             span.fa.fa-external-link
           p: code = "https://www.facebook.com/#{@business.facebook_id}"

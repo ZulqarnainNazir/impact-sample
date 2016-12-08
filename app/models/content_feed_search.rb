@@ -1,7 +1,9 @@
 class ContentFeedSearch
-  def initialize(business, query = '')
+  def initialize(business, unpublished, published, query = '')
     @business = business
     @query = query.to_s.strip
+    @unpublished = unpublished
+    @published = published
   end
 
   def search
@@ -16,6 +18,21 @@ class ContentFeedSearch
         ],
       },
     }
+    if @unpublished == 'true' && @published != 'true'
+      dsl[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
+
+    if @unpublished != 'true' && @published == 'true'
+      dsl[:filter][:and] << {
+        term: {
+          published_status: !false,
+        },
+      }
+    end
 
     if @query.present?
       dsl[:query] = {
@@ -30,6 +47,7 @@ class ContentFeedSearch
       }
     end
 
-    Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
+    @results = Elasticsearch::Model.search(dsl, [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost])
+
   end
 end

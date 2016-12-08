@@ -1,7 +1,7 @@
 class HeaderBlock < Block
   include JsonHelper
 
-  store_accessor :settings, :background_color, :foreground_color, :link_color, :logo_height, :logo_horizontal_position, :logo_vertical_position, :navigation_horizontal_position, :contact_position, :navbar_location
+  store_accessor :settings, :background_color, :foreground_color, :link_color, :logo_height, :logo_horizontal_position, :logo_vertical_position, :logo_bar_fixed, :navigation_horizontal_position, :social_enabled, :contact_position, :navbar_location
 
   before_validation do
     self.theme = 'inline' unless theme?
@@ -13,7 +13,7 @@ class HeaderBlock < Block
   end
 
   def as_theme_json(business)
-    as_json(methods: %i[background_color foreground_color link_color logo_height logo_horizontal_position logo_vertical_position navigation_horizontal_position contact_position navbar_location type]).merge(
+    as_json(methods: %i[background_color foreground_color link_color logo_height logo_horizontal_position logo_vertical_position logo_bar_fixed navigation_horizontal_position social_enabled contact_position navbar_location type]).merge(
       name: business.name,
       email: business.location.try(:email),
       phone: business.location.try(:phone_number),

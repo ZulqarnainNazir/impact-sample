@@ -1,0 +1,17 @@
+.p-t-3
+  .panel.panel-default
+    = form_for current_user, url: super_to_do_notification_settings_path, method: :post do |f|
+      .panel-heading
+        h2.h3 Notification Settings
+      ul.list-group
+        - @businesses.each do |business|
+          li.list-group-item
+            = business.name
+            .pull-right
+              = check_box_tag 'user[following_business_ids][]', business.id, f.object.following_businesses.include?(business)
+
+      .panel-body
+        = link_to 'Cancel', super_to_dos_path, class: 'pull-left'
+        = submit_tag 'Update Preferences', class: 'btn btn-primary pull-right'
+
+

@@ -1,5 +1,19 @@
 .webpage-header {
   position: relative;
+  &.hero-behind {
+    position: absolute;
+    width: 100%;
+    &.navbar-fixed-top {
+      margin-bottom: 0;
+    }
+    > .container {
+      position: relative;
+      z-index: 1;
+    }
+  }
+  &.navbar-fixed-top {
+    position: fixed;
+  }
   .navbar {
     margin-bottom: 0;
   }
@@ -77,6 +91,28 @@
         padding: 5px 15px !important;
       }
     }
+    ul.header-social {
+      float: left;
+      li {
+        float: left !important;
+        padding-right: 3px;
+        padding-left: 3px;
+        a {
+          padding: 0 !important;
+        }
+      }
+    }
+  }
+  .header-social {
+    margin-left: -1px;
+    @media (min-width: $grid-float-breakpoint) {
+      float: right;
+      margin-top: 2px;
+    }
+    li {
+      padding-left: 1px;
+      padding-right: 1px;
+    } 
   }
   @media screen and (min-width: $screen-sm) {
     text-align: center;
