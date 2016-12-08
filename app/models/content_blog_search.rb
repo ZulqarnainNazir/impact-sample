@@ -11,8 +11,8 @@ class ContentBlogSearch
     dsl = {
 
       query: {
-          match: {
-              published_status: true
+          term: {
+            published_status: true
           }
       },
 
@@ -99,8 +99,9 @@ class ContentBlogSearch
     if @query.present?
       dsl[:query] = {
         query_string: {
-          query: @query,
           fields: %w[title^2 description],
+          # query: "#{@query}~", #tilde is for fuzzy searches
+          query: @query,
         },
       }
     else
