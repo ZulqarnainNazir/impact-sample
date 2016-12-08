@@ -30,10 +30,10 @@ dl.dl-horizontal
     - else
       strong.text-muted> No
       = link_to 'Publish', [@business, :crm, @review, :review_publication], method: :post, class: 'btn btn-xs btn-primary' 
-  dt Customer Name
-  dd = link_to @review.customer.name, [:edit, @business, :crm, @review.customer]
+  dt Contact Name
+  dd = link_to @review.contact.name, [:edit, @business, :crm, @review.contact]
   dt Email
-  dd = @review.customer.email
+  dd = @review.contact.email
   dt Title
   dd = @review.title
   dt Description

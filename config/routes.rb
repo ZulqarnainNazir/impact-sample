@@ -97,7 +97,7 @@ Rails.application.routes.draw do
 
         namespace :data do
           root to: 'roots#show'
-          resource :customers, only: %i[edit update]
+          resource :contacts, only: %i[edit update]
           resource :delivery, only: %i[edit update]
           resource :details, only: %i[edit update]
           resource :lines, only: %i[edit update]
@@ -116,9 +116,9 @@ Rails.application.routes.draw do
           resource :review_notifications, only: %i[edit update]
           resource :reviews_automation, only: %i[update]
           resources :contact_messages, only: %i[index show destroy]
-          resources :customers, only: %i[index new create edit update destroy] do
+          resources :contacts, only: %i[index new create edit update destroy] do
             resources :feedbacks, only: %i[new create]
-            resources :customer_notes, only: %i[new create edit update destroy]
+            resources :contact_notes, only: %i[new create edit update destroy]
           end
           resources :feedbacks, only: %i[index show destroy] do
             resource :review_invitation, only: %i[create]

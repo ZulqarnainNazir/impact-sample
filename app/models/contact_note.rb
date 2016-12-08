@@ -1,5 +1,5 @@
-class CustomerNote < ActiveRecord::Base
-  belongs_to :customer
+class ContactNote < ActiveRecord::Base
+  belongs_to :contact
 
   validates :content, presence: true
   validates :user_name, presence: true

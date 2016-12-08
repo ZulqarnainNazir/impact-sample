@@ -14,9 +14,9 @@ dl.dl-horizontal
   dd = @feedback.serviced_at.try(:strftime, '%D') || '--'
   dt Feedback Score
   dd = @feedback.score
-  dt Customer Name
-  dd = link_to @feedback.customer.name, [:edit, @business, :crm, @feedback.customer]
+  dt Contact Name
+  dd = link_to @feedback.contact.name, [:edit, @business, :crm, @feedback.contact]
   dt Email
-  dd = @feedback.customer.email
+  dd = @feedback.contact.email
   dt Additional Feedback
   dd = @feedback.description

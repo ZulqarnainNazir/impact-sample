@@ -8,7 +8,7 @@ class SidebarReviewsBlock < Block
 
   def cache_sensitive_key(params)
     if business
-      business.customers.order(updated_at: :desc).pluck(:updated_at)[0]
+      business.contacts.order(updated_at: :desc).pluck(:updated_at)[0]
     end
   end
 end

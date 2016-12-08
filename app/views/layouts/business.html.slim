@@ -85,11 +85,11 @@ html lang="en"
                 li#dashboard-business-crm class=('active' if controller_path.match(/\Abusinesses\/crm/))
                   span
                     i.fa.fa-comments>
-                    ' Customers
+                    ' Contacts
                   ul.list-unstyled
-                    li#dashboard-business-crm-customers = link_to [@business, :crm_customers] do
+                    li#dashboard-business-crm-contacts = link_to [@business, :crm_contacts] do
                       i.fa.fa-users>
-                      | All Customers
+                      | All Contacts
                     li#dashboard-business-crm-forms = link_to [@business, :crm_contact_messages] do
                       i.fa.fa-comments>
                       | Submitted Forms
@@ -127,9 +127,9 @@ html lang="en"
                       li#dashboard-business-data-community = link_to [:edit, @business, :data_delivery] do
                         i.fa.fa-truck>
                         | Delivery Information
-                      li = link_to [:edit, @business, :data_customers] do
+                      li = link_to [:edit, @business, :data_contacts] do
                         i.fa.fa-briefcase>
-                        | Customer Information
+                        | Contact Information
                     li id=('dashboard-business-data-community' if @business.lines.empty?) = link_to [:edit, @business, :data_values] do
                       i.fa.fa-heart>
                       | Community &amp; Values
@@ -181,7 +181,7 @@ html lang="en"
                 | Offer
               li.list-divider = link_to [@business, :crm_reviews] do
                 i.fa.fa-star>
-                | Customer Review
+                | Contact Review
 
           .container style="background-color: #fff; padding-top: 15px; padding-bottom: 30px; width: auto;"
             = render 'alerts'

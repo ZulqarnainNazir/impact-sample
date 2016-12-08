@@ -1,24 +1,24 @@
-- title 'Edit Customer Note'
+- title 'Add Contact Note'
 
 ol.breadcrumb
   li = link_to icon('home'), :root
   li = link_to @business.name, [@business, :dashboard]
   li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'All Customers', [@business, :crm_customers]
-  li = link_to @customer.name, [@business, :crm, @customer]
-  li.active Edit Note
+  li = link_to 'All Customers', [@business, :crm_contacts]
+  li = link_to @contact.name, [@business, :crm, @contact]
+  li.active Add Note
 
 
-= form_for [@business, :crm, @customer, @customer_note] do |form|
+= form_for [@business, :crm, @contact, @contact_note] do |form|
   .row
     .col-sm-8
       .panel.panel-default
         .panel-heading
-          h1.h4.panel-title Edit Note
+          h1.h4.panel-title Add Note
         .panel-body
-          = errors_for @customer_note
+          = errors_for @contact_note
           .form-group
             = form.label :content, class: 'control-label'
             = form.text_area :content, rows: 6, class: 'form-control'
         .panel-footer
-          = form.button 'Save Changes', class: 'btn btn-primary'
+          = form.button 'Save', class: 'btn btn-primary'

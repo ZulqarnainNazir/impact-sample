@@ -1,11 +1,11 @@
-class Businesses::Data::CustomersController < Businesses::BaseController
+class Businesses::Data::ContactsController < Businesses::BaseController
   def update
-    update_resource @business, customers_params, context: :related_associations, location: [:edit, @business, :data_customers]
+    update_resource @business, contacts_params, context: :related_associations, location: [:edit, @business, :data_contacts]
   end
 
   private
 
-  def customers_params
+  def contacts_params
     params.require(:business).permit(
       lines_attributes: [
         :id,

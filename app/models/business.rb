@@ -20,7 +20,7 @@ class Business < ActiveRecord::Base
     has_many :contact_messages
     has_many :content_categories
     has_many :content_tags
-    has_many :customers
+    has_many :contacts
     has_many :event_definitions
     has_many :feedbacks
     has_many :galleries

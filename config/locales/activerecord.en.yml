@@ -17,10 +17,10 @@ en:
         customer_name: Name
         customer_email: Email
         customer_phone: Phone
-      customer:
+      contact:
         business_name: Business Name
         business_url: Business URL
-      customer_note:
+      contact_note:
         content: Additional Notes
       event_definition:
         meta_description: Meta Description
