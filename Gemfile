@@ -73,4 +73,5 @@ group :production do
   gem 'dalli'
   gem 'newrelic_rpm'
   gem 'rails_12factor'
+  gem 'honeybadger', '~> 2.0'
 end

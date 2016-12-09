@@ -231,6 +231,7 @@ GEM
       multi_json (>= 1.9.2)
       netrc
     hitimes (1.2.2)
+    honeybadger (2.7.1)
     i18n (0.7.0)
     ice_cube (0.8.1)
     inflecto (0.0.2)
@@ -473,6 +474,7 @@ DEPENDENCIES
   fog-aws
   font-awesome-sass
   geocoder
+  honeybadger (~> 2.0)
   ice_cube
   intercom
   jbuilder
