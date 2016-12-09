@@ -1,41 +1,44 @@
 - title 'Import Events'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li.active Import Events
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' Import Events'}
 
-- if @locable_business
-  - if @business.automated_import_locable_events != '1'
-    p: em No events subscriptions found. #{link_to 'Enable Locable Events Imports', [:edit, @business, :accounts_locable]}.
-  - elsif @locable_business.events.where('external_type IS NULL OR external_type != ?', 'impact').empty?
-    p: em No events found.
-  - else
-    p Select the events you’d like to import. #{link_to 'Import All', [:import_all, @business, :content_event_imports], method: :post, class: 'btn btn-sm btn-success pull-right'}
-    hr
-    - @locable_business.events.where('external_type IS NULL OR external_type != ?', 'impact').order(start_date: :desc).each do |event|
-      .panel.panel-default
-        .panel-heading
-          h2.h4.panel-title = event.name
-        .panel-body
-          .row
-            .col-sm-10
-              p: strong
-                - if event.repetition == 'Single'
-                  => event.start_date.strftime('%D')
-                  = event.start_time.strftime('%I:%M %p')
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              - if @locable_business
+                - if @business.automated_import_locable_events != '1'
+                  p: em No events subscriptions found. #{link_to 'Enable Locable Events Imports', [:edit, @business, :accounts_locable]}.
+                - elsif @locable_business.events.where('external_type IS NULL OR external_type != ?', 'impact').empty?
+                  p: em No events found.
                 - else
-                  => icon 'repeat'
-                  => event.repetition
-                  => event.start_date.strftime('%D')
-                  = event.start_time.strftime('%I:%M %p')
-              - if event.business.try(:address)
-                p = event.business.address.to_s
-            .col-sm-2.text-right
-              - if EventDefinition.where(external_type: 'locable', external_id: event.id).any?
-                = link_to 'Update Event', import_business_content_event_import_path(@business, event), method: :post, class: 'btn btn-default'
+                  p Select the events you’d like to import. #{link_to 'Import All', [:import_all, @business, :content_event_imports], method: :post, class: 'btn btn-sm btn-success pull-right'}
+                  hr
+                  - @locable_business.events.where('external_type IS NULL OR external_type != ?', 'impact').order(start_date: :desc).each do |event|
+                    .panel.panel-default
+                      .panel-heading
+                        h2.h4.panel-title = event.name
+                      .panel-body
+                        .row
+                          .col-sm-10
+                            p: strong
+                              - if event.repetition == 'Single'
+                                => event.start_date.strftime('%D')
+                                = event.start_time.strftime('%I:%M %p')
+                              - else
+                                => icon 'repeat'
+                                => event.repetition
+                                => event.start_date.strftime('%D')
+                                = event.start_time.strftime('%I:%M %p')
+                            - if event.business.try(:address)
+                              p = event.business.address.to_s
+                          .col-sm-2.text-right
+                            - if EventDefinition.where(external_type: 'locable', external_id: event.id).any?
+                              = link_to 'Update Event', import_business_content_event_import_path(@business, event), method: :post, class: 'btn btn-default'
+                            - else
+                              = link_to 'Import Event', import_business_content_event_import_path(@business, event), method: :post, class: 'btn btn-success'
               - else
-                = link_to 'Import Event', import_business_content_event_import_path(@business, event), method: :post, class: 'btn btn-success'
-- else
-  p: em #{link_to 'Link your Locable business listing', [:edit, @business, :accounts_locable]} to enable events automation.
+                p: em #{link_to 'Link your Locable business listing', [:edit, @business, :accounts_locable]} to enable events automation.

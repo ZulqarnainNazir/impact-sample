@@ -1,11 +1,6 @@
 - title 'Submitted Forms'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'Submitted Forms', [@business, :crm_contact_messages]
-  li.active Message ##{@contact_message.id}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Submitted Forms', :sp => :crm_contact_messages, :an => ' Message ##{@contact_message.id}'}
 
 hr
 

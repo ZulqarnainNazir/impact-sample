@@ -1,11 +1,14 @@
 - title 'New Business Event'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li.active New Event
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' New Event'}
 
-= errors_for @event_definition
-= form_for @event_definition, url: [@business, :content_event_definitions], html: { class: 'save-once' } do |form|
-  = render form
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              = errors_for @event_definition
+              = form_for @event_definition, url: [@business, :content_event_definitions], html: { class: 'save-once' } do |form|
+                = render form

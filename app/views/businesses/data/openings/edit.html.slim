@@ -1,27 +1,27 @@
 - title 'Edit Business Hours'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Business Data', [@business, :data_root]
-  li.active Business Hours
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Business Hours'}
 
-= errors_for @location
-= form_for @location, url: [@business, :data_openings], method: :put do |form|
-  .panel.panel-default
-    .panel-heading
-      h1.h4.panel-title Edit Your Business Hours
-    .panel-body
-      .table-responsive
-        table.openings-associations
-          thead
-            tr
-              th Opens At
-              th Closes At
-              th colspan="5" On Days
-              th
-          tbody
-            = render partial: 'opening', collection: @location.openings, locals: { location_form: form }
-            p.help-block style="padding-left: 28px;" Selecting "By Appointment" will disable the Opening and Closing time select for that row.
-    .panel-footer
-      = form.button 'Save', class: 'btn btn-primary'
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h4 Edit Your Business Hours
+            .ibox-content
+              = errors_for @location
+              = form_for @location, url: [@business, :data_openings], method: :put do |form|
+                .table-responsive
+                  table.openings-associations
+                    thead
+                      tr
+                        th Opens At
+                        th Closes At
+                        th colspan="5" On Days
+                        th
+                    tbody
+                      = render partial: 'opening', collection: @location.openings, locals: { location_form: form }
+                      p.help-block style="padding-left: 28px;" Selecting "By Appointment" will disable the Opening and Closing time select for that row.
+                = form.button 'Save', class: 'btn btn-primary'

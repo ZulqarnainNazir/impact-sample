@@ -1,23 +1,26 @@
 - title 'New PDF'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li.active Media Manager
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' Media Manager'}
 
-- if current_user.businesses.count > 1 || current_user.super_user?
-  .checkbox.pull-right.small
-    label
-      = check_box_tag :local, 'true', params[:local] == 'true', style: 'margin-top:2px'
-      | Current Site Only
-
-ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
-  li = link_to 'Existing Images', [@business, :content_images]
-  li = link_to 'Bulk Upload', [:new, @business, :content_images_upload]
-  li = link_to 'Existing PDFs', [@business, :content_pdfs]
-  li.active = link_to 'New PDF', "#"
-= form_for @pdf, notice: 'PDF not created', url: [@business, :content, @pdf], :html => { :multipart => true }, remote: true do |form|
-  = render form
-
-#pdf-form style="display:none;"
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              - if current_user.businesses.count > 1 || current_user.super_user?
+                .checkbox.pull-right.small
+                  label
+                    = check_box_tag :local, 'true', params[:local] == 'true', style: 'margin-top:2px'
+                    | Current Site Only
+              
+              ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
+                li = link_to 'Existing Images', [@business, :content_images]
+                li = link_to 'Bulk Upload', [:new, @business, :content_images_upload]
+                li = link_to 'Existing PDFs', [@business, :content_pdfs]
+                li.active = link_to 'New PDF', "#"
+              = form_for @pdf, notice: 'PDF not created', url: [@business, :content, @pdf], :html => { :multipart => true }, remote: true do |form|
+                = render form
+              
+              #pdf-form style="display:none;"

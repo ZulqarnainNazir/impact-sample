@@ -1,26 +1,27 @@
 - title 'Edit Navigation Menus'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li.active Navigation Menus
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Navigation Menus'}
 
-br
-
-= errors_for @website
-= form_for @website, url: [@business, :website_menus], method: :patch do |form|
-  .pull-right
-    = link_to new_business_website_custom_page_path
-      i.fa.fa-plus-circle
-        .link-text Create New Page
-
-  = react_component 'WebsiteMenus',
-    header_links: as_nested_json(@website.arranged_nav_links(:header), methods: %i[index key parent_key cached_children internal_value]),
-    footer_links: as_nested_json(@website.arranged_nav_links(:footer), methods: %i[index key parent_key cached_children internal_value]),
-    webpages: @website.webpages.order('LOWER(name) ASC'),
-    webpaths: [{ path: 'events', name: 'Events' }, { path: 'galleries', name: 'Galleries' }, { path: 'reviews', name: 'Reviews' }]
-  hr
-  .row
-    .col-sm-4
-      = form.button 'Save Navigation Menus', class: 'btn btn-block btn-primary'
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              = errors_for @website
+              = form_for @website, url: [@business, :website_menus], method: :patch do |form|
+                .pull-right
+                  = link_to new_business_website_custom_page_path
+                    i.fa.fa-plus-circle
+                      .link-text Create New Page
+              
+                = react_component 'WebsiteMenus',
+                  header_links: as_nested_json(@website.arranged_nav_links(:header), methods: %i[index key parent_key cached_children internal_value]),
+                  footer_links: as_nested_json(@website.arranged_nav_links(:footer), methods: %i[index key parent_key cached_children internal_value]),
+                  webpages: @website.webpages.order('LOWER(name) ASC'),
+                  webpaths: [{ path: 'events', name: 'Events' }, { path: 'galleries', name: 'Galleries' }, { path: 'reviews', name: 'Reviews' }]
+                hr
+                .row
+                  .col-sm-4
+                    = form.button 'Save Navigation Menus', class: 'btn btn-block btn-primary'

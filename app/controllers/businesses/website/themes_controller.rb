@@ -2,7 +2,7 @@ class Businesses::Website::ThemesController < Businesses::Website::BaseControlle
   include BlockAttributesConcern
   include RequiresWebPlanConcern
 
-  layout 'application'
+  layout 'business_reduced'
 
   def update
     update_resource @website, website_params, location: [:edit, @business, :website_theme]

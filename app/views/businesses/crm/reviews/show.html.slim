@@ -1,11 +1,6 @@
 - title 'Reviews'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'Reviews', [@business, :crm_reviews]
-  li.active Review ##{@review.id}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Reviews', :sp => :crm_reviews, :an => ' Review ##{@review.id}'}
 
 hr
 

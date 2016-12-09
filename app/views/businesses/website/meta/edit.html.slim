@@ -1,30 +1,28 @@
 - title 'Edit Meta/SEO'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li.active Meta/SEO
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Meta/SEO'}
 
-br
-
-.col-md-8
-  = errors_for @website
-  = form_for @website, url: [@business, :website_meta], method: :patch do |form|
-    .panel.panel-default
-      .panel-heading
-        h1.h4.panel-title Edit Your Website Meta/SEO Details
-      .panel-body
-        .form-group
-          = form.label :google_analytics_id, class: 'control-label'
-          = form.text_field :google_analytics_id, class: 'form-control'
-        .form-group
-          = form.label :head_injection, class: 'control-label'
-          = form.text_area :head_injection, rows: 8, class: 'form-control'
-          p.help-block.small Use this field for Site validations eg. Google, Pinterest (meta tag) and other header code to be added to the <code>HEAD</code> section of your website.
-        .form-group
-          = form.label :footer_injection, class: 'control-label'
-          = form.text_area :footer_injection, rows: 8, class: 'form-control'
-          p.help-block.small Use this field to inject code before the close of the <code>BODY</code> section of your website.
-      .panel-footer.text-right
-        = form.button 'Save Website Meta/SEO', class: 'btn btn-primary'
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2 Edit Your Website Meta/SEO Details
+            .ibox-content
+              = errors_for @website
+              = form_for @website, url: [@business, :website_meta], method: :patch do |form|
+                .form-group
+                  = form.label :google_analytics_id, class: 'control-label'
+                  = form.text_field :google_analytics_id, class: 'form-control'
+                .form-group
+                  = form.label :head_injection, class: 'control-label'
+                  = form.text_area :head_injection, rows: 8, class: 'form-control'
+                  p.help-block.small Use this field for Site validations eg. Google, Pinterest (meta tag) and other header code to be added to the <code>HEAD</code> section of your website.
+                .form-group
+                  = form.label :footer_injection, class: 'control-label'
+                  = form.text_area :footer_injection, rows: 8, class: 'form-control'
+                  p.help-block.small Use this field to inject code before the close of the <code>BODY</code> section of your website.
+                .text-right
+                  = form.button 'Save Website Meta/SEO', class: 'btn btn-primary'

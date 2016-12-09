@@ -1,4 +1,5 @@
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require jquery-ui
@@ -16,6 +17,7 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require twitter/typeahead.min
+//= require dashboard/inspinia.js
 //= require_tree ./plugins
 //= require_tree ./scripts
 //= require_tree .

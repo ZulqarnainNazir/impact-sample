@@ -1,11 +1,6 @@
 - title 'Feedback'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'Feedback', [@business, :crm_feedbacks]
-  li.active Feedback ##{@feedback.id}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Feedback', :sp => :crm_feedbacks, :an => ' Feedback ##{@feedback.id}'}
 
 hr
 

@@ -1,0 +1,20 @@
+/* Only demo */
+@media (max-width: 1000px) {
+  .welcome-message {
+    display: none;
+  }
+}
+
+.img-well {
+  margin:0;
+  border-radius: 5px;
+  background-color: rgba(245,245,245,.3);
+  border: 1px solid $dark-gray;
+  box-shadow: none;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding: 10px 20px;
+  font-size: 11px;
+  line-height: 16px;
+}
+

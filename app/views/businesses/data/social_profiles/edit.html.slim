@@ -1,19 +1,18 @@
 - title 'Edit Your Social Profiles'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Business Data', [@business, :data_root]
-  li.active Social Profiles
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Social Profiles'}
 
 .row
-  .col-md-8
-    = errors_for @business
-    = form_for @business, url: [@business, :data_social_profiles] do |form|
-      .panel.panel-default
-        .panel-heading
-          h1.h4.panel-title Edit Your Social Profiles
-        .panel-body
-          = render form
-        .panel-footer.text-right
-          = form.button 'Save', class: 'btn btn-primary'
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h4 Edit Your Social Profiles
+            .ibox-content
+                = errors_for @business
+                = form_for @business, url: [@business, :data_social_profiles] do |form|
+                    = render form
+                    .text-right
+                      = form.button 'Save', class: 'btn btn-primary'

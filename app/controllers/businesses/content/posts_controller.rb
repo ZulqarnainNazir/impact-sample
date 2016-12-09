@@ -2,7 +2,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
-  layout 'application'
+  layout 'business_reduced'
 
   before_action only: new_actions do
     @post = @business.posts.new

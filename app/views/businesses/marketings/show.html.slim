@@ -1,6 +1,13 @@
 - title 'IMPACT Marketing Suite'
 
-ol.breadcrumb
-  li = link_to icon('home'), :businesses
-  li = link_to @business.name, [@business, :dashboard]
-  li.active Marketing
+= render :partial => 'dashbreadcrumb', :locals => { :lnk => :businesses, :an => 'Marketing'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2 Marketing
+            .ibox-content

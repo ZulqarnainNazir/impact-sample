@@ -1,33 +1,32 @@
 - title 'New Admin User'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Authorizations', [@business, :authorizations]
-  li.active New Admin User
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Authorizations', :fp => :authorizations, :an => ' New Admin User'}
 
 .row
-  .col-md-8
-    = errors_for @authorization
-    = form_for [@business, @authorization] do |form|
-      .panel.panel-default
-        .panel-heading
-          h1.h3.panel-title Add a New User
-        .panel-body
-          .form-group
-            => form.label :role
-            = form.select :role, options_for_select(Authorization.roles.keys.map { |k| [k.humanize, k] }), {}, class: 'form-control'
-          = form.fields_for :user, @authorization.user || @authorization.build_user do |form|
-            .form-group
-              => form.label :first_name, class: 'control-label'
-              = form.text_field :first_name, class: 'form-control'
-            .form-group
-              => form.label :last_name, class: 'control-label'
-              = form.text_field :last_name, class: 'form-control'
-            .form-group
-              => form.label :email, class: 'control-label'
-              = form.email_field :email, class: 'form-control'
-          div
-            hr
-            => form.button 'Invite User', class: 'btn btn-primary pull-right'
-            = link_to 'Cancel', [@business, :authorizations], class: 'btn btn-link'
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2 Add a New User
+            .ibox-content
+              = errors_for @authorization
+              = form_for [@business, @authorization] do |form|
+                .form-group
+                  => form.label :role
+                  = form.select :role, options_for_select(Authorization.roles.keys.map { |k| [k.humanize, k] }), {}, class: 'form-control'
+                = form.fields_for :user, @authorization.user || @authorization.build_user do |form|
+                  .form-group
+                    => form.label :first_name, class: 'control-label'
+                    = form.text_field :first_name, class: 'form-control'
+                  .form-group
+                    => form.label :last_name, class: 'control-label'
+                    = form.text_field :last_name, class: 'form-control'
+                  .form-group
+                    => form.label :email, class: 'control-label'
+                    = form.email_field :email, class: 'form-control'
+                div
+                  hr
+                  => form.button 'Invite User', class: 'btn btn-primary pull-right'
+                  = link_to 'Cancel', [@business, :authorizations], class: 'btn btn-link'

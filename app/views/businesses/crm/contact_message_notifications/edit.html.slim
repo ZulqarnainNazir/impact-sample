@@ -1,11 +1,6 @@
 - title 'Submitted Forms Notifications'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'Submitted Forms', [@business, :crm_contact_messages]
-  li.active Notifications
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Submitted Forms', :sp => :crm_contact_messages, :an => ' Notifications'}
 
 - if @business.authorizations.empty?
   p: em No managers found. #{link_to 'Add a manager', [:new, @business, :authorization]} to enable contact message notifications.

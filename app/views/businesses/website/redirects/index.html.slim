@@ -1,29 +1,31 @@
 - title 'Website Redirects'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li.active Redirects
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Redirects'}
 
-.page-header
-  .pull-right
-    = link_to [:new, @business, :website_redirect], class: 'btn btn-default' do
-      i.fa.fa-plus-circle>
-      | Add Redirect
-  h1.h2 Website Redirects
-
-- if @redirects.any?
-  table.table.table-striped.table-bordered
-    caption = page_entries_info @redirects
-    thead
-      tr
-        th From Path
-        th To Path
-        th Created On
-        th
-    tbody
-      = render partial: 'redirect', collection: @redirects, locals: { business: @business }
-  = paginate @redirects
-- else
-  p: em No redirects found.
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              .pull-right
+                = link_to [:new, @business, :website_redirect], class: 'btn btn-default' do
+                  i.fa.fa-plus-circle>
+                  | Add Redirect
+              h2 Website Redirects
+            .ibox-content
+              - if @redirects.any?
+                table.table.table-striped.table-bordered
+                  caption = page_entries_info @redirects
+                  thead
+                    tr
+                      th From Path
+                      th To Path
+                      th Created On
+                      th
+                  tbody
+                    = render partial: 'redirect', collection: @redirects, locals: { business: @business }
+                = paginate @redirects
+              - else
+                p: em No redirects found.

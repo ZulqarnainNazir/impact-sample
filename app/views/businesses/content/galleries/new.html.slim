@@ -1,11 +1,14 @@
 - title 'New Business Gallery'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li.active New Gallery
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' New Gallery'}
 
-= errors_for @gallery
-= form_for @gallery, url: [@business, :content_galleries], html: { class: 'save-once' } do |form|
-  = render form
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              = errors_for @gallery
+              = form_for @gallery, url: [@business, :content_galleries], html: { class: 'save-once' } do |form|
+                = render form

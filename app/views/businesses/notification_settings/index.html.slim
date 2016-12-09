@@ -1,36 +1,38 @@
-ol.breadcrumb
-  li = link_to icon('home'), :businesses
-  li = link_to @business.name, business_dashboard_path(@business)
-  li = link_to "ToDo's", business_to_dos_path(@business)
-  li.active Notification Settings
+= render :partial => 'dashbreadcrumb', :locals => { :lnk => :businesses, :fn => "ToDo's", :fp => :to_dos, :an => 'Notification Settings'}
 
-.panel.panel-default
-  = form_for @setting, url: business_notification_setting_path(@business, @setting), method: :put do |f|
-    .panel-heading
-      h2.h3 Notification Settings
-    / .panel-body
-    ul.list-group
-      li.list-group-item
-        ' When I'm <strong>assigned a ToDo,</strong> notify me
-        = f.check_box :assigned, class: 'pull-right'
-      li.list-group-item
-        ' When a ToDo is <strong>updated or commented on,</strong> notify me
-        = f.check_box :updates_or_comments, class: 'pull-right'
-      li.list-group-item
-        ' When a Todo is <strong>almost due</strong> notify me
-        = f.check_box :deadline_approaching, class: 'pull-right'
-      li.list-group-item
-        ' When a Todo <strong>is due</strong> notify me
-        = f.check_box :due, class: 'pull-right'
-      li.list-group-item
-        ' After a ToDo <strong>is overdue</strong> notify me
-        = f.select :overdue_reminder_interval, options_for_select(ToDoNotificationSetting.overdue_reminder_intervals.keys, @setting.overdue_reminder_interval), {}, class: 'pull-right'
-      li.list-group-item
-        ' When a ToDo <strong>is accepted</strong> notify me
-        = f.check_box :accepted, class: 'pull-right'
-
-    .panel-body
-      = link_to 'Cancel', :back, class: 'pull-left'
-      = submit_tag 'Update Preferences', class: 'btn btn-primary pull-right'
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2
+                | Notification Settings
+            .ibox-content
+              = form_for @setting, url: business_notification_setting_path(@business, @setting), method: :put do |f|
+                ul.list-group
+                  li.list-group-item
+                    ' When I'm <strong>assigned a ToDo,</strong> notify me
+                    = f.check_box :assigned, class: 'pull-right'
+                  li.list-group-item
+                    ' When a ToDo is <strong>updated or commented on,</strong> notify me
+                    = f.check_box :updates_or_comments, class: 'pull-right'
+                  li.list-group-item
+                    ' When a Todo is <strong>almost due</strong> notify me
+                    = f.check_box :deadline_approaching, class: 'pull-right'
+                  li.list-group-item
+                    ' When a Todo <strong>is due</strong> notify me
+                    = f.check_box :due, class: 'pull-right'
+                  li.list-group-item
+                    ' After a ToDo <strong>is overdue</strong> notify me
+                    = f.select :overdue_reminder_interval, options_for_select(ToDoNotificationSetting.overdue_reminder_intervals.keys, @setting.overdue_reminder_interval), {}, class: 'pull-right'
+                  li.list-group-item
+                    ' When a ToDo <strong>is accepted</strong> notify me
+                    = f.check_box :accepted, class: 'pull-right'
+              
+                .panel-body
+                  = link_to 'Cancel', :back, class: 'pull-left'
+                  = submit_tag 'Update Preferences', class: 'btn btn-primary pull-right'
 
 

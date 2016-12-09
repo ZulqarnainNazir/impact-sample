@@ -1,10 +1,6 @@
 - title 'How do you deliver your products and services?'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Business Data', [@business, :data_root]
-  li.active Delivery Information
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Delivery Information'}
 
 .row
   .col-md-8

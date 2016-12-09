@@ -1,85 +1,88 @@
 - title 'Reviews'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li.active Reviews
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => ' Reviews'}
 
-- unless @business.cce_id? && @business.facebook_id? && @business.facebook_token?
-  .alert.alert-info role="alert"
-    - if @business.cce_id?
-      p
-        strong> Show off your reviews
-        | by linking your Facebook business page!
-      p = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
-    - elsif @business.facebook_id? && @business.facebook_token?
-      p
-        strong> Show off your reviews
-        | by linking or claiming your Locable business!
-      p = link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
-    - else
-      p
-        strong> Show off your reviews
-        | by linking or claiming your Locable or Facebook business pages!
-      p
-        => link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
-        = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
-
-.pull-right
-  - if @reviews.any?
-    => link_to 'View Public Reviews', website_reviews_url(host: website_host(@business.website)), target: :_blank, style: 'margin-right: 0.5em'
-  .btn-group
-    = link_to [:edit, @business, :crm_review_notifications], class: 'btn btn-sm btn-default' do
-      => icon 'check-square-o'
-      | Set Notifications
-    = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
-      => icon 'plus-circle'
-      | Invite a Contact
-
-- if @reviews.empty?
-  p style="margin:2em 0"
-    em No reviews found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an invitation to review your business.
-  = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
-    .text-right style="margin-top:1em"
-      span> Automatically publish reviews rated at or above
-      => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
-      span.text-muted> –
-      = form.button 'Save', class: 'btn btn-xs btn-default'
-  hr
-- else
-  p style="margin:2em 0" = page_entries_info @reviews
-  = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
-    .text-right style="margin-top:1em; margin-bottom: 1em;"
-      span> Automatically publish reviews rated at or above
-      => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
-      span.text-muted> –
-      = form.button 'Save', class: 'btn btn-xs btn-default'
-  .panel.panel-default
-    .table-responsive
-      table.table.table-striped
-        thead
-          tr
-            th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
-              | Contact Name
-              - if params[:order_by] == 'name'
-                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
-            th = link_to params.slice(:page).merge(order_by: :reviewed_at, order_dir: params[:order_by] == 'reviewed_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
-              | Review Date
-              - if params[:order_by] == 'reviewed_at'
-                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
-            th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
-              | Service Date
-              - if params[:order_by] == 'serviced_at'
-                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
-            th style="width:6em" = link_to params.slice(:page).merge(order_by: :overall_rating, order_dir: params[:order_by] == 'overall_rating' && params[:order_dir] == 'desc' ? :asc : :desc) do
-              | Rating
-              - if params[:order_by] == 'overall_rating'
-                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
-            th Subject
-            th Message
-            th style="width:7em" Published?
-            th style="width:9em"
-        tbody
-          = render @reviews
-  = paginate @reviews
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              - unless @business.cce_id? && @business.facebook_id? && @business.facebook_token?
+                .alert.alert-info role="alert"
+                  - if @business.cce_id?
+                    p
+                      strong> Show off your reviews
+                      | by linking your Facebook business page!
+                    p = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
+                  - elsif @business.facebook_id? && @business.facebook_token?
+                    p
+                      strong> Show off your reviews
+                      | by linking or claiming your Locable business!
+                    p = link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
+                  - else
+                    p
+                      strong> Show off your reviews
+                      | by linking or claiming your Locable or Facebook business pages!
+                    p
+                      => link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
+                      = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
+              
+              .pull-right
+                - if @reviews.any?
+                  => link_to 'View Public Reviews', website_reviews_url(host: website_host(@business.website)), target: :_blank, style: 'margin-right: 0.5em'
+                .btn-group
+                  = link_to [:edit, @business, :crm_review_notifications], class: 'btn btn-sm btn-default' do
+                    => icon 'check-square-o'
+                    | Set Notifications
+                  = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
+                    => icon 'plus-circle'
+                    | Invite a Contact
+              
+              - if @reviews.empty?
+                p style="margin:2em 0"
+                  em No reviews found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an invitation to review your business.
+                = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
+                  .text-right style="margin-top:1em"
+                    span> Automatically publish reviews rated at or above
+                    => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
+                    span.text-muted> –
+                    = form.button 'Save', class: 'btn btn-xs btn-default'
+                hr
+              - else
+                p style="margin:2em 0" = page_entries_info @reviews
+                = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
+                  .text-right style="margin-top:1em; margin-bottom: 1em;"
+                    span> Automatically publish reviews rated at or above
+                    => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
+                    span.text-muted> –
+                    = form.button 'Save', class: 'btn btn-xs btn-default'
+                .panel.panel-default
+                  .table-responsive
+                    table.table.table-striped
+                      thead
+                        tr
+                          th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
+                            | Contact Name
+                            - if params[:order_by] == 'name'
+                              span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
+                          th = link_to params.slice(:page).merge(order_by: :reviewed_at, order_dir: params[:order_by] == 'reviewed_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
+                            | Review Date
+                            - if params[:order_by] == 'reviewed_at'
+                              span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+                          th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
+                            | Service Date
+                            - if params[:order_by] == 'serviced_at'
+                              span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+                          th style="width:6em" = link_to params.slice(:page).merge(order_by: :overall_rating, order_dir: params[:order_by] == 'overall_rating' && params[:order_dir] == 'desc' ? :asc : :desc) do
+                            | Rating
+                            - if params[:order_by] == 'overall_rating'
+                              span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+                          th Subject
+                          th Message
+                          th style="width:7em" Published?
+                          th style="width:9em"
+                      tbody
+                        = render @reviews
+                = paginate @reviews

@@ -1,12 +1,6 @@
 - title 'Add Contact'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'All Contacts', [@business, :crm_contacts]
-  li.active Add Contacts
-
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Contacts', :sp => :crm_contacts, :an => ' Add Contacts'}
 
 = form_for @contact, url: [@business, :crm_contacts] do |form|
   .row
@@ -43,9 +37,9 @@ ol.breadcrumb
           hr
           p.checkbox
             = form.label :business_client do
-              => form.check_box :business_client, data: { show_when_checked: '.customer-business-data' }
+              => form.check_box :business_client, data: { show_when_checked: '.contact-business-data' }
               | Business Client?
-          .well.well-sm.customer-business-data
+          .well.well-sm.contact-business-data
             .form-group
               = form.label :business_name, class: 'control-label'
               = form.text_field :business_name, class: 'form-control'
@@ -64,8 +58,8 @@ ol.breadcrumb
               => form.check_box :relationship, { :multiple => true }, 'Prospect', nil
               | Prospect
               <br/>
-              => form.check_box :relationship, { :multiple => true }, 'Customer', nil
-              | Customer
+              => form.check_box :relationship, { :multiple => true }, 'Contact', nil
+              | Contact
               <br/>
           = form.fields_for :contact_notes, @contact.contact_notes.last || @contact.contact_notes.new do |form|
             .form-group

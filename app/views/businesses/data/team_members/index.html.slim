@@ -1,43 +1,43 @@
 - title 'Manage Team Members'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Business Data', [@business, :data_root]
-  li.active Team Members
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Team Members'}
 
 .row
-  .col-md-8
-    .panel.panel-default
-      .panel-heading
-        = link_to [:new, @business, :data_team_member], class: 'btn btn-primary btn-xs pull-right' do
-          i.fa.fa-plus-circle>
-          ' Add a New Team Member
-        h1.h3.panel-title Manage Team Members
-      = form_tag [@business, :data_team_members_positions], method: :patch do
-        .table-responsive
-          table.table.table-striped style="margin-bottom:0; padding:10px 0;"
-            thead
-              tr
-                th
-                th First Name
-                th Last Name
-                th Email Address
-                th Actions
-            tbody.js-sortable
-              = render @team_members
-javascript:
-  $('tbody.js-sortable').sortable({
-    containment: 'parent',
-    cursor: 'movement',
-    forcePlaceholderSize: true,
-    forceHelperSize: true,
-    placeholder: 'table-placeholder',
-    items: '> tr',
-    update: function(event, ui) {
-      $('tbody.js-sortable').find('tr').each(function(i) {
-        $(this).find('input').val(i);
-      });
-      $('tbody.js-sortable').closest('form').submit();
-    }
-  });
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              = link_to [:new, @business, :data_team_member], class: 'btn btn-primary btn-xs pull-right' do
+                i.fa.fa-plus-circle>
+                ' Add a New Team Member
+              h1.h3.panel-title Manage Team Members
+            .ibox-content
+              = form_tag [@business, :data_team_members_positions], method: :patch do
+                .table-responsive
+                  table.table.table-striped style="margin-bottom:0; padding:10px 0;"
+                    thead
+                      tr
+                        th
+                        th First Name
+                        th Last Name
+                        th Email Address
+                        th Actions
+                  tbody.js-sortable
+                    = render @team_members
+              javascript:
+                $('tbody.js-sortable').sortable({
+                  containment: 'parent',
+                  cursor: 'movement',
+                  forcePlaceholderSize: true,
+                  forceHelperSize: true,
+                  placeholder: 'table-placeholder',
+                  items: '> tr',
+                  update: function(event, ui) {
+                    $('tbody.js-sortable').find('tr').each(function(i) {
+                      $(this).find('input').val(i);
+                    });
+                    $('tbody.js-sortable').closest('form').submit();
+                  }
+                });

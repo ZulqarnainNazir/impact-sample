@@ -1,46 +1,49 @@
 - title 'Manage PDFS'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li.active Media Manager
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' Media Manager'}
 
-- if current_user.businesses.count > 1 || current_user.super_user?
-  .checkbox.pull-right.small
-    label
-      = check_box_tag :local, 'true', params[:local] == 'true', style: 'margin-top:2px'
-      | Current Site Only
-
-ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
-  li = link_to 'Existing Images', [@business, :content_images]
-  li = link_to 'Bulk Upload', [:new, @business, :content_images_upload]
-  li.active = link_to 'Existing PDFs', "#"
-  li = link_to 'New PDF', [:new, @business, :content_pdf]
-
-- if !@pdfs
-  p Sorry, you don't have any PDFs yet!
-- else
-  .pdfs.row
-    - @pdfs.each do | pdf |
-          .col-sm-3.col-lg-2
-            .pdf-upload
-              .img-responsive
-                i.fa.fa-file-pdf-o
-              .pdf-details
-                b = pdf[:attachment_file_name].truncate(30)
-                div
-                  |  PDF Size - #{ActionView::Base.new.number_to_human_size pdf[:attachment_file_size]}
-                a.copy-pdf target="_blank" onclick="copyToClipboard('#{pdf.attachment.url}')" Copy URL
-                br>
-                .pdf-url = link_to pdf.attachment.url, :target => "_blank"
-                  |
-                    Link
-
-                    <script>
-                      function copyToClipboard(text) {
-                        window.prompt("Copy to clipboard: Ctrl+C, then press Enter", text);
-                      }
-                    </script>
-
-#pdf-form style="display:none;"
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              - if current_user.businesses.count > 1 || current_user.super_user?
+                .checkbox.pull-right.small
+                  label
+                    = check_box_tag :local, 'true', params[:local] == 'true', style: 'margin-top:2px'
+                    | Current Site Only
+                            
+              ul.nav.nav-tabs style="margin-top:20px; margin-bottom:10px"
+                li = link_to 'Existing Images', [@business, :content_images]
+                li = link_to 'Bulk Upload', [:new, @business, :content_images_upload]
+                li.active = link_to 'Existing PDFs', "#"
+                li = link_to 'New PDF', [:new, @business, :content_pdf]
+              
+              - if !@pdfs
+                p Sorry, you don't have any PDFs yet!
+              - else
+                .pdfs.row
+                  - @pdfs.each do | pdf |
+                        .col-sm-3.col-lg-2
+                          .pdf-upload
+                            .img-responsive
+                              i.fa.fa-file-pdf-o
+                            .pdf-details
+                              b = pdf[:attachment_file_name].truncate(30)
+                              div
+                                |  PDF Size - #{ActionView::Base.new.number_to_human_size pdf[:attachment_file_size]}
+                              a.copy-pdf target="_blank" onclick="copyToClipboard('#{pdf.attachment.url}')" Copy URL
+                              br>
+                              .pdf-url = link_to pdf.attachment.url, :target => "_blank"
+                                |
+                                  Link
+              
+                                  <script>
+                                    function copyToClipboard(text) {
+                                      window.prompt("Copy to clipboard: Ctrl+C, then press Enter", text);
+                                    }
+                                  </script>
+              
+              #pdf-form style="display:none;"
