@@ -8,10 +8,10 @@ class Businesses::ToDosController < Businesses::BaseController
   before_action :set_to_do, except: %w[index create show]
 
   def index
-    @get_started_to_dos = @business.to_dos.getting_started.by_due_date.order(:created_at)
-    @prepare_launch_to_dos = @business.to_dos.preparing_to_launch.by_due_date.order(:created_at)
-    @after_launch_to_dos = @business.to_dos.after_launch.by_due_date.order(:created_at)
-    @custom_to_dos = @business.to_dos.custom.by_due_date.order(:created_at)
+    @get_started_to_dos = @business.to_dos.includes(:comments).getting_started.by_due_date.order(:created_at)
+    @prepare_launch_to_dos = @business.to_dos.includes(:comments).preparing_to_launch.by_due_date.order(:created_at)
+    @after_launch_to_dos = @business.to_dos.includes(:comments).after_launch.by_due_date.order(:created_at)
+    @custom_to_dos = @business.to_dos.includes(:comments).custom.by_due_date.order(:created_at)
   end
 
   def show
@@ -45,29 +45,25 @@ class Businesses::ToDosController < Businesses::BaseController
   end
 
   def submit_for_review
-    @to_do.assign_attributes(submission_status: ToDo.submission_statuses[:submitted])
-    @to_do.save
+    @to_do.update(submission_status: ToDo.submission_statuses[:submitted])
 
     redirect_to :back, notice: "ToDo submitted for review"
   end
 
   def mark_as_complete
-    @to_do.assign_attributes(submission_status: ToDo.submission_statuses[:accepted])
-    @to_do.save
+    @to_do.update(submission_status: ToDo.submission_statuses[:accepted])
 
     redirect_to :back, notice: "ToDo marked as completed"
   end
 
   def remove
-    @to_do.assign_attributes(status: ToDo.statuses[:removed])
-    @to_do.save
+    @to_do.update(status: ToDo.statuses[:removed])
 
     redirect_to :back, notice: "ToDo removed"
   end
 
   def reactivate
-    @to_do.assign_attributes(status: ToDo.statuses[:active])
-    @to_do.save
+    @to_do.update(status: ToDo.statuses[:active])
 
     redirect_to :back, notice: "ToDo reactivated"
   end

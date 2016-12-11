@@ -24,7 +24,7 @@
                 .text-muted= "Due #{@to_do.due_date.strftime('%m/%d/%Y')}"
               = raw(@to_do.description)
 .row
-  .wrapper.wrapper-content  
+  .wrapper.wrapper-content
       .col-lg-12
           .ibox.float-e-margins
               h3.ibox-title Comments
@@ -34,14 +34,15 @@
                     strong
                       = comment.commenter.name
                     span.p-l-5px
-                      = comment.content
+                      = raw comment.content.html_safe
                     .text-muted
-                      small = comment.created_at.strftime('%B %d, %Y')
+                      small
+                        = comment.created_at.strftime('%m/%d/%Y %l:%M%p')
 
-                li.list-group-item.text-right
+                li.list-group-item
                   = form_tag business_to_do_comments_path(@business, @to_do) do
                     .form-group
-                      = text_area_tag 'comment[content]', nil, class: 'form-control'
+                      = text_area_tag 'comment[content]', nil, class: 'form-control wysihtml-editor'
                     = submit_tag 'Add Comment', class: 'btn btn-primary'
 
 hr

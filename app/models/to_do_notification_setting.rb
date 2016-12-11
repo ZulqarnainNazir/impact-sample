@@ -7,7 +7,9 @@ class ToDoNotificationSetting < ActiveRecord::Base
   def notify(message, notifiable, to_do)
     if send(notifiable) # notiable represents a boolean field on this model
       if notifiable_is_scheduled?(notifiable)
-        send_notification(message, to_do) if scheduled_and_ready?(notifiable)
+        if scheduled_and_ready?(notifiable)
+          send_notification(message, to_do, notifiable)
+        end
       else
         send_notification(message, to_do)
       end
@@ -15,8 +17,10 @@ class ToDoNotificationSetting < ActiveRecord::Base
   end
 
   def send_notification(message, to_do)
-    ToDoNotificationMailer.notify(message: message, user: user, to_do: to_do,
-                                  business: business).deliver_now
+    ToDoNotificationMailer.notify(message: message,
+                                  user: user,
+                                  to_do: to_do,
+                                  business: business).deliver_later
   end
 
   def scheduled_and_ready?(notifiable)

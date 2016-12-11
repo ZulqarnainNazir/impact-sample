@@ -20,6 +20,8 @@
               small.text-muted.p-t-2px= "Due #{to_do.due_date.strftime('%m/%d/%Y')}"
             - unless to_do.comments.none?
               i.m-l-10px.fa.fa-comment-o
+              small.text-muted.p-l-5px
+                = to_do.comments.order(:created_at).last.created_at.strftime('%m/%d/%Y %l:%M%p')
 
 
         .col-md-6.col-sm-6
