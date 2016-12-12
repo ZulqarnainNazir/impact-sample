@@ -13,7 +13,7 @@ class Contact < ActiveRecord::Base
   has_one :feedback, -> { order('CASE WHEN score IS NULL THEN 0 ELSE 1 END ASC, completed_at DESC') }
 
   accepts_nested_attributes_for :contact_notes, reject_if: :all_blank
-  accepts_nested_attributes_for :feedbacks
+  accepts_nested_attributes_for :feedbacks, allow_destroy: true
 
   validates :business, presence: true
   validates :email, presence: true
