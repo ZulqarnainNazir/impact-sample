@@ -127,9 +127,9 @@ html lang="en"
                       li#dashboard-business-data-community = link_to [:edit, @business, :data_delivery] do
                         i.fa.fa-truck>
                         | Delivery Information
-                      li = link_to [:edit, @business, :data_contacts] do
+                      li = link_to [:edit, @business, :data_customers] do
                         i.fa.fa-briefcase>
-                        | Contact Information
+                        | Customer Information
                     li id=('dashboard-business-data-community' if @business.lines.empty?) = link_to [:edit, @business, :data_values] do
                       i.fa.fa-heart>
                       | Community &amp; Values
