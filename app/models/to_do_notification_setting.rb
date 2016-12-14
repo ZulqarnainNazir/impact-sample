@@ -16,7 +16,7 @@ class ToDoNotificationSetting < ActiveRecord::Base
 
   def send_notification(message, to_do)
     ToDoNotificationMailer.notify(message: message, user: user, to_do: to_do,
-                                  business: business).deliver_now
+                                  business: business).deliver_later
   end
 
   def scheduled_and_ready?(notifiable)
