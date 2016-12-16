@@ -1,7 +1,7 @@
 class Webhost < ActiveRecord::Base
   belongs_to :website, touch: true
 
-  validates :name, presence: true, uniqueness: { case_sensitive: true }, format: { with: /\A[\w\.]+\z/ }
+  validates :name, presence: true, uniqueness: { case_sensitive: true }, format: { with: /\A[\w\.\-]+\z/ }
 
   validate do
     errors.add :name, :invalid if name && name.to_s.match(/\Ahttps?:/)
