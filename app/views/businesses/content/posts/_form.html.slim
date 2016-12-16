@@ -1,28 +1,41 @@
-.row
-  .col-sm-8
-    .form-group
-      = form.label :title, class: 'control-label'
-      = form.text_field :title, class: 'form-control', placeholder: 'Add a descriptive 5-12 word title for your post'
-      br>
-      - if @post.persisted?
-        - if @post.published_status == false
-          = link_to "Preview Post", [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), :id => @post.id], class: 'btn btn-block btn-default', :target => "_blank"
-        - else
-          = link_to "View Post", [:website, @post, only_path: false, host: website_host(@business.website)], class: 'btn btn-block btn-default', :target => "_blank"
-  .col-sm-4
-    .form-group
-      = form.label :published_on, class: 'control-label'
-      .input-group.date#datetimepicker
-        = form.text_field :published_on, :value => (@post.published_at.present? ? @post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") ), :class => "form-control"
-        span.input-group-addon
-          span.glyphicon.glyphicon-calendar
-= render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
-ol.post-sections-associations
-  - form.object.post_sections.build
-  = render partial: 'businesses/content/post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form }
-hr
-= render partial: 'businesses/content/classification', locals: { form: form }
-= render partial: 'businesses/content/social', locals: { form: form }
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          .row
+            .col-sm-8
+              .form-group
+                = form.label :title, class: 'control-label'
+                = form.text_field :title, class: 'form-control', placeholder: 'Add a descriptive 5-12 word title for your post'
+                br>
+                - if @post.persisted?
+                  - if @post.published_status == false
+                    = link_to "Preview Post", [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), :id => @post.id], class: 'btn btn-block btn-default', :target => "_blank"
+                  - else
+                    = link_to "View Post", [:website, @post, only_path: false, host: website_host(@business.website)], class: 'btn btn-block btn-default', :target => "_blank"
+            .col-sm-4
+              .form-group
+                = form.label :published_on, class: 'control-label'
+                .input-group.date#datetimepicker
+                  = form.text_field :published_on, :value => (@post.published_at.present? ? @post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") ), :class => "form-control"
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-calendar
+          = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: true }
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          ol.post-sections-associations style="margin: 20px 20px 20px 20px;"
+            - form.object.post_sections.build
+            = render partial: 'businesses/content/post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form }
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+            = render partial: 'businesses/content/classification', locals: { form: form }
+            = render partial: 'businesses/content/social', locals: { form: form }
 
 .row
   - if (form.object.persisted? && form.object.published_status == false)
@@ -43,6 +56,7 @@ hr
     .col-sm-4
       .form-group.text-center
         = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+hr
 javascript:
   $(function () {
     $('#datetimepicker').datetimepicker({

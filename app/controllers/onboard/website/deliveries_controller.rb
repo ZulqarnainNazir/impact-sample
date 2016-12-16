@@ -12,7 +12,7 @@ class Onboard::Website::DeliveriesController < Onboard::Website::BaseController
   end
 
   def update
-    update_resource @business, delivery_params, context: :related_associations, location: [:edit_onboard_website, @business, :contacts]
+    update_resource @business, delivery_params, context: :related_associations, location: [:edit_onboard_website, @business, :customers]
   end
 
   private

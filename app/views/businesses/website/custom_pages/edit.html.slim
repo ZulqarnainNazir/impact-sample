@@ -1,6 +1,6 @@
 - title 'Edit Page'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :sn => 'Webpages', :sp => :website_webpages, :an => ' = @custom_page.name'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :sn => 'Webpages', :sp => :website_webpages, :an => @custom_page.name}
 
 .webpage-designer data-input-prefix="custom_page"
   = form_for @custom_page, url: [@business, :website, @custom_page] do |form|

@@ -24,16 +24,13 @@
               em No contacts found.
           - else
             p style="margin:2em 0" = page_entries_info @contacts
-            table.footable.table.table-stripped.toggle-arrow-tiny[data-page-size="8"]
+            table.footable.table.table-stripped
               thead
                 tr
                   th
-                  th
                     | Name
                   th
-                  th
                     | Email
-                  th
                   th
                     | Phone
                   th
@@ -49,7 +46,6 @@
               tbody
                 = render @contacts
           = paginate @contacts
-
 - content_for :javascript do
   javascript:
     $(function() {

@@ -17,7 +17,6 @@
                 span.label.label-primary.m-r-1 Submitted for Review
               - elsif @to_do.accepted?
                 span.label.label-success.m-r-1 Accepted
-
               - if @to_do.removed?
                 span.label.label-danger.m-r-1 Removed by User
               - if @to_do.due_date
@@ -38,12 +37,10 @@
                     .text-muted
                       small
                         = comment.created_at.strftime('%m/%d/%Y %l:%M%p')
-
                 li.list-group-item
                   = form_tag business_to_do_comments_path(@business, @to_do) do
                     .form-group
                       = text_area_tag 'comment[content]', nil, class: 'form-control wysihtml-editor'
                     = submit_tag 'Add Comment', class: 'btn btn-primary'
-
 hr
 hr

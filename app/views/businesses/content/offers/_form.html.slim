@@ -1,76 +1,94 @@
-.row
-  .col-sm-8
-    .form-group
-      = form.label :title, 'Title *', class: 'control-label'
-      = form.text_field :title, class: 'form-control', placeholder: 'Add your big bold offer title, should be 8-15 words in most cases.'
-      br>
-      - if @offer.persisted?
-        - if @offer.published_status == false
-          = link_to "Preview Post", [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => website_host(@business.website), :id => @offer.id], class: 'btn btn-block btn-default', :target => "_blank"
-        - else
-          = link_to "View Post", [:website, @offer, only_path: false, host: website_host(@business.website)], class: 'btn btn-block btn-default', :target => "_blank"
-  .col-sm-4
-    .form-group
-      = form.label :published_on, class: 'control-label'
-      .input-group.date#datetimepicker
-        = form.text_field :published_on, :value => (@offer.published_at.present? ? @offer.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") ), :class => "form-control"
-        span.input-group-addon
-          span.glyphicon.glyphicon-calendar
-= render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
-hr
-.text-right
-  span.offer-row-kind> style="margin-right:5px" = form.object.kind.try(:titleize) || 'Image Left'
-  span.btn-group.btn-group-sm
-    span.btn.btn-default.offer-row-switch
-      i.fa.fa-caret-left
-    span.btn.btn-default.offer-row-switch
-      i.fa.fa-caret-right
-.offer-row class=(form.object.kind || 'image_left')
-  = form.hidden_field :kind
+.wrapper.wrapper-content
   .row
-    .col-sm-6.offer-col-image
-      = react_component 'ImagePlacement',
-        imagesPath: business_images_path(form.object.business),
-        inputPrefix: 'offer[offer_image_placement_attributes]',
-        label: '',
-        placement: form.object.offer_image_placement_json,
-        presignedPost: s3_presigned_post_hash,
-        bulkUploadPath: new_business_content_images_upload_path(form.object.business),
-        buttonSize: 'small',
-        buttonRemove: false,
-        showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-    .col-sm-6
-      .form-group
-        = form.label :offer, 'Describe the Discount *', class: 'control-label'
-        = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Add more details about the offer. Remember, you’re selling what makes this OFFER great.'
-      .form-horizontal.text-right style="margin:20px 0"
-        .form-group
-          = form.label :valid_until, 'Valid Until', class: 'col-sm-6 control-label'
-          .col-sm-6
-            .input-group
-              = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
-              span.input-group-addon: i.fa.fa-calendar
-      .form-group
-        = form.label :description, 'Describe what‘s included with this offer and the benefits of purchasing the offer *', class: 'control-label'
-        = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor', placeholder: 'Here you should describe what’s include and why your product or service is great. Highlight a benefit or two.'
-      .form-horizontal.text-right style="margin:20px 0"
-        .form-group
-          = form.label :offer_code, 'Offer Code', class: 'col-sm-6 control-label'
-          .col-sm-6
-            = form.text_field :offer_code, class: 'form-control', placeholder: 'Optional'
-hr
-.row
-  .col-sm-10.col-sm-offset-1
-    .form-group
-      = form.label :terms, 'Terms and Conditions – The Fine Print and Limitations *', class: 'control-label'
-      = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Describe any limitations such as may not be combined with other offers, only valid on certain products etc.'
-    br
-    .form-group
-      = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
-      = form.file_field :coupon
-hr
-= render partial: 'businesses/content/classification', locals: { form: form }
-= render partial: 'businesses/content/social', locals: { form: form }
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          .row
+            .col-sm-8
+              .form-group
+                = form.label :title, 'Title *', class: 'control-label'
+                = form.text_field :title, class: 'form-control', placeholder: 'Add your big bold offer title, should be 8-15 words in most cases.'
+                br>
+                - if @offer.persisted?
+                  - if @offer.published_status == false
+                    = link_to "Preview Post", [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => website_host(@business.website), :id => @offer.id], class: 'btn btn-block btn-default', :target => "_blank"
+                  - else
+                    = link_to "View Post", [:website, @offer, only_path: false, host: website_host(@business.website)], class: 'btn btn-block btn-default', :target => "_blank"
+            .col-sm-4
+              .form-group
+                = form.label :published_on, class: 'control-label'
+                .input-group.date#datetimepicker
+                  = form.text_field :published_on, :value => (@offer.published_at.present? ? @offer.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") ), :class => "form-control"
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-calendar
+          = render partial: 'businesses/content/advanced_settings', locals: { form: form, main_image: false }
+
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          .text-right
+            span.offer-row-kind> style="margin-right:5px" = form.object.kind.try(:titleize) || 'Image Left'
+            span.btn-group.btn-group-sm
+              span.btn.btn-default.offer-row-switch
+                i.fa.fa-caret-left
+              span.btn.btn-default.offer-row-switch
+                i.fa.fa-caret-right
+          .offer-row class=(form.object.kind || 'image_left')
+            = form.hidden_field :kind
+            .row
+              .col-sm-6.offer-col-image
+                = react_component 'ImagePlacement',
+                  imagesPath: business_images_path(form.object.business),
+                  inputPrefix: 'offer[offer_image_placement_attributes]',
+                  label: '',
+                  placement: form.object.offer_image_placement_json,
+                  presignedPost: s3_presigned_post_hash,
+                  bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+                  buttonSize: 'small',
+                  buttonRemove: false,
+                  showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+              .col-sm-6
+                .form-group
+                  = form.label :offer, 'Describe the Discount *', class: 'control-label'
+                  = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Add more details about the offer. Remember, you’re selling what makes this OFFER great.'
+                .form-horizontal.text-right style="margin:20px 0"
+                  .form-group
+                    = form.label :valid_until, 'Valid Until', class: 'col-sm-6 control-label'
+                    .col-sm-6
+                      .input-group
+                        = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+                        span.input-group-addon: i.fa.fa-calendar
+                .form-group
+                  = form.label :description, 'Describe what‘s included with this offer and the benefits of purchasing the offer *', class: 'control-label'
+                  = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor', placeholder: 'Here you should describe what’s include and why your product or service is great. Highlight a benefit or two.'
+                .form-horizontal.text-right style="margin:20px 0"
+                  .form-group
+                    = form.label :offer_code, 'Offer Code', class: 'col-sm-6 control-label'
+                    .col-sm-6
+                      = form.text_field :offer_code, class: 'form-control', placeholder: 'Optional'
+
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          .row
+            .col-sm-10.col-sm-offset-1
+              .form-group
+                = form.label :terms, 'Terms and Conditions – The Fine Print and Limitations *', class: 'control-label'
+                = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Describe any limitations such as may not be combined with other offers, only valid on certain products etc.'
+              br
+              .form-group
+                = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
+                = form.file_field :coupon
+
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          = render partial: 'businesses/content/classification', locals: { form: form }
+          = render partial: 'businesses/content/social', locals: { form: form }
 .row
   - if (form.object.persisted? && form.object.published_status == false)
     .col-sm-4.col-sm-offset-2
@@ -90,6 +108,8 @@ hr
     .col-sm-4
       .form-group.text-center
         = form.button 'Save Draft and Continue Editing'.html_safe, class: 'btn btn-block btn-info', name: "draft", value: "draft"
+hr
+
 javascript:
   $('.offer-row-switch').on('click', function(event) {
     if ($('.offer-row').hasClass('image_left')) {

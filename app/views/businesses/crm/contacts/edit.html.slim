@@ -1,117 +1,117 @@
 - title 'Edit Contact'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'All Customers', [@business, :crm_contacts]
-  li.active Edit Contact
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_contacts, :an => 'Edit Contact'}
 
-
-.page-header
-  h1.h4 Contact Data for #{@contact.email}
-.row
-  .col-sm-6
-    h2.h4
-      ' Feedback
-      = link_to 'Ask for Feedback', [:new, @business, :crm, @contact, :feedback], class: 'btn btn-xs btn-default pull-right'
-    - if @contact.feedbacks.empty?
-      p: em No feedback found.
-    - else
-      ul
-        - @contact.feedbacks.each do |feedback|
-          li = link_to "Serviced on #{feedback.serviced_at || '--'}; Score #{feedback.score || '--'}", [@business, :crm, feedback]
-    h2.h4 Reviews
-    - if @contact.reviews.empty?
-      p: em No contact reviews found.
-    - else
-      ul
-        - @contact.reviews.each do |review|
-          li = link_to review.title, [@business, :crm, review]
-    h2.h4 Submitted Forms
-    - if @contact.contact_messages.empty?
-      p: em No submitted forms found.
-    - else
-      ul
-        - @contact.contact_messages.each do |contact_message|
-          li = link_to truncate(contact_message.message, length: 140), [@business, :crm, contact_message]
-    hr
-    h2.h4 Contact Notes
-    - @contact.contact_notes.each do |contact_note|
-      .btn-group.btn-group-xs.pull-right
-        = link_to [:edit, @business, :crm, @contact, contact_note], class: 'btn btn-default' do
-          => icon 'pencil'
-          | Edit
-        = link_to [@business, :crm, @contact, contact_note], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
-          => icon 'trash'
-          | Delete
-      blockquote
-        p = contact_note.content
-        p.small.text-muted by #{contact_note.user_name} #{time_ago_in_words contact_note.created_at} ago
-    hr
-    = form_for [@business, :crm, @contact, ContactNote.new] do |form|
-      .form-group
-        = form.label :content, class: 'control-label'
-        = form.text_area :content, rows: 4, class: 'form-control'
-      .form-group
-        = form.button 'Add Note', class: 'btn btn-primary'
-  .col-sm-6
-    = form_for @contact, url: [@business, :crm, @contact] do |form|
-      .panel.panel-default
-        .panel-heading
-          h2.h4.panel-title Edit Contact Details
-        .panel-body
-          = errors_for @contact
-          .form-group
-            = form.label :name, class: 'control-label'
-            = form.text_field :name, class: 'form-control'
-          .form-group
-            = form.label :email, class: 'control-label'
-            = form.email_field :email, class: 'form-control'
-          .form-group
-            = form.label :street1, class: 'control-label'
-            = form.text_field :street1, class: 'form-control'
-          .form-group
-            = form.label :street2, class: 'control-label'
-            = form.text_field :street2, class: 'form-control'
-          .form-group
-            = form.label :city, class: 'control-label'
-            = form.text_field :city, class: 'form-control'
-          .form-group
-            = form.label :state, class: 'control-label'
-            = form.text_field :state, class: 'form-control'
-          .form-group
-            = form.label :zip, class: 'control-label'
-            = form.text_field :zip, class: 'form-control'
-          .form-group
-            = form.label :phone, class: 'control-label'
-            = form.phone_field :phone, class: 'form-control'
-          hr
-          p.checkbox
-            = form.label :business_client do
-              => form.check_box :business_client, data: { show_when_checked: '.customer-business-data' }
-              | Business Client?
-          .well.well-sm.customer-business-data
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-5
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Contact Data for #{@contact.email}
+        .ibox-content.profile-content
+            h2.h4
+              ' Feedback
+              = link_to 'Ask for Feedback', [:new, @business, :crm, @contact, :feedback], class: 'btn btn-xs btn-default pull-right'
+            - if @contact.feedbacks.empty?
+              p: em No feedback found.
+            - else
+              ul
+                - @contact.feedbacks.each do |feedback|
+                  li = link_to "Serviced on #{feedback.serviced_at || '--'}; Score #{feedback.score || '--'}", [@business, :crm, feedback]
+            h2.h4 Reviews
+            - if @contact.reviews.empty?
+              p: em No contact reviews found.
+            - else
+              ul
+                - @contact.reviews.each do |review|
+                  li = link_to review.title, [@business, :crm, review]
+            h2.h4 Submitted Forms
+            - if @contact.contact_messages.empty?
+              p: em No submitted forms found.
+            - else
+              ul
+                - @contact.contact_messages.each do |contact_message|
+                  li = link_to truncate(contact_message.message, length: 140), [@business, :crm, contact_message]
+    .col-md-7
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Contact Notes
+        .ibox-content
+          = form_for [@business, :crm, @contact, ContactNote.new] do |form|
             .form-group
-              = form.label :business_name, class: 'control-label'
-              = form.text_field :business_name, class: 'form-control'
+              = form.label :content, class: 'control-label'
+              = form.text_area :content, rows: 3, class: 'form-control', placholder: 'Add a note about this contact.'
             .form-group
-              = form.label :business_url, class: 'control-label'
-              = form.text_field :business_url, class: 'form-control'
+              = form.button 'Add Note', class: 'btn btn-primary'
           hr
-          p.checkbox
-            = form.label :relationship do
-              => form.check_box :relationship, {:multiple => true}, 'Contact', nil
-              | Contact
-              <br>
-              => form.check_box :relationship, {:multiple => true}, 'Lead', nil
-              | Lead
-              <br/>
-              => form.check_box :relationship, {:multiple => true}, 'Prospect', nil
-              | Prospect
-              <br/>
-              => form.check_box :relationship, {:multiple => true}, 'Customer', nil
-              | Customer
-              <br/>
-        .panel-footer
-          = form.button 'Save Changes', class: 'btn btn-primary'
+          - @contact.contact_notes.each do |contact_note|
+            .btn-group.btn-group-xs.pull-right
+              = link_to [:edit, @business, :crm, @contact, contact_note], class: 'btn btn-default' do
+                => icon 'pencil'
+                | Edit
+              = link_to [@business, :crm, @contact, contact_note], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
+                => icon 'trash'
+                | Delete
+            blockquote
+              p = contact_note.content
+              p.small.text-muted by #{contact_note.user_name} #{time_ago_in_words contact_note.created_at} ago
+    .col-md-5
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Edit Contact Details
+        .ibox-content
+          = form_for @contact, url: [@business, :crm, @contact] do |form|
+            = errors_for @contact
+            .form-group
+              = form.label :name, class: 'control-label'
+              = form.text_field :name, class: 'form-control'
+            .form-group
+              = form.label :email, class: 'control-label'
+              = form.email_field :email, class: 'form-control'
+            .form-group
+              = form.label :street1, class: 'control-label'
+              = form.text_field :street1, class: 'form-control'
+            .form-group
+              = form.label :street2, class: 'control-label'
+              = form.text_field :street2, class: 'form-control'
+            .form-group
+              = form.label :city, class: 'control-label'
+              = form.text_field :city, class: 'form-control'
+            .form-group
+              = form.label :state, class: 'control-label'
+              = form.text_field :state, class: 'form-control'
+            .form-group
+              = form.label :zip, class: 'control-label'
+              = form.text_field :zip, class: 'form-control'
+            .form-group
+              = form.label :phone, class: 'control-label'
+              = form.phone_field :phone, class: 'form-control'
+            hr
+            p.checkbox
+              = form.label :business_client do
+                => form.check_box :business_client, data: { show_when_checked: '.customer-business-data' }
+                | Business Client?
+            .well.well-sm.customer-business-data
+              .form-group
+                = form.label :business_name, class: 'control-label'
+                = form.text_field :business_name, class: 'form-control'
+              .form-group
+                = form.label :business_url, class: 'control-label'
+                = form.text_field :business_url, class: 'form-control'
+            hr
+            p.checkbox
+              = form.label :relationship do
+                => form.check_box :relationship, {:multiple => true}, 'Contact', nil
+                | Contact
+                <br>
+                => form.check_box :relationship, {:multiple => true}, 'Lead', nil
+                | Lead
+                <br/>
+                => form.check_box :relationship, {:multiple => true}, 'Prospect', nil
+                | Prospect
+                <br/>
+                => form.check_box :relationship, {:multiple => true}, 'Customer', nil
+                | Customer
+                <br/>
+            .panel-footer
+              = form.button 'Save Changes', class: 'btn btn-primary'
