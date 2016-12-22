@@ -45,6 +45,7 @@ class Image < ActiveRecord::Base
     attachment_cache_url?
   end
 
+<<<<<<< ac0b9af18769cb39fec720184b1a526e139e32b1
   def attachment_url(style = :thumbnail)
     return attachment_cache_url if style.blank? || attachment_cache_url.blank? || style == :original
 
@@ -62,6 +63,11 @@ class Image < ActiveRecord::Base
         '/assets/spinner.gif'
       end
     end
+=======
+  def attachment_url(style = nil)
+    return attachment_cache_url if style.blank?
+    attachment_cache_url.gsub('_original/', "r/#{style}/")
+>>>>>>> Switch to Lambda-based resizing
   end
 
   def s3_bucket
