@@ -124,7 +124,7 @@ ImagesUpload = React.createClass
         attachment_cache_url: existingUpload.url
         attachment_content_type: existingUpload.content_type
         attachment_file_size: existingUpload.file_size
-        attachment_file_size: existingUpload.file_size
+        attachment_file_name: existingUpload.file_name
       aJ = $.ajax
         type: 'POST'
         url: this.props.uploadURL
