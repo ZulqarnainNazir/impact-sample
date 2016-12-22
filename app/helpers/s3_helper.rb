@@ -4,11 +4,12 @@ module S3Helper
   end
 
   def s3_cache_key
-    "cache/#{SecureRandom.uuid}/${filename}"
+    "_originals/#{SecureRandom.uuid}/${filename}"
   end
 
   def s3_presigned_post
-    s3_bucket.presigned_post(acl: :public_read, key: s3_cache_key, success_action_status: 201).where(:content_type).starts_with('')
+    s3_bucket.presigned_post(acl: :public_read, key: s3_cache_key, success_action_status: 201)
+             .where(:content_type).starts_with('')
   end
 
   def s3_presigned_post_hash
@@ -16,7 +17,7 @@ module S3Helper
     {
       fields: post.fields,
       host: post.url.host,
-      url: post.url.to_s,
+      url: post.url.to_s
     }
   end
 end
