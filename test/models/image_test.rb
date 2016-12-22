@@ -23,7 +23,7 @@ class ImageTest < ActiveSupport::TestCase
 
   test '#attachment_url correctly translates original file name to styled version' do
     image = images(:valid_image)
-    image.attachment_cache_url = 'http://locable.com/_original/123/logo.png'
+    image.attachment_cache_url = 'http://locable.com/_originals/123/logo.png'
 
     assert_equal 'http://locable.com/r/big/123/logo.png', image.attachment_url('big')
   end
