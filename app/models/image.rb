@@ -26,7 +26,7 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_url(style = nil)
-    return attachment_cache_url if style.blank?
+    return attachment_cache_url if style.blank? || attachment_cache_url.blank?
     attachment_cache_url.gsub('_original/', "r/#{style}/")
   end
 
