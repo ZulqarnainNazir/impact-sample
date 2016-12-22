@@ -5,46 +5,29 @@ class Image < ActiveRecord::Base
   has_many :placements, dependent: :destroy
   has_many :placers, through: :placements
 
-  has_attached_file :attachment, styles: lambda { |attachment| attachment.instance.styles }
-
   validates :business_id, presence: true, unless: :business
   validates :user_id, presence: true, unless: :user
-  validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }, allow_nil: true
-
-  validates_attachment_presence :attachment, unless: :attachment_cache_url?
-  validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\Z/
-  validates_attachment_size :attachment, in: 0..10.megabytes
+  validates :attachment_cache_url, :attachment_content_type, :attachment_file_size, presence: true
+  validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }
+  validates :attachment_content_type, format: { with: /\Aimage\/.*\Z/ }
+  validates :attachment_file_size, inclusion: { in: 0..10.megabytes }
 
   before_validation do
     self.attachment_updated_at = Time.zone.now if attachment_cache_url_changed? && attachment_cache_url?
-    self.attachment_content_type ||= Paperclip::ContentTypeDetector.new(attachment_file_name).detect
-    # TODO: Cannot get all image content types to be detected properly. Possible security risk.
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
   end
 
   after_commit do
-    ImageCacheTransferJob.perform_later(self) if attachment_cache_url?
     placements.each(&:touch)
   end
 
-  after_post_process do
-    update_column :cached_styles, styles.keys
-  end
-
   def attachment_url?
-    attachment_cache_url? || attachment?
+    attachment_cache_url?
   end
 
   def attachment_url(style = nil)
-    if attachment_cache_url?
-      attachment_cache_url
-    elsif attachment? && style && cached_styles.try(:include?, style.to_s)
-      attachment.url(style)
-    elsif attachment? && style && style.match(/_fixed\z/) && cached_styles.try(:include?, 'jumbo_fixed')
-      attachment.url(:jumbo_fixed)
-    elsif attachment?
-      attachment.url
-    end
+    return attachment_cache_url if style.blank?
+    attachment_cache_url.gsub('_original/', "r/#{style}/")
   end
 
   def styles
