@@ -84,9 +84,6 @@ class Image < ActiveRecord::Base
         URI.escape(url)
       ).path[1..-1]
     )
-=======
-    attachment_cache_url.gsub('_originals/', "r/#{style}/")
->>>>>>> Upload to _originals directory
   end
 
   def styles
