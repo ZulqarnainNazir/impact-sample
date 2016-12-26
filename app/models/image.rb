@@ -20,6 +20,7 @@ class Image < ActiveRecord::Base
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
   end
 
+<<<<<<< 67a8b3b08bd1d2edeee8dd6a8f63cf61a1e94746
   after_create do
     return if attachment_cache_url.present? && attachment_cache_url.include?(Rails.application.secrets.aws_s3_bucket)
     api_endpoint = Rails.application.secrets.lambda_api_endpoint
@@ -33,6 +34,8 @@ class Image < ActiveRecord::Base
     update(attachment_cache_url: "http://#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}")
   end
 
+=======
+>>>>>>> Delete files from S3 when destroying Image
   after_destroy do
     delete_from_s3
   end
