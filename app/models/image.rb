@@ -17,6 +17,10 @@ class Image < ActiveRecord::Base
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
   end
 
+  after_destroy do
+    delete_from_s3
+  end
+
   after_commit do
     placements.each(&:touch)
   end
@@ -82,5 +86,24 @@ class Image < ActiveRecord::Base
 
   def attachment_jumbo_fixed_url
     attachment_url(:jumbo_fixed)
+  end
+
+  def s3_key(style = nil)
+    URI.parse(attachment_url(style)).path
+  end
+
+  def delete_from_s3
+    return unless attachment_cache_url.present?
+    s3 = AWS::S3.new
+    bucket = s3.buckets[ENV['AWS_S3_BUCKET']]
+
+    resizes = if attachment_cache_url.include?('_logos/')
+                [:logo_small, :logo_medium, :logo_large, :logo_jumbo, nil]
+              else
+                [:thumbnail, :jumbo, :jumbo_fixed, :large, :large_fixed, :medium, :medium_fixed, :small, :small_fixed, nil]
+              end
+    resizes.each do |size|
+      bucket.objects[s3_key(size)].delete
+    end
   end
 end
