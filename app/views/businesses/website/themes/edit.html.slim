@@ -6,7 +6,7 @@ p.text-right = link_to website_root_url(host: website_host(@business.website)), 
   ' Preview Saved Website Design
   i.fa.fa-external-link style="margin-left:2px"
 
-.webpage-designer data-input-prefix="business"
+.webpage-designer data-input-prefix="website"
   = form_for @website, url: [@business, :website_theme], method: :patch do |form|
     = errors_for @website
     = react_component 'Theme',

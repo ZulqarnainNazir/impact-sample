@@ -114,8 +114,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           - if @business.lines.any?(&:persisted?)
             li class=('active' if controller_path.match(/\Abusinesses\/data\/deliveries/))
               = link_to "Delivery Information", [:edit, @business, :data_delivery]
-            li class=('active' if controller_path.match(/\Abusinesses\/data\/contacts/))
-              = link_to "Contact Information", [:edit, @business, :data_contacts]
+            li class=('active' if controller_path.match(/\Abusinesses\/data\/customers/))
+              = link_to "Customer Information", [:edit, @business, :data_customers]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/values/))
             = link_to "Community & Values", [:edit, @business, :data_values]
       - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
