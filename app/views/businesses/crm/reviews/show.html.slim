@@ -2,34 +2,40 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Reviews', :sp => :crm_reviews, :an => ' Review ##{@review.id}'}
 
-hr
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
 
-dl.dl-horizontal
-  dt Serviced At
-  dd = @review.serviced_at.try(:strftime, '%D') || '--'
-  dt Reviewed At
-  dd = @review.reviewed_at.strftime('%D')
-  dt Quality Rating
-  dd = @review.quality_rating.to_f
-  dt Value Rating
-  dd = @review.value_rating.to_f
-  dt Service Rating
-  dd = @review.service_rating.to_f
-  dt Overall Rating
-  dd = @review.overall_rating.to_f
-  dt Published?
-  dd
-    - if @review.published?
-      strong.text-success> Yes
-      = link_to 'Hide', [@business, :crm, @review, :review_publication], method: :delete, class: 'btn btn-xs btn-default' 
-    - else
-      strong.text-muted> No
-      = link_to 'Publish', [@business, :crm, @review, :review_publication], method: :post, class: 'btn btn-xs btn-primary' 
-  dt Contact Name
-  dd = link_to @review.contact.name, [:edit, @business, :crm, @review.contact]
-  dt Email
-  dd = @review.contact.email
-  dt Title
-  dd = @review.title
-  dt Description
-  dd = @review.description
+              dl.dl-horizontal
+                dt Serviced At
+                dd = @review.serviced_at.try(:strftime, '%D') || '--'
+                dt Reviewed At
+                dd = @review.reviewed_at.strftime('%D')
+                dt Quality Rating
+                dd = @review.quality_rating.to_f
+                dt Value Rating
+                dd = @review.value_rating.to_f
+                dt Service Rating
+                dd = @review.service_rating.to_f
+                dt Overall Rating
+                dd = @review.overall_rating.to_f
+                dt Published?
+                dd
+                  - if @review.published?
+                    strong.text-success> Yes
+                    = link_to 'Hide', [@business, :crm, @review, :review_publication], method: :delete, class: 'btn btn-xs btn-default' 
+                  - else
+                    strong.text-muted> No
+                    = link_to 'Publish', [@business, :crm, @review, :review_publication], method: :post, class: 'btn btn-xs btn-primary' 
+                dt Contact Name
+                dd = link_to @review.contact.name, [:edit, @business, :crm, @review.contact]
+                dt Email
+                dd = @review.contact.email
+                dt Title
+                dd = @review.title
+                dt Description
+                dd = @review.description

@@ -3,32 +3,34 @@
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Product/Service Lines'}
 
 .row
-  .col-md-8
-    = errors_for @business
-    = form_for @business, url: [@business, :data_customers] do |form|
-      .panel.panel-default
-        .panel-heading
-          h1.h4.panel-title Who is you ideal customer and what needs/problems do you solve?
-        .panel-body
-          = form.fields_for :lines do |line_form|
-            .form-group
-              = line_form.label :customer_description, "Describe your ideal customer for #{line_form.object.title}", class: 'control-label'
-              = line_form.text_area :customer_description, rows: 6, class: 'form-control wysihtml-editor'
-            .form-group
-              = line_form.label :customer_problem, class: 'control-label' do
-                ' Describe your #{line_form.object.title} customer’s problem, need or pain that you solve
-                i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Commercial properties ranging from 1,000-10,000 sq. ft., budget conscious buyers looking for todays fashions and a fun atmosphere"
-              = line_form.text_area :customer_problem, rows: 6, class: 'form-control wysihtml-editor'
-            .form-group
-              = line_form.label :customer_benefit, class: 'control-label' do
-                ' Describe the primary benefits your #{line_form.object.title} customer’s receive
-                i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Example: A more comfortable home with reduced electric bill, tax credits, and the knowledge you’re doing your part to support our planet"
-              = line_form.text_area :customer_benefit, rows: 6, class: 'form-control wysihtml-editor'
-            .form-group
-              = line_form.label :uniqueness, class: 'control-label' do
-                ' What’s unique about how you do what you do for #{line_form.object.title}
-                i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="We have xx years experience, patented technology, world-class baker, we have a guarantee, can solve problems no one else can, have the largest selection"
-              = line_form.text_area :uniqueness, rows: 6, class: 'form-control wysihtml-editor'
-            hr
-        .panel-footer.text-right
-          = form.button 'Save', class: 'btn btn-primary'
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-md-8
+          = errors_for @business
+          = form_for @business, url: [@business, :data_customers] do |form|
+            .ibox-title
+              h1.h4 Who is you ideal customer and what needs/problems do you solve?
+            .ibox-content
+              = form.fields_for :lines do |line_form|
+                .form-group
+                  = line_form.label :customer_description, "Describe your ideal customer for #{line_form.object.title}", class: 'control-label'
+                  = line_form.text_area :customer_description, rows: 6, class: 'form-control wysihtml-editor'
+                .form-group
+                  = line_form.label :customer_problem, class: 'control-label' do
+                    ' Describe your #{line_form.object.title} customer’s problem, need or pain that you solve
+                    i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Commercial properties ranging from 1,000-10,000 sq. ft., budget conscious buyers looking for todays fashions and a fun atmosphere"
+                  = line_form.text_area :customer_problem, rows: 6, class: 'form-control wysihtml-editor'
+                .form-group
+                  = line_form.label :customer_benefit, class: 'control-label' do
+                    ' Describe the primary benefits your #{line_form.object.title} customer’s receive
+                    i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Example: A more comfortable home with reduced electric bill, tax credits, and the knowledge you’re doing your part to support our planet"
+                  = line_form.text_area :customer_benefit, rows: 6, class: 'form-control wysihtml-editor'
+                .form-group
+                  = line_form.label :uniqueness, class: 'control-label' do
+                    ' What’s unique about how you do what you do for #{line_form.object.title}
+                    i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="We have xx years experience, patented technology, world-class baker, we have a guarantee, can solve problems no one else can, have the largest selection"
+                  = line_form.text_area :uniqueness, rows: 6, class: 'form-control wysihtml-editor'
+                hr
+            .text-right
+              = form.button 'Save', class: 'btn btn-primary btn-block'

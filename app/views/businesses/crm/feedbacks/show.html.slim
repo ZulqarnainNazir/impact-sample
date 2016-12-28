@@ -2,16 +2,22 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Feedback', :sp => :crm_feedbacks, :an => ' Feedback ##{@feedback.id}'}
 
-hr
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
 
-dl.dl-horizontal
-  dt Serviced At
-  dd = @feedback.serviced_at.try(:strftime, '%D') || '--'
-  dt Feedback Score
-  dd = @feedback.score
-  dt Contact Name
-  dd = link_to @feedback.contact.name, [:edit, @business, :crm, @feedback.contact]
-  dt Email
-  dd = @feedback.contact.email
-  dt Additional Feedback
-  dd = @feedback.description
+              dl.dl-horizontal
+                dt Serviced At
+                dd = @feedback.serviced_at.try(:strftime, '%D') || '--'
+                dt Feedback Score
+                dd = @feedback.score
+                dt Contact Name
+                dd = link_to @feedback.contact.name, [:edit, @business, :crm, @feedback.contact]
+                dt Email
+                dd = @feedback.contact.email
+                dt Additional Feedback
+                dd = @feedback.description

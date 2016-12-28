@@ -60,5 +60,5 @@
                   = form.label :category_ids, class: 'control-label'
                   = form.select :category_ids, options_from_collection_for_select(Category.alphabetical, 'id', 'name', form.object.categories.map(&:id)), {}, multiple: true, class: 'form-control', style: 'height:12em'
                 .text-right
-                  = form.button 'Save', class: 'btn btn-primary'
+                  = form.button 'Save', class: 'btn btn-primary btn-block'
 

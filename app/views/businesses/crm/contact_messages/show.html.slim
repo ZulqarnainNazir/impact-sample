@@ -2,16 +2,22 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Submitted Forms', :sp => :crm_contact_messages, :an => ' Message ##{@contact_message.id}'}
 
-hr
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
 
-dl.dl-horizontal
-  dt Contact Name
-  dd = link_to @contact_message.contact.name, [:edit, @business, :crm, @contact_message.contact]
-  dt Email
-  dd = @contact_message.contact.email
-  dt Phone
-  dd = @contact_message.contact.phone
-  dt Date Received
-  dd = localize @contact_message.created_at, format: :long
-hr
-blockquote = simple_format @contact_message.message
+              dl.dl-horizontal
+                dt Contact Name
+                dd = link_to @contact_message.contact.name, [:edit, @business, :crm, @contact_message.contact]
+                dt Email
+                dd = @contact_message.contact.email
+                dt Phone
+                dd = @contact_message.contact.phone
+                dt Date Received
+                dd = localize @contact_message.created_at, format: :long
+              hr
+              blockquote = simple_format @contact_message.message
