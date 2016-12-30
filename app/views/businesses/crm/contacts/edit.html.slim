@@ -37,24 +37,24 @@
         .ibox-title
           h5 Contact Notes
         .ibox-content
-          = form_for [@business, :crm, @contact, ContactNote.new] do |form|
+          = form_for [@business, :crm, @contact, CrmNote.new] do |form|
             .form-group
               = form.label :content, class: 'control-label'
               = form.text_area :content, rows: 3, class: 'form-control', placholder: 'Add a note about this contact.'
             .form-group
               = form.button 'Add Note', class: 'btn btn-primary'
           hr
-          - @contact.contact_notes.each do |contact_note|
+          - @contact.crm_notes.each do |crm_note|
             .btn-group.btn-group-xs.pull-right
-              = link_to [:edit, @business, :crm, @contact, contact_note], class: 'btn btn-default' do
+              = link_to [:edit, @business, :crm, @contact, crm_note], class: 'btn btn-default' do
                 => icon 'pencil'
                 | Edit
-              = link_to [@business, :crm, @contact, contact_note], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
+              = link_to [@business, :crm, @contact, crm_note], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
                 => icon 'trash'
                 | Delete
             blockquote
-              p = contact_note.content
-              p.small.text-muted by #{contact_note.user_name} #{time_ago_in_words contact_note.created_at} ago
+              p = crm_note.content
+              p.small.text-muted by #{crm_note.user_name} #{time_ago_in_words crm_note.created_at} ago
     .col-md-5
       .ibox.float-e-margins
         .ibox-title
@@ -87,17 +87,10 @@
               = form.label :phone, class: 'control-label'
               = form.phone_field :phone, class: 'form-control'
             hr
-            p.checkbox
-              = form.label :business_client do
-                => form.check_box :business_client, data: { show_when_checked: '.customer-business-data' }
-                | Business Client?
-            .well.well-sm.customer-business-data
+            .well.well-sm.contact-business-data
               .form-group
-                = form.label :business_name, class: 'control-label'
-                = form.text_field :business_name, class: 'form-control'
-              .form-group
-                = form.label :business_url, class: 'control-label'
-                = form.text_field :business_url, class: 'form-control'
+                = form.label :company_ids, "Related Companies", class: 'control-label'
+                = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @contact.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control'}
             hr
             p.checkbox
               = form.label :relationship do
@@ -115,3 +108,9 @@
                 <br/>
             .panel-footer
               = form.button 'Save Changes', class: 'btn btn-primary'
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $("#contact_company_ids").chosen();
+    });
+

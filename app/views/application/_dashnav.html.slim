@@ -85,7 +85,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
-            = link_to "All Contacts", [@business, :crm_contacts]
+            = link_to "People", [@business, :crm_contacts]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
+            = link_to "Companies", [@business, :crm_companies]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_messages/))
             = link_to "Submitted Forms", [@business, :crm_contact_messages]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))

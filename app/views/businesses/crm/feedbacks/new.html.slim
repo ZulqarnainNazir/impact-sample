@@ -4,7 +4,7 @@ ol.breadcrumb
   li = link_to icon('home'), :root
   li = link_to @business.name, [@business, :dashboard]
   li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'All Contacts', [@business, :crm_contact]
+  li = link_to 'People', [@business, :crm_contacts]
   li = link_to @contact.name, [@business, :crm, @contact]
   li.active Prompt for Feedback
 
@@ -23,5 +23,9 @@ ol.breadcrumb
                 .input-group
                   = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
                   span.input-group-addon: i.fa.fa-calendar
+              - if !Company.select_collection(@business.id, @contact.id).blank?
+                .form-group
+                  = form.label :company_id, class: 'control-label'
+                  = form.select :company_id, options_from_collection_for_select(Company.select_collection(@business.id, @contact.id), 'id', 'name'), {:include_blank => "- Not A Business Review -"}, {:class => 'form-control'}
         .panel-footer
           = form.button 'Submit', class: 'btn btn-primary'

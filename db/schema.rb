@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205172508) do
+ActiveRecord::Schema.define(version: 20161229052029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,8 +74,30 @@ ActiveRecord::Schema.define(version: 20161205172508) do
   add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
   add_index "blocks", ["link_type", "link_id"], name: "index_blocks_on_link_type_and_link_id", using: :btree
 
-  create_table "businesses", force: :cascade do |t|
-    t.string   "name",                              null: false
+  create_table "business_location_update_requests", force: :cascade do |t|
+    t.integer  "business_update_request_id"
+    t.string   "name",                                                                null: false
+    t.string   "street1"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip_code"
+    t.string   "phone_number"
+    t.string   "email"
+    t.text     "service_area"
+    t.boolean  "external_service_area",                               default: false, null: false
+    t.decimal  "latitude",                   precision: 10, scale: 6
+    t.decimal  "longitude",                  precision: 10, scale: 6
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
+  end
+
+  add_index "business_location_update_requests", ["business_update_request_id"], name: "business_location_business_update_idx", using: :btree
+
+  create_table "business_update_requests", force: :cascade do |t|
+    t.integer  "business_id"
+    t.integer  "request_business_id"
+    t.string   "name",                            null: false
     t.string   "tagline"
     t.string   "website_url"
     t.string   "facebook_id"
@@ -84,11 +106,41 @@ ActiveRecord::Schema.define(version: 20161205172508) do
     t.string   "twitter_id"
     t.string   "youtube_id"
     t.text     "description"
-    t.integer  "kind",                  default: 0, null: false
+    t.integer  "kind",                default: 0, null: false
+    t.integer  "year_founded"
+    t.string   "citysearch_id"
+    t.string   "instagram_id"
+    t.string   "pinterest_id"
+    t.string   "yelp_id"
+    t.integer  "plan",                default: 0, null: false
+    t.integer  "cce_id"
+    t.text     "cce_url"
+    t.string   "foursquare_id"
+    t.string   "zillow_id"
+    t.string   "opentable_id"
+    t.string   "trulia_id"
+    t.string   "realtor_id"
+    t.string   "tripadvisor_id"
+    t.string   "houzz_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  create_table "businesses", force: :cascade do |t|
+    t.string   "name",                                 null: false
+    t.string   "tagline"
+    t.string   "website_url"
+    t.string   "facebook_id"
+    t.string   "google_plus_id"
+    t.string   "linkedin_id"
+    t.string   "twitter_id"
+    t.string   "youtube_id"
+    t.text     "description"
+    t.integer  "kind",                  default: 0,    null: false
     t.integer  "year_founded"
     t.json     "settings"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "citysearch_id"
     t.string   "instagram_id"
     t.string   "pinterest_id"
@@ -97,7 +149,7 @@ ActiveRecord::Schema.define(version: 20161205172508) do
     t.text     "history"
     t.text     "vision"
     t.text     "community_involvement"
-    t.integer  "plan",                  default: 0, null: false
+    t.integer  "plan",                  default: 0,    null: false
     t.integer  "cce_id"
     t.text     "cce_url"
     t.text     "facebook_token"
@@ -109,6 +161,7 @@ ActiveRecord::Schema.define(version: 20161205172508) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
+    t.boolean  "in_impact",             default: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -132,6 +185,70 @@ ActiveRecord::Schema.define(version: 20161205172508) do
   add_index "categorizations", ["business_id"], name: "index_categorizations_on_business_id", using: :btree
   add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
 
+  create_table "companies", force: :cascade do |t|
+    t.integer  "user_business_id"
+    t.integer  "company_business_id"
+    t.text     "private_details"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "read_by",             default: [], null: false, array: true
+    t.boolean  "hide"
+    t.string   "name"
+    t.string   "tagline"
+    t.string   "website_url"
+    t.string   "facebook_id"
+    t.string   "google_plus_id"
+    t.string   "linkedin_id"
+    t.string   "twitter_id"
+    t.string   "youtube_id"
+    t.text     "description"
+    t.string   "citysearch_id"
+    t.string   "instagram_id"
+    t.string   "pinterest_id"
+    t.string   "yelp_id"
+    t.string   "foursquare_id"
+    t.string   "zillow_id"
+    t.string   "opentable_id"
+    t.string   "trulia_id"
+    t.string   "realtor_id"
+    t.string   "tripadvisor_id"
+    t.string   "houzz_id"
+  end
+
+  create_table "company_locations", force: :cascade do |t|
+    t.integer  "company_id",                                                     null: false
+    t.string   "name",                                                           null: false
+    t.string   "street1"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip_code"
+    t.string   "phone_number"
+    t.string   "email"
+    t.text     "service_area"
+    t.boolean  "hide_address",                                   default: false, null: false
+    t.boolean  "hide_phone",                                     default: false, null: false
+    t.boolean  "hide_email",                                     default: false, null: false
+    t.boolean  "external_service_area",                          default: false, null: false
+    t.decimal  "latitude",              precision: 10, scale: 6
+    t.decimal  "longitude",             precision: 10, scale: 6
+    t.json     "settings"
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
+  end
+
+  add_index "company_locations", ["company_id"], name: "index_company_locations_on_company_id", using: :btree
+
+  create_table "contact_companies", force: :cascade do |t|
+    t.integer  "contact_id"
+    t.integer  "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "contact_companies", ["company_id"], name: "index_contact_companies_on_company_id", using: :btree
+  add_index "contact_companies", ["contact_id"], name: "index_contact_companies_on_contact_id", using: :btree
+
   create_table "contact_messages", force: :cascade do |t|
     t.integer  "business_id",                    null: false
     t.string   "customer_name",                  null: false
@@ -148,16 +265,6 @@ ActiveRecord::Schema.define(version: 20161205172508) do
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
   add_index "contact_messages", ["contact_id"], name: "index_contact_messages_on_contact_id", using: :btree
-
-  create_table "contact_notes", force: :cascade do |t|
-    t.integer  "contact_id", null: false
-    t.text     "content",    null: false
-    t.text     "user_name",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "contact_notes", ["contact_id"], name: "index_contact_notes_on_contact_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.integer  "business_id",                     null: false
@@ -222,6 +329,18 @@ ActiveRecord::Schema.define(version: 20161205172508) do
 
   add_index "content_tags", ["business_id"], name: "index_content_tags_on_business_id", using: :btree
 
+  create_table "crm_notes", force: :cascade do |t|
+    t.integer  "contact_id"
+    t.text     "content",    null: false
+    t.text     "user_name",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "company_id"
+  end
+
+  add_index "crm_notes", ["company_id"], name: "index_crm_notes_on_company_id", using: :btree
+  add_index "crm_notes", ["contact_id"], name: "index_crm_notes_on_contact_id", using: :btree
+
   create_table "event_definition_locations", force: :cascade do |t|
     t.integer  "event_definition_id", null: false
     t.integer  "location_id",         null: false
@@ -281,9 +400,11 @@ ActiveRecord::Schema.define(version: 20161205172508) do
     t.datetime "updated_at",                   null: false
     t.boolean  "hide",         default: false, null: false
     t.integer  "read_by",      default: [],    null: false, array: true
+    t.integer  "company_id"
   end
 
   add_index "feedbacks", ["business_id"], name: "index_feedbacks_on_business_id", using: :btree
+  add_index "feedbacks", ["company_id"], name: "index_feedbacks_on_company_id", using: :btree
   add_index "feedbacks", ["contact_id"], name: "index_feedbacks_on_contact_id", using: :btree
 
   create_table "galleries", force: :cascade do |t|
@@ -571,9 +692,11 @@ ActiveRecord::Schema.define(version: 20161205172508) do
     t.boolean  "hide",                                   default: false, null: false
     t.integer  "read_by",                                default: [],    null: false, array: true
     t.text     "facebook_id"
+    t.integer  "company_id"
   end
 
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree
+  add_index "reviews", ["company_id"], name: "index_reviews_on_company_id", using: :btree
   add_index "reviews", ["contact_id"], name: "index_reviews_on_contact_id", using: :btree
 
   create_table "team_members", force: :cascade do |t|
@@ -635,6 +758,22 @@ ActiveRecord::Schema.define(version: 20161205172508) do
   end
 
   add_index "to_dos", ["business_id"], name: "index_to_dos_on_business_id", using: :btree
+
+  create_table "track_rake_create_companies", force: :cascade do |t|
+    t.integer  "company_id"
+    t.integer  "company_location_id"
+    t.integer  "business_id"
+    t.integer  "location_id"
+    t.integer  "contact_company_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "track_rake_create_companies", ["business_id"], name: "index_track_rake_create_companies_on_business_id", using: :btree
+  add_index "track_rake_create_companies", ["company_id"], name: "index_track_rake_create_companies_on_company_id", using: :btree
+  add_index "track_rake_create_companies", ["company_location_id"], name: "index_track_rake_create_companies_on_company_location_id", using: :btree
+  add_index "track_rake_create_companies", ["contact_company_id"], name: "index_track_rake_create_companies_on_contact_company_id", using: :btree
+  add_index "track_rake_create_companies", ["location_id"], name: "index_track_rake_create_companies_on_location_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                                null: false

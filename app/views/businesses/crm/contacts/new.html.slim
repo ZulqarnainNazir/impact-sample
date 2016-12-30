@@ -38,17 +38,10 @@
                   = form.label :phone, class: 'control-label'
                   = form.phone_field :phone, class: 'form-control'
                 hr
-                p.checkbox
-                  = form.label :business_client do
-                    => form.check_box :business_client, data: { show_when_checked: '.contact-business-data' }
-                    | Business Client?
                 .well.well-sm.contact-business-data
                   .form-group
-                    = form.label :business_name, class: 'control-label'
-                    = form.text_field :business_name, class: 'form-control'
-                  .form-group
-                    = form.label :business_url, class: 'control-label'
-                    = form.text_field :business_url, class: 'form-control'
+                    = form.label :company_ids, "Related Companies", class: 'control-label'
+                    = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @contact.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control'}
                 hr
                 p.checkbox
                   = form.label :relationship do
@@ -64,7 +57,7 @@
                     => form.check_box :relationship, { :multiple => true }, 'Contact', nil
                     | Contact
                     <br/>
-                = form.fields_for :contact_notes, @contact.contact_notes.last || @contact.contact_notes.new do |form|
+                = form.fields_for :crm_notes, @contact.crm_notes.last || @contact.crm_notes.new do |form|
                   .form-group
                     = form.label :content, class: 'control-label'
                     = form.text_area :content, rows: 6, class: 'form-control'

@@ -1,0 +1,12 @@
+en:
+  businesses:
+    crm:
+      crm_notes:
+        create:
+          notice: Your new note was added successfully.
+          alert: There was a problem adding the note.
+        update:
+          notice: The note was updated successfully.
+          alert: There was a problem updating the note.
+        destroy:
+          notice: The note has been deleted.

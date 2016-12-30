@@ -74,6 +74,7 @@ class Website::ReviewsController < Website::BaseController
         :service_rating,
         :title,
         :value_rating,
+        :company_id,
       ],
     ).tap do |safe_params|
       if safe_params[:review_attributes]

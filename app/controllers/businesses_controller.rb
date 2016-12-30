@@ -3,6 +3,6 @@ class BusinessesController < ApplicationController
   layout 'businesses'
 
   def index
-    @businesses = current_user.authorized_businesses.alphabetical.search(params[:search]).page(params[:page]).per(24)
+    @businesses = current_user.authorized_businesses.where(:in_impact => true).alphabetical.search(params[:search]).page(params[:page]).per(24)
   end
 end

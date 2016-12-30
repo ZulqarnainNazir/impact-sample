@@ -17,4 +17,24 @@
   font-size: 11px;
   line-height: 16px;
 }
-
+.contact-business-data {
+  .chosen-container {
+    width: auto !important;
+    display: block;
+  }
+}
+.company-search-results {
+  .contact-box.center-version {
+    min-height: 250px;
+    position: relative;
+    p {
+      padding:0 20px;
+    }
+    a.btn {
+      position: absolute;
+      bottom: 20px;
+      left:50%;
+      margin-left: -39px;
+    }
+  }
+}

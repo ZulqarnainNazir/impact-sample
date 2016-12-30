@@ -118,7 +118,11 @@ Rails.application.routes.draw do
           resources :contact_messages, only: %i[index show destroy]
           resources :contacts, only: %i[index new create edit update destroy] do
             resources :feedbacks, only: %i[new create]
-            resources :contact_notes, only: %i[new create edit update destroy]
+            resources :crm_notes, only: %i[new create edit update destroy]
+          end
+          resources :companies, only: %i[index new create edit update destroy] do
+            resources :business, only: %i[new create edit update]
+            resources :crm_notes, only: %i[new create edit update destroy]
           end
           resources :feedbacks, only: %i[index show destroy] do
             resource :review_invitation, only: %i[create]
