@@ -23,12 +23,12 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               i.fa.fa-photo.fa-2x
       li title="Dashboard" class=('active' if controller_path.match(/\Abusinesses\/dashboard/))
         = link_to [@business, :dashboard] do
-          i.fa.fa-th-large
+          i.fa.fa-tachometer
           span.nav-label[data-i18n="nav.dashboard"]
             | Dashboard
       li title="Manage Content" class=('active' if controller_path.match(/\Abusinesses\/content/))
         = link_to "#"
-          i.fa.fa-bar-chart-o
+          i.fa.fa-bold
           span.nav-label[data-i18n="nav.manage_content"]
             | Manage Content
           span.fa.arrow
@@ -53,7 +53,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Import Events", [@business, :content_event_imports]
       li title="Manage Website" class=('active' if controller_path.match(/\Abusinesses\/website/))
         = link_to "#"
-          i.fa.fa-table
+          i.fa.fa-desktop
           span.nav-label[data-i18n="nav.manage_website"]
             | Manage Website
           span.fa.arrow
@@ -72,14 +72,14 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Sidebars", [:edit, @business, :website_sidebars]
           li class=('active' if controller_path.match(/\Abusinesses\/website\/redirects/))
             = link_to "Redirects", [@business, :website_redirects]
-      li title="Manage Alliances" class=('active' if controller_path.match(/\Abusinesses\/alliances/))
+      / li title="Manage Alliances" class=('active' if controller_path.match(/\Abusinesses\/alliances/))
         = link_to [@business, :alliances] do
           i.fa.fa-random
           span.nav-label[data-i18n="nav.manage_alliances"]
             | Manage Alliances
       li title="Contacts" class=('active' if controller_path.match(/\Abusinesses\/crm/))
         = link_to "#"
-          i.fa.fa-comments
+          i.fa.fa-address-card
           span.nav-label[data-i18n="nav.contacts"]
             | Contacts
           span.fa.arrow
@@ -96,7 +96,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Reviews", [@business, :crm_reviews]
       li title="Business Data" class=('active' if controller_path.match(/\Abusinesses\/data/))
         = link_to "#"
-          i.fa.fa-database
+          i.fa.fa-map-marker
           span.nav-label[data-i18n="nav.business_data"]
             | Business Data
           span.fa.arrow
@@ -126,14 +126,14 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             i.fa.fa-users
             span.nav-label[data-i18n="nav.manage_admins"]
               | Manage Admins
-      li title="Marketing" class=('active' if controller_path.match(/\Abusinesses\/marketing/))
+      / li title="Marketing" class=('active' if controller_path.match(/\Abusinesses\/marketing/))
         = link_to [@business, :marketing] do
           i.fa.fa-rocket
           span.nav-label[data-i18n="nav.marketing"]
             | Marketing
       li title="Linked Accounts" class=('active' if controller_path.match(/\Abusinesses\/accounts/))
         = link_to "#"
-          i.fa.fa-files-o
+          i.fa.fa-link
           span.nav-label[data-i18n="nav.linked_accounts"]
             | Linked Accounts
           span.fa.arrow

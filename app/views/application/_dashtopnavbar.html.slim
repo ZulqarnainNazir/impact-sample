@@ -27,26 +27,26 @@
         ul.nav.navbar-top-links
           li = link_to [:new, @business, :content_quick_post] do
             i.fa.fa-bolt>
-            span.nav-label
+            span
               | Quick Post
           li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
             i.fa.fa-columns>
-            span.nav-label
+            span
               | Before &amp; After
           li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
             i.fa.fa-photo>
-            span.nav-label
+            span
               | Gallery
           li = link_to [:new, @business, :content_event_definition] do
             i.fa.fa-calendar>
-            span.nav-label
+            span
               | Event
           li = link_to [:new, @business, :content_offer] do
             i.fa.fa-ticket>
-            span.nav-label
+            span
               | Offer
           li.list-divider = link_to [@business, :crm_reviews] do
             i.fa.fa-star>
-            span.nav-label
+            span
               | Customer Review
 
