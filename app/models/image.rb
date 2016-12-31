@@ -12,6 +12,8 @@ class Image < ActiveRecord::Base
   validates :attachment_content_type, format: { with: /\Aimage\/.*\Z/ }
   validates :attachment_file_size, inclusion: { in: 0..10.megabytes }
 
+  serialize :processed_styles
+
   before_validation do
     self.attachment_updated_at = Time.zone.now if attachment_cache_url_changed? && attachment_cache_url?
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
@@ -31,7 +33,38 @@ class Image < ActiveRecord::Base
 
   def attachment_url(style = nil)
     return attachment_cache_url if style.blank? || attachment_cache_url.blank?
-    attachment_cache_url.gsub('_originals/', "r/#{style}/").gsub('_logos/', "r/#{style}/")
+
+    resized_key = s3_key(style)
+
+    if processed_styles.present? && processed_styles.include?(style)
+      cdn_resized_url(resized_key)
+    else
+      s3 = AWS::S3.new
+      bucket = s3.buckets[ENV['AWS_S3_BUCKET']]
+      if bucket.objects[resized_key].exists?
+        processed_styles ||= []
+        processed_styles << style
+        save
+        cdn_resized_url(resized_key)
+      else
+        '/assets/gear.gif'
+      end
+    end
+  end
+
+  def cdn_resized_url(resized_key)
+    "#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}"
+  end
+
+  def s3_key(style)
+    URI.unescape(
+      URI.parse(
+        URI.escape(
+          attachment_cache_url.gsub('_originals/', "r/#{style}/")
+                              .gsub('_logos/', "r/#{style}/")
+        )
+      ).path[1..-1]
+    )
   end
 
   def styles
@@ -86,10 +119,6 @@ class Image < ActiveRecord::Base
 
   def attachment_jumbo_fixed_url
     attachment_url(:jumbo_fixed)
-  end
-
-  def s3_key(style = nil)
-    URI.parse(attachment_url(style)).path
   end
 
   def delete_from_s3
