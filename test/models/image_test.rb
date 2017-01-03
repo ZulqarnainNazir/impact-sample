@@ -21,7 +21,27 @@ class ImageTest < ActiveSupport::TestCase
     assert_not_empty image.errors[:attachment_file_size]
   end
 
-  test '#attachment_url correctly translates original file name to styled version' do
+  test '#attachment_url returns the attachment_cache_url when style == :original' do
+    image = images(:valid_image)
+
+    assert_equal image.attachment_cache_url, image.attachment_url(:original)
+  end
+
+  test '#s3_key generates a key from the attachment_cache_url' do
+    image = images(:valid_image)
+    image.attachment_cache_url = 'http://locable.com/_originals/123/logo.png'
+
+    assert_equal 'r/thumbnail/123/logo.png', image.s3_key(:thumbnail)
+  end
+
+  test '#s3_key works with spaces in the attachment_cache_url' do
+    image = images(:valid_image)
+    image.attachment_cache_url = 'http://locable.com/_originals/123/logo (1).png'
+
+    assert_equal 'r/thumbnail/123/logo (1).png', image.s3_key(:thumbnail)
+  end
+
+  test '#s3_key with no style paramenter returns the original' do
     image = images(:valid_image)
     image.attachment_cache_url = 'http://locable.com/_originals/123/logo.png'
     assert_equal 'http://locable.com/r/big/123/logo.png', image.attachment_url('big')

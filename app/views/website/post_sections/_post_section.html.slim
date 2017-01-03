@@ -17,7 +17,7 @@
         - if post_section.post_section_image_placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = post_section.post_section_image_placement.embed.html_safe
         - elsif post_section.post_section_image
-          = image_tag post_section.post_section_image.attachment_url(:medium), alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive thumbnail'
+          = image_tag post_section.post_section_image.attachment_medium_url, alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive thumbnail'
   - elsif post_section.full_text?
     = sanitize_html post_section.content
   - elsif post_section.full_image?

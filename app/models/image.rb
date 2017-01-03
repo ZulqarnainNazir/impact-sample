@@ -31,17 +31,15 @@ class Image < ActiveRecord::Base
     attachment_cache_url?
   end
 
-  def attachment_url(style = nil)
-    return attachment_cache_url if style.blank? || attachment_cache_url.blank?
+  def attachment_url(style = :thumbnail)
+    return attachment_cache_url if style.blank? || attachment_cache_url.blank? || style == :original
 
     resized_key = s3_key(style)
 
     if processed_styles.present? && processed_styles.include?(style)
       cdn_resized_url(resized_key)
     else
-      s3 = AWS::S3.new
-      bucket = s3.buckets[ENV['AWS_S3_BUCKET']]
-      if bucket.objects[resized_key].exists?
+      if s3_bucket.objects[resized_key].exists?
         processed_styles ||= []
         processed_styles << style
         save
@@ -52,17 +50,24 @@ class Image < ActiveRecord::Base
     end
   end
 
+  def s3_bucket
+    @s3_bucket ||= AWS::S3.new.buckets[ENV['AWS_S3_BUCKET']]
+  end
+
   def cdn_resized_url(resized_key)
     "#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}"
   end
 
-  def s3_key(style)
+  def s3_key(style = nil)
+    url = if style.present?
+            attachment_cache_url.gsub('_originals/', "r/#{style}/")
+                                .gsub('_logos/', "r/#{style}/")
+          else
+            attachment_cache_url
+          end
     URI.unescape(
       URI.parse(
-        URI.escape(
-          attachment_cache_url.gsub('_originals/', "r/#{style}/")
-                              .gsub('_logos/', "r/#{style}/")
-        )
+        URI.escape(url)
       ).path[1..-1]
     )
   end
@@ -98,6 +103,7 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_medium_url
+    return attachment_url(:logo_medium) if attachment_cache_url.include?('_logos')
     attachment_url(:medium)
   end
 
@@ -123,8 +129,6 @@ class Image < ActiveRecord::Base
 
   def delete_from_s3
     return unless attachment_cache_url.present?
-    s3 = AWS::S3.new
-    bucket = s3.buckets[ENV['AWS_S3_BUCKET']]
 
     resizes = if attachment_cache_url.include?('_logos/')
                 [:logo_small, :logo_medium, :logo_large, :logo_jumbo, nil]
@@ -132,7 +136,7 @@ class Image < ActiveRecord::Base
                 [:thumbnail, :jumbo, :jumbo_fixed, :large, :large_fixed, :medium, :medium_fixed, :small, :small_fixed, nil]
               end
     resizes.each do |size|
-      bucket.objects[s3_key(size)].delete
+      s3_bucket.objects[s3_key(size)].delete
     end
   end
 end
