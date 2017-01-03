@@ -1,48 +1,56 @@
-.feed-item.feed-gallery
-  .feed-item-meta
-    => icon 'photo'
-    strong> Gallery
-    - if gallery.published_status == false
-      code
-        small Draft
-    span.pull-right
+.timeline-item
+  .row
+    .col-xs-3.date
+      => icon 'photo'
       - if gallery.published_at > DateTime.now && gallery.published_status != false
-        span.text-muted> Will Post #{time_ago_in_words gallery.published_at.in_time_zone("Pacific Time (US & Canada)")} from now
+        |  Will post in
+        br
+        small.text-navy
+          | #{time_ago_in_words gallery.published_at.in_time_zone("Pacific Time (US & Canada)")}
       - elsif gallery.published_status == false
-        div
+        | Unpublished
       - else
-        span.text-muted> Posted #{time_ago_in_words gallery.published_at.in_time_zone("Pacific Time (US & Canada)")} ago
-      - if gallery.content_categories.any? || gallery.content_tags.any?
-        span.text-muted> in
-        - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
-          - if @business.website
-            = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
-          - else
-            = classification.name
-          - if i < gallery.content_categories.count + gallery.content_tags.count - 1
-            ' ,
-      span.btn-group.btn-group-sm style="margin-left:8px"
-        = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
-        = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-  h2
-    - if @business.website
+        |  #{gallery.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%l:%M %P')}
+        br
+        small.text-navy
+          | #{time_ago_in_words gallery.published_at.in_time_zone("Pacific Time (US & Canada)")} ago
+    .col-xs-7.content
+      strong> Gallery
       - if gallery.published_status == false
-        h2.h3 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => gallery.id], target: :_blank
-      - else
-        => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
-    - else
-      => gallery.title
-    span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
-  .row.row-narrow
-    - gallery.gallery_images.limit(6).each do |gallery_image|
-      - image = gallery_image.gallery_image
-      .col-xs-3.col-lg-2
-        - if @business.website && gallery.published_status != false
-          = link_to [:website, gallery, only_path: false, host: website_host(@business.website)], class: 'gallery-item', target: :_blank do
-              figure
-                .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                  = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+        code
+          small Draft
+      span.pull-right
+        - if gallery.content_categories.any? || gallery.content_tags.any?
+          span.text-muted> Posted in
+          - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
+            - if @business.website
+              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
+            - else
+              = classification.name
+            - if i < gallery.content_categories.count + gallery.content_tags.count - 1
+              ' ,
+        span.btn-group.btn-group-sm style="margin-left:8px"
+          = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
+          = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+      h2
+        - if @business.website
+          - if gallery.published_status == false
+            h2 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => gallery.id], target: :_blank
+          - else
+            => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
         - else
-            figure
-              .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+          => gallery.title
+        span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
+      .row.row-narrow
+        - gallery.gallery_images.limit(6).each do |gallery_image|
+          - image = gallery_image.gallery_image
+          .col-xs-3.col-lg-2
+            - if @business.website && gallery.published_status != false
+              = link_to [:website, gallery, only_path: false, host: website_host(@business.website)], class: 'gallery-item', target: :_blank do
+                  figure
+                    .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                      = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+            - else
+                figure
+                  .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                    = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'

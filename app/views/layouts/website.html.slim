@@ -100,7 +100,7 @@ html lang="en"
   - hero_position = "hero-below"
   - if !@page.nil?
     - @page.groups.each do |group| 
-      - if group.attributes['type'] == 'HeroGroup' && !group.attributes['settings']['hero_position'].nil? 
+      - if !group.attributes.nil? && group.attributes['type'] == 'HeroGroup' && !group.attributes['settings'].nil? && !group.attributes['settings']['hero_position'].nil? 
          - hero_position = 'hero-' + group.attributes['settings']['hero_position']
 
   body[class="#{hero_position}"]

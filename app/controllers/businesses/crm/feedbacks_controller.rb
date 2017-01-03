@@ -35,6 +35,7 @@ class Businesses::Crm::FeedbacksController < Businesses::BaseController
   def feedback_params
     params.require(:feedback).permit(
       :serviced_at,
+      :company_id,
     )
   end
 

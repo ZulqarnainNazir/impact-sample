@@ -2,6 +2,7 @@ class Review < ActiveRecord::Base
   belongs_to :business
   belongs_to :contact, touch: true
   belongs_to :feedback
+  belongs_to :company
 
   accepts_nested_attributes_for :contact
 

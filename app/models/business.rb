@@ -48,9 +48,14 @@ class Business < ActiveRecord::Base
   has_many :managers, through: :manager_authorizations, source: :user
   has_many :owners, through: :owners_authorizations, source: :user
 
+  has_many :owned_companies, :class_name => "Company", :foreign_key => "user_business_id"
+  has_many :owned_by_business, :class_name => "Company", :foreign_key => "company_business_id"
+  belongs_to :company, :class_name => "Company", :foreign_key => "company_business_id"
+
+
   has_placed_image :logo
 
-  accepts_nested_attributes_for :location
+  accepts_nested_attributes_for :location, update_only: true
   accepts_nested_attributes_for :website
 
   accepts_nested_attributes_for :lines, allow_destroy: true, reject_if: proc { |a|
@@ -70,7 +75,7 @@ class Business < ActiveRecord::Base
   validates :name, presence: true
   validates :plan, presence: true
   validates :location, presence: true
-  validates :website, presence: true
+  validates :website, presence: true, :if => :in_impact?
 
   with_options on: :requires_categories do
     validates :category_ids, presence: true
@@ -113,7 +118,14 @@ class Business < ActiveRecord::Base
   end
 
   def first_five_to_dos
-    to_dos.where.not(group: 0).by_due_date.order(:created_at).order(:group).limit(5)
+    to_dos
+      .where(status: ToDo.statuses[:active],
+             submission_status: ToDo.submission_statuses[:pending])
+      .where.not(group: 0)
+      .by_due_date
+      .order(:created_at)
+      .order(:group)
+      .limit(5)
   end
 
   private

@@ -1,29 +1,30 @@
-ol.breadcrumb
-  li = link_to icon('home'), :businesses
-  li = link_to @business.name, business_dashboard_path(@business)
-  li.active ToDo's
+= render :partial => 'dashbreadcrumb', :locals => { :lnk => :businesses, :an => "ToDos"}
 
-.row
-  .col-md-12.col-sm-12
-    .panel.panel-default
-      .panel-heading
-        h2.h3
-          ' ToDo's
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+          h2
+            | ToDo's
+        .ibox-content
+          - unless @get_started_to_dos.empty?
+            = render partial: 'businesses/to_dos/collection', locals: { to_dos: @get_started_to_dos, business: @business, group: 'Getting Started' }
+          - unless @prepare_launch_to_dos.empty?
+            = render partial: 'businesses/to_dos/collection', locals: { to_dos: @prepare_launch_to_dos, business: @business, group: 'Preparing to Launch' }
+          - unless @after_launch_to_dos.empty?
+            = render partial: 'businesses/to_dos/collection', locals: { to_dos: @after_launch_to_dos, business: @business, group: 'After Launch' }
+          - unless @custom_to_dos.empty?
+            = render partial: 'businesses/to_dos/collection', locals: { to_dos: @custom_to_dos, business: @business, group: 'Custom ToDos' }
+          hr
+          .row
+            .col-md-12.col-sm-12
+              .row
+                .col-md-6.col-sm-6
+                  button.btn.btn-success data-toggle="modal" data-target="#addToDoModal" Add New ToDos
+                  = render partial: 'businesses/to_dos/add_modal', locals: { business: @business }
+                .col-md-6.col-sm-6
+                  = link_to 'Update Notification Preferences', business_notification_settings_path(@business), class: 'btn btn-primary pull-right'
 
-      ul.list-group
-        - unless @get_started_to_dos.empty?
-          = render partial: 'businesses/to_dos/collection', locals: { to_dos: @get_started_to_dos, business: @business, group: 'Getting Started' }
-        - unless @prepare_launch_to_dos.empty?
-          = render partial: 'businesses/to_dos/collection', locals: { to_dos: @prepare_launch_to_dos, business: @business, group: 'Preparing to Launch' }
-        - unless @after_launch_to_dos.empty?
-          = render partial: 'businesses/to_dos/collection', locals: { to_dos: @after_launch_to_dos, business: @business, group: 'After Launch' }
-        - unless @custom_to_dos.empty?
-          = render partial: 'businesses/to_dos/collection', locals: { to_dos: @custom_to_dos, business: @business, group: 'Custom ToDos' }
-.row
-  .col-md-12.col-sm-12
-    .row
-      .col-md-6.col-sm-6
-        button.btn.btn-success data-toggle="modal" data-target="#addToDoModal" Add New ToDos
-        = render partial: 'businesses/to_dos/add_modal', locals: { business: @business }
-      .col-md-6.col-sm-6
-        = link_to 'Update Notification Preferences', business_notification_settings_path(@business), class: 'btn btn-primary pull-right'
+hr
+hr

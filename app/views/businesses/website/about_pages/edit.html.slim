@@ -1,11 +1,6 @@
 - title 'Edit Website About Page'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li = link_to 'Webpages', [@business, :website_webpages]
-  li.active About Page
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :sn => 'Webpages', :sp => :website_webpages, :an => ' About Page'}
 
 .webpage-designer data-input-prefix="about_page"
   = form_for @about_page, url: [@business, :website_about_page], method: :patch do |form|

@@ -1,9 +1,6 @@
 - title 'Website'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li.active Manage Website
+= render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Website'}
 
 br
 - if @business.website

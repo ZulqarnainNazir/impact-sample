@@ -1,88 +1,80 @@
 - title 'Add Contact'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'All Contacts', [@business, :crm_contacts]
-  li.active Add Contacts
-
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Contacts', :sp => :crm_contacts, :an => ' Add Contacts'}
 
 = form_for @contact, url: [@business, :crm_contacts] do |form|
   .row
-    .col-sm-8
-      .panel.panel-default
-        .panel-heading
-          h1.h4.panel-title Add a new Contact
-        .panel-body
-          = errors_for @contact
-          .form-group
-            = form.label :name, class: 'control-label'
-            = form.text_field :name, class: 'form-control'
-          .form-group
-            = form.label :email, class: 'control-label'
-            = form.email_field :email, class: 'form-control'
-          .form-group
-            = form.label :street1, class: 'control-label'
-            = form.text_field :street1, class: 'form-control'
-          .form-group
-            = form.label :street2, class: 'control-label'
-            = form.text_field :street2, class: 'form-control'
-          .form-group
-            = form.label :city, class: 'control-label'
-            = form.text_field :city, class: 'form-control'
-          .form-group
-            = form.label :state, class: 'control-label'
-            = form.text_field :state, class: 'form-control'
-          .form-group
-            = form.label :zip, class: 'control-label'
-            = form.text_field :zip, class: 'form-control'
-          .form-group
-            = form.label :phone, class: 'control-label'
-            = form.phone_field :phone, class: 'form-control'
-          hr
-          p.checkbox
-            = form.label :business_client do
-              => form.check_box :business_client, data: { show_when_checked: '.customer-business-data' }
-              | Business Client?
-          .well.well-sm.customer-business-data
-            .form-group
-              = form.label :business_name, class: 'control-label'
-              = form.text_field :business_name, class: 'form-control'
-            .form-group
-              = form.label :business_url, class: 'control-label'
-              = form.text_field :business_url, class: 'form-control'
-          hr
-          p.checkbox
-            = form.label :relationship do
-              => form.check_box :relationship, { :multiple => true }, 'Contact', nil
-              | Contact
-              <br>
-              => form.check_box :relationship, { :multiple => true }, 'Lead', nil
-              | Lead
-              <br/>
-              => form.check_box :relationship, { :multiple => true }, 'Prospect', nil
-              | Prospect
-              <br/>
-              => form.check_box :relationship, { :multiple => true }, 'Customer', nil
-              | Customer
-              <br/>
-          = form.fields_for :contact_notes, @contact.contact_notes.last || @contact.contact_notes.new do |form|
-            .form-group
-              = form.label :content, class: 'control-label'
-              = form.text_area :content, rows: 6, class: 'form-control'
-          hr
-          = form.fields_for :feedbacks, @contact.feedbacks.last || @contact.feedbacks.new do |form|
-            .checkbox
-              = label_tag :_inverse_destroy do
-                => check_box_tag :_inverse_destroy, '1', !params[:_inverse_destroy] || params[:_inverse_destroy] == '1'
-                ' Request that the contact leave a review (and trigger automatic email to guide them through the process)
-            .row
-              .col-sm-8.col-md-6
-                .form-group style="margin-top:1em; margin-left:1.3em"
-                  = form.label :serviced_at, class: 'control-label'
-                  .input-group
-                    = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: 'datepicker' }
-                    span.input-group-addon: i.fa.fa-calendar
-        .panel-footer
-          = form.button 'Add Contact', class: 'btn btn-primary'
+    .col-lg-12
+      .wrapper.wrapper-content
+        .row
+          .col-sm-8
+            .ibox.float-e-margins
+              .ibox-title
+                h1.h4 Add a new Contact
+              .ibox-content
+                = errors_for @contact
+                .form-group
+                  = form.label :name, class: 'control-label'
+                  = form.text_field :name, class: 'form-control'
+                .form-group
+                  = form.label :email, class: 'control-label'
+                  = form.email_field :email, class: 'form-control'
+                .form-group
+                  = form.label :street1, class: 'control-label'
+                  = form.text_field :street1, class: 'form-control'
+                .form-group
+                  = form.label :street2, class: 'control-label'
+                  = form.text_field :street2, class: 'form-control'
+                .form-group
+                  = form.label :city, class: 'control-label'
+                  = form.text_field :city, class: 'form-control'
+                .form-group
+                  = form.label :state, class: 'control-label'
+                  = form.text_field :state, class: 'form-control'
+                .form-group
+                  = form.label :zip, class: 'control-label'
+                  = form.text_field :zip, class: 'form-control'
+                .form-group
+                  = form.label :phone, class: 'control-label'
+                  = form.phone_field :phone, class: 'form-control'
+                hr
+                .well.well-sm.contact-business-data
+                  .form-group
+                    = form.label :company_ids, "Related Companies", class: 'control-label'
+                    = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @contact.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control'}
+                hr
+                p.checkbox
+                  = form.label :relationship do
+                    => form.check_box :relationship, { :multiple => true }, 'Contact', nil
+                    | Contact
+                    <br>
+                    => form.check_box :relationship, { :multiple => true }, 'Lead', nil
+                    | Lead
+                    <br/>
+                    => form.check_box :relationship, { :multiple => true }, 'Prospect', nil
+                    | Prospect
+                    <br/>
+                    => form.check_box :relationship, { :multiple => true }, 'Contact', nil
+                    | Contact
+                    <br/>
+                = form.fields_for :crm_notes, @contact.crm_notes.last || @contact.crm_notes.new do |form|
+                  .form-group
+                    = form.label :content, class: 'control-label'
+                    = form.text_area :content, rows: 6, class: 'form-control'
+                hr
+                = form.fields_for :feedbacks, @contact.feedbacks.last || @contact.feedbacks.new do |form|
+                  .checkbox
+                    = label_tag :_inverse_destroy do
+                      => check_box_tag :_inverse_destroy, '1', !params[:_inverse_destroy] || params[:_inverse_destroy] == '1'
+                      ' Request that the contact leave a review (and trigger automatic email to guide them through the process)
+                  .row
+                    .col-sm-8.col-md-6
+                      .form-group style="margin-top:1em; margin-left:1.3em"
+                        = form.label :serviced_at, class: 'control-label'
+                        .input-group
+                          = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: 'datepicker' }
+                          span.input-group-addon: i.fa.fa-calendar
+              .panel-footer
+                = form.button 'Add Contact', class: 'btn btn-primary'
+      hr
+      hr

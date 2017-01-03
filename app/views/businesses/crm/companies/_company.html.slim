@@ -1,0 +1,7 @@
+tr class=('unread' unless company.read_by.include?(current_user.id))
+  td = link_to company.business.name, [:edit, @business, :crm, company]
+  td = company.business.location.email
+  td = company.business.location.phone_number? ? company.business.location.phone_number : '--'
+  td = company.business.location.street1
+  td = company.business.location.city
+  td = company.business.location.state

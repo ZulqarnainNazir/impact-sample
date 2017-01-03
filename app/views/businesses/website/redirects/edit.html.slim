@@ -1,14 +1,14 @@
 - title 'Edit Website Redirect'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li = link_to 'Redirects', [@business, :website_redirects]
-  li.active Edit Redirect
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :sn => 'Redirects', :sp => :website_redirects, :an => ' Edit Redirect'}
 
-br
-
-= errors_for @redirect
-= form_for @redirect, url: [@business, :website, @redirect] do |form|
-  = render form
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              = errors_for @redirect
+              = form_for @redirect, url: [@business, :website, @redirect] do |form|
+                = render form

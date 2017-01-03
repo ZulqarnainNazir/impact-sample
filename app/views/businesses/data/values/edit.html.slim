@@ -1,37 +1,36 @@
 - title 'Tell us more about your busines values, goals and virtues'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Business Data', [@business, :data_root]
-  li.active Product/Service Lines
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Product/Service Lines'}
 
 .row
-  .col-md-8
-    = errors_for @business
-    = form_for @business, url: [@business, :data_values] do |form|
-      .panel.panel-default
-        .panel-heading
-          h1.h4.panel-title Tell us more about your busines values, goals and virtues
-        .panel-body
-          .form-group
-            = form.label :values, class: 'control-label' do
-              ' How would you describe your business values?
-              i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Example: Green & efficient, non profit oriented, involved in the community"
-            = form.text_area :values, rows: 6, class: 'form-control wysihtml-editor'
-          .form-group
-            = form.label :history, class: 'control-label' do
-              ' Where did your business come from, how/why was it started?
-            = form.text_area :history, rows: 6, class: 'form-control wysihtml-editor'
-          .form-group
-            = form.label :vision, class: 'control-label' do
-              ' Where is your business going, what is your ultimate vision?
-              i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Example: A pool in every backyard so families can swim and play together"
-            = form.text_area :vision, rows: 6, class: 'form-control wysihtml-editor'
-          .form-group
-            = form.label :community_involvement, class: 'control-label' do
-              ' How are you involved in the community?
-              i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="What community organizations do you support or are involved with?"
-            = form.text_area :community_involvement, rows: 6, class: 'form-control wysihtml-editor'
-        .panel-footer.text-right
-          = form.button 'Save', class: 'btn btn-primary'
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h4 Tell us more about your busines values, goals and virtues
+            .ibox-content
+              = errors_for @business
+              = form_for @business, url: [@business, :data_values] do |form|
+                .form-group
+                  = form.label :values, class: 'control-label' do
+                    ' How would you describe your business values?
+                    i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Example: Green & efficient, non profit oriented, involved in the community"
+                  = form.text_area :values, rows: 6, class: 'form-control wysihtml-editor'
+                .form-group
+                  = form.label :history, class: 'control-label' do
+                    ' Where did your business come from, how/why was it started?
+                  = form.text_area :history, rows: 6, class: 'form-control wysihtml-editor'
+                .form-group
+                  = form.label :vision, class: 'control-label' do
+                    ' Where is your business going, what is your ultimate vision?
+                    i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="Example: A pool in every backyard so families can swim and play together"
+                  = form.text_area :vision, rows: 6, class: 'form-control wysihtml-editor'
+                .form-group
+                  = form.label :community_involvement, class: 'control-label' do
+                    ' How are you involved in the community?
+                    i.fa.fa-question-circle data-toggle="tooltip" data-placement="bottom" title="What community organizations do you support or are involved with?"
+                  = form.text_area :community_involvement, rows: 6, class: 'form-control wysihtml-editor'
+                .text-right
+                  = form.button 'Save', class: 'btn btn-primary btn-block'

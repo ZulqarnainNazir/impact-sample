@@ -1,0 +1,14 @@
+doctype html
+html lang="en"
+  = render 'head'
+  = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
+  body style="margin-bottom:4em"
+    div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
+      = render 'dashnav' 
+      div id="page-wrapper" class="gray-bg"
+        = render 'dashtopnavbar' 
+        = render 'alerts'
+        .container-mock style="padding-top: 15px"
+          = yield
+    = yield :javascript
+    = intercom_tag

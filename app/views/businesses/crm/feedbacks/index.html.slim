@@ -1,50 +1,53 @@
 - title 'Feedback'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li.active Feedback
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => ' Feedback'}
 
-.pull-right
-  = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
-    => icon 'plus-circle'
-    | Invite a Contact
-
-- if @feedbacks.empty?
-  p style="margin:2em 0"
-    em No feedback found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an email prompting for their feedback.
-  hr
-- else
-  p style="margin:2em 0" = page_entries_info @feedbacks
-  .panel.panel-default
-    .table-responsive
-      table.table.table-striped
-        thead
-          tr
-            th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
-              | Contact Name
-              - if params[:order_by] == 'name'
-                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
-            th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
-              | Service Date
-              - if params[:order_by] == 'serviced_at'
-                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
-            th = link_to params.slice(:page).merge(order_by: :score, order_dir: params[:order_by] == 'score' && params[:order_dir] == 'desc' ? :asc : :desc) do
-              | Feedback Score
-              - if params[:order_by] == 'score'
-                span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
-            th Message
-            th Left Feedback?
-            th Left Review?
-            th style="width:9em"
-        tbody
-          = render @feedbacks
-  = paginate @feedbacks
-
-= form_for @business, url: [@business, :crm, :feedbacks_automation] do |form|
-  .text-center style="margin-top:2em"
-    span> Automatically prompt contacts to leave a review when their feedback score is above
-    => form.select :automated_feedbacks_publishing, options_for_select((1..10).map { |n| [n, n] }, selected: form.object.automated_feedbacks_publishing), include_blank: true
-    span.text-muted> –
-    = form.button 'Save', class: 'btn btn-xs btn-default'
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              .pull-right
+                = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
+                  => icon 'plus-circle'
+                  | Invite a Contact
+              
+              - if @feedbacks.empty?
+                p style="margin:2em 0"
+                  em No feedback found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an email prompting for their feedback.
+                hr
+              - else
+                p style="margin:2em 0" = page_entries_info @feedbacks
+                .panel.panel-default
+                  .table-responsive
+                    table.table.table-striped
+                      thead
+                        tr
+                          th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
+                            | Contact Name
+                            - if params[:order_by] == 'name'
+                              span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc') style="padding-left:0.2em"
+                          th = link_to params.slice(:page).merge(order_by: :serviced_at, order_dir: params[:order_by] == 'serviced_at' && params[:order_dir] == 'desc' ? :asc : :desc) do
+                            | Service Date
+                            - if params[:order_by] == 'serviced_at'
+                              span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+                          th = link_to params.slice(:page).merge(order_by: :score, order_dir: params[:order_by] == 'score' && params[:order_dir] == 'desc' ? :asc : :desc) do
+                            | Feedback Score
+                            - if params[:order_by] == 'score'
+                              span.fa class=(params[:order_dir] == 'asc' ? 'fa-sort-numeric-asc' : 'fa-sort-numeric-desc') style="padding-left:0.2em"
+                          th Message
+                          th Left Feedback?
+                          th Left Review?
+                          th style="width:9em"
+                      tbody
+                        = render @feedbacks
+                = paginate @feedbacks
+              
+              = form_for @business, url: [@business, :crm, :feedbacks_automation] do |form|
+                .text-center style="margin-top:2em"
+                  span> Automatically prompt contacts to leave a review when their feedback score is above
+                  => form.select :automated_feedbacks_publishing, options_for_select((1..10).map { |n| [n, n] }, selected: form.object.automated_feedbacks_publishing), include_blank: true
+                  span.text-muted> –
+                  = form.button 'Save', class: 'btn btn-xs btn-default'

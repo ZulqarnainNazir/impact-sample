@@ -1,0 +1,29 @@
+- title 'Edit Contact Note'
+
+.row.border-bottom.white-bg.dashboard-header
+  ol.breadcrumb
+    li = link_to icon('home'), :root
+    li = link_to @business.name, [@business, :dashboard]
+    li = link_to 'CRM', [@business, :crm_root]
+    - if !@contact.nil?
+      li = link_to 'People', [@business, :crm_contacts]
+      li = link_to @contact.name, [@business, :crm, @contact]
+    - else
+      li = link_to 'Companies', [@business, :crm_companies]
+      li = link_to @company.name, [@business, :crm, @company]
+    li.active Edit Note
+
+
+= form_for [@business, :crm, @related_entity, @crm_note] do |form|
+  .row
+    .col-sm-8
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Edit Note
+        .ibox-content
+          = errors_for @crm_note
+          .form-group
+            = form.label :content, class: 'control-label'
+            = form.text_area :content, rows: 6, class: 'form-control'
+        .panel-footer
+          = form.button 'Save Changes', class: 'btn btn-primary'

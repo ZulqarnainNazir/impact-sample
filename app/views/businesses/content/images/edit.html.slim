@@ -1,11 +1,6 @@
 - title 'Edit Image'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li = link_to 'Media Manager', [@business, :content_images]
-  li.active Edit Image
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :sn => 'Media Manager', :sp => :content_images, :an => ' Edit Image'}
 
 = errors_for @image
 = form_for @image, url: [@business, :content, @image] do |form|

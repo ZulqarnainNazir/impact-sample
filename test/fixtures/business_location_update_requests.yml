@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  business_update_request_id_id: 
+
+two:
+  business_update_request_id_id: 

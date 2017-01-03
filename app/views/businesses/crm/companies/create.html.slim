@@ -1,0 +1,25 @@
+- title 'Pick Company'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Companies', :sp => :crm_companies, :an => ' Edit Company'}
+
+
+.row
+  .col-sm-12
+    .panel.panel-default
+      .panel-heading
+        h1 Looking for one of these companies?
+      .panel-body.company-search-results
+        .row
+        - @companies.each do |company|
+          .col-lg-3
+            .contact-box.center-version
+              = link_to company.name, business_crm_companies_path(:add => 'true', :new_business_id => company.id), :method => :post
+              p = company.location.street1.to_s + " " + company.location.street2.to_s
+              p = company.location.city.to_s + ", " + company.location.state.to_s + " " + company.location.zip_code.to_s
+              p = company.location.phone_number.to_s
+              p = link_to "This is it", business_crm_companies_path(:add => 'true', :new_business_id => company.id), :method => :post, :class => "btn btn-primary"
+        .row
+          .col-sm-12
+            h2 If the address/details don't match, please add a new company.
+          .col-sm-4.col-md-3
+            = link_to "Add New Company", business_crm_companies_path(:search_add => 'true', :force => 'true', :name => params[:name]), :method => :post, :class => "btn btn-success"

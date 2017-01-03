@@ -1,22 +1,20 @@
 - title 'New Team Member'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Business Data', [@business, :data_root]
-  li = link_to 'Team Members', [@business, :data_team_members]
-  li.active New Team Member
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :sn => 'Team Members', :sp => :data_team_members, :an => ' New Team Member'}
 
 .row
-  .col-md-8
-    = errors_for @team_member
-    = form_for [@business, :data, @team_member] do |form|
-      .panel.panel-default
-        .panel-heading
-          h1.h3.panel-title Add a Team Member
-        .panel-body
-          = render form
-          div
-            hr
-            => form.button 'Create', class: 'btn btn-primary pull-right'
-            = link_to 'Cancel', [@business, :data_team_members], class: 'btn btn-link'
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h3.panel-title Add a Team Member
+            .ibox-content
+              = errors_for @team_member
+              = form_for [@business, :data, @team_member] do |form|
+                = render form
+                div
+                  hr
+                  => form.button 'Create', class: 'btn btn-primary pull-right'
+                  = link_to 'Cancel', [@business, :data_team_members], class: 'btn btn-link'

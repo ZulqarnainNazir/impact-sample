@@ -1,7 +1,7 @@
 class Businesses::Content::OffersController < Businesses::Content::BaseController
   include PlacementAttributesConcern
 
-  layout 'application'
+  layout 'business_reduced'
 
   before_action only: new_actions do
     @offer = @business.offers.new

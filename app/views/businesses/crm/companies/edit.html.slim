@@ -1,0 +1,146 @@
+- title 'Edit Company'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Companies', :sp => :crm_companies, :an => 'Edit Company'}
+
+.wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    .ibox.float-e-margins
+      .ibox-title
+        h5 Company Information (Public)
+      .ibox-content
+        = render partial: 'business_form', :locals => {:disabled  => @company.business.in_impact, :business => @business, :company => @company}
+  .col-md-6
+    = form_for @company, url: [@business, :crm, @company] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Company Details (Private)
+        .ibox-content
+          .panel-group#accordian
+            .panel.panel-default
+              .panel-heading
+                h2.h4.panel-title 
+                  a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" Company General Information
+              .panel-body.panel-collapse.collapse.in#collapseOne
+                = errors_for @company
+                .form-group
+                  = form.label :name, class: 'control-label'
+                  = form.text_field :name, class: 'form-control', value: @company.name ? @company.name : @company.business.name
+                .form-group
+                  = form.label :description, "Description", class: 'control-label'
+                  = form.text_area :description, class: 'form-control', value: @company.description ? @company.description : @company.business.description
+                .form-group
+                  = form.label :private_details, "Details", class: 'control-label'
+                  = form.text_area :private_details, class: 'form-control', value: @company.private_details
+                .form-group
+                  = form.label :website_url, class: 'control-label'
+                  = form.text_field :website_url, class: 'form-control', value: @company.website_url ? @company.website_url : @company.business.website_url
+            .panel.panel-default
+              .panel-heading
+                h2.h4.panel-title
+                  a.collapsed role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" Company Location Information 
+              .panel-body.panel-collapse.collapse#collapseTwo
+                  = form.fields_for :company_location do |location|
+                    .form-group
+                      = location.label :name, "Location Name", class: 'control-label'
+                      = location.text_field :name, class: 'form-control', value: @company.company_location.name ? @company.company_location.name : @company.business.location.name
+                    .form-group
+                      = location.label :email, class: 'control-label'
+                      = location.email_field :email, class: 'form-control', value: @company.company_location.email ? @company.company_location.email : @company.business.location.email
+                    .form-group
+                      = location.label :street1, class: 'control-label'
+                      = location.text_field :street1, class: 'form-control', value: @company.company_location.street1 ? @company.company_location.street1 : @company.business.location.street1
+                    .form-group
+                      = location.label :street2, class: 'control-label'
+                      = location.text_field :street2, class: 'form-control', value: @company.company_location.street2 ? @company.company_location.street2 : @company.business.location.street2
+                    .form-group
+                      = location.label :city, class: 'control-label'
+                      = location.text_field :city, class: 'form-control', value: @company.company_location.city ? @company.company_location.city : @company.business.location.city
+                    .form-group
+                      = location.label :state, class: 'control-label'
+                      = location.select :state, options_for_select(UsStates.to_a, @company.company_location.state ? @company.company_location.state : @company.business.location.state), { include_blank: true, prompt: '– Select State –' }, class: 'form-control'
+
+                    .form-group
+                      = location.label :zip_code, class: 'control-label'
+                      = location.text_field :zip_code, class: 'form-control', value: @company.company_location.zip_code ? @company.company_location.zip_code : @company.business.location.zip_code
+                    .form-group
+                      = location.label :phone_number, class: 'control-label'
+                      = location.phone_field :phone_number, class: 'form-control', value: @company.company_location.phone_number ? @company.company_location.phone_number : @company.business.location.phone_number
+            .panel.panel-default
+              .panel-heading
+                h2.h4.panel-title
+                  a.collapsed role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" Company Social Media Information 
+              .panel-body.panel-collapse.collapse#collapseThree
+                .form-group
+                  = form.label :facebook_id, class: 'control-label'
+                  = form.text_field :facebook_id, class: 'form-control', value: @company.facebook_id ? @company.facebook_id : @company.business.facebook_id
+                .form-group
+                  = form.label :google_plus_id, class: 'control-label'
+                  = form.text_field :google_plus_id, class: 'form-control', value: @company.google_plus_id ? @company.google_plus_id : @company.business.google_plus_id
+                .form-group
+                  = form.label :linkedin_id, class: 'control-label'
+                  = form.text_field :linkedin_id, class: 'form-control', value: @company.linkedin_id ? @company.linkedin_id : @company.business.linkedin_id
+                .form-group
+                  = form.label :twitter_id, class: 'control-label'
+                  = form.text_field :twitter_id, class: 'form-control', value: @company.twitter_id ? @company.twitter_id : @company.business.twitter_id
+                .form-group
+                  = form.label :youtube_id, class: 'control-label'
+                  = form.text_field :youtube_id, class: 'form-control', value: @company.youtube_id ? @company.youtube_id : @company.business.youtube_id
+                .form-group
+                  = form.label :citysearch_id, class: 'control-label'
+                  = form.text_field :citysearch_id, class: 'form-control', value: @company.citysearch_id ? @company.citysearch_id : @company.business.citysearch_id
+                .form-group
+                  = form.label :instagram_id, class: 'control-label'
+                  = form.text_field :instagram_id, class: 'form-control', value: @company.instagram_id ? @company.instagram_id : @company.business.instagram_id
+                .form-group
+                  = form.label :pinterest_id, class: 'control-label'
+                  = form.text_field :pinterest_id, class: 'form-control', value: @company.pinterest_id ? @company.pinterest_id : @company.business.pinterest_id
+                .form-group
+                  = form.label :yelp_id, class: 'control-label'
+                  = form.text_field :yelp_id, class: 'form-control', value: @company.yelp_id ? @company.yelp_id : @company.business.yelp_id
+                .form-group
+                  = form.label :foursquare_id, class: 'control-label'
+                  = form.text_field :foursquare_id, class: 'form-control', value: @company.foursquare_id ? @company.foursquare_id : @company.business.foursquare_id
+                .form-group
+                  = form.label :zillow_id, class: 'control-label'
+                  = form.text_field :zillow_id, class: 'form-control', value: @company.zillow_id ? @company.zillow_id : @company.business.zillow_id
+                .form-group
+                  = form.label :opentable_id, class: 'control-label'
+                  = form.text_field :opentable_id, class: 'form-control', value: @company.opentable_id ? @company.opentable_id : @company.business.opentable_id
+                .form-group
+                  = form.label :trulia_id, class: 'control-label'
+                  = form.text_field :trulia_id, class: 'form-control', value: @company.trulia_id ? @company.trulia_id : @company.business.trulia_id
+                .form-group
+                  = form.label :realtor_id, class: 'control-label'
+                  = form.text_field :realtor_id, class: 'form-control', value: @company.realtor_id ? @company.realtor_id : @company.business.realtor_id
+                .form-group
+                  = form.label :tripadvisor_id, class: 'control-label'
+                  = form.text_field :tripadvisor_id, class: 'form-control', value: @company.tripadvisor_id ? @company.tripadvisor_id : @company.business.tripadvisor_id
+                .form-group
+                  = form.label :houzz_id, class: 'control-label'
+                  = form.text_field :houzz_id, class: 'form-control', value: @company.houzz_id ? @company.houzz_id : @company.business.houzz_id
+        .panel-footer
+          = form.button 'Save Changes', class: 'btn btn-primary'
+    .ibox.float-e-margins
+      .ibox-title
+        h5 Company Notes
+      .ibox-content
+        = form_for [@business, :crm, @company, CrmNote.new] do |form|
+          .form-group
+            = form.label :content, class: 'control-label'
+            = form.text_area :content, rows: 3, class: 'form-control', placholder: 'Add a note about this company.'
+          .form-group
+            = form.button 'Add Note', class: 'btn btn-primary'
+          hr
+          - @company.crm_notes.each do |crm_note|
+            .btn-group.btn-group-xs.pull-right
+              = link_to [:edit, @business, :crm, @company, crm_note], class: 'btn btn-default' do
+                => icon 'pencil'
+                | Edit
+              = link_to [@business, :crm, @company, crm_note], method: :delete, class: 'btn btn-default', data: { confirm: 'Are you sure?' } do
+                => icon 'trash'
+                | Delete
+            blockquote
+              p = crm_note.content
+              p.small.text-muted by #{crm_note.user_name} #{time_ago_in_words crm_note.created_at} ago
+

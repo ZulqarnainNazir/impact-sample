@@ -1,48 +1,51 @@
 - title 'Manage Website Webpages'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li.active Webpages
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Webpages'}
 
-.pull-right.hidden-xs.hidden-sm
-  span style="vertical-align:middle; margin-right:0.5em;" Post New:
-  .btn-group.btn-group-sm
-    = link_to [:new, @business, :content_quick_post], class: 'btn btn-default' do
-      i.fa.fa-file-text-o>
-      | Quick Post
-    = link_to [:new, @business, :content_event_definition], class: 'btn btn-default' do
-      i.fa.fa-calendar>
-      | Event
-    = link_to [:new, @business, :content_gallery], class: 'btn btn-default' do
-      i.fa.fa-photo>
-      | Gallery
-    = link_to [:new, @business, :content_before_after], class: 'btn btn-default' do
-      i.fa.fa-tasks>
-      | Before &amp; After
-    = link_to [:new, @business, :content_offer], class: 'btn btn-default' do
-      i.fa.fa-ticket>
-      | Offer
-    = link_to [:new, @business, :content_post], class: 'btn btn-default' do
-      i.fa.fa-edit>
-      | Custom Post
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              .pull-right.hidden-xs.hidden-sm
+                span style="vertical-align:middle; margin-right:0.5em;" Post New:
+                .btn-group.btn-group-sm
+                  = link_to [:new, @business, :content_quick_post], class: 'btn btn-default' do
+                    i.fa.fa-file-text-o>
+                    | Quick Post
+                  = link_to [:new, @business, :content_event_definition], class: 'btn btn-default' do
+                    i.fa.fa-calendar>
+                    | Event
+                  = link_to [:new, @business, :content_gallery], class: 'btn btn-default' do
+                    i.fa.fa-photo>
+                    | Gallery
+                  = link_to [:new, @business, :content_before_after], class: 'btn btn-default' do
+                    i.fa.fa-tasks>
+                    | Before &amp; After
+                  = link_to [:new, @business, :content_offer], class: 'btn btn-default' do
+                    i.fa.fa-ticket>
+                    | Offer
+                  = link_to [:new, @business, :content_post], class: 'btn btn-default' do
+                    i.fa.fa-edit>
+                    | Custom Post
 
-ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
-  li = link_to 'Grid View', [@business, :website_webpages]
-  li.active = link_to 'Table View', '#'
-
-.table-responsive
-  table.table.table-bordered.table-striped
-    thead
-      tr
-        th Name
-        th Pathname
-        th Status
-        th Manage
-        th Preview
-    = render partial: 'webpage_row', collection: @webpages, as: :webpage, locals: { business: @business }
-
-p = link_to [:new, @business, @website, :custom_page], class: 'btn btn-sm btn-default' do
-  ' Add a Custom Page'
-  i.fa.fa-plus-circle
+              ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
+                li = link_to 'Grid View', [@business, :website_webpages]
+                li.active = link_to 'Table View', '#'
+              
+              .table-responsive
+                table.table.table-bordered.table-striped
+                  thead
+                    tr
+                      th Name
+                      th Pathname
+                      th Status
+                      th Manage
+                      th Preview
+                  = render partial: 'webpage_row', collection: @webpages, as: :webpage, locals: { business: @business }
+              
+              p = link_to [:new, @business, @website, :custom_page], class: 'btn btn-sm btn-default' do
+                ' Add a Custom Page'
+                i.fa.fa-plus-circle

@@ -8,7 +8,6 @@
 @import 'views/**/*';
 @import 'variables';
 
-
 input[type="checkbox"] {
   cursor: pointer;
 }
@@ -31,4 +30,12 @@ input[type="checkbox"] {
 html, body {
   width: auto !important;
   overflow-x: hidden !important;
+}
+
+.b-red {
+    border: 2px solid red;
+}
+
+.b-blue {
+    border: 2px solid blue;
 }

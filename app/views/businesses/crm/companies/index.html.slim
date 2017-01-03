@@ -1,0 +1,50 @@
+- title 'All Companies'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => 'All companies'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .pull-right
+            = form_tag [@business, :crm_companies], method: :get, style: 'float:left; margin-right:0.5em' do
+              .form-group
+                = label_tag :query, 'Query', class: 'sr-only'
+                .input-group
+                  = text_field_tag :query, params[:query], class: 'form-control'
+                  span.input-group-btn
+                    = button_tag icon('search'), class: 'btn btn-default'
+            = link_to [:new, @business, :crm_company], class: 'btn btn-sm btn-default' do
+              => icon 'plus-circle'
+              | Add company
+          
+          - if @companies.empty?
+            p style="margin:2em 0"
+              em No companies found.
+          - else
+            p style="margin:2em 0" = page_entries_info @companies
+            table.footable.table.table-stripped
+              thead
+                tr
+                  th
+                    | Name
+                  th
+                    | Email
+                  th
+                    | Phone
+                  th
+                    | Address
+                  th
+                    | City
+                  th
+                    | State
+              tbody
+                = render @companies
+          = paginate @companies
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $('.footable').footable();
+    });

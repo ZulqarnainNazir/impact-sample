@@ -1,201 +1,22 @@
 doctype html
-html lang="en"
+html
   = render 'head'
-  body.dashboard-background style="margin-bottom:4em"
-    = render 'navbar'
-    .container-fluid
-      .row.row-offcanvas.row-offcanvas-left
-        .col-md-3.col-lg-2.dashboard-menu.sidebar-offcanvas
-          div.well.text-center.text-muted.hidden-xs
-            = link_to [:edit, @business, :data_details] do
-              - if @business.logo
-                = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
-              - else
-                  i.fa.fa-photo.fa-3x
-              div style='padding-top:10px'
-                  = content_tag :span, 'Click to edit logo image', class: 'small'
-          .navbar
-            #dashboard-collapse.collapse.navbar-collapse
-              ul.navbar-nav.list-unstyled
-                li = link_to [@business, :dashboard] do
-                  i.fa.fa-tachometer>
-                  | Dashboard
-                li#dashboard-business-content class=('active' if controller_path.match(/\Abusinesses\/content/))
-                  span
-                    i.fa.fa-bar-chart>
-                    ' Manage Content
-                  ul.list-unstyled
-                    li#dashboard-business-content-library = link_to [@business, :content_feed] do
-                      i.fa.fa-institution>
-                      | Content Library
-                    li#dashboard-business-content-posts.list-divider.requires-plan-upgrade = link_to [:new, @business, :content_quick_post] do
-                      i.fa.fa-bolt>
-                      | Quick Post
-                    li = link_to [:new, @business, :content_event_definition] do
-                      i.fa.fa-calendar>
-                      | New Event
-                    li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
-                      i.fa.fa-photo>
-                      | New Gallery
-                    li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
-                      i.fa.fa-columns>
-                      | New Before &amp; After
-                    li = link_to [:new, @business, :content_offer] do
-                      i.fa.fa-ticket>
-                      | New Offer
-                    li.requires-plan-upgrade = link_to [:new, @business, :content_post] do
-                      i.fa.fa-edit>
-                      | Custom Post
-                    li#dashboard-business-content-media.list-divider = link_to [@business, :content_images] do
-                      i.fa.fa-photo>
-                      | Media Manager
-                    li#dashboard-business-content-events.list-divider class=('force-plan-upgrade' unless @business.cce_id?) = link_to [@business, :content_event_imports] do
-                      i.fa.fa-calendar>
-                      | Import Events
-                - if @business.website
-                  li#dashboard-business-website class=('active' if controller_path.match(/\Abusinesses\/website/))
-                    span
-                      i.fa.fa-table>
-                      ' Manage Website
-                    ul.list-unstyled
-                      li#dashboard-business-website-pages.requires-plan-upgrade = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
-                        i.fa.fa-sitemap>
-                        | Pages
-                      li#dashboard-business-website-menu.requires-plan-upgrade = link_to [:edit, @business, :website_menus] do
-                        i.fa.fa-random>
-                        | Navigation Menus
-                      li#dashboard-business-website-theme.requires-plan-upgrade = link_to [:edit, @business, :website_theme] do
-                        i.fa.fa-photo>
-                        | Theme &amp; Design
-                      li#dashboard-business-website-details = link_to [:edit, @business, :website_details] do
-                        i.fa.fa-list>
-                        | Basic Details
-                      li#dashboard-business-website-meta.requires-plan-upgrade = link_to [:edit, @business, :website_meta] do
-                        i.fa.fa-sliders>
-                        | Meta/SEO
-                      li.requires-plan-upgrade = link_to [:edit, @business, :website_sidebars] do
-                        i.fa.fa-th>
-                        | Sidebars
-                      li.requires-plan-upgrade = link_to [@business, :website_redirects] do
-                        i.fa.fa-reply>
-                        | Redirects
-                li = link_to [@business, :alliances]
-                  i.fa.fa-random>
-                  | Manage Alliances
-                li#dashboard-business-crm class=('active' if controller_path.match(/\Abusinesses\/crm/))
-                  span
-                    i.fa.fa-comments>
-                    ' Contacts
-                  ul.list-unstyled
-                    li#dashboard-business-crm-contacts = link_to [@business, :crm_contacts] do
-                      i.fa.fa-users>
-                      | All Contacts
-                    li#dashboard-business-crm-forms = link_to [@business, :crm_contact_messages] do
-                      i.fa.fa-comments>
-                      | Submitted Forms
-                    li#dashboard-business-crm-feedback.list-divider = link_to [@business, :crm_feedbacks] do
-                      i.fa.fa-line-chart>
-                      | Feedback
-                    li.list-divider = link_to [@business, :crm_reviews] do
-                      i.fa.fa-star>
-                      | Reviews
-                li#dashboard-business-data class=('active' if controller_path.match(/\Abusinesses\/data/))
-                  span
-                    i.fa.fa-database>
-                    ' Business Data
-                  ul.list-unstyled
-                    li#dashboard-business-data-details = link_to [:edit, @business, :data_details] do
-                      i.fa.fa-list-ul>
-                      | Basic Details
-                    li = link_to [:edit, @business, :data_location] do
-                      i.fa.fa-map-marker>
-                      | Contact Information
-                    - if @business.location.try(:persisted?)
-                      li = link_to [:edit, @business, :data_openings] do
-                        i.fa.fa-list>
-                        | Business Hours
-                    li = link_to [:edit, @business, :data_social_profiles] do
-                      i.fa.fa-files-o>
-                      | Social Profiles
-                    li#dashboard-business-data-team = link_to [@business, :data_team_members] do
-                      i.fa.fa-users>
-                      | Team Members
-                    li#dashboard-business-data-lines = link_to [:edit, @business, :data_lines] do
-                      i.fa.fa-cubes>
-                      | Business Lines
-                    - if @business.lines.any?(&:persisted?)
-                      li#dashboard-business-data-community = link_to [:edit, @business, :data_delivery] do
-                        i.fa.fa-truck>
-                        | Delivery Information
-                      li = link_to [:edit, @business, :data_customers] do
-                        i.fa.fa-briefcase>
-                        | Customer Information
-                    li id=('dashboard-business-data-community' if @business.lines.empty?) = link_to [:edit, @business, :data_values] do
-                      i.fa.fa-heart>
-                      | Community &amp; Values
-                - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
-                  li = link_to [@business, :authorizations] do
-                    i.fa.fa-users>
-                    | Manage Admins
-                li = link_to [@business, :marketing]
-                  i.fa.fa-rocket>
-                  | Marketing
-                li#dashboard-business-accounts class=('active' if controller_path.match(/\Abusinesses\/accounts/))
-                  span
-                    i.fa.fa-files-o>
-                    ' Linked Accounts
-                  ul.list-unstyled
-                    li#dashboard-business-accounts-locable = link_to [:edit, @business, :accounts_locable] do
-                      i.fa.fa-square>
-                      | Locable
-                    li#dashboard-business-accounts-facebook = link_to [:edit, @business, :accounts_facebook] do
-                      i.fa.fa-facebook-square>
-                      | Facebook
-                    li style="pointer-events:none; opacity:0.4" = link_to '#' do
-                      i.fa.fa-twitter-square>
-                      | Twitter
-                - if current_user.super_user?
-                  li = link_to [:edit, @business, :super_settings]
-                    i.fa.fa-cog>
-                    | Super Settings
-        .col-md-9.col-lg-10.dashboard-content
-          .fluid-nav
-            ul.nav
-              li.visible-sm.visible-xs.pull-left
-                a data-toggle='offcanvas'
-                  i.fa.fa-bars
-              li = link_to [:new, @business, :content_quick_post] do
-                i.fa.fa-bolt>
-                | Quick Post
-              li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
-                i.fa.fa-columns>
-                | New Before &amp; After
-              li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
-                i.fa.fa-photo>
-                | Gallery
-              li = link_to [:new, @business, :content_event_definition] do
-                i.fa.fa-calendar>
-                | Event
-              li = link_to [:new, @business, :content_offer] do
-                i.fa.fa-ticket>
-                | Offer
-              li.list-divider = link_to [@business, :crm_reviews] do
-                i.fa.fa-star>
-                | Contact Review
-
-          .container style="background-color: #fff; padding-top: 15px; padding-bottom: 30px; width: auto;"
-            = render 'alerts'
-            = yield
+  = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
+  body
+    div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
+      = render 'dashnav' 
+      div id="page-wrapper" class="gray-bg"
+        = render 'dashtopnavbar' 
+        = render 'alerts'
+        div
+          = yield
+        .footer
+          .pull-right
+          div
+            strong
+              | Copyright
+            |  Locable © 2016-2017 
     = yield :javascript
-    javascript:
-      $(document).ready(function () {
-        $('[data-toggle="offcanvas"]').click(function () {
-          $('.row-offcanvas').toggleClass('active')
-        });
-        $('#dashboard-collapse span').click(function() {
-          $(this).closest('li').toggleClass('active')
-        });
-      });
     - if @business.free?
       javascript:
         $('.requires-plan-upgrade').requiresPlanUpgrade();

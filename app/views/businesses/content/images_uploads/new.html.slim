@@ -1,15 +1,17 @@
 - title 'Bulk Upload'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li.active Media Manager
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' Media Manager'}
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
+                li = link_to 'Existing Images', [@business, :content_images]
+                li.active = link_to 'Bulk Upload', '#'
+                li = link_to 'Existing PDFs', [@business, :content_pdfs]
+                li = link_to 'New PDF', [:new, @business, :content_pdf]
 
-ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
-  li = link_to 'Existing Images', [@business, :content_images]
-  li.active = link_to 'Bulk Upload', '#'
-  li = link_to 'Existing PDFs', [@business, :content_pdfs]
-  li = link_to 'New PDF', [:new, @business, :content_pdf]
-
-= react_component 'ImagesUpload', presignedPost: s3_presigned_post_hash, uploadURL: business_content_images_upload_path(@business)
+              = react_component 'ImagesUpload', presignedPost: s3_presigned_post_hash, uploadURL: business_content_images_upload_path(@business)

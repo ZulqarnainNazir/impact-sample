@@ -1,11 +1,6 @@
 - title 'Edit Business Gallery'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li = link_to 'Existing Content', [@business, :content_feed]
-  li.active Edit Gallery
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :sn => 'Existing Content', :sp => :content_feed, :an => ' Edit Gallery'}
 
 = errors_for @gallery
 = form_for @gallery, url: [@business, :content, @gallery], html: { class: 'save-once' } do |form|

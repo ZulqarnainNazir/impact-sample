@@ -1,20 +1,20 @@
 - if business.to_dos
   .row
-    .col-md-12.col-sm-12
-      .panel.panel-default
-        .panel-heading
-          h2.h3
-            ' Website Launch Tasks
-            span.small Here are a few things that will move the process along
+    .col-lg-12
+      .wrapper.wrapper-content
+        .row
+          .col-lg-12
+            .ibox.float-e-margins
+              .ibox-title.bg-warning
+                h2
+                  ' Website Launch Tasks
+                  span.small Here are a few things that will move the process along
 
-        ul.list-group
-          = render partial: 'businesses/to_dos/collection', locals: { to_dos: business.first_five_to_dos, business: business }
-  .row
-    .col-md-12.col-sm-12
-      .row
-        .col-md-6.col-sm-6
-          button.btn.btn-success data-toggle="modal" data-target="#addToDoModal" Add New ToDos
-          = render partial: 'businesses/to_dos/add_modal', locals: { business: business }
-        .col-md-6.col-sm-6
-          = link_to 'See All ToDos', business_to_dos_path(business), class: 'btn btn-default pull-right'
-  hr
+              ul.ibox-content
+                = render partial: 'businesses/to_dos/collection', locals: { to_dos: business.first_five_to_dos, business: business }
+                .row.m-t-sm
+                  .col-md-6.col-sm-6.pull-left
+                    button.btn.btn-primary data-toggle="modal" data-target="#addToDoModal" Add New ToDos
+                    = render partial: 'businesses/to_dos/add_modal', locals: { business: business }
+                  .col-md-6.col-sm-6.pull-right
+                    = link_to 'See All ToDos', business_to_dos_path(business), class: 'btn btn-default pull-right'

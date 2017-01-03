@@ -1,27 +1,28 @@
 - title 'Edit Sidebars'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li.active Sidebars
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Sidebars'}
 
-br
-
-= errors_for @website
-= form_for @website, url: [@business, :website_sidebars], method: :patch do |form|
-  .checkbox
-    = form.label :content_blog_sidebar, class: 'control-label' do
-      => form.check_box :content_blog_sidebar
-      | Add Blog sidebar to individual posts?
-  .checkbox
-    = form.label :events_sidebar, class: 'control-label' do
-      => form.check_box :events_sidebar
-      | Add Events sidebar to individual posts?
-  hr
-  .checkbox
-    = form.label :content_blog_sidebar_on_reviews, class: 'control-label' do
-      => form.check_box :content_blog_sidebar_on_reviews
-      | Add Blog sidebar to reviews pages?
-  hr
-  = form.button 'Save Sidebar Settings', class: 'btn btn-primary'
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              = errors_for @website
+              = form_for @website, url: [@business, :website_sidebars], method: :patch do |form|
+                .checkbox
+                  = form.label :content_blog_sidebar, class: 'control-label' do
+                    => form.check_box :content_blog_sidebar
+                    | Add Blog sidebar to individual posts?
+                .checkbox
+                  = form.label :events_sidebar, class: 'control-label' do
+                    => form.check_box :events_sidebar
+                    | Add Events sidebar to individual posts?
+                hr
+                .checkbox
+                  = form.label :content_blog_sidebar_on_reviews, class: 'control-label' do
+                    => form.check_box :content_blog_sidebar_on_reviews
+                    | Add Blog sidebar to reviews pages?
+                hr
+                = form.button 'Save Sidebar Settings', class: 'btn btn-primary'

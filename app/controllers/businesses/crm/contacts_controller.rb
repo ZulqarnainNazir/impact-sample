@@ -28,7 +28,7 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
           name: @contact.name,
           email: @contact.email,
           phone: @contact.phone,
-          notes: @contact.contact_notes.first.try(:content),
+          notes: @contact.crm_notes.first.try(:content),
         }
         if @contact.feedbacks.any?
           intercom_event 'invited-customer-to-review', {
@@ -67,7 +67,8 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
       :business_client,
       :business_name,
       :business_url,
-      contact_notes_attributes: [
+      {:company_ids => []},
+      crm_notes_attributes: [
         :content,
       ],
       feedbacks_attributes: [
@@ -75,8 +76,8 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
         :_destroy,
       ],
     ).tap do |safe_params|
-      if safe_params[:contact_notes_attributes]
-        safe_params[:contact_notes_attributes].map do |_, attr|
+      if safe_params[:crm_notes_attributes]
+        safe_params[:crm_notes_attributes].map do |_, attr|
           attr[:user_name] = current_user.name if attr[:content].present?
         end
       end
