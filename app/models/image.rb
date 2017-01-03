@@ -7,7 +7,8 @@ class Image < ActiveRecord::Base
 
   validates :business_id, presence: true, unless: :business
   validates :user_id, presence: true, unless: :user
-  validates :attachment_cache_url, :attachment_content_type, :attachment_file_size, presence: true
+  # validates :attachment_cache_url, :attachment_content_type, :attachment_file_size, presence: true
+  validates :attachment_cache_url, presence: true
   validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }
   validates :attachment_content_type, format: { with: /\Aimage\/.*\Z/ }
   validates :attachment_file_size, inclusion: { in: 0..10.megabytes }

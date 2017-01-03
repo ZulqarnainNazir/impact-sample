@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ImageTest < ActiveSupport::TestCase
   should validate_presence_of(:attachment_cache_url)
-  should validate_presence_of(:attachment_content_type)
-  should validate_presence_of(:attachment_file_size)
+  # should validate_presence_of(:attachment_content_type)
+  # should validate_presence_of(:attachment_file_size)
 
   test 'Image with non-image content type should be invalid' do
     image = images(:valid_image)
