@@ -44,6 +44,7 @@ class ImageTest < ActiveSupport::TestCase
   test '#s3_key with no style paramenter returns the original' do
     image = images(:valid_image)
     image.attachment_cache_url = 'http://locable.com/_originals/123/logo.png'
-    assert_equal 'http://locable.com/r/big/123/logo.png', image.attachment_url('big')
+
+    assert_equal '_originals/123/logo.png', image.s3_key
   end
 end

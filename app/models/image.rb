@@ -70,6 +70,10 @@ class Image < ActiveRecord::Base
     @s3_bucket ||= AWS::S3.new.buckets[Rails.application.secrets.aws_s3_bucket]
   end
 
+  def cdn_resized_url(resized_key)
+    "#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}"
+  end
+
   def s3_key(style = nil)
     url = if style.present?
             attachment_cache_url.gsub('_originals/', "r/#{style}/")
