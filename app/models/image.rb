@@ -104,7 +104,7 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_medium_url
-    return attachment_url(:logo_medium) if attachment_cache_url.include?('_logos')
+    return attachment_url(:logo_medium) if attachment_cache_url.present? && attachment_cache_url.include?('_logos')
     attachment_url(:medium)
   end
 
