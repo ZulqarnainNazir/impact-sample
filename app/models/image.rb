@@ -10,14 +10,27 @@ class Image < ActiveRecord::Base
   # validates :attachment_cache_url, :attachment_content_type, :attachment_file_size, presence: true
   validates :attachment_cache_url, presence: true
   validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }
-  validates :attachment_content_type, format: { with: /\Aimage\/.*\Z/ }
-  validates :attachment_file_size, inclusion: { in: 0..10.megabytes }
+  #validates :attachment_content_type, format: { with: /\Aimage\/.*\Z/ }
+  #validates :attachment_file_size, inclusion: { in: 0..10.megabytes }
 
   serialize :processed_styles
 
   before_validation do
     self.attachment_updated_at = Time.zone.now if attachment_cache_url_changed? && attachment_cache_url?
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
+  end
+
+  after_create do
+    return if attachment_cache_url.present? && attachment_cache_url.include?(Rails.application.secrets.aws_s3_bucket)
+    api_endpoint = Rails.application.secrets.lambda_api_endpoint
+    api_key = Rails.application.secrets.lambda_api_key
+
+    s3_path = URI.parse(attachment_cache_url).path
+
+    HTTParty.post(api_endpoint, body: { facebook_image_url: attachment_cache_url,
+                                        api_key: api_key }.to_json)
+
+    update(attachment_cache_url: "http://#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}")
   end
 
   after_destroy do
@@ -46,13 +59,13 @@ class Image < ActiveRecord::Base
         save
         cdn_resized_url(resized_key)
       else
-        '/assets/gear.gif'
+        '/assets/spinner.gif'
       end
     end
   end
 
   def s3_bucket
-    @s3_bucket ||= AWS::S3.new.buckets[ENV['AWS_S3_BUCKET']]
+    @s3_bucket ||= AWS::S3.new.buckets[Rails.application.secrets.aws_s3_bucket]
   end
 
   def cdn_resized_url(resized_key)
@@ -132,7 +145,7 @@ class Image < ActiveRecord::Base
     return unless attachment_cache_url.present?
 
     resizes = if attachment_cache_url.include?('_logos/')
-                [:logo_small, :logo_medium, :logo_large, :logo_jumbo, nil]
+                [:logo_small, :logo_medium, :logo_large, :logo_jumbo, :thumbnail, :medium, nil]
               else
                 [:thumbnail, :jumbo, :jumbo_fixed, :large, :large_fixed, :medium, :medium_fixed, :small, :small_fixed, nil]
               end
