@@ -15,8 +15,6 @@ class Image < ActiveRecord::Base
 
   serialize :processed_styles
 
-  serialize :processed_styles
-
   before_validation do
     self.attachment_updated_at = Time.zone.now if attachment_cache_url_changed? && attachment_cache_url?
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
