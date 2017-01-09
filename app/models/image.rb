@@ -21,16 +21,18 @@ class Image < ActiveRecord::Base
   end
 
   after_create do
-    return if attachment_cache_url.present? && attachment_cache_url.include?(Rails.application.secrets.aws_s3_bucket)
-    api_endpoint = Rails.application.secrets.lambda_api_endpoint
-    api_key = Rails.application.secrets.lambda_api_key
+    unless attachment_cache_url.present? && attachment_cache_url.include?(Rails.application.secrets.aws_s3_bucket)
+      api_endpoint = Rails.application.secrets.lambda_api_endpoint
+      api_key = Rails.application.secrets.lambda_api_key
 
-    s3_path = URI.parse(attachment_cache_url).path
+      s3_path = URI.parse(attachment_cache_url).path
 
-    HTTParty.post(api_endpoint, body: { facebook_image_url: attachment_cache_url,
-                                        api_key: api_key }.to_json)
+      HTTParty.post(api_endpoint, body: { facebook_image_url: attachment_cache_url,
+                                          bucket: Rails.application.secrets.aws_s3_bucket,
+                                          api_key: api_key }.to_json)
 
-    update(attachment_cache_url: "http://#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}")
+      update(attachment_cache_url: "http://#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}")
+    end
   end
 
   after_destroy do

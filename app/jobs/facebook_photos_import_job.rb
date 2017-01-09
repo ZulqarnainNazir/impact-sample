@@ -17,6 +17,7 @@ class FacebookPhotosImportJob < ApplicationJob
         s3_path = URI.parse(photo['source']).path
 
         HTTParty.post(api_endpoint, body: { facebook_image_url: photo['source'],
+                                            bucket: Rails.application.secrets.aws_s3_bucket,
                                             api_key: api_key }.to_json)
 
         Image.create(
