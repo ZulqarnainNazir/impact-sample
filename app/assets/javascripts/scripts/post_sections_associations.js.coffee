@@ -14,6 +14,20 @@ $.fn.postSectionsAssociations = ->
     # Remove all newly appended post sections, retaining the last.
     appendedPostSection = associations.find('.post-section-fields.is-appended').remove().last()
 
+    updateAssociations = ->
+      associations.find('> li').each (i, item) ->
+        updateAssociationsFields(i, item, null)
+
+    updateAssociationsFields = (i, item, parent) ->
+      item = $(item)
+      item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="position"]').val(i)
+      if parent
+        item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="parent_key"]').val(parent.data().key)
+      else
+        item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="parent_key"]').val('')
+      item.find('> ol > li').each (i, child) ->
+        updateAssociationsFields(i, child, item)
+
     # Proceed only if an appended post section was found.
     if appendedPostSection.length is 1
 
@@ -34,6 +48,7 @@ $.fn.postSectionsAssociations = ->
         unmountedReactComponents = postSectionImage.find('[data-react-unmounted-class]')
         unmountedReactComponents.attr 'data-react-class', unmountedReactComponents.data().reactUnmountedClass
         window.ReactRailsUJS.mountComponents "##{postSectionImageID}"
+        updateAssociations()
 
       # Trigger the append page function when the add page element is clicked.
       addPostSection.on 'click', (e) ->
@@ -53,19 +68,6 @@ $.fn.postSectionsAssociations = ->
       unmountedExistingReactComponents.attr 'data-react-class', unmountedExistingReactComponents.data().reactUnmountedClass
       window.ReactRailsUJS.mountComponents '.post-section-fields:not(.is-appended)'
 
-    updateAssociations = ->
-      associations.find('> li').each (i, item) ->
-        updateAssociationsFields(i, item, null)
-
-    updateAssociationsFields = (i, item, parent) ->
-      item = $(item)
-      item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="position"]').val(i)
-      if parent
-        item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="parent_key"]').val(parent.data().key)
-      else
-        item.find('> .post-section-tolerance .post-section-hidden-fields > input[name*="parent_key"]').val('')
-      item.find('> ol > li').each (i, child) ->
-        updateAssociationsFields(i, child, item)
 
     # Enable nested sortable
     associations.nestedSortable
