@@ -47,6 +47,11 @@ Rails.application.routes.draw do
       resources :to_dos, only: :index
       resources :to_do_notification_settings, only: %i[index create]
     end
+    
+    namespace :widgets do
+      get '/review_widgets/:uuid', to: 'review_widgets#index'
+
+    end
 
     namespace :onboard do
       namespace :website do
@@ -130,6 +135,11 @@ Rails.application.routes.draw do
           resources :reviews, only: %i[index show destroy] do
             resource :review_publication, only: %i[create destroy]
           end
+        end
+
+        namespace :tools do
+          root to: 'roots#index'
+          resources :review_widgets, only: %i[index new create edit update destroy]
         end
 
         namespace :website do

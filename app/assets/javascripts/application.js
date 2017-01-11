@@ -24,6 +24,7 @@
 //= require_tree ./plugins
 //= require_tree ./scripts
 //= require_tree .
+//= stub plugins/iframeResizer.contentWindow.min.js
 
 Turbolinks.enableProgressBar();
 

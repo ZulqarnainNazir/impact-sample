@@ -1,0 +1,13 @@
+- if @widget.layout == "sidebar"
+  - if !@widget.label.blank?
+    h2 
+      = @widget.label
+  = page_entries_info @reviews, entry_name: 'reviews'
+  = render partial: 'website/reviews/review', collection: @reviews, locals: { link_title: true, new_window: true }
+  = paginate @reviews
+- else
+  = render partial: 'review_layouts', locals: { reviews: @reviews, business: @business, review_widget: @widget }
+div.text-center
+  p 
+    span Powered by 
+    = link_to image_tag("impact-footer.png", alt: "IMPACT Marketing Suite for Local Businesses"), "http://www.impactmarketingsuite.com", target: "_blank"

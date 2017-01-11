@@ -1,0 +1,44 @@
+- title 'Reviews Widgets'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :an => 'Reviews Widgets'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .pull-right
+            = form_tag [@business, :tools_review_widgets], method: :get, style: 'float:left; margin-right:0.5em' do
+              .form-group
+                = label_tag :query, 'Query', class: 'sr-only'
+                .input-group
+                  = text_field_tag :query, params[:query], class: 'form-control'
+                  span.input-group-btn
+                    = button_tag icon('search'), class: 'btn btn-default'
+            = link_to [:new, @business, :tools_review_widget], class: 'btn btn-sm btn-default' do
+              => icon 'plus-circle'
+              | Add Reviews Widget
+          
+          - if @review_widgets.empty?
+            p style="margin:2em 0"
+              em No widgets found.
+          - else
+            p style="margin:2em 0" = page_entries_info @review_widgets
+            table.footable.table.table-stripped
+              thead
+                tr
+                  th
+                    | Name
+                  th
+                    | Description
+                  th
+                    | Layout
+              tbody
+                = render @review_widgets
+          = paginate @review_widgets
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $('.footable').footable();
+    });

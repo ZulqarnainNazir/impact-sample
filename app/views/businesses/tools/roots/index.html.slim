@@ -1,0 +1,31 @@
+- title 'IMPACT Marketing Suite'
+
+= render :partial => 'dashbreadcrumb', :locals => {}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2
+                | Website Tools
+            .ibox-content
+              .row
+                .col-sm-6.col-lg-3
+                  = link_to [@business, :tools_review_widgets] do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-file-code-o.fa-5x
+                          .col-xs-9.text-right
+                            div style="font-size: 40px" = @business.review_widgets.count
+                            - if @business.review_widgets.count == 1
+                              | Reviews Widget
+                            - else
+                              | Reviews Widgets
+                      .panel-footer.text-right
+                        span.pull-left> Manage Reviews Widgets
+                        i.fa.fa-arrow-circle-right
