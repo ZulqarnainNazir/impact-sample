@@ -4,14 +4,12 @@
     - if @gallery.published_status != false
       = link_to website_gallery_gallery_image_path(:gallery_id => @gallery.id, :id => gallery_image.id), class: 'gallery-item-page-thumb' do
           figure
-            .gallery-item-image style="background-image:url('#{image.attachment_url(:large)}')"
+            .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
               = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive'
     - else
       = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(@business.website), :id => @gallery.id, :image_id => gallery_image.id], target: :_blank , class: 'gallery-item-page-thumb' do
           figure
-            .gallery-item-image style="background-image:url('#{image.attachment_url(:large)}')"
+            .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
               = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive'
     figcaption.gallery-item-caption
             h4.truncate = image.title
-
-
