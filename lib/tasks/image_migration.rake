@@ -56,6 +56,6 @@ task image_migration: [:environment] do
   s3_bucket = AWS::S3.new.buckets[ENV['AWS_S3_BUCKET']]
 
   Image.find_each do |image|
-    process_image(s3_bucket, image, true)
+    process_image(s3_bucket, image, false)
   end
 end
