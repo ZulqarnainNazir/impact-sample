@@ -37,7 +37,7 @@ task image_migration: [:environment] do
     s3_object = s3_bucket.objects[key]
 
     if s3_object.exists?
-      logo = image.cached_styles.to_s.include?('logo_')
+      logo = image.cached_styles.present? && image.cached_styles.to_s.include?('logo_')
       base_dir = logo ? '_logos/' : '_originals/'
       new_key = "#{base_dir}#{key}"
 
