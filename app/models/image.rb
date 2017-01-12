@@ -61,7 +61,7 @@ class Image < ActiveRecord::Base
         save
         cdn_resized_url(resized_key)
       else
-        '/assets/spinner.gif'
+        "http:#{ActionController::Base.helpers.asset_path('spinner.gif')}"
       end
     end
   end
