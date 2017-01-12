@@ -9,7 +9,7 @@
         span.sr-only> Destroy
         i.fa.fa-trash-o
     .gallery-image-fields-content
-      = react_component 'ImagePlacement',
+      = react_unmounted_component 'ImagePlacement',
         inputPrefix: "gallery[gallery_images_attributes][#{form.options[:child_index]}][gallery_image_placement_attributes]",
         imagesPath: business_images_path(gallery_form.object.business),
         label: 'Image',
