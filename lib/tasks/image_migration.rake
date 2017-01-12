@@ -1,5 +1,7 @@
 desc 'Move Images to New Lamba-Based Resizing and S3 Directory Structure'
 task image_migration: [:environment] do
+  Image.class_eval('has_attached_file :attachment, styles: lambda { |attachment| attachment.instance.styles }')
+
   def process_image(s3_bucket, image, trial_run = true)
     # Skip if it's already in the new format
     if image.attachment_cache_url.present? &&
@@ -19,7 +21,7 @@ task image_migration: [:environment] do
         HTTParty.post(api_endpoint, body: { facebook_image_url: image.attachment_cache_url,
                                             api_key: api_key }.to_json)
 
-        image.update(attachment_cache_url: "http://#{ENV['AWS_S3_BUCKET']}.s3.amazonaws.com/_originals/_fb#{s3_path}")
+        image.update(attachment_cache_url: "//#{ENV['AWS_S3_BUCKET']}.s3.amazonaws.com/_originals/_fb#{s3_path}")
       end
 
       puts "Success. Image: #{image.id} sent to FB Lambda for processing"
@@ -47,8 +49,6 @@ task image_migration: [:environment] do
       puts "ERROR: COULD NOT PROCESS #{image.id}"
     end
   end
-
-  Image.class_eval('has_attached_file :attachment, styles: lambda { |attachment| attachment.instance.styles }')
 
   s3_bucket = AWS::S3.new.buckets[ENV['AWS_S3_BUCKET']]
 

@@ -31,7 +31,7 @@ class Image < ActiveRecord::Base
                                           bucket: Rails.application.secrets.aws_s3_bucket,
                                           api_key: api_key }.to_json)
 
-      update(attachment_cache_url: "http://#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}")
+      update(attachment_cache_url: "//#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}")
     end
   end
 
@@ -61,7 +61,7 @@ class Image < ActiveRecord::Base
         save
         cdn_resized_url(resized_key)
       else
-        "http:#{ActionController::Base.helpers.asset_path('spinner.gif')}"
+        "#{ActionController::Base.helpers.asset_path('spinner.gif')}"
       end
     end
   end
@@ -71,7 +71,7 @@ class Image < ActiveRecord::Base
   end
 
   def cdn_resized_url(resized_key)
-    "http://#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}"
+    "//#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}"
   end
 
   def s3_key(style = nil)
