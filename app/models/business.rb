@@ -32,6 +32,7 @@ class Business < ActiveRecord::Base
     has_many :team_members
     has_many :to_dos
     has_many :to_do_notification_settings
+    has_many :review_widgets
     has_one :location
     has_one :website
   end

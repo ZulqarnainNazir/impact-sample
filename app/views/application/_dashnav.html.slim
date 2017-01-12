@@ -77,6 +77,15 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           i.fa.fa-random
           span.nav-label[data-i18n="nav.manage_alliances"]
             | Manage Alliances
+      li title="Website Tools" class=('active' if controller_path.match(/\Abusinesses\/tools/))
+        = link_to  [@business, :tools_root]
+          i.fa.fa-wrench
+          span.nav-label[data-i18n="nav.website_tools"]
+            | Website Tools
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/tools/))
+          li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
+            = link_to "Review Widget", [@business, :tools_review_widgets]
       li title="Contacts" class=('active' if controller_path.match(/\Abusinesses\/crm/))
         = link_to "#"
           i.fa.fa-address-card

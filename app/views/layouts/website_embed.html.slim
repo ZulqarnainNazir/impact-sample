@@ -1,0 +1,30 @@
+doctype html
+html lang="en"
+  head
+    title = content_for :title
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="robots" content="noindex, nofollow"
+    - if content_for?(:description)
+      meta name="description" content=content_for(:description)
+    meta property="og:title" content=content_for(:title)
+    meta property="og:type" content="website"
+    - if content_for?(:description)
+      meta property="og:description" content=content_for(:description)
+    - if content_for?(:image)
+      meta property="og:image" content=content_for(:image)
+    - if content_for?(:canonical_url)
+      meta property="og:url" content=content_for(:canonical_url)
+    = csrf_meta_tags
+    - if content_for?(:canonical_url)
+      link rel="canonical" href=content_for(:canonical_url)
+    = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
+    = javascript_include_tag 'application', data: { turbolinks_track: true }
+    = javascript_include_tag 'plugins/iframeResizer.contentWindow.min.js', data: { turbolinks_track: true }
+    css:
+      div.reviews.reviews-columns {
+        padding: 20px 40px;
+      }
+  body
+    = yield

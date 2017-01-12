@@ -1,33 +1,37 @@
 blockquote.review itemprop="review" itemscope="true" itemtype="http://schema.org/Review"
   h2.h4 itemprop="name"
     - if defined?(link_title)
-      => link_to review.title, [:website, review]
+      - if defined?(new_window)
+        => link_to review.title, website_review_url(review, host: website_host(@business.website)), target: :_blank
+      - else
+        => link_to review.title, [:website, review]
     - else
       => review.title
     meta itemprop="worstRating=" content="1"
     meta itemprop="bestRating=" content="5"
     meta itemprop="ratingValue=" content=review.overall_rating
-    span.review-rating
-      - if review.overall_rating >= 1.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 2.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 3.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 4.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating == 5.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
+    p
+      span.review-rating
+        - if review.overall_rating >= 1.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 2.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 3.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 4.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating == 5.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
   p.review-text.review-quote itemprop="description" = review.description
   p.reviewer
     span.reviewer-name itemprop="author" => review.contact.name

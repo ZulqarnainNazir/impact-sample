@@ -1,27 +1,31 @@
 blockquote.review.review-small
   h3.h5
-    => link_to review.title, [:website, review]
-    span.review-rating
-      - if review.overall_rating >= 1.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 2.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 3.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 4.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating == 5.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
+    - if defined?(new_window)
+      => link_to review.title, website_review_url(review, host: website_host(@business.website)), target: :_blank
+    - else
+      => link_to review.title, [:website, review]
+    p
+      span.review-rating
+        - if review.overall_rating >= 1.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 2.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 3.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 4.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating == 5.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
   p.review-text.review-quote = review.description
   p.reviewer
     span.reviewer-name => review.contact.name

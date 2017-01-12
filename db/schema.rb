@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161229052029) do
+ActiveRecord::Schema.define(version: 20170110020537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -667,6 +667,20 @@ ActiveRecord::Schema.define(version: 20161229052029) do
 
   add_index "redirects", ["website_id"], name: "index_redirects_on_website_id", using: :btree
 
+  create_table "review_widgets", force: :cascade do |t|
+    t.string   "uuid"
+    t.string   "name"
+    t.text     "description"
+    t.text     "settings"
+    t.integer  "business_id"
+    t.string   "layout"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "label"
+  end
+
+  add_index "review_widgets", ["business_id"], name: "index_review_widgets_on_business_id", using: :btree
+
   create_table "reviews", force: :cascade do |t|
     t.integer  "business_id",                                            null: false
     t.text     "external_id"
@@ -863,4 +877,5 @@ ActiveRecord::Schema.define(version: 20161229052029) do
   add_foreign_key "pdfs", "users"
   add_foreign_key "post_sections", "posts"
   add_foreign_key "quick_posts", "businesses"
+  add_foreign_key "review_widgets", "businesses"
 end
