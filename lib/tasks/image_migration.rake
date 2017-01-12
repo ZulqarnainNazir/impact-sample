@@ -19,6 +19,7 @@ task image_migration: [:environment] do
         s3_path = URI.parse(image.attachment_cache_url).path
 
         HTTParty.post(api_endpoint, body: { facebook_image_url: image.attachment_cache_url,
+                                            bucket: Rails.application.secrets.aws_s3_bucket,
                                             api_key: api_key }.to_json)
 
         image.update(attachment_cache_url: "//#{ENV['AWS_S3_BUCKET']}.s3.amazonaws.com/_originals/_fb#{s3_path}")
