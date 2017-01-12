@@ -11,7 +11,7 @@ task image_migration: [:environment] do
       return
     end
 
-    if image.attachment_cache_url.include?('fbcdn.net')
+    if image.attachment_cache_url.present? && image.attachment_cache_url.include?('fbcdn.net')
       unless trial_run
         api_endpoint = ENV['LAMBDA_API_ENDPOINT']
         api_key = ENV['LAMBDA_API_KEY']
