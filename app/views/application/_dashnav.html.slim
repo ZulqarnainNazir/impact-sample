@@ -5,7 +5,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           .text-center.img-well.text-muted.hidden-xs
             = link_to [:edit, @business, :data_details] do
                 - if @business.logo
-                  = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
+                  = image_tag @business.logo.attachment_large_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
                 - else
                     i.fa.fa-photo.fa-5x
                 div style='padding-top:10px;'
@@ -44,7 +44,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/before_afters/))
             = link_to "New Before & After", [:new, @business, :content_before_after]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/offers/))
-            = link_to "New Offer", [:new, @business, :content_offer] 
+            = link_to "New Offer", [:new, @business, :content_offer]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/posts/))
             = link_to "Custom Post", [:new, @business, :content_post]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
@@ -115,7 +115,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/location/))
             = link_to "Contact Information", [:edit, @business, :data_location]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/openings/))
-            = link_to "Business Hours", [:edit, @business, :data_openings] 
+            = link_to "Business Hours", [:edit, @business, :data_openings]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/social_profiles/))
             = link_to "Social Profiles", [:edit, @business, :data_social_profiles]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/team_members/))
@@ -159,4 +159,3 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             i.fa.fa-cog>
             span.nav-label[data-i18n="nav.super_settings"]
               | Super Settings
-

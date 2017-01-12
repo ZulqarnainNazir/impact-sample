@@ -128,6 +128,7 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_large_url
+    return attachment_url(:logo_large) if attachment_cache_url.present? && attachment_cache_url.include?('_logos')
     attachment_url(:large)
   end
 
