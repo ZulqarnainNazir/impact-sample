@@ -1,9 +1,9 @@
 class PlatformConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
-    blank_or_www_subdomain = request.subdomain.blank? || request.subdomains.first == 'www'
+    blank_or_subdomain = request.subdomain.blank? || request.subdomains.first
 
-    host_match && blank_or_www_subdomain
+    host_match && blank_or_subdomain
   end
 end
 
