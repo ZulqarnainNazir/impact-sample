@@ -30,9 +30,21 @@ task image_migration: [:environment] do
     end
 
     key = if image.attachment && image.attachment.url.present? && image.attachment.file?
-            URI.parse(image.attachment.url).path[1..-1]
+            URI.unescape(
+              URI.unescape(
+                URI.parse(
+                  URI.escape(image.attachment.url)
+                ).path[1..-1]
+              )
+            )
           elsif image.attachment_cache_url.present?
-            URI.parse(image.attachment_cache_url).path[1..-1]
+            URI.unescape(
+              URI.unescape(
+                URI.parse(
+                  URI.escape(image.attachment_cache_url)
+                ).path[1..-1]
+              )
+            )
           end
 
     s3_object = s3_bucket.objects[key]
@@ -42,9 +54,9 @@ task image_migration: [:environment] do
       base_dir = logo ? '_logos/' : '_originals/'
       new_key = "#{base_dir}#{key}"
 
-      new_s3_object = s3_object.copy_to(new_key, acl: :public_read) unless trial_run
+      s3_object.copy_to(new_key, acl: :public_read) unless trial_run
 
-      image.update(attachment_cache_url: new_s3_object.public_url) unless trial_run
+      image.update(attachment_cache_url: "//#{ENV['AWS_S3_BUCKET']}.s3.amazonaws.com/#{new_key}") unless trial_run
 
       s3_object.delete unless trial_run
 
