@@ -83,7 +83,7 @@ class Image < ActiveRecord::Base
           end
     URI.unescape(
       URI.parse(
-        URI.escape(url)
+        URI.escape(url).gsub("[","%5B").gsub("]","%5D")
       ).path[1..-1]
     )
   end
