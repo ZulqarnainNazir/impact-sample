@@ -462,6 +462,7 @@ ActiveRecord::Schema.define(version: 20170110020537) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.text     "cached_styles",                        array: true
+    t.text     "processed_styles"
   end
 
   add_index "images", ["business_id"], name: "index_images_on_business_id", using: :btree

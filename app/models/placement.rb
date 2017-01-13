@@ -17,10 +17,6 @@ class Placement < ActiveRecord::Base
     self.kind = 'images' unless kind?
   end
 
-  after_save do
-    ImageAttachmentReprocessJob.perform_later(image) if image && image_id_changed? && errors.empty?
-  end
-
   def placer_location
     case context
     when 'logo'

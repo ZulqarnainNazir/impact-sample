@@ -3,10 +3,12 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+
   # Permit additional parameters in Devise registration controllers.
   before_action if: :devise_controller? do
     devise_parameter_sanitizer.for(:sign_up) << %i[first_name last_name]
     devise_parameter_sanitizer.for(:account_update) << %i[first_name last_name]
+    set_dashboard_url()
   end
 
   protected
@@ -44,6 +46,15 @@ class ApplicationController < ActionController::Base
       website.webhost.name
     else
       [website.subdomain, Rails.application.secrets.host].join('.')
+    end
+  end
+  def set_dashboard_url
+    if (request.subdomains.first == 'www' || (!request.ssl? && Rails.env.production?)) && request.host.match(Regexp.escape(Rails.application.secrets.host))
+      if Rails.env.production?
+        redirect_to "https://" + Rails.application.secrets.host + request.original_fullpath
+      else
+        redirect_to "http://" + Rails.application.secrets.host + request.original_fullpath
+      end
     end
   end
 end

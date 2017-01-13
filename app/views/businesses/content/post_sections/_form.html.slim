@@ -23,7 +23,7 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
                   = form.text_area :content, rows: 6, class: 'form-control', placeholder: 'Add your section content here - try a short paragraph or two.'
               .col-sm-5
                 .center-block
-                  = react_unmounted_component 'ImagePlacement',
+                  = react_component 'ImagePlacement',
                     inputPrefix: "post[post_sections_attributes][#{form.options[:child_index]}][post_section_image_placement_attributes]",
                     imagesPath: business_images_path(post_form.object.business),
                     presignedPost: s3_presigned_post_hash,

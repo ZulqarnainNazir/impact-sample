@@ -35,7 +35,7 @@
                   inputPrefix: 'business[logo_placement_attributes]',
                   label: 'Logo Image',
                   placement: form.object.logo_placement_json,
-                  presignedPost: s3_presigned_post_hash,
+                  presignedPost: s3_logo_presigned_post_hash,
                   bulkUploadPath: new_business_content_images_upload_path(form.object),
                   showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
                 hr
@@ -61,4 +61,3 @@
                   = form.select :category_ids, options_from_collection_for_select(Category.alphabetical, 'id', 'name', form.object.categories.map(&:id)), {}, multiple: true, class: 'form-control', style: 'height:12em'
                 .text-right
                   = form.button 'Save', class: 'btn btn-primary btn-block'
-
