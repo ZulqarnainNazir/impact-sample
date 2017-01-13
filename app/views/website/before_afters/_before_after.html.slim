@@ -6,8 +6,8 @@
           - image_before = before_after.before_image.attachment_url(:thumbnail)
           - image_after = before_after.after_image.attachment_url(:thumbnail)
           div.ba-container
-            div.col-before.blog-image-position style="background-image: url(#{image_before});"
-            div.col-after.blog-image-position style="background-image: url(#{image_after});"
+            div.col-before.blog-image-position style="background-image: url('#{image_before}');"
+            div.col-after.blog-image-position style="background-image: url('#{image_after}');"
           / = image_tag before_after.before_image.attachment_medium_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'before-clip', style: 'max-width: 100%'
           / = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'after-clip', style: 'max-width: 100%'
         - else
