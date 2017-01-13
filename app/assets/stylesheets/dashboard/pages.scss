@@ -439,7 +439,7 @@ ul.notes li div {
 }
 
 .file .icon, .file .image {
-  height: 100px;
+  height: 198px;
   overflow: hidden;
 }
 
@@ -467,6 +467,7 @@ ul.notes li div {
   padding: 10px;
   background-color: #f8f8f8;
   border-top: 1px solid $border-color;
+  overflow: hidden;
 }
 
 .file-name small {

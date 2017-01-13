@@ -52,13 +52,13 @@ class Image < ActiveRecord::Base
 
     resized_key = s3_key(style)
 
-    if processed_styles.present? && processed_styles.include?(style)
+    if self.processed_styles.present? && self.processed_styles.include?(style)
       cdn_resized_url(resized_key)
     else
       if s3_bucket.objects[resized_key].exists?
-        processed_styles ||= []
-        processed_styles << style
-        save
+        self.processed_styles ||= []
+        self.processed_styles << style
+        update(processed_styles: self.processed_styles)
         cdn_resized_url(resized_key)
       else
         "#{ActionController::Base.helpers.asset_path('spinner.gif')}"
