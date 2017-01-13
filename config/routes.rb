@@ -1,18 +1,18 @@
 class PlatformConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
-    blank_or_subdomain = request.subdomain.blank? || request.subdomains.first
+    blank_or_impact_subdomain = request.subdomain.blank? || request.subdomains.first == 'impact' || request.subdomains.first == 'www'
 
-    host_match && blank_or_subdomain
+    host_match && blank_or_impact_subdomain
   end
 end
 
 class WebsiteConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
-    present_and_not_www_subdomain = request.subdomain.present? && request.subdomains.first != 'www'
+    present_and_not_impact_subdomain = request.subdomain.present? && request.subdomains.first != 'impact' && request.subdomains.first != 'www'
 
-    !host_match || present_and_not_www_subdomain
+    !host_match || present_and_not_impact_subdomain
   end
 end
 
