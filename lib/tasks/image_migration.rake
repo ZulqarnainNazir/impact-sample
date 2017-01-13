@@ -42,9 +42,9 @@ task image_migration: [:environment] do
       base_dir = logo ? '_logos/' : '_originals/'
       new_key = "#{base_dir}#{key}"
 
-      new_s3_object = s3_object.copy_to(new_key, acl: :public_read) unless trial_run
+      s3_object.copy_to(new_key, acl: :public_read) unless trial_run
 
-      image.update(attachment_cache_url: new_s3_object.public_url) unless trial_run
+      image.update(attachment_cache_url: "//#{ENV['AWS_S3_BUCKET']}.s3.amazonaws.com/#{new_key}") unless trial_run
 
       s3_object.delete unless trial_run
 
@@ -57,6 +57,6 @@ task image_migration: [:environment] do
   s3_bucket = AWS::S3.new.buckets[ENV['AWS_S3_BUCKET']]
 
   Image.find_each do |image|
-    process_image(s3_bucket, image, false)
+    process_image(s3_bucket, image, true)
   end
 end
