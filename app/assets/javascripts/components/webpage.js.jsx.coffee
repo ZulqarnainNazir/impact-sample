@@ -600,7 +600,7 @@ Webpage = React.createClass
     this.setState
       mediaLibraryImages: this.state.mediaLibraryImages.concat data.images
       mediaLibraryLoaded: true
-      mediaLibraryLoadedAll: data.images.length < 48
+      mediaLibraryLoadedAll: data.images.length < 24
       mediaLibraryPage: this.state.mediaLibraryPage + 1
 
   selectMediaLibraryImage: (image) ->
@@ -1560,7 +1560,7 @@ Webpage = React.createClass
   renderMediaLibraryImages: ->
     if this.state.mediaLibraryImages.length > 0
       for image in this.state.mediaLibraryImages
-        `<div key={image.id} className="col-xs-3 col-sm-2">
+        `<div key={image.id} className="col-xs-4 col-sm-3">
           <img onClick={this.selectMediaLibraryImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{maxWidth: '100%', cursor: 'pointer'}} />
         </div>`
     else
