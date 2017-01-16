@@ -1,52 +1,51 @@
-- cache [user_signed_in?, current_user].compact do
-  .row.admin-dash
-    nav.navbar.navbar-static-top[role="navigation" style="margin-bottom: 0"]
-      .navbar-header
-        a.navbar-minimalize.minimalize-styl-2.btn.btn-primary[href="#"]
-          i.fa.fa-bars
-        = link_to image_tag('impact-dark.png', alt: 'IMPACT Marketing Suite', class: 'img-responsive'), :root, class: 'navbar-brand hidden-xs', style: 'padding: 10px 15px;'
-        = link_to image_tag('impact-dark-s.png', alt: 'IMPACT', class: 'img-responsive'), :root, class: 'navbar-brand hidden-sm hidden-md hidden-lg', style: 'padding: 11px 15px;'
-      ul.nav.navbar-top-links.navbar-right
-        li.dropdown
-          a.dropdown-toggle.count-info[data-toggle="dropdown" href="#"]
-            i.fa.fa-tasks
-          ul.dropdown-menu.dropdown-messages
-            li = link_to 'http://impactsupport.locable.com/', target: :_blank do
-              i.fa.fa-life-ring>
-              | Support
-            - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-              li = link_to connect_locable_path, target: :_blank do
-                i.fa.fa-external-link>
-                | Go to Locable
-            li = link_to :destroy_user_session, method: :delete do
-              i.fa.fa-sign-out
-              |  Sign out 
+.row.admin-dash
+  nav.navbar.navbar-static-top[role="navigation" style="margin-bottom: 0"]
+    .navbar-header
+      a.navbar-minimalize.minimalize-styl-2.btn.btn-primary[href="#"]
+        i.fa.fa-bars
+      = link_to image_tag('impact-dark.png', alt: 'IMPACT Marketing Suite', class: 'img-responsive'), :root, class: 'navbar-brand hidden-xs', style: 'padding: 10px 15px;'
+      = link_to image_tag('impact-dark-s.png', alt: 'IMPACT', class: 'img-responsive'), :root, class: 'navbar-brand hidden-sm hidden-md hidden-lg', style: 'padding: 11px 15px;'
+    ul.nav.navbar-top-links.navbar-right
+      li.dropdown
+        a.dropdown-toggle.count-info[data-toggle="dropdown" href="#"]
+          i.fa.fa-tasks
+        ul.dropdown-menu.dropdown-messages
+          li = link_to 'http://impactsupport.locable.com/', target: :_blank do
+            i.fa.fa-life-ring>
+            | Support
+          - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
+            li = link_to connect_locable_path, target: :_blank do
+              i.fa.fa-external-link>
+              | Go to Locable
+          li = link_to :destroy_user_session, method: :delete do
+            i.fa.fa-sign-out
+            |  Sign out 
 
-    .col-md-12
-      .fluid-nav
-        ul.nav.navbar-top-links
-          li = link_to [:new, @business, :content_quick_post] do
-            i.fa.fa-bolt>
-            span
-              | Quick Post
-          li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
-            i.fa.fa-columns>
-            span
-              | Before &amp; After
-          li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
-            i.fa.fa-photo>
-            span
-              | Gallery
-          li = link_to [:new, @business, :content_event_definition] do
-            i.fa.fa-calendar>
-            span
-              | Event
-          li = link_to [:new, @business, :content_offer] do
-            i.fa.fa-ticket>
-            span
-              | Offer
-          li.list-divider = link_to [@business, :crm_reviews] do
-            i.fa.fa-star>
-            span
-              | Customer Review
+  .col-md-12
+    .fluid-nav
+      ul.nav.navbar-top-links
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt>
+          span
+            | Quick Post
+        li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
+          i.fa.fa-columns>
+          span
+            | Before &amp; After
+        li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
+          i.fa.fa-photo>
+          span
+            | Gallery
+        li = link_to [:new, @business, :content_event_definition] do
+          i.fa.fa-calendar>
+          span
+            | Event
+        li = link_to [:new, @business, :content_offer] do
+          i.fa.fa-ticket>
+          span
+            | Offer
+        li.list-divider = link_to [@business, :crm_reviews] do
+          i.fa.fa-star>
+          span
+            | Customer Review
 
