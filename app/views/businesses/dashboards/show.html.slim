@@ -1,7 +1,5 @@
 - title 'IMPACT Marketing Suite'
 
-= render :partial => 'dashbreadcrumb', :locals => {}
-
 - if @business.to_dos_enabled
   = render partial: 'businesses/dashboards/to_dos', locals: { business: @business }
 
