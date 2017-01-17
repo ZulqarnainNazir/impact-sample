@@ -8,7 +8,7 @@ module ContentHelper
     end
 
     def image(url)
-        content_for :image, url
+        content_for :image, "http:#{url}"
     end
 
     def errors_for(resource, message: nil)
