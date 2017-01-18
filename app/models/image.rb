@@ -71,7 +71,7 @@ class Image < ActiveRecord::Base
   end
 
   def cdn_resized_url(resized_key)
-    "//#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}"
+    URI.escape("//#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}")
   end
 
   def s3_key(style = nil)
