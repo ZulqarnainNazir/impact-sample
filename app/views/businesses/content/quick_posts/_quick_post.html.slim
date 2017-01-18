@@ -44,7 +44,7 @@
       - if placement.try(:embeds?)
         .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
         br
-      - elsif placement.try(:image)
+      - elsif placement.try(:image).try(:attachment_url, :large)
         = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
         br
       = truncate sanitize(quick_post.content), length: 250

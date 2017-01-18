@@ -56,4 +56,8 @@ module ContentHelper
         end
       end
     end
+
+    def placeholder_image_url
+      asset_path 'impact_gs.jpg'
+    end
 end
