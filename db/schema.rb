@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113072007) do
+ActiveRecord::Schema.define(version: 20170115010202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -461,7 +461,6 @@ ActiveRecord::Schema.define(version: 20170113072007) do
     t.json     "settings"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.text     "cached_styles",                        array: true
     t.text     "processed_styles"
   end
 

@@ -10,6 +10,7 @@ class FacebookPhotosImportJob < ApplicationJob
 
     graph.get_connections(business.facebook_id, 'albums')[0..album_limit].each do |album|
       graph.get_connections(album['id'], 'photos')[0..photo_limit].each do |photo|
+        base_photo = photo
         if photo['images'].any?
           photo = photo['images'].max_by { |img| img['width'] * img['height'] }
         end
@@ -22,7 +23,7 @@ class FacebookPhotosImportJob < ApplicationJob
 
         Image.create(
           attachment_cache_url: "//#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}",
-          attachment_file_name: (File.basename(URI.parse(photo['source']).path) rescue nil),
+          attachment_file_name: (File.basename(URI.parse(base_photo['source']).path) rescue nil),
           alt: photo['name'],
           business: business,
           user: user,

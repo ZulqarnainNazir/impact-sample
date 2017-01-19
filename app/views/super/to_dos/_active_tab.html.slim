@@ -9,7 +9,7 @@ div.tab-pane.active#active role="tabpanel"
       - @businesses.each do |business|
         tr
           td
-            - if (business.logo.attachment_url? rescue nil)
+            - if (business.logo.attachment_cache_url? rescue nil)
               = image_tag business.logo.attachment_url(:thumbnail), alt: business.logo.alt, title: business.logo.title, class: 'table-logo'
             - else
               i.fa.fa-photo

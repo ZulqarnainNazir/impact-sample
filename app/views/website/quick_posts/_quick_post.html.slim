@@ -1,16 +1,16 @@
-- if @masonry.present? && @masonry == true 
+- if @masonry.present? && @masonry == true
   .col-xs-4.slider-content.single-blog
     = link_to website_generic_post_path(quick_post.to_generic_param) do
       - cache quick_post do
         - placement = quick_post.quick_post_image_placement
         - if placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-        - elsif placement.try(:image)
-          div.post-blog-image style="background-image: url('#{placement.image.attachment_medium_url}');" 
+        - elsif placement.try(:image).try(:attachment_medium_url)
+          div.post-blog-image style="background-image: url('#{placement.image.attachment_medium_url}');"
           / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
         - else
           = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
-          / div.post-blog-image style="background-image: url(/assets/impact_gs.jpg);" 
+          / div.post-blog-image style="background-image: url('#{placeholder_image_url}');"
         h3.slider-text = truncate sanitize(quick_post.title), length: 75, omission: '... '
         p.slider-p = truncate sanitize(quick_post.content), length: 90, omission: '... '
         / button.btn.btn-primary.btn-sm.pull-left Read More
@@ -33,7 +33,7 @@
       - if placement.try(:embeds?)
         .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
         br
-      - elsif placement.try(:image)
+      - elsif placement.try(:image).try(:attachment_large_url)
         = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
         br
       = truncate sanitize(quick_post.content), length: 250, omission: '... ' do

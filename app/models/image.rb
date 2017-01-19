@@ -7,21 +7,20 @@ class Image < ActiveRecord::Base
 
   validates :business_id, presence: true, unless: :business
   validates :user_id, presence: true, unless: :user
-  # validates :attachment_cache_url, :attachment_content_type, :attachment_file_size, presence: true
   validates :attachment_cache_url, presence: true
   validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }
-  #validates :attachment_content_type, format: { with: /\Aimage\/.*\Z/ }
-  #validates :attachment_file_size, inclusion: { in: 0..10.megabytes }
+  validates :attachment_content_type, presence: true, format: { with: /\Aimage\/.*\Z/ }, unless: :facebook?
+  validates :attachment_file_size, presence: true, inclusion: { in: 0..10.megabytes }, unless: :facebook?
 
   serialize :processed_styles
 
   before_validation do
-    self.attachment_updated_at = Time.zone.now if attachment_cache_url_changed? && attachment_cache_url?
+    self.attachment_updated_at = Time.zone.now if attachment_cache_url? && attachment_cache_url_changed?
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
   end
 
   after_create do
-    unless attachment_cache_url.present? && attachment_cache_url.include?(Rails.application.secrets.aws_s3_bucket)
+    if attachment_cache_url.present? && attachment_cache_url.include?('fbcdn.net')
       api_endpoint = Rails.application.secrets.lambda_api_endpoint
       api_key = Rails.application.secrets.lambda_api_key
 
@@ -43,12 +42,13 @@ class Image < ActiveRecord::Base
     placements.each(&:touch)
   end
 
-  def attachment_url?
-    attachment_cache_url?
+  def facebook?
+    attachment_cache_url.present? &&
+      ( attachment_cache_url.include?('_fb') || attachment_cache_url.include?('fbcdn.net') )
   end
 
   def attachment_url(style = :thumbnail)
-    return attachment_cache_url if style.blank? || attachment_cache_url.blank? || style == :original
+    return attachment_cache_url if attachment_cache_url.blank? || style == :original
 
     resized_key = s3_key(style)
 
@@ -71,7 +71,7 @@ class Image < ActiveRecord::Base
   end
 
   def cdn_resized_url(resized_key)
-    "//#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}"
+    URI.escape("//#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}")
   end
 
   def s3_key(style = nil)
@@ -86,24 +86,6 @@ class Image < ActiveRecord::Base
         URI.escape(url).gsub("[","%5B").gsub("]","%5D")
       ).path[1..-1]
     )
-  end
-
-  def styles
-    {
-      thumbnail: '260x260#',
-      jumbo: '1200x100000>',
-      jumbo_fixed: '1200x',
-      large: '800x100000>',
-      large_fixed: '800x',
-      medium: '600x100000>',
-      medium_fixed: '600x',
-      small: '400x100000>',
-      small_fixed: '400x',
-      logo_small: 'x40',
-      logo_medium: 'x60',
-      logo_large: 'x125',
-      logo_jumbo: 'x200',
-    }.slice(*placements.map(&:style_keys).push(%i[thumbnail medium large_fixed jumbo_fixed]).flatten.uniq)
   end
 
   def attachment_thumbnail_url
