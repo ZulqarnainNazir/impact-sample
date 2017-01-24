@@ -47,6 +47,10 @@ class Image < ActiveRecord::Base
       ( attachment_cache_url.include?('_fb') || attachment_cache_url.include?('fbcdn.net') )
   end
 
+  def attachment_full_url(style = :thumbnail)
+    "http:#{attachment_url(style)}"
+  end
+
   def attachment_url(style = :thumbnail)
     return attachment_cache_url if attachment_cache_url.blank? || style == :original
 
