@@ -1,1 +1,1 @@
-json.images @images.as_json(methods: %i[attachment_url attachment_thumbnail_url attachment_small_url  attachment_small_fixed_url attachment_medium_url attachment_medium_fixed_url attachment_large_url attachment_large_fixed_url attachment_jumbo_url attachment_jumbo_fixed_url])
+json.images @images.as_json(methods: %i[attachment_thumbnail_url])
