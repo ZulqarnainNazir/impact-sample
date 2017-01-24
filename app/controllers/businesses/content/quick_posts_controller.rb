@@ -36,7 +36,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     respond_to do |format|
       if @quick_post.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
         format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
@@ -72,7 +72,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     respond_to do |format|
       if @quick_post.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft] 
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
         format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
@@ -127,7 +127,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
         caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
-        picture: @quick_post.quick_post_image.try(:attachment_url),
+        picture: @quick_post.quick_post_image.try(:attachment_full_url),
         published: true,
         scheduled_published_time: @quick_post.published_on,
       }
@@ -137,7 +137,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
         caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
         link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
         name: @quick_post.title,
-        picture: @quick_post.quick_post_image.try(:attachment_url),
+        picture: @quick_post.quick_post_image.try(:attachment_full_url),
       }
     end
   end

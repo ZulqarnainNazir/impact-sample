@@ -4,7 +4,7 @@
 - else
   - title @offer.title
   - description @offer.meta_description
-  - image @offer.main_image.try(:attachment_url) || @offer.offer_image.try(:attachment_url)
+  - image @offer.main_image.try(:attachment_url, :jumbo) || @offer.offer_image.try(:attachment_url, :jumbo)
   - canonize_obj({url: website_offer_url, params: @offer.to_generic_param})
 
 = webpage_container do
