@@ -41,7 +41,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
     post_path = website_before_after_path(@before_after)
-    @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), :id => @before_after.id]
+    @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @before_after.id]
   end
 
 
@@ -125,7 +125,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     if @before_after.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @before_after.title,
         picture: @before_after.after_image.try(:attachment_url),
         published: true,
@@ -135,7 +135,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
       {
         backdated_time: @before_after.created_at,
         caption: truncate(Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @before_after.title,
         picture: @before_after.after_image.try(:attachment_url),
       }

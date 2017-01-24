@@ -16,7 +16,7 @@
         - if @home_page.persisted?
           .row
             .col-md-offset-2
-              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_root_url(host: website_host(@business.website)), target: :_blank do
+              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
                 ' Preview Saved Webpage
                 i.fa.fa-external-link style="margin-left:2px"
       .col-md-6.col-lg-5

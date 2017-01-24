@@ -49,7 +49,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
     post_path = website_offer_path(@offer)
-    @preview_url = @offer.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @offer.id]
+    @preview_url = @offer.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @offer.id]
   end
 
 
@@ -137,7 +137,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     if @offer.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @offer.title,
         picture: @offer.offer_image.try(:attachment_url),
         published: true,
@@ -147,7 +147,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       {
         backdated_time: @offer.created_at,
         caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @offer.title,
         picture: @offer.offer_image.try(:attachment_url),
       }
