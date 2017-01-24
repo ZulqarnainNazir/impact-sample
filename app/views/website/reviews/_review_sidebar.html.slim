@@ -1,7 +1,7 @@
 blockquote.review.review-small
   h3.h5
     - if defined?(new_window)
-      => link_to review.title, website_review_url(review, host: website_host(@business.website)), target: :_blank
+      => link_to review.title, website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
     - else
       => link_to review.title, [:website, review]
     p

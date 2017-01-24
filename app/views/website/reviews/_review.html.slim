@@ -2,7 +2,7 @@ blockquote.review itemprop="review" itemscope="true" itemtype="http://schema.org
   h2.h4 itemprop="name"
     - if defined?(link_title)
       - if defined?(new_window)
-        => link_to review.title, website_review_url(review, host: website_host(@business.website)), target: :_blank
+        => link_to review.title, website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
       - else
         => link_to review.title, [:website, review]
     - else

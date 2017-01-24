@@ -22,7 +22,7 @@
   hr
   - if @business.website
     p style="margin-top:0; display: inline-block;" Preview Your Website:
-    = link_to website_root_url(host: website_host(@business.website)), target: :_blank do
-      span => website_root_url(host: website_host(@business.website))
+    = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
+      span => website_root_url(host: website_host(@business.website), protocol: :http)
       i.fa.fa-external-link style="margin-left:5px"
 

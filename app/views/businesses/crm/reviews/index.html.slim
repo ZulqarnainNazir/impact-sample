@@ -31,7 +31,7 @@
               
               .pull-right
                 - if @reviews.any?
-                  => link_to 'View Public Reviews', website_reviews_url(host: website_host(@business.website)), target: :_blank, style: 'margin-right: 0.5em'
+                  => link_to 'View Public Reviews', website_reviews_url(host: website_host(@business.website), protocol: :http), target: :_blank, style: 'margin-right: 0.5em'
                 .btn-group
                   = link_to [:edit, @business, :crm_review_notifications], class: 'btn btn-sm btn-default' do
                     => icon 'check-square-o'

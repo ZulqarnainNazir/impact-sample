@@ -24,7 +24,7 @@
           span.text-muted> Posted in
           - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
             - if @business.website
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
+              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
             - else
               = classification.name
             - if i < gallery.content_categories.count + gallery.content_tags.count - 1
@@ -35,9 +35,9 @@
       h2
         - if @business.website
           - if gallery.published_status == false
-            h2 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => gallery.id], target: :_blank
+            h2 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => gallery.id], target: :_blank
           - else
-            => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website)], target: :_blank
+            => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
         - else
           => gallery.title
         span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
@@ -46,7 +46,7 @@
           - image = gallery_image.gallery_image
           .col-xs-3.col-lg-2
             - if @business.website && gallery.published_status != false
-              = link_to [:website, gallery, only_path: false, host: website_host(@business.website)], class: 'gallery-item', target: :_blank do
+              = link_to [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], class: 'gallery-item', target: :_blank do
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'

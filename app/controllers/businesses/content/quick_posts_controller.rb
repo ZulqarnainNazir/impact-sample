@@ -50,7 +50,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
     post_path = website_quick_post_path(@quick_post)
-    @preview_url = @quick_post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), :id => @quick_post.id]
+    @preview_url = @quick_post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @quick_post.id]
   end
 
   def update
@@ -125,7 +125,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     if @quick_post.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),
         published: true,
@@ -135,7 +135,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       {
         backdated_time: @quick_post.published_at,
         caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @quick_post.title,
         picture: @quick_post.quick_post_image.try(:attachment_url),
       }
