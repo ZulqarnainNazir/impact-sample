@@ -5,7 +5,7 @@ class Businesses::ImagesController < Businesses::BaseController
       send(*where_clause).
       order(created_at: :desc).
       page(params[:page]).
-      per(48)
+      per(24)
   end
 
   private
