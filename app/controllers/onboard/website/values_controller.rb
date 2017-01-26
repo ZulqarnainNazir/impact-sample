@@ -9,7 +9,7 @@ class Onboard::Website::ValuesController < Onboard::Website::BaseController
 
   def update
     update_resource @business, values_params, context: :related_associations, location: redirect_location do |success|
-      flash.notice = 'Great! You’re business was successfully setup!'
+      flash.notice = 'Great! Your business was successfully setup!'
     end
   end
 
