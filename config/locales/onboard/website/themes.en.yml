@@ -3,5 +3,5 @@ en:
     website:
       themes:
         update:
-          notice: Great! You’re business was successfully setup!
+          notice: Great! Your business was successfully setup!
           alert: There was a problem editing your website theme.

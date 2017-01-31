@@ -37,6 +37,7 @@ class Business < ActiveRecord::Base
     has_one :website
   end
 
+  has_one :subscription, :foreign_key => :subscriber_id
   has_many :categories, through: :categorizations
   has_many :events
   has_many :images
@@ -47,7 +48,7 @@ class Business < ActiveRecord::Base
 
   has_many :users, through: :authorizations
   has_many :managers, through: :manager_authorizations, source: :user
-  has_many :owners, through: :owners_authorizations, source: :user
+  has_many :owners, through: :owner_authorizations, source: :user
 
   has_many :owned_companies, :class_name => "Company", :foreign_key => "user_business_id"
   has_many :owned_by_business, :class_name => "Company", :foreign_key => "company_business_id"
@@ -83,6 +84,18 @@ class Business < ActiveRecord::Base
   end
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
+
+  def is_on_engage_plan?
+    if !self.subscription.nil?
+      if self.subscription.plan.is_engage_plan?
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
 
   def self.search(search)
     if search

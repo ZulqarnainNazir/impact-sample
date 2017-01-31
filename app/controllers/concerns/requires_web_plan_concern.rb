@@ -3,9 +3,11 @@ module RequiresWebPlanConcern
 
   included do
     before_action do
-      if @business.free?
-        redirect_to [@business, :dashboard], alert: 'Please Upgrade to a Web or Primary subscription to access that feature.'
-      end
+		unless current_user.super_user?
+			if @business.is_on_engage_plan?
+			    redirect_to [@business, :dashboard], alert: 'Please Upgrade Your Plan to Access That Feature.'
+			end
+		end
     end
   end
 end

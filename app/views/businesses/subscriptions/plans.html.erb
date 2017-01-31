@@ -1,0 +1,37 @@
+<% # Plan grid from http://bootsnipp.com/snippets/featured/plans-and-pricing %>
+<h1>Plans</h1>
+
+<%= form_for [@business, @subscription] do |n| %>
+  <div class="row" id="plan-grid">
+      <% @plans.each do |plan| %>
+        <div class="col-xs-12 col-md-<%= 12 / @plans.size %>">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"><%= plan.name %></h3>
+            </div>
+            <div class="panel-body">
+              <div class="the-price">
+                <h1> <%= number_to_currency(plan.amount) %><span class="subscript">/mo</span></h1>
+              </div>
+              <table class="table">
+                <tr>
+                  <td>
+                    Information about plan goes here.
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="panel-footer">
+              <%= n.radio_button :subscription_plan_id, plan.id, class: 'plan-radio' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+  </div>
+  <%= n.submit "Sign up", id: 'subscription-sign-up', :class => "btn btn-success" %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+
+
+</script>

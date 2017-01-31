@@ -23,6 +23,14 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  def authorized_business_owner?(business)
+    if self.authorizations.where(business_id: business.id, role: 0).present? || self.super_user?
+      return true
+    else
+      return false
+    end
+  end
+
   def authorized_businesses
     super_user ? Business.all : businesses
   end

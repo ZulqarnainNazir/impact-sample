@@ -1,0 +1,102 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-content p-xl">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>From:</h5>
+                <address>
+                    <strong>Locable, Inc.</strong><br>
+                    909 Mormon St<br>
+                    Folsom, CA 95630<br>
+                    <abbr title="Phone">Phone:</abbr> (916) 585-8468
+                </address>
+            </div>
+
+            <div class="col-sm-6 text-right">
+                <h4>Invoice No.</h4>
+                <h4 class="text-navy"><%= @sp.transaction_id %></h4>
+                <span>To:</span>
+                <address>
+                    <strong><%= @sp.subscription.subscriber.name %> </strong><br>
+                </address>
+                <p>
+                    <span><strong>Invoice Date: </strong><%= @sp.created_at.to_date.to_formatted_s(:long_ordinal) %></span><br>
+                    <span><strong>Charged: </strong><%= @sp.created_at.to_date.to_formatted_s(:long_ordinal) %></span>
+                </p>
+            </div>
+        </div>
+
+        <div class="table-responsive m-t">
+            <table class="table invoice-table">
+                <thead>
+                <tr>
+                    <th>Item List</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>
+                                    <% if @sp.setup? && @sp.monthly? %>
+                                        <dd class="text-navy"> Plan Setup + First Monthly Payment </dd>
+                                        <small>
+                                            Invoice for setting up your <%=@sp.subscription.plan.name%> plan plus your plan's first month's payment.
+                                        </small>
+                                    <% elsif @sp.setup? && @sp.annual? %>
+                                        <dd class="text-navy"> Plan Setup + First Annual Payment </dd>
+                                        <small>
+                                            Invoice for setting up your <%=@sp.subscription.plan.name%> plan plus your plan's first annual payment.
+                                        </small>
+                                    <% elsif @sp.monthly? &&  !@sp.setup? %>
+                                        <dd class="text-navy"> Monthly Subscription Charge </dd>
+                                        <small>
+                                            Monthly invoice for your <%=@sp.subscription.plan.name%> plan.
+                                        </small>
+                                    <% elsif @sp.annual? && !@sp.setup? %>
+                                        <dd class="text-navy"> Annual Subscription </dd>
+                                        <small>
+                                            Annual invoice for your <%=@sp.subscription.plan.name%> plan.
+                                        </small>
+                                    <% elsif @sp.misc? %>
+                                        <dd class="text-navy"> Miscellaneous Charge </dd>
+                                        <small>
+                                            Invoice for misc. charge.
+                                        </small>
+                                    <% end %>
+                                </strong>
+                            </div>
+                        </td>
+                        <td>1</td>
+                        <td><%= @sp.amount.to_s %></td>
+                        <td><%= @sp.amount.to_s %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!-- /table-responsive -->
+
+        <table class="table invoice-total">
+            <tbody>
+            <tr>
+                <td><strong>Sub Total :</strong></td>
+                <td><%= @sp.amount.to_s %></td>
+            </tr>
+<!--             <tr>
+                <td><strong>TAX :</strong></td>
+                <td></td>
+            </tr> -->
+            <tr>
+                <td><strong>TOTAL :</strong></td>
+                <td><%= @sp.amount.to_s %></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="well m-t"><strong>Comments</strong>
+            N/A 
+        </div>
+
+    </div>
+</div>

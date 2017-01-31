@@ -1,0 +1,26 @@
+Welcome to the <%= @subscriber.subscription.subscription_plan.name %> plan!
+
+<% if @subscription.amount > 0 %>
+
+	Your credit card <%= @subscription.card_number %> will be charged 
+	<%= number_to_currency(@amount) %> for your <%= @subscription.subscription_plan.name %> plan. This charge covers usage
+	from <%= Time.now.to_s(:short_day).strip %> until <%= @subscription.next_renewal_at.to_date.to_formatted_s(:long_ordinal)%>.
+
+	Billing recurs monthly. Your next bill date will be <%= @subscription.next_renewal_at.to_date.to_formatted_s(:long_ordinal) %>.
+
+		<% if @subscription.needs_payment_info? %>
+			Please make sure you enter your billing information at the 
+			following URL before your bill date to prevent an interruption
+			in service:
+
+			<%= billing_business_subscriptions_url(@subscription.subscriber) %>
+		<% end %>
+
+<% end %>
+
+You can change or upgrade your plan level at any time.
+
+If you have any questions about or problems with the service, 
+please don't hesitate to email <%= Saas::Config.from_email %>.
+
+Thank you for using <%= Saas::Config.app_name %>!

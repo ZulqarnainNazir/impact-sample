@@ -44,8 +44,16 @@ Rails.application.routes.draw do
     end
 
     namespace :super do
+      resources :subscription_plans
       resources :to_dos, only: :index
       resources :to_do_notification_settings, only: %i[index create]
+      resources :subscriptions_data, only: [:none] do
+        collection do
+          get :subscription_stats
+          get :subscriber_states
+          get :inactive_subscriptions
+        end
+      end
     end
     
     namespace :widgets do
@@ -73,6 +81,21 @@ Rails.application.routes.draw do
       scope module: :businesses do
         resource :dashboard, path: '', only: %i[show]
         resource :dashboard_tour_viewed, only: %i[create]
+
+          resources :subscriptions, except: [:index] do
+            resources :subscription_payments, only: %i[show]
+            collection do
+              get :dashboard, :thanks, :plans, :canceled, :return_to_impact, :initial_plan_setup
+              match 'billing' => "subscriptions#billing", via: [ :get, :post ]
+              match 'setup_billing' => 'subscriptions#initial_billing_setup', via: [ :get, :post ]
+              #^setup_billing is the initial billing page a user would encounter when they sign-up;
+              #afterwards, subscriptions#billing is used. #enter_billing_information is sleeker
+              #than #billing and presents a better image to first-time customers.
+              match 'plan' => "subscriptions#plan", via: [ :get, :post ]
+              get 'billing_history'
+              get 'subscription_dashboard'
+            end
+          end
 
         namespace :content do
           root to: 'roots#show'

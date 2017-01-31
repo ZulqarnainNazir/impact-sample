@@ -1,0 +1,24 @@
+defaults: &defaults
+  app_name: IMPACT Marketing Suite
+  from_email: <%= ENV['SUPPORT_EMAIL'] %>
+  base_domain: <%= ENV['HOST'] %>
+
+  gateway: stripe # change this to stripe to use stripe
+  credentials:
+    gateway:
+      :login: <%= ENV["STRIPE_SECRET_KEY"] %> # stripe secret key goes here
+      :password: # leave blank for stripe
+    stripe_publishable_key: <%= ENV["STRIPE_PUBLISHABLE_KEY"] %> # use this to send cc info directly to stripe via javascript
+development:
+  <<: *defaults
+  base_domain: <%= ENV['HOST'] %> # Edit /etc/hosts to add subscriptions.dev, test.subscriptions.dev, etc., or use Pow: http://pow.cx
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  credentials:
+    gateway:
+      :login: <%= ENV["STRIPE_SECRET_KEY"] %>
+      :password: password

@@ -12,7 +12,7 @@ Rails.application.configure do
   config.consider_all_requests_local = false
   config.eager_load = true
   config.i18n.fallbacks = true
-  config.log_level = :warn
+  config.log_level = :debug
   config.log_tags = [:uuid]
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
   config.time_zone = 'UTC'

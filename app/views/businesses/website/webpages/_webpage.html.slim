@@ -20,7 +20,7 @@
           = link_to 'Publish', business_website_webpage_publications_path(business, webpage), method: :create, class: 'btn btn-success'
         = link_to 'Delete', business_website_webpage_path(business, webpage), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
   p.text-right.small
-    - webpage_url = webpage.pathname? ? website_custom_page_url(webpage.pathname, host: website_host(website)) : website_root_url(host: website_host(website))
+    - webpage_url = webpage.pathname? ? website_custom_page_url(webpage.pathname, host: website_host(website), protocol: :http) : website_root_url(host: website_host(website), protocol: :http)
     = link_to webpage_url, target: :_blank do
       ' Preview
       i.fa.fa-external-link style="margin-left:2px"

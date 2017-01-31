@@ -1,0 +1,143 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h1><%= @page_title = 'Manage Subscription and Billing' %></h1>
+  </div>
+  <div class="ibox-content">
+    <% if @subscription.nil? %>
+      <p>
+        Our records show you don't have a subscription on file. Click below to get started.
+        <p>
+          <%= link_to 'Set Up My Subscription', plan_business_subscriptions_path(@business), class: "btn btn-primary" %>
+        </p>
+      </p>
+    <% else %>
+
+      <p>
+        You can change your plan level at any time.  If you are moving up from a free to a paid subscription, features of the new plan that you select will be effective once you've submitted your billing information. Don't worry, we'll prompt you for it once you've upgraded! If your billing information is already in our systems, your new plan will take place immediately. Your bill amount will not change until your next bill date.
+      </p>
+      <p>
+        <b>
+          <% if @subscription.amount > 0 && @subscription.downgrade_to.nil? %>
+            Your next bill date is <%= @subscription.next_renewal_at.to_date.to_formatted_s(:long_ordinal)%>.
+          <% else %>
+            You currently have no monthly or annual charges.
+          <% end %>
+        </b>
+      </p>
+
+      <% if @subscription.needs_payment_info? %>
+        <p><b>
+          We have no payment information from you on file. Please make sure you <%= link_to('enter your billing information', billing_business_subscriptions_url(@business)) %> before your bill date to prevent an interruption in service.
+        </b></p>
+      <% end %>
+
+    <% end %>
+  </div>
+</div>
+
+<% if !@subscription.nil? %>
+  <% if @subscription && @subscription.errors.any? %>
+    <div class="errorExplanation">
+      <h2>Errors encountered with your change:</h2>
+      <ul>
+        <%= raw(@subscription.errors.full_messages.map {|m| content_tag('li', m)}) %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h2>Manage Your Plan</h2>
+    </div>
+
+    <div class="ibox-content">
+
+      <h3>
+        You are subscribed to the 
+        <% if @subscription.annual? %>
+          <strong><%= @subscription.subscription_plan.name %> Plan ( <%= number_to_currency(@subscription.amount)%> / year ). </strong>
+        <% elsif !@subscription.annual? && @subscription.amount > 0 %>
+          <strong><%= @subscription.subscription_plan.name %> Plan ( <%= number_to_currency(@subscription.amount)%> / month ). </strong>
+        <% else %>
+          <strong> <%= @subscription.subscription_plan.name %> Plan (free). </strong>
+        <% end %>
+        <% if !@subscription.downgrade_to.nil? %>
+          </br>
+          <strong>However, you are scheduled to switch over to the <%=@new_subscription %> Plan on <%= @subscription.next_renewal_at.to_date.to_formatted_s(:long_ordinal)%>. 
+          </br>
+            If this was done in error, click 'Keep My Old Plan' below <u>before</u> <%= @subscription.next_renewal_at.to_date.to_formatted_s(:long_ordinal)%>.</strong>
+          <p>
+            <%= button_to 'Keep My Old Plan', {action: "plan", revert: "true"}, class: "btn btn-primary" %>
+          </p>
+        <% end %>
+      </h3>
+
+      <p>
+        <% if @subscription.needs_payment_info? || @subscription.inactive? %>
+          <strong> NOTICE: Your subscription is not active because you have not provided billing information. Please do so to prevent an interruption in service.</strong>
+          </br>
+        <% end %>
+        If you want to change your plan, please click the "Change My Plan" button.
+      </p>
+      <p>
+        <%= link_to 'Change My Plan', plan_business_subscriptions_path(@business), class: "btn btn-primary" %>
+      </p>
+    </div>
+  </div>
+
+
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h2>Manage Billing Information</h2>
+    </div>
+
+    <div class="ibox-content">
+
+      <p style="padding-top:1em">
+        <label>Current payment method:</label>
+        <% if @subscription.card_number && @subscription.card_expiration %>
+          <%= "#{@subscription.card_number} / #{@subscription.card_expiration}" %>
+        <% elsif @subscription.needs_payment_info? && @subscription.amount > 0 %>
+          </br>
+          <b> There is no billing information in our systems. </b>
+          Please click "Manage Billing" below to add your billing information before your bill date to prevent an interruption in service.
+        <% else %>
+          </br>
+          <b> You are on a free plan and do not need to submit any billing information at this time. </b>
+        <% end %>
+      </p>
+      <p>
+        <%= link_to 'Manage Billing', billing_business_subscriptions_url(@business), class: "btn btn-primary" %>
+      </p>
+    </div>
+  </div>
+
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h2>Billing History</h2>
+    </div>
+    <div class="ibox-content">
+      <p style="padding-top:1em">
+        <% if @subscription.subscription_payments %>
+          Click below to see your billing history.
+        <% elsif @subscription.needs_payment_info? && @subscription.amount > 0 %>
+          </br>
+          <b> There is no billing history in our systems. </b>
+          Please click "Manage Billing" above to add your billing information before your bill date to prevent an interruption in service.
+        <% end %>
+      </p>
+      <p>
+        <%= link_to 'Billing History', billing_history_business_subscriptions_path(@business), class: "btn btn-primary" %>
+      </p>
+    </div>
+  </div>
+<% end %>
+
+
+<script type="text/javascript" charset="utf-8">
+  function enableButton() {
+    document.getElementById('commit').disabled = document.forms[0].elements['plan_id'].selectedIndex == 0
+  }
+  enableButton();
+</script>

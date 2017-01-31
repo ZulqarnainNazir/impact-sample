@@ -1,0 +1,110 @@
+<body id="page-top" class="landing-page">
+  <section id="pricing" class="pricing">
+      <div class="container">
+          <div class="row m-b-lg">
+              <div class="col-lg-12 text-center">
+                  <div class="navy-line"></div>
+                  <h1>Pick a plan that's right for you</h1>
+                  <div class="col-sm-8 col-sm-offset-2">
+                    <h3>IMPACT empowers your marketing with a built-in local marketing assistant that guides your efforts, tools specially built for local, unlimited users and content, and more from a smartphone or PC.</h3>
+                  </div>  
+                  <div class="col-sm-8 col-sm-offset-2 text-center">
+
+                      <a class="btn btn-primary btn-sm btn-rounded " data-toggle="tab" href="#tab-1" aria-expanded="true"> Monthly </a>
+
+                      <a class="btn btn-primary btn-sm btn-rounded " data-toggle="tab" href="#tab-2" aria-expanded="false"> Annually (Save ~ 17%) </a>
+
+                  </div>
+              </div>
+          </div>
+      </div
+  </section>
+
+  <div class="tabs-container">
+    <div class="tab-content">
+      <div id="tab-1" class="tab-pane active">
+        <%= render 'monthly' %>
+      </div>
+      <div id="tab-2" class="tab-pane">
+        <%= render 'annually' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row m-t-lg">
+      <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg">
+          <p>Upgrade, downgrade or cancel at any time. Add an always-modern, mobile, search and social media optimized website starting at just $375 for guided setup - only available with paid Build plan.</p>
+      </div>
+  </div>
+
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+<script src="js/plugins/wow/wow.min.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+            $("#navbar").collapse('hide');
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    // new WOW().init();
+
+</script>
+
+</body>
+
