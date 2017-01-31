@@ -28,14 +28,24 @@
           i.fa.fa-bolt>
           span
             | Quick Post
-        li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
-          i.fa.fa-columns>
-          span
-            | Before &amp; After
-        li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
-          i.fa.fa-photo>
-          span
-            | Gallery
+        - if !@business.is_on_engage_plan? || current_user.super_user?
+          li = link_to [:new, @business, :content_before_after] do
+            i.fa.fa-columns>
+            span
+              | Before &amp; After
+          li = link_to [:new, @business, :content_gallery] do
+            i.fa.fa-photo>
+            span
+              | Gallery
+        - else
+          li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
+            i.fa.fa-columns>
+            span
+              | Before &amp; After
+          li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
+            i.fa.fa-photo>
+            span
+              | Gallery
         li = link_to [:new, @business, :content_event_definition] do
           i.fa.fa-calendar>
           span

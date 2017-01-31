@@ -1,0 +1,22 @@
+<div style="max-width: 600px; margin-left: auto; margin-right: auto;">
+	<p>
+		We were unable to process your payment of
+		<%= number_to_currency(@subscription.plan.amount) %> for your <%= @subscription.subscription_plan.name %> plan. 
+	</p>
+
+	<p>
+		Please visit your account page at the following URL to update
+		your payment information as soon as possible:
+	</p>
+	<p>
+		<%= billing_business_subscriptions_url(@subscription.subscriber) %>
+	</p>
+
+	<p>
+		If you have any questions about this email, please contact 
+		<%= Saas::Config.from_email %>.
+	</p>
+	<p>
+		Thank you for your business!
+	</p>
+</div>

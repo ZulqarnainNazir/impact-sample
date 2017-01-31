@@ -37,5 +37,6 @@
       .row
         .col-lg-12
           = render partial: 'image', collection: @images, locals: { business: @business }
+        .col-xs.12
           hr
-          = paginate @images
+            = paginate @images

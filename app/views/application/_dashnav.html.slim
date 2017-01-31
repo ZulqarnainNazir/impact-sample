@@ -159,3 +159,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             i.fa.fa-cog>
             span.nav-label[data-i18n="nav.super_settings"]
               | Super Settings
+      - if current_user.authorized_business_owner?(@business) || current_user.super_user?
+        li = link_to subscription_dashboard_business_subscriptions_path(@business) do
+          i.fa.fa-credit-card>
+          span.nav-label[data-i18n="nav.billing_subscription"]
+            | Billing & Subscription

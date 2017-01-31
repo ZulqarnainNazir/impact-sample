@@ -1,0 +1,45 @@
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          .row
+            .col-sm-12
+              .h1 
+                | Create a New Subscription Plan
+              .form-group
+                = form.label :name, class: 'control-label'
+                = form.text_field :name, class: 'form-control', placeholder: 'Set a name for this plan'
+              .form-group
+                = form.label 'monthly amount - enter number and decimals only', class: 'control-label'
+                = form.number_field :amount, class: 'form-control', :step => 0.01, placeholder: 'Set periodical subscription rate (e.g.: 24.99). Do NOT enter a dollar bill sign. Do NOT enter any more than two decimals.'
+              .form-group
+                = form.label "renewal_period - default is 1; this is used to determine whether to charge 1xmonth, 1xyear, etc.", class: 'control-label'
+                = form.select :renewal_period, options_for_select((1..12)), class: 'form-control', placeholder: 'Set the numeric renewal period by entering a number, e.g.: 1'
+              .form-group
+                = form.label 'set-up fee name (N/A is the default!)', class: 'control-label'
+                = form.text_field :setup_name, class: 'form-control', placeholder: 'name of setup'
+              .form-group
+                = form.label 'set-up fee for this plan (number and decimals only)', class: 'control-label'
+                = form.number_field :setup_amount, class: 'form-control', placeholder: 'Enter the setup fee (if there is one) for this plan (e.g.: 350.00). Do NOT enter a dollar bill sign. Do NOT enter any more than two decimals.'
+              .form-group
+                = form.label 'trial period (integer)', class: 'control-label'
+                = form.number_field :trial_period, class: 'form-control', placeholder: 'set the trial period - default is 0'
+              .form-group
+                = form.label "trial interval: writing 'years', 'months' (default), 'weeks', and 'days' are acceptable", class: 'control-label'
+                = form.text_field :trial_interval, class: 'form-control', placeholder: "set the trial interval - default is 'months'"
+              .form-group
+                = form.label 'Annual Amount (if the user chooses to pay an annual fee, rather than month-by-month)', class: 'control-label'
+                | $
+                = form.number_field :amount_annual, class: 'form-control', :step => 0.01,  placeholder: "Enter the annual amount (if there is one) for this plan (e.g.: 199.00). Do NOT enter a dollar bill sign. Do NOT enter any more than two decimals."
+              .form-group            
+                = form.label :description, class: 'control-label'
+                = form.text_field :description, class: 'form-control', placeholder: 'describe the plan'
+              .form-group
+                = form.label "Activated (makes visible to users upon save)", class: 'control-label'
+                = form.check_box :activated, class: 'form-control'
+
+                = form.button 'Save', class: 'btn btn-block btn-primary'
+                .p
+                  | NOTE: where activated is set to true, the plan will appear to users.

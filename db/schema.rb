@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170115010202) do
+ActiveRecord::Schema.define(version: 20170125020828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 20170115010202) do
   end
 
   create_table "businesses", force: :cascade do |t|
-    t.string   "name",                                 null: false
+    t.string   "name",                                           null: false
     t.string   "tagline"
     t.string   "website_url"
     t.string   "facebook_id"
@@ -136,11 +136,11 @@ ActiveRecord::Schema.define(version: 20170115010202) do
     t.string   "twitter_id"
     t.string   "youtube_id"
     t.text     "description"
-    t.integer  "kind",                  default: 0,    null: false
+    t.integer  "kind",                           default: 0,     null: false
     t.integer  "year_founded"
     t.json     "settings"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.string   "citysearch_id"
     t.string   "instagram_id"
     t.string   "pinterest_id"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20170115010202) do
     t.text     "history"
     t.text     "vision"
     t.text     "community_involvement"
-    t.integer  "plan",                  default: 0,    null: false
+    t.integer  "plan",                           default: 0,     null: false
     t.integer  "cce_id"
     t.text     "cce_url"
     t.text     "facebook_token"
@@ -161,7 +161,9 @@ ActiveRecord::Schema.define(version: 20170115010202) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
-    t.boolean  "in_impact",             default: true
+    t.boolean  "bill_online",                    default: true
+    t.boolean  "subscription_billing_roadblock", default: false
+    t.boolean  "in_impact",                      default: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -712,6 +714,89 @@ ActiveRecord::Schema.define(version: 20170115010202) do
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree
   add_index "reviews", ["company_id"], name: "index_reviews_on_company_id", using: :btree
   add_index "reviews", ["contact_id"], name: "index_reviews_on_contact_id", using: :btree
+
+  create_table "subscription_affiliates", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "rate",       precision: 6, scale: 4, default: 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "token"
+  end
+
+  add_index "subscription_affiliates", ["token"], name: "index_subscription_affiliates_on_token", using: :btree
+
+  create_table "subscription_discounts", force: :cascade do |t|
+    t.string   "name"
+    t.string   "code"
+    t.decimal  "amount",                 precision: 6, scale: 2, default: 0.0
+    t.boolean  "percent"
+    t.date     "start_on"
+    t.date     "end_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "apply_to_setup",                                 default: true
+    t.boolean  "apply_to_recurring",                             default: true
+    t.integer  "trial_period_extension",                         default: 0
+  end
+
+  create_table "subscription_payments", force: :cascade do |t|
+    t.integer  "subscription_id"
+    t.decimal  "amount",                    precision: 10, scale: 2, default: 0.0
+    t.string   "transaction_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "misc"
+    t.integer  "subscription_affiliate_id"
+    t.decimal  "affiliate_amount",          precision: 6,  scale: 2, default: 0.0
+    t.integer  "subscriber_id"
+    t.string   "subscriber_type"
+    t.boolean  "monthly",                                            default: false
+    t.boolean  "annual",                                             default: false
+    t.boolean  "setup",                                              default: false
+  end
+
+  add_index "subscription_payments", ["subscriber_id", "subscriber_type"], name: "index_payments_on_subscriber", using: :btree
+  add_index "subscription_payments", ["subscription_id"], name: "index_subscription_payments_on_subscription_id", using: :btree
+
+  create_table "subscription_plans", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "amount",         precision: 10, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "renewal_period",                          default: 1
+    t.decimal  "setup_amount",   precision: 10, scale: 2
+    t.integer  "trial_period",                            default: 0
+    t.string   "trial_interval",                          default: "months"
+    t.integer  "user_limit"
+    t.text     "setup_name",                              default: "N/A"
+    t.decimal  "amount_annual",  precision: 10, scale: 2, default: 0.0
+    t.text     "description"
+    t.boolean  "activated"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.decimal  "amount",                    precision: 10, scale: 2
+    t.datetime "next_renewal_at"
+    t.string   "card_number"
+    t.string   "card_expiration"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "state",                                              default: "inactive"
+    t.integer  "subscription_plan_id"
+    t.integer  "subscriber_id"
+    t.string   "subscriber_type"
+    t.integer  "renewal_period",                                     default: 1
+    t.string   "billing_id"
+    t.integer  "subscription_discount_id"
+    t.integer  "subscription_affiliate_id"
+    t.integer  "user_limit"
+    t.boolean  "annual",                                             default: false
+    t.integer  "downgrade_to"
+    t.integer  "upgrade_to"
+    t.boolean  "flagged_for_annual",                                 default: false
+  end
+
+  add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false

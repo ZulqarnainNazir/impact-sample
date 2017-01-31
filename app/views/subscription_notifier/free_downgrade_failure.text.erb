@@ -1,0 +1,12 @@
+"<%= @subscription.subscriber.name %>" was scheduled to be downgraded to the free plan today. The attempt was made in this code block found in lib/tasks/run_billing.rake:
+
+  Subscription.find_marked_for_free_downgrade.each do |sub|
+    exception_catcher { SubscriptionNotifier.free_downgrade_failure(sub).deliver_now unless sub.downgrade_to_free }
+  end
+
+but something went wrong and the downgrade did not happen. Don't worry, they haven't been charged, but you should look into what happened and make sure to downgrade the business from their current plan to the Engage Plan. Use the information below as a reference is necessary:
+
+The SubscriptionPlan id for Engage Plan is 1.
+The Subscription id is <%= @subscription.id %>.
+The Business id is <%= @subscription.subscriber.id %>.
+

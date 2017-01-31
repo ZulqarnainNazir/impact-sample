@@ -1,0 +1,13 @@
+<div style="max-width: 600px; margin-left: auto; margin-right: auto;">
+	<p>
+		This email is to confirm that "<%= @subscription.subscriber.name %>" has been scheduled to be downgraded to the free Engage Plan. Your account will be switched over to your new plan on <%= @subscription.next_renewal_at.to_date.to_formatted_s(:long_ordinal)%>. Until then, you'll remain on the <%=@subscription.plan.name%> plan. 
+	</p>
+	<p>
+		If this was done in error, you can visit 
+		<%= link_to "#{Saas::Config.app_name}", [@subscription.subscriber, :dashboard] %>
+		to change your subscription plan. 
+	</p>
+	<p>
+		Thank you for using IMPACT!
+	</p>
+</div>
