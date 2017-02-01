@@ -1,4 +1,6 @@
 class ToDoNotificationMailer < ApplicationMailer
+  include ActionView::Helpers::TextHelper
+
   def notify(args)
     @message = args[:message]
     @user = args[:user]
@@ -6,6 +8,6 @@ class ToDoNotificationMailer < ApplicationMailer
 
     @business = args[:business]
 
-    mail to: @user.email, subject: @message
+    mail to: @user.email, subject: truncate(@message, length: 100, escape: false)
   end
 end

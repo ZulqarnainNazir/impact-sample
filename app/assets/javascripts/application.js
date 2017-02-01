@@ -1,8 +1,12 @@
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require jquery-ui
 //= require turbolinks
+//= require js.cookie
+//= require jstz
+//= require browser_timezone_rails/set_time_zone
 //= require react
 //= require react_ujs
 //= require components
@@ -16,10 +20,11 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require twitter/typeahead.min
+//= require dashboard/inspinia.js
 //= require_tree ./plugins
 //= require_tree ./scripts
 //= require_tree .
-
+//= stub plugins/iframeResizer.contentWindow.min.js
 
 Turbolinks.enableProgressBar();
 
@@ -67,4 +72,4 @@ var ready = function() {
 };
 
 $(document).ready(ready)
-$(document).on('page:load', ready);
+$(document).on('page:visit', ready);

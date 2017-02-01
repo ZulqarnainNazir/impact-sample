@@ -1,21 +1,21 @@
-- if @masonry.present? && @masonry == true 
+- if @masonry.present? && @masonry == true
   .col-xs-4.slider-content.single-blog
-    - cache event do 
+    - cache event do
       = link_to website_generic_post_path(event.to_generic_param) do
         - placement = event.event_definition.event_image_placement
         - if placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-        - elsif placement.try(:image)
+        - elsif placement.try(:image).try(:attachment_medium_url)
           / h3.row-ba-text
           /   = event.occurs_on.day
           /   = event.occurs_on.strftime('%b')
           / div.pickgradient
           - if placement.image.present?
-            div.event-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});"
+            div.event-blog-image style="background-image: url('#{placement.image.attachment_medium_url}');"
             / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
         - else
           = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
-          / div.event-blog-image style="background-image: url(/assets/impact_gs.jpg);"   
+          / div.event-blog-image style="background-image: url('#{placeholder_image_url}');"   
           / = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
         h3.slider-text = truncate sanitize(event.event_definition.title), length: 75, omission: '... '
         p.slider-text.slider-text-sub
@@ -45,7 +45,7 @@
           - placement = event.event_definition.event_image_placement
           - if placement.try(:embeds?)
             .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-          - elsif placement.try(:image)
+          - elsif placement.try(:image).try(:attachment_url)
             = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
           .event-info
             h2.event-title = link_to event.event_definition.title, website_generic_post_path(event.to_generic_param)

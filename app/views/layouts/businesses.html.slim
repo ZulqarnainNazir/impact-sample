@@ -1,0 +1,19 @@
+doctype html
+html
+  = render 'head'
+  = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
+  body
+    div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
+      div id="page-wrapper" class="gray-bg"
+        = render 'dashtopnavbar_reduced' 
+        = render 'alerts'
+        div
+          = yield
+        .footer
+          .pull-right
+          div
+            strong
+              | Copyright
+            |  Locable © 2017 
+    = yield :javascript
+    = intercom_tag

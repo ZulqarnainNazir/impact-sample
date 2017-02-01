@@ -32,10 +32,12 @@ class Business < ActiveRecord::Base
     has_many :team_members
     has_many :to_dos
     has_many :to_do_notification_settings
+    has_many :review_widgets
     has_one :location
     has_one :website
   end
 
+  has_one :subscription, :foreign_key => :subscriber_id
   has_many :categories, through: :categorizations
   has_many :events
   has_many :images
@@ -46,11 +48,16 @@ class Business < ActiveRecord::Base
 
   has_many :users, through: :authorizations
   has_many :managers, through: :manager_authorizations, source: :user
-  has_many :owners, through: :owners_authorizations, source: :user
+  has_many :owners, through: :owner_authorizations, source: :user
+
+  has_many :owned_companies, :class_name => "Company", :foreign_key => "user_business_id"
+  has_many :owned_by_business, :class_name => "Company", :foreign_key => "company_business_id"
+  belongs_to :company, :class_name => "Company", :foreign_key => "company_business_id"
+
 
   has_placed_image :logo
 
-  accepts_nested_attributes_for :location
+  accepts_nested_attributes_for :location, update_only: true
   accepts_nested_attributes_for :website
 
   accepts_nested_attributes_for :lines, allow_destroy: true, reject_if: proc { |a|
@@ -70,13 +77,25 @@ class Business < ActiveRecord::Base
   validates :name, presence: true
   validates :plan, presence: true
   validates :location, presence: true
-  validates :website, presence: true
+  validates :website, presence: true, :if => :in_impact?
 
   with_options on: :requires_categories do
     validates :category_ids, presence: true
   end
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
+
+  def is_on_engage_plan?
+    if !self.subscription.nil?
+      if self.subscription.plan.is_engage_plan?
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
 
   def self.search(search)
     if search
@@ -113,7 +132,14 @@ class Business < ActiveRecord::Base
   end
 
   def first_five_to_dos
-    to_dos.where.not(group: 0).by_due_date.order(:created_at).order(:group).limit(5)
+    to_dos
+      .where(status: ToDo.statuses[:active],
+             submission_status: ToDo.submission_statuses[:pending])
+      .where.not(group: 0)
+      .by_due_date
+      .order(:created_at)
+      .order(:group)
+      .limit(5)
   end
 
   private

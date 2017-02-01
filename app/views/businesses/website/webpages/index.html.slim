@@ -1,96 +1,99 @@
 - title 'Manage Website Webpages'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li.active Webpages
-
-.pull-right.hidden-xs.hidden-sm
-  span style="vertical-align:middle; margin-right:0.5em;" Post New:
-  .btn-group.btn-group-sm
-    = link_to [:new, @business, :content_quick_post], class: 'btn btn-default' do
-      i.fa.fa-file-text-o>
-      | Quick Post
-    = link_to [:new, @business, :content_event_definition], class: 'btn btn-default' do
-      i.fa.fa-calendar>
-      | Event
-    = link_to [:new, @business, :content_gallery], class: 'btn btn-default' do
-      i.fa.fa-photo>
-      | Gallery
-    = link_to [:new, @business, :content_before_after], class: 'btn btn-default' do
-      i.fa.fa-tasks>
-      | Before &amp; After
-    = link_to [:new, @business, :content_offer], class: 'btn btn-default' do
-      i.fa.fa-ticket>
-      | Offer
-    = link_to [:new, @business, :content_post], class: 'btn btn-default' do
-      i.fa.fa-edit>
-      | Custom Post
-
-ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
-  li.active = link_to 'Grid View', '#'
-  li = link_to 'Table View', [:table, @business, :website_webpages]
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Webpages'}
 
 .row
-  - if @website.home_page
-    = render partial: 'webpage', object: @website.home_page, locals: { business: @business, website: @website }
-  - else
-    .col-sm-6.col-md-3
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_home_page] do
-          .panel-body.text-center
-            i.fa.fa-home.fa-4x>
-            h2.h3>
-              ' Homepage
-              i.fa.fa-plus-circle
-            span.text-muted Add a Homepage
-  - if @website.about_page
-    = render partial: 'webpage', object: @website.about_page, locals: { business: @business, website: @website }
-  - else
-    .col-sm-6.col-md-3
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_about_page] do
-          .panel-body.text-center
-            i.fa.fa-question-circle.fa-4x>
-            h2.h3>
-              ' About
-              i.fa.fa-plus-circle
-            span.text-muted Add an About Page
-  - if @website.blog_page
-    = render partial: 'webpage', object: @website.blog_page, locals: { business: @business, website: @website }
-  - else
-    .col-sm-6.col-md-3
-      .panel.panel-default.page-preview
-        = link_to [:edit, @business, :website_blog_page] do
-          .panel-body.text-center
-            i.fa.fa-rss-square.fa-4x>
-            h2.h3>
-              ' Blog
-              i.fa.fa-plus-circle
-            span.text-muted Add a Blog Page
-  - if @website.contact_page
-    = render partial: 'webpage', object: @website.contact_page, locals: { business: @business, website: @website }
-  - else
-      .col-sm-6.col-md-3
-        .panel.panel-default.page-preview
-          = link_to [:edit, @business, :website_contact_page] do
-            .panel-body.text-center
-              i.fa.fa-map-marker.fa-4x>
-              h2.h3>
-                ' Contact
-                i.fa.fa-plus-circle
-              span.text-muted Add a Contact Page
-hr
-h2.h3 Custom Webpages
-.row
-  = render partial: 'webpage', collection: @custom_pages, locals: { business: @business, website: @website }
-  .col-sm-6.col-md-3
-    .panel.panel-default.page-preview
-      = link_to [:new, @business, :website_custom_page] do
-        .panel-body.text-center
-          i.fa.fa-file.fa-4x>
-          h2.h3>
-            ' Custom Page
-            i.fa.fa-plus-circle
-          span.text-muted Add a Custom Page
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              .pull-right.hidden-xs.hidden-sm
+                span style="vertical-align:middle; margin-right:0.5em;" Post New:
+                .btn-group.btn-group-sm
+                  = link_to [:new, @business, :content_quick_post], class: 'btn btn-default' do
+                    i.fa.fa-file-text-o>
+                    | Quick Post
+                  = link_to [:new, @business, :content_event_definition], class: 'btn btn-default' do
+                    i.fa.fa-calendar>
+                    | Event
+                  = link_to [:new, @business, :content_gallery], class: 'btn btn-default' do
+                    i.fa.fa-photo>
+                    | Gallery
+                  = link_to [:new, @business, :content_before_after], class: 'btn btn-default' do
+                    i.fa.fa-tasks>
+                    | Before &amp; After
+                  = link_to [:new, @business, :content_offer], class: 'btn btn-default' do
+                    i.fa.fa-ticket>
+                    | Offer
+                  = link_to [:new, @business, :content_post], class: 'btn btn-default' do
+                    i.fa.fa-edit>
+                    | Custom Post
+              
+              ul.nav.nav-tabs style="margin-top:20px; margin-bottom:30px"
+                li.active = link_to 'Grid View', '#'
+                li = link_to 'Table View', [:table, @business, :website_webpages]
+              
+              .row
+                - if @website.home_page
+                  = render partial: 'webpage', object: @website.home_page, locals: { business: @business, website: @website }
+                - else
+                  .col-sm-6.col-md-3
+                    .panel.panel-default.page-preview
+                      = link_to [:edit, @business, :website_home_page] do
+                        .panel-body.text-center
+                          i.fa.fa-home.fa-4x>
+                          h2.h3>
+                            ' Homepage
+                            i.fa.fa-plus-circle
+                          span.text-muted Add a Homepage
+                - if @website.about_page
+                  = render partial: 'webpage', object: @website.about_page, locals: { business: @business, website: @website }
+                - else
+                  .col-sm-6.col-md-3
+                    .panel.panel-default.page-preview
+                      = link_to [:edit, @business, :website_about_page] do
+                        .panel-body.text-center
+                          i.fa.fa-question-circle.fa-4x>
+                          h2.h3>
+                            ' About
+                            i.fa.fa-plus-circle
+                          span.text-muted Add an About Page
+                - if @website.blog_page
+                  = render partial: 'webpage', object: @website.blog_page, locals: { business: @business, website: @website }
+                - else
+                  .col-sm-6.col-md-3
+                    .panel.panel-default.page-preview
+                      = link_to [:edit, @business, :website_blog_page] do
+                        .panel-body.text-center
+                          i.fa.fa-rss-square.fa-4x>
+                          h2.h3>
+                            ' Blog
+                            i.fa.fa-plus-circle
+                          span.text-muted Add a Blog Page
+                - if @website.contact_page
+                  = render partial: 'webpage', object: @website.contact_page, locals: { business: @business, website: @website }
+                - else
+                    .col-sm-6.col-md-3
+                      .panel.panel-default.page-preview
+                        = link_to [:edit, @business, :website_contact_page] do
+                          .panel-body.text-center
+                            i.fa.fa-map-marker.fa-4x>
+                            h2.h3>
+                              ' Contact
+                              i.fa.fa-plus-circle
+                            span.text-muted Add a Contact Page
+              hr
+              h2.h3 Custom Webpages
+              .row
+                = render partial: 'webpage', collection: @custom_pages, locals: { business: @business, website: @website }
+                .col-sm-6.col-md-3
+                  .panel.panel-default.page-preview
+                    = link_to [:new, @business, :website_custom_page] do
+                      .panel-body.text-center
+                        i.fa.fa-file.fa-4x>
+                        h2.h3>
+                          ' Custom Page
+                          i.fa.fa-plus-circle
+                        span.text-muted Add a Custom Page

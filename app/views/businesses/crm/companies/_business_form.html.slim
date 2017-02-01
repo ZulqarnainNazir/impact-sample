@@ -1,0 +1,39 @@
+    = form_for company, url: [business, :crm, company] do |form|
+      = errors_for company
+      = form.fields_for :business do |business|
+        .form-group
+          = business.label :name, class: 'control-label'
+          = business.text_field :name, class: 'form-control', value: company.business.name, disabled: (disabled || !company.business.name.blank?)
+        .form-group
+          = business.label :description, "Description (Public)", class: 'control-label'
+          = business.text_area :description, class: 'form-control', value: company.business.description, disabled: (disabled || !company.business.description.blank?) 
+        .form-group
+          = business.label :website_url, class: 'control-label'
+          = business.text_field :website_url, class: 'form-control', value: company.business.website_url, disabled: (disabled || (!company.business.website_url.blank? && company.business.website_url != "http://"))
+        = business.fields_for :location do |location|
+          .form-group
+            = location.label :name, "Location Name", class: 'control-label'
+            = location.text_field :name, class: 'form-control', value: company.business.location.name, disabled: (disabled || !company.business.location.name.blank?)
+          .form-group
+            = location.label :email, class: 'control-label'
+            = location.email_field :email, class: 'form-control', value: company.business.location.email, disabled: (disabled || !company.business.location.email.blank?)
+          .form-group
+            = location.label :street1, class: 'control-label'
+            = location.text_field :street1, class: 'form-control', value: company.business.location.street1, disabled: (disabled || !company.business.location.street1.blank?)
+          .form-group
+            = location.label :street2, class: 'control-label'
+            = location.text_field :street2, class: 'form-control', value: company.business.location.street2, disabled: (disabled || !company.business.location.street2.blank?)
+          .form-group
+            = location.label :city, class: 'control-label'
+            = location.text_field :city, class: 'form-control', value: company.business.location.city, disabled: (disabled || !company.business.location.city.blank?)
+          .form-group
+            = location.label :state, class: 'control-label'
+            = location.select :state, options_for_select(UsStates.to_a, company.business.location.state), { include_blank: true, prompt: '– Select State –' }, class: 'form-control', disabled: (disabled || !company.business.location.state.blank?)
+          .form-group
+            = location.label :zip_code, class: 'control-label'
+            = location.text_field :zip_code, class: 'form-control', value: company.business.location.zip_code, disabled: (disabled || !company.business.location.zip_code.blank?)
+          .form-group
+            = location.label :phone_number, class: 'control-label'
+            = location.phone_field :phone_number, class: 'form-control', value: company.business.location.phone_number, disabled: (disabled || !company.business.location.phone_number.blank?)
+            - if !disabled
+              = form.button 'Save Changes', class: 'btn btn-primary'

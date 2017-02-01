@@ -1,41 +1,49 @@
-.feed-item.feed-post
-  .feed-item-meta
-    => icon 'edit'
-    strong> Post
-    - if post.published_status == false
-      code
-        small Draft
-    span.pull-right
+.timeline-item
+  .row
+    .col-xs-3.date
+      => icon 'edit'
       - if post.published_at > DateTime.now && post.published_status != false
-        span.text-muted> Will Post #{time_ago_in_words post.published_at.in_time_zone("Pacific Time (US & Canada)") } from now
+        |  Will post in
+        br
+        small.text-navy
+          | #{time_ago_in_words post.published_at.in_time_zone("Pacific Time (US & Canada)")}
       - elsif post.published_status == false
-        div
+        | Unpublished
       - else
-        span.text-muted> Posted #{time_ago_in_words post.published_at.in_time_zone("Pacific Time (US & Canada)") } ago
-      - if post.content_categories.any? || post.content_tags.any?
-        span.text-muted> in
-        - (post.content_categories + post.content_tags).each_with_index do |classification, i|
-          - if @business.website
-            = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
-          - else
-            = classification.name
-          - if i < post.content_categories.count + post.content_tags.count - 1
-            ' ,
-      span.btn-group.btn-group-sm style="margin-left:8px"
-        = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
-        = link_to icon('copy'), [:clone, @business, :content, post], class: 'btn btn-default'
-        = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-  - if @business.website
-    - if post.published_status == false
-      h2.h3 = link_to post.title, [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), :id => post.id], target: :_blank
-    - else
-      h2 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website)], target: :_blank
-  - else
-    h2 = post.title
-  .clearfix
-    - placement = post.sections_placement
-    - if placement.try(:embeds?)
-      .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-    - elsif placement.try(:image)
-      = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-    = truncate sanitize(post.sections_content), length: 250
+        |  #{post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%l:%M %P')}
+        br
+        small.text-navy
+          | #{time_ago_in_words post.published_at.in_time_zone("Pacific Time (US & Canada)")} ago
+    .col-xs-7.content
+      strong> Post
+      - if post.published_status == false
+        code
+          small Draft
+      span.pull-right
+        - if post.content_categories.any? || post.content_tags.any?
+          span.text-muted> Posted in
+          - (post.content_categories + post.content_tags).each_with_index do |classification, i|
+            - if @business.website
+              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+            - else
+              = classification.name
+            - if i < post.content_categories.count + post.content_tags.count - 1
+              ' ,
+        span.btn-group.btn-group-sm style="margin-left:8px"
+          = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
+          = link_to icon('copy'), [:clone, @business, :content, post], class: 'btn btn-default'
+          = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+      - if @business.website
+        - if post.published_status == false
+          h2 = link_to post.title, [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => post.id], target: :_blank
+        - else
+          h2 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+      - else
+        h2 = post.title
+      .clearfix
+        - placement = post.sections_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        - elsif placement.try(:image).try(:attachment_url, :thumbnail)
+          = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
+        = truncate sanitize(post.sections_content), length: 250

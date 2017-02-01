@@ -1,0 +1,19 @@
+//used in subscriptions#initial_plan_setup
+doctype html
+html
+  = render 'head'
+  = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
+  body
+    div
+      = yield
+    / .footer
+    /   .pull-right
+    /   div
+    /     strong
+    /       | Copyright
+    /     |  Locable © 2016-2017
+    = yield :javascript
+    - if @business.free?
+      javascript:
+        $('.requires-plan-upgrade').requiresPlanUpgrade();
+    = intercom_tag

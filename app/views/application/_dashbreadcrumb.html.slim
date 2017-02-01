@@ -1,0 +1,28 @@
+.row.border-bottom.white-bg.dashboard-header
+  - lnk = :root if local_assigns[:lnk].nil?
+
+  - fn = nil if local_assigns[:fn].nil?
+  - fp = nil if local_assigns[:fp].nil?
+  - sn = nil if local_assigns[:sn].nil?
+  - sp = nil if local_assigns[:sp].nil?
+  - an = nil if local_assigns[:an].nil?
+  ol.breadcrumb
+    li = link_to icon('home'), lnk
+    li = link_to @business.name, [@business, :dashboard]
+    - unless fn.nil? or fp.nil?
+      li
+        = link_to fn, [@business, fp]
+    - unless sn.nil? or sp.nil?
+      li
+        = link_to sn, [@business, sp]
+    - unless an.nil?
+      li.active
+        = an
+
+  hr
+  - if @business.website
+    p style="margin-top:0; display: inline-block;" Preview Your Website:
+    = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
+      span => website_root_url(host: website_host(@business.website), protocol: :http)
+      i.fa.fa-external-link style="margin-left:5px"
+

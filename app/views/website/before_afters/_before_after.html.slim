@@ -6,10 +6,10 @@
           - image_before = before_after.before_image.attachment_url(:thumbnail)
           - image_after = before_after.after_image.attachment_url(:thumbnail)
           div.ba-container
-            div.col-before.blog-image-position style="background-image: url(#{image_before});"
-            div.col-after.blog-image-position style="background-image: url(#{image_after});"
-          / = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'before-clip', style: 'max-width: 100%'
-          / = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'after-clip', style: 'max-width: 100%'
+            div.col-before.blog-image-position style="background-image: url('#{image_before}');"
+            div.col-after.blog-image-position style="background-image: url('#{image_after}');"
+          / = image_tag before_after.before_image.attachment_medium_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'before-clip', style: 'max-width: 100%'
+          / = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'after-clip', style: 'max-width: 100%'
         - else
           = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
         h3.slider-text = truncate sanitize(before_after.title), length: 75, omission: '... '
@@ -34,10 +34,10 @@
       - if defined?(small)
         - if before_after.before_image
           h3.h4 Before
-          = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
+          = image_tag before_after.before_image.attachment_medium_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
         - if before_after.after_image
           h3.h4 After
-          = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
+          = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
         = truncate sanitize(before_after.description), length: 250, omission: '... ' do
           = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)
       - else
@@ -46,10 +46,10 @@
             .col-sm-6
               - if before_after.before_image
                 h3.h4 Before
-                = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
+                = image_tag before_after.before_image.attachment_medium_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
             .col-sm-6
               - if before_after.after_image
                 h3.h4 After
-                = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
+                = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
         = truncate sanitize(before_after.description), length: 250, omission: '... ' do
           = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)

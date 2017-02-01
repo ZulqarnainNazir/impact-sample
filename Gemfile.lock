@@ -1,5 +1,7 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
+  remote: https://railskits.com/gems/afb4e249-4524-b8b4-65a9-709f18a725df/
   specs:
     CFPropertyList (2.3.1)
     actionmailer (4.2.6)
@@ -27,6 +29,11 @@ GEM
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
+    activemerchant (1.60.0)
+      activesupport (>= 3.2.14, < 5.1)
+      builder (>= 2.1.2, < 4.0.0)
+      i18n (>= 0.6.9)
+      nokogiri (~> 1.4)
     activemodel (4.2.6)
       activesupport (= 4.2.6)
       builder (~> 3.1)
@@ -69,6 +76,10 @@ GEM
     bootstrap-select-rails (1.6.3)
     bootstrap3-datetimepicker-rails (4.14.30)
       momentjs-rails (>= 2.8.1)
+    browser-timezone-rails (1.0.1)
+      js_cookie_rails
+      jstz-rails3-plus
+      rails (>= 3.1)
     builder (3.2.2)
     celluloid (0.16.0)
       timers (~> 4.0.0)
@@ -88,6 +99,7 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.1)
     connection_pool (2.2.0)
+    country_select (1.1.3)
     crass (1.0.2)
     dalli (2.7.4)
     devise (3.4.1)
@@ -217,8 +229,8 @@ GEM
     fog-xml (0.1.2)
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
-    font-awesome-sass (4.3.2.1)
-      sass (~> 3.2)
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
     formatador (0.2.5)
     geocoder (1.2.8)
     globalid (0.3.6)
@@ -232,6 +244,8 @@ GEM
       netrc
     hitimes (1.2.2)
     honeybadger (2.7.1)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     ice_cube (0.8.1)
     inflecto (0.0.2)
@@ -248,12 +262,16 @@ GEM
     jquery-minicolors-rails (2.1.4.0)
       jquery-rails
       rails (>= 3.2.8)
-    jquery-rails (4.0.3)
-      rails-dom-testing (~> 1.0)
-      railties (>= 4.2.0)
+    jquery-rails (2.3.0)
+      railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-turbolinks (2.1.0)
+      railties (>= 3.1.0)
+      turbolinks
     jquery-ui-rails (5.0.3)
       railties (>= 3.2.16)
+    js_cookie_rails (2.1.3)
+      railties (>= 3.1)
     json (1.8.3)
     json-jwt (1.0.0)
       activesupport
@@ -261,6 +279,8 @@ GEM
       multi_json (>= 1.3)
       securecompare
       url_safe_base64
+    jstz-rails3-plus (1.0.5)
+      railties (>= 3.1)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -282,23 +302,24 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.1)
     mimemagic (0.3.0)
-    mini_portile2 (2.0.0)
+    mini_portile2 (2.1.0)
     minimalizer (0.0.2)
       active_model-errors_details (~> 1.1)
       rails (~> 4.2)
-    minitest (5.8.4)
+    minitest (5.10.1)
     momentjs-rails (2.15.1)
       railties (>= 3.1)
     moneta (0.8.0)
     multi_json (1.11.0)
+    multi_xml (0.6.0)
     multipart-post (2.0.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     netrc (0.10.3)
     newrelic_rpm (3.12.0.288)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8.1)
+      mini_portile2 (~> 2.1.0)
     nokogumbo (1.4.1)
       nokogiri
     normalize-rails (3.0.3)
@@ -319,7 +340,7 @@ GEM
     puma (2.12.3)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rack (1.6.4)
+    rack (1.6.5)
     rack-test (0.6.3)
       rack (>= 1.0)
     rack-timeout (0.2.4)
@@ -357,7 +378,7 @@ GEM
       activesupport (= 4.2.6)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (11.1.0)
+    rake (12.0.0)
     react-rails (1.6.2)
       babel-transpiler (>= 0.7.0)
       coffee-script-source (~> 1.8)
@@ -378,11 +399,14 @@ GEM
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     ruby-graphviz (1.0.9)
+    saas-kit (3.2.1)
+      activemerchant (~> 1.60.0)
+      rails (>= 4.0.0)
     sanitize (4.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
       nokogumbo (= 1.4.1)
-    sass (3.4.13)
+    sass (3.4.23)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -402,6 +426,9 @@ GEM
       json
       redis (>= 3.0.6)
       redis-namespace (>= 1.3.1)
+    simple_form (3.4.0)
+      actionpack (> 4, < 5.1)
+      activemodel (> 4, < 5.1)
     sitemap_generator (5.2.0)
       builder (~> 3.0)
     slim (3.0.3)
@@ -425,7 +452,7 @@ GEM
     summernote-rails (0.6.6.0)
       railties (>= 3.1)
     temple (0.7.5)
-    thor (0.19.1)
+    thor (0.19.4)
     thread_safe (0.3.5)
     tilt (1.4.1)
     timers (4.0.1)
@@ -464,7 +491,9 @@ DEPENDENCIES
   bootstrap-sass
   bootstrap-select-rails
   bootstrap3-datetimepicker-rails (~> 4.14.30)
+  browser-timezone-rails
   coffee-rails
+  country_select (~> 1.1.1)
   dalli
   devise
   dotenv-rails
@@ -475,12 +504,14 @@ DEPENDENCIES
   font-awesome-sass
   geocoder
   honeybadger (~> 2.0)
+  httparty
   ice_cube
   intercom
   jbuilder
   jquery-fileupload-rails
   jquery-minicolors-rails
   jquery-rails
+  jquery-turbolinks
   jquery-ui-rails
   json-jwt
   kaminari
@@ -503,11 +534,13 @@ DEPENDENCIES
   react-rails
   recurring_select
   remotipart (~> 1.3)
+  saas-kit
   sanitize
   sass-rails
   shoulda (~> 3.5)
   shoulda-matchers (~> 2.0)
   sidekiq
+  simple_form
   sitemap_generator
   slim-rails
   spring
@@ -521,4 +554,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.13.6
+   1.13.7

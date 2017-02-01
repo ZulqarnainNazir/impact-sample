@@ -18,7 +18,7 @@ class Website::GenericPostsController < Website::BaseController
       port = ":#{request.try(:port)}" if request.port
       host = website_host @business.website
       post_path = website_event_path
-      @preview_url = @event.event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event.event_definition.id]
+      @preview_url = @event.event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @event.event_definition.id]
 
       @upcoming_events = @event.event_definition.events.
         where.not(id: @event.id).

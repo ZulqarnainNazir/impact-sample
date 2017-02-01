@@ -1,38 +1,42 @@
 blockquote.review
   h2.h4
-    => link_to review.title, [:website, review]
-    span.review-rating
-      - if review.overall_rating >= 1.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 2.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 3.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating >= 4.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
-      - if review.overall_rating == 5.0
-        span.fa.fa-star
-      - else
-        span.fa.fa-star-o
+    - if defined?(new_window)
+      => link_to review.title, website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+    - else
+      => link_to review.title, [:website, review]
+    p
+      span.review-rating
+        - if review.overall_rating >= 1.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 2.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 3.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating >= 4.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if review.overall_rating == 5.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
   p.review-text.review-quote = truncate review.description, length: 300
   p.reviewer
     span.reviewer-name => review.contact.name
-    - if review.contact.business_client? && (review.contact.business_name? || review.contact.business_url?)
+    - if review.company
       span> from
-      - if review.contact.business_name? && review.contact.business_url?
-        = link_to review.contact.business_name, review.contact.business_url, target: :_blank
-      - elsif review.contact.business_url?
-        = link_to review.contact.business_url, review.contact.business_url, target: :_blank
-      - elsif review.contact.business_name?
-        = review.contact.business_name
+      - if review.company.business.name? && review.company.business.website_url?
+        = link_to review.company.business.name, review.company.business.website_url, target: :_blank
+      - elsif review.company.business.website_url?
+        = link_to review.company.business.website_url, review.company.business.website_url, target: :_blank
+      - elsif review.company.business.name?
+        = review.company.business.name
     - if review.external_type == 'locable'
       span.text-muted> – via
       = link_to review.external_url, target: :_blank do

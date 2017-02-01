@@ -1,0 +1,117 @@
+
+<div class="row">
+    <%= form_for @subscription_plan_free, as: :subscription, url: post_to_create_or_to_plan, method: :post do |n| %>
+        <div class="col-lg-4 wow zoomIn col-lg-offset-1">
+            <ul class="pricing-plan list-unstyled" >
+                <li class="pricing-title no-borders">
+                    Engage
+                </li>
+                <li class="no-borders">
+        Local Marketing Assistant provides recommendations and reminders while built-in tools make marketing fast, easy and even fun
+                </li>
+                <li class="no-borders">
+                    <% if !@subscription.nil? && @subscription.plan == @subscription_plan_free %>
+                        <span class="badge badge-primary" style="color:white;">Current Plan</span>
+                    <% end %>
+                    <span class="h2" style="color: #1ab394;">Free - Seriously!</span>
+                </li>
+                <div class="text-center p-h-sm">
+        <p class="text-muted">
+          <strong>Includes <i class="fa fa-chevron-down"></i></strong>
+        </p>
+      </div>
+                <li>
+                    Virtual Local Marketing Assistant
+                </li>
+                <li>
+                    Customer Reviews Generation <br><small>Up to 5 Requests / mo</small>
+                </li>
+                <li>
+                  Simple Content Engine <br><small>Events, Offers, Reviews, Quick Posts</small>
+                </li>
+                <li>
+                    Contacts Database <br><small>Unlimited Companies, Up to 100 People</small>
+                </li>
+                <li>
+                    Distribution <br><small>Facebook, Local Publisher Network</small>
+                </li>
+                
+                <!--<li>
+                    Email Marketing: Up to 600 emails/month
+                </li>-->
+                <li>
+        Embeddable Tools & Basic Form Builder <span class="badge">coming soon</span>
+                </li>
+               
+                <li>
+                    <%= n.hidden_field :subscription_plan_id, value: @subscription_plan_free.id %>
+                    <%= n.hidden_field :annual, value: "false" %>
+                    <% if !@subscription.nil? && @subscription.plan == @subscription_plan_free %>
+                        <%= n.submit "Current Plan", :class => "btn btn-secondary btn-md btn-rounded", style: "color:white;", disabled: true %>
+                    <% else %>
+                        <%= n.submit "Select", :class => "btn btn-primary btn-sm btn-rounded" %>
+                    <% end %>
+                </li>
+            </ul>
+        </div>
+    <% end %>
+
+    <%= form_for @subscription_plan_build, as: :subscription, url: post_to_create_or_to_plan, method: :post do |n| %>
+        <div class="col-lg-6 wow zoomIn">
+            <ul class="pricing-plan list-unstyled selected" >
+                <li class="pricing-title">
+                    Build
+                </li>
+                <li class="no-borders">
+        Build your business with expanded local marketing tools and automation at a price you can afford
+                </li>
+                <li class="pricing-price no-borders">
+                   <% if !@subscription.nil? && @subscription.plan == @subscription_plan_build && @subscription.annual? %>
+                        <span class="badge badge-primary" style="color:white;">Current Plan</span>
+                    <% end %>
+                    <span class="h2">$24.99 / month </span><br><small class="text-muted"> Paid Annually</small>
+                </li>
+                <div class="text-center p-h-sm">
+        <p class="text-muted">
+          <strong>Includes <i class="fa fa-chevron-down"></i></strong>
+        </p>
+      </div>
+                <li class="font-italic">
+                    -- Everything in Engage Plus --
+                </li>
+                
+                <li>
+                    Customer Reviews Generation <br>
+                      <small>Unlimited Monthly Requests</small>
+                </li>
+                <li>
+                    Expanded Content Engine<br>
+                      <small>Adds "Before & After" Posts and Galleries</small>
+                </li>
+                <li>
+                    Expanded Contacts Database<br>
+                      <small>Organize Unlimited Companies and Up to 500 People with Lists & Segments and Assignable To-Do's with Reminders</small>
+                </li>
+            
+                <li>
+                    Social Scheduling with Instagram, Twitter <span class="badge">coming soon</span>
+                </li>
+                <li>
+                    Advanced Forms & Landing Pages <span class="badge">coming soon</span> 
+                </li>
+        
+                <li>
+                    <%= n.hidden_field :subscription_plan_id, value: @subscription_plan_build.id %>
+                    <%= n.hidden_field :annual, value: "true" %>
+                    <% if !@subscription.nil? && @subscription.plan == @subscription_plan_build && @subscription.annual? %>
+                        <%= n.submit "Current Plan", :class => "btn btn-secondary btn-md btn-rounded", style: "color:white;", disabled: true %>
+                    <% else %>
+                        <%= n.submit "Select", :class => "btn btn-primary btn-sm btn-rounded" %>
+                    <% end %>
+                </li>
+              
+            </ul>
+        </div>
+    <% end %>
+    
+</div>

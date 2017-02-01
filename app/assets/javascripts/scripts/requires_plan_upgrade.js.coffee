@@ -1,13 +1,15 @@
-$ = jQuery
 
-$.fn.requiresPlanUpgrade = ->
-  this.tooltip
-    container: 'body'
-    title: 'Upgrade to Enjoy All Features'
+	$ = jQuery
 
-  this.children().css
-    'pointer-events': 'none'
-    opacity: 0.4
+	$.fn.requiresPlanUpgrade = ->
+	  this.tooltip
+	    container: 'body'
+	    title: 'Upgrade to Enjoy All Features'
 
-  this.click (e) ->
-    e.preventDefault()
+	  this.children().css
+	    'pointer-events': 'none'
+	    opacity: 0.4
+
+	  this.click (e) ->
+	    e.preventDefault()
+

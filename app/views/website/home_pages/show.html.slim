@@ -1,6 +1,6 @@
 - title @page.title
 - description @page.description
-- image @page.main_image || @business.logo.attachment_url(:logo_jumbo) if @page.main_image || @business.logo
+- image @page.main_image || @business.logo.attachment_url(:logo_jumbo) || @business.logo
 - canonical_url website_root_url
 
 = render partial: 'website/groups/group', collection: @page.groups.full_width, locals: { sidebar_position: @page.sidebar_position }

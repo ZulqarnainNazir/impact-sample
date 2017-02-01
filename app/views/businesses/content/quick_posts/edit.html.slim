@@ -1,11 +1,6 @@
 - title 'Edit Business Quick Post'.html_safe
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Content', [@business, :content_root]
-  li = link_to 'Existing Content', [@business, :content_feed]
-  li.active Edit Quick Post
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :sn => 'Existing Content', :sp => :content_feed, :an => ' Edit Quick Post'}
 
 = errors_for @quick_post
 = form_for @quick_post, url: [@business, :content, @quick_post], html: { class: 'save-once' } do |form|

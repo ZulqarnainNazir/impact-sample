@@ -1,0 +1,7 @@
+- title 'New Subscription Plan'
+
+= errors_for @subscription_plan
+= form_for @subscription_plan, url: super_subscription_plans_path(@subscription_plan) do |form|
+  = render form
+hr
+hr

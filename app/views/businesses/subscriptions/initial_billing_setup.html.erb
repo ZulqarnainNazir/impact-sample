@@ -1,0 +1,116 @@
+<% content_for :title do %>
+  Enter Billing Information
+<% end %>
+
+
+<div class="col-lg-12">
+  <% if flash[:notice] %>
+      <div class="alert alert-success alert-dismissable" role="alert">
+          <%= flash[:notice] %>
+      </div>
+  <% end %>
+  <% if params[:missing_billing] == "true" %>
+      <div class="alert alert-success alert-dismissable" role="alert">
+        Oops! We're missing billing information for the 
+        <%=@business.subscription.subscription_plan.name%> Plan. If you chose
+        this plan in error, click
+        <%= link_to plan_business_subscriptions_path do %>
+          here
+        <% end %>
+        to get back on the free "Engage" Plan. Otherwise, please enter and submit your
+        billing information below.
+      </div>
+  <% end %>
+  <div class="ibox">
+    <div class="ibox-title">
+      <h2> Kindly Submit Your Payment Information to Activate Your Subscription.
+        </br> 
+<!--         If You Selected the Wrong Plan and Need to Go Back,
+        <#%= link_to initial_plan_setup_business_subscriptions_path(@business, :back => "true") do %>
+            Click Here.
+        <%# end %> -->
+    </div>
+    <div class="ibox-content">
+      <div class="panel-group payments-method" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Enter Your Credit Card Information Below
+          </div>
+          <div id="collapseTwo" class="panel-collapse collapse in">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <h2>Summary</h2>
+                  <strong>
+                    Plan: 
+                  </strong>
+                  <p>
+                    <%= @subscription_plan.name %>
+                  </p>
+                  <strong>
+                    Today's Charges: 
+                  </strong>
+                  <p>
+                    Subscription fee:
+                    <%= number_to_currency @amount %>
+                    </br>
+                    One-time setup fee:
+                    <%= number_to_currency @subscription_plan.setup_amount %>
+                    </br>
+                    <b><ul>Total:
+                    <%= number_to_currency (@amount + @subscription_plan.setup_amount) %></ul></b>
+                  </p>
+
+                  <strong>Next charge date:</strong>
+                  <p>
+                    <% if @subscription.annual == true && @subscription.flagged_for_annual == true || @subscription.flagged_for_annual == true %>
+                      <%= (Time.now + 1.years).to_date.to_formatted_s(:long_ordinal)%>
+                    <% else %>
+                      <%= (Time.now + 1.months).to_date.to_formatted_s(:long_ordinal)%>
+                    <% end %>
+                  </p>
+                  <strong>Next charge amount:</strong>
+                  <p>
+                    Subscription:
+                    <%= number_to_currency @subscription_plan.amount %>
+                  </p>
+                  <strong>Current payment method:</strong>
+                  <p>
+                    <% if @subscription.card_number && @subscription.card_expiration %>
+                      <%= "#{@subscription.card_number} / #{@subscription.card_expiration}" %>
+                    <% else %>
+                      No credit card information is on file. Please use the form on this page to submit this information.
+                    <% end %>
+                  </p>
+
+                </div>
+                <div class="col-md-8">
+                  <% if @subscription.state == 'trial' %>
+                    <% if @subscription.next_renewal_at > Time.now %>
+                      <p>
+                        Thank you for trying <%= Saas::Config.app_name %>!  Your trial account will expire in <%= pluralize(@subscription.trial_days, 'day', 'days') %>, at which time you will no longer have access to your account.  To maintain access to your account, enter your credit card information below.  Your first charge will happen on <%= @subscription.next_renewal_at.to_date.to_formatted_s(:long_ordinal)%>.
+                      </p>
+                    <% else %>
+                      To upgrade your account to your plan, enter your credit card information below.  Your first charge will happen immediately, and you will be billed monthly thereafter.
+                    <% end %>
+                  <% end %>
+
+                  <%= render 'initial_billing_setup_credit_card_form'  %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :head do %>
+  <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+  <%= javascript_include_tag 'stripe_form' %>
+  <script type="text/javascript">
+    // this identifies your website in the createToken call in stripe_form.js
+    Stripe.setPublishableKey('<%= Saas::Config.credentials['stripe_publishable_key'] %>');
+  </script>
+<% end if Saas::Config.gateway == 'stripe' and Saas::Config.credentials['stripe_publishable_key'] %>

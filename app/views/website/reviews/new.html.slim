@@ -18,6 +18,7 @@
                 span.input-group-addon: i.fa.fa-calendar
         hr
         = form.fields_for :review do |form|
+          = form.hidden_field :company_id, :value => @feedback.company_id
           .row
             .col-sm-6.h4 How would you rate us on:
             .col-sm-6.text-right.h4: small

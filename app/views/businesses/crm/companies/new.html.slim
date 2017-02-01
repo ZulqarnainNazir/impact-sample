@@ -1,0 +1,18 @@
+- title 'Add Company'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Companies', :sp => :crm_companies, :an => ' Add Company'}
+
+= form_tag [@business, :crm_companies], method: :post
+  .row
+    .col-sm-8
+      .panel.panel-default
+        .panel-heading
+          h1.h4.panel-title Add a new Company
+        .panel-body
+          = errors_for @company
+          .form-group
+            = label_tag :name, "Company Name", class: 'control-label'
+            = text_field_tag :name
+        .panel-footer
+          = hidden_field_tag :search_add, 'true'
+          = button_tag 'Add Company (Next)', class: 'btn btn-primary'

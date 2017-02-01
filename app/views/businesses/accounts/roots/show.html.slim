@@ -1,9 +1,6 @@
 - title 'Linked Accounts'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li.active Linked Accounts
+= render :partial => 'dashbreadcrumb', :locals => { :an => ' Linked Accounts'}
 
 br
 

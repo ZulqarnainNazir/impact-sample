@@ -1,0 +1,20 @@
+
+<div style="max-width: 600px; margin-left: auto; margin-right: auto;">
+  <p>
+   Dear <%= @subscriber.name %>,
+  </p>
+  <p>
+    This email is to confirm that you updated your billing information with a card ending in <%= @subscription.card_number %>. Your plan currently is "<%= @subscriber.subscription.subscription_plan.name %>."
+  </p>
+  <p>
+    Your new credit card <%= @subscription.card_number %> will be charged 
+    <%= number_to_currency(@amount) %> for your <%= @subscription.subscription_plan.name %> plan, just as before.
+  </p>
+  <p>
+    If you feel this email has been sent in error, or you have any questions about or problems with the service, 
+    please don't hesitate to email us at <%= Saas::Config.from_email %>.
+  </p>
+  <p>
+    Thank you for using <%= Saas::Config.app_name %>!
+  </p>
+</div>

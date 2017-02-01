@@ -31,10 +31,10 @@ class Webpage < ActiveRecord::Base
   end
 
   def main_image
-    super.try(:attachment_url) ||
-      Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_background).try(:attachment_url) ||
-      Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url) ||
-      Block.where(type: 'ContentBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url)
+    super.try(:attachment_url, :jumbo) ||
+      Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_background).try(:attachment_url, :jumbo) ||
+      Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url, :jumbo) ||
+      Block.where(type: 'ContentBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url, :jumbo)
   end
 
   def sidebar_position

@@ -44,7 +44,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
     post_path = website_gallery_path(@gallery)
-    @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), :id => @gallery.id]
+    @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @gallery.id]
   end
 
 
@@ -128,7 +128,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     if @gallery.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @gallery.title,
         picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
         published: true,
@@ -138,7 +138,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       {
         backdated_time: @gallery.created_at,
         caption: truncate(Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website)]),
+        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website), protocol: :http]),
         name: @gallery.title,
         picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
       }

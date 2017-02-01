@@ -223,7 +223,7 @@ ImagePlacement = React.createClass
     this.state.libraryImages.map this.renderLibraryImage
 
   renderLibraryImage: (image) ->
-    `<div key={image.id} className="col-xs-3 col-sm-2">
+    `<div key={image.id} className="col-xs-4 col-sm-3">
       <img onClick={this.selectImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{maxWidth: '100%', cursor: 'pointer'}} data-dismiss="modal" />
     </div>`
 
@@ -279,7 +279,7 @@ ImagePlacement = React.createClass
     this.setState
       libraryImages: [].concat.apply(this.state.libraryImages, data.images)
       libraryLoaded: true
-      libraryLoadedAll: data.images.length < 48
+      libraryLoadedAll: data.images.length < 24
       libraryPage: this.state.libraryPage + 1
 
   selectImage: (image) ->

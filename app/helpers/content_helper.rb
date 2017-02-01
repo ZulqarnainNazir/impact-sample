@@ -8,7 +8,7 @@ module ContentHelper
     end
 
     def image(url)
-        content_for :image, url
+        content_for :image, "http:#{url}"
     end
 
     def errors_for(resource, message: nil)
@@ -55,5 +55,9 @@ module ContentHelper
           return true
         end
       end
+    end
+
+    def placeholder_image_url
+      asset_path 'impact_gs.jpg'
     end
 end

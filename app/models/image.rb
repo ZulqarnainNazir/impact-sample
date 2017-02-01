@@ -5,64 +5,91 @@ class Image < ActiveRecord::Base
   has_many :placements, dependent: :destroy
   has_many :placers, through: :placements
 
-  has_attached_file :attachment, styles: lambda { |attachment| attachment.instance.styles }
-
   validates :business_id, presence: true, unless: :business
   validates :user_id, presence: true, unless: :user
-  validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }, allow_nil: true
+  validates :attachment_cache_url, presence: true
+  validates :attachment_cache_url, format: { with: /\A((http\:)|(https\:))?\/\// }
+  validates :attachment_content_type, presence: true, format: { with: /\Aimage\/.*\Z/ }, unless: :facebook?
+  validates :attachment_file_size, presence: true, inclusion: { in: 0..10.megabytes }, unless: :facebook?
 
-  validates_attachment_presence :attachment, unless: :attachment_cache_url?
-  validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\Z/
-  validates_attachment_size :attachment, in: 0..10.megabytes
+  serialize :processed_styles
 
   before_validation do
-    self.attachment_updated_at = Time.zone.now if attachment_cache_url_changed? && attachment_cache_url?
-    self.attachment_content_type ||= Paperclip::ContentTypeDetector.new(attachment_file_name).detect
-    # TODO: Cannot get all image content types to be detected properly. Possible security risk.
+    self.attachment_updated_at = Time.zone.now if attachment_cache_url? && attachment_cache_url_changed?
     self.attachment_content_type = 'image/jpg' if attachment_content_type == 'application/octet-stream'
   end
 
-  after_commit do
-    ImageCacheTransferJob.perform_later(self) if attachment_cache_url?
-    placements.each(&:touch)
-  end
+  after_create do
+    if attachment_cache_url.present? && attachment_cache_url.include?('fbcdn.net')
+      api_endpoint = Rails.application.secrets.lambda_api_endpoint
+      api_key = Rails.application.secrets.lambda_api_key
 
-  after_post_process do
-    update_column :cached_styles, styles.keys
-  end
+      s3_path = URI.parse(attachment_cache_url).path
 
-  def attachment_url?
-    attachment_cache_url? || attachment?
-  end
+      HTTParty.post(api_endpoint, body: { facebook_image_url: attachment_cache_url,
+                                          bucket: Rails.application.secrets.aws_s3_bucket,
+                                          api_key: api_key }.to_json)
 
-  def attachment_url(style = nil)
-    if attachment_cache_url?
-      attachment_cache_url
-    elsif attachment? && style && cached_styles.try(:include?, style.to_s)
-      attachment.url(style)
-    elsif attachment? && style && style.match(/_fixed\z/) && cached_styles.try(:include?, 'jumbo_fixed')
-      attachment.url(:jumbo_fixed)
-    elsif attachment?
-      attachment.url
+      update(attachment_cache_url: "//#{Rails.application.secrets.aws_s3_bucket}.s3.amazonaws.com/_originals/_fb#{s3_path}")
     end
   end
 
-  def styles
-    {
-      thumbnail: '260x260#',
-      jumbo: '1200x100000>',
-      jumbo_fixed: '1200x',
-      large: '800x100000>',
-      large_fixed: '800x',
-      medium: '600x100000>',
-      medium_fixed: '600x',
-      small: '400x100000>',
-      small_fixed: '400x',
-      logo_small: 'x40',
-      logo_medium: 'x60',
-      logo_large: 'x125',
-      logo_jumbo: 'x200',
-    }.slice(*placements.map(&:style_keys).push(%i[thumbnail medium large_fixed jumbo_fixed]).flatten.uniq)
+  after_destroy do
+    delete_from_s3
+  end
+
+  after_commit do
+    placements.each(&:touch)
+  end
+
+  def facebook?
+    attachment_cache_url.present? &&
+      ( attachment_cache_url.include?('_fb') || attachment_cache_url.include?('fbcdn.net') )
+  end
+
+  def attachment_full_url(style = :thumbnail)
+    "http:#{attachment_url(style)}"
+  end
+
+  def attachment_url(style = :thumbnail)
+    return attachment_cache_url if attachment_cache_url.blank? || style == :original
+
+    resized_key = s3_key(style)
+
+    if self.processed_styles.present? && self.processed_styles.include?(style)
+      cdn_resized_url(resized_key)
+    else
+      if s3_bucket.objects[resized_key].exists?
+        self.processed_styles ||= []
+        self.processed_styles << style
+        update(processed_styles: self.processed_styles)
+        cdn_resized_url(resized_key)
+      else
+        "#{ActionController::Base.helpers.asset_path('spinner.gif')}"
+      end
+    end
+  end
+
+  def s3_bucket
+    @s3_bucket ||= AWS::S3.new.buckets[Rails.application.secrets.aws_s3_bucket]
+  end
+
+  def cdn_resized_url(resized_key)
+    URI.escape("//#{ENV['AWS_CLOUDFRONT_HOST']}/#{resized_key}")
+  end
+
+  def s3_key(style = nil)
+    url = if style.present?
+            attachment_cache_url.gsub('_originals/', "r/#{style}/")
+                                .gsub('_logos/', "r/#{style}/")
+          else
+            attachment_cache_url
+          end
+    URI.unescape(
+      URI.parse(
+        URI.escape(url).gsub("[","%5B").gsub("]","%5D")
+      ).path[1..-1]
+    )
   end
 
   def attachment_thumbnail_url
@@ -78,6 +105,7 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_medium_url
+    return attachment_url(:logo_medium) if attachment_cache_url.present? && attachment_cache_url.include?('_logos')
     attachment_url(:medium)
   end
 
@@ -86,6 +114,7 @@ class Image < ActiveRecord::Base
   end
 
   def attachment_large_url
+    return attachment_url(:logo_large) if attachment_cache_url.present? && attachment_cache_url.include?('_logos')
     attachment_url(:large)
   end
 
@@ -99,5 +128,18 @@ class Image < ActiveRecord::Base
 
   def attachment_jumbo_fixed_url
     attachment_url(:jumbo_fixed)
+  end
+
+  def delete_from_s3
+    return unless attachment_cache_url.present?
+
+    resizes = if attachment_cache_url.include?('_logos/')
+                [:logo_small, :logo_medium, :logo_large, :logo_jumbo, :thumbnail, :medium, nil]
+              else
+                [:thumbnail, :jumbo, :jumbo_fixed, :large, :large_fixed, :medium, :medium_fixed, :small, :small_fixed, nil]
+              end
+    resizes.each do |size|
+      s3_bucket.objects[s3_key(size)].delete
+    end
   end
 end

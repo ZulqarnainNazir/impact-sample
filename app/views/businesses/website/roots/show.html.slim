@@ -1,15 +1,12 @@
 - title 'Website'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li.active Manage Website
+= render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Website'}
 
 br
 - if @business.website
   h2.h3 Preview Your Website
-  = link_to website_root_url(host: website_host(@business.website)), target: :_blank, class: 'btn btn-info' do
-    strong => website_root_url(host: website_host(@business.website))
+  = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank, class: 'btn btn-info' do
+    strong => website_root_url(host: website_host(@business.website), protocol: :http)
     i.fa.fa-external-link style="margin-left:5px"
   hr
   br

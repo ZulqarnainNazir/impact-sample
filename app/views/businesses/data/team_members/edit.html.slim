@@ -1,11 +1,6 @@
 - title 'Edit Team Member'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Business Data', [@business, :data_root]
-  li = link_to 'Team Members', [@business, :data_team_members]
-  li.active Edit Team Member
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :sn => 'Team Members', :sp => :data_team_members, :an => ' Edit Team Member'}
 
 .row
   .col-md-8

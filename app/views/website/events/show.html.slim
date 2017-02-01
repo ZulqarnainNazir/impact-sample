@@ -21,8 +21,8 @@
           - placement = @event.event_definition.event_image_placement
           - if placement.try(:embeds?)
             .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-          - elsif placement.try(:image)
-            = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive'
+          - elsif placement.try(:image).try(:attachment_medium_url)
+            = image_tag placement.image.attachment_medium_url, alt: placement.image.alt, title: placement.image.title, class: 'img-responsive'
         .col-sm-6
           - cache @event do
             - location = @event.event_definition.try(:location)

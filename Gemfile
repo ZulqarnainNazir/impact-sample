@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
+source 'https://railskits.com/gems/afb4e249-4524-b8b4-65a9-709f18a725df'
 
 ruby '2.3.0'
 
@@ -20,6 +22,7 @@ gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'font-awesome-sass'
 gem 'geocoder'
+gem 'httparty'
 gem 'ice_cube'
 gem 'intercom'
 gem 'jbuilder'
@@ -55,6 +58,14 @@ gem 'whenever', :require => false
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'letter_opener', group: :development
+gem 'jquery-turbolinks'
+gem 'browser-timezone-rails'
+
+#RailsKits integrations
+gem 'simple_form'
+gem 'country_select', '~> 1.1.1'
+gem 'saas-kit'
+# gem 'rails_admin', github: 'sferik/rails_admin'
 
 group :development, :test do
   gem 'dotenv-rails'

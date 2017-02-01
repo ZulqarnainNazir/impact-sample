@@ -102,7 +102,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     port = ":#{request.try(:port)}" if request.port
     host = website_host @business.website
     post_path = website_event_path
-    @preview_url = @event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => @event_definition.id]
+    @preview_url = @event_definition.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @event_definition.id]
   end
 
   def destroy
@@ -156,7 +156,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     {
       backdated_time: @event_definition.created_at,
       caption: truncate(Sanitize.fragment(@event_definition.description, Sanitize::Config::DEFAULT), length: 1000),
-      link: url_for([:website, @event_definition.events.first, only_path: false, host: website_host(@business.website)]),
+      link: url_for([:website, @event_definition.events.first, only_path: false, host: website_host(@business.website), protocol: :http]),
       name: @event_definition.title,
       picture: @event_definition.event_image.try(:attachment_url),
     }

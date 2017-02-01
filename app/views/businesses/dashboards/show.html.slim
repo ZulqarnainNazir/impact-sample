@@ -1,137 +1,137 @@
 - title 'IMPACT Marketing Suite'
 
-ol.breadcrumb
-  li = link_to icon('home'), :businesses
-  li.active = @business.name
-
-.clearfix.hidden-sm.hidden-xs
-  .pull-right
-    span.text-muted> Questions?
-    span#dashboard-tour.btn.btn-sm.btn-default
-      ' Start Tour
-      span.fa.fa-arrow-circle-o-right
-  - if @business.website
-    h2.h3 style="margin-top:0" Preview Your Website
-    = link_to website_root_url(host: website_host(@business.website)), target: :_blank, class: 'btn btn-info' do
-      strong => website_root_url(host: website_host(@business.website))
-      i.fa.fa-external-link style="margin-left:5px"
-  hr
-
 - if @business.to_dos_enabled
   = render partial: 'businesses/dashboards/to_dos', locals: { business: @business }
 
-h2.h3.hidden-xs What do you want to do?
-.row.dashboard-root-primary-panels
-  .col-sm-6.col-lg-3
-    = link_to [@business, :content_feed] do
-      .panel.panel-primary
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-edit.fa-5x
-            .col-xs-9.text-right
-              div style="font-size: 40px" = @business.feed_items_count
-              - if @business.feed_items_count == 1
-                | Post
-              - else
-                | Posts
-        .panel-footer.text-right
-          span.pull-left> Manage Content
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3 style="pointer-events:none; opacity:0.4"
-    = link_to '#' do
-      .panel.panel-success
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-group.fa-5x
-            .col-xs-9.text-right
-              div style="font-size: 40px" 0
-              | Allies
-        .panel-footer.text-right
-          span.pull-left> Manage Alliances
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3
-    = link_to [@business, :website_root] do
-      .panel.panel-warning
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-sitemap.fa-5x
-            .col-xs-9.text-right
-              div style="font-size: 40px" = (@business.website.webpages.count rescue 0)
-              - if (@business.website.webpages.count rescue 0) == 1
-                | Page
-              - else
-                | Pages
-        .panel-footer.text-right
-          span.pull-left> Manage Website
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3
-    .panel.panel-danger
-      = link_to [@business, :data_root] do
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-map-marker.fa-5x
-            .col-xs-9.text-right
-              | Manage Central <br> Business Data
-        .panel-footer.text-right
-          span.pull-left> Manage Business Data
-          i.fa.fa-arrow-circle-right
-hr
-h2.h3
-  ' Post new content
-  span.small Select post type
-.row.dashboard-root-secondary-panels
-  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
-    = link_to [:new, @business, :content_quick_post] do
-      .panel.panel-primary
-        .panel-heading
-          i.fa.fa-file-text-o.fa-4x
-        .panel-footer.text-right
-          span.pull-left> Quick Post
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
-    = link_to [:new, @business, :content_event_definition] do
-      .panel.panel-success
-        .panel-heading
-          i.fa.fa-calendar.fa-4x
-        .panel-footer.text-right
-          span.pull-left> New Event
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
-    = link_to [:new, @business, :content_gallery] do
-      .panel.panel-warning
-        .panel-heading
-          i.fa.fa-photo.fa-4x
-        .panel-footer.text-right
-          span.pull-left> New Gallery
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
-    = link_to [:new, @business, :content_before_after] do
-      .panel.panel-danger
-        .panel-heading
-          i.fa.fa-tasks.fa-4x
-        .panel-footer.text-right
-          span.pull-left> Before &amp; Af…
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
-    = link_to [:new, @business, :content_offer] do
-      .panel.panel-primary
-        .panel-heading
-          i.fa.fa-ticket.fa-4x
-        .panel-footer.text-right
-          span.pull-left> New Offer
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
-    = link_to [:new, @business, :content_post] do
-      .panel.panel-success
-        .panel-heading
-          i.fa.fa-edit.fa-4x
-        .panel-footer.text-right
-          span.pull-left> Custom Post
-          i.fa.fa-arrow-circle-right
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2
+                | What do you want to do?
+            .ibox-content
+              .row
+                .col-sm-6.col-lg-3
+                  = link_to [@business, :content_feed] do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-edit.fa-5x
+                          .col-xs-9.text-right
+                            div style="font-size: 40px" = @business.feed_items_count
+                            - if @business.feed_items_count == 1
+                              | Post
+                            - else
+                              | Posts
+                      .panel-footer.text-right
+                        span.pull-left> Manage Content
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-lg-3
+                  = link_to '#' do
+                    .panel.panel-success
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-group.fa-5x
+                          .col-xs-9.text-right
+                            div style="font-size: 40px" 0
+                            | Allies
+                            br
+                      .panel-footer.text-right
+                        span.pull-left> Manage Alliances
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-lg-3
+                  = link_to [@business, :website_root] do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-sitemap.fa-5x
+                          .col-xs-9.text-right
+                            div style="font-size: 40px" = (@business.website.webpages.count rescue 0)
+                            - if (@business.website.webpages.count rescue 0) == 1
+                              | Page
+                            - else
+                              | Pages
+                      .panel-footer.text-right
+                        span.pull-left> Manage Website
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-lg-3
+                  = link_to [@business, :data_root] do
+                    .panel.panel-success
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-map-marker.fa-5x
+                          .col-xs-9.text-right
+                            | Manage Central <br> Business Data
+                            div style="padding: 19px"
+                      .panel-footer.text-right
+                        span.pull-left> Manage Business Data
+                        i.fa.fa-arrow-circle-right
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h5
+                | Post new content
+            .ibox-content
+              .row.dashboard-root-secondary-panels
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_quick_post] do
+                    .panel.panel-primary
+                      .panel-heading
+                        i.fa.fa-file-text-o.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> Quick Post
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2
+                  = link_to [:new, @business, :content_event_definition] do
+                    .panel.panel-success
+                      .panel-heading
+                        i.fa.fa-calendar.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> New Event
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_gallery] do
+                    .panel.panel-warning
+                      .panel-heading
+                        i.fa.fa-photo.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> New Gallery
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_before_after] do
+                    .panel.panel-danger
+                      .panel-heading
+                        i.fa.fa-tasks.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> Before &amp; Af…
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2
+                  = link_to [:new, @business, :content_offer] do
+                    .panel.panel-primary
+                      .panel-heading
+                        i.fa.fa-ticket.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> New Offer
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_post] do
+                    .panel.panel-success
+                      .panel-heading
+                        i.fa.fa-edit.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> Custom Post
+                        i.fa.fa-arrow-circle-right
 hr
 p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post], class: 'requires-plan-upgrade'} if you don't see a match.
 p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your allies, the Locable Publisher Network, and any linked accounts.
@@ -167,7 +167,7 @@ javascript:
       },
       {
         element: '#dashboard-business-data-community',
-        content: 'Helping contacts understand what the experience is like and your involvement in the community can be useful.',
+        content: 'Helping customers understand what the experience is like and your involvement in the community can be useful.',
         onNext: function() { $('#dashboard-collapse li').removeClass('active'); $('#dashboard-business-website').addClass('active'); },
       },
       {

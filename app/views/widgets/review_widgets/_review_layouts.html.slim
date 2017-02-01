@@ -1,0 +1,32 @@
+- @reviews = @business.reviews.published.order(reviewed_at: :desc).limit(6)
+- if @reviews.length > 0
+  - if !@widget.label.blank?
+    h2 
+      = @widget.label
+  - if @widget.layout == 'columns'
+    .reviews.reviews-columns
+      #carousel-reviews-widget-columns-md.carousel.slide data-ride="carousel"
+        .carousel-inner
+          - @reviews.in_groups_of(3).each_with_index do |reviews_group, i|
+            .item class=('active' if i == 0)
+              .row
+                - reviews_group.compact.each do |review|
+                  = render partial: 'website/reviews/review_column', object: review, as: :review, locals: { new_window: true }
+        - if @reviews.length > 3
+          => link_to '#carousel-reviews-widget-columns-md', class: 'carousel-control left', role: 'button', data: { slide: 'prev' } do
+            span.glyphicon.glyphicon-chevron-left
+          = link_to '#carousel-reviews-widget-columns-md', class: 'carousel-control right', role: 'button', data: { slide: 'next' } do
+            span.glyphicon.glyphicon-chevron-right
+  - else
+    .reviews.reviews-full-width
+      .row
+        .col-md-8.col-md-offset-2
+          #carousel-reviews-widget.carousel.slide data-ride="carousel"
+            .carousel-inner
+              - @reviews.order(reviewed_at: :desc).limit(6).each_with_index do |review, i|
+                .item class=('active' if i == 0)
+                  = render partial: 'website/reviews/review_full_width', object: review, as: :review, locals: { new_window: true }
+            => link_to '#carousel-reviews-widget', class: 'carousel-control left', role: 'button', data: { slide: 'prev' } do
+              span.glyphicon.glyphicon-chevron-left
+            = link_to '#carousel-reviews-widget', class: 'carousel-control right', role: 'button', data: { slide: 'next' } do
+              span.glyphicon.glyphicon-chevron-right

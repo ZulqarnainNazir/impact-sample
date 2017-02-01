@@ -1,18 +1,18 @@
 class PlatformConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
-    blank_or_www_subdomain = request.subdomain.blank? || request.subdomains.first == 'www'
+    blank_or_impact_subdomain = request.subdomain.blank? || request.subdomains.first == 'impact' || request.subdomains.first == 'www'
 
-    host_match && blank_or_www_subdomain
+    host_match && blank_or_impact_subdomain
   end
 end
 
 class WebsiteConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
-    present_and_not_www_subdomain = request.subdomain.present? && request.subdomains.first != 'www'
+    present_and_not_impact_subdomain = request.subdomain.present? && request.subdomains.first != 'impact' && request.subdomains.first != 'www'
 
-    !host_match || present_and_not_www_subdomain
+    !host_match || present_and_not_impact_subdomain
   end
 end
 
@@ -44,8 +44,21 @@ Rails.application.routes.draw do
     end
 
     namespace :super do
+      resources :subscription_plans
       resources :to_dos, only: :index
       resources :to_do_notification_settings, only: %i[index create]
+      resources :subscriptions_data, only: [:none] do
+        collection do
+          get :subscription_stats
+          get :subscriber_states
+          get :inactive_subscriptions
+        end
+      end
+    end
+    
+    namespace :widgets do
+      get '/review_widgets/:uuid', to: 'review_widgets#index'
+
     end
 
     namespace :onboard do
@@ -68,6 +81,21 @@ Rails.application.routes.draw do
       scope module: :businesses do
         resource :dashboard, path: '', only: %i[show]
         resource :dashboard_tour_viewed, only: %i[create]
+
+          resources :subscriptions, except: [:index] do
+            resources :subscription_payments, only: %i[show]
+            collection do
+              get :dashboard, :thanks, :plans, :canceled, :return_to_impact, :initial_plan_setup
+              match 'billing' => "subscriptions#billing", via: [ :get, :post ]
+              match 'setup_billing' => 'subscriptions#initial_billing_setup', via: [ :get, :post ]
+              #^setup_billing is the initial billing page a user would encounter when they sign-up;
+              #afterwards, subscriptions#billing is used. #enter_billing_information is sleeker
+              #than #billing and presents a better image to first-time customers.
+              match 'plan' => "subscriptions#plan", via: [ :get, :post ]
+              get 'billing_history'
+              get 'subscription_dashboard'
+            end
+          end
 
         namespace :content do
           root to: 'roots#show'
@@ -97,7 +125,7 @@ Rails.application.routes.draw do
 
         namespace :data do
           root to: 'roots#show'
-          resource :contacts, only: %i[edit update]
+          resource :customers, only: %i[edit update]
           resource :delivery, only: %i[edit update]
           resource :details, only: %i[edit update]
           resource :lines, only: %i[edit update]
@@ -118,7 +146,11 @@ Rails.application.routes.draw do
           resources :contact_messages, only: %i[index show destroy]
           resources :contacts, only: %i[index new create edit update destroy] do
             resources :feedbacks, only: %i[new create]
-            resources :contact_notes, only: %i[new create edit update destroy]
+            resources :crm_notes, only: %i[new create edit update destroy]
+          end
+          resources :companies, only: %i[index new create edit update destroy] do
+            resources :business, only: %i[new create edit update]
+            resources :crm_notes, only: %i[new create edit update destroy]
           end
           resources :feedbacks, only: %i[index show destroy] do
             resource :review_invitation, only: %i[create]
@@ -126,6 +158,11 @@ Rails.application.routes.draw do
           resources :reviews, only: %i[index show destroy] do
             resource :review_publication, only: %i[create destroy]
           end
+        end
+
+        namespace :tools do
+          root to: 'roots#index'
+          resources :review_widgets, only: %i[index new create edit update destroy]
         end
 
         namespace :website do

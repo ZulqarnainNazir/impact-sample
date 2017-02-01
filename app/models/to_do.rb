@@ -44,7 +44,7 @@ class ToDo < ActiveRecord::Base
     notify_all_of_status_change("'#{title}' has been accepted", :accepted)
   end
 
-  def notify_all_of_status_change(message, notifiable, except_user_id = nil)
+  def notify_all_of_status_change(message, notifiable, except_user_id = nil, args = {})
     business_users = if except_user_id
       business_with_setting.users.where.not(id: except_user_id)
     else

@@ -34,6 +34,6 @@ tr class=('unread' unless contact.read_by.include?(current_user.id))
         => icon 'minus-circle'
         | Hide
     .btn-group style="margin-top:0.5em;"
-      = link_to [:new, contact.business, :crm, contact, :contact_note], class: 'btn btn-xs btn-default' do
+      = link_to [:new, contact.business, :crm, contact, :crm_note], class: 'btn btn-xs btn-default' do
         => icon 'plus-circle'
         | Add Note

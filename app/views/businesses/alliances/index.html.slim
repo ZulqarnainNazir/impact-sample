@@ -1,6 +1,13 @@
 - title 'Alliances'
 
-ol.breadcrumb
-  li = link_to icon('home'), :businesses
-  li = link_to @business.name, [@business, :dashboard]
-  li.active Alliances
+= render :partial => 'dashbreadcrumb', :locals => { :lnk => :businesses, :an => 'Alliances'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2 Alliances
+            .ibox-content

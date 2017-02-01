@@ -1,11 +1,6 @@
 - title 'Edit Page'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'Manage Website', [@business, :website_root]
-  li = link_to 'Webpages', [@business, :website_webpages]
-  li.active = @custom_page.name
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :sn => 'Webpages', :sp => :website_webpages, :an => @custom_page.name}
 
 .webpage-designer data-input-prefix="custom_page"
   = form_for @custom_page, url: [@business, :website, @custom_page] do |form|
@@ -35,7 +30,7 @@ ol.breadcrumb
         - if @custom_page.persisted?
           .row
             .col-md-offset-2
-              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@custom_page.pathname, host: website_host(@business.website)), target: :_blank do
+              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@custom_page.pathname, host: website_host(@business.website), protocol: :http), target: :_blank do
                 ' Preview Saved Webpage
                 i.fa.fa-external-link style="margin-left:2px"
       .col-md-6.col-lg-5

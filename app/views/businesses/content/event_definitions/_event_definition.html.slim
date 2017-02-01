@@ -1,43 +1,52 @@
 - event = event_definition.events.first
-.feed-item.feed-event
-  .feed-item-meta
-    => icon 'calendar'
-    strong> Event
-    - if event_definition.published_status == false
-      code
-        small Draft
-    span.pull-right
-      - if event_definition.published_status != false
-        span.text-muted> Posted #{time_ago_in_words event_definition.created_at} ago
-      - if event_definition.content_categories.any? || event_definition.content_tags.any?
-        span.text-muted> in
-        - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
-          - if @business.website
-            - if event_definition.published_status == false
-              = link_to classification.name, [:website, :generic_post, :preview, :type => "event_definitions", only_path: false, :host => website_host(@business.website), :id => event_definition.id], target: :_blank
-            - else
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website)], target: :_blank
-          - else
-            = classification.name
-          - if i < event_definition.content_categories.count + event_definition.content_tags.count - 1
-            ' ,
-      span.btn-group.btn-group-sm style="margin-left:8px"
-        = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default'
-        = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default'
-        = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-  .event-widget
-    .event
-      time.event-datetime datetime=event.occurs_on
-        span.day = event.occurs_on.day
-        span.month = event.occurs_on.strftime('%b')
-        span.year = event.occurs_on.year
-        span.time = event_definition.start_time
-      - placement = event_definition.event_image_placement
-      - if placement && !placement.embeds? && placement.image
-        = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
-      .event-info
-        - if event_definition.published_status != true
-          h2.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), :id => event_definition.id], target: :_blank
+.timeline-item
+  .row
+    .col-xs-3.date
+      => icon 'calendar'
+      |  #{event.occurs_on.in_time_zone("Pacific Time (US & Canada)").strftime('%b %e')}
+      br
+      small.text-navy
+        - if event.occurs_on > DateTime.now
+          | in #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")}
         - else
-          h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website)], target: :_blank
-        .event-desc.truncate = truncate sanitize(event_definition.description), length: 250
+          | #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")} ago
+    .col-xs-7.content
+      .feed-item.feed-event
+        .feed-item-meta
+          strong> Event
+          - if event_definition.published_status == false
+            code
+              small Draft
+          span.pull-right
+            - if event_definition.content_categories.any? || event_definition.content_tags.any?
+              span.text-muted> Posted in
+              - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
+                - if @business.website
+                  - if event_definition.published_status == false
+                    = link_to classification.name, [:website, :generic_post, :preview, :type => "event_definitions", only_path: false, :host => website_host(@business.website), protocol: :http, :id => event_definition.id], target: :_blank
+                  - else
+                    = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+                - else
+                  = classification.name
+                - if i < event_definition.content_categories.count + event_definition.content_tags.count - 1
+                  ' ,
+            span.btn-group.btn-group-sm style="margin-left:8px"
+              = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default'
+              = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default'
+              = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+        .event-widget
+          .event
+            time.event-datetime datetime=event.occurs_on
+              span.day = event.occurs_on.day
+              span.month = event.occurs_on.strftime('%b')
+              span.year = event.occurs_on.year
+              span.time = event_definition.start_time
+            - placement = event_definition.event_image_placement
+            - if placement && !placement.embeds? && placement.image
+              = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
+            .event-info
+              - if event_definition.published_status != true
+                h2.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => event_definition.id], target: :_blank
+              - else
+                h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              .event-desc.truncate = truncate sanitize(event_definition.description), length: 250

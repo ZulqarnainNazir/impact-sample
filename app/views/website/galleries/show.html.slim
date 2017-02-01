@@ -4,7 +4,7 @@
 - else
   - title @gallery.title
   - description @gallery.meta_description
-  - image @gallery.main_image.try(:attachment_url) || @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url)
+  - image @gallery.main_image.try(:attachment_url, :jumbo) || @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url, :jumbo)
   - canonize_obj({url: website_gallery_url, params: @gallery.to_generic_param})
 
 = webpage_container do
@@ -39,7 +39,7 @@
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
             - else
-              = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(@business.website), :gallery_id => @gallery.id, :id => gallery_image.id], class: 'gallery-item' do
+              = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(@business.website), protocol: :http, :gallery_id => @gallery.id, :id => gallery_image.id], class: 'gallery-item' do
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'

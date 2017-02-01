@@ -21,7 +21,10 @@ blockquote.review.col-sm-4
     - else
       span.fa.fa-star-o
   .review-text
-    h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), [:website, review]
+    - if defined?(new_window)
+      h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+    - else
+      h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), [:website, review]
     p.review-quote = truncate review.description, length: 300
   p.reviewer
     span.reviewer-name => review.contact.name

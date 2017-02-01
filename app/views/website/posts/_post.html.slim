@@ -5,8 +5,8 @@
         - placement = post.sections_placement
         - if placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-        - elsif placement.try(:image)
-          div.post-blog-image style="background-image: url(#{placement.image.attachment_url(:medium)});"
+        - elsif placement.try(:image).try(:attachment_medium_url)
+          div.post-blog-image style="background-image: url('#{placement.image.attachment_medium_url}');"
         - else
           = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
           / div.post-blog-image.content-no-photo
@@ -32,7 +32,7 @@
         - placement = post.sections_placement
         - if placement.try(:embeds?)
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-        - elsif placement.try(:image)
+        - elsif placement.try(:image).try(:attachment_url)
           - if defined?(small)
             = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
           - else

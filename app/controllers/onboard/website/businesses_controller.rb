@@ -34,6 +34,16 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       footer_block_attributes: {},
     }
     create_resource @business, initial_business_params, location: [:edit_onboard_website, @business]
+    
+    if @business.persisted?
+      #this code block creates the default subscription for businesses, i.e.,
+      #the "Engage", or Free plan.
+      @subscription = @business.build_subscription
+      @subscription.plan = SubscriptionPlan.engage_plan
+      @subscription.state = 'active'
+      @subscription.subscriber = @business
+      @subscription.save!
+    end
   end
 
   def import_cce
