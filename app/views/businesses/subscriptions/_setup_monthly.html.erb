@@ -30,7 +30,7 @@
                     Dedicated Onboarding Team
                 </li>
                 <li>
-                    <%= button_to 'Select', {post_to_create_or_to_plan, params: {'subscription[subscription_plan_id]' => @plans.first.id}, initial_billing_setup: 'true'}, data: {disable_with: 'loading...' }, 
+                    <%= button_to 'Select', {action: post_to_create_or_to_plan_initial_setup, params: {'subscription[subscription_plan_id]' => @plans.first.id}, initial_billing_setup: 'true'}, data: {disable_with: 'loading...' }, 
                         class: "btn btn-primary btn-xs", id: 'subscription-sign-up-1' %>
                 </li>
             </ul>
@@ -69,7 +69,7 @@
                 </li>
         
                 <li>
-                    <%= button_to 'Select', {post_to_create_or_to_plan, params: {'subscription[subscription_plan_id]' => @plans.second.id}, initial_billing_setup: 'true'}, data: {disable_with: 'loading...' }, 
+                    <%= button_to 'Select', {action: post_to_create_or_to_plan_initial_setup, params: {'subscription[subscription_plan_id]' => @plans.second.id}, initial_billing_setup: 'true'}, data: {disable_with: 'loading...' }, 
                         class: "btn btn-primary btn-xs", id: 'subscription-sign-up-2' %>
                 </li>
                 <li>
@@ -106,7 +106,7 @@
                     Basic Keyword Research & Coaching
                 </li>
                 <li>
-                    <%= button_to 'Select', {post_to_create_or_to_plan, params: {'subscription[subscription_plan_id]' => @plans.third.id}, initial_billing_setup: 'true'}, data: {disable_with: 'loading...' }, 
+                    <%= button_to 'Select', {action: post_to_create_or_to_plan_initial_setup, params: {'subscription[subscription_plan_id]' => @plans.third.id}, initial_billing_setup: 'true'}, data: {disable_with: 'loading...' }, 
                         class: "btn btn-primary btn-xs", id: 'subscription-sign-up-3' %>
                 </li>
                 <li>
