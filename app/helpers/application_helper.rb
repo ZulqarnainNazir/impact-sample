@@ -44,4 +44,18 @@ module ApplicationHelper
     end
   end
 
+  def post_to_create_or_to_plan_initial_setup
+    #this method will direct a user to the create resource in subscription_controller,
+    #or to the plan resource (which updates/upgrades plans), dependent on whether or not
+    #they have a subscription already in place or not.
+    business = Business.find(params[:business_id])
+    if !business.nil?
+      if !business.subscription.present?
+        "create"
+      elsif business.subscription.present?
+        "plan"
+      end
+    end
+  end
+
 end

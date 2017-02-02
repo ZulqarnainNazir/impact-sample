@@ -64,7 +64,7 @@ class Businesses::SubscriptionsController < Businesses::BaseController
 			@subscription_plan = @subscription.plan
 		end
 
-		if @subscription.flagged_for_annual? && !@subscription.upgrade_to.nil?
+		if @subscription.flagged_for_annual? && !@subscription.upgrade_to.nil? #|| @subscription.annual? && @subscription.upgrade_to.nil? && !@subscription.flagged_for_annual?
 			@amount = @subscription_plan.amount_annual
 		else
 			@amount = @subscription_plan.amount
