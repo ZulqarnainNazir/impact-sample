@@ -52,6 +52,15 @@ class SubscriptionPlan < ActiveRecord::Base
     end
   end
 
+  def is_legacy?
+    if self.name == "Legacy"
+      return true
+    else
+      return false
+    end
+  end
+
+
   def is_engage_plan?
     if self.name == "Engage"
       return true
@@ -62,6 +71,10 @@ class SubscriptionPlan < ActiveRecord::Base
 
   def self.build_plan_with_no_setup_fee
   	where("name = ? and setup_amount = ?", "Build", 0.0)
+  end
+
+  def self.legacy_plan
+    where("name = ?", "Legacy").first
   end
 
   def self.engage_plan
