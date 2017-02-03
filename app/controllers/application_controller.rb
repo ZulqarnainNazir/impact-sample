@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   def raise_initial_billing_and_subscription_roadblock
     #if super admin sets roadblock to true, the following takes place
-    unless current_user.super_user?
+    unless current_user.super_user? || @business.is_on_legacy_plan?
       if @business.bill_online == true && @business.subscription_billing_roadblock == true
         @subscription = @business.subscription
         # if params[:action] != 'initial_plan_setup' 
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def confirm_subscription_present
-    unless current_user.super_user?
+    unless current_user.super_user? || @business.is_on_legacy_plan?
       if @business.subscription.nil? && @business.subscription_billing_roadblock == false
         flash[:notice] = "Looks like you don't have a plan set-up for this business.
         Let's get you started!"
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   end
 
   def confirm_billing_information_present
-    unless current_user.super_user?
+    unless current_user.super_user? || @business.is_on_legacy_plan?
       if !@business.subscription.nil? && @business.subscription.needs_payment_info? && !@business.subscription.plan.is_engage_plan? && @business.subscription_billing_roadblock == false
         flash[:notice] = "Looks like your plan is set-up for this business but we either don't have your billing information,
         or that information is outdated. Let's take care of that!"
