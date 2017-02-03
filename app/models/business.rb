@@ -97,6 +97,18 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def is_on_legacy_plan?
+    if !self.subscription.nil?
+      if self.subscription.plan.is_legacy?
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
   def self.search(search)
     if search
       where('LOWER(name) LIKE ?', "%#{search.downcase}%")

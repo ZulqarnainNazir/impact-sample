@@ -9,6 +9,7 @@ ol.breadcrumb
   = link_to 'Super Admin ToDos', super_to_dos_path
 
 = errors_for @business
+
 = form_for @business, url: [@business, :super_settings] do |form|
   .panel.panel-default
     .panel-heading
@@ -57,3 +58,13 @@ ol.breadcrumb
           => form.check_box :to_dos_enabled
           | ToDo's Enabled
   = form.button 'Save', class: 'btn btn-primary'
+br
+.div
+  .panel.panel-default
+    .panel-heading
+      h1.h4.panel-title Create Legacy Subscription
+    .panel-body
+      = button_to 'Create Legacy', {action: 'add_legacy_plan', add_legacy: 'true'}, data: {disable_with: 'loading...' }, class: "btn btn-primary btn-xs", id: 'subscription-sign-up-1' 
+      br
+      p
+        | Create a legacy subscription for this business. They will have access to their entire backend and will never be charged.
