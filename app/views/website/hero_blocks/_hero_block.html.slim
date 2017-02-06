@@ -1,5 +1,5 @@
 - cache [hero_block.frame, hero_block] do
-  div class=("item #{'active' if hero_block_counter == 0}" if defined?(carousel))
+  div
     .webpage-block class=hero_block.custom_class
       .webpage-hero
         - background_image_url = hero_block.block_background.try(:attachment_jumbo_url).present? ? (hero_block.block_background.attachment_jumbo_url.gsub(/'/){"\\'"}) : ''

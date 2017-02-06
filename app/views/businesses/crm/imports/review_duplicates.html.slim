@@ -1,0 +1,94 @@
+- title 'Import Contacts'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_contacts, :an => 'Import Contacts'}
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Review Potential Duplicates
+        .ibox-content.profile-content
+          p Below are duplicates we've detected with data currently in your database. You can skip importing the new record, import a new contact entirely or merge with existing. 
+          p <b>Please note:</b> When you merge with an existing contact the information from your upload file will replace the data in the existing contact record. 
+          p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+          = form_tag [:process_csv, @business, :crm_imports] do
+            - if @duplicates.count > 0
+              - @duplicates.each do |i, contact|
+                table.footable.table.table-stripped
+                  thead
+                    tr
+                      th
+                        | Update Method
+                      th
+                        | Version
+                      th
+                        | First Name
+                      th
+                        | Last Name
+                      th
+                        | Email
+                      th
+                        | Phone
+                      th
+                        | Street Address 1
+                      th
+                        | Street Address 2
+                      th
+                        | City
+                      th
+                        | State
+                      th
+                        | Zip Code
+                      th
+                        | Contact Type(s)
+                      th
+                        | Description
+                  tbody
+                    tr
+                      td = select_tag "merge[#{i}]", "<option value='yes'>Update Contact</option><option value='no'>Create a New Contact</option><option value='skip'>Skip Import of Contact</option>".html_safe 
+                      td 
+                        b Existing Contact
+                        = hidden_field_tag "merge_id[#{i}]", contact.id
+                      td = contact.first_name
+                      td = contact.last_name
+                      td = contact.email
+                      td = contact.phone
+                      td = contact.street1
+                      td = contact.street2
+                      td = contact.city
+                      td = contact.state
+                      td = contact.zip
+                      td = contact.relationship.join(", ")
+                      - if !contact.description.blank? and contact.description.length > 100
+                        td = contact.description[0..100] + "..."
+                      - else
+                        td = contact.description
+                    tr
+                      td 
+                      td 
+                        b Pending Update
+                      td = @contacts[i].first_name
+                      td = @contacts[i].last_name
+                      td = @contacts[i].email
+                      td = @contacts[i].phone
+                      td = @contacts[i].street1
+                      td = @contacts[i].street2
+                      td = @contacts[i].city
+                      td = @contacts[i].state
+                      td = @contacts[i].zip
+                      td = @contacts[i].relationship.join(", ")
+                      - if !@contacts[i].description.blank? and @contacts[i].description.length > 100
+                        td = @contacts[i].description[0..100] + "..."
+                      - else
+                        td = @contacts[i].description
+                hr style="margin: 30px 0"
+                
+              = hidden_field_tag :filename, @filename
+              = hidden_field_tag :skip_indexes, params[:skip_indexes]
+              = submit_tag "Import all contacts"
+
+            - else
+              p Import was empty, please go back and try again
+              p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+

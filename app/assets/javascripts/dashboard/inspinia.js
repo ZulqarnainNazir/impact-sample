@@ -195,7 +195,17 @@ $(document).ready(function () {
     // Add slimscroll to element
     $('.full-height-scroll').slimscroll({
         height: '100%'
-    })
+    });
+
+    // Add slick carousel to element
+    $('.slick-carousel').slick({
+      dots: true,
+      infinite: true,
+      prevArrow: '<a role="button" class="left carousel-control"><span class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Next</span></a>',
+      nextArrow: '<a role="button" class="right carousel-control"><span class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a>',
+      dotsClass: 'carousel-indicators'
+    });
+
 });
 
 

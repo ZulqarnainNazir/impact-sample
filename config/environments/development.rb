@@ -14,6 +14,9 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
   config.time_zone = 'UTC'
 
+  #config.autoload_paths << Rails.root.join("app", "classes")
+  config.autoload_paths += Dir["#{config.root}/app/classes/**/"]
+
   # Paperclip
 
   config.paperclip_defaults = {

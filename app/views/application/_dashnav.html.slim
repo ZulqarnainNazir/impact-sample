@@ -103,6 +103,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Feedback", [@business, :crm_feedbacks]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
             = link_to "Reviews", [@business, :crm_reviews]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
+            = link_to "CSV Import", [@business, :crm_imports]
       li title="Business Data" class=('active' if controller_path.match(/\Abusinesses\/data/))
         = link_to "#"
           i.fa.fa-map-marker

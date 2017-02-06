@@ -63,8 +63,11 @@
           = form_for @contact, url: [@business, :crm, @contact] do |form|
             = errors_for @contact
             .form-group
-              = form.label :name, class: 'control-label'
-              = form.text_field :name, class: 'form-control'
+              = form.label :first_name, class: 'control-label'
+              = form.text_field :first_name, class: 'form-control'
+            .form-group
+              = form.label :last_name, class: 'control-label'
+              = form.text_field :last_name, class: 'form-control'
             .form-group
               = form.label :email, class: 'control-label'
               = form.email_field :email, class: 'form-control'
@@ -86,6 +89,9 @@
             .form-group
               = form.label :phone, class: 'control-label'
               = form.phone_field :phone, class: 'form-control'
+            .form-group
+              = form.label :description, class: 'control-label'
+              = form.text_area :description, class: 'form-control', rows: 3
             hr
             .well.well-sm.contact-business-data
               .form-group

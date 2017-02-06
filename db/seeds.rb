@@ -26,3 +26,16 @@
 ].each do |category_name|
   Category.create!(name: category_name)
 end
+
+case Rails.env
+when "development"
+  User.create!(
+    first_name: "Dev",
+    last_name: "Admin",
+    email: "dev@email.com",
+    super_user: true,
+    password: "password",
+  )
+when "production"
+
+end

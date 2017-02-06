@@ -1,0 +1,34 @@
+- title 'Import Contacts'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_contacts, :an => 'Import Contacts'}
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-6
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Import Instructions
+        .ibox-content.profile-content
+          p Please use our template to build your import file. The column names and order must match this template to be successful. 
+          p All contacts must have <b>EITHER</b> first name, last name, or email address to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
+          p <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer. 
+          h3 We'll walk you through the following steps
+          ol
+            li Download and Complete Template File
+            li Upload Template file then review data to see problem entires and that it's in the correct columns
+            li Review duplicates to merge, skip or create new
+            li Accept Import to update contact database
+          p 
+            = link_to "Download CSV Template", [:download_contact_template, @business, :crm_imports,], class: 'btn btn-primary'
+    .col-md-6
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Process Import 
+        .ibox-content
+          = form_tag [:review, @business, :crm_imports], :multipart => true do
+            .form-group
+              label.control-label for="import_file" CSV for Importing
+              = file_field_tag :import_file, class: 'form-control'
+            .form-group
+              = submit_tag "Upload and Continue", class: 'btn btn-primary'
+          p You can review the data on the next page

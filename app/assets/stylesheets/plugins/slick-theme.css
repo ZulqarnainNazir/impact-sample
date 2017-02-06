@@ -1,0 +1,15 @@
+.left.carousel-control {
+  z-index: 4;
+}
+
+.carousel-indicators li.slick-active {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  text-align: -webkit-match-parent;
+}
+
+.carousel-indicators li button {
+  display: none;
+}

@@ -11,7 +11,7 @@
           = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
           / div.post-blog-image.content-no-photo
         h3.slider-text = truncate sanitize(post.title), length: 75, omission: '... '
-        p.slider-p = truncate sanitize(post.sections_content), length: 90, omission: '... '
+        p.slider-p = truncate(post.meta_description && post.meta_description.length > 0 ? post.meta_description : sanitize(post.sections_content), length: 90, omission: '... ')
         / button.btn.btn-primary.btn-sm.pull-left Read More
 - else
   .feed-item.feed-post
@@ -37,5 +37,8 @@
             = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
           - else
             = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-        = truncate sanitize(post.sections_content), length: 250, omission: '... ' do
-          = link_to 'Read More', website_generic_post_path(post.to_generic_param)
+            
+          - if post.meta_description && post.meta_description.length > 0
+            = truncate post.meta_description, length: 250
+          - else
+            = truncate sanitize(post.sections_content), length: 250

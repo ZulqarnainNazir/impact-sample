@@ -16,6 +16,11 @@ Group = React.createClass
       delay:
         show: 500
         hide: 0
+    $('.sortable-hero-handles').sortable
+      item: '> .webpage-group-hero-switch-handle'
+      tolerance: "pointer"
+      placeholder: 'hero-handle-placeholder'
+      # stop: this.updateHeroPositions
 
   render: ->
     `<div className={this.groupClass()} data-uuid={this.props.uuid}>
@@ -88,10 +93,12 @@ Group = React.createClass
 
   renderHeroToggles: ->
     if this.props.editing and this.props.type is 'HeroGroup'
-      `<span className="webpage-group-hero-handles">
-	{this.renderHeroSwitchers()}
+      `<ul className="webpage-group-hero-handles">
+        <ul className="sortable-hero-handles">
+  	      {this.renderHeroSwitchers()}
+        </ul>
         {this.renderHeroAdder()}
-      </span>`
+      </ul>`
 
   renderHeroSwitchers: ->
     blocks = _.reject(this.props.blocks, (block) -> block is undefined)
@@ -100,9 +107,9 @@ Group = React.createClass
 
   renderHeroSwitcher: (block) ->
     if this.props.current_block is block.uuid
-      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" data-uuid={block.uuid} key={block.uuid} />`
+      `<li onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" data-uuid={block.uuid} key={block.uuid} />`
     else
-      `<span onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle webpage-group-popover" data-content="Click to edit this slide" data-uuid={block.uuid} key={block.uuid} />`
+      `<li onClick={this.props.updateGroup.bind(null, this.props.uuid, { current_block: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle webpage-group-popover" data-content="Click to edit this slide" data-uuid={block.uuid} key={block.uuid} />`
 
   renderHeroAdder: ->
     blocksLength = Object.keys(_.reject(this.props.blocks, (block) -> block is undefined)).length

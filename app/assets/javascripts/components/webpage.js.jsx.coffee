@@ -695,7 +695,7 @@ Webpage = React.createClass
     $('#custom_group_uuid').val ''
     $('#custom_group_custom_class').val ''
     $('#custom_group_height').val ''
-    $('#hero_position').val 'below' 
+    $('#hero_position').val 'below'
 
   editLink: (group_uuid, block_uuid, event) ->
     event.preventDefault()
@@ -835,6 +835,9 @@ Webpage = React.createClass
     $('#feed_settings_link_version_paginate').prop 'checked', block.link_version is 'link_paginate'
     $('#feed_settings_link_version_internal').prop 'checked', block.link_version is 'link_internal'
     $('#feed_settings_link_version_external').prop 'checked', block.link_version is 'link_external'
+    if block.settings && block.settings.include_search == 'true' && block.include_search == undefined
+      block.include_search = true
+    $('#feed_settings_include_search').prop 'checked', if block.include_search then true else false
     this.toggleFeedLinkOptions()
     $('#feed_settings_modal').modal('show')
 
@@ -851,6 +854,7 @@ Webpage = React.createClass
       link_no_follow: $('#feed_settings_link_no_follow').prop('checked')
       link_target_blank: $('#feed_settings_link_target_blank').prop('checked')
       link_version: $('input[name="link_version"]:checked').val()
+      include_search: $('#feed_settings_include_search').prop('checked')
     this.resetFeedSettings()
 
   resetFeedSettings: ->
@@ -865,6 +869,7 @@ Webpage = React.createClass
     $('#feed_settings_link_no_follow').prop 'checked', false
     $('#feed_settings_link_target_blank').prop 'checked', false
     $('#feed_settings_link_version_none').prop 'checked', true
+    $('#feed_settings_include_search').prop 'checked', false
     this.toggleFeedLinkOptions()
 
   toggleFeedLinkOptions: ->
@@ -1269,6 +1274,12 @@ Webpage = React.createClass
                     Add "no-follow" to the link?
                   </label>
                 </div>
+              </div>
+              <div className="checkbox">
+                <label>
+                  <input id="feed_settings_include_search" type="checkbox" name="include_search" />
+                  Include search bar?
+                </label>
               </div>
               <p><strong>What Types of Content Do You Want to Include?</strong></p>
               <div className="row" style={{marginBottom: 5}}>

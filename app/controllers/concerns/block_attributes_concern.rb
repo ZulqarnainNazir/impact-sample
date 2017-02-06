@@ -26,6 +26,7 @@ module BlockAttributesConcern
       :content_types,
       :content_category_ids,
       :content_tag_ids,
+      :include_search,
       :spoof,
       :_destroy,
     ]

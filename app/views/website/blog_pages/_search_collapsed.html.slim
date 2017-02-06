@@ -1,7 +1,7 @@
 - unless @content_types_all.nil?
 	div.row.search-collapsed
 		div.col-lg-9
-			= form_tag '/blog', method: :get do
+			= form_tag request_url + '#blog-feed', method: :get do
 
 			    div.input-group
 			        = text_field_tag '[blog_search]', params[:blog_search], placeholder: 'search for keywords...', class: 'form-control'
@@ -10,7 +10,7 @@
 				        = button_tag class: 'btn btn-default' do
 				          ' Go
 				- if params[:blog_search].present? && !params[:blog_search].empty?
-				    = link_to '/blog', class: "pull-right", role: :button do
+				    = link_to request_url + '#blog-feed', class: "pull-right", role: :button do
 				        'Clear Search
 			    - unless @content_types_all.count <= 1
 				    span.dropdown.pull-right style="right:12px;"

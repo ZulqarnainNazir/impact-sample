@@ -17,6 +17,8 @@ Rails.application.configure do
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
   config.time_zone = 'UTC'
 
+  config.autoload_paths += Dir["#{config.root}/app/classes/**/"]
+
   config.action_mailer.smtp_settings = {
     address: Rails.application.secrets.aws_ses_smtp_address,
     port: Rails.application.secrets.aws_ses_smtp_port,

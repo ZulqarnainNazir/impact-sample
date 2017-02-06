@@ -41,6 +41,7 @@ module GroupsAttributesConcern
         :content_types,
         :content_category_ids,
         :content_tag_ids,
+        :include_search,
         :_destroy,
         block_background_placement_attributes: placement_attributes,
         block_image_placement_attributes: placement_attributes,

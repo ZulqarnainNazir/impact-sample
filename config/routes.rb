@@ -148,6 +148,14 @@ Rails.application.routes.draw do
             resources :feedbacks, only: %i[new create]
             resources :crm_notes, only: %i[new create edit update destroy]
           end
+          resources :imports, only: %i[index update] do
+            collection do
+              get 'download_contact_template'
+              post 'review'
+              post 'review_duplicates'
+              post 'process_csv'
+            end
+          end
           resources :companies, only: %i[index new create edit update destroy] do
             resources :business, only: %i[new create edit update]
             resources :crm_notes, only: %i[new create edit update destroy]
