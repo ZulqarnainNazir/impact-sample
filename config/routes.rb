@@ -201,6 +201,7 @@ Rails.application.routes.draw do
         resource :marketing, only: %i[show]
         resource :super_settings, only: %i[edit update] do
           post 'add_legacy_plan', on: :member
+          delete 'delete_legacy_plan', on: :member
         end
         resources :alliances, only: %i[index]
         resources :authorizations, only: %i[index new create destroy]

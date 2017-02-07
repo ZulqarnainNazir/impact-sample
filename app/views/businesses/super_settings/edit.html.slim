@@ -59,12 +59,23 @@ ol.breadcrumb
           | ToDo's Enabled
   = form.button 'Save', class: 'btn btn-primary'
 br
-.div
-  .panel.panel-default
-    .panel-heading
-      h1.h4.panel-title Create Legacy Subscription
-    .panel-body
-      = button_to 'Create Legacy', {action: 'add_legacy_plan', add_legacy: 'true'}, data: {disable_with: 'loading...' }, class: "btn btn-primary btn-xs", id: 'subscription-sign-up-1' 
-      br
-      p
-        | Create a legacy subscription for this business. They will have access to their entire backend and will never be charged.
+- if @business.is_on_legacy_plan?
+  .div
+    .panel.panel-default
+      .panel-heading
+        h1.h4.panel-title Delete Legacy Subscription
+      .panel-body
+        = button_to 'Delete Legacy Plan', {action: 'delete_legacy_plan', add_legacy: 'false'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'subscription-sign-up-2' 
+        br
+        p
+          | Delete the Legacy Plan subscription for this business. This will usually result in a subscription roadblock being raised that prevents the user from accessing their website's backend until they acquire a subscription.
+- elsif @business.subscription.nil?
+  .div
+    .panel.panel-default
+      .panel-heading
+        h1.h4.panel-title Create Legacy Subscription
+      .panel-body
+        = button_to 'Create Legacy Plan', {action: 'add_legacy_plan', add_legacy: 'true'}, data: {disable_with: 'loading...' }, class: "btn btn-primary btn-xs", id: 'subscription-sign-up-1' 
+        br
+        p
+          | Create the Legacy Plan subscription for this business. They will have access to their entire backend and will never be charged.

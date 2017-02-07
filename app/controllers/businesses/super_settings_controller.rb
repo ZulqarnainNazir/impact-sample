@@ -19,6 +19,27 @@ class Businesses::SuperSettingsController < Businesses::BaseController
       else
         flash[:notice] = "Legacy Plan Add Failed. Try Again."
       end
+    else
+      flash[:notice] = "Something went wrong the the app is not able to 
+      create the plan at this time."
+    end
+    redirect_to edit_business_super_settings_path(@business)
+  end
+
+  def delete_legacy_plan
+    if params[:add_legacy] == "false"
+      @subscription = @business.subscription
+      if @subscription.plan == SubscriptionPlan.legacy_plan
+        if @subscription.delete
+          flash[:notice] = "Legacy Plan has been deleted for this business. This account has
+          no subscription anymore. A subscription roadblock will now appear for the end user,
+          requesting that they subscribe to a plan, before they can access their account."
+        else
+          flash[:notice] = "Something went wrong. Please try again."
+        end
+      else
+        flash[:notice] = "This business' plan is not a Legacy plan, and cannot be deleted here."
+      end
     end
     redirect_to edit_business_super_settings_path(@business)
   end
