@@ -1,6 +1,5 @@
 - if current_user.super_user?
-  - if to_do.submission_status == 'submitted'
-    = link_to mark_as_complete_business_to_do_path(business, to_do), method: :put, class: 'btn btn-success btn-sm' do
+  = link_to mark_as_complete_business_to_do_path(business, to_do), method: :put, class: 'btn btn-success btn-sm' do
       i.fa.fa-check
 
   - if to_do.removed?
