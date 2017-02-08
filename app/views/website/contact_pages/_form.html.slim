@@ -1,8 +1,11 @@
 = form_for @contact_message, url:  website_contact_page_path do |form|
   = form.text_field :honey, style: 'margin-left: -10000px'
   .form-group
-    = form.label :customer_name, class: 'control-label sr-only'
-    = form.text_field :customer_name, placeholder: 'Name', class: 'form-control'
+    = form.label :customer_first_name, class: 'control-label sr-only'
+    = form.text_field :customer_first_name, placeholder: 'First Name', class: 'form-control'
+  .form-group
+    = form.label :customer_last_name, class: 'control-label sr-only'
+    = form.text_field :customer_last_name, placeholder: 'Last Name', class: 'form-control'
   .form-group
     = form.label :customer_email, class: 'control-label sr-only'
     = form.email_field :customer_email, placeholder: 'Email', class: 'form-control'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203204334) do
+ActiveRecord::Schema.define(version: 20170208203720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,9 +161,9 @@ ActiveRecord::Schema.define(version: 20170203204334) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
+    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
-    t.boolean  "in_impact",                      default: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -252,17 +252,18 @@ ActiveRecord::Schema.define(version: 20170203204334) do
   add_index "contact_companies", ["contact_id"], name: "index_contact_companies_on_contact_id", using: :btree
 
   create_table "contact_messages", force: :cascade do |t|
-    t.integer  "business_id",                    null: false
-    t.string   "customer_name",                  null: false
-    t.string   "customer_email",                 null: false
-    t.text     "message",                        null: false
+    t.integer  "business_id",                         null: false
+    t.string   "customer_first_name",                 null: false
+    t.string   "customer_email",                      null: false
+    t.text     "message",                             null: false
     t.json     "settings"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.text     "customer_phone"
     t.integer  "contact_id"
-    t.boolean  "hide",           default: false, null: false
-    t.integer  "read_by",        default: [],    null: false, array: true
+    t.boolean  "hide",                default: false, null: false
+    t.integer  "read_by",             default: [],    null: false, array: true
+    t.string   "customer_last_name"
   end
 
   add_index "contact_messages", ["business_id"], name: "index_contact_messages_on_business_id", using: :btree
@@ -792,10 +793,10 @@ ActiveRecord::Schema.define(version: 20170203204334) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
-    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
+    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree

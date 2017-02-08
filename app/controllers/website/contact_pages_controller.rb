@@ -13,7 +13,8 @@ class Website::ContactPagesController < Website::BaseController
 
   def contact_message_params
     params.require(:contact_message).permit(
-      :customer_name,
+      :customer_first_name,
+      :customer_last_name,
       :customer_email,
       :customer_phone,
       :message,

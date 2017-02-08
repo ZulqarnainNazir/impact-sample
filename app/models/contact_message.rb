@@ -7,12 +7,13 @@ class ContactMessage < ActiveRecord::Base
   validates :business, presence: true
   validates :contact, presence: true, associated: true
   validates :customer_email, presence: true
-  validates :customer_name, presence: true
+  validates :customer_first_name, presence: true
+  validates :customer_last_name, presence: true
   validates :message, presence: true
 
   before_validation do
     if business && !contact
-      self.contact = business.contacts.where(email: customer_email).first || business.contacts.build(name: customer_name, email: customer_email, phone: customer_phone)
+      self.contact = business.contacts.where(email: customer_email).first || business.contacts.build(first_name: customer_first_name, last_name: customer_last_name, email: customer_email, phone: customer_phone)
     end
   end
 
@@ -29,6 +30,11 @@ class ContactMessage < ActiveRecord::Base
   def self.chronological
     order(created_at: :desc)
   end
+
+  def name
+    "#{customer_first_name} #{customer_last_name}"
+  end
+
 
   def save(*args)
     honey.present? ? true : super
