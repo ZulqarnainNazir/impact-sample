@@ -6,5 +6,5 @@ en:
           notice: Your custom page was saved successfully.
           alert: There was a problem saving your page.
         update:
-          notice: Your homepage was saved successfully.
+          notice: Your page was saved successfully.
           alert: There was a problem saving your page.
