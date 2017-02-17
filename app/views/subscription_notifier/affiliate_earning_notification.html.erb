@@ -1,0 +1,9 @@
+<div style="max-width: 600px; margin-left: auto; margin-right: auto;">
+	<p>
+		We just wanted to give you a quick heads-up that you have earned <%= number_to_currency(@amount) %> from
+		the most recent subscription payment made by <%= @subscriber.name %>. Congratulations!
+	</p>
+	<p>
+		Thank you for being a valued affiliate! If you have any questions, please contact <%= Saas::Config.from_email %>.
+	</p>
+</div>

@@ -1,5 +1,6 @@
 class Subscription < ActiveRecord::Base
   belongs_to :subscriber, :polymorphic => true
+  belongs_to :business, :foreign_key => 'subscriber_id'
   belongs_to :subscription_plan
   has_many :subscription_payments
   belongs_to :discount, :class_name => 'SubscriptionDiscount', :foreign_key => 'subscription_discount_id'
@@ -34,11 +35,30 @@ class Subscription < ActiveRecord::Base
   # Otherwise, you'll need to manually add the assignment to this method.
   #
 
-  def self.stats
+  def self.charge_projections
     {
-      :last_month => where(:created_at => (1.month.ago.beginning_of_month .. 1.month.ago.end_of_month)).calculate(:sum, :amount),
-      :this_month => where(:created_at => (Time.now.beginning_of_month .. Time.now.end_of_month)).calculate(:sum, :amount),
-      :last_30 => where(:created_at => (1.month.ago .. Time.now)).calculate(:sum, :amount)
+      :seven_days => where(:next_renewal_at => (Time.now .. 7.days.from_now)).calculate(:sum, :amount)
+    }
+  end
+
+  def self.aggregate_plan_stats
+    {
+      :overall => calculate(:count, :all),
+      :last_month => where(:created_at => (1.month.ago.beginning_of_month .. 1.month.ago.end_of_month)).calculate(:count, :all),
+      :this_month => where(:created_at => (Time.now.beginning_of_month .. Time.now.end_of_month)).calculate(:count, :all),
+      :last_30 => where(:created_at => (1.month.ago .. Time.now)).calculate(:count, :all)
+    }
+  end
+
+  def self.stats_by_plan_name
+    {
+      #Subscription.includes(:subscriber).where(:subscriber => nil)
+      :legacy => includes(:subscription_plan).where(:created_at => (1.month.ago .. Time.now), :subscription_plans => {:name => 'Legacy'}).calculate(:count, :all),
+      :engage => includes(:subscription_plan).where(:created_at => (1.month.ago .. Time.now), :subscription_plans => {:name => 'Engage'}).calculate(:count, :all),
+      :build => includes(:subscription_plan).where(:created_at => (1.month.ago .. Time.now), :subscription_plans => {:name => 'Build'}).calculate(:count, :all),
+      :build_with_guided_site_setup => includes(:subscription_plan).where(:created_at => (1.month.ago .. Time.now), :subscription_plans => {:name => 'Build with Guided Site Setup'}).calculate(:count, :all),
+      :build_with_professional_site_setup => includes(:subscription_plan).where(:created_at => (1.month.ago .. Time.now), :subscription_plans => {:name => 'Build with Professional Site Setup'}).calculate(:count, :all),
+      :build_with_hands_off_site_setup => includes(:subscription_plan).where(:created_at => (1.month.ago .. Time.now), :subscription_plans => {:name => 'Build with Hands-Off Site Setup'}).calculate(:count, :all)
     }
   end
 
@@ -73,8 +93,30 @@ class Subscription < ActiveRecord::Base
 
   # The plan_id and plan_id= methods are convenience methods for the
   # administration interface.
+
+  def self.search(query, constraint)
+    if query && query != "" && !constraint.nil?
+      if constraint == "plan"
+        # includes(:subscription_plan).where(nil, :subscription_plans => ['LOWER(plan) LIKE ?', "%#{query.downcase}%"])
+        joins(:subscription_plan).where(['LOWER(name) LIKE ?', "%#{query.downcase}%"])
+      elsif constraint == "business_name"
+        joins(:business).where(['LOWER(name) LIKE ?', "%#{query.downcase}%"])
+      elsif constraint == "email"
+        joins(business: [:owners]).where(['LOWER(email) LIKE ?', "%#{query.downcase}%"])
+      end
+    elsif query == "" || constraint.nil?
+      all
+    else
+      all
+    end
+  end
+
   def plan
     self.subscription_plan
+  end
+
+  def plan_name
+    self.plan.name
   end
 
   def plan_id
@@ -331,6 +373,10 @@ class Subscription < ActiveRecord::Base
 
   def self.find_due(renew_at = Time.now)
     includes(:subscriber).where({ :state => 'active', :next_renewal_at => (renew_at.beginning_of_day .. renew_at.end_of_day) })
+  end
+
+  def self.get_past_dues
+    where("next_renewal_at < ?", Time.now)
   end
 
   def current?

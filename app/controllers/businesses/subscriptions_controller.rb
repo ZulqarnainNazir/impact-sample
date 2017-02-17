@@ -187,6 +187,10 @@ class Businesses::SubscriptionsController < Businesses::BaseController
 		if !@subscription.nil? && !@subscription.downgrade_to.nil?
 			@new_subscription = SubscriptionPlan.find(@subscription.downgrade_to).name
 		end
+
+		if @business.is_affiliate?
+			@balance = AffiliatePayment.get_balance(@business.subscription_affiliate.id)
+		end
 	end
 
 	#for modifying plan chosen in #plans. note that this is a post *and* get resource (see routes)

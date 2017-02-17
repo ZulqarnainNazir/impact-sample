@@ -1,0 +1,8 @@
+- title 'Edit Affiliate Payment'
+
+= errors_for @affiliate_payment
+
+= form_for :affiliate_payment, url: business_subscription_affiliate_payment_path, method: :put do |form|
+  = render form
+hr
+hr

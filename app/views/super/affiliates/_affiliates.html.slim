@@ -1,0 +1,22 @@
+div id="affiliates-partial"
+	table class="table table-striped"
+		thead
+			tr
+			  th ID
+			  th Name
+			  th Rate
+			  th Created at
+			  th Updated at
+			  th Token
+			  th Balance
+		tbody
+			- @affiliates.each do |a|
+			    tr
+			       td = a.id
+				   td = link_to business_subscription_affiliate_sales_path(a.business, a.business.subscription) do
+					   = a.name
+			       td = number_to_percentage(a.rate*100, precision:0)
+			       td = a.created_at.to_date.to_formatted_s(:long_ordinal)
+			       td = a.updated_at.to_date.to_formatted_s(:long_ordinal)
+			       td = a.token
+			       td = number_to_currency(a.balance)

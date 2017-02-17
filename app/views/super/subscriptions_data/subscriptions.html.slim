@@ -1,0 +1,55 @@
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Subscriptions
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-2 m-b-xs"
+
+				div class="btn-group" data-toggle="buttons"
+					label class="btn btn-sm btn-white" id="all-subscriptions"
+						input id="option1" name="options" type="radio"
+							| All
+
+					label class="btn btn-sm btn-white" id="past-dues"
+						input id="option1" name="options" type="radio"
+							| Past Due
+
+
+			= form_tag subscriptions_super_subscriptions_data_path, :method => 'get' do
+				div class="col-sm-5"
+				    .form-group
+						span style="padding-right:5px; padding-left:2px;"
+						    = radio_button_tag(:constraint, :business_name, nil, class: '', style: 'padding-right: 2px; margin:2px;')
+					      	= label_tag(:business_name, "Business Name")
+						span style="padding-right:5px; padding-left:2px;"
+						    = radio_button_tag(:constraint, :plan, nil, class: '', style: 'padding-right: 2px; margin:2px;')
+					      	= label_tag(:plan, "Plan")
+						span style="padding-right:5px; padding-left:2px;"
+						    = radio_button_tag(:constraint, :email, nil, class: '', style: 'padding-right: 2px; margin:2px;')
+					      	= label_tag(:email, "Email")
+
+				div class="col-sm-5"
+					.input-group
+				        = text_field_tag :search, params[:search], class: "form-control", placeholder: "search users"
+				        span.input-group-btn
+				          = submit_tag "Search", :name => nil, class: "btn btn-default"
+
+		br
+		div class="wrapper wrapper-content animated fadeInRight" id="subscriber-states-table"
+			= render 'subscriptions'
+
+
+
+= paginate @subscriptions
+
+javascript:
+
+	$('#past-dues').click(function() {
+		$.get("/super/subscriptions_data/past_dues")
+	});
+
+	$('#all-subscriptions').click(function() {
+		$.get("/super/subscriptions_data/all_subscriptions")
+	});
+
+

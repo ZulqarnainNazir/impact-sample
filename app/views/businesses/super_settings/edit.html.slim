@@ -49,6 +49,31 @@ ol.breadcrumb
           br
         p
           | Important: The default is checked, which means this business will be billed online via Stripe. Please note that before you change a business' status from unchecked to checked, you will need to create a subscription for that business first. The subscription will be inactive until either you or the user activates it. If the user is required to active it, they will be redirected to subscriptions#initial_plan_setup. If you wish to avoid this, you will need to set-up the subscription yourself, and activate it either by: 1) adding credit card and billing information, and running a successful payment; or 2) manually changing the subscription's state to "active."
+
+  - if @business.is_affiliate?
+    .panel.panel-default
+      .panel-heading
+        h1.h4.panel-title Affiliate Status
+      .panel-body
+          .checkbox
+            = form.label :affiliate do
+              => form.check_box :affiliate_activated
+              | Affiliate
+              br
+            p
+              | This business is an affiliate. If you want to revoke the business'
+              | affiliate privileges, unclick the checkbox and save. This will prevent the affiliate from earning revenue from any new business signing-up with the affiliate's unique URL. Checking the box will reverse this and restore the business' ability to earn affiliate revenue.
+            p
+              | Unique URL: 
+              | #{@business.unique_affiliate_url(root_url)}
+            p
+              | Referred by: 
+              - if !@business.get_referred_by.nil?
+                = link_to business_dashboard_path(@business.get_referred_by) do
+                  = @business.get_referred_by.name
+              - elsif @business.get_referred_by.nil?
+                'N/A
+
   .panel.panel-default
     .panel-heading
       h1.h4.panel-title Settings
@@ -59,13 +84,31 @@ ol.breadcrumb
           | ToDo's Enabled
   = form.button 'Save', class: 'btn btn-primary'
 br
+- if !@business.is_affiliate?
+  .div
+    .panel.panel-default
+      .panel-heading
+        h1.h4.panel-title Make This Business an Affiliate
+      .panel-body
+        = button_to 'Make Affiliate', {action: 'create_affiliation'}, data: {disable_with: 'processing...' }, class: "btn btn-primary btn-xs", id: 'create-affiliation' 
+        br
+        p
+          | Make this business an affiliate. The default earning will be 20% of each paid subscription brought in by this business. The business will gain a unique URL (e.g., 'https://impact.com/ref=foo') that it can share. If a business signs-up and claims a paid subscription via this unique URL, then the affiliate will earn a percentage of that subscription. Making the business an affiliate automatically grants the business affiliate privileges. These can be revoked on this page after the affiliation is created.
+        p
+          | Referred by: 
+          - if !@business.get_referred_by.nil?
+            = link_to business_dashboard_path(@business.get_referred_by) do
+              = @business.get_referred_by.name
+          - elsif @business.get_referred_by.nil?
+            'N/A
+
 - if @business.is_on_legacy_plan?
   .div
     .panel.panel-default
       .panel-heading
         h1.h4.panel-title Delete Legacy Subscription
       .panel-body
-        = button_to 'Delete Legacy Plan', {action: 'delete_legacy_plan', add_legacy: 'false'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'subscription-sign-up-2' 
+        = button_to 'Delete Legacy Plan', {action: 'delete_legacy_plan', add_legacy: 'false'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'delete-legacy-plan' 
         br
         p
           | Delete the Legacy Plan subscription for this business. This will usually result in a subscription roadblock being raised that prevents the user from accessing their website's backend until they acquire a subscription.
@@ -75,7 +118,7 @@ br
       .panel-heading
         h1.h4.panel-title Create Legacy Subscription
       .panel-body
-        = button_to 'Create Legacy Plan', {action: 'add_legacy_plan', add_legacy: 'true'}, data: {disable_with: 'loading...' }, class: "btn btn-primary btn-xs", id: 'subscription-sign-up-1' 
+        = button_to 'Create Legacy Plan', {action: 'add_legacy_plan', add_legacy: 'true'}, data: {disable_with: 'loading...' }, class: "btn btn-primary btn-xs", id: 'create-legacy-plan' 
         br
         p
           | Create the Legacy Plan subscription for this business. They will have access to their entire backend and will never be charged.

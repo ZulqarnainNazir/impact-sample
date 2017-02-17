@@ -1,17 +1,20 @@
-div id="inactive-subscriptions-partial"
+div id="subscriber-states-partial"
 	table class="table table-striped"
 		thead
 			tr
-			  th Subscription ID
+			  th ID
 			  th Business Name
-			  th Subscription State
+			  th Plan
 			  th Subscription Current?
 			  th Business Contact
 		tbody
-			- @inactive_subscriptions.each do |sub|
+			- @subscriptions.each do |sub|
 			    tr
 			       td = sub.id
 				   td = sub.subscriber.name
-				   td = sub.state
-				   td = sub.current?
+				   td = sub.plan_name
+				   - if sub.current?
+					   td Yes
+				   - else
+					   td No
 				   td = sub.subscriber.owners.first.email

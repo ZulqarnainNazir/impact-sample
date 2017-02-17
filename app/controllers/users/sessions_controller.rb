@@ -1,5 +1,10 @@
 class Users::SessionsController < Devise::SessionsController
+  before_action :set_affiliate_cookie, :only => [:new]
   layout 'landing'
+
+  def new
+    super
+  end
   
   def create
     user = User.where(email: user_params[:email]).first
@@ -39,6 +44,13 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   private
+
+  def set_affiliate_cookie
+    @affiliate_token = SubscriptionAffiliate.find_by(token: params[:r]).token rescue nil
+    unless @affiliate_token.nil?
+      cookies[:affiliate_token] = { value: @affiliate_token, expires: 1.month.from_now }
+    end
+  end
 
   def user_params
     params.require(:user).permit(

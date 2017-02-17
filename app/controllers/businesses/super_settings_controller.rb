@@ -9,6 +9,22 @@ class Businesses::SuperSettingsController < Businesses::BaseController
     update_resource @business, business_params, location: [:edit, @business, :super_settings]
   end
 
+  def create_affiliation
+    if !@business.is_affiliate?
+      @affiliate = @business.build_subscription_affiliate
+      if @affiliate.save
+        @business.update_attribute :affiliate_activated, true
+        flash[:notice] = "This business now is an affiliate and has affiliate privileges."
+      else 
+        flash[:notice] = "Something went wrong and the app is not able to 
+        create the affiliation at this time."
+      end
+    elsif @business.is_affiliate?
+      flash[:notice] = "This business already is an affiliate."
+    end
+    redirect_to edit_business_super_settings_path(@business)
+  end
+
   def add_legacy_plan
     if params[:add_legacy] == "true"
       @subscription = Subscription.new
@@ -51,7 +67,8 @@ class Businesses::SuperSettingsController < Businesses::BaseController
       :plan, 
       :to_dos_enabled, 
       :bill_online, 
-      :subscription_billing_roadblock
+      :subscription_billing_roadblock,
+      :affiliate_activated
       )
   end
 end

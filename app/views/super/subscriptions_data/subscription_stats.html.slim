@@ -1,8 +1,72 @@
-h2 Subscription Stats
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Subscription Amounts
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-9 m-b-xs"
 
-table.table.table-bordered
-  - SubscriptionPayment.stats.each do |period, amount|
-    tr
-      th= period.to_s.humanize
-      td style="text-align: right" 
-	      = number_to_currency(amount)
+
+		div class="wrapper wrapper-content animated fadeInRight" id="super_admins"
+			div id="subscriber-states-partial"
+				table class="table table-striped"
+					thead
+					  - SubscriptionPayment.stats.each do |period, amount|
+					    tr
+					      th= period.to_s.humanize
+					      td style="text-align: right" 
+						      = number_to_currency(amount)
+
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Projected Subscription Amounts
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-9 m-b-xs"
+
+
+		div class="wrapper wrapper-content animated fadeInRight" id="super_admins"
+			div id="subscriber-states-partial"
+				table class="table table-striped"
+					thead
+					  - Subscription.charge_projections.each do |period, amount|
+					    tr
+					      th= period.to_s.humanize
+					      td style="text-align: right" 
+						      = number_to_currency(amount)
+
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Subscriptions Created
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-9 m-b-xs"
+
+
+		div class="wrapper wrapper-content animated fadeInRight" id="super_admins"
+			div id="subscriber-states-partial"
+				table class="table table-striped"
+					thead
+					  - Subscription.aggregate_plan_stats.each do |period, number|
+					    tr
+					      th= period.to_s.humanize
+					      td style="text-align: right" 
+						      = number
+
+
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Subscriptions Created in Past 30 Days & Sorted by Plan
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-9 m-b-xs"
+
+
+		div class="wrapper wrapper-content animated fadeInRight" id="super_admins"
+			div id="subscriber-states-partial"
+				table class="table table-striped"
+					thead
+					  - Subscription.stats_by_plan_name.each do |period, number|
+					    tr
+					      th= period.to_s.humanize
+					      td style="text-align: right" 
+						      = number

@@ -4,14 +4,49 @@
 
 .wrapper.wrapper-content
   .row.animated.fadeInRight
+    .ibox.float-e-margins.text-center
+      - if params[:import_type] == "companies"
+        .col-md-offset-4.col-sm-offset-2.col-xs-offset-0.col-md-2.col-sm-4.col-xs-6.import-type#import-people
+          .ibox.float-e-margins
+            .ibox-title
+              h4 People
+            .ibox-content.profile-content
+              i.fa.fa-users.fa-5x aria-hidden="true"
+      - else
+        .col-md-offset-4.col-sm-offset-2.col-xs-offset-0.col-md-2.col-sm-4.col-xs-6.import-type#import-people.selected
+          .ibox.float-e-margins
+            .ibox-title
+              h4 People
+            .ibox-content.profile-content
+              i.fa.fa-users.fa-5x aria-hidden="true"
+      - if params[:import_type] == "companies"
+        .col-md-2.col-sm-4.col-xs-6.import-type#import-companies.selected
+          .ibox.float-e-margins
+            .ibox-title
+              h4 Companies
+            .ibox-content.profile-content
+              i.fa.fa-building.fa-5x aria-hidden="true"
+      - else
+        .col-md-2.col-sm-4.col-xs-6.import-type#import-companies
+          .ibox.float-e-margins
+            .ibox-title
+              h4 Companies
+            .ibox-content.profile-content
+              i.fa.fa-building.fa-5x aria-hidden="true"
     .col-md-6
       .ibox.float-e-margins
         .ibox-title
           h5 Import Instructions
         .ibox-content.profile-content
           p Please use our template to build your import file. The column names and order must match this template to be successful. 
-          p All contacts must have <b>EITHER</b> first name, last name, or email address to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
-          p <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer. 
+          - if params[:import_type] == "companies"
+            p.contact-instruction style="display: none;" All contacts must have <b>EITHER</b> first name, last name, or email address to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
+            p.contact-instruction style="display: none;" <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer. 
+            p.company-instruction All companies must include the company name to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
+          - else 
+            p.contact-instruction All contacts must have <b>EITHER</b> first name, last name, or email address to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
+            p.contact-instruction <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer. 
+            p.company-instruction style="display: none;" All companies must include the company name to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
           h3 We'll walk you through the following steps
           ol
             li Download and Complete Template File
@@ -19,7 +54,12 @@
             li Review duplicates to merge, skip or create new
             li Accept Import to update contact database
           p 
-            = link_to "Download CSV Template", [:download_contact_template, @business, :crm_imports,], class: 'btn btn-primary'
+            - if params[:import_type] == "companies"
+              = link_to "Download CSV Template", [:download_contact_template, @business, :crm_imports,], class: 'btn btn-primary', id: "contact_template", disabled: true, style: "display: none;"
+              = link_to "Download CSV Template", [:download_company_template, @business, :crm_imports,], class: 'btn btn-primary', id: "company_template"
+            - else
+              = link_to "Download CSV Template", [:download_contact_template, @business, :crm_imports,], class: 'btn btn-primary', id: "contact_template"
+              = link_to "Download CSV Template", [:download_company_template, @business, :crm_imports,], class: 'btn btn-primary', id: "company_template", disabled: true, style: "display: none;"
     .col-md-6
       .ibox.float-e-margins
         .ibox-title
@@ -30,5 +70,34 @@
               label.control-label for="import_file" CSV for Importing
               = file_field_tag :import_file, class: 'form-control'
             .form-group
+              - if params[:import_type] == "companies"
+                = hidden_field_tag :import_type, "companies", id: "import_type"
+              - else
+                = hidden_field_tag :import_type, "contacts", id: "import_type"
               = submit_tag "Upload and Continue", class: 'btn btn-primary'
           p You can review the data on the next page
+
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $(".import-type").click(function(){
+        $(".import-type").removeClass('selected');
+        $(this).addClass('selected');
+        $("input[type=submit]").removeAttr('disabled');
+      });
+      $("#import-people").click(function(){
+        $("#company_template").css('display', 'none').prop('disabled', true);
+        $("#contact_template").css('display', 'inline').removeAttr('disabled');
+        $(".contact-instruction").show(200);
+        $(".company-instruction").hide(200);
+        $("#import_type").val("contacts");
+      });
+      $("#import-companies").click(function(){
+        $("#contact_template").css('display', 'none').prop('disabled', true);
+        $("#company_template").css('display', 'inline').removeAttr('disabled');
+        $(".company-instruction").show(200);
+        $(".contact-instruction").hide(200);
+        $("#import_type").val("companies");
+      });
+    });

@@ -1,0 +1,126 @@
+- title 'Import Contacts'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_contacts, :an => 'Import Contacts'}
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Review Import
+        .ibox-content.profile-content
+          p Here's what we see in the file you uploaded, if the fields don't line up correctly or something doesn't look right click "Back" to upload a new file using our template. No changes will be made to your data until you complete the import.
+          p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+          - if @skip[:keep_contacts].count > 0
+            .scrolling-table
+              table.footable.table.table-stripped
+                thead
+                  tr
+                    th
+                      | First Name
+                    th
+                      | Last Name
+                    th
+                      | Email
+                    th
+                      | Phone
+                    th
+                      | Street Address 1
+                    th
+                      | Street Address 2
+                    th
+                      | City
+                    th
+                      | State
+                    th
+                      | Zip Code
+                    th
+                      | Contact Type(s)
+                    th
+                      | Description
+                tbody
+                  - i = 0
+                  - @skip[:keep_contacts].each do |contact|
+                    - i += 1
+                    tr
+                      td = contact.first_name
+                      td = contact.last_name
+                      td = contact.email
+                      td = contact.phone
+                      td = contact.street1
+                      td = contact.street2
+                      td = contact.city
+                      td = contact.state
+                      td = contact.zip
+                      td = contact.relationship.join(", ")
+                      - if !contact.description.blank? and contact.description.length > 100
+                        td = contact.description[0..100] + "..."
+                      - else
+                        td = contact.description
+                    - if i > 3
+                      - break
+          - if @skip[:skip_contacts].count > 0
+            .scrolling-table
+              p style="margin-top: 40px;"
+                strong The following data from your upload will be skipped because something isn't right (usually this means a requirement is missing or data isn't formatted correctly like a State is spelled instead of abbreviated)
+              table.footable.table.table-stripped
+                thead
+                  tr
+                    th
+                      | First Name
+                    th
+                      | Last Name
+                    th
+                      | Email
+                    th
+                      | Phone
+                    th
+                      | Street Address 1
+                    th
+                      | Street Address 2
+                    th
+                      | City
+                    th
+                      | State
+                    th
+                      | Zip Code
+                    th
+                      | Contact Type(s)
+                    th
+                      | Description
+                tbody
+                  - @skip[:skip_contacts].each do |contact|
+                    tr
+                      td = contact.first_name
+                      td = contact.last_name
+                      td = contact.email
+                      td = contact.phone
+                      td = contact.street1
+                      td = contact.street2
+                      td = contact.city
+                      td = contact.state
+                      td = contact.zip
+                      td = contact.relationship.join(", ")
+                      - if !contact.description.blank? and contact.description.length > 100
+                        td = contact.description[0..100] + "..."
+                      - else
+                        td = contact.description
+                
+          - if @skip[:keep_contacts].count > 0
+            - if !@duplicates.blank? and @duplicates.count > 0
+              = form_tag [:review_duplicates, @business, :crm_imports] do
+                = hidden_field_tag :filename, @filename
+                = hidden_field_tag :import_type, "contacts"
+                = hidden_field_tag :skip_indexes, @skip[:skip_indexes].join(',')
+                = submit_tag "Continue to Review Duplicates"
+            - else
+              = form_tag [:process_csv, @business, :crm_imports] do
+                = hidden_field_tag :filename, @filename
+                = hidden_field_tag :import_type, "contacts"
+                = hidden_field_tag :skip_indexes, @skip[:skip_indexes].join(',')
+
+                = submit_tag "Import all #{@skip[:keep_contacts].count} contacts"
+          - else
+            p Import was empty or invalid, please go back and try again
+            p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+

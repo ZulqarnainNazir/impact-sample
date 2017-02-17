@@ -1,0 +1,54 @@
+<div class="ibox-content">
+
+    <% if !@affiliate_sales.nil? && !@affiliate_sales.empty? %>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Amount</th>
+                <th>Commission Amount</th>
+                <th>Date</th>
+                <th>Type</th>
+                <% if current_user.super_user? %>
+                    <th>Commission Paid?</th>
+                <% end %>
+            </tr>
+            </thead>
+            <tbody>
+                <% @affiliate_sales.each do |n| %>
+                    <tr>
+                        <td> <%=link_to("#{n.transaction_id}", business_subscription_affiliate_sale_path(@subscription.subscriber, @subscription, n))%></td>
+                        <td class="text-navy"><%=number_to_currency(n.amount)%></td>
+                        <td class="text-navy"><%=number_to_currency(n.affiliate_amount)%></td>
+                        <td><%=n.created_at.to_date.to_formatted_s(:long_ordinal)%></td>
+                        <% if n.setup? && n.monthly? %>
+                            <td class="text-navy"> Setup + First Monthly Payment </td>
+                        <% elsif n.setup? && n.annual? %>
+                            <td class="text-navy"> Setup + First Annual Payment </td>
+                        <% elsif n.monthly? &&  !n.setup? %>
+                            <td class="text-navy"> Monthly </td>
+                        <% elsif n.annual? %>
+                            <td class="text-navy"> Annual </td>
+                        <% elsif n.misc? %>
+                            <td class="text-navy"> Miscellaneous </td>
+                        <% end %>
+                        <% if current_user.super_user? %>
+                            <% if n.has_affiliate_payment? %>
+                                <td class="text-navy"> 
+                                    <%= n.affiliate_payment.paid %>
+                                    <%= link_to edit_business_subscription_affiliate_payment_path(n.affiliate.business, n.affiliate.business.subscription, n.affiliate_payment), class: "btn btn-primary btn-xs" do %>
+                                        edit
+                                    <% end %>
+                                </td>
+                            <% else %>
+                                <td class="text-navy"> N/A </td>
+                            <% end %>
+                        <% end %>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% else %>
+        <h3> You have no commissions at this time. </h3>
+    <% end %>
+</div>

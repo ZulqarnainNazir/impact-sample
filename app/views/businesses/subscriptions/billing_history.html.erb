@@ -38,7 +38,7 @@
                         	<% @sp.each do |n| %>
     		                    <tr>
     		                        <td> <%=link_to("#{n.transaction_id}", business_subscription_subscription_payment_path(@subscription.subscriber, @subscription, n))%></td>
-    		                        <td class="text-navy"><%=n.amount.to_s%></td>
+    		                        <td class="text-navy">$<%=n.amount.to_s%></td>
     		                        <td><%=n.created_at.to_s(:short_day)%></td>
     		                        <% if n.setup? && n.monthly? %>
     			                        <td class="text-navy"> Setup + First Monthly Payment </td>

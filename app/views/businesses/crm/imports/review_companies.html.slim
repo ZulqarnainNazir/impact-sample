@@ -1,0 +1,136 @@
+- title 'Import Contacts'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_companies, :an => 'Import Contacts'}
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Review Import
+        .ibox-content.profile-content
+          p Here's what we see in the file you uploaded, if the fields don't line up correctly or something doesn't look right click "Back" to upload a new file using our template. No changes will be made to your data until you complete the import.
+          p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+          - if @skip[:keep_companies].count > 0
+            .scrolling-table
+              table.footable.table.table-stripped
+                thead
+                  tr
+                    th
+                      | Company Name
+                    th
+                      | Website URL
+                    th
+                      | Email
+                    th
+                      | Phone
+                    th
+                      | Street Address 1
+                    th
+                      | Street Address 2
+                    th
+                      | City
+                    th
+                      | State
+                    th
+                      | Zip Code
+                    th
+                      | Facebook
+                    th
+                      | Twitter
+                    th
+                      | Instagram
+                    th
+                      | Description
+                tbody
+                  - i = 0
+                  - @skip[:keep_companies].each do |company|
+                    - i += 1
+                    tr
+                      td = company.name
+                      td = company.website_url
+                      td = company.location_email
+                      td = company.location_phone_number
+                      td = company.location_street1
+                      td = company.location_street2
+                      td = company.location_city
+                      td = company.location_state
+                      td = company.location_zip_code
+                      td = company.facebook_id
+                      td = company.twitter_id
+                      td = company.instagram_id
+                      - if !company.description.blank? and company.description.length > 100
+                        td = company.description[0..100] + "..."
+                      - else
+                        td = company.description
+                    - if i > 3
+                      - break
+          - if @skip[:skip_companies].count > 0
+            .scrolling-table
+              p style="margin-top: 40px;"
+                strong The following data from your upload will be skipped because something isn't right (usually this means a requirement is missing or data isn't formatted correctly like a State is spelled instead of abbreviated)
+              table.footable.table.table-stripped
+                thead
+                  tr
+                    th
+                      | Company Name
+                    th
+                      | Website URL
+                    th
+                      | Email
+                    th
+                      | Phone
+                    th
+                      | Street Address 1
+                    th
+                      | Street Address 2
+                    th
+                      | City
+                    th
+                      | State
+                    th
+                      | Zip Code
+                    th
+                      | Facebook
+                    th
+                      | Twitter
+                    th
+                      | Instagram
+                    th
+                      | Description
+                tbody
+                  - @skip[:skip_companies].each do |company|
+                    tr
+                      td = company.name
+                      td = company.website_url
+                      td = company.location_email
+                      td = company.location_phone_number
+                      td = company.location_street1
+                      td = company.location_street2
+                      td = company.location_city
+                      td = company.location_state
+                      td = company.location_zip_code
+                      td = company.facebook_id
+                      td = company.twitter_id
+                      td = company.instagram_id
+                      - if !company.description.blank? and company.description.length > 100
+                        td = company.description[0..100] + "..."
+                      - else
+                        td = company.description
+          - if @skip[:keep_companies].count > 0
+            - if !@duplicates.blank? and @duplicates.count > 0
+              = form_tag [:review_duplicates, @business, :crm_imports] do
+                = hidden_field_tag :filename, @filename
+                = hidden_field_tag :import_type, "companies"
+                = hidden_field_tag :skip_indexes, @skip[:skip_indexes].join(',')
+                = submit_tag "Continue to Review Duplicates"
+            - else
+              = form_tag [:process_csv, @business, :crm_imports] do
+                = hidden_field_tag :filename, @filename
+                = hidden_field_tag :import_type, "companies"
+                = hidden_field_tag :skip_indexes, @skip[:skip_indexes].join(',')
+                = submit_tag "Import all #{@skip[:keep_companies].count} companies"
+          - else
+            p Import was empty or invalid, please go back and try again
+            p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+

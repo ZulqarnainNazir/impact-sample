@@ -70,8 +70,8 @@
                             </div>
                         </td>
                         <td>1</td>
-                        <td><%= @sp.amount.to_s %></td>
-                        <td><%= @sp.amount.to_s %></td>
+                        <td>$<%= @sp.amount.to_s %></td>
+                        <td>$<%= @sp.amount.to_s %></td>
                     </tr>
                 </tbody>
             </table>
@@ -81,7 +81,7 @@
             <tbody>
             <tr>
                 <td><strong>Sub Total :</strong></td>
-                <td><%= @sp.amount.to_s %></td>
+                <td>$<%= @sp.amount.to_s %></td>
             </tr>
 <!--             <tr>
                 <td><strong>TAX :</strong></td>
@@ -89,7 +89,7 @@
             </tr> -->
             <tr>
                 <td><strong>TOTAL :</strong></td>
-                <td><%= @sp.amount.to_s %></td>
+                <td>$<%= @sp.amount.to_s %></td>
             </tr>
             </tbody>
         </table>

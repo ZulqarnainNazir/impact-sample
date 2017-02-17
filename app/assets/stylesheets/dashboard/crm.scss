@@ -1,0 +1,18 @@
+.import-type {
+  cursor: pointer;
+}
+.import-type.selected {
+  .ibox-content, .ibox-title {
+    color: #FFFFFF;
+    background: #1ab394;
+  }
+}
+.import-form, .scrolling-table {
+  overflow-x: scroll;
+  table {
+    min-width: 1500px;
+    select {
+      max-width: 170px;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<div class="ibox-content">
+
+    <% if !@referred_businesses.nil? && !@referred_businesses.empty? %>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Business Name</th>
+                <th>Plan</th>
+                <th>Subscription Amount</th>
+                <th>Projected Commission</th>
+                <th>Assumed Cycle (Subscription Type)</th>
+                <th>Sign-up Date</th>
+            </tr>
+            </thead>
+            <tbody>
+                <% @referred_businesses.each do |n| %>
+                    <tr>
+                        <td> <%= n.name %></td>
+                        <td> <%= n.subscription.plan.name %> </td>
+                        <td class="text-navy"><%=number_to_currency(n.subscription.amount)%></td>
+                        <td class="text-navy">
+                            <%=number_to_currency(n.subscription.amount*@business.subscription_affiliate.rate)%>
+                        </td>
+                        <% if n.subscription.annual? %>
+                            <td class="text-navy"> Annual </td>
+                        <% else %>
+                            <td class="text-navy"> Monthly </td>
+                        <% end %>
+                        <td><%=n.created_at.to_date.to_formatted_s(:long_ordinal)%></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% else %>
+        <h3> You have referred no businesses up to this time. </h3>
+    <% end %>
+</div>

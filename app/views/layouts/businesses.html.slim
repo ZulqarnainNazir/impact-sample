@@ -4,6 +4,8 @@ html
   = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
   body
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
+      - if current_user.super_user?
+        = render 'billing_dashnav'
       div id="page-wrapper" class="gray-bg"
         = render 'dashtopnavbar_reduced' 
         = render 'alerts'

@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170208203720) do
+
+ActiveRecord::Schema.define(version: 20170215165205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "affiliate_payments", force: :cascade do |t|
+    t.text     "title"
+    t.integer  "subscription_affiliate_id"
+    t.integer  "subscription_payment_id"
+    t.text     "description"
+    t.decimal  "amount",                    precision: 6, scale: 2, default: 0.0
+    t.boolean  "paid",                                              default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                  null: false
@@ -161,9 +173,10 @@ ActiveRecord::Schema.define(version: 20170208203720) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
-    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
+    t.boolean  "in_impact",                      default: true
+    t.boolean  "affiliate_activated",            default: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -720,10 +733,11 @@ ActiveRecord::Schema.define(version: 20170208203720) do
 
   create_table "subscription_affiliates", force: :cascade do |t|
     t.string   "name"
-    t.decimal  "rate",       precision: 6, scale: 4, default: 0.0
+    t.decimal  "rate",        precision: 6, scale: 4, default: 0.2
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "token"
+    t.integer  "business_id"
   end
 
   add_index "subscription_affiliates", ["token"], name: "index_subscription_affiliates_on_token", using: :btree

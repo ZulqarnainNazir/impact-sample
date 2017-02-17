@@ -42,6 +42,12 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       @subscription.plan = SubscriptionPlan.engage_plan
       @subscription.state = 'active'
       @subscription.subscriber = @business
+      unless cookies[:affiliate_token].nil?
+        @affiliate = SubscriptionAffiliate.find_by(token: cookies[:affiliate_token])
+        unless !@affiliate.business.affiliate_activated?
+          @subscription.affiliate = @affiliate
+        end
+      end
       @subscription.save!
     end
   end

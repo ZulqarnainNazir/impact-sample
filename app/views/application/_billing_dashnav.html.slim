@@ -1,0 +1,23 @@
+nav.navbar-default.navbar-static-side[role="navigation"]
+    ul#side-menu.nav.metismenu
+        li = link_to subscriptions_super_subscriptions_data_path do
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | Subscriptions
+        li = link_to subscription_stats_super_subscriptions_data_path do
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | Subscription Stats
+        li = link_to super_subscription_plans_path do
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | Subscription Plans
+        li = link_to super_affiliates_path do
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | Affiliates
+        li = link_to super_admins_super_users_path do
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | Super Admins
+        li = link_to all_users_super_users_path do
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | Users
+
+
+subscription_stats_super_subscriptions_data_path

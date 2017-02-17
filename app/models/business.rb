@@ -38,6 +38,7 @@ class Business < ActiveRecord::Base
   end
 
   has_one :subscription, :foreign_key => :subscriber_id
+  # has_one :subscription, as: :subscriber
   has_many :categories, through: :categorizations
   has_many :events
   has_many :images
@@ -53,6 +54,7 @@ class Business < ActiveRecord::Base
   has_many :owned_companies, :class_name => "Company", :foreign_key => "user_business_id"
   has_many :owned_by_business, :class_name => "Company", :foreign_key => "company_business_id"
   belongs_to :company, :class_name => "Company", :foreign_key => "company_business_id"
+  has_one :subscription_affiliate
 
 
   has_placed_image :logo
@@ -84,6 +86,42 @@ class Business < ActiveRecord::Base
   end
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
+
+  def referred?
+    if !self.subscription.nil?
+      if !self.subscription.affiliate.nil?
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
+  def get_referred_by
+    if self.referred?
+      self.subscription.affiliate.business
+    else
+      nil
+    end
+  end
+
+  def unique_affiliate_url(root_url)
+    root_url + "?r=#{self.subscription_affiliate.token}"
+  end
+
+  def is_affiliate?
+    if !self.subscription_affiliate.nil?
+      return true
+    elsif self.subscription_affiliate.nil?
+      return false
+    end
+  end
+
+  def self.get_referred_businesses(id)
+    joins(:subscription).where('subscription_affiliate_id = ?', id)
+  end
 
   def is_on_engage_plan?
     if !self.subscription.nil?
@@ -152,6 +190,55 @@ class Business < ActiveRecord::Base
       .order(:created_at)
       .order(:group)
       .limit(5)
+  end
+
+  def self.get_duplicates new_business, skip_indexes
+    duplicates = {}
+    new_businesses.each_with_index do |new_business, i|
+      if skip_indexes.include?(i.to_s)
+        next
+      end
+      dup = self.get_duplicate new_business
+      if dup != false
+        duplicates[i] = dup
+      end
+    end 
+    if !duplicates.blank?
+      duplicates
+    end
+  end
+
+  def self.get_duplicate new_business
+    Rails.logger.debug new_business
+    matches = []
+    if(!new_business[:location_phone_number].blank?)
+      matches += joins(:location).where("regexp_replace(locations.phone_number, '[^0-9]+', '', 'g')=regexp_replace(?, '[^0-9]+', '', 'g')", new_business[:location_phone_number])
+    end
+    %w[name website_url facebook_id twitter_id instagram_id].each do |column|
+      if(!new_business[column.to_sym].blank?)
+        matches += where("LOWER(businesses.#{column})=LOWER(?)", new_business[column.to_sym])
+      end
+    end
+    %w[location_email].each do |column|
+      column_n = column[9..column.length]
+      if(!new_business[column.to_sym].blank?)
+        matches += joins(:location).where("LOWER(locations.#{column_n})=LOWER(?)", new_business[column.to_sym])
+      end
+    end
+    if(!new_business[:location_street1].blank?)
+      matches += joins(:location).where("LOWER(locations.street1)=LOWER(?) AND LOWER(locations.city)=LOWER(?) AND LOWER(locations.state)=LOWER(?) AND LOWER(locations.zip_code)=LOWER(?)", new_business[:location_street1], new_business[:location_city], new_business[:location_state], new_business[:location_zip_code])
+    end
+    if matches.blank?
+      return false
+    end
+    counts = matches.each_with_object(Hash.new(0)) { |o, h| h[o[:id]] += 1 }
+    best_match = counts.sort_by {|k,v| v}.reverse[0][0].to_i
+    find(best_match)
+  end
+
+  def update_attributes_only_if_blank(attributes)
+    attributes.each { |k,v| attributes.delete(k) unless read_attribute(k).blank? }
+    update_attributes(attributes)
   end
 
   private

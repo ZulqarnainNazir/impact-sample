@@ -31,6 +31,26 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.search(query, constraint)
+    if query && query != "" && !constraint.nil?
+      if constraint == "email"
+        where('LOWER(email) LIKE ?', "%#{query.downcase}%")
+      elsif constraint == "last_name"
+        where('LOWER(first_name) LIKE ?', "%#{query.downcase}%")
+      elsif constraint == "first_name"
+        where('LOWER(last_name) LIKE ?', "%#{query.downcase}%")
+      end
+    elsif query == "" || constraint.nil?
+      all
+    else
+      all
+    end
+  end
+
+  def self.get_super_users
+    where('super_user = ?', true)
+  end
+
   def authorized_businesses
     super_user ? Business.all : businesses
   end

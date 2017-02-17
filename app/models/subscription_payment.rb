@@ -1,10 +1,12 @@
 class SubscriptionPayment < ActiveRecord::Base
+  has_one :affiliate_payment
   belongs_to :subscription
   belongs_to :subscriber, :polymorphic => true
   belongs_to :affiliate, :class_name => 'SubscriptionAffiliate', :foreign_key => 'subscription_affiliate_id'
 
   before_create :set_info_from_subscription
   before_create :calculate_affiliate_amount
+  after_create :create_affiliate_payment
   after_create :send_receipt
 
   def self.stats
@@ -15,9 +17,28 @@ class SubscriptionPayment < ActiveRecord::Base
     }
   end
 
-    def to_param
-      transaction_id
+  def has_affiliate_payment?
+    if !self.affiliate_payment.nil?
+      true
+    else
+      false
     end
+  end
+
+  def to_param
+    transaction_id
+  end
+
+  def create_affiliate_payment
+    return unless affiliate
+    @ap = build_affiliate_payment(
+      title: "Affiliate Commission Payment to #{affiliate.business.name}", 
+      subscription_affiliate_id: self.subscription_affiliate_id, 
+      description: "This commission was earned from a subscription payment made by a business you referred to us.", 
+      amount: affiliate_amount
+    )
+    @ap.save!
+  end
 
   protected
 
@@ -47,6 +68,9 @@ class SubscriptionPayment < ActiveRecord::Base
         SubscriptionNotifier.misc_receipt(self).deliver_later(wait: 5.seconds)
       else
         SubscriptionNotifier.charge_receipt(self).deliver_later(wait: 5.seconds)
+      end
+      if !self.affiliate.nil?
+        SubscriptionNotifier.affiliate_earning_notification(self).deliver_later(wait: 5.seconds)
       end
       true
     end

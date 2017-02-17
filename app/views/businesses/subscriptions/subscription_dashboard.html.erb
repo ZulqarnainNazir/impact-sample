@@ -132,6 +132,40 @@
       </p>
     </div>
   </div>
+
+  <% if @business.is_affiliate? %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h2>Affiliate Information & History</h2>
+      </div>
+      <div class="ibox-content">
+        <% if !@business.affiliate_activated? %>
+          <p style="padding-top:1em">
+            Your affiliate program is currently disabled. Please contact
+            support for further information.
+          </p>        
+        <% elsif @business.affiliate_activated? %>
+          <span class="pull-right">
+              <h3>Current Balance: <%=number_to_currency(@balance)%></h3>
+          </span>
+          <p style="padding-top:1em">
+            <%= link_to 'Affiliate History', business_subscription_affiliate_sales_path(@business, @subscription), class: "btn btn-primary" %>
+          </p>
+          </br>
+          <p>
+            <b> Your unique URL: </b>
+            </br>
+            <b> <%= @business.unique_affiliate_url(root_url) %> </b>
+            </br>
+            Share this unique URL to earn benefits from bringing in new
+            users. You will only earn benefits if users sign-up via
+            your unique URL.
+          </p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
 <% end %>
 
 

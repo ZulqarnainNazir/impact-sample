@@ -44,14 +44,28 @@ Rails.application.routes.draw do
     end
 
     namespace :super do
+      resources :billing_dashboard, only: [:none] do
+        collection do
+
+        end
+      end
+      resources :users, only: [:none] do
+        collection do
+          get :all_users
+          get :super_admins
+        end
+      end
       resources :subscription_plans
+      resources :affiliates, only: [:index]
       resources :to_dos, only: :index
       resources :to_do_notification_settings, only: %i[index create]
       resources :subscriptions_data, only: [:none] do
         collection do
           get :subscription_stats
-          get :subscriber_states
+          get :subscriptions
           get :inactive_subscriptions
+          get :all_subscriptions
+          get :past_dues
         end
       end
     end
@@ -83,6 +97,16 @@ Rails.application.routes.draw do
         resource :dashboard_tour_viewed, only: %i[create]
 
           resources :subscriptions, except: [:index] do
+            resources :affiliate_payments, only: %i[show edit update] do
+              get 'unpaid_affiliate_commissions', :on => :collection
+              post 'mark_as_paid', :on => :collection
+            end
+            resources :affiliate_sales, only: %i[show index delete] do
+              collection do
+                get 'referred_businesses'
+                get 'commissions'
+              end
+            end
             resources :subscription_payments, only: %i[show]
             collection do
               get :dashboard, :thanks, :plans, :canceled, :return_to_impact, :initial_plan_setup
@@ -151,6 +175,7 @@ Rails.application.routes.draw do
           resources :imports, only: %i[index update] do
             collection do
               get 'download_contact_template'
+              get 'download_company_template'
               post 'review'
               post 'review_duplicates'
               post 'process_csv'
@@ -200,6 +225,7 @@ Rails.application.routes.draw do
 
         resource :marketing, only: %i[show]
         resource :super_settings, only: %i[edit update] do
+          post 'create_affiliation', on: :member
           post 'add_legacy_plan', on: :member
           delete 'delete_legacy_plan', on: :member
         end

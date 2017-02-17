@@ -12,7 +12,7 @@
           p Below are duplicates we've detected with data currently in your database. You can skip importing the new record, import a new contact entirely or merge with existing. 
           p <b>Please note:</b> When you merge with an existing contact the information from your upload file will replace the data in the existing contact record. 
           p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
-          = form_tag [:process_csv, @business, :crm_imports] do
+          = form_tag [:process_csv, @business, :crm_imports], class: "import-form" do
             - if @duplicates.count > 0
               - @duplicates.each do |i, contact|
                 table.footable.table.table-stripped
@@ -85,6 +85,7 @@
                 hr style="margin: 30px 0"
                 
               = hidden_field_tag :filename, @filename
+              = hidden_field_tag :import_type, "contacts"
               = hidden_field_tag :skip_indexes, params[:skip_indexes]
               = submit_tag "Import all contacts"
 

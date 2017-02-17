@@ -1,0 +1,107 @@
+<div class = "row">
+
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h1>Commission History</h1>
+            </div>
+            <div class="ibox-content">
+                    <a class="btn btn-primary btn-sm" data-toggle="tab" href="#tab-1" aria-expanded="true"> Commissions </a>
+
+                    <a class="btn btn-primary btn-sm" data-toggle="tab" href="#tab-2" aria-expanded="false"> Referred Accounts </a>
+                    <span class="pull-right">
+                        <h3>Current Balance: <%=number_to_currency(@balance)%></h3>
+
+                        <% if current_user.super_user? %>
+
+                            <%= link_to 'Pay Commissions', unpaid_affiliate_commissions_business_subscription_affiliate_payments_path(@business, @subscription) %>
+
+                        <% end %>
+                    </br>
+                    </br>
+
+                    </span>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tab-content">
+                      <div id="tab-1" class="tab-pane active">
+                        <%= render 'affiliate_sales' %>
+                      </div>
+                      <div id="tab-2" class="tab-pane">
+                        <%= render 'referred_accounts' %>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+<script src="js/plugins/wow/wow.min.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+            $("#navbar").collapse('hide');
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    // new WOW().init();
+
+</script>

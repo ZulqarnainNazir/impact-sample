@@ -1,0 +1,121 @@
+- title 'Import Companies'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_companies, :an => 'Import Companies'}
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Review Potential Duplicates
+        .ibox-content.profile-content
+          p Below are duplicates we've detected with data currently in your database. You can skip importing the new record, import a new company entirely or merge with existing. 
+          p <b>Please note:</b> When you merge with an existing company the information from your upload file will replace the data in the existing company record. 
+          p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+          = form_tag [:process_csv, @business, :crm_imports], class: "import-form" do
+            - if @duplicates.count > 0
+              - @duplicates.each do |i, company|
+                table.footable.table.table-stripped
+                  thead
+                    tr
+                      th
+                        | Update Method
+                      th
+                        | Version
+                      th
+                        | Company Name
+                      th
+                        | Website URL
+                      th
+                        | Email
+                      th
+                        | Phone
+                      th
+                        | Street Address 1
+                      th
+                        | Street Address 2
+                      th
+                        | City
+                      th
+                        | State
+                      th
+                        | Zip Code
+                      th
+                        | Facebook
+                      th
+                        | Twitter
+                      th
+                        | Instagram
+                      th
+                        | Description
+                  tbody
+                    tr
+                      - if company.class.name == "Business"
+                        td = select_tag "merge[#{i}]", "<option value='yes'>Create Company From Core Business</option><option value='no'>Create New Company and Core Business</option><option value='skip'>Skip Import of Company</option>".html_safe 
+                      - else
+                        td = select_tag "merge[#{i}]", "<option value='yes'>Update Company</option><option value='no'>Create a New Company</option><option value='skip'>Skip Import of Company</option>".html_safe 
+                      td 
+                        - if company.class.name == "Business"
+                          b Existing Business
+                          = hidden_field_tag "merge_class[#{i}]", "business"
+                          = hidden_field_tag "merge_id[#{i}]", company.id
+                        - else
+                          b Existing Company
+                          = hidden_field_tag "merge_class[#{i}]", "company"
+                          = hidden_field_tag "merge_id[#{i}]", company.id
+                        td = company.name
+                        td = company.website_url
+                        - if company.class.name == "Business"
+                          td = company.location.email
+                          td = company.location.phone_number
+                          td = company.location.street1
+                          td = company.location.street2
+                          td = company.location.city
+                          td = company.location.state
+                          td = company.location.zip_code
+                        - else
+                          td = company.company_location.email
+                          td = company.company_location.phone_number
+                          td = company.company_location.street1
+                          td = company.company_location.street2
+                          td = company.company_location.city
+                          td = company.company_location.state
+                          td = company.company_location.zip_code
+                        td = company.facebook_id
+                        td = company.twitter_id
+                        td = company.instagram_id
+                        - if !company.description.blank? and company.description.length > 100
+                          td = company.description[0..100] + "..."
+                        - else
+                          td = company.description
+                    tr
+                      td 
+                      td 
+                        b Pending Update
+                      td = @companies[i].name
+                      td = @companies[i].website_url
+                      td = @companies[i].location_email
+                      td = @companies[i].location_phone_number
+                      td = @companies[i].location_street1
+                      td = @companies[i].location_street2
+                      td = @companies[i].location_city
+                      td = @companies[i].location_state
+                      td = @companies[i].location_zip_code
+                      td = @companies[i].facebook_id
+                      td = @companies[i].twitter_id
+                      td = @companies[i].instagram_id
+                      - if !@companies[i].description.blank? and @companies[i].description.length > 100
+                        td = @companies[i].description[0..100] + "..."
+                      - else
+                        td = @companies[i].description
+                hr style="margin: 30px 0"
+                
+              = hidden_field_tag :filename, @filename
+              = hidden_field_tag :import_type, "companies"
+              = hidden_field_tag :skip_indexes, params[:skip_indexes]
+              = submit_tag "Import all companies"
+
+            - else
+              p Import was empty, please go back and try again
+              p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
+

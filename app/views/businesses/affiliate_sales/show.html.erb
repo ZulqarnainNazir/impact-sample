@@ -1,0 +1,92 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-content p-xl">
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>From:</h5>
+                <address>
+                    <strong>Locable, Inc.</strong><br>
+                    909 Mormon St<br>
+                    Folsom, CA 95630<br>
+                    <abbr title="Phone">Phone:</abbr> (916) 585-8468
+                </address>
+            </div>
+
+            <div class="col-sm-6 text-right">
+                <h4>Commission Invoice No.</h4>
+                <h4 class="text-navy"><%= @sp.transaction_id %> (Commission) </h4>
+                <span>To:</span>
+                <address>
+                    <strong><%= @business.name %> </strong><br>
+                </address>
+                <p>
+                    <span><strong>Invoice Date: </strong><%= @sp.created_at.to_date.to_formatted_s(:long_ordinal) %></span><br>
+                </p>
+            </div>
+        </div>
+
+        <div class="table-responsive m-t">
+            <table class="table invoice-table">
+                <thead>
+                <tr>
+                    <th>Item Purchased by Subscriber <u><%= @subscriber.name %></u></th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                    <th><b>Your Commission</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>
+                                    <% if @sp.setup? && @sp.monthly? %>
+                                        <dd class="text-navy"> Plan Setup + First Monthly Payment </dd>
+                                    <% elsif @sp.setup? && @sp.annual? %>
+                                        <dd class="text-navy"> Plan Setup + First Annual Payment </dd>
+                                    <% elsif @sp.monthly? &&  !@sp.setup? %>
+                                        <dd class="text-navy"> Monthly Subscription Charge </dd>
+                                    <% elsif @sp.annual? && !@sp.setup? %>
+                                        <dd class="text-navy"> Annual Subscription </dd>
+                                    <% elsif @sp.misc? %>
+                                        <dd class="text-navy"> Miscellaneous Charge </dd>
+                                    <% end %>
+                                </strong>
+                            </div>
+                        </td>
+                        <td>1</td>
+                        <td><%= number_to_currency(@sp.amount) %></td>
+                        <td><%= number_to_currency(@sp.amount) %></td>
+                        <td><b><%= number_to_currency(@sp.affiliate_amount) %></b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!-- /table-responsive -->
+
+        <table class="table invoice-total">
+            <tbody>
+            <tr>
+                <td><strong>Commission Sub Total :</strong></td>
+                <td><%= number_to_currency(@sp.affiliate_amount) %></td>
+            </tr>
+<!--             <tr>
+                <td><strong>TAX :</strong></td>
+                <td></td>
+            </tr> -->
+            <tr>
+                <td><strong>Commission TOTAL :</strong></td>
+                <td><%= number_to_currency(@sp.affiliate_amount) %></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <% if !@sp.affiliate_payment.nil? && @sp.affiliate_payment.paid? %>
+            <div class="well m-t">
+
+                <strong>PAID</strong>
+                
+            </div>
+        <% end %>
+        
+    </div>
+</div>

@@ -1,0 +1,24 @@
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+        .ibox-content
+          .row
+            .col-sm-12
+              .h1 
+                | Edit Affiliate Payment
+              .form-group
+                = form.label :title, class: 'control-label'
+                = form.text_field :title, class: 'form-control'
+              .form-group
+                = form.label :description, class: 'control-label'
+                = form.text_area :description, class: 'form-control'
+              .form-group
+                = form.label 'Amount', class: 'control-label'
+                = form.number_field :amount, class: 'form-control', :step => 0.01
+              .form-group
+                = form.label "Paid", class: 'control-label'
+                = form.check_box :paid, class: 'form-control'
+
+                = form.button 'Save', class: 'btn btn-block btn-primary'

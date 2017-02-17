@@ -1,0 +1,28 @@
+div id="super_users_partial"
+	table class="table table-striped"
+		thead
+			tr
+			  th ID
+			  th Email
+			  th Reset Password Sent At
+			  th Remember Created At
+			  th Sign-in Count
+			  th Current Sign-in At
+		tbody
+			- @users.each do |sub|
+			    tr
+			       td = sub.id
+
+			       td = sub.email
+
+			       td = !sub.reset_password_sent_at.nil? ? sub.reset_password_sent_at.to_date.to_formatted_s(:long_ordinal) : "-"
+				   
+				   td = !sub.remember_created_at.nil? ? sub.remember_created_at.to_date.to_formatted_s(:long_ordinal) : "-"
+
+				   td = sub.sign_in_count
+
+				   td = !sub.current_sign_in_at.nil? ? sub.current_sign_in_at.to_date.to_formatted_s(:long_ordinal) : '-'
+
+
+				   / td = link_to edit_super_subscription_plan_path(sub) do
+					  /  = sub.name

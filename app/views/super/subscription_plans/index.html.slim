@@ -1,0 +1,28 @@
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Subscription Plans
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-9 m-b-xs"
+
+				div class="btn-group" data-toggle="buttons"
+					= link_to :new_super_subscription_plan, class: "btn btn-sm btn-white", id: "add-new" do 
+						| Add New
+
+
+			div class="col-sm-3"
+				div class="input-group"
+					input class="input-sm form-control" placeholder="Search" type="text"
+					span class="input-group-btn"
+						button class="btn btn-sm btn-primary" type="button" 
+							| Go!
+
+		div class="wrapper wrapper-content animated fadeInRight" id="subscription_plans"
+			= render partial: 'subscription_plan'
+
+
+
+
+javascript:
+
+

@@ -1,0 +1,54 @@
+div id="subscriber-states-partial"
+	table class="table table-striped"
+		thead
+			tr
+			  th ID
+			  th Name
+			  th Affiliate
+			  th Plan
+			  th Amount
+			  th Monthly / Annual
+			  th Next Renewal
+			  th Current?
+			  th Card #
+			  th Contact
+			  th Created
+		tbody
+			- @subscriptions.each do |sub|
+			    tr
+			       td = sub.id
+
+				   td = link_to business_dashboard_path(sub.subscriber.id) do
+					   = sub.subscriber.name
+
+			       - if !sub.subscriber.is_affiliate?
+				       td No
+				   - elsif sub.subscriber.is_affiliate?
+				   	   td Yes
+				   
+				   td = sub.plan_name
+
+				   - if sub.annual?
+
+					   td = number_to_currency(sub.plan.amount_annual)
+				   - else
+					   td = number_to_currency(sub.plan.amount)
+
+				   - if sub.annual?
+					   td Annual
+				   - else
+					   td Monthly
+
+				   td = sub.next_renewal_at.to_date.to_formatted_s(:long_ordinal)
+
+				   - if sub.current?
+					   td Yes
+				   - else
+					   td No
+				   td = !sub.card_number.nil? ? sub.card_number.last(5) : '-'
+
+				   - if !sub.subscriber.owners.empty?
+					   td = !sub.subscriber.owners.first.email.nil? ? sub.subscriber.owners.first.email : '-'
+				   - else
+				   	   td -
+				   td = sub.created_at.to_date.to_formatted_s(:long_ordinal)

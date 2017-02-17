@@ -1,0 +1,47 @@
+<div class="ibox-content">
+
+    <% if !@unpaid.nil? && !@unpaid.empty? %>
+        <%= form_tag mark_as_paid_business_subscription_affiliate_payments_path(@business, @subscription) do %>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Check to Pay</th>
+                    <th>Amount</th>
+                    <th>Default Title</th>
+                    <th>Default Description</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    <% @unpaid.each do |unpaid| %>
+                        <tr>
+                            <td> <%= check_box_tag "unpaid[ids][]", unpaid.id, true %></td>
+                            <td> <%= number_to_currency(unpaid.amount) %></td>
+                            <td> <%= unpaid.title %></td>
+                            <td> <%= unpaid.description %></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            </br>
+            </br>
+            <div class="form-group">
+                <%= label_tag :title, nil, class: 'control-label'%>
+            </div>
+            <div class="form-group">
+                <%= text_field_tag "Title", nil, placeholder: "Add a title for ALL checked payments", style: "width:75%;"  %>
+            </div>
+            <div class="form-group">
+                <%= label_tag :description, nil, class: 'control-label'%>
+            </div>
+            <div class="form-group">
+                <%= text_area_tag "Description", nil, placeholder: "Add a description for ALL checked payments", style: "width:75%; height: 100px;" %>
+            </div>
+            <div class="form-group">
+                <%= submit_tag 'Mark All Checked As Paid', class: 'btn btn-primary' %>
+            </div>
+        <% end %>
+    <% else %>
+        <h3> You have no unpaid commissions at this time. </h3>
+    <% end %>
+</div>

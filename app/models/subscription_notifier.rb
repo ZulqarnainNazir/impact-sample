@@ -20,6 +20,22 @@ class SubscriptionNotifier < ActionMailer::Base
     end
   end
 
+  def setup_affiliate_environment(obj)
+    if obj.is_a?(SubscriptionPayment)
+      @subscription = obj.subscription
+      @amount = obj.affiliate_amount
+    elsif obj.is_a?(Subscription)
+      @subscription = obj
+    end
+    @subscriber = @subscription.subscriber
+    @affiliate_name = @subscription.affiliate.business.name
+    @affiliate = @subscription.affiliate.business
+    @email = []
+    @affiliate.owners.each do |n|
+      @email << n.email
+    end
+  end
+
   def welcome(subscription)
     setup_environment(subscription)
     @amount = @subscription.plan.amount
@@ -63,6 +79,11 @@ class SubscriptionNotifier < ActionMailer::Base
   def misc_receipt(subscription_payment)
     setup_environment(subscription_payment)
     mail(:to => @email, :subject => "Your #{Saas::Config.app_name} invoice")
+  end
+
+  def affiliate_earning_notification(subscription_payment)
+    setup_affiliate_environment(subscription_payment)
+    mail(:to => @email, :subject => "Earning notification from #{Saas::Config.app_name}")
   end
 
   def charge_failure(subscription)
