@@ -43,7 +43,6 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   def create
     @event_definition = EventDefinition.new(event_definition_params)
     @event_definition.business = @business
-    @event_definition.reschedule_events!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
@@ -56,6 +55,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     end
     respond_to do |format|
       if @event_definition.save!
+        @event_definition.reschedule_events!
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
@@ -69,6 +69,12 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   end
 
   def update
+    if !params[:event_definition][:virtual_event].present?
+      @event_definition.virtual_event = false
+    end
+    if params[:event_definition][:event_definition_location_attributes][:location_id].empty? && @event_definition.event_definition_location.present?
+      params[:event_definition][:event_definition_location_attributes][:location_id] = @event_definition.event_definition_location.location_id
+    end
     @event_definition.update(event_definition_params)
     @event_definition.reschedule_events!
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
@@ -91,7 +97,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
         format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
+        format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title #{params[:event_definition][:event_definition_location_attributes][:location_id]}" }
       end
     end
     EventDefinition.__elasticsearch__.refresh_index!
@@ -123,7 +129,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   private
 
   def cloneable_attributes
-    %w[title subtitle description price url start_date end_date start_time end_time repeats repetition_days repetition_weeks]
+    %w[title subtitle description price url start_date end_date start_time end_time repeats repetition_days repetition_weeks hide_full_address show_city_only private virtual_event rsvp_required kind]
   end
 
   def event_definition_params
@@ -139,6 +145,12 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       :subtitle,
       :title,
       :url,
+      :kind,
+      :hide_full_address,
+      :show_city_only,
+      :private,
+      :virtual_event,
+      :rsvp_required,
       content_category_ids: [],
       content_tag_ids: [],
       event_definition_location_attributes: [:id, :location_id],

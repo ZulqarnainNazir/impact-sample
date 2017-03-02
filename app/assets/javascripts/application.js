@@ -3,6 +3,7 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require jquery-ui
+//= require match-media/media.match.min
 //= require turbolinks
 //= require js.cookie
 //= require jstz
@@ -69,6 +70,13 @@ var ready = function() {
       return false;
   });
 
+  // When the viewport is narrow enough, we collapse the #contact-more-collapse & #company-more-collapse element.
+  if (matchMedia('(max-width: 768px)').matches) {
+    $('.contact-view-more').addClass('collapsed').attr('aria-expanded', 'false');
+    $('#contact-more-collapse').removeClass('in').attr('aria-expanded', 'false');
+    $('.company-view-more').addClass('collapsed').attr('aria-expanded', 'false');
+    $('#company-more-collapse').removeClass('in').attr('aria-expanded', 'false');
+  }
 };
 
 $(document).ready(ready)

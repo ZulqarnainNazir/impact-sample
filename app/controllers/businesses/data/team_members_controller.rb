@@ -23,6 +23,7 @@ class Businesses::Data::TeamMembersController < Businesses::BaseController
 
   def destroy
     destroy_resource [@business, :data, @team_member]
+    @business.website.about_page.groups.find_by(type: "TeamGroup").blocks.find_by(type: "TeamBlock").try(:touch)
   end
 
   private

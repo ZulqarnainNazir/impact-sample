@@ -136,6 +136,15 @@ Rails.application.routes.draw do
           resources :galleries, only: %i[new create edit update destroy]
           resources :images, only: %i[index edit update destroy]
           resources :pdfs
+          resources :category_tag_management, only: [:index] do
+            collection do
+              post :create_content_category
+              post :create_content_tag
+              get :new_content_category
+              delete :delete_content_category
+              delete :delete_content_tag
+            end
+          end
           resources :offers, only: %i[new create edit update destroy] do
             get :clone, on: :member
           end
@@ -226,8 +235,10 @@ Rails.application.routes.draw do
         resource :marketing, only: %i[show]
         resource :super_settings, only: %i[edit update] do
           post 'create_affiliation', on: :member
+          delete 'delete_affiliation', on: :member
           post 'add_legacy_plan', on: :member
           delete 'delete_legacy_plan', on: :member
+          post 'associate_with_affiliate', on: :member
         end
         resources :alliances, only: %i[index]
         resources :authorizations, only: %i[index new create destroy]

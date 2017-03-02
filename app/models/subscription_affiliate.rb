@@ -26,6 +26,10 @@ class SubscriptionAffiliate < ActiveRecord::Base
     subscription_payments.where({ :created_at => period }).collect(&:affiliate_amount).sum
   end
 
+  def self.affiliates_in_good_standing
+    joins(:business).where('affiliate_activated = ?', true)
+  end
+
   def balance
     AffiliatePayment.get_balance(self.id)
   end

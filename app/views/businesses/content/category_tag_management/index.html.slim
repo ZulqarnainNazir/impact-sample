@@ -1,0 +1,148 @@
+- title 'Manage Tags & Categories'
+
+= render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Tags & Categories'}
+
+.ibox.float-e-margins
+  .ibox-title
+    h1
+      | Manage Tags & Categories
+  .ibox-content
+    .row
+      .col-sm-6
+        p.h5 Categories
+        =form_tag delete_content_category_business_content_category_tag_management_index_path, method: :delete do
+          ul.list-unstyled.js-content-categories-list
+            - @content_categories.each do |content_category|
+              li
+                .checkbox
+                  label
+                    = check_box_tag "content_category[content_category_ids][]", content_category.id, false
+                    = content_category.name
+          p.js-content-categories-empty style=('display:none' unless @business.content_categories.empty?)
+            em No categories found.
+          hr
+          p = link_to 'Add Category', new_content_category_business_content_category_tag_management_index_path, class: 'btn btn-xs btn-default', data: { toggle: 'modal', target: '#js-content-category-new-modal' }
+          p = submit_tag 'Delete Checked Categories', class: 'btn btn-xs btn-default'
+      .col-sm-6
+        p.h5 Tags
+        =form_tag delete_content_tag_business_content_category_tag_management_index_path, method: :delete do
+          = text_field_tag :tag_search, nil, placeholder: 'Enter Tag Name and Press Enter to Create', class: 'form-control js-content-tag-lookup'
+          ul.list-unstyled.js-content-tags-list style="margin-top:1em"
+            - @content_tags.each do |content_tag|
+              li
+                .checkbox
+                  label
+                    = check_box_tag "content_tag[content_tag_ids][]", content_tag.id, false
+                    = content_tag.name
+          .js-content-tags-empty style=('display:none' unless @business.content_tags.empty?)
+            hr
+            em No tags found.
+          p = submit_tag 'Delete Checked Tags', class: 'btn btn-xs btn-default'
+- content_for :javascript do
+  #js-content-category-new-modal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-body
+  javascript:
+    $('#js-content-category-new-modal').on('show.bs.modal', function(event) {
+      $('#js-content-category-new-modal .modal-body').html(
+        $('<div class="text-center" style="margin:2em"><i class="fa fa-spinner fa-spin fa-4x" /></div>')
+      );
+    });
+    $('#js-content-category-new-modal').on('shown.bs.modal', function(event) {
+      $('#js-content-category-new-modal .modal-content').load($('[data-target="#js-content-category-new-modal"]').attr('href'));
+    });
+    $('#js-content-category-new-modal').on('submit', 'form', function(event) {
+      event.preventDefault()
+      jqxhr = $.ajax({
+        type: 'POST',
+        url: '#{create_content_category_business_content_category_tag_management_index_path}',
+        beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+        cache: false,
+        data: $(this).serialize(),
+        dataType: 'html',
+      });
+      jqxhr.done(function(data) {
+        var parsedData = JSON.parse(data);
+        $('#js-content-category-new-modal').modal('hide');
+        $('.js-content-categories-empty').hide();
+        $('.js-content-categories-list').append(
+          $('<li><div class="checkbox"><label><input type="checkbox" name="[content_category_ids][]" value="' + parsedData.id + '" checked /> ' + parsedData.name + '</label></div></li>')
+        );
+      });
+      jqxhr.fail(function(response) {
+        $('#js-content-category-new-modal .modal-content').html(response.responseText);
+      });
+    });
+
+    var tagLookup = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      minLength: 2,
+      remote: {
+        cache: false,
+        url: '#{business_content_tags_path(@business)}?query=%QUERY'
+      }
+    });
+    tagLookup.initialize();
+    var typeaheadOptions = {
+      highlight: true,
+      hint: false,
+    };
+    var typeaheadLookupOptions = {
+      name: 'tag-lookup',
+      displayKey: 'name',
+      source: tagLookup.ttAdapter(),
+      templates: {
+        empty: '<div class="tt-template"><p>Press Enter to Add Tag.</p></div>',
+      },
+    };
+    $('.js-content-tag-lookup').typeahead(typeaheadOptions, typeaheadLookupOptions);
+    $('.js-content-tag-lookup').closest('.twitter-typeahead').css('width', '100%').css('top', '2px');
+    $('.js-content-tag-lookup').closest('.twitter-typeahead').find('.tt-dropdown-menu').css('right', '0');
+    $('.js-content-tag-lookup').on('typeahead:selected', function(event, selection, dataset) {
+      $('.js-content-tags-list').append(
+        $('<li><div class="checkbox"><label><input type="checkbox" name="content_tag[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value.toLowerCase() + ' </label></div></li>')
+      );
+      $('.js-content-tags-empty').hide();
+    });
+    $('.js-content-tag-lookup').on('blur', function() {
+      $('.js-content-tag-lookup').val();
+    });
+    $('.js-content-tag-lookup').keypress(function(event) {
+      if (event.which == 13) {
+        var value = $('.js-content-tag-lookup').typeahead('val');
+        if (value.length > 0) {
+          event.preventDefault();
+          jqxhr = $.ajax({
+            type: 'POST',
+            url: '#{business_content_tags_path(@business)}',
+            beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+            cache: false,
+            data: {
+              content_tag: {
+                name: value,
+              },
+            },
+            dataType: 'html',
+          });
+          jqxhr.done(function(data) {
+            var parsedData = JSON.parse(data);
+            $('.js-content-tags-empty').hide();
+            // $('.js-content-tags-list').append(
+            //   $('<li><input type="hidden" name="[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value.toLowerCase() + ' <i class="fa fa-close pull-right js-content-tag-remove" style="cursor:pointer"></i></li>')
+            // );
+
+            $('.js-content-tags-list').append(
+              $('<li><div class="checkbox"><label><input type="checkbox" name="content_tag[content_tag_ids][]" value="' + parsedData.id + '" /> ' + value.toLowerCase() + ' </label></div></li>')
+            );
+
+            $('.js-content-tag-lookup').typeahead('val', '');
+            $('.js-content-tags-empty').hide();
+          });
+        }
+      }
+    });
+    $(document).on('click', '.js-content-tag-remove', function() {
+      $(this).closest('li').remove();
+    });

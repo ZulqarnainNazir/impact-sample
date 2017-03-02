@@ -1,4 +1,45 @@
 .row
+  .col-sm-12
+    br
+    .text-center
+      .center-block
+        .btn-group.js-business-kind
+          => form.label :event, class: 'btn btn-default', id: 'kind-event' do
+            => form.radio_button :kind, 0, id: 'kind-event-radio', style: 'margin-right: 5px'
+            | Event
+          => form.label :class, class: 'btn btn-default', id: 'kind-aclass' do
+            => form.radio_button :kind, 1, id: 'kind-aclass-radio', style: 'margin-right: 5px'
+            | Class
+          => form.label :deadline, class: 'btn btn-default', id: 'kind-deadline' do
+            => form.radio_button :kind, 2, id: 'kind-deadline-radio', style: 'margin-right: 5px'
+            | Deadline
+    javascript:
+
+      $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+      $('.js-business-kind input[type="radio"]').change(function() {
+        $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+        $('.js-business-kind input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default');
+      });
+
+      $('#kind-event').on("click", function(event){
+          $('#kind-event-radio').prop('checked', true);
+          $('#kind-event').removeClass('btn-default').addClass('btn-primary');
+          $('#kind-aclass').removeClass('btn-primary').addClass('btn-default');
+          $('#kind-deadline').removeClass('btn-primary').addClass('btn-default');
+      });
+      $('#kind-aclass').on("click", function(event){
+          $('#kind-aclass-radio').prop('checked', true);
+          $('#kind-aclass').removeClass('btn-default').addClass('btn-primary');
+          $('#kind-event').removeClass('btn-primary').addClass('btn-default');
+          $('#kind-deadline').removeClass('btn-primary').addClass('btn-default');
+      });
+      $('#kind-deadline').on("click", function(event){
+          $('#kind-deadline-radio').prop('checked', true);
+          $('#kind-deadline').removeClass('btn-default').addClass('btn-primary');
+          $('#kind-event').removeClass('btn-primary').addClass('btn-default');
+          $('#kind-aclass').removeClass('btn-primary').addClass('btn-default');
+      });
+    hr
   .col-sm-8
     .form-group
       = form.label :title, class: 'control-label'
@@ -57,38 +98,63 @@
       javascript:
         $('#event_definition_repetition option[value*="validation"]').prop('selected', true)
     hr
+    .form-group
+      = form.label :private, class: 'control-label' do
+        => form.check_box :private, class: ''
+        | Private (unchecked will mean this is public)
+    hr
+    .form-group
+      = form.label 'rsvp_required', class: 'control-label' do
+        => form.check_box :rsvp_required, class: ''
+        | RSVP Required
+    hr
     .js-event-location
       = form.fields_for :event_definition_location, form.object.event_definition_location || form.object.build_event_definition_location do |f|
         - business_location = form.object.business.location
         - custom_location = f.object.location
+        - virtual_event_uncheck_business_radio = form.object.virtual_event ? false : true
+        - is_this_virtual_event = form.object.virtual_event ? true : false
         - custom_location = nil if !!custom_location && !!business_location && custom_location == business_location
         - if form.object.errors[:event_definition_location].any?
           = form.label :event_definition_location, 'Event Location', class: 'control-label'
         - else
           = f.label :location, 'Event Location', class: 'control-label'
-        = f.hidden_field :location_id, value: (custom_location || (business_location.try(:full_address).present? ? business_location : nil)).try(:id)
+        = f.hidden_field :location_id, value: is_this_virtual_event ? nil : ( (custom_location || (business_location.try(:full_address).present? ? business_location : nil)).try(:id) )
         - if business_location && business_location.full_address.present?
           .radio data-type="business" data-id=business_location.id data-latitude=business_location.latitude data-longitude=business_location.longitude data-name=business_location.name
             = label_tag :location_type_business do
-              => radio_button_tag :location_type, :business, (!custom_location && !!business_location) || (business_location == custom_location)
+              => radio_button_tag :location_type, :business, virtual_event_uncheck_business_radio ? ((!custom_location && !!business_location) || (business_location == custom_location)) : virtual_event_uncheck_business_radio, id: 'physical-event-button'
               strong> Business Location
               br>
               span.text-muted = business_location.full_address
         .radio style="margin-top:1em" data-type="custom" data-id=custom_location.try(:id) data-latitude=custom_location.try(:latitude) data-longitude=custom_location.try(:longitude) data-name=custom_location.try(:name) class=('hide' if !custom_location)
           = label_tag :location_type_custom do
-            => radio_button_tag :location_type, :custom, (!business_location && !!custom_location) || (!!custom_location && custom_location != business_location)
+            => radio_button_tag :location_type, :custom, virtual_event_uncheck_business_radio ? ((!business_location && !!custom_location) || (!!custom_location && custom_location != business_location)) : virtual_event_uncheck_business_radio, id: 'alternate-location-button'
             strong> Alternate Location
             br>
             span.text-muted = custom_location.try(:full_address)
         .form-group
           - placeholder = business_location && business_location.full_address.present? ? 'Or Enter Another Venue Name' : 'Enter Venue Name'
           = text_field_tag :location_search, nil, placeholder: placeholder, class: 'form-control'
+        .form-group
+          = form.label :hide_full_address, class: 'control-label' do
+            => form.check_box :hide_full_address, class: '', id: 'hide-full-addy'
+            | Hide Full Addresss
+
+          = form.label :show_city_only, class: 'control-label', style: 'margin-left: 5px;' do
+            => form.check_box :show_city_only, class: '', id: 'show-city-only'
+            | Show City Only
         p.text-right.js-event-location-new
           span> Can't find what you’re looking for?
           br>
           = link_to 'Add a new Venue', :new_location, data: { toggle: 'modal', target: '#js-event-location-new-modal' }
+
+        .radio style="margin-top:1em"
+          = form.label :virtual_event do
+            => form.radio_button :virtual_event, :true, class: '', id: 'virtual-event-button'
+            strong> Virtual Event (no physical location)
         hr
-        .js-event-location-map style="width:100%; height:300px; background:#eee; border:0"
+        .js-event-location-map id="event-location-map" style="width:100%; height:300px; background:#eee; border:0"
 hr
 = render partial: 'businesses/content/classification', locals: { form: form }
 = render partial: 'businesses/content/social', locals: { form: form }
@@ -118,6 +184,26 @@ hr
       .modal-content
         .modal-body
           .text-center style="margin:2em"
-            i.fa.fa-spinner.fa-spin.fa-4x
+            i.fa.fa-spinner.fa-spin.fa-4x 
   javascript:
     $('.js-event-location').eventLocation();
+    $('#virtual-event-button').on("click", function(event){
+        $('#physical-event-button').prop('checked', false);
+        $('#alternate-location-button').prop('checked', false);
+        $("#hide-full-addy").attr("disabled", true);
+        $("#show-city-only").attr("disabled", true);
+        $( "#event-location-map" ).hide();
+    });
+    $('#physical-event-button').on("click", function(event){
+        $('#virtual-event-button').prop('checked', false);
+        $("#hide-full-addy").removeAttr("disabled");
+        $("#show-city-only").removeAttr("disabled");
+        $( "#event-location-map" ).show();
+    });
+    $('#alternate-location-button').on("click", function(event){
+        $('#virtual-event-button').prop('checked', false);
+        $("#hide-full-addy").removeAttr("disabled");
+        $("#show-city-only").removeAttr("disabled");
+        $( "#event-location-map" ).show();
+    });
+

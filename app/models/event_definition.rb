@@ -4,6 +4,8 @@ class EventDefinition < ActiveRecord::Base
   include PlacedImageConcern
   include ContentSlugConcern
 
+  # enum kind: { event: 0, is_aclass: 1, deadline: 2 }
+
   belongs_to :business, touch: true
 
   has_many :content_categories, through: :content_categorizations
@@ -17,17 +19,21 @@ class EventDefinition < ActiveRecord::Base
   has_placed_image :event_image
   has_placed_image :main_image
 
+
   accepts_nested_attributes_for :event_definition_location, allow_destroy: true, reject_if: :all_blank
 
+
   validates :business, presence: true
-  validates :event_definition_location, presence: true
+  # validates :event_definition_location, presence: true, unless: :is_virtual_event?
   validates :title, presence: true
   validates :start_date, presence: true
   validates :start_time, presence: true
   validates :end_date, presence: true, if: :repetition?
 
   before_validation do
-    event_definition_location.event_definition = self if event_definition_location && !event_definition_location.event_definition
+    unless self.virtual_event?
+      event_definition_location.event_definition = self if event_definition_location && !event_definition_location.event_definition
+    end
   end
 
   after_save do
@@ -36,6 +42,24 @@ class EventDefinition < ActiveRecord::Base
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
+  end
+
+  def is_virtual_event?
+    if self.virtual_event == true
+      return true
+    else
+      return false
+    end
+  end
+
+  def readable_kind
+    if kind == 0
+      "Event"
+    elsif kind == 1
+      "Class"
+    elsif kind == 2
+      "Deadline"
+    end
   end
 
   def start_date=(*args)

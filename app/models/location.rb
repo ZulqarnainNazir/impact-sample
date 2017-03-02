@@ -57,6 +57,10 @@ class Location < ActiveRecord::Base
     [[city, state].reject(&:blank?).join(', '), zip_code].reject(&:blank?).join(' ')
   end
 
+  def city_and_state
+    [[city, state].reject(&:blank?).join(', ')].reject(&:blank?).join(' ')
+  end
+
   def full_address
     address = [address_line_one, address_line_two].reject(&:blank?).join(', ')
     address.blank? ? nil : address

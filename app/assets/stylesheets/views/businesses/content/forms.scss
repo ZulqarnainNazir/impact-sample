@@ -1,0 +1,65 @@
+.save-once {
+  .js-content-categories-list {
+    max-height:150px;
+    overflow-y:auto;
+  }
+  .webpage-save {
+    .col-sm-4 {
+      display: block;
+    }
+  }
+  .vcenter {
+    display:table;
+  }
+  .advanced-button {
+    display:table-cell;
+    vertical-align:middle;
+    padding-left: 5px;
+  }
+  .simple-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #e5e6e7;
+  }
+  .simple-lable {
+    padding: 8px 0;
+  }
+  .note-toolbar {
+    display: none;
+  }
+  #add-venue {
+    display: none;
+  }
+  .submit-footer {
+    z-index: 100;
+    background: none repeat scroll 0 0 white;
+    border-top: 1px solid #e7eaec;
+    bottom: 0;
+    left: 0;
+    padding: 10px 20px;
+    right: 0;
+  }
+  @media screen and (max-width: 640px) {
+    .vcenter {
+
+    }
+    .secondary-btn {
+      min-height: 35px;
+      white-space: normal;
+      line-height: 12px;
+      font-size: 13px;
+    }
+    .submit-footer {
+      z-index: 100;
+      background: none repeat scroll 0 0 white;
+      border-top: 1px solid #e7eaec;
+      bottom: 0;
+      left: 0;
+      padding: 0px;
+      right: 0;
+    }
+    .no-bottom-margins {
+      margin-bottom: 0px;
+    }
+  }
+}

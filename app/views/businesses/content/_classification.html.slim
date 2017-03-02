@@ -1,30 +1,28 @@
-.well.well-sm
-  .row
-    .col-sm-6
-      p.h5 Categorize
-      ul.list-unstyled.js-content-categories-list
-        - form.object.business.content_categories.each do |content_category|
-          li
-            .checkbox
-              label
-                = check_box_tag "#{form.object.class.name.underscore}[content_category_ids][]", content_category.id, form.object.content_category_ids.include?(content_category.id)
-                = content_category.name
-      p.js-content-categories-empty style=('display:none' unless form.object.business.content_categories.empty?)
-        em No categories found.
-      hr
-      p = link_to 'Add Category', [:new, form.object.business, :content_category], class: 'btn btn-xs btn-default', data: { toggle: 'modal', target: '#js-content-category-new-modal' }
-    .col-sm-6
-      p.h5 Tag
-      = text_field_tag :tag_search, nil, placeholder: 'Enter Tag Name', class: 'form-control js-content-tag-lookup'
-      ul.list-unstyled.js-content-tags-list style="margin-top:1em"
-        - form.object.content_tags.each do |content_tag|
-          li
-            = form.hidden_field :content_tag_ids, multiple: true, value: content_tag.id
-            => content_tag.name
-            = icon 'close pull-right js-content-tag-remove', '', style: 'cursor: pointer'
-      .js-content-tags-empty style=('display:none' unless form.object.business.content_tags.empty?)
-        hr
-        em No tags found.
+.row
+  .col-sm-6
+    p.h5 Set Categories
+    ul.list-unstyled.js-content-categories-list
+      - form.object.business.content_categories.each do |content_category|
+        li
+          .checkbox
+            label
+              = check_box_tag "#{form.object.class.name.underscore}[content_category_ids][]", content_category.id, form.object.content_category_ids.include?(content_category.id)
+              = content_category.name
+    p.js-content-categories-empty style=('display:none' unless form.object.business.content_categories.empty?)
+      em No categories found.
+    hr
+    p = link_to 'Add Category', [:new, form.object.business, :content_category], class: 'btn btn-xs btn-default', data: { toggle: 'modal', target: '#js-content-category-new-modal' }
+  .col-sm-6
+    p.h5 Set Tags
+    = text_field_tag :tag_search, nil, placeholder: 'Enter Tag Name', class: 'form-control js-content-tag-lookup simple-input'
+    ul.list-unstyled.js-content-tags-list style="margin-top:1em"
+      - form.object.content_tags.each do |content_tag|
+        li
+          = form.hidden_field :content_tag_ids, multiple: true, value: content_tag.id
+          => content_tag.name
+          = icon 'close pull-right js-content-tag-remove', '', style: 'cursor: pointer'
+    .js-content-tags-empty style=('display:none' unless form.object.business.content_tags.empty?)
+      em No tags found.
 - content_for :javascript do
   #js-content-category-new-modal.modal.fade
     .modal-dialog

@@ -4,6 +4,7 @@
         <table class="table table-hover">
             <thead>
             <tr>
+                <th>Business</th>
                 <th>Transaction ID</th>
                 <th>Amount</th>
                 <th>Commission Amount</th>
@@ -17,6 +18,7 @@
             <tbody>
                 <% @affiliate_sales.each do |n| %>
                     <tr>
+                        <td><%= n.subscription.business.name %></td>
                         <td> <%=link_to("#{n.transaction_id}", business_subscription_affiliate_sale_path(@subscription.subscriber, @subscription, n))%></td>
                         <td class="text-navy"><%=number_to_currency(n.amount)%></td>
                         <td class="text-navy"><%=number_to_currency(n.affiliate_amount)%></td>

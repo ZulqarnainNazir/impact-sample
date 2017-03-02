@@ -40,8 +40,8 @@ $.fn.galleryImagesAssociations = ->
         appendGalleryImage()
 
       # Ensure there are six gallery images.
-      if associations.find('.gallery-image-fields').length < 6
-        appendGalleryImage() for [1..(6 - associations.find('.gallery-image-fields').length)]
+      if associations.find('.gallery-image-fields').length < 8
+        appendGalleryImage() for [1..(8 - associations.find('.gallery-image-fields').length)]
 
     # Mount all existing gallery images.
     unmountedExistingReactComponents = associations.find('.gallery-image-fields:not(.is-appended) [data-react-unmounted-class]')

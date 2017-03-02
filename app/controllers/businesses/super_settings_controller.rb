@@ -5,8 +5,32 @@ class Businesses::SuperSettingsController < Businesses::BaseController
     end
   end
 
+  def edit
+    @affiliates = SubscriptionAffiliate.affiliates_in_good_standing
+  end
+
   def update
     update_resource @business, business_params, location: [:edit, @business, :super_settings]
+  end
+
+  def associate_with_affiliate
+    if SubscriptionAffiliate.find(params[:affiliate][:subscription_affiliate_id]).present? && @business.subscription.present?
+      @affiliate = SubscriptionAffiliate.find(params[:affiliate][:subscription_affiliate_id])
+      @subscription = @business.subscription
+
+      @subscription = @business.subscription
+      @subscription.affiliate = @affiliate
+
+      if @subscription.save
+        flash[:notice] = "Referral saved."
+      else
+        flash[:notice] = "Something went wrong and the referral was not saved. Please try again."
+      end
+    else
+      flash[:notice] = "Error: either the affiliate does not exist or this business 
+      does not have a subscription. Please resolve these issues before trying again."
+    end
+    redirect_to edit_business_super_settings_path(@business)
   end
 
   def create_affiliation
@@ -21,6 +45,22 @@ class Businesses::SuperSettingsController < Businesses::BaseController
       end
     elsif @business.is_affiliate?
       flash[:notice] = "This business already is an affiliate."
+    end
+    redirect_to edit_business_super_settings_path(@business)
+  end
+
+  def delete_affiliation
+    if @business.referred? && @business.subscription.present?
+      @subscription = @business.subscription
+      if @subscription.update_attributes(subscription_affiliate_id: nil)
+        flash[:notice] = "This business no longer is linked to an affiliate."
+      else
+        flash[:notice] = "Something went wrong and the app is not able to 
+        delete the affiliation at this time."
+      end
+    else
+      flash[:notice] = "This business either was not referred by an 
+      affiliate or does not have a subscription."
     end
     redirect_to edit_business_super_settings_path(@business)
   end

@@ -1,0 +1,24 @@
+.contact-view-more {
+  .fa-chevron-down { display: none; }
+  .fa-chevron-up { display: inline; }
+}
+.contact-view-more::after {
+  content: " View Less"
+}
+
+.contact-view-more.collapsed {
+  .fa-chevron-down { display: inline; }
+  .fa-chevron-up { display: none; }
+}
+.contact-view-more.collapsed::after {
+  content: " View More"
+}
+
+.contact-form {
+  .form-group input {
+    border: none;
+    border-bottom: 1px solid #e5e6e7;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

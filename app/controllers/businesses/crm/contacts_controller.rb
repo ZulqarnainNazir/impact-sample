@@ -20,7 +20,6 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
   end
 
   def create
-
     @contact.relationship = params[:contact][:relationship]
     create_resource @contact, contact_params, location: [@business, :crm_contacts] do |success|
       if success

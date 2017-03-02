@@ -1,14 +1,5 @@
 - title 'New Business Before &amp; After'.html_safe
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' New Before & After'}
-
-.row
-  .col-lg-12
-    .wrapper.wrapper-content
-      .row
-        .col-lg-12
-          .ibox.float-e-margins
-            .ibox-content
-              = errors_for @before_after
-              = form_for @before_after, url: [@business, :content_before_afters], html: { class: 'save-once' } do |form|
-                = render form
+= errors_for @before_after
+= form_for @before_after, url: [@business, :content_before_afters], html: { class: 'save-once' } do |form|
+  = render form

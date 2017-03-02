@@ -1,7 +1,5 @@
 - title 'Edit Business Before &amp; After'.html_safe
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :sn => 'Existing Content', :sp => :content_feed, :an => ' Edit Before &amp; After'}
-
 = errors_for @before_after
 = form_for @before_after, url: [@business, :content, @before_after], html: { class: 'save-once' } do |form|
   = render form

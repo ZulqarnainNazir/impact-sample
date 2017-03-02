@@ -4,7 +4,7 @@ $.fn.wysihtmlEditor = ->
   editor = this
 
   editor.summernote
-    height: 200
+    height: 100
     toolbar: [
       ['cleaner',['cleaner']],
       ['display', ['style']],
@@ -21,6 +21,9 @@ $.fn.wysihtmlEditor = ->
         'http://' + link
       else
         link
+    onFocus: () ->
+      $('.note-toolbar').fadeIn(500)
+      $('.note-editable').height(200)
     cleaner: {
           notTime:2400,
           action:'both',

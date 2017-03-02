@@ -38,7 +38,7 @@ class ContentFeedSearch
       dsl[:query] = {
         query_string: {
           query: @query,
-          fields: %w[title^2 description],
+          fields: %w[title^2 description content heading],
         },
       }
     else

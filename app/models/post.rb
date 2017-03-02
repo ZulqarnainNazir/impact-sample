@@ -28,7 +28,29 @@ class Post < ActiveRecord::Base
   validates :published_on, presence: true
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
-    settings index: { number_of_shards: 1, number_of_replicas: 0 }
+    settings index: { number_of_shards: 1, number_of_replicas: 0 } do
+      mapping do
+        
+        indexes :business_id, type: "long"
+        indexes :content_category_ids, type: "long"
+        indexes :content_tag_ids, type: "long"
+        indexes :created_at, type: "date", format: "dateOptionalTime"
+        indexes :facebook_id, type: "string"
+        indexes :id, type: "long"
+        indexes :meta_description, type: "string"
+        indexes :published_on, type: "date", format: "dateOptionalTime"
+        indexes :published_status, type: "boolean"
+        indexes :slug, type: "string"
+        indexes :sorting_date, type: "date", format: "dateOptionalTime"
+        indexes :title, type: "string"
+        indexes :updated_at, type: "date", format: "dateOptionalTime"
+
+        indexes :post_sections, type: 'nested' do
+          indexes :content, type: "string"
+          indexes :heading, type: "string"
+        end
+      end
+    end
   end
 
   def published_on=(value)
@@ -46,7 +68,10 @@ class Post < ActiveRecord::Base
   end
 
   def as_indexed_json(options = {})
-    as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
+    as_json(
+      methods: %i[content_category_ids content_tag_ids sorting_date],
+      include: { post_sections: {only: [:content, :heading]} }
+    )
   end
   def arranged_sections
     sections = false
@@ -104,11 +129,18 @@ class Post < ActiveRecord::Base
   end
 
   def sorting_date
+    #change made to published_at, see comments there as of 2.16.17
     published_at
   end
 
   def published_at
-    published_on || updated_at
+    #method was originaly designed to provide published_on dates, and in lieu of that,
+    #updated_at. This is used primarily for searches and ordering via ElasticSearch,
+    #but may also be used elsewhere. The method was changed on 2.16.17 to use created_at
+    #if published_on is nil. published_on is usually nil with older posts. This is because
+    #published_on was implemented in October 2016, when there were already posts present.
+    #using created_at is a workaround for old posts that don't have a published_on value.
+    published_on || created_at
   end
 
   def to_generic_param

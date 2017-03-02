@@ -1,9 +1,5 @@
 - title 'New Custom Business Post'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' Custom Post'}
-
 = errors_for @post
 = form_for @post, url: [@business, :content_posts], html: { class: 'save-once' } do |form|
   = render form
-hr
-hr

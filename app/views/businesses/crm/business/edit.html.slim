@@ -1,19 +1,11 @@
 - title 'Edit Company'
 
-ol.breadcrumb
-  li = link_to icon('home'), :root
-  li = link_to @business.name, [@business, :dashboard]
-  li = link_to 'CRM', [@business, :crm_root]
-  li = link_to 'All Companies', [@business, :crm_companies]
-  li.active Edit Company
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Companies', :sp => :crm_companies, :an => 'Edit Company'}
 
-
-.page-header
-  h1.h4 Company Data for #{@company.business.name}
 .row
-  .col-sm-6
-    .panel.panel-default
-      .panel-heading
-        h1.h4.panel-title Company Information (Public)
-      .panel-body
+  .col-sm-8.col-sm-offset-1
+    .ibox.float-e-margins
+      .ibox-title
+        h1.h4.panel-title Company Information for #{@company.business.name} (Public)
+      .ibox-content
         = render :partial => 'businesses/crm/companies/business_form', :locals => {:disabled  => false, :business => @business, :company => @company}

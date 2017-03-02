@@ -1,14 +1,5 @@
 - title 'New Business Gallery'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' New Gallery'}
-
-.row
-  .col-lg-12
-    .wrapper.wrapper-content
-      .row
-        .col-lg-12
-          .ibox.float-e-margins
-            .ibox-content
-              = errors_for @gallery
-              = form_for @gallery, url: [@business, :content_galleries], html: { class: 'save-once' } do |form|
-                = render form
+= errors_for @gallery
+= form_for @gallery, url: [@business, :content_galleries], html: { class: 'save-once' } do |form|
+  = render form

@@ -1,9 +1,5 @@
 - title 'New Business Offer'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' New Offer'}
-
 = errors_for @offer
 = form_for @offer, url: [@business, :content_offers], html: { class: 'save-once' } do |form|
   = render form
-hr
-hr

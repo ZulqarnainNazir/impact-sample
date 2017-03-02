@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20170215165205) do
+ActiveRecord::Schema.define(version: 20170220214921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -370,8 +369,8 @@ ActiveRecord::Schema.define(version: 20170215165205) do
   add_index "event_definition_locations", ["location_id"], name: "index_event_definition_locations_on_location_id", using: :btree
 
   create_table "event_definitions", force: :cascade do |t|
-    t.integer  "business_id",      null: false
-    t.text     "title",            null: false
+    t.integer  "business_id",                       null: false
+    t.text     "title",                             null: false
     t.text     "subtitle"
     t.text     "description"
     t.text     "price"
@@ -382,14 +381,20 @@ ActiveRecord::Schema.define(version: 20170215165205) do
     t.date     "end_date"
     t.time     "start_time"
     t.time     "end_time"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.text     "external_type"
     t.text     "external_id"
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
     t.boolean  "published_status"
+    t.boolean  "hide_full_address", default: false
+    t.boolean  "show_city_only",    default: false
+    t.boolean  "private",           default: false
+    t.boolean  "virtual_event",     default: false
+    t.boolean  "rsvp_required",     default: false
+    t.integer  "kind",              default: 0,     null: false
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
@@ -531,6 +536,16 @@ ActiveRecord::Schema.define(version: 20170215165205) do
     t.json     "settings"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.string   "business_street_1"
+    t.string   "business_street_2"
+    t.string   "business_city"
+    t.string   "business_state"
+    t.string   "business_zip_code"
+    t.string   "business_fax_number"
+    t.boolean  "hide_business_address"
+    t.boolean  "hide_business_fax"
+    t.float    "business_lat"
+    t.float    "business_long"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
@@ -650,7 +665,7 @@ ActiveRecord::Schema.define(version: 20170215165205) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -667,7 +682,7 @@ ActiveRecord::Schema.define(version: 20170215165205) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -807,10 +822,10 @@ ActiveRecord::Schema.define(version: 20170215165205) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
+    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
-    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree

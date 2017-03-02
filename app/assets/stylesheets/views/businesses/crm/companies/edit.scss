@@ -1,0 +1,44 @@
+.company-view-more {
+  .fa-chevron-down { display: none; }
+  .fa-chevron-up { display: inline; }
+}
+.company-view-more::after {
+  content: " View Less"
+}
+
+.company-view-more.collapsed {
+  .fa-chevron-down { display: inline; }
+  .fa-chevron-up { display: none; }
+}
+.company-view-more.collapsed::after {
+  content: " View More"
+}
+
+.company-view-more.private {
+  display: block;
+}
+
+.company-form {
+  .form-group {
+    .public::after {
+      content: '*'
+    }
+    select {
+      background-color: inherit;
+      padding-right: 0;
+    }
+    textarea {
+      background-color: inherit;
+      border: none;
+      border-bottom: 1px solid #e5e6e7;
+      border-top: 1px solid #e5e6e7;
+      padding-right: 0;
+    }
+    input {
+      background-color: inherit;
+      border: none;
+      border-bottom: 1px solid #e5e6e7;
+      padding-right: 0;
+    }
+  }
+}

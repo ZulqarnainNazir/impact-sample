@@ -2,7 +2,7 @@
 - image_json = image_placement_json[:image]
 - appended = gallery_image.new_record? && gallery_image.errors.empty? && gallery_image.description.blank? && gallery_image.title.blank? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
 = gallery_form.fields_for :gallery_images, gallery_image, child_index: appended ? 98765432101 : nil do |form|
-  .gallery-image-fields class=('is-appended' if appended)
+  .gallery-image-fields.col-lg-3.col-md-4.col-xs-6 class=('is-appended' if appended)
     .gallery-image-fields-remove
       = form.label :_destroy, class: 'btn btn-default' do
         => form.check_box :_destroy

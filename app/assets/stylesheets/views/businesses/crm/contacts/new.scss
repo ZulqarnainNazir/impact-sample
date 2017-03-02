@@ -1,0 +1,25 @@
+.new-contact-form {
+  .form-group {
+    // border-bottom: 1px solid #e5e6e7;
+    padding-bottom: 10px;
+    label {
+      text-align: right;
+      padding-right: 0;
+      padding-top: 7px;
+    }
+    input {
+      border: none;
+      border-bottom: 1px solid #bbb;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  .form-group.no-border {
+    border-bottom: 0;
+  }
+  .checkboxes {
+    border-bottom: 1px solid #e5e6e7;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+}

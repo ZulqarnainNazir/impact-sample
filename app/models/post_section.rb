@@ -1,4 +1,6 @@
 class PostSection < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
   attr_accessor :cached_children, :key, :parent_key

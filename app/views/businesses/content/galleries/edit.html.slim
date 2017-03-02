@@ -1,7 +1,5 @@
 - title 'Edit Business Gallery'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :sn => 'Existing Content', :sp => :content_feed, :an => ' Edit Gallery'}
-
 = errors_for @gallery
 = form_for @gallery, url: [@business, :content, @gallery], html: { class: 'save-once' } do |form|
   = render form

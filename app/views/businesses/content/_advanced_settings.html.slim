@@ -1,4 +1,4 @@
-#advanced-settings.well.well-sm style="display:none"
+#advanced-settings
   .form-group
     = form.label :meta_description, class: 'control-label'
     = form.text_area :meta_description, rows: 2, class: 'form-control'
@@ -15,9 +15,3 @@
       allowEmbed: false,
       buttonSize: 'small',
       showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-p.text-right.text-muted.small style="margin: 0.8em 0 2em"
-  /! span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
-  /! toggle is breaking the button for some reason
-  span#advanced-settings-toggle data-show-when-clicked="#advanced-settings"
-    ' Toggle Advanced Settings
-    span.fa

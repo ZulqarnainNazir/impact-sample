@@ -37,7 +37,7 @@ ol.breadcrumb
           | Enable Subscription and Billing Roadblock
           br
         p
-          | The default is false, which means this option is disabled. If you enable it, the user will be prompted to sign-up for a subscription plan (...subscriptions/initial_plan_setup), and then enter their company's billing information (.../subscriptions/initial_billing_setup). If a subscription is already present, but  billing information is not, then the user will be prompted to enter their billing information only. The prompt acts as a roadblock preventing access to the business admin back-end (/business/business_id/...). 
+          | The default is false, which means this option is disabled. If you enable it, first check bill online and set the plan to Engage, the user will then be prompted to select their setup plan and then enter their company's billing information (.../subscriptions/initial_billing_setup). The prompt acts as a roadblock preventing access to the business admin back-end (/business/business_id/...). 
   .panel.panel-default
     .panel-heading
       h1.h4.panel-title Bill Business Online?
@@ -66,13 +66,6 @@ ol.breadcrumb
             p
               | Unique URL: 
               | #{@business.unique_affiliate_url(root_url)}
-            p
-              | Referred by: 
-              - if !@business.get_referred_by.nil?
-                = link_to business_dashboard_path(@business.get_referred_by) do
-                  = @business.get_referred_by.name
-              - elsif @business.get_referred_by.nil?
-                'N/A
 
   .panel.panel-default
     .panel-heading
@@ -94,13 +87,24 @@ br
         br
         p
           | Make this business an affiliate. The default earning will be 20% of each paid subscription brought in by this business. The business will gain a unique URL (e.g., 'https://impact.com/ref=foo') that it can share. If a business signs-up and claims a paid subscription via this unique URL, then the affiliate will earn a percentage of that subscription. Making the business an affiliate automatically grants the business affiliate privileges. These can be revoked on this page after the affiliation is created.
-        p
+
+.div
+  .panel.panel-default
+    .panel-heading
+      h1.h4.panel-title 'Referred By' Status
+    .panel-body
+      p
+        - if !@business.get_referred_by.nil?
           | Referred by: 
-          - if !@business.get_referred_by.nil?
-            = link_to business_dashboard_path(@business.get_referred_by) do
-              = @business.get_referred_by.name
-          - elsif @business.get_referred_by.nil?
-            'N/A
+          = link_to business_dashboard_path(@business.get_referred_by) do
+            = @business.get_referred_by.name
+          = button_to 'Delete Referral', {action: 'delete_affiliation'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'delete-referral' 
+        - elsif @business.get_referred_by.nil?
+          'If applicable, you can manually associate this business with an affiliate who referred it. In dropdown below is a list of all affiliates who have their affiliate status activated. Select one and click save.
+          = form_tag({:action => 'associate_with_affiliate'}, {method: :post}) do
+            b Referred by:
+            = collection_select(:affiliate, :subscription_affiliate_id, @affiliates, :id, :name, {:include_blank => true}, {style: 'margin-left: 3px;'})
+            = submit_tag 'Save', class: "btn btn-primary btn-xs", style: 'margin-left: 3px;'
 
 - if @business.is_on_legacy_plan?
   .div
