@@ -24,6 +24,10 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def review_contacts
     @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    if @contacts.first.first_name == "Company Name" || @contacts.first.attributes.length != 11
+      redirect_to [@business, :crm_imports], :notice => "Invalid CSV Import for contacts. Did you intend to import this as companies?"
+      return
+    end
     if @contacts.first.first_name == "First Name"
       @contacts = @contacts.drop(1)
     end
@@ -34,6 +38,10 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def review_companies
     @companies = CompanySchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    if @companies.first.name == "First Name" || @companies.first.attributes.length != 14
+      redirect_to [@business, :crm_imports], :notice => "Invalid CSV Import for companies. Did you intend to import this as contacts?"
+      return
+    end
     if @companies.first.name == "Company Name"
       @companies = @companies.drop(1)
     end
@@ -124,19 +132,53 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
           company_db = Company.new(:user_business_id => @business.id, :company_business_id => params[:merge_id][i.to_s].to_i, :name => company.name,
                                    :company_location_attributes => {:name => company.name})
           company_db.save
+          company_db.business.attributes.each do |key,value|
+            if company.attributes[key] == value
+              company.attributes.delete key.to_sym
+            end
+          end
+          location_attributes = company.attributes[:company_location_attributes].clone
+          category_ids = Category.where("name in (?)", company.attributes[:category_ids].delete).ids
+          company_db.business.location.attributes.each do |key,value|
+            if company.attributes[:company_location_attributes][key] == value
+              company.attributes[:company_location_attributes].delete key
+            end
+          end
+          company_db.business.location.attributes.each do |key,value|
+            if value.blank? and key != "email" and !company_db.business.in_impact == true
+              company.attributes[:company_location_attributes].delete key.to_sym
+            end
+          end
           company_db.update_attributes! company.attributes
-          company.attributes[:location_attributes] = company.attributes.delete :company_location_attributes
-          company_db.business.update_attributes_only_if_blank company.attributes.reject{|k,v| v.blank?}
+          company.attributes.delete :company_location_attributes
+          #No importing data into company if its a new business. All data should go to business
+          #company_db.update_attributes! company.attributes
+          company.attributes[:location_attributes] = location_attributes
+          company.attributes[:category_ids] = category_ids 
+          company_db.business.update_attributes_only_if_blank company.attributes
         else
-          Company.find(params[:merge_id][i.to_s].to_i).update_attributes! company.attributes.reject{|k,v| v.blank?}
+          company_db = Company.find(params[:merge_id][i.to_s].to_i)
+          company_db.business.attributes.each do |key,value|
+            if company.attributes[key.to_sym] == value
+              company.attributes.delete key.to_sym
+            end
+          end
+          company_db.business.location.attributes.each do |key,value|
+            if company.attributes[:company_location_attributes][key.to_sym] == value
+              company.attributes[:company_location_attributes].delete key.to_sym
+            end
+          end
+          company_db.update_attributes! company.attributes
         end
       elsif !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "skip" 
         next
       else
         company_db = Company.create_with_associations company.attributes, @business
-        company_db.update_attributes! company.attributes
+        #No importing data into company if its a new business. All data should go to business
+        #company_db.update_attributes! company.attributes
         company.attributes[:location_attributes] = company.attributes.delete :company_location_attributes
-        company_db.business.update_attributes_only_if_blank company.attributes
+        company.attributes[:category_ids] = Category.where("name in (?)", company.attributes[:category_ids]).ids
+        company_db.business.update_attributes_only_if_blank company.attributes, true
       end
     end
     File.delete(Rails.root.join("tmp", @filename))

@@ -7,7 +7,7 @@
     background: #1ab394;
   }
 }
-.import-form, .scrolling-table {
+.scrolling-table {
   overflow-x: scroll;
   table {
     min-width: 1500px;
@@ -15,4 +15,7 @@
       max-width: 170px;
     }
   }
+}
+span.red {
+  color: red;
 }

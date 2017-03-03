@@ -13,5 +13,12 @@ class CompanySchema
   column :facebook_id, 9
   column :twitter_id, 10 
   column :instagram_id, 11 
-  column :description, 12
+  column :category_ids, 12 do |value|
+    if !value.blank?
+      value.split(",")
+    else
+      []
+    end
+  end
+  column :description, 13
 end

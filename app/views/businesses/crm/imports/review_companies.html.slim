@@ -41,6 +41,8 @@
                     th
                       | Instagram
                     th
+                      | Categories
+                    th
                       | Description
                 tbody
                   - i = 0
@@ -59,6 +61,7 @@
                       td = company.facebook_id
                       td = company.twitter_id
                       td = company.instagram_id
+                      td = company.category_ids.join("<br />").html_safe
                       - if !company.description.blank? and company.description.length > 100
                         td = company.description[0..100] + "..."
                       - else
@@ -97,6 +100,8 @@
                     th
                       | Instagram
                     th
+                      | Categories
+                    th
                       | Description
                 tbody
                   - @skip[:skip_companies].each do |company|
@@ -113,6 +118,7 @@
                       td = company.facebook_id
                       td = company.twitter_id
                       td = company.instagram_id
+                      td = company.category_ids.join("<br />").html_safe
                       - if !company.description.blank? and company.description.length > 100
                         td = company.description[0..100] + "..."
                       - else

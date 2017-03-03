@@ -15,100 +15,165 @@
           = form_tag [:process_csv, @business, :crm_imports], class: "import-form" do
             - if @duplicates.count > 0
               - @duplicates.each do |i, company|
-                table.footable.table.table-stripped
-                  thead
-                    tr
-                      th
-                        | Update Method
-                      th
-                        | Version
-                      th
-                        | Company Name
-                      th
-                        | Website URL
-                      th
-                        | Email
-                      th
-                        | Phone
-                      th
-                        | Street Address 1
-                      th
-                        | Street Address 2
-                      th
-                        | City
-                      th
-                        | State
-                      th
-                        | Zip Code
-                      th
-                        | Facebook
-                      th
-                        | Twitter
-                      th
-                        | Instagram
-                      th
-                        | Description
-                  tbody
-                    tr
-                      - if company.class.name == "Business"
-                        td = select_tag "merge[#{i}]", "<option value='yes'>Create Company From Core Business</option><option value='no'>Create New Company and Core Business</option><option value='skip'>Skip Import of Company</option>".html_safe 
-                      - else
-                        td = select_tag "merge[#{i}]", "<option value='yes'>Update Company</option><option value='no'>Create a New Company</option><option value='skip'>Skip Import of Company</option>".html_safe 
-                      td 
+                .scrolling-table
+                  table.footable.table.table-stripped
+                    thead
+                      tr
+                        th
+                          | Update Method
+                        th
+                          | Version
+                        th
+                          | Company Name
+                        th
+                          | Website URL
+                        th
+                          | Email
+                        th
+                          | Phone
+                        th
+                          | Street Address 1
+                        th
+                          | Street Address 2
+                        th
+                          | City
+                        th
+                          | State
+                        th
+                          | Zip Code
+                        th
+                          | Facebook
+                        th
+                          | Twitter
+                        th
+                          | Instagram
+                        th
+                          | Description
+                    tbody
+                      tr
                         - if company.class.name == "Business"
-                          b Existing Business
-                          = hidden_field_tag "merge_class[#{i}]", "business"
-                          = hidden_field_tag "merge_id[#{i}]", company.id
+                          td = select_tag "merge[#{i}]", "<option value='yes'>Create Company From Core Business</option><option value='no'>Create New Company and Core Business</option><option value='skip'>Skip Import of Company</option>".html_safe 
                         - else
-                          b Existing Company
-                          = hidden_field_tag "merge_class[#{i}]", "company"
-                          = hidden_field_tag "merge_id[#{i}]", company.id
-                        td = company.name
-                        td = company.website_url
-                        - if company.class.name == "Business"
-                          td = company.location.email
-                          td = company.location.phone_number
-                          td = company.location.street1
-                          td = company.location.street2
-                          td = company.location.city
-                          td = company.location.state
-                          td = company.location.zip_code
+                          td = select_tag "merge[#{i}]", "<option value='yes'>Update Company</option><option value='no'>Create a New Company</option><option value='skip'>Skip Import of Company</option>".html_safe 
+                        td 
+                          - if company.class.name == "Business"
+                            b Existing Business
+                            = hidden_field_tag "merge_class[#{i}]", "business"
+                            = hidden_field_tag "merge_id[#{i}]", company.id
+                          - else
+                            b Existing Company
+                            = hidden_field_tag "merge_class[#{i}]", "company"
+                            = hidden_field_tag "merge_id[#{i}]", company.id
+                          td = company.name
+                          - if company.website_url.blank?
+                            td 
+                              span.red *
+                              = company.business.website_url
+                          - else
+                            td = company.website_url
+                          - if company.class.name == "Business"
+                            td = company.location.email
+                            td = company.location.phone_number
+                            td = company.location.street1
+                            td = company.location.street2
+                            td = company.location.city
+                            td = company.location.state
+                            td = company.location.zip_code
+                            td
+                              span.red *
+                              = company.facebook_id
+                            td 
+                              span.red *
+                              = company.twitter_id
+                            td 
+                              span.red *
+                              = company.instagram_id
+                          - else
+                            - if company.company_location.email.blank?
+                              td 
+                                span.red *
+                                = company.business.location.email
+                            - else
+                              td = company.company_location.email
+                            - if company.company_location.phone_number.blank?
+                              td 
+                                span.red *
+                                = company.business.location.phone_number
+                            - else
+                              td = company.company_location.phone_number
+                            - if company.company_location.street1.blank?
+                              td 
+                                span.red *
+                                = company.business.location.street1
+                            - else
+                              td = company.company_location.street1
+                            - if company.company_location.street2.blank?
+                              td 
+                                span.red *
+                                = company.business.location.street2
+                            - else
+                              td = company.company_location.street2
+                            - if company.company_location.city.blank?
+                              td 
+                                span.red *
+                                = company.business.location.city
+                            - else
+                              td = company.company_location.city
+                            - if company.company_location.state.blank?
+                              td 
+                                span.red *
+                                = company.business.location.state
+                            - else
+                              td = company.company_location.state
+                            - if company.company_location.zip_code.blank?
+                              td 
+                                span.red *
+                                = company.business.location.zip_code
+                            - else
+                              td = company.company_location.zip_code
+                            - if company.facebook_id.blank?
+                              td 
+                                span.red *
+                                = company.business.facebook_id
+                            - else
+                              td = company.facebook_id
+                            - if company.twitter_id.blank?
+                              td 
+                                span.red *
+                                = company.business.twitter_id
+                            - else
+                              td = company.twitter_id
+                            - if company.instagram_id.blank?
+                              td 
+                                span.red *
+                                = company.business.instagram_id
+                            - else
+                              td = company.instagram_id
+                          - if !company.description.blank? and company.description.length > 100
+                            td = company.description[0..100] + "..."
+                          - else
+                            td = company.description
+                      tr
+                        td 
+                        td 
+                          b Pending Update
+                        td = @companies[i].name
+                        td = @companies[i].website_url
+                        td = @companies[i].location_email
+                        td = @companies[i].location_phone_number
+                        td = @companies[i].location_street1
+                        td = @companies[i].location_street2
+                        td = @companies[i].location_city
+                        td = @companies[i].location_state
+                        td = @companies[i].location_zip_code
+                        td = @companies[i].facebook_id
+                        td = @companies[i].twitter_id
+                        td = @companies[i].instagram_id
+                        - if !@companies[i].description.blank? and @companies[i].description.length > 100
+                          td = @companies[i].description[0..100] + "..."
                         - else
-                          td = company.company_location.email
-                          td = company.company_location.phone_number
-                          td = company.company_location.street1
-                          td = company.company_location.street2
-                          td = company.company_location.city
-                          td = company.company_location.state
-                          td = company.company_location.zip_code
-                        td = company.facebook_id
-                        td = company.twitter_id
-                        td = company.instagram_id
-                        - if !company.description.blank? and company.description.length > 100
-                          td = company.description[0..100] + "..."
-                        - else
-                          td = company.description
-                    tr
-                      td 
-                      td 
-                        b Pending Update
-                      td = @companies[i].name
-                      td = @companies[i].website_url
-                      td = @companies[i].location_email
-                      td = @companies[i].location_phone_number
-                      td = @companies[i].location_street1
-                      td = @companies[i].location_street2
-                      td = @companies[i].location_city
-                      td = @companies[i].location_state
-                      td = @companies[i].location_zip_code
-                      td = @companies[i].facebook_id
-                      td = @companies[i].twitter_id
-                      td = @companies[i].instagram_id
-                      - if !@companies[i].description.blank? and @companies[i].description.length > 100
-                        td = @companies[i].description[0..100] + "..."
-                      - else
-                        td = @companies[i].description
-                hr style="margin: 30px 0"
+                          td = @companies[i].description
+                  hr style="margin: 30px 0"
                 
               = hidden_field_tag :filename, @filename
               = hidden_field_tag :import_type, "companies"

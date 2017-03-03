@@ -69,4 +69,13 @@ class Location < ActiveRecord::Base
   def requires_geocode?
     !(latitude && longitude) || street1_changed? || street2_changed? || city_changed? || state_changed? || zip_code_changed?
   end
+
+  def update_attributes_only_if_blank(attributes, create = false)
+    attributes.each { |k,v| attributes.delete(k) unless read_attribute(k).blank? }
+    if create == false
+      attributes.delete :email
+    end
+    update_attributes(attributes)
+  end
+
 end

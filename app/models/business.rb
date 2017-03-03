@@ -209,7 +209,6 @@ class Business < ActiveRecord::Base
   end
 
   def self.get_duplicate new_business
-    Rails.logger.debug new_business
     matches = []
     if(!new_business[:location_phone_number].blank?)
       matches += joins(:location).where("regexp_replace(locations.phone_number, '[^0-9]+', '', 'g')=regexp_replace(?, '[^0-9]+', '', 'g')", new_business[:location_phone_number])
@@ -236,8 +235,13 @@ class Business < ActiveRecord::Base
     find(best_match)
   end
 
-  def update_attributes_only_if_blank(attributes)
+  def update_attributes_only_if_blank(attributes, create = false)
     attributes.each { |k,v| attributes.delete(k) unless read_attribute(k).blank? }
+    if in_impact == true
+      return true
+    end
+    location_attr = attributes.delete :location_attributes
+    location.update_attributes_only_if_blank(location_attr, create)
     update_attributes(attributes)
   end
 

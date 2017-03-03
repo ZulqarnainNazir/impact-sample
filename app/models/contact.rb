@@ -25,8 +25,6 @@ class Contact < ActiveRecord::Base
 
   class << self
     def get_duplicates business, new_contacts, skip_indexes
-      Rails.logger.debug "SKIPPING: "
-      Rails.logger.debug skip_indexes
       duplicates = {}
       new_contacts.each_with_index do |new_contact, i|
         if skip_indexes.include?(i.to_s)

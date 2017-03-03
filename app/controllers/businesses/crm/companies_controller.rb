@@ -45,7 +45,6 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
         #redirect_to [@business, :crm_companies]
         redirect_to [:edit, @business, :crm, company], :notice => "Successfully Saved Company"
       else
-        Rails.logger.debug("Error updating business: #{company.errors.inspect}")
         render 'businesses/crm/business/edit'
       end
     else
