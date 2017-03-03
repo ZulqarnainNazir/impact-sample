@@ -404,6 +404,7 @@ PLATFORMS
 
 DEPENDENCIES
   ancestry
+  asset_sync
   autoprefixer-rails
   aws-sdk-v1
   bcrypt
