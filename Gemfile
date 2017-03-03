@@ -9,7 +9,7 @@ gem 'kaminari'
 gem 'kaminari-bootstrap'
 
 gem 'ancestry'
-# gem 'asset_sync'
+gem 'asset_sync'
 gem 'autoprefixer-rails'
 gem 'aws-sdk-v1'
 gem 'bcrypt'
