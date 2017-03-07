@@ -231,6 +231,7 @@ class ContentBlogSearch
     end
 #END OF DSL2
 
+    #all content types submitted, or all types
     if @content_types.present? && @content_types.any?
       content_classes = []
 
@@ -250,6 +251,7 @@ class ContentBlogSearch
       content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post]
     end
 
+    #without post
     if @content_types.present? && @content_types.any?
       content_classes_without_post = []
 
@@ -259,6 +261,10 @@ class ContentBlogSearch
         end
         content_classes_without_post << QuickPost if type == 'Post'
       end
+      if content_classes.include?(Event)
+        # content_classes.delete(Event)
+        content_classes << EventDefinition
+      end
       if content_classes_without_post.include?(Post)
         # content_classes.delete(Event)
         content_classes_without_post.delete(Post)
@@ -267,6 +273,7 @@ class ContentBlogSearch
       content_classes_without_post = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer]
     end
 
+    #just post
     if @content_types.present? && @content_types.any? && @content_types.include?("Post")
       content_classes_just_post = []
       content_classes_just_post << [Post]
@@ -274,6 +281,7 @@ class ContentBlogSearch
       content_classes_just_post = [Post]
     end
 
+    #combining the payloads delivered to app by ElasticSearch
     if @query.blank? && @content_types.count == 0
 
       Elasticsearch::Model.search(dsl1, content_classes).records.to_a

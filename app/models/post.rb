@@ -45,9 +45,16 @@ class Post < ActiveRecord::Base
         indexes :title, type: "string"
         indexes :updated_at, type: "date", format: "dateOptionalTime"
 
-        indexes :post_sections, type: 'nested' do
+        indexes :post_sections, :type => 'nested' do
+          indexes :ancestry, type: "string"
           indexes :content, type: "string"
+          indexes :created_at, type: "date", format: "dateOptionalTime"
           indexes :heading, type: "string"
+          indexes :id, type: "long"
+          indexes :kind, type: "string"
+          indexes :position, type: "long"
+          indexes :post_id, type: "long"
+          indexes :updated_at, type: "date", format: "dateOptionalTime"
         end
       end
     end
@@ -69,10 +76,11 @@ class Post < ActiveRecord::Base
 
   def as_indexed_json(options = {})
     as_json(
-      methods: %i[content_category_ids content_tag_ids sorting_date],
-      include: { post_sections: {only: [:content, :heading]} }
+      methods: %i[content_category_ids content_tag_ids sorting_date content heading],
+      include: { post_sections: {only: [:content, :heading, :ancestry, :created_at, :id, :kind, :position, :post_id, :updated_at]} }
     )
   end
+  
   def arranged_sections
     sections = false
     p = post_sections.each do |f|
@@ -149,7 +157,7 @@ class Post < ActiveRecord::Base
       month: published_at.strftime('%m'),
       day: published_at.strftime('%d'),
       id: id,
-      slug: slug,
+      slug: slug
     }
   end
 
