@@ -1,0 +1,57 @@
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, an: 'Custom Missions list'}
+
+.ibox
+  .ibox-title
+    h5 All Missions
+    .ibox-tools
+      = link_to 'Add Custom Mission', new_business_mission_instance_path(@business), class: 'btn btn-primary btn-xs'
+  .ibox-content
+    table.table.table-hover
+      thead
+        th Status
+        th Title
+        th Schedule
+        th Completion
+        th Assigned
+        th Actions
+      tbody
+        - @missions.each do |mission|
+          - instance = @mission_instances[mission.id]&.first
+
+          - if instance && instance&.active?
+            tr
+              td
+                span.label.label-primary Active
+              td
+                strong = link_to mission.title, business_mission_path(@business, mission)
+                .small = "Added #{instance&.created_at&.strftime('%m/%d/%y')}"
+              td
+                - if instance && instance.scheduled?
+                  a = instance.schedule.to_s
+                  .small = "Next due: #{instance&.next_due_at(true)&.strftime('%m/%d/%y')}"
+                - else
+                  a One time
+                  .small = "Due: #{instance&.start_date&.strftime('%m/%d/%y')}"
+              td = render partial: 'businesses/reminders/completion_rate', locals: { mission: mission }
+              td = instance&.assigned_user&.name
+              td = render partial: 'businesses/reminders/mission_actions', locals: { mission: mission }
+          - else
+            tr
+              td
+                span.label.label-default Inactive
+              td
+                strong = link_to mission.title, business_mission_path(@business, mission)
+                .small Not yet added
+              td
+                a = mission.schedule ? mission.schedule.to_s : 'One time'
+                .small Next due: N/A
+              td = render partial: 'businesses/reminders/completion_rate', locals: { mission: mission }
+              td N/A
+              td
+                = link_to activate_business_mission_instances_path(@business, mission_id: mission.id), method: :post, class: 'btn btn-primary btn-sm' do
+                  i.fa.fa-check.m-r-5px
+                  | Activate
+
+    = paginate @missions
+
+

@@ -1,0 +1,22 @@
+.row.m-t-3
+  .col-md-12
+    = link_to 'Add New ToDoList', new_super_to_do_list_path, class: 'btn btn-primary pull-right'
+.ibox-content.m-t-3
+  table.table
+    thead
+      th Name
+      th Description
+      th Actions
+    tbody
+      - @to_do_lists.each do |to_do_list|
+        tr
+          td = to_do_list.name
+          td = to_do_list.description
+          td
+            = link_to edit_super_to_do_list_path(to_do_list), class: 'btn btn-primary btn-circle m-r-1' do
+              i.fa.fa-pencil-square-o
+            = link_to super_to_do_list_path(to_do_list), class: 'btn btn-danger btn-circle', method: :delete, data: { confirm: 'Are you sure?' } do
+              i.fa.fa-trash
+
+
+  = paginate @to_do_lists

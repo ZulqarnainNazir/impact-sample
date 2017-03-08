@@ -14,18 +14,6 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       if params[:event_definition][:repetition] == 'null'
         params[:event_definition][:repetition] = ''
       end
-
-      if params[:event_definition][:'start_time(4i)'].blank? && params[:event_definition][:'start_time(5i)'].blank?
-        params[:event_definition][:'start_time(1i)'] = ''
-        params[:event_definition][:'start_time(2i)'] = ''
-        params[:event_definition][:'start_time(3i)'] = ''
-      end
-
-      if params[:event_definition][:'end_time(4i)'].blank? && params[:event_definition][:'end_time(5i)'].blank?
-        params[:event_definition][:'end_time(1i)'] = ''
-        params[:event_definition][:'end_time(2i)'] = ''
-        params[:event_definition][:'end_time(3i)'] = ''
-      end
     end
   end
 
@@ -48,7 +36,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
       @event_definition.update_column :facebook_id, result['id']
     end
-    if params[:draft]
+    if params[:draft].present?
       @event_definition.published_status = false
     else
       @event_definition.published_status = true
@@ -57,10 +45,10 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       if @event_definition.save!
         @event_definition.reschedule_events!
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @event_definition.errors.full_messages.to_sentence }
       end
     end
     @event_definition.__elasticsearch__.index_document
@@ -86,18 +74,18 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
         @event_definition.update_column :facebook_id, result['id']
       end
     end
-    if params[:draft]
+    if params[:draft].present?
       @event_definition.published_status = false
     else
       @event_definition.published_status = true
     end
     respond_to do |format|
       if @event_definition.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft]
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        flash[:notice] = 'Post was successfully updated.'
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_event_definition_path, :alert => "Post must have a title #{params[:event_definition][:event_definition_location_attributes][:location_id]}" }
+        format.html { redirect_to :back, :alert => @event_definition.errors.full_messages.to_sentence }
       end
     end
     EventDefinition.__elasticsearch__.refresh_index!

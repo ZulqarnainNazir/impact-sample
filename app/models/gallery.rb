@@ -23,10 +23,15 @@ class Gallery < ActiveRecord::Base
     )
   }
 
-  validates :business, presence: true
-  validates :published_on, presence: true
-  validates :title, presence: true
+  validates_presence_of :business
+  validates_presence_of :published_on, if: :not_draft?
+  validates_presence_of :title
+  validates_presence_of :description, if: :not_draft?
+  validates_length_of :gallery_images, minimum: 2, message: "minimum is 2 images", if: :not_draft?
 
+  def not_draft?
+    self.published_status
+  end
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end

@@ -7,7 +7,7 @@ ImagesUpload = React.createClass
     uploads: []
 
   componentDidMount: ->
-    $(this.getDOMNode()).fileupload
+    $(ReactDOM.findDOMNode(this)).fileupload
       dataType: 'XML'
       url: this.props.presignedPost.url
       formData: this.props.presignedPost.fields

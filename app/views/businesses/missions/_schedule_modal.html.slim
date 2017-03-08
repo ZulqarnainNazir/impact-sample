@@ -1,0 +1,44 @@
+a.text-navy href="#" data-toggle='modal' data-target="#schedule-edit"
+  - if @mission_instance.id && @mission_instance.schedule
+    = @mission_instance.schedule.to_s
+  - elsif @mission_instance.id && @mission_instance.start_date.present?
+    | One Time (click to change)
+  - else
+    | Not Set (click to schedule)
+
+
+.modal.inmodal.fade id="schedule-edit" tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    = form_for [@business, @mission_instance] do |f|
+      .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Update Schedule
+
+        .modal-body
+          .form-group
+            = f.label :start_date, 'Start date*', class: 'control-label'
+            = f.text_field :start_date, value: f.object.start_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+          .form-group
+            = f.label :start_time, class: 'control-label'
+            div
+              = f.time_select :start_time, { ampm: true, minute_step: 5, prompt: { hour: 'Hour', minute: 'Minute' }}, class: 'form-control', style: 'display:inline-block; width:45%'
+          .form-group
+            = f.label :end_date, class: 'control-label'
+            = f.text_field :end_date, value: f.object.end_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+          / .form-group
+          /   = f.label :end_time, class: 'control-label'
+          /   div
+          /     = f.time_select :end_time, { ampm: true, minute_step: 5, prompt: { hour: 'Hour', minute: 'Minute' }}, class: 'form-control', style: 'display:inline-block; width:45%'
+          .form-group
+            style .rs_dialog_holder, .rs_dialog { z-index: 999999; }
+            = f.label :repetition, class: 'control-label'
+            = f.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control repetition_select'
+            javascript:
+              $('.repetition_select option[value*="validation"]').prop('selected', true)
+
+        .modal-footer
+          button.btn.btn-white type="button" data-dismiss="modal" Close
+          = f.submit 'Save', class: 'btn btn-primary'

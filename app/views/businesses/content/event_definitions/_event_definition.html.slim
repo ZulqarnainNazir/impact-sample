@@ -2,15 +2,16 @@
 - unless event.nil?
   .timeline-item
     .row
-      .col-xs-3.date
-        => icon 'calendar'
-        |  #{event.occurs_on.in_time_zone("Pacific Time (US & Canada)").strftime('%b %e')}
-        br
-        small.text-navy
-          - if event.occurs_on > DateTime.now
-            | in #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")}
-          - else
-            | #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")} ago
+      - if !event.occurs_on.nil?
+        .col-xs-3.date
+          => icon 'calendar'
+          |  #{event.occurs_on.in_time_zone("Pacific Time (US & Canada)").strftime('%b %e')}
+          br
+          small.text-navy
+            - if event.occurs_on > DateTime.now
+              | in #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")}
+            - else
+              | #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")} ago
       .col-xs-7.content
         .feed-item.feed-event
           .feed-item-meta

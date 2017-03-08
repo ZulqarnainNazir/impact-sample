@@ -1,0 +1,26 @@
+= link_to '#', class: 'text-navy', data: { toggle: 'modal', target: '#mission-assignment-modal' } do
+  - if @mission_instance&.assigned_user
+    i.fa.fa-edit
+    = @mission_instance&.assigned_user&.name
+  - else
+    i.fa.fa-edit
+    | Assign now
+
+.modal.inmodal.fade#mission-assignment-modal tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    = form_tag business_mission_mission_assignments_path(@business, @mission) do
+      .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Edit Assignment
+
+        .modal-body
+          .form-group
+            = label_tag :assigned_user, nil, class: 'control-label'
+            = select_tag 'mission_instance[assigned_user_id]', options_for_select(@business.users.map{ |u| [u.name.capitalize, u.id] }, @mission_instance&.assigned_user&.id), class: 'form-control', include_blank: true
+
+        .modal-footer
+          button.btn.btn-white type="button" data-dismiss="modal" Close
+          = submit_tag 'Change Assignment', class: 'btn btn-primary'

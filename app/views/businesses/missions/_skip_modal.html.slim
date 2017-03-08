@@ -1,0 +1,23 @@
+= link_to '#', class: 'btn btn-white btn-xs text-warning m-l-lg', data: { toggle: 'modal', target: '#skip-note-modal' } do
+  i.fa.fa-angle-double-right.p-r-5px
+  | Skip It
+
+.modal.inmodal.fade#skip-note-modal tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    = form_tag skip_business_mission_instances_path(@business, mission_id: @mission.id) do
+      .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Skip
+
+        .modal-body
+            .form-group
+              = label_tag 'Add an optional note'
+              = text_area_tag 'note', nil, class: 'form-control wysihtml-editor'
+
+        .modal-footer
+          button.btn.btn-white type="button" data-dismiss="modal" Close
+          = submit_tag 'Skip', class: 'btn btn-primary'
+

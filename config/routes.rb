@@ -44,6 +44,10 @@ Rails.application.routes.draw do
     end
 
     namespace :super do
+      resources :to_do_lists
+      resources :missions do
+        get :custom, on: :collection
+      end
       resources :billing_dashboard, only: [:none] do
         collection do
 
@@ -69,10 +73,9 @@ Rails.application.routes.draw do
         end
       end
     end
-    
+
     namespace :widgets do
       get '/review_widgets/:uuid', to: 'review_widgets#index'
-
     end
 
     namespace :onboard do
@@ -233,6 +236,7 @@ Rails.application.routes.draw do
         end
 
         resource :marketing, only: %i[show]
+        resources :marketing_assistant, only: :index
         resource :super_settings, only: %i[edit update] do
           post 'create_affiliation', on: :member
           delete 'delete_affiliation', on: :member
@@ -245,6 +249,23 @@ Rails.application.routes.draw do
         resources :images, only: %i[index]
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
+        resources :reminders, only: :index
+        resources :activity_calendar, only: :index
+        resources :mission_instance_comments, only: :create
+        resources :mission_notes, only: :update
+        resources :missions, only: %i[index show] do
+          get :custom, on: :collection
+          resources :mission_assignments, only: :create
+        end
+        resources :mission_instances, only: %i[edit update create new] do
+          collection do
+            post :complete
+            post :skip
+            post :snooze
+            post :deactivate
+            post :activate
+          end
+        end
         resources :to_dos, only: %i[index show create update destroy] do
           resources :comments, only: :create
 

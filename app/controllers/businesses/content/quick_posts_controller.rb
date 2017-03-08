@@ -28,7 +28,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
       @quick_post.update_column :facebook_id, result['id']
     end
-    if params[:draft]
+    if params[:draft].present?
       @quick_post.published_status = false
     else
       @quick_post.published_status = true
@@ -36,10 +36,10 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     respond_to do |format|
       if @quick_post.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft]
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @quick_post.errors.full_messages.to_sentence }
       end
     end
     QuickPost.__elasticsearch__.refresh_index!
@@ -64,18 +64,18 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
         @quick_post.update_column :facebook_id, result['id']
       end
     end
-    if params[:draft]
+    if params[:draft].present?
       @quick_post.published_status = false
     else
       @quick_post.published_status = true
     end
     respond_to do |format|
       if @quick_post.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft]
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        flash[:notice] = 'Post was successfully updated.'
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @quick_post.errors.full_messages.to_sentence }
       end
     end
 

@@ -72,7 +72,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'erd'
   gem 'spring'
-  gem 'pry'
+  gem 'pry-rails'
 end
 
 group :test do

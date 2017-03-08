@@ -1,0 +1,47 @@
+.row.m-t-sm
+  .col-lg-12
+    ul.nav.nav-tabs
+      li.active
+        a href="#comments" data-toggle="tab"
+          | Team Comments
+      li
+        a href="#history" data-toggle="tab"
+          | History
+    .tab-content
+      .tab-pane.active#comments
+        .ibox.float-e-margins
+          ul.list-group
+            - if @mission_instance&.comments&.any?
+              - @mission_instance.comments.each do |comment|
+                li.list-group-item
+                  strong = comment.commenter.name
+                  span.p-l-5px = raw comment.content.html_safe
+                  .text-muted
+                    small = comment.created_at.strftime('%m/%d/%Y %l:%M%p')
+            - else
+              .m-y-3 No comments to show
+            li.list-group-item
+              = form_tag business_mission_instance_comments_path(@business, mission_id: @mission.id) do
+                .form-group
+                  = text_area_tag 'comment[content]', nil, class: 'form-control wysihtml-editor'
+                = submit_tag 'Add Comment', class: 'btn btn-primary'
+      .tab-pane#history
+        ul.list-group
+          - if @mission_instance&.mission_histories&.any?
+            - @mission_instance.mission_histories.newest.each do |history|
+              li.list-group-item
+                - if history.note && (history.completed? || history.skipped?)
+                  strong= history.description
+                  - if history.note.note.present?
+                    blockquote.small.m-t-2
+                      p= history.note.note.html_safe
+                - else
+                  strong = "#{history.description} at #{history.happened_at.strftime('%m/%d/%Y %l:%M%p')}"
+                .text-muted
+                  small
+                    = history.created_at.strftime('%m/%d/%Y %l:%M%p')
+                    - if history.actor == current_user
+                    span.m-l-5px
+                      = render partial: 'edit_note_modal', locals: { history: history }
+          - else
+            .m-y-3 No history to show

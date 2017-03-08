@@ -1,0 +1,27 @@
+.row.m-t-3
+
+.ibox-content.m-t-3
+  .table-responsive
+    table.table.table-striped.table-bordered.table-hover.datatable
+      thead
+        th Business
+        th Title
+        th Benefits
+        th Time To Complete
+        th List
+        th Actions
+      tbody
+        - @missions.each do |mission|
+          tr
+            td = link_to mission.business.name, business_dashboard_path(mission.business_id)
+            td = mission.title
+            td = mission.benefits
+            td = mission.time_to_complete
+            td = mission.to_do_list&.name
+            td
+              = link_to edit_super_mission_path(mission), class: 'btn btn-primary btn-circle m-r-1' do
+                i.fa.fa-pencil-square-o
+              = link_to super_mission_path(mission), class: 'btn btn-danger btn-circle', method: :delete, data: { confirm: 'Are you sure?' } do
+                i.fa.fa-trash
+
+  = paginate @missions

@@ -25,17 +25,13 @@ class Offer < ActiveRecord::Base
   validates_attachment_content_type :coupon, content_type: /\A(image\/.*|application\/pdf)\Z/
   validates_attachment_size :coupon, in: 0..10.megabytes
 
-  validates :business, presence: true
-  validates :published_on, presence: true
 
-  with_options unless: :minimal_validations do
-    validates :description, presence: true
-    validates :terms, presence: true
-    validates :offer, presence: true
-    validates :title, presence: true
-    validates :offer_image_placement, presence: true
-  end
-
+  validates_presence_of :business
+  validates_presence_of :published_on, if: :not_draft?
+  validates_presence_of :terms, if: :not_draft?
+  validates_presence_of :offer, if: :not_draft?
+  validates_presence_of :title
+  
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end

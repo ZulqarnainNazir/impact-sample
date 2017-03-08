@@ -1,0 +1,22 @@
+a.text-navy href="#" data-toggle='modal' data-target="#mission-note-modal-#{history.id}"
+  i.fa.fa-edit.p-r-2px
+  | Edit Note
+
+.modal.inmodal.fade id="mission-note-modal-#{history.id}" tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    = form_tag business_mission_note_path(@business, history.note), method: :put do
+      .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Edit note
+
+        .modal-body
+            .form-group
+              = hidden_field :history_id, history.id
+              = text_area_tag 'note[note]', history&.note&.note, class: 'form-control wysihtml-editor'
+
+        .modal-footer
+          button.btn.btn-white type="button" data-dismiss="modal" Close
+          = submit_tag 'Update Note', class: 'btn btn-primary'

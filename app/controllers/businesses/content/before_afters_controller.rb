@@ -18,7 +18,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
       result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
       @before_after.update_column :facebook_id, result['id']
     end
-    if params[:draft]
+    if params[:draft].present?
       @before_after.published_status = false
     else
       @before_after.published_status = true
@@ -26,10 +26,11 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
     respond_to do |format|
       if @before_after.save
-        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business, notice: "Post created successfully" } if !params[:draft]
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_before_after_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @before_after.errors.full_messages.to_sentence }
       end
     end
 
@@ -63,10 +64,11 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     end
     respond_to do |format|
       if @before_after.save
+        flash[:notice] = 'Post was successfully updated.'
         format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business, notice: "Post created successfully" } if !params[:draft]
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to new_business_content_before_after_path, :alert => "Title cannot be empty!" }
+        format.html { redirect_to :back, :alert => @before_after.errors.full_messages.to_sentenc }
       end
     end
     @before_after.__elasticsearch__.index_document

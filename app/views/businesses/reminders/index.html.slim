@@ -1,0 +1,43 @@
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, an: 'Active Reminders'}
+
+.ibox
+  .ibox-title
+    h5 Manage Active Reminders
+    .ibox-tools
+      = link_to 'Add Custom Reminder', new_business_mission_instance_path(@business), class: 'btn btn-primary btn-xs'
+  .ibox-content
+    table.table.table-hover
+      thead
+        th Status
+        th Title
+        th Schedule
+        th Completion
+        th Assigned
+        th Actions
+      tbody
+        - @reminders.each do |mission|
+          - instance = @mission_instances[mission.id]&.first
+
+          - if instance && instance&.active?
+            tr
+              td
+                - if instance && instance.active?
+                  span.label.label-primary Active
+                - else
+                  span.label.label-default Inactive
+              td
+                strong = link_to mission.title, business_mission_path(@business, mission)
+                .small = "Added #{mission.created_at.strftime('%m/%d/%y')}"
+              td
+                - if instance && instance.scheduled?
+                  a = instance.schedule.to_s
+                  .small = "Next due: #{instance&.next_due_at(true)&.strftime('%m/%d/%y')}"
+                - else
+                  a One time
+                  .small = "Due: #{instance&.start_date&.strftime('%m/%d/%y')}"
+              td = render partial: 'completion_rate', locals: { mission: mission }
+              td = instance&.assigned_user&.name
+              td = render partial: 'mission_actions', locals: { mission: mission }
+    = paginate @reminders
+
+

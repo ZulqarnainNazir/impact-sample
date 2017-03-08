@@ -245,7 +245,7 @@ ImagePlacement = React.createClass
 
   initializeFileUpload: ->
     unless this.state.uploadXHR
-      uploadXHR = $(this.getDOMNode()).fileupload
+      uploadXHR = $(ReactDOM.findDOMNode(this)).fileupload
         dataType: 'XML'
         url: this.props.presignedPost.url
         formData: this.props.presignedPost.fields
@@ -394,14 +394,14 @@ ImagePlacement = React.createClass
     "#{this.state.uploadProgress}%"
 
   triggerFileInput: ->
-    $(this.refs.fileInput.getDOMNode()).click()
+    $(ReactDOM.findDOMNode(this.refs.fileInput)).click()
 
   disableClosestFormButton: ->
-    formButton = $(this.getDOMNode()).closest('form').find('button[type="submit"]')
+    formButton = $(ReactDOM.findDOMNode(this)).closest('form').find('button[type="submit"]')
     formButton.removeClass('btn-primary').addClass('disabled btn-default')
 
   enableClosestFormButton: ->
-    formButton = $(this.getDOMNode()).closest('form').find('button[type="submit"]')
+    formButton = $(ReactDOM.findDOMNode(this)).closest('form').find('button[type="submit"]')
     formButton.removeClass('disabled btn-default').addClass('btn-primary')
 
 window.ImagePlacement = ImagePlacement

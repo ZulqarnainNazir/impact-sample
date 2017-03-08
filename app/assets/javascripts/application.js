@@ -37,7 +37,6 @@ var ready = function() {
   $('.openings-associations').openingsAssociations();
   $('.pages-associations').pagesAssociations();
   $('.post-sections-associations').postSectionsAssociations();
-  $('.save-once').saveOnce();
   $('.selectpicker').selectpicker();
   $('.webhosts-associations').webhostsAssociations();
   $('.webpage-designer').webpageDesigner();

@@ -1,0 +1,89 @@
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Reminder list', fp: :reminders, an: 'Mission detail'}
+
+.ibox
+  .ibox-content
+    - if @mission_instance&.id
+      = link_to 'Edit Mission', edit_business_mission_instance_path(@business, @mission_instance), class: 'btn btn-default btn-xs pull-right'
+    h2 = @mission.title
+
+    .row
+      - if @mission_instance&.active?
+        .col-sm-6.m-xs
+          = render 'complete_modal'
+        / .col-sm-3.col-xs-6.m-xs
+        /   = link_to snooze_business_mission_instances_path(@business, mission_id: @mission.id), method: :post, class: 'btn btn-warning btn-block' do
+        /     i.fa.fa-clock-o.m-r-5px
+        /     | Snooze
+        .col-sm-2.col-xs-5
+          = link_to deactivate_business_mission_instances_path(@business, mission_id: @mission.id), method: :post, class: 'btn text-danger btn-link btn-block m-t-xs' do
+            i.fa.fa-ban.m-r-5px
+            | Deactivate
+      - else
+        .col-sm-6
+          = link_to activate_business_mission_instances_path(@business, mission_id: @mission.id), method: :post, class: 'btn btn-primary btn-block' do
+            i.fa.fa-check.m-r-5px
+            | Activate
+
+    .row.m-t-2
+      .col-sm-6
+        dl.dl-horizontal.m-t-1
+          dt Schedule:
+          dd
+            = render 'schedule_modal'
+
+          dt Next Due:
+          - if @mission_instance&.next_due_at
+            dd
+              = @mission_instance.next_due_at.strftime('%m/%d/%Y')
+              - unless @mission_instance&.deactivated? || !@mission_instance&.recurring?
+                = render 'skip_modal'
+
+      .col-sm-6#cluster_info
+        dl.dl-horizontal.m-t-1
+          dt Status:
+          dd
+            - if @mission_instance&.active?
+              span.label.label-primary Active
+            - else
+              span.label.label-default Inactive
+
+          dt Assigned to:
+          dd
+            = render 'assignment_modal'
+    .row
+      .col-lg-12
+        dl.dl-horizontal.m-t-1
+          dt Description:
+          dd
+            p = @mission.description.html_safe
+          dt Benefits:
+          dd
+            p = @mission.benefits
+
+      - if @mission.success_tips.present?
+        .col-lg-12
+          dl.dl-horizontal.well.m-t-1
+            dt Success Tip:
+            dd
+              p = @mission.success_tips.html_safe
+
+    .row
+      .col-sm-5
+        dl.dl-horizontal.m-t-1
+          dt Created by:
+          dd = @mission_instance&.creating_user&.name
+          dt Time to Complete
+          dd = @mission.time_to_complete
+          - if @mission.to_do_list
+            dt To-Do List
+            dd
+              a.text-navy = @mission.to_do_list.name
+
+      .col-sm-7
+        dl.dl-horizontal.m-t-1
+          - if @mission_instance
+            dt Last Completed:
+            dd = @mission_instance.last_completed_at&.strftime("%m/%d/%Y %l:%M:%S%p")
+          dt Activated:
+          dd = @mission_instance.activated_at&.strftime("%m/%d/%Y %l:%M:%S%p")
+    = render 'comments_and_history'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220214921) do
+ActiveRecord::Schema.define(version: 20170226144024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,17 @@ ActiveRecord::Schema.define(version: 20170220214921) do
     t.datetime "updated_at",                      null: false
   end
 
+  create_table "business_widgets", force: :cascade do |t|
+    t.integer  "widget_id"
+    t.integer  "business_id"
+    t.jsonb    "settings"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
+  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
+
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
     t.string   "tagline"
@@ -172,9 +183,9 @@ ActiveRecord::Schema.define(version: 20170220214921) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
+    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
-    t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
   end
 
@@ -198,6 +209,19 @@ ActiveRecord::Schema.define(version: 20170220214921) do
 
   add_index "categorizations", ["business_id"], name: "index_categorizations_on_business_id", using: :btree
   add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.integer  "commenter_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["commenter_id"], name: "index_comments_on_commenter_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.integer  "user_business_id"
@@ -388,7 +412,6 @@ ActiveRecord::Schema.define(version: 20170220214921) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -536,19 +559,93 @@ ActiveRecord::Schema.define(version: 20170220214921) do
     t.json     "settings"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.string   "business_street_1"
-    t.string   "business_street_2"
-    t.string   "business_city"
-    t.string   "business_state"
-    t.string   "business_zip_code"
-    t.string   "business_fax_number"
-    t.boolean  "hide_business_address"
-    t.boolean  "hide_business_fax"
-    t.float    "business_lat"
-    t.float    "business_long"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
+
+  create_table "mission_histories", force: :cascade do |t|
+    t.integer  "actor_id"
+    t.string   "action"
+    t.text     "description"
+    t.datetime "happened_at"
+    t.integer  "mission_instance_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "trackable_type"
+    t.integer  "trackable_id"
+  end
+
+  add_index "mission_histories", ["actor_id"], name: "index_mission_histories_on_actor_id", using: :btree
+  add_index "mission_histories", ["mission_instance_id"], name: "index_mission_histories_on_mission_instance_id", using: :btree
+  add_index "mission_histories", ["trackable_id"], name: "index_mission_histories_on_trackable_id", using: :btree
+  add_index "mission_histories", ["trackable_type"], name: "index_mission_histories_on_trackable_type", using: :btree
+
+  create_table "mission_instance_events", force: :cascade do |t|
+    t.integer  "business_id"
+    t.integer  "mission_instance_id"
+    t.date     "occurs_on"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "status",              default: 0
+  end
+
+  add_index "mission_instance_events", ["business_id"], name: "index_mission_instance_events_on_business_id", using: :btree
+  add_index "mission_instance_events", ["mission_instance_id"], name: "index_mission_instance_events_on_mission_instance_id", using: :btree
+
+  create_table "mission_instances", force: :cascade do |t|
+    t.integer  "business_id"
+    t.integer  "status"
+    t.integer  "mission_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.datetime "last_completed_at"
+    t.datetime "last_snoozed_at"
+    t.datetime "last_skipped_at"
+    t.integer  "last_status",        default: 0
+    t.integer  "completion_times",   default: 0
+    t.integer  "incompletion_times", default: 0
+    t.integer  "total_times",        default: 0
+    t.integer  "assigned_user_id"
+    t.integer  "creating_user_id"
+    t.text     "repetition"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "activated_at"
+    t.time     "start_time"
+    t.time     "end_time"
+  end
+
+  add_index "mission_instances", ["assigned_user_id"], name: "index_mission_instances_on_assigned_user_id", using: :btree
+  add_index "mission_instances", ["business_id"], name: "index_mission_instances_on_business_id", using: :btree
+  add_index "mission_instances", ["creating_user_id"], name: "index_mission_instances_on_creating_user_id", using: :btree
+  add_index "mission_instances", ["mission_id"], name: "index_mission_instances_on_mission_id", using: :btree
+
+  create_table "missions", force: :cascade do |t|
+    t.integer  "to_do_list_id"
+    t.integer  "status",                default: 0
+    t.integer  "prompt_type",           default: 0
+    t.text     "description"
+    t.text     "benefits"
+    t.string   "time_to_complete"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.string   "title"
+    t.string   "group"
+    t.string   "tier"
+    t.string   "difficulty"
+    t.jsonb    "pillars"
+    t.text     "success_tips"
+    t.jsonb    "industry"
+    t.integer  "target_frequency_days"
+    t.integer  "alert_frequency_days"
+    t.jsonb    "settings"
+    t.integer  "business_id"
+    t.text     "repetition"
+    t.boolean  "globally_recommended",  default: false
+  end
+
+  add_index "missions", ["business_id"], name: "index_missions_on_business_id", using: :btree
+  add_index "missions", ["to_do_list_id"], name: "index_missions_on_to_do_list_id", using: :btree
 
   create_table "nav_links", force: :cascade do |t|
     t.integer  "website_id",             null: false
@@ -566,6 +663,19 @@ ActiveRecord::Schema.define(version: 20170220214921) do
 
   add_index "nav_links", ["webpage_id"], name: "index_nav_links_on_webpage_id", using: :btree
   add_index "nav_links", ["website_id"], name: "index_nav_links_on_website_id", using: :btree
+
+  create_table "notes", force: :cascade do |t|
+    t.text     "note"
+    t.string   "notable_type"
+    t.integer  "notable_id"
+    t.integer  "author_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "notes", ["author_id"], name: "index_notes_on_author_id", using: :btree
+  add_index "notes", ["notable_id"], name: "index_notes_on_notable_id", using: :btree
+  add_index "notes", ["notable_type"], name: "index_notes_on_notable_type", using: :btree
 
   create_table "offers", force: :cascade do |t|
     t.integer  "business_id",                     null: false
@@ -860,6 +970,13 @@ ActiveRecord::Schema.define(version: 20170220214921) do
   add_index "to_do_comments", ["commenter_id"], name: "index_to_do_comments_on_commenter_id", using: :btree
   add_index "to_do_comments", ["to_do_id"], name: "index_to_do_comments_on_to_do_id", using: :btree
 
+  create_table "to_do_lists", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "to_do_notification_settings", force: :cascade do |t|
     t.boolean  "assigned",                  default: true
     t.boolean  "updates_or_comments",       default: true
@@ -988,6 +1105,13 @@ ActiveRecord::Schema.define(version: 20170220214921) do
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
+
+  create_table "widgets", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "widget_type", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   add_foreign_key "lines", "businesses"
   add_foreign_key "pdfs", "businesses"

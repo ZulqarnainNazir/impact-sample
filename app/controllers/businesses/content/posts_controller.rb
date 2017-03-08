@@ -41,7 +41,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       result = page_graph.put_connections @business.facebook_id, 'feed', post_facebook_params
       @post.update_column :facebook_id, result['id']
     end
-    if params[:draft]
+    if params[:draft].present?
       @post.published_status = false
     else
       @post.published_status = true
@@ -49,10 +49,10 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     respond_to do |format|
       if @post.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Post created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_post_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @post.errors.full_messages.to_sentence }
       end
     end
     Post.__elasticsearch__.refresh_index!
@@ -71,7 +71,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         @post.update_column :facebook_id, result['id']
       end
     end
-    if params[:draft]
+    if params[:draft].present?
       @post.published_status = false
     else
       @post.published_status = true
@@ -80,11 +80,11 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
     respond_to do |format|
       if @post.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        flash[:notice] = 'Post was successfully updated.'
+        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_post_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @post.errors.full_messages.to_sentence }
       end
     end
     @post.__elasticsearch__.index_document
@@ -153,10 +153,10 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       if section.parent_key.present?
         parent = sections.find { |s| s.key == section.parent_key }
         if parent
-          section.update! parent_id: parent.id
+          section.update parent_id: parent.id
         end
       else
-        section.update! parent_id: nil
+        section.update parent_id: nil
       end
     end
   end

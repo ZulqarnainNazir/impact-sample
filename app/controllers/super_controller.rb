@@ -1,5 +1,11 @@
 class SuperController < ApplicationController
   before_action :ensure_admin
+  layout 'businesses'
+
+  def current_business
+    Business.find_by(id: params[:business_id])
+  end
+  helper_method :current_business
 
   private
 

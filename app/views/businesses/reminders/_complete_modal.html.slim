@@ -1,0 +1,23 @@
+= link_to '#', class: 'btn btn-primary btn-sm m-r-5px', data: { toggle: 'modal', target: "#index-complete-note-modal-#{mission.id}" } do
+  i.fa.fa-check.m-r-5px
+  | Complete
+
+.modal.inmodal.fade id="index-complete-note-modal-#{mission.id}" tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    = form_tag complete_business_mission_instances_path(@business, mission_id: mission.id) do
+      .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Mark as Completed
+
+        .modal-body
+            .form-group
+              = label_tag 'Add an optional note'
+              = text_area_tag 'note', nil, class: 'form-control wysihtml-editor'
+
+        .modal-footer
+          button.btn.btn-white type="button" data-dismiss="modal" Close
+          = submit_tag 'Complete', class: 'btn btn-primary'
+

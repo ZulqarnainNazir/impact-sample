@@ -13,12 +13,16 @@ class QuickPost < ActiveRecord::Base
 
   has_placed_image :quick_post_image
 
-  validates :content, presence: true
-  validates :published_on, presence: true
-  validates :title, presence: true
+  validates_presence_of :published_on, if: :not_draft?
+  validates_presence_of :title
+  validates_presence_of :content, if: :not_draft?
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
+  end
+
+  def not_draft?
+    self.published_status
   end
 
   def published_on=(value)

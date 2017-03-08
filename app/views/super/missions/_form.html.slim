@@ -1,0 +1,48 @@
+.row.m-y-3
+  = form_for [:super, @mission] do |f|
+    .col-md-8
+      .form-group
+        = f.label :title, 'Title*', class: 'control-label'
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = f.label :benefits, class: 'control-label'
+        = f.text_area :benefits, class: 'form-control'
+      .form-group
+        = f.label :description, 'Description*', class: 'control-label'
+        = f.text_area :description, class: 'form-control wysihtml-editor'
+      .form-group
+        = f.label :success_tips, class: 'control-label'
+        = f.text_area :success_tips, class: 'form-control wysihtml-editor'
+      .form-group
+        = f.label :time_to_complete, 'Time to complete*', class: 'control-label'
+        = f.select :time_to_complete, options_for_select(['5 - 15 minutes', '15 - 30 minutes', '30+ minutes'], f.object.time_to_complete), {}, class: 'form-control'
+      .form-group
+        = f.label :group, class: 'control-label'
+        = f.select :group, options_for_select(Mission::GROUP_OPTIONS.map{ |o| [o.capitalize, o] }, f.object.group), {include_blank: ''}, class: 'form-control'
+      .form-group
+        = f.label :tier, class: 'control-label'
+        = f.select :tier, options_for_select(Mission::TIER_OPTIONS.map{ |o| [o.capitalize, o] }, f.object.tier), {include_blank: ''}, class: 'form-control'
+      .form-group
+        = f.label :difficulty, class: 'control-label'
+        = f.select :difficulty, options_for_select(Mission::DIFFICULTY_OPTIONS.map{ |o| [o.capitalize, o] }, f.object.difficulty), {include_blank: ''}, class: 'form-control'
+
+      .form-group
+        = f.label :pillars, class: 'control-label'
+        = f.select :pillars, options_for_select(Mission::PILLARS_OPTIONS.map{ |o| [o.capitalize, o] }, f.object.pillars), {}, class: 'form-control', multiple: true
+      .form-group
+        = f.label 'ToDoList (optional)', class: 'control-label'
+        = f.collection_select :to_do_list_id, ToDoList.all, :id, :name, { include_blank: '' }, class: 'form-control'
+      .form-group
+        = f.label :repetition, class: 'control-label'
+        = f.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control repetition_select'
+        javascript:
+          $('.repetition_select option[value*="validation"]').prop('selected', true)
+      .form-group
+        .checkbox
+          = f.label :globally_recommended, class: 'control-label' do
+            = f.check_box :globally_recommended
+            | Global Recommendation
+
+      .text-center
+        = link_to 'Cancel', super_missions_path, class: 'btn btn-default m-r-1'
+        = f.submit 'Submit', class: 'btn btn-primary'

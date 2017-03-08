@@ -15,9 +15,16 @@ class BeforeAfter < ActiveRecord::Base
   has_placed_image :after_image
   has_placed_image :main_image
 
-  validates :business, presence: true
-  validates :published_on, presence: true
-  validates :title, presence: true
+  validates_presence_of :business
+  validates_presence_of :published_on, if: :not_draft?
+  validates_presence_of :title
+  validates_presence_of :description, if: :not_draft?
+  validates_presence_of :before_image, if: :not_draft?
+  validates_presence_of :after_image, if: :not_draft?
+
+  def not_draft?
+    self.published_status
+  end
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }

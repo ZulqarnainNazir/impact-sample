@@ -27,7 +27,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
       @offer.update_column :facebook_id, result['id']
     end
-    if params[:draft]
+    if params[:draft].present?
       @offer.published_status = false
     else
       @offer.published_status = true
@@ -35,10 +35,10 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     respond_to do |format|
       if @offer.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @offer.errors.full_messages.to_sentence }
       end
     end
     Offer.__elasticsearch__.refresh_index!
@@ -64,7 +64,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
         @offer.update_column :facebook_id, result['id']
       end
     end
-    if params[:draft]
+    if params[:draft].present?
       @offer.published_status = false
     else
       @offer.published_status = true
@@ -72,10 +72,10 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     respond_to do |format|
       if @offer.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_offer_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @offer.errors.full_messages.to_sentence }
       end
     end
 

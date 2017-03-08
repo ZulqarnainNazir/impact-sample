@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 function checkTime() {
     // get datetime text from form input ie "Oct 25 2016 10:27 AM -0700"
-    if ($('#datetimepicker').children()[0]) {
+    if ($('#datetimepicker').children()[0] && $('.fbshare input')[0]) {
         var dt = $('#datetimepicker').children()[0];
 
         var then = moment(dt.value).format('MMM D YYYY h:mm A ZZ');

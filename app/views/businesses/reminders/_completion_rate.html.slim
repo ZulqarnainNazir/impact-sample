@@ -1,0 +1,10 @@
+- instance = @mission_instances[mission.id]&.first
+
+- if instance
+  small = "Completion rate: #{instance.completion_rate}%"
+  .progress.progress-mini
+    div.progress-bar style="width: #{instance.completion_rate}%;"
+- else
+  small Completion rate: 0%
+  .progress.progress-mini
+    div.progress-bar style="width: 0%;"

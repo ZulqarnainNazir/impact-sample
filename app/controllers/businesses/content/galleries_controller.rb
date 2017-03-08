@@ -22,7 +22,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
       @gallery.update_column :facebook_id, result['id']
     end
-    if params[:draft]
+    if params[:draft].present?
       @gallery.published_status = false
     else
       @gallery.published_status = true
@@ -30,10 +30,10 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     respond_to do |format|
       if @gallery.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @gallery.errors.full_messages.to_sentence }
       end
     end
     Gallery.__elasticsearch__.refresh_index!
@@ -60,18 +60,18 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         @gallery.update_column :facebook_id, result['id']
       end
     end
-    if params[:draft]
+    if params[:draft].present?
       @gallery.published_status = false
     else
       @gallery.published_status = true
     end
     respond_to do |format|
       if @gallery.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        flash[:notice] = 'Post was successfully updated.'
+        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to new_business_content_gallery_path, :alert => "Post must have a title" }
+        format.html { redirect_to :back, :alert => @gallery.errors.full_messages.to_sentence }
       end
     end
 

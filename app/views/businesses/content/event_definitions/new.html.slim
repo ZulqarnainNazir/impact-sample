@@ -1,14 +1,5 @@
 - title 'New Business Event'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' New Event'}
-
-.row
-  .col-lg-12
-    .wrapper.wrapper-content
-      .row
-        .col-lg-12
-          .ibox.float-e-margins
-            .ibox-content
-              = errors_for @event_definition
-              = form_for @event_definition, url: [@business, :content_event_definitions], html: { class: 'save-once' } do |form|
-                = render form
+= errors_for @event_definition
+= form_for @event_definition, url: [@business, :content_event_definitions], html: { class: 'save-once' } do |form|
+  = render form

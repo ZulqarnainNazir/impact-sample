@@ -1,0 +1,35 @@
+= form_for [@business, @mission_instance] do |f|
+  .col-md-8
+    - if @mission.business == @business
+      = f.fields_for :mission, @mission do |m|
+        .form-group
+          = m.label :title, 'Title*', class: 'control-label'
+          = m.text_field :title, class: 'form-control'
+        .form-group
+          = m.label :benefits, class: 'control-label'
+          = m.text_area :benefits, class: 'form-control'
+        .form-group
+          = m.label :description, 'Description*', class: 'control-label'
+          = m.text_area :description, class: 'form-control wysihtml-editor'
+
+    .form-group
+      = f.label :assigned_user, class: 'control-label'
+      = f.select :assigned_user_id, options_for_select(@business.users.map{ |u| [u.name.capitalize, u.id] }, f.object.assigned_user), {include_blank: ''}, class: 'form-control'
+    .form-group
+      = f.label :start_date, 'Start date*', class: 'control-label'
+      = f.text_field :start_date, value: f.object.start_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+    .form-group
+      = f.label :start_time, class: 'control-label'
+      div
+        = f.time_select :start_time, { ampm: true, minute_step: 5, prompt: { hour: 'Hour', minute: 'Minute' }}, class: 'form-control', style: 'display:inline-block; width:45%'
+    .form-group
+      = f.label :end_date, class: 'control-label'
+      = f.text_field :end_date, value: f.object.end_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+    .form-group
+      = f.label :repetition, class: 'control-label'
+      = f.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control repetition_select'
+      javascript:
+        $('.repetition_select option[value*="validation"]').prop('selected', true)
+    .m-y-3
+      = link_to 'Cancel', :back, class: 'btn btn-default m-r-1'
+      = f.submit 'Submit', class: 'btn btn-primary'

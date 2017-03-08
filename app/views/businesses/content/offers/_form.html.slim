@@ -37,21 +37,20 @@
                 .form-group
                   = form.label :offer, 'Describe the Discount', class: 'control-label'
                   = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Add more details about the offer. Remember, you’re selling what makes this OFFER great.'
-                .form-horizontal.text-right style="margin:20px 0"
-                  .form-group
-                    = form.label :valid_until, 'Valid Until', class: 'col-sm-6 control-label'
-                    .col-sm-6
-                      .input-group
-                        = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
-                        span.input-group-addon: i.fa.fa-calendar
                 .form-group
                   = form.label :description, 'Describe what‘s included with this offer and the benefits of purchasing the offer', class: 'control-label'
                   = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor', placeholder: 'Here you should describe what’s include and why your product or service is great. Highlight a benefit or two.'
-                .form-horizontal.text-right style="margin:20px 0"
-                  .form-group
-                    = form.label :offer_code, 'Offer Code', class: 'col-sm-6 control-label'
-                    .col-sm-6
-                      = form.text_field :offer_code, class: 'form-control simple-input', placeholder: 'Optional'
+          .row
+            .col-sm-6
+              .form-group
+                = form.label :valid_until, 'Valid Until', class: 'control-label'
+                .input-group
+                  = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: {provide: 'datepicker'}
+                  span.input-group-addon: i.fa.fa-calendar
+            .col-sm-6  
+              .form-group
+                = form.label :offer_code, 'Offer Code', class: 'control-label'
+                = form.text_field :offer_code, class: 'form-control simple-input', placeholder: 'Optional'
           hr>
           .row
             .col-sm-10.col-sm-offset-1
@@ -63,37 +62,38 @@
                 = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
                 = form.file_field :coupon
 .webpage-save
+  = hidden_field_tag 'draft', nil, :id => "draftField"
   .row
     - if (form.object.persisted? && form.object.published_status == false)
       .col-sm-4.col-sm-offset-2.col-xs-6
-        = form.button 'Publish Post', class: 'btn btn-block btn-primary'
+        = form.button 'Publish Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
         a.text-center data-toggle="modal" data-target="#modal"
           span.fa.fa-cog.fa-2x
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
         .form-group.m-b-none
-          = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft"
+          = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
     - elsif form.object.persisted?
       .col-sm-4.col-sm-offset-2.col-xs-6
-        = form.button 'Update Post', class: 'btn btn-block btn-primary'
+        = form.button 'Update Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
         a.text-center data-toggle="modal" data-target="#modal"
           span.fa.fa-cog.fa-2x
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
         .form-group.m-b-none
-          = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft"
+          = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
     - else
       .col-sm-4.col-sm-offset-2.col-xs-6
-        = form.button 'Publish Post', class: 'btn btn-block btn-primary'
+        = form.button 'Publish Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
         a.text-center data-toggle="modal" data-target="#modal"
           span.fa.fa-cog.fa-2x
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
         .form-group.m-b-none
-          = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft"
+          = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
 
 .modal.inmodal#modal tabindex="-1" aria-hidden="true" role="dialog"
   .modal-dialog.modal-lg
@@ -111,7 +111,7 @@
                 = form.text_field :published_on, :value => (@offer.published_at.present? ? @offer.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M:%S %p")), :class => "form-control"
                 span.input-group-addon
                   span.glyphicon.glyphicon-calendar
-            = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: false}
+            = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
             = render partial: 'businesses/content/classification', locals: {form: form}
 javascript:
   $('.offer-row-switch').on('click', function(event) {
@@ -131,5 +131,28 @@ javascript:
   $(function () {
     $('#datetimepicker').datetimepicker({
         format: 'MMM D YYYY h:mm A ZZ'
+    });
+    $(".save-once").validate({
+      rules: {
+        "offer[title]": {
+          required: true
+        }
+      },
+      submitHandler: function (form) {
+        $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+        form.submit()
+      }
+    });
+    $('button[name="draft"]').click(function () {
+      $('[name="offer[content]"]').rules('remove');
+      $('#draftField').val(1);
+      $(".save-once").submit();
+    });
+
+    $('button[name="publish"]').click(function () {
+      $('[name="offer[content]"]').rules('add', {
+        required: true
+      });
+      $(".save-once").submit();
     });
   });
