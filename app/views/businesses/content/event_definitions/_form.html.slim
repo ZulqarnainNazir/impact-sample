@@ -237,26 +237,13 @@
         $("#show-city-only").removeAttr("disabled");
         $( "#event-location-map" ).show();
     });
-    $(".save-once").validate({
-      rules: {
-        "event_definition[title]": {
-          required: true
-        }
-      },
-      submitHandler: function (form) {
-        $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
-        form.submit()
-      }
-    });
     $('button[name="draft"]').click(function () {
-      $('[name="event_definition[content]"]').rules('remove');
       $('#draftField').val(1);
       $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });
 
     $('button[name="publish"]').click(function () {
-      $('[name="event_definition[content]"]').rules('add', {
-        required: true
-      });
       $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });

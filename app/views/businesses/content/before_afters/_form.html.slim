@@ -96,34 +96,14 @@ javascript:
     $('#datetimepicker').datetimepicker({
       format: 'MMM D YYYY h:mm A ZZ'
     });
-    $(".save-once").validate({
-      rules: {
-        "before_after[title]": {
-          required: true
-        },
-        "before_after[before_image_placement_attributes]": {
-          required: true
-        },
-        "before_after[after_image_placement_attributes]": {
-          required: true
-        }
-      },
-      submitHandler: function (form) {
-        $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
-        form.submit()
-      }
-    });
     $('button[name="draft"]').click(function () {
-      $('[name="before_after[content]"]').rules('remove');
       $('#draftField').val(1);
       $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });
 
     $('button[name="publish"]').click(function () {
-      $('[name="before_after[description]"]').rules('add', {
-        required: true
-      });
-
       $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });
   });

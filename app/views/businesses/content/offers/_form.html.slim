@@ -132,27 +132,14 @@ javascript:
     $('#datetimepicker').datetimepicker({
         format: 'MMM D YYYY h:mm A ZZ'
     });
-    $(".save-once").validate({
-      rules: {
-        "offer[title]": {
-          required: true
-        }
-      },
-      submitHandler: function (form) {
-        $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
-        form.submit()
-      }
-    });
     $('button[name="draft"]').click(function () {
-      $('[name="offer[content]"]').rules('remove');
       $('#draftField').val(1);
       $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });
 
     $('button[name="publish"]').click(function () {
-      $('[name="offer[content]"]').rules('add', {
-        required: true
-      });
       $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });
   });
