@@ -107,11 +107,11 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Reviews", [@business, :crm_reviews]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
             = link_to "CSV Import", [@business, :crm_imports]
-      li title="Prompts & To-Dos" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders)/))
+      li title="Marketing Missions" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders)/))
         = link_to "#"
           i.fa.fa-check-square-o
           span.nav-label[data-i18n="nav.contacts"]
-            | Prompts & To-Dos
+            | Marketing Missions
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/activity_calendar|missions|reminders/))
           / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant_index/))

@@ -137,6 +137,17 @@ ActiveRecord::Schema.define(version: 20170307222936) do
     t.datetime "updated_at",                      null: false
   end
 
+  create_table "business_widgets", force: :cascade do |t|
+    t.integer  "widget_id"
+    t.integer  "business_id"
+    t.jsonb    "settings"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
+  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
+
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
     t.string   "tagline"
@@ -172,9 +183,9 @@ ActiveRecord::Schema.define(version: 20170307222936) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
+    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
-    t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
   end
 
@@ -401,7 +412,6 @@ ActiveRecord::Schema.define(version: 20170307222936) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -1095,6 +1105,13 @@ ActiveRecord::Schema.define(version: 20170307222936) do
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
+
+  create_table "widgets", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "widget_type", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   add_foreign_key "lines", "businesses"
   add_foreign_key "pdfs", "businesses"

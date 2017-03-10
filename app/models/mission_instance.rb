@@ -114,7 +114,7 @@ class MissionInstance < ActiveRecord::Base
   def next_due_at(future_only = false)
     if scheduled?
       if future_only
-        mission_instance_events.next_due_event.first&.occurs_on
+        mission_instance_events.next_due_event&.occurs_on
       else
         mission_instance_events.oldest.first&.occurs_on
       end
@@ -182,32 +182,38 @@ class MissionInstance < ActiveRecord::Base
     return presence.first(return_count)
   end
 
+
+  def due_in_future?
+    next_due = next_due_at(true)
+    next_due && next_due >= Time.now
+  end
+  
   def self.quickstart_missions(business)
     includes(:mission_instance_events)
       .where(business: business)
       .joins(:mission).where(missions: { group: 'quickstart' })
-      .select { |mi| mi.next_due_at(true) >= Time.now }
+      .select(&:due_in_future?)
   end
 
   def self.setup_missions(business)
     includes(:mission_instance_events)
       .where(business: business)
       .joins(:mission).where(missions: { tier: 'setup' })
-      .select { |mi| mi.next_due_at(true) >= Time.now }
+      .select(&:due_in_future?)
   end
 
   def self.foundational_missions(business)
     includes(:mission_instance_events)
       .where(business: business)
       .joins(:mission).where(missions: { tier: 'foundational' })
-      .select { |mi| mi.next_due_at(true) >= Time.now }
+      .select(&:due_in_future?)
   end
 
   def self.presence_missions(business)
     includes(:mission_instance_events)
     .where(business: business)
       .joins(:mission).where(missions: { tier: 'presence' })
-      .select { |mi| mi.next_due_at(true) >= Time.now }
+      .select(&:due_in_future?)
   end
 
   def self.one_time_missions_for_today(business)
