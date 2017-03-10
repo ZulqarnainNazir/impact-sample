@@ -128,7 +128,7 @@ class Business < ActiveRecord::Base
 
   def is_on_engage_plan?
     if !self.subscription.nil?
-      if self.subscription.plan.is_engage_plan?
+      if self.subscription.plan.present? and self.subscription.plan.is_engage_plan?
         return true
       else
         return false
@@ -140,7 +140,7 @@ class Business < ActiveRecord::Base
 
   def is_on_legacy_plan?
     if !self.subscription.nil?
-      if self.subscription.plan.is_legacy?
+      if self.subscription.plan.present? and self.subscription.plan.is_legacy?
         return true
       else
         return false
@@ -183,6 +183,15 @@ class Business < ActiveRecord::Base
       super("http://#{value}")
     end
   end
+
+  def sitemap_name
+    (self.name.to_s).parameterize
+  end
+
+  def sitemap_url
+    "https://s3.amazonaws.com/#{Rails.application.secrets.aws_s3_bucket}/sitemaps/#{self.id}/sitemap.xml.gz"
+    # "http://s3-#{Rails.application.secrets.aws_s3_region}.amazonaws.com/#{Rails.application.secrets.aws_s3_bucket}/sitemaps/#{self.id}/sitemap.xml.gz"
+  end 
 
   def first_five_to_dos
     to_dos

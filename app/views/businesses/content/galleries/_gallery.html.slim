@@ -37,7 +37,10 @@
           - if gallery.published_status == false
             h2 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => gallery.id], target: :_blank
           - else
-            => link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+            - if Rails.env.development? || Rails.env.test?
+              = link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank 
+            - elsif Rails.env.production?
+              = link_to gallery.title, "http://#{website_host(@business.website)}/#{path_to_external_content(gallery)}", only_path: false, protocol: :http, target: :_blank
         - else
           => gallery.title
         span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
@@ -46,11 +49,18 @@
           - image = gallery_image.gallery_image
           .col-xs-3.col-lg-2
             - if @business.website && gallery.published_status != false
-              = link_to [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], class: 'gallery-item', target: :_blank do
-                  figure
-                    .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
-                      = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+              - if Rails.env.development? || Rails.env.test?
+                 = link_to [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], class: 'gallery-item', target: :_blank do
+                    figure
+                      .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                        = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+              - elsif Rails.env.production?
+                = link_to "http://#{website_host(@business.website)}/#{path_to_external_content(gallery)}", only_path: false, protocol: :http, class: 'gallery-item', target: :_blank do
+                    figure
+                      .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+                        = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
             - else
                 figure
                   .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                     = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+

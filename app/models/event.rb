@@ -35,7 +35,16 @@ class Event < ActiveRecord::Base
       month: occurs_on.strftime('%m'),
       day: occurs_on.strftime('%d'),
       id: id,
-      slug: event_definition.slug,
+      slug: event_definition.slug
     }
+  end
+  def to_generic_param_two
+    [
+      occurs_on.strftime('%Y').to_s,
+      occurs_on.strftime('%m').to_s,
+      occurs_on.strftime('%d').to_s,
+      "#{id}",
+      event_definition.slug.to_s
+    ]
   end
 end

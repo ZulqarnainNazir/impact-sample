@@ -165,6 +165,16 @@ class Post < ActiveRecord::Base
     }
   end
 
+  def to_generic_param_two
+    [
+      published_at.strftime('%Y').to_s,
+      published_at.strftime('%m').to_s,
+      published_at.strftime('%d').to_s,
+      "#{id}",
+      slug.to_s
+    ]
+  end
+
   private
 
   def add_keyed_cached_children(sections, all_sections)

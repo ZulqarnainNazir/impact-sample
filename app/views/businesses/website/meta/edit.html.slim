@@ -14,6 +14,13 @@
               = errors_for @website
               = form_for @website, url: [@business, :website_meta], method: :patch do |form|
                 .form-group
+                  -if @website.try(:webhosts).present?
+                    = form.label :name, 'Sitemap URL', class: 'control-label'
+                    = form.text_field :email, value: @business.sitemap_url, placeholder: "Please add custom domain to enable sitemap.", class: "form-control", disabled: true
+                  -else
+                    = form.label :name, 'Sitemap URL', class: 'control-label'
+                    = form.text_field :email, value: "Please add custom domain to enable sitemap.", class: "form-control", disabled: true
+                .form-group
                   = form.label :google_analytics_id, class: 'control-label'
                   = form.text_field :google_analytics_id, class: 'form-control'
                 .form-group

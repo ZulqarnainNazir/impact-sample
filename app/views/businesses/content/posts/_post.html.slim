@@ -37,7 +37,11 @@
         - if post.published_status == false
           h2 = link_to post.title, [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => post.id], target: :_blank
         - else
-          h2 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+          - if Rails.env.development? || Rails.env.test?
+            h2 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+          - elsif Rails.env.production?
+            h2 = link_to post.title, "http://#{website_host(@business.website)}/#{path_to_external_content(post)}", only_path: false, protocol: :http, target: :_blank
+          h2 = 
       - else
         h2 = post.title
       .clearfix

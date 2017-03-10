@@ -36,7 +36,10 @@
         - if before_after.published_status == false
           h2 = link_to before_after.title, [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), protocol: :http, :id => before_after.id], target: :_blank
         - else
-          h2 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+          - if Rails.env.development? || Rails.env.test?
+            h2 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+          - elsif Rails.env.production?
+            h2 = link_to before_after.title, "http://#{website_host(@business.website)}/#{path_to_external_content(before_after)}", only_path: false, protocol: :http, target: :_blank
       - else
         h2 = before_after.title
       - if before_after.before_image || before_after.after_image

@@ -37,7 +37,10 @@
         - if quick_post.published_status == false
           h2 = link_to quick_post.title, [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => quick_post.id], target: :_blank
         - else
-          h2 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+          - if Rails.env.development? || Rails.env.test?
+            h2 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+          - elsif Rails.env.production?
+            h2 = link_to quick_post.title, "http://#{website_host(@business.website)}/#{path_to_external_content(quick_post)}", only_path: false, protocol: :http, target: :_blank
       - else
         h2 = quick_post.title
       - placement = quick_post.quick_post_image_placement

@@ -1,0 +1,13 @@
+<% if Rails.env.production? %>
+  User-Agent: *
+  Allow: /
+  Disallow: /admin
+  Disallow: /super
+  Disallow: /super_admin
+  Disallow: /businesses
+  Sitemap: <% concat @business.sitemap_url  %><%# concat @business.sitemap_url if @business.website.try(:webhosts).present? %>
+<% else %>
+  User-Agent: *
+  Disallow: 
+<% end %>
+
