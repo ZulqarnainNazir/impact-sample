@@ -3,13 +3,13 @@ Block = React.createClass
     editing: React.PropTypes.bool
     groupInputName: React.PropTypes.string
     kind: React.PropTypes.string
-    max_blocks: React.PropTypes.number
+    maxBlocks: React.PropTypes.number
     removeBlock: React.PropTypes.func
     type: React.PropTypes.string
     custom_class: React.PropTypes.string
 
   componentDidMount: ->
-    $(this.getDOMNode()).find('.webpage-options a').popover
+    $(ReactDOM.findDOMNode(this)).find('.webpage-options a').popover
       container: 'body'
       placement: 'top'
       trigger: 'hover'
@@ -47,6 +47,7 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('content_types')} value={this.props.content_types} />
         <input type="hidden" name={this.inputName('content_category_ids')} value={this.props.content_category_ids} />
         <input type="hidden" name={this.inputName('content_tag_ids')} value={this.props.content_tag_ids} />
+        <input type="hidden" name={this.inputName('background_aspect_ratio')} value={this.props.aspect_ratio} />
         {this.renderHeaderInputs()}
         {this.renderBlockBackgroundPlacementInputs()}
         {this.renderBlockImagePlacementInputs()}
@@ -59,7 +60,7 @@ Block = React.createClass
 
   webpageClassName: ->
     if this.props.type is 'CallToActionBlock'
-      switch this.props.max_blocks
+      switch this.props.maxBlocks
         when 2 then 'webpage-block col-sm-6'
         when 4 then 'webpage-block col-sm-3'
         else 'webpage-block col-sm-4'
@@ -68,7 +69,7 @@ Block = React.createClass
 
   blockStyle: ->
     if this.props.type is 'HeroBlock'
-      display: if this.props.current_block is this.props.uuid then '' else 'none'
+      display: if this.props.currentBlock is this.props.uuid then '' else 'none'
       marginTop: 0
 
   renderHeaderInputs: ->

@@ -13,9 +13,9 @@ HeaderBlock = React.createClass
     if $(window).width() > 768 and ['above', 'below'].indexOf(this.props.logo_vertical_position) is -1 and this.props.logo_horizontal_position is 'center' and this.props.navigation_horizontal_position is 'center'
       offset = $('.webpage-designer .navbar-brand').width() / 2 + 30
       if this.refs.leftNavbar
-        $(this.refs.leftNavbar.getDOMNode()).css 'margin-right', "#{offset}px"
+        $(ReactDOM.findDOMNode(this.refs.leftNavbar)).css 'margin-right', "#{offset}px"
       if this.refs.rightNavbar
-        $(this.refs.rightNavbar.getDOMNode()).css 'margin-left', "#{offset}px"
+        $(ReactDOM.findDOMNode(this.refs.rightNavbar)).css 'margin-left', "#{offset}px"
 
   render: ->
     lineHeight = if this.props.logo_height and ['above', 'below'].indexOf(this.props.logo_vertical_position) is -1 then parseInt(this.props.logo_height - 10) else 30

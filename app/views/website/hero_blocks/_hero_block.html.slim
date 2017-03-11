@@ -3,8 +3,14 @@
     .webpage-block class=hero_block.custom_class
       .webpage-hero
         - background_image_url = hero_block.block_background.try(:attachment_jumbo_url).present? ? (hero_block.block_background.attachment_jumbo_url.gsub(/'/){"\\'"}) : ''
-        .jumbotron style="background-color: #{hero_block.background_color}; background-image: url('#{background_image_url}'); color: #{hero_block.foreground_color}; height: #{hero_block.frame.height.to_i > 0 ? "#{hero_block.frame.height.to_i}px" : 'auto'}"
-          div class=('container' if hero_block.frame.full_width?)
+        - jumbo_class = ""
+        - horizontal_spacing = hero_block.frame.full_width? ? 0 : 60
+        - jumbo_class += " below" if hero_block.frame.hero_position == "below"
+        -if hero_block.background_aspect_ratio && hero_block.background_aspect_ratio.to_f > 0
+          - jumbo_class += " maintain-aspect-ratio"
+          style=".jumbotron {position: relative;} .jumbotron:before {display: block; content: ''; width: 100%; padding-top: #{hero_block.background_aspect_ratio}%;} .jumbotron > .hero-content {position: absolute; top: 0px; left: #{horizontal_spacing}px; right: #{horizontal_spacing}px; bottom: 0px;}".html_safe
+        .jumbotron class=jumbo_class style="background-color: #{hero_block.background_color}; background-image: url('#{background_image_url}'); color: #{hero_block.foreground_color}; height: #{hero_block.frame.height.to_i > 0 ? "#{hero_block.frame.height.to_i}px" : 'auto'}"
+          div class="hero-content #{('container' if hero_block.frame.full_width?)}"
             - if hero_block.theme == 'right'
               .row
                 .col-sm-6
@@ -13,21 +19,30 @@
                     = sanitize_html hero_block.text
                     - if hero_block.link?
                       p = link_to hero_block.link_label, hero_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (hero_block.link_target_blank ? :_blank : nil), rel: (hero_block.link_no_follow ? 'no-follow' : nil)
-                .col-sm-6
-                  - if hero_block.block_image_placement.try(:embeds?)
+                
+                - if hero_block.block_image_placement.try(:embeds?)
+                  .col-sm-6
                     .embed-responsive.embed-responsive-4by3
                       = hero_block.block_image_placement.embed.html_safe
-                  - elsif hero_block.block_image
+                - elsif hero_block.block_image
+                  .col-sm-6
                     = image_tag hero_block.block_image.attachment_url(hero_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive thumbnail'
+                - else
+                  .col-sm-6 class="hidden-xs"
             - elsif hero_block.theme == 'left'
               .row
-                .col-sm-6
-                  - if hero_block.block_image_placement.try(:embeds?)
+                - missing_image = false
+                - if hero_block.block_image_placement.try(:embeds?)
+                  .col-sm-6
                     .embed-responsive.embed-responsive-4by3
                       = hero_block.block_image_placement.embed.html_safe
-                  - elsif hero_block.block_image
+                - elsif hero_block.block_image
+                  .col-sm-6
                     = image_tag hero_block.block_image.attachment_url(hero_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive thumbnail'
-                .col-sm-6
+                - else
+                  .col-sm-6 class="hidden-xs"
+                  - missing_image = true
+                .col-sm-6 style="#{missing_image ? 'margin-top: 0' : ''}"
                   .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{hero_block.foreground_color};"
                     h1 = sanitize_html hero_block.heading
                     = sanitize_html hero_block.text

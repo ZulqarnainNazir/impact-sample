@@ -92,7 +92,8 @@
       $(document).on('keyup', '.js-name-input', function(e) {
         $('.js-title-input').data().affectsName = e.target.value.length == 0;
       });
-    = react_component 'Webpage',
+    = react_component 'WebpageContainer',
+      newPage: 'CustomPage',
       backgroundColor: form.object.website.background_color,
       browserButtonsSrc: image_path('browser-buttons.png'),
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),

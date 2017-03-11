@@ -155,6 +155,6 @@ ImagesUpload = React.createClass
     progress + '%'
 
   triggerFileInput: ->
-    $(this.refs.fileInput.getDOMNode()).click()
+    $(ReactDOM.findDOMNode(this.refs.fileInput)).click()
 
 window.ImagesUpload = ImagesUpload

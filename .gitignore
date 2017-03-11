@@ -10,3 +10,4 @@ notes.txt
 .idea
 public/.DS_Store
 .idea
+/node_modules

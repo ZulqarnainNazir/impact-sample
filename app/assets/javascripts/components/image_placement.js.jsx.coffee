@@ -87,10 +87,10 @@ ImagePlacement = React.createClass
       <input type="hidden" name={this.name('_destroy')} value={this.state.placementDestroy} />
       <input type="hidden" name={this.name('image_id')} value={this.state.imageID} />
       <div className="row">
-        <div className="col-sm-12">
+        <div className="col-sm-4">
           {this.renderThumbnail()}
         </div>
-        <div className="col-sm-12">
+        <div className="col-sm-8">
           {this.renderProgress()}
           {this.renderInputs()}
           {this.renderButtons()}

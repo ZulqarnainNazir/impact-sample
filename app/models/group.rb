@@ -1,7 +1,7 @@
 class Group < ActiveRecord::Base
   enum kind: { container: 0, full_width: 1 }
 
-  store_accessor :settings, :custom_class, :height, :hero_position
+  store_accessor :settings, :custom_class, :height, :hero_position, :aspect_ratio
 
   belongs_to :webpage
 

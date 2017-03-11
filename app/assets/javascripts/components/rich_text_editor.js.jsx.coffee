@@ -24,10 +24,10 @@ RichTextEditor = React.createClass
       this.disableRichText()
 
   enableRichText: ->
-    $(this.getDOMNode()).summernote this.summernoteOptions()
+    $(ReactDOM.findDOMNode(this)).summernote this.summernoteOptions()
 
   disableRichText: ->
-    $(this.getDOMNode()).destroy()
+    $(ReactDOM.findDOMNode(this)).destroy()
 
   summernoteOptions: ->
     defaults =

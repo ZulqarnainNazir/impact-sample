@@ -1,10 +1,13 @@
 ContactBlock = React.createClass
   propTypes: ->
-    location: React.PropTypes.object
+    location: React.PropTypes.object.isRequired
     openings: React.PropTypes.array
 
   getDefaultProps: ->
     openings: []
+
+  preventSave: (e) ->
+    e.preventDefault()
 
   render: ->
     `<div className="webpage-contact">
@@ -62,7 +65,7 @@ ContactBlock = React.createClass
             <textarea className="form-control" cols="50" rows="5" name="message" id="message" placeholder="Message"></textarea>
           </div>
           <div className="form-group">
-            <button className="btn btn-primary" type="submit">Send Message</button>
+            <button className="btn btn-primary" type="submit" onClick={this.preventSave}>Send Message</button>
           </div>
         </div>
         <div className="col-sm-8">
@@ -111,7 +114,7 @@ ContactBlock = React.createClass
             <textarea className="form-control" cols="50" rows="5" name="message" id="message" placeholder="Message"></textarea>
           </div>
           <div className="form-group">
-            <button className="btn btn-primary" type="submit">Send Message</button>
+            <button className="btn btn-primary" type="submit" onClick={this.preventSave}>Send Message</button>
           </div>
         </div>
         <div className="col-sm-8">
@@ -150,7 +153,7 @@ ContactBlock = React.createClass
             <textarea className="form-control" cols="50" rows="5" name="message" id="message" placeholder="Message"></textarea>
           </div>
           <div className="form-group">
-            <button className="btn btn-primary" type="submit">Send Message</button>
+            <button className="btn btn-primary" type="submit" onClick={this.preventSave}>Send Message</button>
           </div>
         </div>
         <div className="col-sm-6">
@@ -216,7 +219,7 @@ ContactBlock = React.createClass
             <textarea className="form-control" cols="50" rows="5" name="message" id="message" placeholder="Message"></textarea>
           </div>
           <div className="form-group">
-            <button className="btn btn-primary" type="submit">Send Message</button>
+            <button className="btn btn-primary" type="submit" onClick={this.preventSave}>Send Message</button>
           </div>
         </div>
       </div>

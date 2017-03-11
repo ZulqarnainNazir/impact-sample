@@ -56,25 +56,49 @@
 .webpage-group-basic-left {
   .webpage-group-sort-handle,
   .webpage-group-custom-handle {
-    left: -45px;
+    left: -30px;
   }
   .webpage-group-call-to-action-size-handle {
-    left: -47px;
+    left: -32px;
   }
   .webpage-group-hero-handles {
-    left: -49px;
+    left: -34px;
+  }
+}
+.webpage-group-basic-left.full_width-group {
+  .webpage-group-sort-handle,
+  .webpage-group-custom-handle {
+    left: -15px;
+  }
+  .webpage-group-call-to-action-size-handle {
+    left: -17px;
+  }
+  .webpage-group-hero-handles {
+    left: -19px;
+  }
+}
+.webpage-group-basic-right.full_width-group {
+  .webpage-group-sort-handle,
+  .webpage-group-custom-handle {
+    left: -15px;
+  }
+  .webpage-group-call-to-action-size-handle {
+    left: -17px;
+  }
+  .webpage-group-hero-handles {
+    left: -19px;
   }
 }
 .webpage-group-basic-right {
   .webpage-group-sort-handle,
   .webpage-group-custom-handle {
-    right: -45px;
+    right: -30px;
   }
   .webpage-group-call-to-action-size-handle {
-    right: -47px;
+    right: -32px;
   }
   .webpage-group-hero-handles {
-    right: -49px;
+    right: -34px;
   }
 }
 .webpage-group-sidebar-left {
@@ -82,7 +106,7 @@
   .webpage-group-custom-handle,
   .webpage-group-hero-handles,
   .webpage-group-sidebar-handle {
-    left: -45px;
+    left: -30px;
   }
   .webpage-group-sidebar-handle {
     @extend .fa-mail-forward;
@@ -93,7 +117,7 @@
   .webpage-group-custom-handle,
   .webpage-group-hero-handles,
   .webpage-group-sidebar-handle {
-    right: -45px;
+    right: -30px;
   }
   .webpage-group-sidebar-handle {
     @extend .fa-mail-reply;

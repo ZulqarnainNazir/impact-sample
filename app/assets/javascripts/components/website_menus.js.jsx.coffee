@@ -8,7 +8,7 @@ WebsiteMenus = React.createClass
   componentDidMount: ->
     $(document).on 'click', '.nav-link-remove', this.removeLink
 
-    $(this.refs.header.getDOMNode()).nestedSortable
+    $(ReactDOM.findDOMNode(this.refs.header)).nestedSortable
       expandOnHover: 400
       forcePlaceholderSize: true
       handle: 'div'
@@ -26,7 +26,7 @@ WebsiteMenus = React.createClass
       isAllowed: (placeholder, placeholderParent, currentItem) ->
         placeholderParent is undefined or ($(placeholderParent).hasClass('dropdown') and not $(currentItem).hasClass('dropdown'))
 
-    $(this.refs.footer.getDOMNode()).sortable
+    $(ReactDOM.findDOMNode(this.refs.footer)).sortable
       expandOnHover: 400
       forcePlaceholderSize: true
       handle: 'div'
@@ -43,11 +43,11 @@ WebsiteMenus = React.createClass
 
   removeLink: (e) ->
     $(e.target).closest('li').remove()
-    $(this.refs.header.getDOMNode()).siblings('p').show() if $(this.refs.header.getDOMNode()).children('li').length is 0
-    $(this.refs.footer.getDOMNode()).siblings('p').show() if $(this.refs.footer.getDOMNode()).children('li').length is 0
+    $(ReactDOM.findDOMNode(this.refs.header)).siblings('p').show() if $(ReactDOM.findDOMNode(this.refs.header)).children('li').length is 0
+    $(ReactDOM.findDOMNode(this.refs.footer)).siblings('p').show() if $(ReactDOM.findDOMNode(this.refs.footer)).children('li').length is 0
 
   updateLinks: ->
-    $(this.getDOMNode()).find('ol').each (i, ol) ->
+    $(ReactDOM.findDOMNode(this)).find('ol').each (i, ol) ->
       $(ol).children('li').each (j, li) ->
         $(li).children('div').find('input[name*="position"]').val j
         $(li).children('div').find('input[name*="parent_key"]').val $(ol).closest('li').children('div').find('input[name*="key"]').val()
@@ -167,7 +167,7 @@ WebsiteMenus = React.createClass
 
   addInternal: (location) ->
     this.hideEmptyList(location)
-    container = $(this.refs[location].getDOMNode())
+    container = $(ReactDOM.findDOMNode(this.refs[location]))
     index = parseInt(Math.random() * Math.pow(10, 10))
     key = this.uuid()
     linkContents = $('<div class="row"></div>')
@@ -190,7 +190,7 @@ WebsiteMenus = React.createClass
 
   addExternal: (location) ->
     this.hideEmptyList(location)
-    container = $(this.refs[location].getDOMNode())
+    container = $(ReactDOM.findDOMNode(this.refs[location]))
     index = parseInt(Math.random() * Math.pow(10, 10))
     key = this.uuid()
     linkContents = $('<div class="row"></div>')
@@ -209,7 +209,7 @@ WebsiteMenus = React.createClass
 
   addDropdown: (location) ->
     this.hideEmptyList(location)
-    container = $(this.refs[location].getDOMNode())
+    container = $(ReactDOM.findDOMNode(this.refs[location]))
     index = parseInt(Math.random() * Math.pow(10, 10))
     key = this.uuid()
     linkContents = $('<div class="row"></div>')
@@ -226,7 +226,7 @@ WebsiteMenus = React.createClass
     container.append(link)
 
   hideEmptyList: (ref) ->
-    $(this.refs[ref].getDOMNode()).siblings('p').hide()
+    $(ReactDOM.findDOMNode(this.refs[ref])).siblings('p').hide()
 
   inputName: (index, name) ->
     "website[nav_links_attributes][#{index}][#{name}]"

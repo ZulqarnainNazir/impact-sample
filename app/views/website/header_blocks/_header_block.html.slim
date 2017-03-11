@@ -126,6 +126,13 @@
     - placeholder_height = 60
     - placeholder_height = header_block.logo_height.to_i + 20 if !%w[above below].include?(header_block.logo_vertical_position) && header_block.logo_height.to_i > 40
     .navbar-fixed-placeholder style="display: #{display}; height: #{placeholder_height}px"
+    javascript:
+      function placeHolderSizing() {
+        var navbarHeight = $('.navbar-fixed-top').height();
+        $('.navbar-fixed-placeholder').css({ height: navbarHeight });
+      };
+      $(document).ready(placeHolderSizing);
+      $(window).resize(placeHolderSizing);
 
   - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'
     javascript:
@@ -165,12 +172,26 @@
         $('.webpage-header.hero-behind').addClass('transparent');
       }
     });
-    $(document).ready(function () {
+    function headerSizing() {
       var header_height = $('.webpage-header.hero-behind, .webpage-header.navbar-fixed-top').height();
       if($('body > .webpage-group .webpage-hero > div').length > 0) {
-        $('body > .webpage-group .webpage-hero > div').css({marginTop: header_height, paddingTop: header_height});
+        if ($('body > .webpage-group .webpage-hero > div').hasClass('maintain-aspect-ratio')) {
+          
+          if ($('body > .webpage-group .webpage-hero > div').hasClass('below')) {
+            $('body > .webpage-group > div').css({marginTop: header_height});
+          } else {
+            $('body > .webpage-group .webpage-hero > div > .hero-content').css({ top: header_height })
+          }
+        } else {
+          if ($('body > .webpage-group .webpage-hero > div').hasClass('below')) {
+            $('body > .webpage-group > div').css({marginTop: header_height});
+          } else {
+            $('body > .webpage-group .webpage-hero > div').css({ paddingTop: header_height });
+          }
+        }
       } else {
         $('body > .webpage-wrapper').css({marginTop: header_height});
       }
-    });
-
+    };
+    $(document).ready(headerSizing);
+    $(window).resize(headerSizing);

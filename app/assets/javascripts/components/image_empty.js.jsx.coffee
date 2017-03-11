@@ -9,7 +9,10 @@ ImageEmpty = React.createClass
     dropzone: false
 
   render: ->
-    `<div className="webpage-image-empty well text-center text-muted" style={{padding: this.props.padding}}>
+    `<div
+      className="webpage-image-empty well text-center text-muted"
+      style={{padding: this.props.padding}}
+    >
       <i className="fa fa-photo fa-3x" />
       {this.renderCopy()}
     </div>`

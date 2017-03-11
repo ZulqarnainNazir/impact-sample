@@ -12,6 +12,7 @@ BlockImagePlacement = React.createClass
       `<div />`
 
   imageURL: ->
+    # console.log this.props
     imageVersionURL = switch this.props.version
       when 'jumbo'
         if this.props.full_width then this.props.image_attachment_jumbo_fixed_url
