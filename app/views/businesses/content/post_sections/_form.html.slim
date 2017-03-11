@@ -17,7 +17,7 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
         .panel-body
           .post-section-fields-content
             .row.clearfix
-              .col-sm-12
+              .col-sm-5
                 .center-block
                   = react_unmounted_component 'ImagePlacement',
                           inputPrefix: "post[post_sections_attributes][#{form.options[:child_index]}][post_section_image_placement_attributes]",
@@ -28,8 +28,9 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
                           buttonSize: 'small',
                           buttonRemove: false,
                           allowEmbed: true,
+                          post_sections: false,
                           showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-              .col-sm-12
+              .col-sm-7
                 .form-group
                   = form.label :content, class: 'control-label sr-only'
                   = form.text_area :content, rows: 6, class: 'form-control', placeholder: 'Add your section content here - try a short paragraph or two.'

@@ -41,11 +41,11 @@
     }
   }
   &.image_right > .post-section-tolerance {
-  }
-  &.image_left > .post-section-tolerance {
-    .col-sm-7 {
+    .col-sm-5 {
       float: right;
     }
+  }
+  &.image_left > .post-section-tolerance {
   }
   &.full_text > .post-section-tolerance {
     .col-sm-5 {
