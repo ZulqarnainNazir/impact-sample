@@ -20,8 +20,7 @@ class PostSection < ActiveRecord::Base
 
   validates :kind, presence: true
   validates :post, presence: true
-
-  validates_presence_of :heading
+  
   validates_presence_of :content
 
   before_validation do
