@@ -60,19 +60,21 @@ WebpageContainer = React.createClass
 
   generateGroups: () ->
     groups = {}
-    this.props.groups.forEach (group) ->
+    _.filter(this.props.groups, (group) -> group != undefined).forEach (group) ->
       blocks = {}
-      group.blocks.forEach (block) ->
-        blocks[block.id] = block
-        blocks[block.id].uuid = block.id
-      groups[group.id] = group
-      groups[group.id].blocks = blocks
-      groups[group.id].maxBlocks = group.max_blocks
-      groups[group.id].uuid = group.id
-      groups[group.id].removedBlocks = []
-      if group.type == 'HeroGroup' and Object.keys(group.blocks).length > 0
-        groups[group.id].currentBlock = parseInt(_.find(group.blocks, (block) -> block.position == 0).id)
-      return
+      if group.blocks && group.blocks.length > 0
+        console.log group.blocks
+        _.filter(group.blocks, (block) -> block != undefined).forEach (block) ->
+          blocks[block.id] = block
+          blocks[block.id].uuid = block.id
+        groups[group.id] = group
+        groups[group.id].blocks = blocks
+        groups[group.id].maxBlocks = group.max_blocks
+        groups[group.id].uuid = group.id
+        groups[group.id].removedBlocks = []
+        if group.type == 'HeroGroup' and Object.keys(group.blocks).length > 0
+          firstBlock = _.min(_.filter(group.blocks, (block) -> block != undefined), (block) -> block.position)
+          groups[group.id].currentBlock = parseInt(if firstBlock != undefined then firstBlock.id)
     groups
 
   componentDidMount: () ->
