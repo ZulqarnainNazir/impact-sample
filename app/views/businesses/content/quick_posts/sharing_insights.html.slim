@@ -1,0 +1,14 @@
+div id="subscriber-states-partial"
+  table class="table table-striped"
+    thead
+      tr
+        th Location
+        th comments
+        th likes
+        th reach
+    tbody
+      - if @quick_post.facebook_id?
+        td Facebook
+        td  = @graph.get_total_post_comment_count(@quick_post.facebook_id)
+        td = @graph.get_total_post_like_count(@quick_post.facebook_id)
+        td = @graph.get_total_post_reach_count(@quick_post.facebook_id)

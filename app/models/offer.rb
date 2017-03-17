@@ -3,6 +3,9 @@ class Offer < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
+  include WebsiteHelper
+  include Rails.application.routes.url_helpers
+  include ExternalUrlHelper
   attr_accessor :minimal_validations
 
   enum kind: {
@@ -16,6 +19,7 @@ class Offer < ActiveRecord::Base
   has_many :content_categorizations, as: :content_item
   has_many :content_taggings, as: :content_item
   has_many :content_tags, through: :content_taggings
+  has_many :shares, as: :shareable, dependent: :destroy
 
   has_placed_image :offer_image
   has_placed_image :main_image
@@ -34,6 +38,14 @@ class Offer < ActiveRecord::Base
   
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
+  end
+
+  def share_image_url
+    offer_image.try(:attachment_full_url, :original)
+  end
+
+  def share_callback_url
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
   end
 
   def published_on=(value)
@@ -83,6 +95,7 @@ class Offer < ActiveRecord::Base
       slug: slug
     }
   end
+
   def to_generic_param_two
     [
       published_at.strftime('%Y').to_s,

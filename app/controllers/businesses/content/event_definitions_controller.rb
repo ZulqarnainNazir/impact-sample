@@ -46,7 +46,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
         @event_definition.reschedule_events!
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to new_business_content_event_definition_share_path(@business, @event_definition), notice: "Post created successfully" } if !params[:draft].present?
       else
         format.html { redirect_to :back, :alert => @event_definition.errors.full_messages.to_sentence }
       end
@@ -65,15 +65,6 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     end
     @event_definition.update(event_definition_params)
     @event_definition.reschedule_events!
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      if @event_definition.facebook_id?
-        # Update Post
-      else
-        result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
-        @event_definition.update_column :facebook_id, result['id']
-      end
-    end
     if params[:draft].present?
       @event_definition.published_status = false
     else
@@ -102,16 +93,14 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   def destroy
     destroy_resource @event_definition, location: [@business, :content_feed] do |success|
       if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && @event_definition.facebook_id?
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            page_graph.delete_object @event_definition.facebook_id
-          end
-        rescue
-        end
         EventDefinition.__elasticsearch__.refresh_index!
       end
     end
+  end
+
+  def sharing_insights
+    @event_definition = EventDefinition.find(params[:event_definition_id])
+    @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
   end
 
   private
@@ -150,15 +139,5 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
       safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
     end
-  end
-
-  def event_definition_facebook_params
-    {
-      backdated_time: @event_definition.created_at,
-      caption: truncate(Sanitize.fragment(@event_definition.description, Sanitize::Config::DEFAULT), length: 1000),
-      link: url_for([:website, @event_definition.events.first, only_path: false, host: website_host(@business.website), protocol: :http]),
-      name: @event_definition.title,
-      picture: @event_definition.event_image.try(:attachment_url),
-    }
   end
 end

@@ -34,7 +34,7 @@
             - elsif placement.try(:image).try(:attachment_url, :large)
               = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
               br
-          = sanitize_html @quick_post.content
+          = sanitize_html @quick_post.description
     - if @website.content_blog_sidebar? || @website.events_sidebar?
       .col-sm-4
         - if @website.content_blog_sidebar?

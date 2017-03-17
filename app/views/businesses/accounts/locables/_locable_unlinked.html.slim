@@ -1,0 +1,13 @@
+
+.col-md-3
+  .contact-box.center-version
+    a href="profile.html"
+      = image_tag'locable-mascot-face.png', class: 'img-responsive center-block'
+      h2.h4.text-center.m-md  Link your Locable account!  
+      hr
+
+    .content-box-footer
+      .text-center
+        .accounts-button-container
+          .m-t-xs.btn-group
+           = link_to 'Link Account', edit_business_accounts_locable_path(business), class: 'btn btn-primary btn-xs'

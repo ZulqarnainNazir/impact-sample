@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307222936) do
+ActiveRecord::Schema.define(version: 20170316225304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,17 +137,6 @@ ActiveRecord::Schema.define(version: 20170307222936) do
     t.datetime "updated_at",                      null: false
   end
 
-  create_table "business_widgets", force: :cascade do |t|
-    t.integer  "widget_id"
-    t.integer  "business_id"
-    t.jsonb    "settings"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
-  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
-
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
     t.string   "tagline"
@@ -188,6 +177,8 @@ ActiveRecord::Schema.define(version: 20170307222936) do
     t.boolean  "subscription_billing_roadblock", default: false
     t.boolean  "affiliate_activated",            default: false
   end
+
+  add_index "businesses", ["created_at"], name: "index_businesses_on_created_at", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
@@ -382,6 +373,16 @@ ActiveRecord::Schema.define(version: 20170307222936) do
   add_index "crm_notes", ["company_id"], name: "index_crm_notes_on_company_id", using: :btree
   add_index "crm_notes", ["contact_id"], name: "index_crm_notes_on_contact_id", using: :btree
 
+  create_table "customer_notes", force: :cascade do |t|
+    t.integer  "contact_id", null: false
+    t.text     "content",    null: false
+    t.text     "user_name",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "customer_notes", ["contact_id"], name: "index_customer_notes_on_contact_id", using: :btree
+
   create_table "event_definition_locations", force: :cascade do |t|
     t.integer  "event_definition_id", null: false
     t.integer  "location_id",         null: false
@@ -412,6 +413,7 @@ ActiveRecord::Schema.define(version: 20170307222936) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
+    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -856,6 +858,24 @@ ActiveRecord::Schema.define(version: 20170307222936) do
   add_index "reviews", ["company_id"], name: "index_reviews_on_company_id", using: :btree
   add_index "reviews", ["contact_id"], name: "index_reviews_on_contact_id", using: :btree
 
+  create_table "schedules", force: :cascade do |t|
+    t.integer  "share_id"
+    t.datetime "share_times", default: [], array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shares", force: :cascade do |t|
+    t.text     "message"
+    t.integer  "shareable_id"
+    t.string   "shareable_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.text     "facebook_id"
+  end
+
+  add_index "shares", ["shareable_type", "shareable_id"], name: "index_shares_on_shareable_type_and_shareable_id", using: :btree
+
   create_table "subscription_affiliates", force: :cascade do |t|
     t.string   "name"
     t.decimal  "rate",        precision: 6, scale: 4, default: 0.2
@@ -1105,13 +1125,6 @@ ActiveRecord::Schema.define(version: 20170307222936) do
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
-
-  create_table "widgets", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "widget_type", default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
 
   add_foreign_key "lines", "businesses"
   add_foreign_key "pdfs", "businesses"

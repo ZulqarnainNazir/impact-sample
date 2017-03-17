@@ -15,6 +15,7 @@ class EventDefinition < ActiveRecord::Base
   has_many :events, dependent: :destroy
   has_one :event_definition_location, dependent: :destroy
   has_one :location, through: :event_definition_location
+  has_many :shares, as: :shareable, dependent: :destroy
 
   has_placed_image :event_image
   has_placed_image :main_image
@@ -42,6 +43,14 @@ class EventDefinition < ActiveRecord::Base
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
+  end
+
+  def share_callback_url
+    self.events.first.share_callback_url
+  end
+
+  def share_image_url
+    self.events.first.share_image_url
   end
 
   def is_virtual_event?

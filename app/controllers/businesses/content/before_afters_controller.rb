@@ -13,11 +13,6 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def create
     @before_after = BeforeAfter.new(before_after_params)
     @before_after.business = @business
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @before_after.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
-      @before_after.update_column :facebook_id, result['id']
-    end
     if params[:draft].present?
       @before_after.published_status = false
     else
@@ -27,8 +22,8 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     respond_to do |format|
       if @before_after.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present? 
+        format.html { redirect_to new_business_content_before_after_share_path(@business, @before_after), notice: "Post created successfully" } if !params[:draft].present?
       else
         format.html { redirect_to :back, :alert => @before_after.errors.full_messages.to_sentence }
       end
@@ -48,15 +43,6 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
   def update
     @before_after.update(before_after_params)
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @before_after.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      if @before_after.facebook_id?
-        # Update Post
-      else
-        result = page_graph.put_connections @business.facebook_id, 'feed', before_after_facebook_params
-        @before_after.update_column :facebook_id, result['id']
-      end
-    end
     if params[:draft]
       @before_after.published_status = false
     else
@@ -78,16 +64,14 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   def destroy
     destroy_resource @before_after, location: [@business, :content_feed] do |success|
       if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && @before_after.facebook_id?
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            page_graph.delete_object @before_after.facebook_id
-          end
-        rescue
-        end
         BeforeAfter.__elasticsearch__.refresh_index!
       end
     end
+  end
+
+  def sharing_insights
+    @before_after = BeforeAfter.find(params[:before_after_id])
+    @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
   end
 
   private
@@ -120,27 +104,6 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     ).tap do |safe_params|
       safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
       safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
-    end
-  end
-
-  def before_after_facebook_params
-    if @before_after.published_on > DateTime.now
-      {
-        caption: truncate(Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @before_after.title,
-        picture: @before_after.after_image.try(:attachment_url),
-        published: true,
-        scheduled_published_time: @before_after.published_on,
-      }
-    else
-      {
-        backdated_time: @before_after.created_at,
-        caption: truncate(Sanitize.fragment(@before_after.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @before_after, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @before_after.title,
-        picture: @before_after.after_image.try(:attachment_url),
-      }
     end
   end
 end

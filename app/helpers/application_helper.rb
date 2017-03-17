@@ -5,6 +5,13 @@ module ApplicationHelper
   #   raw(content_tag(:div, submit_tag(label, submit_html_options) + ' or ' +
   #     link_to('Cancel', cancel_url), :id => 'submit_or_cancel', :class => 'submit'))
   # end
+  def share_authorized?(business)
+     business.facebook_token?
+  end
+
+  def shared?(post, business)
+    post.facebook_id? && business.facebook_token?
+  end
 
   def submit_or_cancel_back_to_root(cancel_url = session[:return_to] ? session[:return_to] : url_for(:action => 'index'), label = 'Save Changes', submit_html_options = {})
     submit_html_options.merge!({ :class => "btn btn-primary" })

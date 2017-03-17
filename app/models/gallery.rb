@@ -3,6 +3,9 @@ class Gallery < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
+  include WebsiteHelper
+  include Rails.application.routes.url_helpers
+  include ExternalUrlHelper
 
   belongs_to :business, touch: true
 
@@ -11,6 +14,7 @@ class Gallery < ActiveRecord::Base
   has_many :content_taggings, as: :content_item
   has_many :content_tags, through: :content_taggings
   has_many :gallery_images, dependent: :destroy
+  has_many :shares, as: :shareable, dependent: :destroy
 
   has_placed_image :main_image
 
@@ -36,6 +40,14 @@ class Gallery < ActiveRecord::Base
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end
 
+  def share_image_url
+    gallery_images.first.try(:gallery_image).try(:attachment_full_url, :original)
+  end
+
+  def share_callback_url
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
+  end
+  
   def published_on=(value)
     if value.to_s.split('/').length == 3
       values = value.split('/')
@@ -78,6 +90,7 @@ class Gallery < ActiveRecord::Base
       slug: title.gsub(/['’]/, '').parameterize,
     }
   end
+
   def to_generic_param_two
     [
       published_at.strftime('%Y').to_s,

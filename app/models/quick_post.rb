@@ -3,6 +3,10 @@ class QuickPost < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
+  include WebsiteHelper
+  include Rails.application.routes.url_helpers
+  include ExternalUrlHelper
+
 
   belongs_to :business, touch: true
 
@@ -10,16 +14,29 @@ class QuickPost < ActiveRecord::Base
   has_many :content_categorizations, as: :content_item
   has_many :content_taggings, as: :content_item
   has_many :content_tags, through: :content_taggings
-
+  has_many :shares, as: :shareable, dependent: :destroy
   has_placed_image :quick_post_image
 
   validates_presence_of :published_on, if: :not_draft?
   validates_presence_of :title
-  validates_presence_of :content, if: :not_draft?
+  validates_presence_of :description, if: :not_draft?
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end
+
+  def share_image_url
+    quick_post_image.try(:attachment_full_url, :original)
+  end
+
+  def share_callback_url
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
+  end
+
+  def description
+    self.content
+  end
+  
 
   def not_draft?
     self.published_status
@@ -67,6 +84,7 @@ class QuickPost < ActiveRecord::Base
       slug: slug
     }
   end
+  
   def to_generic_param_two
     [
       published_at.strftime('%Y').to_s,

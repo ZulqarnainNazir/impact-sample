@@ -6,7 +6,6 @@ class Businesses::Accounts::LocablesController < Businesses::BaseController
 
     unless @locable_business
       @locable_user = LocableUser.find_by_email(current_user.email)
-
       if @locable_user
         @locable_businesses = @locable_user.businesses.to_a + @locable_user.managed_businesses.to_a
         @locable_sites = LocableSite.order(name: :asc).to_a
@@ -79,11 +78,15 @@ class Businesses::Accounts::LocablesController < Businesses::BaseController
 
   def destroy
     locable_business = LocableBusiness.find(@business.cce_id)
-
-    if locable_business && locable_business.unlink(@business)
-      redirect_to [:edit, @business, :accounts_locable], notice: 'Your Locable account was successfully unlinked.'
+    if locable_business.unlink(@business)
+      respond_to do |format|
+        format.js { 
+            redirect_to business_accounts_root_path(@business), status: 303
+          }
+        format.json { locable_business.unlink(@business) }
+      end
     else
-      redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem unlinking your Locable account.'
+      redirect_to [:edit, @business, :accounts_locable], alert: 'There was a problem unlinking your Locable account.', status: 303
     end
   end
 

@@ -12,7 +12,7 @@
           = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
           / div.post-blog-image style="background-image: url('#{placeholder_image_url}');"
         h3.slider-text = truncate sanitize(quick_post.title), length: 75, omission: '... '
-        p.slider-p = truncate sanitize(quick_post.content), length: 90, omission: '... '
+        p.slider-p = truncate sanitize(quick_post.description), length: 90, omission: '... '
         / button.btn.btn-primary.btn-sm.pull-left Read More
 - else
   .feed-item.feed-quick_post

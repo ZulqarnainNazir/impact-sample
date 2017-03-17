@@ -152,38 +152,29 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Customer Information", [:edit, @business, :data_customers]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/values/))
             = link_to "Community & Values", [:edit, @business, :data_values]
+      li title="Account Details" class=('active' if controller_path.match(/\Aaccount\/details/))
+        = link_to "#"
+          i.fa.fa-bookmark
+          span.nav-label[data-i18n="nav.business_data"]
+            | Account Details
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Aaccount\/details/)) 
+          li class=('active' if controller_path.match(/\Abusinesses\/accounts\/root/))
+            = link_to "Linked Accounts", [@business, :accounts_root]
+          li class=('active' if controller_path.match(/\Abusinesses\/authorizations/))  
+            = link_to 'Manage Admins', [@business, :authorizations]
+            - if current_user.authorized_business_owner?(@business) || current_user.super_user?
+          li = link_to 'Billing and Subscriptions', subscription_dashboard_business_subscriptions_path(@business)
       - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
-        li title="Manage Admins" class=('active' if controller_path.match(/\Abusinesses\/authorizations/))
-          = link_to [@business, :authorizations] do
-            i.fa.fa-users
-            span.nav-label[data-i18n="nav.manage_admins"]
-              | Manage Admins
       / li title="Marketing" class=('active' if controller_path.match(/\Abusinesses\/marketing/))
         = link_to [@business, :marketing] do
           i.fa.fa-rocket
           span.nav-label[data-i18n="nav.marketing"]
             | Marketing
-      li title="Linked Accounts" class=('active' if controller_path.match(/\Abusinesses\/accounts/))
-        = link_to "#"
-          i.fa.fa-link
-          span.nav-label[data-i18n="nav.linked_accounts"]
-            | Linked Accounts
-          span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/accounts/))
-          li class=('active' if controller_path.match(/\Abusinesses\/accounts\/locable/))
-            = link_to "Locable", [:edit, @business, :accounts_locable]
-          li class=('active' if controller_path.match(/\Abusinesses\/accounts\/facebook/))
-            = link_to "Facebook", [:edit, @business, :accounts_facebook]
-          li style="pointer-events:none; opacity:0.4"
-            = link_to "Twitter", '#'
       - if current_user.super_user?
         li class=('active' if controller_path.match(/\Abusinesses\/super_settings/))
           = link_to [:edit, @business, :super_settings] do
             i.fa.fa-cog>
             span.nav-label[data-i18n="nav.super_settings"]
               | Super Settings
-      - if current_user.authorized_business_owner?(@business) || current_user.super_user?
-        li = link_to subscription_dashboard_business_subscriptions_path(@business) do
-          i.fa.fa-credit-card>
-          span.nav-label[data-i18n="nav.billing_subscription"]
-            | Billing & Subscription
+    

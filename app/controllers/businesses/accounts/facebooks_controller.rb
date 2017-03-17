@@ -17,6 +17,7 @@ class Businesses::Accounts::FacebooksController < Businesses::BaseController
   def edit
     if @business.facebook_id? && @business.facebook_token? && @linked_facebook_page && !@linked_facebook_page.nil?
       @linked_facebook_page
+      redirect_to business_accounts_root_path(@business)
     else 
       @linked_facebook_page = nil
     end
@@ -45,9 +46,14 @@ class Businesses::Accounts::FacebooksController < Businesses::BaseController
   end
 
   def destroy
-    update_resource @business, { facebook_id: nil, facebook_token: nil, automated_export_facebook_reviews: '0' }, location: [:edit, @business, :accounts_facebook]
+    @business = Business.find(params[:business_id])
+    @business.update_columns(facebook_id: nil, facebook_token: nil)
+    @business.automated_export_facebook_reviews = '0'
+    respond_to do |format|
+      format.js { redirect_to edit_business_accounts_facebook_path(@business), status: 303}
+      format.json
+    end
   end
-
   private
 
   def facebook_automation_params

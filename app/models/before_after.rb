@@ -3,6 +3,9 @@ class BeforeAfter < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
+  include WebsiteHelper
+  include Rails.application.routes.url_helpers
+  include ExternalUrlHelper
 
   belongs_to :business, touch: true
 
@@ -10,6 +13,7 @@ class BeforeAfter < ActiveRecord::Base
   has_many :content_categorizations, as: :content_item
   has_many :content_taggings, as: :content_item
   has_many :content_tags, through: :content_taggings
+  has_many :shares, as: :shareable, dependent: :destroy
 
   has_placed_image :before_image
   has_placed_image :after_image
@@ -76,5 +80,13 @@ class BeforeAfter < ActiveRecord::Base
       "#{id}",
       slug.to_s
     ]
+  end
+
+  def share_image_url
+    after_image.try(:attachment_full_url, :original)
+  end
+
+  def share_callback_url
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
   end
 end

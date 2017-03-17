@@ -1,0 +1,27 @@
+  .row.wrapper
+      .wrapper.wrapper-content
+        .row
+          .col-md-3
+            .contact-box.center-version
+              a href="profile.html"
+                .fa.fa-facebook-official.fa-5x
+                h2.h4.text-center.m-md = link_to "https://www.facebook.com/#{business.try(:facebook_id)}", target: :_blank do
+                  => @business.facebook_id
+                  span.fa.fa-external-link
+                     = form_for business, url: [business, :accounts_facebook] do |form|
+                        .checkbox
+                          label for="bussiness_automated_export_facebook_reviews"
+                            input name="business[automated_export_facebook_reviews]" type="hidden" value="0"
+                            input type="checkbox" value="1" checked="checked" name="business[automated_export_facebook_reviews]" id="business_automated_export_facebook_reviews"
+                            |Auto Post Reviews to Page
+                        br
+                        small = link_to 'Edit Settings', [@business, :crm_reviews]
+                        hr
+
+              .content-box-footer
+                .text-center
+                  .accounts-button-container
+                    .m-t-xs.btn-group
+                      .btn.btn-xs.btn-danger
+                        i.fa.fa-exclamation-triangle
+                        | Unlink Account

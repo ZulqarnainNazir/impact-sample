@@ -1,0 +1,16 @@
+
+.col-md-3
+  .contact-box.center-version
+    a href="profile.html"
+      = image_tag'locable-mascot-face.png', class: 'img-responsive center-block'
+      h2.h4.text-center.m-md Your locable account is linked! 
+      = form_for business, url: [business, :accounts_locable], data: { id: 'locable'} do |form| 
+      hr
+
+    .content-box-footer
+      .text-center
+        .accounts-button-container
+          .m-t-xs.btn-group
+            #locable.btn.btn-xs.btn-danger
+              i.fa.fa-exclamation-triangle
+              | Unlink Account

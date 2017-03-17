@@ -7,6 +7,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   before_action only: member_actions do
+    @business = Business.find(params[:business_id])
     @quick_post = @business.quick_posts.find(params[:id])
   end
 
@@ -23,11 +24,6 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def create
     @quick_post = QuickPost.new(quick_post_params)
     @quick_post.business = @business
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-      @quick_post.update_column :facebook_id, result['id']
-    end
     if params[:draft].present?
       @quick_post.published_status = false
     else
@@ -37,9 +33,9 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       if @quick_post.save
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to new_business_content_quick_post_share_path(@business, @quick_post) } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @quick_post.errors.full_messages.to_sentence }
+        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
       end
     end
     QuickPost.__elasticsearch__.refresh_index!
@@ -55,27 +51,18 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
 
   def update
     @quick_post.update(quick_post_params)
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @quick_post.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      if @quick_post.facebook_id?
-        # Update Post
-      else
-        result = page_graph.put_connections @business.facebook_id, 'feed', quick_post_facebook_params
-        @quick_post.update_column :facebook_id, result['id']
-      end
-    end
-    if params[:draft].present?
+    if params[:draft]
       @quick_post.published_status = false
     else
       @quick_post.published_status = true
     end
     respond_to do |format|
       if @quick_post.save
-        flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft]
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
       else
-        format.html { redirect_to :back, :alert => @quick_post.errors.full_messages.to_sentence }
+        format.html { redirect_to new_business_content_quick_post_path, :alert => "Post must have a title" }
       end
     end
 
@@ -86,16 +73,14 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def destroy
     destroy_resource @quick_post, location: [@business, :content_feed] do |success|
       if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && @quick_post.facebook_id?
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            page_graph.delete_object @quick_post.facebook_id
-          end
-        rescue
-        end
         QuickPost.__elasticsearch__.refresh_index!
       end
     end
+  end
+
+  def sharing_insights
+    @quick_post = QuickPost.find(params[:quick_post_id])
+    @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
   end
 
   private
@@ -119,26 +104,5 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
 
   def cloneable_attributes
     %w[title content]
-  end
-
-  def quick_post_facebook_params
-    if @quick_post.published_on > DateTime.now
-      {
-        caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @quick_post.title,
-        picture: @quick_post.quick_post_image.try(:attachment_full_url),
-        published: true,
-        scheduled_published_time: @quick_post.published_on,
-      }
-    else
-      {
-        backdated_time: @quick_post.published_at,
-        caption: truncate(Sanitize.fragment(@quick_post.content, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @quick_post, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @quick_post.title,
-        picture: @quick_post.quick_post_image.try(:attachment_full_url),
-      }
-    end
   end
 end

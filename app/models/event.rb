@@ -1,6 +1,9 @@
 class Event < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  include ExternalUrlHelper
+  include WebsiteHelper
+  include Rails.application.routes.url_helpers
 
   belongs_to :business
   belongs_to :event_definition
@@ -13,6 +16,14 @@ class Event < ActiveRecord::Base
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end
 
+  def title
+    event_definition.title
+  end
+
+  def description
+    event_definition.description
+  end
+ 
   def as_indexed_json(options = {})
     as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
@@ -29,6 +40,14 @@ class Event < ActiveRecord::Base
     occurs_on
   end
 
+  def share_image_url
+    event_definition.event_image.try(:attachment_full_url, :original)
+  end
+
+  def share_callback_url
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
+  end
+
   def to_generic_param
     {
       year: occurs_on.strftime('%Y'),
@@ -38,6 +57,7 @@ class Event < ActiveRecord::Base
       slug: event_definition.slug
     }
   end
+
   def to_generic_param_two
     [
       occurs_on.strftime('%Y').to_s,

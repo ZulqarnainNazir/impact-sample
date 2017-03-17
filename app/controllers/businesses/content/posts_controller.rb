@@ -113,6 +113,11 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     end
   end
 
+  def sharing_insights
+    @post = Post.find(params[:post_id])
+    @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
+  end
+
   private
 
   def post_params

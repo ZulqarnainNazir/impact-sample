@@ -30,6 +30,20 @@
             - if i < gallery.content_categories.count + gallery.content_tags.count - 1
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
+        - if share_authorized?(@business) && shared?(gallery, @business)
+          = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default'
+          = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default'
+          = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
+          = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+        - elsif share_authorized?(@business) && !shared?(gallery, @business)
+          = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default'
+          = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default gallery-not-shared', id: gallery.id
+          = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
+          = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+        - elsif !share_authorized?(@business)
+          = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default gallery-unauthorized'
+          = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default gallery-unauthorized'
+
           = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
           = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
       h2
@@ -63,4 +77,57 @@
                 figure
                   .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                     = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+      - if shared?(gallery, @business)
+              .container-fluid 
+                ul.list-inline
+                  li Comments 
+                  li = @graph.get_total_post_comment_count(gallery.facebook_id)
+                  li Likes 
+                  li = @graph.get_total_post_like_count(gallery.facebook_id)
+                  li Clicks
+                  li = @graph.get_total_post_click_count(gallery.facebook_id)
+                  li Reach
+                  li = @graph.get_total_post_reach_count(gallery.facebook_id)
 
+
+
+  javascript:
+
+    $('.gallery-unauthorized').click(function (e) {
+      e.preventDefault();
+      swal({
+          title: "You must link your account first!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Go Link!",
+          closeOnConfirm: true
+      }, function (confirmed) {
+        if(confirmed) {
+          var url = window.location.href;
+          var splitUrl = url.split('/content')[0];
+           window.location.href = splitUrl + '/accounts/facebook/edit';
+            }
+        }
+      )
+    });
+
+    $('.gallery-not-shared').click(function (e) {
+      e.preventDefault();
+      var postId = this.id;
+      swal({
+          title: "You must share this post first!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Go share!",
+          closeOnConfirm: true
+      }, function (confirmed) {
+        if(confirmed) {
+          var url = window.location.href;
+          var splitUrl = url.split('/feed')[0];
+           window.location.href = splitUrl + '/galleries/' + postId +'/shares/new';
+            }
+        }
+      )
+    });

@@ -17,11 +17,6 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     @gallery.gallery_images.each do |image|
       image.gallery = @gallery
     end
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @gallery.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
-      @gallery.update_column :facebook_id, result['id']
-    end
     if params[:draft].present?
       @gallery.published_status = false
     else
@@ -31,7 +26,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       if @gallery.save
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to new_business_content_gallery_share_path(@business, @gallery), notice: "Post created successfully" } if !params[:draft].present?
       else
         format.html { redirect_to :back, :alert => @gallery.errors.full_messages.to_sentence }
       end
@@ -51,15 +46,6 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def update
     @gallery.update(gallery_params)
     @gallery.generate_slug
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @gallery.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      if @gallery.facebook_id?
-        # Update Post
-      else
-        result = page_graph.put_connections @business.facebook_id, 'feed', gallery_facebook_params
-        @gallery.update_column :facebook_id, result['id']
-      end
-    end
     if params[:draft].present?
       @gallery.published_status = false
     else
@@ -82,16 +68,14 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def destroy
     destroy_resource @gallery, location: [@business, :content_feed] do |success|
       if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && @gallery.facebook_id?
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            page_graph.delete_object @gallery.facebook_id
-          end
-        rescue
-        end
         Gallery.__elasticsearch__.refresh_index!
       end
     end
+  end
+
+  def sharing_insights
+    @gallery = Gallery.find(params[:gallery_id])
+    @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
   end
 
   private
@@ -121,27 +105,6 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       end
       safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
       safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
-    end
-  end
-
-  def gallery_facebook_params
-    if @gallery.published_on > DateTime.now
-      {
-        caption: truncate(Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @gallery.title,
-        picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
-        published: true,
-        scheduled_published_time: @gallery.published_on,
-      }
-    else
-      {
-        backdated_time: @gallery.created_at,
-        caption: truncate(Sanitize.fragment(@gallery.description, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @gallery, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @gallery.title,
-        picture: @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url),
-      }
     end
   end
 end

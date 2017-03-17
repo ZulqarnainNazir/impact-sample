@@ -128,15 +128,23 @@ Rails.application.routes.draw do
           root to: 'roots#show'
           resource :images_upload, only: %i[new create]
           resource :feed, only: %i[show]
-          resources :before_afters, only: %i[new create edit update destroy]
+          resources :before_afters, only: %i[new create edit update destroy] do
+            resources :shares, only: %i[new create]
+            get :sharing_insights
+          end
           resources :event_definitions, only: %i[new create edit update destroy], path: 'events' do
+            resources :shares, only: %i[new create]
+            get :sharing_insights
             get :clone, on: :member
           end
           resources :event_imports, only: %i[index] do
             post :import_all, on: :collection
             post :import, on: :member
           end
-          resources :galleries, only: %i[new create edit update destroy]
+          resources :galleries, only: %i[new create edit update destroy] do
+            resources :shares, only: %i[new create]
+            get :sharing_insights
+          end
           resources :images, only: %i[index edit update destroy]
           resources :pdfs
           resources :category_tag_management, only: [:index] do
@@ -149,15 +157,22 @@ Rails.application.routes.draw do
             end
           end
           resources :offers, only: %i[new create edit update destroy] do
+            resources :shares, only: %i[new create]
+            get :sharing_insights
             get :clone, on: :member
           end
           resources :posts, only: %i[new create edit update destroy] do
+            resources :shares, only: %i[new create]
             get :clone, on: :member
+            get :sharing_insights
           end
           resources :quick_posts, only: %i[new create edit update destroy] do
+            resources :shares, only: %i[new create]
+            get :sharing_insights
             get :clone, on: :member
           end
         end
+        
 
         namespace :data do
           root to: 'roots#show'

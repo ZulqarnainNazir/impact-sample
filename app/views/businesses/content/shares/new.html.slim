@@ -1,0 +1,97 @@
+.container
+  .row 
+    .col-md-6.col-md-offset-1.col-sm-10
+      .ibox.float-e-margins
+        .ibox-content
+          .col-xs-12.no-padding
+            .col-xs-4.no-padding
+              a href="#"
+                = image_tag'locable-mascot-face.png', class: 'img-responsive'
+
+            .col-xs-8
+              h4
+                a href="#{@post.share_callback_url}" target="_blank" Nice!! Your Post is live
+              p Take a minute to share "#{@post.title}"
+              br I recommend you share it now and reschedule a share or two for the future
+
+          h3 Add a Custom Message
+          .form-group
+          - if @post.instance_of?(Event)
+            = form_for :share, url: [@business, :content, @event_definition, :shares], class: 'form-inline' do |form|
+              = form.text_area :message, class: 'form-control', placeholder: 'This message will appear along side your share which you can preview and edit below', rows: 3
+              br
+              .col-xs-12.social-preview
+                .social-body style="border: 1px solid #f3f3f4;"
+                  = image_tag @post.share_image_url, class: 'img-responsive'
+                  h4 #{@post.title}
+                  p = truncate(@post.description)
+                h3 style="margin-top: 20px;" Choose when to share post.
+              .form-group
+                .checkbox
+                  label.checkbox-inline
+                    input.checkbox.now-box type="checkbox" checked="checked"Now
+
+              - if share_authorized?(@business)
+                      = form.submit 'Distribute', class: 'btn btn-primary distribute'
+                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+              - else 
+                      = form.submit 'Distribute', class: 'btn btn-primary distribute unauthorized'
+                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+          - else
+            = form_for :share, url: [@business, :content, @post, :shares], class: 'form-inline' do |form|
+              = form.text_area :message, class: 'form-control', placeholder: 'This message will appear along side your share which you can preview and edit below', rows: 3
+              br
+              .col-xs-12.social-preview
+                .social-body style="border: 1px solid #f3f3f4;"
+                  = image_tag @post.share_image_url, class: 'img-responsive'
+                  h4 #{@post.title}
+                  p = truncate(@post.description)
+                h3 style="margin-top: 20px;" Choose when to share post.
+              .form-group
+                .checkbox
+                  label.checkbox-inline
+                    input.checkbox.now-box type="checkbox" checked="checked"Now
+              - if share_authorized?(@business)
+                      = form.submit 'Distribute', class: 'btn btn-primary distribute'
+                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+              - else 
+                      = form.submit 'Distribute', class: 'btn btn-primary distribute unauthorized'
+                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+
+javascript:
+
+
+  $('.unauthorized').click(function (e) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      swal({
+          title: "You must link your account first!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Go Link!",
+          closeOnConfirm: true
+      }, function (confirmed) {
+        if(confirmed) {
+          var url = window.location.href;
+          var splitUrl = url.split('/content')[0];
+           window.location.href = splitUrl + '/accounts/facebook/edit';
+            }
+        }
+      )
+    });
+
+  $('.distribute').click(function () {
+    $('form').submit();
+    $(this).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+    });
+  
+  $('.now-box').on('click', function () {
+    if(!this.checked) {
+      $('.distribute').addClass('disabled');
+    }
+    else {
+      $('.distribute').removeClass('disabled');
+    }
+
+  });

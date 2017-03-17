@@ -5,34 +5,56 @@
 br
 
 h2.h3 Link your external business accounts
-.row.dashboard-root-primary-panels
-  .col-sm-6.col-lg-3
-    = link_to [:edit, @business, :accounts_locable] do
-      .panel.panel-success
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-square.fa-5x
-        .panel-footer.text-right
-          span.pull-left> Locable
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3 style="pointer-events:none; opacity:0.4"
-    = link_to '#' do
-      .panel.panel-warning
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-facebook-square.fa-5x
-        .panel-footer.text-right
-          span.pull-left> Facebook
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3 style="pointer-events:none; opacity:0.4"
-    = link_to '#' do
-      .panel.panel-danger
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-twitter-square.fa-5x
-        .panel-footer.text-right
-          span.pull-left> Twitter
-          i.fa.fa-arrow-circle-right
+
+.row.wrapper
+
+  .wrapper.wrapper-content
+    .row
+
+      - if @linked_facebook_page
+         
+        = render :partial => 'businesses/accounts/facebooks/facebook_linked', :locals => { :business => @business }
+
+      - else 
+        = render :partial => 'businesses/accounts/facebooks/facebook_unlinked', :locals => { :business => @business }
+      - if @locable_business  
+        = render :partial => 'businesses/accounts/locables/locable_linked', :locals => { :business => @business }
+      - else
+        = render :partial => 'businesses/accounts/locables/locable_unlinked', :locals => { :business => @business }
+javascript:
+
+          $('.btn-danger').click(function (e) {
+            e.preventDefault();
+            var accountType = this.id;
+            console.log(accountType);
+            var url = document.querySelectorAll('[data-id="' + accountType + '"]').item(0).getAttribute('action');
+            console.log(url);
+
+            swal({
+                title: "Are you sure?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, unlink!!",
+                closeOnConfirm: true
+            }, function (confirmed) {
+              if(confirmed) {
+ 
+                console.log(url);
+                $.ajax({
+                  url: url,
+                  method: 'delete',
+                  success: function(response) {
+                    console.log(url);
+                    window.location.reload();
+                  }
+                })
+
+              }
+            })
+         }); 
+
+
+
+
+    

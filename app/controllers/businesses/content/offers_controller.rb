@@ -22,11 +22,6 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   def create
     @offer = Offer.new(offer_params)
     @offer.business = @business
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @offer.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
-      @offer.update_column :facebook_id, result['id']
-    end
     if params[:draft].present?
       @offer.published_status = false
     else
@@ -35,8 +30,8 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     respond_to do |format|
       if @offer.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present? 
+        format.html { redirect_to new_business_content_offer_share_path(@business, @offer), notice: "Post created successfully" } if !params[:draft].present?
       else
         format.html { redirect_to :back, :alert => @offer.errors.full_messages.to_sentence }
       end
@@ -55,15 +50,6 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
 
   def update
     @offer.update(offer_params)
-    if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @offer.published_on < DateTime.now
-      page_graph = Koala::Facebook::API.new(@business.facebook_token)
-      if @offer.facebook_id?
-        # Update Post
-      else
-        result = page_graph.put_connections @business.facebook_id, 'feed', offer_facebook_params
-        @offer.update_column :facebook_id, result['id']
-      end
-    end
     if params[:draft].present?
       @offer.published_status = false
     else
@@ -87,16 +73,14 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
   def destroy
     destroy_resource @offer, location: [@business, :content_feed] do |success|
       if success
-        begin
-          if @business.facebook_id? && @business.facebook_token? && @offer.facebook_id?
-            page_graph = Koala::Facebook::API.new(@business.facebook_token)
-            page_graph.delete_object @offer.facebook_id
-          end
-        rescue
-        end
         Offer.__elasticsearch__.refresh_index!
       end
     end
+  end
+
+  def sharing_insights
+    @offer = Offer.find(params[:offer_id])
+    @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
   end
 
   private
@@ -130,27 +114,6 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     ).tap do |safe_params|
       safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
       safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
-    end
-  end
-
-  def offer_facebook_params
-    if @offer.published_on > DateTime.now
-      {
-        caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @offer.title,
-        picture: @offer.offer_image.try(:attachment_url),
-        published: true,
-        scheduled_published_time: @offer.published_on,
-      }
-    else
-      {
-        backdated_time: @offer.created_at,
-        caption: truncate(Sanitize.fragment(@offer.offer, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @offer, only_path: false, host: website_host(@business.website), protocol: :http]),
-        name: @offer.title,
-        picture: @offer.offer_image.try(:attachment_url),
-      }
     end
   end
 end
