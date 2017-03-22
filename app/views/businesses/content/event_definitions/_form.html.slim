@@ -159,12 +159,13 @@
               hr
               .js-event-location-map id="event-location-map" style="width:100%; height:130px; background:#eee; border:0"
 .webpage-save
+  = hidden_field_tag 'draft', nil, :id => "draftField"
   .row
     - if (form.object.persisted? && form.object.published_status == false)
       .col-sm-4.col-sm-offset-2.col-xs-6
         = form.button 'Publish Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
-        a.text-center data-toggle="modal" data-target="#modal"
+        a.text-center data-toggle="modal" data-target="#advanced-modal"
           span.fa.fa-cog.fa-2x
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
@@ -174,7 +175,7 @@
       .col-sm-4.col-sm-offset-2.col-xs-6
         = form.button 'Update Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
-        a.text-center data-toggle="modal" data-target="#modal"
+        a.text-center data-toggle="modal" data-target="#advanced-modal"
           span.fa.fa-cog.fa-2x
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
@@ -184,30 +185,28 @@
       .col-sm-4.col-sm-offset-2.col-xs-6
         = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
-        a.text-center data-toggle="modal" data-target="#modal"
+        a.text-center data-toggle="modal" data-target="#advanced-modal"
           span.fa.fa-cog.fa-2x
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
         .form-group.m-b-none
           = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
-.modal.inmodal#modal tabindex="-1" aria-hidden="true" role="dialog"
+.modal.fade#advanced-modal tabindex="-1" data-focus-on="input:first"
   .modal-dialog.modal-lg
-    .modal-content.animated.slideInDown
-      .col-sm-12
-        .ibox.float-e-margins
-          .ibox-content
-            button type="button" class="close" data-dismiss="modal" aria-label="Close"
-              span aria-hidden="true" &times;
-            br>
-            br>
-            .form-group
-              = form.label :price, class: 'control-label'
-              = form.text_field :price, class: 'form-control simple-input'
-            .form-group
-              = form.label :url, class: 'control-label'
-              = form.text_field :url, class: 'form-control simple-input', placeholder: 'http://'
-            = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
-            = render partial: 'businesses/content/classification', locals: {form: form}
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h1 Advanced
+      .modal-body
+        .form-group
+          = form.label :price, class: 'control-label'
+          = form.text_field :price, class: 'form-control simple-input'
+        .form-group
+          = form.label :url, class: 'control-label'
+          = form.text_field :url, class: 'form-control simple-input', placeholder: 'http://'
+        = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
+        = render partial: 'businesses/content/classification', locals: {form: form}
 
 - content_for :javascript do
   #js-event-location-new-modal.modal.fade

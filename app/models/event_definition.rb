@@ -24,12 +24,13 @@ class EventDefinition < ActiveRecord::Base
   accepts_nested_attributes_for :event_definition_location, allow_destroy: true, reject_if: :all_blank
 
 
-  validates :business, presence: true
+  validates_presence_of :business, if: :not_draft?
   # validates :event_definition_location, presence: true, unless: :is_virtual_event?
-  validates :title, presence: true
-  validates :start_date, presence: true
-  validates :start_time, presence: true
-  validates :end_date, presence: true, if: :repetition?
+  validates_presence_of :title
+  validates_presence_of :description, if: :not_draft?
+  validates_presence_of :start_date, if: :not_draft?
+  validates_presence_of :start_time, if: :not_draft?
+  validates_presence_of :end_date, if: :repetition? and :not_draft?
 
   before_validation do
     unless self.virtual_event?
@@ -69,6 +70,10 @@ class EventDefinition < ActiveRecord::Base
     elsif kind == 2
       "Deadline"
     end
+  end
+
+  def not_draft?
+    self.published_status
   end
 
   def start_date=(*args)

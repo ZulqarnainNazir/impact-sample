@@ -22,10 +22,10 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     respond_to do |format|
       if @before_after.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present? 
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to new_business_content_before_after_share_path(@business, @before_after), notice: "Post created successfully" } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @before_after.errors.full_messages.to_sentence }
+        format.html { render :action => "new" }
       end
     end
 
@@ -51,10 +51,10 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
     respond_to do |format|
       if @before_after.save
         flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft] 
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft]
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present?
+        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @before_after.errors.full_messages.to_sentenc }
+        format.html { render :action => "edit" }
       end
     end
     @before_after.__elasticsearch__.index_document

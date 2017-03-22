@@ -15,6 +15,7 @@ ImageEmpty = React.createClass
     >
       <i className="fa fa-photo fa-3x" />
       {this.renderCopy()}
+      {this.props.children}
     </div>`
 
   renderCopy: ->

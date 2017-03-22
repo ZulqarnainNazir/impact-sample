@@ -3,11 +3,6 @@
 - appended = gallery_image.new_record? && gallery_image.errors.empty? && gallery_image.description.blank? && gallery_image.title.blank? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
 = gallery_form.fields_for :gallery_images, gallery_image, child_index: appended ? 98765432101 : nil do |form|
   .gallery-image-fields.col-lg-3.col-md-4.col-xs-6 class=('is-appended' if appended)
-    .gallery-image-fields-remove
-      = form.label :_destroy, class: 'btn btn-default' do
-        => form.check_box :_destroy
-        span.sr-only> Destroy
-        i.fa.fa-trash-o
     .gallery-image-fields-content
       = react_unmounted_component 'ImagePlacement',
         inputPrefix: "gallery[gallery_images_attributes][#{form.options[:child_index]}][gallery_image_placement_attributes]",
@@ -17,7 +12,7 @@
         placement: form.object.gallery_image_placement_json,
         bulkUploadPath: new_business_content_images_upload_path(gallery_form.object.business),
         buttonSize: 'small',
-        buttonRemove: false,
+        buttonRemove: true,
         showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
     .gallery-image-fields-warning.text-muted
       p: em Gallery Image will be removed upon Save

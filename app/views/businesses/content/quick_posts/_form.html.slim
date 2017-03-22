@@ -64,24 +64,22 @@
       .col-sm-4.col-xs-4
         .form-group.m-b-none
           = form.button 'Save Draft', class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
-.modal.inmodal#modal tabindex="-1" aria-hidden="true" role="dialog"
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
   .modal-dialog.modal-lg
-    .modal-content.animated.slideInDown
-      .col-sm-12
-        .ibox.float-e-margins
-          .ibox-content
-            button type="button" class="close" data-dismiss="modal" aria-label="Close"
-              span aria-hidden="true" &times;
-            br>
-            br>
-            .form-group
-              = form.label :published_on, class: 'control-label'
-              .input-group.date#datetimepicker
-                = form.text_field :published_on, :value => (@quick_post.published_at.present? ? @quick_post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %Z %z") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %p")), :class => "form-control"
-                span.input-group-addon
-                  span.fa.fa-calendar
-            = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: false}
-            = render partial: 'businesses/content/classification', locals: {form: form}
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h1 Advanced
+      .modal-body
+        .form-group
+          = form.label :published_on, class: 'control-label'
+          .input-group.date#datetimepicker
+            = form.text_field :published_on, :value => (@quick_post.published_at.present? ? @quick_post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %Z %z") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %p")), :class => "form-control"
+            span.input-group-addon
+              span.fa.fa-calendar
+        = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: false}
+        = render partial: 'businesses/content/classification', locals: {form: form}
 javascript:
   $(function () {
     $('#datetimepicker').datetimepicker({

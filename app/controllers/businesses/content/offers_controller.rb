@@ -33,7 +33,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
         format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present? 
         format.html { redirect_to new_business_content_offer_share_path(@business, @offer), notice: "Post created successfully" } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @offer.errors.full_messages.to_sentence }
+        format.html { render :action => "new" }
       end
     end
     Offer.__elasticsearch__.refresh_index!
@@ -61,7 +61,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
         format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @offer.errors.full_messages.to_sentence }
+        format.html { render :action => "edit" }
       end
     end
 

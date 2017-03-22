@@ -178,8 +178,6 @@ ActiveRecord::Schema.define(version: 20170316225304) do
     t.boolean  "affiliate_activated",            default: false
   end
 
-  add_index "businesses", ["created_at"], name: "index_businesses_on_created_at", using: :btree
-
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "pathname",   null: false
@@ -372,16 +370,6 @@ ActiveRecord::Schema.define(version: 20170316225304) do
 
   add_index "crm_notes", ["company_id"], name: "index_crm_notes_on_company_id", using: :btree
   add_index "crm_notes", ["contact_id"], name: "index_crm_notes_on_contact_id", using: :btree
-
-  create_table "customer_notes", force: :cascade do |t|
-    t.integer  "contact_id", null: false
-    t.text     "content",    null: false
-    t.text     "user_name",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "customer_notes", ["contact_id"], name: "index_customer_notes_on_contact_id", using: :btree
 
   create_table "event_definition_locations", force: :cascade do |t|
     t.integer  "event_definition_id", null: false

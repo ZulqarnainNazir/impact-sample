@@ -23,8 +23,8 @@ class BeforeAfter < ActiveRecord::Base
   validates_presence_of :published_on, if: :not_draft?
   validates_presence_of :title
   validates_presence_of :description, if: :not_draft?
-  validates_presence_of :before_image, if: :not_draft?
-  validates_presence_of :after_image, if: :not_draft?
+  validates_presence_of :before_image_placement, if: :not_draft?
+  validates_presence_of :after_image_placement, if: :not_draft?
 
   def not_draft?
     self.published_status

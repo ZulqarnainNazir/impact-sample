@@ -52,7 +52,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Post created successfully" } if params[:draft].present?
         format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @post.errors.full_messages.to_sentence }
+        format.html { render :action => "new" }
       end
     end
     Post.__elasticsearch__.refresh_index!
@@ -84,7 +84,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
         format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @post.errors.full_messages.to_sentence }
+        format.html { render :action => "edit" }
       end
     end
     @post.__elasticsearch__.index_document

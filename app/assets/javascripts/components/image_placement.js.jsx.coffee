@@ -38,6 +38,8 @@ ImagePlacement = React.createClass
     imageAttachmentURL: this.props.placement.image.attachment_thumbnail_url
     imageID: this.props.placement.image.id
     imageTitle: this.props.placement.image.title
+    hover: false
+    imageBrowseModal: false
     libraryImages: []
     libraryLoaded: false
     libraryLoadedAll: false
@@ -62,20 +64,10 @@ ImagePlacement = React.createClass
 
   render: ->
     if this.props.allowEmbed
-      `<div>
-        <ul className="nav nav-tabs" style={{marginTop: 0, marginBottom: 12}}>
-          <li onClick={this.setKind.bind(null, 'images')} id={this.id('nav_tab_image')} className="active"><a href={'#' + this.id('tab_image')} data-toggle="tab">Image</a></li>
-          <li onClick={this.setKind.bind(null, 'embeds')} id={this.id('nav_tab_embed')}><a href={'#' + this.id('tab_embed')} data-toggle="tab">Embed</a></li>
-        </ul>
-        <div className="tab-content">
-          <div id={this.id('tab_image')} className="tab-pane fade in active">
-            {this.renderImage()}
-          </div>
-          <div id={this.id('tab_embed')} className="tab-pane">
-            {this.renderEmbed()}
-          </div>
-        </div>
-      </div>`
+      if this.state.placementKind is 'embeds'
+        this.renderEmbed()
+      else
+        this.renderImage()
     else
       this.renderImage()
 
@@ -92,11 +84,11 @@ ImagePlacement = React.createClass
         </div>
         <div className="col-sm-12">
           {this.renderProgress()}
-          {this.renderInputs()}
           {this.renderButtons()}
         </div>
       </div>
       {this.renderLibrary()}
+      {this.renderImageAttributes()}
     </div>`
 
   renderLabel: ->
@@ -111,17 +103,28 @@ ImagePlacement = React.createClass
           <input type="hidden" name={this.name('image_attachment_content_type')} value={this.state.imageAttachmentContentType} />
           <input type="hidden" name={this.name('image_attachment_file_name')} value={this.state.imageAttachmentFileName} />
           <input type="hidden" name={this.name('image_attachment_file_size')} value={this.state.imageAttachmentFileSize} />
-          <div className="thumbnail">
+          <div className="thumbnail" onMouseEnter={this.mouseHoverEnter} onMouseLeave={this.mouseHoverLeave}>
             <img style={{width: '100%'}} src={this.imageURL()} alt={this.state.imageAlt} title={this.state.imageTitle} />
+            {this.renderUploadButtons()}
+            {this.renderButtonRemove()}
           </div>
           <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.imageAttachmentFileName}</strong></div>
           <div>{this.state.imageAttachmentContentType} – {this.state.imageAttachmentFileSize / 1000}KB</div>
         </div>
       </div>`
     else
-      `<div id={this.id('dropzone')}>
-        <ImageEmpty padding={20} dropzone={true} />
+      `<div id={this.id('dropzone')} onMouseEnter={this.mouseHoverEnter} onMouseLeave={this.mouseHoverLeave} onClick={this.mouseHoverEnter}>
+        <ImageEmpty padding={20} dropzone={true}>
+          {this.renderUploadButtons()}
+        </ImageEmpty>
       </div>`
+
+  mouseHoverEnter: ->
+    console.log('hover')
+    this.setState({hover: true})
+
+  mouseHoverLeave: ->
+    this.setState({hover: false})
 
   renderProgress: ->
     if this.state.uploadState is 'uploading'
@@ -159,23 +162,57 @@ ImagePlacement = React.createClass
       browseLabel = if this.props.buttonSize is 'small' then 'Browse' else 'Browse Library'
       `<div>
         <input type="file" className="hidden" ref="fileInput" />
-        <span className="btn-group btn-group-sm">
-          <span onClick={this.triggerFileInput} className="btn btn-default">
-            <i className="fa fa-cloud-upload" /> {uploadLabel}
-          </span>
-          <span onClick={this.loadInitialLibraryImages} className="btn btn-default" data-toggle="modal" data-target={'#' + this.id('library')}>
-            <i className="fa fa-th" /> {browseLabel}
-          </span>
-        </span>
-        {this.renderButtonRemove()}
         {this.renderBulkUploadLink()}
       </div>`
 
+  renderUploadButtons: ->
+    if this.state.hover
+      uploadLabel = if this.props.buttonSize is 'small' then 'Upload' else 'Upload Image'
+      browseLabel = if this.props.buttonSize is 'small' then 'Browse' else 'Browse Library'
+      `<div style={{position: 'absolute', top: 5, left: 20}}>
+         <span className="btn-group btn-group-sm">
+           <span onClick={this.triggerFileInput} className="btn btn-default">
+             <i className="fa fa-cloud-upload" /> {uploadLabel}
+           </span>
+           <span onClick={this.loadInitialLibraryImages} className="btn btn-default">
+             <i className="fa fa-th" /> {browseLabel}
+           </span>
+          {this.renderEmbedButton()}
+         </span>
+       </div>`
+
+  renderEmbedButton: ->
+    if this.props.allowEmbed
+      `<span onClick={this.setKind.bind(null, 'embeds')} className="btn btn-default">
+         Embed
+       </span>`
+
+
   renderButtonRemove: ->
-    if this.props.buttonRemove and (this.state.uploadState is 'failed' or this.state.uploadState is 'attached')
-      `<span onClick={this.removeImage} className="btn btn-sm btn-danger pull-right">
-        <i className="fa fa-close" /> Remove
+    if this.props.buttonRemove and (this.state.uploadState is 'failed' or this.state.uploadState is 'attached') and this.state.hover
+      `<span style={{position: 'absolute', bottom: 55, left: 20}}>
+        <span className="btn btn-default" style={{marginRight: 10}} data-toggle="modal" data-target={'#image-attributes'} >
+         <i className="fa fa-cog" />
+        </span>
+        <span onClick={this.removeImage} className="btn btn-sm btn-danger">
+          <i className="fa fa-close" /> Remove
+        </span>
       </span>`
+
+  renderImageAttributes: ->
+    `<div id="image-attributes" className="modal fade">
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <span className="close" data-dismiss='modal'>&times;</span>
+                    <h4 className="modal-title">Image Attributes</h4>
+                </div>
+                <div className="modal-body">
+                    {this.renderInputs()}
+                </div>
+            </div>
+        </div>
+    </div>`
 
   renderBulkUploadLink: ->
     if this.props.bulkUploadPath and this.props.bulkUploadPath.length > 0
@@ -186,7 +223,7 @@ ImagePlacement = React.createClass
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <span className="close" data-dismiss="modal">&times;</span>
+            <span className="close" onClick={this.closeModal}>&times;</span>
             {this.renderLibraryLocalOnlyCheckbox()}
             <p className="h4 modal-title">Image Library</p>
           </div>
@@ -196,6 +233,9 @@ ImagePlacement = React.createClass
         </div>
       </div>
     </div>`
+
+  closeModal: ->
+    $('#' + this.id('library')).modal('hide')
 
   renderLibraryLocalOnlyCheckbox: ->
     if this.props.showLocalOnlyOption
@@ -237,6 +277,13 @@ ImagePlacement = React.createClass
 
   renderEmbed: ->
     `<div className="form-group">
+        <div>
+         <span className="btn-group btn-group-sm">
+           <span onClick={this.setKind.bind(null, 'images')} className="btn btn-default">
+             <i className="fa fa-arrow-left" /> Image
+           </span>
+         </span>
+        </div>
       <textarea id={this.id('embed')} name={this.name('embed')} rows="6" className="form-control" defaultValue={this.state.placementEmbed} />
     </div>`
 
@@ -259,6 +306,7 @@ ImagePlacement = React.createClass
       this.setState uploadXHR: uploadXHR
 
   loadInitialLibraryImages: ->
+    $('#' + this.id('library')).modal('show')
     unless this.state.libraryLoaded
       $.get "#{this.props.imagesPath}?page=#{this.state.libraryPage}&local=#{this.state.libraryLocalOnly}", this.updateLibrary
 

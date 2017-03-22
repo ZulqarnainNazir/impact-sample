@@ -15,6 +15,16 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
   end
 
   def create
+    pathname = params[:custom_page][:pathname]
+    if @website.webpages.find_by(pathname: pathname)
+      duplicates = 2
+      pathname = "#{pathname}-2"
+      while @website.webpages.find_by(pathname: pathname)
+        duplicates += 1
+        pathname[-1] = duplicates.to_s
+      end
+      params[:custom_page][:pathname] = pathname
+    end
     create_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page] do |success|
       intercom_event 'created-custom-webpage'
     end

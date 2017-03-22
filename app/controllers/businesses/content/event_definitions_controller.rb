@@ -42,13 +42,13 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       @event_definition.published_status = true
     end
     respond_to do |format|
-      if @event_definition.save!
+      if @event_definition.save
         @event_definition.reschedule_events!
-        flash[:notice] = 'Post was successfully created.'
+        flash[:notice] = 'Event was successfully created.'
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to new_business_content_event_definition_share_path(@business, @event_definition), notice: "Post created successfully" } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @event_definition.errors.full_messages.to_sentence }
+        format.html { render :action => "new" }
       end
     end
     @event_definition.__elasticsearch__.index_document
@@ -72,11 +72,11 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     end
     respond_to do |format|
       if @event_definition.save
-        flash[:notice] = 'Post was successfully updated.'
+        flash[:notice] = 'Event was successfully updated.'
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @event_definition.errors.full_messages.to_sentence }
+        format.html { render :action => "edit" }
       end
     end
     EventDefinition.__elasticsearch__.refresh_index!

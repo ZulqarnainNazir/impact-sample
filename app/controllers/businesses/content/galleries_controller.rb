@@ -28,7 +28,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to new_business_content_gallery_share_path(@business, @gallery), notice: "Post created successfully" } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @gallery.errors.full_messages.to_sentence }
+        format.html { render :action => "new" }
       end
     end
     Gallery.__elasticsearch__.refresh_index!
@@ -57,7 +57,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
       else
-        format.html { redirect_to :back, :alert => @gallery.errors.full_messages.to_sentence }
+        format.html { render :action => "edit" }
       end
     end
 

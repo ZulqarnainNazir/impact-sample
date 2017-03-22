@@ -58,6 +58,10 @@ class Offer < ActiveRecord::Base
     end
   end
 
+  def not_draft?
+    self.published_status
+  end
+
   def valid_until=(*args)
     super DatepickerParser.parse(*args)
   end

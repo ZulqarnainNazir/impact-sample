@@ -11,7 +11,7 @@
           .form-group
             = form.label :title, class: 'col-md-2 control-label'
             .col-md-10
-              = form.text_field :title, value: form.object.title.present? ? form.object.title : "Contact #{@business.name}", class: 'form-control'
+              = form.text_field :title, value: form.object.title.present? ? form.object.title : "Contact #{@business.name}", class: 'form-control', required: true
               p.help-block Important for SEO
         - if @contact_page.persisted?
           .row
