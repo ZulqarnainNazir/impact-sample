@@ -50,6 +50,11 @@ GEM
     ancestry (2.1.0)
       activerecord (>= 3.0.0)
     arel (6.0.3)
+    asset_sync (2.0.0)
+      activemodel
+      fog-core
+      mime-types
+      unf
     autoprefixer-rails (5.1.11)
       execjs
       json
@@ -387,6 +392,9 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     url_safe_base64 (0.2.2)
     warden (1.2.3)
       rack (>= 1.0)
@@ -398,6 +406,7 @@ PLATFORMS
 
 DEPENDENCIES
   ancestry
+  asset_sync
   autoprefixer-rails
   aws-sdk-v1
   bcrypt
