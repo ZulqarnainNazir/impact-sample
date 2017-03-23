@@ -4,6 +4,7 @@ div id="super_users_partial"
 			tr
 			  th ID
 			  th Email
+			  th Accounts
 			  th Reset Password Sent At
 			  th Remember Created At
 			  th Sign-in Count
@@ -14,6 +15,16 @@ div id="super_users_partial"
 			       td = sub.id
 
 			       td = sub.email
+
+			       td 
+				       - if !sub.businesses.empty? 
+						    - sub.businesses.each do |n|
+								= link_to business_dashboard_path(n) do
+									- unless n == sub.businesses.last
+									    = n.name + ', '
+									- else
+										= n.name
+
 
 			       td = !sub.reset_password_sent_at.nil? ? sub.reset_password_sent_at.to_date.to_formatted_s(:long_ordinal) : "-"
 				   

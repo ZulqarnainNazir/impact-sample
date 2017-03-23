@@ -20,7 +20,7 @@ class PostSection < ActiveRecord::Base
 
   validates :kind, presence: true
   validates :post, presence: true
-  
+
   before_validation do
     self.kind = 'image_right' unless kind?
   end

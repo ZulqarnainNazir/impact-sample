@@ -1,9 +1,14 @@
-= link_to '#', class: 'text-navy', data: { toggle: 'modal', target: '#mission-assignment-modal' } do
+- @mission = mission if local_assigns[:mission]
+- @mission_instance = mission_instance if local_assigns[:mission_instance]
+
+= link_to '#', class: (local_assigns[:color_class] ? color_class : 'text-navy'), data: { toggle: 'modal', target: '#mission-assignment-modal' } do
   - if @mission_instance&.assigned_user
-    i.fa.fa-edit
+    - unless local_assigns.has_key?(:skip_icon)
+      i.fa.fa-edit
     = @mission_instance&.assigned_user&.name
   - else
-    i.fa.fa-edit
+    - unless local_assigns.has_key?(:skip_icon)
+      i.fa.fa-edit
     | Assign now
 
 .modal.inmodal.fade#mission-assignment-modal tabindex="-1" role="dialog" aria-hidden="true"

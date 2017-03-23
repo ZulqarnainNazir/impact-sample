@@ -24,6 +24,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   def create
     @quick_post = QuickPost.new(quick_post_params)
     @quick_post.business = @business
+
     if params[:draft].present?
       @quick_post.published_status = false
     else

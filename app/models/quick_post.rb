@@ -30,13 +30,12 @@ class QuickPost < ActiveRecord::Base
   end
 
   def share_callback_url
-    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
   end
 
   def description
     self.content
   end
-  
 
   def not_draft?
     self.published_status
@@ -84,7 +83,7 @@ class QuickPost < ActiveRecord::Base
       slug: slug
     }
   end
-  
+
   def to_generic_param_two
     [
       published_at.strftime('%Y').to_s,

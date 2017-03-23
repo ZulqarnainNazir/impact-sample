@@ -47,7 +47,7 @@
                 .input-group
                   = form.text_field :valid_until, value: form.object.valid_until.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: {provide: 'datepicker'}
                   span.input-group-addon: i.fa.fa-calendar
-            .col-sm-6  
+            .col-sm-6
               .form-group
                 = form.label :offer_code, 'Offer Code', class: 'control-label'
                 = form.text_field :offer_code, class: 'form-control simple-input', placeholder: 'Optional'

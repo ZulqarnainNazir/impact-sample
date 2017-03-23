@@ -13,6 +13,66 @@ class Company < ActiveRecord::Base
 
   validates :company_location, presence: true
 
+  def self.businesses_that_have_contact_associated_with_this_company(business_id)
+    businesses = []
+    Company.where(company_business_id: business_id).each do |n|
+      n.contact_companies.each do |m|
+        businesses << m.contact.business
+      end
+    end
+    return businesses.sort.uniq!
+  end
+
+  def business_that_has_this_record_as_contact
+    Business.find(self.user_business_id)
+  end
+
+  def businesses_that_have_this_company_saved_as_contact
+    businesses = []
+    Company.where(company_business_id: self.company_business_id).each do |n|
+      businesses << Business.find(n.user_business_id)
+    end
+    return businesses
+  end
+
+  def businesses_that_have_contact_associated_with_this_company
+    businesses = []
+    self.contact_companies.each do |n|
+      businesses << n.contact.business
+    end
+    return businesses.sort.uniq!
+  end
+
+  def self.search(search)
+    if search
+      where('LOWER(name) LIKE ?', "%#{search.downcase}%")
+    else
+      all
+    end
+  end
+
+  def show_business_id
+    if self.business.present?
+      self.business.id
+    else
+      'N/A'
+    end
+  end
+
+  def account_status
+    #true if owner, sample if account ID but no owner, false if no account ID
+    #checks the ownership and user relationships with business
+    if self.business.present? && self.business.owners.present?
+      return 'true'
+    elsif self.business.present? && !self.business.owners.present?
+      return 'sample'
+    elsif !self.business.present?
+      'false'
+    else
+      'no data available'
+    end
+  end
+
   def self.select_collection(user_business_id, contact_id = nil) 
     if contact_id.nil?
       select("companies.id, businesses.name").joins(:business).where(:user_business_id => user_business_id) 

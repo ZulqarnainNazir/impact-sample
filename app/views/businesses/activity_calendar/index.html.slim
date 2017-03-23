@@ -13,13 +13,33 @@ javascript:
     $('#calendar').fullCalendar({
       editable: false,
       events: #{@events.to_json.html_safe},
+      customButtons: {
+        timelineButton: {
+          text: 'Timeline',
+          click: function() {
+            path = window.location.pathname
+            window.location = path + '/timeline';
+          }
+        }
+      },
       header: {
         left:   'today prev,next',
         center: 'title',
-        right:  'month,agendaWeek,agendaDay'
+        right:  'timelineButton month,agendaWeek,agendaDay'
       },
       eventClick: function(calEvent, jsEvent, view) {
         window.location = '/businesses/' + calEvent.business_id + '/missions/' + calEvent.id
       }
-    })
+    });
+
+    if (window.location.search.match('month')) {
+      $('#calendar').fullCalendar('changeView', 'month');
+      $('.fc-month-button').addClass('fc-state-active');
+    } else if (window.location.search.match('week')) {
+      $('#calendar').fullCalendar('changeView', 'agendaWeek');
+      $('.fc-week-button').addClass('fc-state-active');
+    } else if (window.location.search.match('day')) {
+      $('#calendar').fullCalendar('changeView', 'agendaDay');
+      $('.fc-day-button').addClass('fc-state-active');
+    };
   });

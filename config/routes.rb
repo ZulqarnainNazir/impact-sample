@@ -59,6 +59,7 @@ Rails.application.routes.draw do
           get :super_admins
         end
       end
+      resources :business_data, only: [:index, :edit, :update]
       resources :subscription_plans
       resources :affiliates, only: [:index]
       resources :to_dos, only: :index
@@ -265,7 +266,9 @@ Rails.application.routes.draw do
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
         resources :reminders, only: :index
-        resources :activity_calendar, only: :index
+        resources :activity_calendar, only: :index do
+          get :timeline, on: :collection
+        end
         resources :mission_instance_comments, only: :create
         resources :mission_notes, only: :update
         resources :missions, only: %i[index show] do

@@ -1,0 +1,72 @@
+= form_for @company, url: super_business_datum_path, html: { class: "company-form form-horizontal"} do |n|
+  = errors_for @company
+  / - tooltip = ''
+  .form-group
+    = n.label :name, "Location Name", class: 'control-label'
+    = n.text_field :name, class: 'form-control'
+  .form-group
+    = n.label :tagline, "Tagline", class: 'control-label'
+    = n.text_area :tagline, class: 'form-control'
+  .form-group
+    = n.label :private_details, "Private Details", class: 'control-label'
+    = n.text_area :private_details, class: 'form-control'
+  .form-group
+    = n.label :description, "Description", class: 'control-label'
+    = n.text_area :description, class: 'form-control'
+  .form-group
+    = n.label :hide, "Hide?", class: 'control-label'
+    = n.check_box :hide, class: 'form-control'
+
+  .form-group
+    = n.label :website_url, "Website URL", class: 'control-label'
+    = n.text_field :website_url, class: 'form-control'
+  .form-group
+    = n.label :facebook_id, "Facebook ID", class: 'control-label'
+    = n.text_field :facebook_id, class: 'form-control'
+  .form-group
+    = n.label :google_plus_id, "Google+ ID", class: 'control-label'
+    = n.text_field :google_plus_id, class: 'form-control'
+  .form-group
+    = n.label :linkedin_id, "LinkedIn ID", class: 'control-label'
+    = n.text_field :linkedin_id, class: 'form-control'
+  .form-group
+    = n.label :twitter_id, "Twitter ID", class: 'control-label'
+    = n.text_field :twitter_id, class: 'form-control'
+  .form-group
+    = n.label :youtube_id, "YouTube ID", class: 'control-label'
+    = n.text_field :youtube_id, class: 'form-control'
+  .form-group
+    = n.label :citysearch_id, "City Search ID", class: 'control-label'
+    = n.text_field :citysearch_id, class: 'form-control'
+  .form-group
+    = n.label :instagram_id, "Instagram ID", class: 'control-label'
+    = n.text_field :instagram_id, class: 'form-control'
+  .form-group
+    = n.label :pinterest_id, "Pinterest ID", class: 'control-label'
+    = n.text_field :pinterest_id, class: 'form-control'
+  .form-group
+    = n.label :yelp_id, "Yelp ID", class: 'control-label'
+    = n.text_field :yelp_id, class: 'form-control'
+  .form-group
+    = n.label :foursquare_id, "Foursquare ID", class: 'control-label'
+    = n.text_field :foursquare_id, class: 'form-control'
+  .form-group
+    = n.label :zillow_id, "Zillow ID", class: 'control-label'
+    = n.text_field :zillow_id, class: 'form-control'
+  .form-group
+    = n.label :opentable_id, "Open Table ID", class: 'control-label'
+    = n.text_field :opentable_id, class: 'form-control'
+  .form-group
+    = n.label :trulia_id, "Trulia ID", class: 'control-label'
+    = n.text_field :trulia_id, class: 'form-control'
+  .form-group
+    = n.label :realtor_id, "Realtor ID", class: 'control-label'
+    = n.text_field :realtor_id, class: 'form-control'
+  .form-group
+    = n.label :tripadvisor_id, "TripAdvisor ID", class: 'control-label'
+    = n.text_field :tripadvisor_id, class: 'form-control'
+  .form-group
+    = n.label :houzz_id, "Houzz ID", class: 'control-label'
+    = n.text_field :houzz_id, class: 'form-control'
+  
+  = n.button 'Save Changes', class: 'btn btn-primary btn-block'

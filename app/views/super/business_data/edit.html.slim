@@ -1,0 +1,48 @@
+- title 'Edit Business Master (Core Data) Record'
+
+/ = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Companies', :sp => :crm_companies, :an => 'Edit Company'}
+
+
+.wrapper.wrapper-content
+.row.animated.fadeInRight
+    .col-md-8
+	    .ibox.float-e-margins
+			.ibox-title
+			    h1 Business Information for #{@business.name} 
+			    -if @business.present?
+				    =link_to business_dashboard_path(@business) do
+					    | view business account
+	        .ibox-content
+	          .row
+	            .col-xs-4.text-center.p-xs
+	              i.fa.fa-building.fa-5x aria-hidden="true"
+	            .col-xs-8
+	              h3: strong = @business.name
+	              p.m-b-none 
+	                | Phone: 
+	                a href="tel:#{@business.location.phone_number}" 
+	                  = @business.location.phone_number
+	              p.m-b-none
+	                | Website: 
+	                a href="#{@business.website_url}" 
+	                  = @business.website_url
+	              p Description: #{@business.description && @business.description.length > 100 ? "#{@business.description[0..100]}..." : @business.description}
+	            
+	              a.company-view-more.btn.btn-sm.btn-white href="#company-more-collapse" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="company-profile-collapse"
+	                i.fa.fa-chevron-down>
+	                i.fa.fa-chevron-up>
+	          #company-more-collapse.collapse.in aria-expanded="true"
+		          = render partial: 'business_core_fields', :locals => {:business => @business, :company => @business, :location => @location}
+
+				  / =# render 'company_non_core_fields'
+	.col-md-4
+		.ibox.float-e-margins
+			.ibox-title
+				h5 This Company is included as a contact in the following accounts:
+			.ibox-content
+		    	ol.dd-list
+			    	- @business.owned_by_business.each do |n|
+				    	li.dd-item
+					    	= link_to edit_business_crm_company_path(n.business_that_has_this_record_as_contact, n) do
+						    	.dd-handle
+							    	= n.business_that_has_this_record_as_contact.name

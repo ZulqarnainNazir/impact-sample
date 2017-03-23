@@ -5,6 +5,14 @@ WebpageSave = React.createClass
   insertBlock: (groupId, blockType) ->
     this.props.insertBlock(groupId, blockType)
 
+  onSave: (event) ->
+    $btn = $(event.target)
+    $btn.addClass('disabled')
+    setTimeout(this.enableButton.bind(null, $btn), 2000)
+
+  enableButton: (btn) ->
+    btn.removeClass('disabled')
+
   renderInsertHeroGroup: ->
     unless this.props.groupTypes.indexOf('HeroGroup') is -1 or _.find(this.props.groups, (group) -> group and group.type is 'HeroGroup')
       `<span className="btn btn-sm btn-default" onClick={this.props.insertGroup.bind(null, 'HeroGroup', 'HeroBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a page header" data-content="A Hero is a great way to highlight something - add a large background image for a great visual.">Hero</span>`
@@ -103,7 +111,7 @@ WebpageSave = React.createClass
             </div>
           </div>
           <div className="col-sm-2">
-            <p style={{ marginTop: 5 }}><button type="submit" className="btn btn-block btn-success">Save Changes</button></p>
+            <p style={{ marginTop: 5 }}><button type="submit" className="btn btn-block btn-success save-btn" onClick={this.onSave}>Save Changes</button></p>
           </div>
         </div>
       </div>

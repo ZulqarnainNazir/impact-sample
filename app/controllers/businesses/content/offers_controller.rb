@@ -30,7 +30,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     respond_to do |format|
       if @offer.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present? 
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to new_business_content_offer_share_path(@business, @offer), notice: "Post created successfully" } if !params[:draft].present?
       else
         format.html { render :action => "new" }

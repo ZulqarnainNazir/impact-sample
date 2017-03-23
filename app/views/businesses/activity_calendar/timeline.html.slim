@@ -1,0 +1,44 @@
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Reminder list', fp: :reminders, an: 'Activity Timeline'}
+
+.ibox
+  .ibox-title
+    h5 Activity Timeline
+    .ibox-tools
+      = link_to 'Add Custom Mission', new_business_mission_instance_path(@business), class: 'btn btn-primary btn-xs'
+  .ibox-content
+    = render partial: 'timeline_toolbar'
+
+    - if @events.empty?
+      .p-a-3.text-center
+        h2 No Upcoming Marketing Missions Scheduled
+        h4
+          = link_to 'Browse Recommended Marketing Missions', business_missions_path(@business), class: 'text-navy'
+    - else
+      #vertical-timeline.vertical-container.dark-timeline.m-t-70px
+
+        - @events.each do |event|
+          .vertical-timeline-block
+            .vertical-timeline-icon.navy-bg
+              i.fa.fa-briefcase
+
+            .vertical-timeline-content
+              = link_to business_mission_path(@business, event.id)
+                h2= event.title
+              p= event.description.html_safe
+
+              - if @mission_instance = MissionInstance.find_by(id: event.mission_instance_id)
+                .row
+                  .col-md-6
+                    - if event.is_a?(MissionInstanceEvent)
+                      div= @mission_instance.schedule_in_words
+                    small
+                      span.text-navy= event.start.strftime('%b %e')
+                      = ' '
+                      | assigned to
+                      = ' '
+
+                      = render partial: 'businesses/missions/assignment_modal', locals: { mission: @mission_instance.mission, mission_instance: @mission_instance, skip_icon: true, color_class: 'text-blue' }
+                  .col-md-6
+                    = render partial: 'timeline_actions', locals: { mi: @mission_instance, event: event }
+
+    = paginate(@events) unless @events.empty?

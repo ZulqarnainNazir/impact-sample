@@ -1,5 +1,8 @@
 nav.navbar-default.navbar-static-side[role="navigation"]
     ul#side-menu.nav.metismenu
+        li = link_to super_business_data_path do
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | Core Business Data
         li = link_to subscriptions_super_subscriptions_data_path do
           span.nav-label[data-i18n="nav.subscriptions"]
             | Subscriptions

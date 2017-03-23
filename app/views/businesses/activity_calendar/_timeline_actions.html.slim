@@ -1,0 +1,9 @@
+- if mi.active?
+  = link_to deactivate_business_mission_instances_path(@business, mission_id: mi.mission.id), method: :post, class: 'btn text-danger btn-link btn-sm' do
+    i.fa.fa-ban.m-r-5px
+    | Deactivate
+  = render partial: 'businesses/reminders/complete_modal', locals: { mission: event }
+- else
+  = link_to activate_business_mission_instances_path(@business, mission_id: mi.mission.id), method: :post, class: 'btn btn-primary btn-sm' do
+    i.fa.fa-check.m-r-5px
+    | Activate

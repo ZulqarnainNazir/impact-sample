@@ -87,6 +87,6 @@ class BeforeAfter < ActiveRecord::Base
   end
 
   def share_callback_url
-    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
   end
 end

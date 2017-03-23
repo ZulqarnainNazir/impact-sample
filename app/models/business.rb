@@ -90,6 +90,22 @@ class Business < ActiveRecord::Base
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
 
+#One column should be "Active Account" with options "True" if there's an owner, 
+#"Sample" if account ID but no owner, "False" if no ID.
+
+  def account_status
+    #checks the ownership and user relationships with business
+    if self.owners.present?
+      return 'true'
+    elsif self.users.present? && !self.owners.present?
+      return 'sample'
+    elsif !self.owners.present? && !self.owners.present?
+      'false'
+    else
+      'no data available'
+    end
+  end
+
   def referred?
     if !self.subscription.nil?
       if !self.subscription.affiliate.nil?

@@ -182,12 +182,11 @@ class MissionInstance < ActiveRecord::Base
     return presence.first(return_count)
   end
 
-
   def due_in_future?
     next_due = next_due_at(true)
     next_due && next_due >= Time.now
   end
-  
+
   def self.quickstart_missions(business)
     includes(:mission_instance_events)
       .where(business: business)
