@@ -1,5 +1,35 @@
 - if @masonry.present? && @masonry == true
-  .col-xs-4.slider-content.single-blog
+  / .col-xs-4.slider-content.single-blog
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache before_after do
+          div.product-imitation
+            = link_to website_generic_post_path(before_after.to_generic_param)
+              - if before_after.before_image.present? && before_after.after_image.present?
+                - image_before = before_after.before_image.attachment_url(:thumbnail)
+                - image_after = before_after.after_image.attachment_url(:thumbnail)
+                div.before = image_tag image_before
+                div.after = image_tag image_after
+              - else
+                div.before = image_tag "impact_gs.jpg", alt: "image", title: "image"
+                div.after = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc 
+            / - if before_after.content_categories.any?
+            /   small.text-muted 
+            /     - (before_after.content_categories + before_after.content_tags).each_with_index do |classification, i|
+            /       = link_to classification.name.titleize , [:website, classification]
+            /       - if i < before_after.content_categories.count + before_after.content_tags.count - 1
+            /         '  |
+            = link_to website_generic_post_path(before_after.to_generic_param), class: 'grid-feed-title'
+              = truncate sanitize(before_after.title.titleize), length: 50, omission: '... '
+            small.m-t-xs
+              i BEFORE & AFTER
+            div.mt-text.rt
+              = link_to website_generic_post_path(before_after.to_generic_param), class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
+  / .col-xs-4.slider-content.single-blog
     - cache before_after do
       = link_to website_generic_post_path(before_after.to_generic_param)
         - if before_after.before_image.present? && before_after.after_image.present?
@@ -17,7 +47,7 @@
           i BEFORE & AFTER
         / p.slider-p = truncate sanitize(before_after.description), length: 75, omission: '... '
 - else
-  .feed-item.feed-before_after
+  .feed-item.feed_before_after
     .feed-item-meta
       => icon 'tasks'
       strong> Before &amp; After

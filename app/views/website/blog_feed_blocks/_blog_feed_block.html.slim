@@ -8,19 +8,20 @@
         - posts = events_organized_desc(blog_feed_block.business, page: params[:page], limit: blog_feed_block.items_limit)
       - else
         - posts = posts(blog_feed_block.business, content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
-        
+
       a name="blog-feed"
       - if blog_feed_block.include_search == "true"
         div.row style="padding-top:30px; text-align:center;"
           = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
-      div.row style="padding-top:30px; text-align:center;"
+      .m-t-lg
+      .grid
         - if posts.present? && !posts.empty?
           / h1 =blog_feed_block.content_types.to_s.split(' ')
           - order_the_events(posts.to_a).each do |posts|
             = render posts
         - elsif !posts.present? || posts.empty?
           div.col-xs-9
-            h2 Nothing matched your search or there is no content here yet...
+          h2 Nothing matched your search or there is no content here yet...
       - if blog_feed_block.link_version == 'link_paginate'
         = paginate posts
       - elsif blog_feed_block.link?

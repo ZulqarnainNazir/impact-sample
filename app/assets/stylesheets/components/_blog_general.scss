@@ -1,0 +1,400 @@
+/* This is the home for shared styling used on the blog feed
+* Show Pages
+* Partials
+* Feed Blcoks
+* Search Blocks
+* ETC
+*/
+/* Manifest in order */
+/* General Ibox Style */
+/* Shared blog style (sidebars, main blog, etc)*/
+
+
+/* General Ibox Style used blog wide */
+
+.ui-draggable .ibox-title {
+  cursor: move;
+}
+
+.ibox-content h1, .ibox-content h2, .ibox-content h3, .ibox-content h4, .ibox-content h5,
+.ibox-title h1, .ibox-title h2, .ibox-title h3, .ibox-title h4, .ibox-title h5 {
+  margin-top: 5px;
+}
+
+.ibox-content.text-box {
+  padding-bottom: 0;
+  padding-top: 15px;
+}
+
+.ibox.collapsed .ibox-content {
+  display: none;
+}
+
+.ibox.collapsed .fa.fa-chevron-up:before {
+  content: "\f078";
+}
+
+.ibox.collapsed .fa.fa-chevron-down:before {
+  content: "\f077";
+}
+
+.ibox-title {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: $ibox-title-bg;
+  border-color: $border-color;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 2px 0 0;
+  color: inherit;
+  margin-bottom: 0;
+  padding: 15px 15px 7px;
+  min-height: 48px;
+}
+
+.ibox-footer {
+  color: inherit;
+  border-top: 1px solid $border-color;
+  font-size: 90%;
+  background: #ffffff;
+  padding: 10px 15px;
+}
+
+.ibox-content {
+  clear: both;
+}
+
+.ibox-heading {
+  background-color: #f3f6fb;
+  border-bottom: none;
+}
+
+.ibox-heading h3 {
+  font-weight: 200;
+  font-size: 24px;
+}
+
+.ibox-title h5 {
+  display: inline-block;
+  font-size: 14px;
+  margin: 0 0 7px;
+  padding: 0;
+  text-overflow: ellipsis;
+  float: left;
+}
+
+.ibox-title .label {
+  float: left;
+  margin-left: 4px;
+}
+
+.ibox-tools {
+  display: block;
+  float: none;
+  margin-top: 0;
+  position: relative;
+  padding: 0;
+  text-align: right;
+}
+
+.ibox-tools a {
+  cursor: pointer;
+  margin-left: 5px;
+  color: #c4c4c4;
+}
+
+.ibox-tools a.btn-primary {
+  color: #fff;
+}
+
+.ibox-tools .dropdown-menu > li > a {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.ibox .ibox-tools.open > .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+body.fullscreen-ibox-mode {
+  overflow-y: hidden;
+}
+
+.ibox.fullscreen {
+  z-index: 2030;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  margin-bottom: 0;
+}
+
+.ibox.fullscreen .collapse-link {
+  display: none;
+}
+
+.ibox.fullscreen .ibox-content {
+  min-height: calc(100% - 48px);
+}
+
+.product-box {
+  padding: 0;
+  border: 1px solid $border-color;
+}
+
+.product-box:hover,
+.product-box.active {
+  border: $feed-block-border;
+  -webkit-box-shadow: $feed-block-shadow;
+  -moz-box-shadow: $feed-block-shadow;
+  box-shadow: $feed-block-shadow;
+}
+
+/* Shared Grid style below here */
+.grid {
+ margin: 0 auto;
+ float: left;
+ clear: both;
+ width: 100%;
+
+ .grid-item {
+   display: inline;
+   float: left;
+
+   @media screen and (max-width: 991px) {
+     width: 49%;
+     margin: .5%;
+   }
+
+   @media screen and (max-width: 700px) {
+     width: 100%;
+     float: none;
+   }
+
+   @media screen and (min-width: 991px) {
+     width: 32%;
+     margin: .66%;
+   }
+
+   .ibox-blog {
+     clear: both;
+     margin-bottom: 25px;
+     margin-top: 0;
+     padding: 0;
+     width: 100%;
+   }
+ }
+}
+
+/* Sidebar Grid item definitions */
+.search-container {
+ width: 100%;
+ float: left;
+
+ @media screen and (max-width: 991px) {
+   width: 100%;
+   display: inline;
+   float: left;
+ }
+
+ @media screen and (max-width: 700px) {
+   width: 100%;
+   float: none;
+ }
+
+ @media screen and (min-width: 991px) {
+   width: 100%;
+ }
+
+}
+
+.search-sidebar {
+ width: 20%;
+ float: left;
+
+ @media screen and (max-width: 991px) {
+   width: 100%;
+   display: inline;
+   float: left;
+ }
+
+ @media screen and (max-width: 700px) {
+   width: 100%;
+   float: none;
+ }
+
+ @media screen and (min-width: 991px) {
+   width: 20%;
+ }
+}
+
+
+.sidebar-grid {
+  z-index: 10;
+ .grid-item {
+
+   @media screen and (max-width: 991px) {
+     width: 49%;
+     display: inline;
+     float: left;
+     margin: .5%;
+   }
+
+   @media screen and (max-width: 700px) {
+     width: 100%;
+     float: none;
+   }
+
+   @media screen and (min-width: 991px) {
+     width: 100%;
+   }
+
+   .ibox-blog {
+     clear: both;
+     margin-bottom: 25px;
+     margin-top: 0;
+     padding: 0;
+     width: 100%;
+
+
+
+     .product-imitation {
+/* Commented out below is for side by side before-after images */
+       .before {
+         img {width: 141.5px;}
+       }
+       .after {
+         img {width: 141.5px;}
+       }
+/* Top/Bottom before/after image in sidebar */
+      //  .before {
+      //    img {
+      //      width: 100%;
+      //      float: left;
+      //      height: 124px;
+      //      border-bottom: 2px solid white;
+      //    }
+      //  }
+      //  .after {
+      //    img {
+      //      width: 100%;
+      //      height: 124px;
+      //    }
+      //  }
+     }
+   }
+ }
+}
+
+/* Search Grid item definitions */
+.search-grid {
+ .grid-item {
+   .ibox-blog {
+     clear: both;
+     margin-bottom: 25px;
+     margin-top: 0;
+     padding: 0;
+     width: 300px;
+
+     .product-imitation {
+/* Commented out below is for side by side before-after images */
+       .before {
+         img {width: 141.5px;}
+       }
+       .after {
+         img {width: 141.5px;}
+       }
+/* Top/Bottom before/after image in sidebar */
+      //  .before {
+      //    img {
+      //      width: 100%;
+      //      float: left;
+      //      height: 124px;
+      //      border-bottom: 2px solid white;
+      //    }
+      //  }
+      //  .after {
+      //    img {
+      //      width: 100%;
+      //      height: 124px;
+      //    }
+      //  }
+     }
+   }
+ }
+}
+
+/* Search Tags and Category Sidebars */
+.search-sidebar {
+ .show-sidebar-grid {
+   .grid-item {
+     .ibox-blog {
+       margin-bottom: 25px;
+       padding-top: 2px;
+     }
+   }
+ }
+}
+
+/* Sidebar Grid (Show Pages) */
+.show-sidebar-grid {
+ .grid-item {
+   .ibox-blog {
+     margin-bottom: 25px;
+     padding-top: 2px;
+   }
+ }
+}
+
+.text-muted {
+ color: #888888;
+ a {
+   text-decoration: none;
+   color: #888888;
+ }
+ a:hover {
+   color: #18a689;
+ }
+}
+
+/* Show Pages Updated Styles */
+.blog-show-image {
+ img {
+   width: 100%;
+   height: auto;
+ }
+}
+
+/* Add custom class styling here */
+.center-blog-items {
+ margin: 0 auto;
+}
+
+// Post image header embed on show partial
+/* Events Show and Quick Posts Show */
+.responsive-post-image {
+ img {
+   width: 100%;
+   height: 100%;
+   padding-bottom: 15px;
+ }
+}
+
+.event-details {
+
+ .block {
+   // sets width for Icon element spacing on Event Show
+   i {
+     width: 25px;
+   }
+ }
+}
+
+i.pad-lt-3 {
+ padding-left: 3px;
+}

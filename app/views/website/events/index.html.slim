@@ -10,6 +10,9 @@
 		    h1 Browse Events
 			= page_entries_info @events, entry_name: 'events'
 		br
-    div
-	   = render @events
-	   = paginate @events
+    div 
+      div 
+        .grid
+    	    = render @events
+        .text-center
+          = paginate @events

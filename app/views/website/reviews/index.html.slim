@@ -20,4 +20,5 @@
       = paginate @reviews
     - if @website.content_blog_sidebar_on_reviews?
       .col-sm-4
-        = render posts(@business), small: true
+        .show-sidebar-grid
+          = render posts(@business), small: true

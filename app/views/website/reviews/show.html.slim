@@ -15,5 +15,6 @@
             span.fa.fa-plus-circle>
             | Leave us a Review
     - if @website.content_blog_sidebar_on_reviews?
-      .col-sm-4
-        = render posts(@business), small: true
+      .col-sm-4.m-t-lg
+        .show-sidebar-grid
+          = render posts(@business), small: true

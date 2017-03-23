@@ -1,37 +1,25 @@
 - if @masonry.present? && @masonry == true
   - cache offer do
-    .col-md-4.slider-content.single-blog
-      = link_to website_generic_post_path(offer.to_generic_param) do
-        .coupon style="padding: 0px; margin-left: 6px; margin-right: 6px;"
-          div.offer-header
-            -# = image_tag '/assets/impact-light-xs.png', size: '70x26', alt: '', title: 'icon', class: 'pull-left'
-            p.offer-para.pull-right = offer.business.name
-          div style="padding:5px;"
-            - if offer.try(:offer_image)
-              - image = offer.offer_image
-              - if image && !image.nil?
-                div.offer-blog-image style="background-image: url('#{image.attachment_medium_url}');"
-                / = image_tag image.attachment_url(:small), alt: image.alt, title: image.title, class: 'slider-imaging'
-            - else
-              / div.offer-blog-image style="background-image: url('#{placeholder_image_url}');"
-              = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging", style: "width: 125px; height: 70px;"
-          div.offer-center
-          div.offer-footer
-            p.exp.pull-left
-              - if offer.valid_until?
-                ' Expires
-                = offer.valid_until.strftime('%B %e, %Y')
-              - else
-                ' No Expiration
-              / = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
-          / p.slider-p style="padding-top: 10px; margin-bottom: 0px; padding-bottom: 5px;" = truncate sanitize(offer.offer), length: 75, omission: '... '
-          / p.disclosure = truncate sanitize(offer.terms), length: 75, omission: '...'
-          / div.offer-footer
-          /   p.exp
-          /     - if offer.valid_until?
-          /       ' Offer Valid Until
-          /       strong = offer.valid_until.strftime('%B %e, %Y')
-        h3.slider-text style="margin-top:5px;" = truncate sanitize(offer.title), length: 75, omission: '...'
+    div.grid-item
+      div.ibox-blog
+        div.ibox-content.product-box
+          div.product-imitation
+            .offer-border
+              = link_to website_generic_post_path(offer.to_generic_param)
+                - if offer.try(:offer_image)
+                  - image = offer.offer_image
+                  - if image && !image.nil?
+                    = image_tag image.attachment_url(:small)
+                - else
+                  = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            = link_to website_generic_post_path(offer.to_generic_param), class: 'grid-feed-title'
+              = truncate sanitize(offer.title), length: 75, omission: '...'
+            small.m-t-xs = truncate sanitize(offer.offer), length: 90, omission: '... '
+            div.mt-text.rt
+              = link_to website_generic_post_path(offer.to_generic_param), class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
 - else
   .feed-item.feed-offer
     .feed-item-meta
@@ -54,8 +42,6 @@
             = image_tag image.attachment_medium_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
         - else
           = image_tag "impact_gs.jpg", alt: "image", title: "image", class: 'img-responsive thumbnail'
-        / - if image
-        /   = image_tag image.attachment_medium_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
         div style="margin:10px 0"
           = truncate sanitize(offer.offer), length: 250
         - if offer.valid_until?
@@ -80,8 +66,6 @@
                   = image_tag image.attachment_medium_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
               - else
                 = image_tag "impact_gs.jpg", alt: "image", title: "image", class: 'img-responsive thumbnail'
-              / - if image
-              /   = image_tag image.attachment_medium_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
             .col-sm-6
               div style="margin:10px 0"
                 = truncate sanitize(offer.offer), length: 250

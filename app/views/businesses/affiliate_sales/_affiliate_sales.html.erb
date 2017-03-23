@@ -36,7 +36,7 @@
                         <% end %>
                         <% if current_user.super_user? %>
                             <% if n.has_affiliate_payment? %>
-                                <td class="text-navy"> 
+                                <td class="text-navy">
                                     <%= n.affiliate_payment.paid %>
                                     <%= link_to edit_business_subscription_affiliate_payment_path(n.affiliate.business, n.affiliate.business.subscription, n.affiliate_payment), class: "btn btn-primary btn-xs" do %>
                                         edit

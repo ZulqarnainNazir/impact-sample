@@ -1,5 +1,27 @@
 - if @masonry.present? && @masonry == true
-  .col-xs-4.slider-content.single-blog
+  /.col-xs-4.slider-content.single-blog
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache post do
+          div.product-imitation
+            = link_to website_generic_post_path(post.to_generic_param) do
+              - placement = post.sections_placement
+              - if placement.try(:embeds?)
+                = placement.embed.html_safe
+              - elsif placement.try(:image)
+                = image_tag placement.image.attachment_url(:small)
+              - else
+                = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            = link_to website_generic_post_path(post.to_generic_param), class: 'grid-feed-title'
+              = truncate sanitize(post.title.titleize), length: 60, omission: '... '
+            small.m-t-xs = truncate sanitize(post.sections_content), length: 90, omission: '... '
+            div.mt-text.rt
+              = link_to website_generic_post_path(post.to_generic_param), class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
+  / .col-xs-4.slider-content.single-blog
     = link_to website_generic_post_path(post.to_generic_param) do
       - cache post do
         - placement = post.sections_placement

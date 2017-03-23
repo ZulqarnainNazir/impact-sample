@@ -1,45 +1,44 @@
 - event = event_definition.events.first
-/ .feed-item.feed-event
-/   .feed-item-meta
-/     => icon 'calendar'
-/     strong> Event
-/     span.pull-right
-/       span.text-muted> Posted #{time_ago_in_words event_definition.created_at} ago
-/       - if event_definition.content_categories.any? || event_definition.content_tags.any?
-/         span.text-muted> in
-/         - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
-/           = link_to classification.name, [:website, classification]
-/           - if i < event_definition.content_categories.count + event_definition.content_tags.count - 1
-/             ' ,
 - unless event.nil?
   - if @masonry.present? && @masonry == true
-    .col-xs-4.slider-content.single-blog
-      - cache event_definition do
-        = link_to website_generic_post_path(event.to_generic_param) do
-          - placement = event_definition.event_image_placement
-          - if placement.try(:embeds?)
-            .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-          - elsif placement.try(:image).try(:attachment_medium_url)
-            / h3.row-ba-text
-            /   = event.occurs_on.day
-            /   = event.occurs_on.strftime('%b')
-            / div.pickgradient
-            - if placement.image.present?
-              div.event-blog-image style="background-image: url('#{placement.image.attachment_medium_url}');"
-              / = image_tag placement.image.attachment_url(:small), alt: placement.image.alt, title: placement.image.title, class: 'slider-imaging'
-          - else
-            div.event-blog-image style="background-image: url('#{placeholder_image_url}');"
-            / = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
-          h3.slider-text = truncate sanitize(event_definition.title), length: 75, omission: '... '
-          p.slider-text.slider-text-sub
-            i.fa.fa-clock-o style="width:1.2em"
-            span = event.occurs_on.strftime('%b %d, %Y')
-            span style="padding-left:5px;" = event_definition.start_time.strftime('%I:%M %p')
-          p.slider-text.slider-text-sub
-            - if event_definition.try(:location)
-              i.fa.fa-map-marker style="width:1.2em"
-              = truncate sanitize(event_definition.location.street1), length: 40, omission: '...'
-          / p.slider-p = truncate sanitize(event.event_definition.description), length: 75, omission: '... '
+    div.grid-item
+      div.ibox-blog
+        div.ibox-content.product-box
+          - cache event_definition do
+            div.product-imitation 
+              = link_to website_generic_post_path(event.to_generic_param) do
+                - placement = event_definition.event_image_placement
+                - if placement.try(:embeds?)
+                  = placement.embed.html_safe
+                - elsif placement.try(:image)
+                  - if placement.image.present?
+                    = image_tag placement.image.attachment_url(:small)
+                - else
+                  = image_tag "impact_gs.jpg", alt: "image", title: "image"    
+            div.product-desc
+              div.event-time-banner.block
+                span.event-tags 
+                  i.fa.fa-calendar.m-r-xs
+                  = event.occurs_on.strftime('%b %d, %Y ')
+                  br
+                  i.fa.fa-clock-o.m-r-xs 
+                  = event_definition.start_time.strftime(' %I:%M %p')
+              = link_to website_generic_post_path(event.to_generic_param), class: 'grid-feed-title'
+                 = truncate sanitize(event_definition.title.titleize), length: 60, omission: '... '
+              - if event_definition.try(:location)
+                small.m-t-xs.block
+                  i.fa.fa-map-marker.m-r-xs
+                  = truncate sanitize(event_definition.location.street1.titleize)
+                  = truncate sanitize(event_definition.location.street2.titleize)  
+                small.m-t-xs.block.m-lt-8
+                  i.icon-block.m-r-xs   
+                  = truncate sanitize(event_definition.location.city.titleize) + " "               
+                  = truncate sanitize(event_definition.location.state.upcase) + ", "
+                  = truncate sanitize(event_definition.location.zip_code)
+              div.mt-text.rt
+                = link_to website_generic_post_path(event.to_generic_param), class: 'btn-feed-block'
+                  |Read More
+                  i.pad-lt-3.fa.fa-long-arrow-right
   - else
     - cache event_definition do
       .event-widget

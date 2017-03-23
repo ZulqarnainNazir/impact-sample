@@ -27,7 +27,7 @@ class Businesses::SuperSettingsController < Businesses::BaseController
         flash[:notice] = "Something went wrong and the referral was not saved. Please try again."
       end
     else
-      flash[:notice] = "Error: either the affiliate does not exist or this business 
+      flash[:notice] = "Error: either the affiliate does not exist or this business
       does not have a subscription. Please resolve these issues before trying again."
     end
     redirect_to edit_business_super_settings_path(@business)
@@ -39,8 +39,8 @@ class Businesses::SuperSettingsController < Businesses::BaseController
       if @affiliate.save
         @business.update_attribute :affiliate_activated, true
         flash[:notice] = "This business now is an affiliate and has affiliate privileges."
-      else 
-        flash[:notice] = "Something went wrong and the app is not able to 
+      else
+        flash[:notice] = "Something went wrong and the app is not able to
         create the affiliation at this time."
       end
     elsif @business.is_affiliate?
@@ -55,11 +55,11 @@ class Businesses::SuperSettingsController < Businesses::BaseController
       if @subscription.update_attributes(subscription_affiliate_id: nil)
         flash[:notice] = "This business no longer is linked to an affiliate."
       else
-        flash[:notice] = "Something went wrong and the app is not able to 
+        flash[:notice] = "Something went wrong and the app is not able to
         delete the affiliation at this time."
       end
     else
-      flash[:notice] = "This business either was not referred by an 
+      flash[:notice] = "This business either was not referred by an
       affiliate or does not have a subscription."
     end
     redirect_to edit_business_super_settings_path(@business)
@@ -67,7 +67,7 @@ class Businesses::SuperSettingsController < Businesses::BaseController
 
   def add_legacy_plan
     if params[:add_legacy] == "true"
-      
+
       if !@business.subscription.nil?
         @subscription = @business.subscription
         @subscription.plan = SubscriptionPlan.legacy_plan
@@ -84,7 +84,7 @@ class Businesses::SuperSettingsController < Businesses::BaseController
       end
 
     else
-      flash[:notice] = "Something went wrong the the app is not able to 
+      flash[:notice] = "Something went wrong the the app is not able to
       create the plan at this time."
     end
     redirect_to edit_business_super_settings_path(@business)
@@ -112,9 +112,9 @@ class Businesses::SuperSettingsController < Businesses::BaseController
 
   def business_params
     params.require(:business).permit(
-      :plan, 
-      :to_dos_enabled, 
-      :bill_online, 
+      :plan,
+      :to_dos_enabled,
+      :bill_online,
       :subscription_billing_roadblock,
       :affiliate_activated
       )

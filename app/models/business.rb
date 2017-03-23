@@ -207,7 +207,7 @@ class Business < ActiveRecord::Base
   def sitemap_url
     "https://s3.amazonaws.com/#{Rails.application.secrets.aws_s3_bucket}/sitemaps/#{self.id}/sitemap.xml.gz"
     # "http://s3-#{Rails.application.secrets.aws_s3_region}.amazonaws.com/#{Rails.application.secrets.aws_s3_bucket}/sitemaps/#{self.id}/sitemap.xml.gz"
-  end 
+  end
 
   def first_five_to_dos
     to_dos
@@ -230,7 +230,7 @@ class Business < ActiveRecord::Base
       if dup != false
         duplicates[i] = dup
       end
-    end 
+    end
     if !duplicates.blank?
       duplicates
     end

@@ -1,3 +1,17 @@
+/* This is the legacy file for left over CSS from the old blog CSS
+* After the Legacy classes will be the New Feed CSS listed on Manifest
+*/
+
+/* Manifest */
+/* Product Image Classes */
+/* Before After Side by Side */
+/* Gallery nested images */
+/* Gallery 2 Image Side by Side */
+/* Offer Border Settings */
+/* Event Time & Date For Blog-Items */
+/* Custom Margin */
+/* Custom margin for event location second line */
+
 .feed-item {
   margin: 0 0 2em;
   padding-top: 1em;
@@ -35,12 +49,12 @@
     padding: 0px 0px 4px 0px;
     background-color: #FBFBFB;
     border: 1px lightgray solid;
-    
+
   .embed-responsive {
     height:185px;
-      
+
   }
-    
+
   .embed-responsive-4by3 {
     padding-bottom: 0;
   }
@@ -325,4 +339,208 @@
 
 .content-no-photo {
   background-image: 'impact_gs.jpg';
+}
+
+/* Product Image Classes */
+
+.product-imitation {
+
+  height: 250px;
+  width: auto;
+
+  img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Before After Side by Side  */
+  .before {
+    img {
+      width: 50%;
+      float: left;
+      height: 250px;
+      border-right: 2px solid white;
+    }
+  }
+  .after {
+    img {
+      width: 50%;
+      height: 250px;
+    }
+  }
+
+  /* Gallery nested images */
+
+  .gallery-first {
+    width: 50%;
+    float: left;
+    height: 250px;
+    object-fit: cover;
+    border-right: 2px solid #fff;
+  }
+
+  .gallery-second {
+    width: 50%;
+    float: left;
+    height: 125px;
+    object-fit: cover;
+  }
+
+  .gallery-third {
+    width: 50%;
+    float: left;
+    height: 125px;
+    object-fit: cover;
+    border-top: 1px solid #fff;
+  }
+
+  /* Gallery 2 Image Side by Side */
+
+  .gallery-left-side {
+    width: 50%;
+    float: left;
+    height: 250px;
+    border-right: 2px solid white;
+    object-fit: cover;
+  }
+
+  .gallery-right-side {
+    float: left;
+    width: 50%;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .gallery-text {
+    position: relative;
+    width: 100%;
+    bottom: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 3px black;
+    background-color: rgba(168, 168, 168, 0.55);
+  }
+
+  .gallery-text:hover {
+    background-color: rgb(168, 168, 168);
+  }
+
+}
+
+.offer-border {
+  height: 100%;
+  border-width: 4px;
+  border-style: dashed;
+  border-color: #18a689 ;
+}
+
+/* Event Time & Date For Blog-Items */
+.event-time-banner {
+  font-size: 14px;
+  font-weight: 600;
+  color: $event-block-secondary;
+  background-color: $event-block-primary;
+  padding: 6px 12px;
+  position: absolute;
+  top: -52px;
+  right: 0;
+  text-align: right;
+}
+
+/* Duplicated from Pages.scss but not being used at the moment */
+.cart-product-imitation {
+  text-align: center;
+  padding-top: 30px;
+  height: 80px;
+  width: 80px;
+  background-color: lighten($gray, 2%);
+}
+
+.product-imitation.xl {
+  padding: 120px 0;
+}
+
+/* Ibox Container for text below image */
+// Grid Feed Title is the name for the title for the box title
+
+.grid-feed-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: $text-color;
+  display: block;
+  margin: 2px 0 5px 0;
+  text-align: left;
+}
+
+.grid-feed-title:hover,
+.grid-feed-title:focus {
+  color: #18a689;
+  text-decoration: none;
+
+}
+
+// Product Desc is container below ibox image
+.product-desc {
+
+  height: 180px;
+  position: relative;
+  text-align: left;
+  padding: 20px;
+
+  // Green button styling in the product-desc grid element
+  .btn-feed-block {
+    color: $feed-block-btn-primary;
+    font-weight: 400;
+    border-radius: $btn-border-radius;
+    background-color: transparent;
+    border-color: $feed-block-btn-primary;
+    border: $feed-btn-border;
+
+    margin: 15px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    // pulled from .btn-xs
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  // Green button styling in the product-desc grid element
+  // Removed transition, causing trouble with Chrome
+  .btn-feed-block:hover {
+    background-color: $feed-block-btn-primary;
+    border-color: $feed-block-btn-primary;
+    color: $feed-block-btn-secondary;
+
+  }
+
+
+
+  // Span for events nested
+  span.indent-5 {
+    text-indent: 5px;
+  }
+
+  .m-t-xs {
+    color: #333333;
+  }
+
+  .m-t-xs:hover {
+    color: #333333;
+    text-decoration: none;
+  }
+}
+/* Custom margin for event location second line */
+.m-lt-8 {
+  margin-left: 8px;
 }

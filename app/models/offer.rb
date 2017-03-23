@@ -35,7 +35,7 @@ class Offer < ActiveRecord::Base
   validates_presence_of :terms, if: :not_draft?
   validates_presence_of :offer, if: :not_draft?
   validates_presence_of :title
-  
+
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end

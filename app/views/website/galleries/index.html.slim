@@ -7,7 +7,8 @@
     li.active Galleries
   .page-header
     h1
-      Browse Galleries
-      span.small Click to view all images in a gallery
+      | Browse Galleries
+      span.small 
+        | &nbsp; Click to view all images in a gallery
   .row
     = render partial: 'gallery_preview', collection: @galleries, as: :gallery

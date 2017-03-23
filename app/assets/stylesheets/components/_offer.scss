@@ -5,3 +5,48 @@
     }
   }
 }
+
+/* Custom Font Sizes */
+// For Offer Show Page Terms and Conditions
+.small-xs {
+  font-size: 9px;
+}
+
+/* Print style for printing the Offer Show page. */
+@media print {
+  header nav {
+    display: none;
+  }
+  .col-sm-4, .webpage-footer, a, a:after, .text-muted, .remove-comma {
+    display: none;
+  }
+  .col-sm-8 {
+    width: 100%;
+  }
+
+  p {
+    font-size: 10px;
+  }
+
+  .col-sm-12 {
+    font-size: 10px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+  .well {
+    border: none;
+    margin: none;
+    margin: 0 15px;
+  }
+  @page {
+    margin: 0.5cm;
+  }
+}
+
+/* Offer Show Page border */
+.offer-border-gray {
+  border: 3px dashed #e7eaec;
+  margin-bottom: 25px;
+}

@@ -11,8 +11,8 @@ class CompanySchema
   column :location_state, 7
   column :location_zip_code, 8
   column :facebook_id, 9
-  column :twitter_id, 10 
-  column :instagram_id, 11 
+  column :twitter_id, 10
+  column :instagram_id, 11
   column :category_ids, 12 do |value|
     if !value.blank?
       value.split(",")

@@ -1,7 +1,7 @@
 class Businesses::Crm::ImportsController < Businesses::BaseController
   def index
   end
-  
+
   def review
     file_data = params[:import_file]
     if file_data.respond_to?(:read)
@@ -100,7 +100,7 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
       contact.attributes.merge!(contact_business)
       if !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "yes"
         Contact.find(params[:merge_id][i.to_s].to_i).update_attributes! contact.attributes.reject{|k,v| v.blank?}
-      elsif !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "skip" 
+      elsif !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "skip"
         next
       else
         Contact.create! contact.attributes
@@ -127,7 +127,7 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
           company.attributes.delete(key.to_sym)
         end
       end
-      if !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "yes" 
+      if !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "yes"
         if !params[:merge_class][i.to_s].blank? and params[:merge_class][i.to_s] == "business"
           company_db = Company.new(:user_business_id => @business.id, :company_business_id => params[:merge_id][i.to_s].to_i, :name => company.name,
                                    :company_location_attributes => {:name => company.name})
@@ -154,7 +154,7 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
           #No importing data into company if its a new business. All data should go to business
           #company_db.update_attributes! company.attributes
           company.attributes[:location_attributes] = location_attributes
-          company.attributes[:category_ids] = category_ids 
+          company.attributes[:category_ids] = category_ids
           company_db.business.update_attributes_only_if_blank company.attributes
         else
           company_db = Company.find(params[:merge_id][i.to_s].to_i)
@@ -170,7 +170,7 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
           end
           company_db.update_attributes! company.attributes
         end
-      elsif !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "skip" 
+      elsif !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "skip"
         next
       else
         company_db = Company.create_with_associations company.attributes, @business
@@ -199,12 +199,12 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def check_contact_validation contacts
     skip_indexes = []
-    skip_contacts = [] 
+    skip_contacts = []
     keep_contacts = []
     contacts.each_with_index do |contact, i|
       if (contact.first_name.blank? and contact.last_name.blank? and contact.email.blank?) or (!contact.state.blank? and contact.state.length > 2)
         skip_indexes << i
-        skip_contacts << contact 
+        skip_contacts << contact
       else
         keep_contacts << contact
       end
@@ -214,12 +214,12 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def check_company_validation companies
     skip_indexes = []
-    skip_companies = [] 
+    skip_companies = []
     keep_companies = []
     companies.each_with_index do |company, i|
       if company.name.blank? or (!company.location_state.blank? and company.location_state.length > 2)
         skip_indexes << i
-        skip_companies << company 
+        skip_companies << company
       else
         keep_companies << company
       end

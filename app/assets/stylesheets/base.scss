@@ -3,10 +3,16 @@
 @import 'bootstrap-datetimepicker';
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
+@import 'variables';
 @import 'utils/**/*';
 @import 'components/**/*';
 @import 'views/**/*';
-@import 'variables';
+
+// Modified CSS from Inspinia Theme
+@import 'base-front';
+// Shared un-modified Inspinia Theme Style Initializer
+@import 'shared-elements';
+
 
 input[type="checkbox"] {
   cursor: pointer;
