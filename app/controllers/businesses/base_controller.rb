@@ -4,6 +4,7 @@ class Businesses::BaseController < ApplicationController
 
   before_action do
     @business = current_user.authorized_businesses.find(params[:business_id])
+    @businesses_for_nav = current_user.authorized_businesses.limit(3)
   end
   before_action :confirm_subscription_present
   before_action :confirm_billing_information_present

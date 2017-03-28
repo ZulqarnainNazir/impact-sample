@@ -1,5 +1,65 @@
 - title 'Content'
 
-= render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Content'}
+= render :partial => 'dashbreadcrumb', :locals => { :an => ' Add Content'}
 
-p.bg-warning Coming Soon - Please use the navigation on the left to manage your business content.
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h5
+                | Post new content
+            .ibox-content
+              .row.dashboard-root-secondary-panels
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_quick_post] do
+                    .panel.panel-primary
+                      .panel-heading
+                        i.fa.fa-file-text-o.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> Quick Post
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2
+                  = link_to [:new, @business, :content_event_definition] do
+                    .panel.panel-success
+                      .panel-heading
+                        i.fa.fa-calendar.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> New Event
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_gallery] do
+                    .panel.panel-warning
+                      .panel-heading
+                        i.fa.fa-photo.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> New Gallery
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_before_after] do
+                    .panel.panel-danger
+                      .panel-heading
+                        i.fa.fa-tasks.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> Before &amp; Af…
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2
+                  = link_to [:new, @business, :content_offer] do
+                    .panel.panel-primary
+                      .panel-heading
+                        i.fa.fa-ticket.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> New Offer
+                        i.fa.fa-arrow-circle-right
+                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                  = link_to [:new, @business, :content_post] do
+                    .panel.panel-success
+                      .panel-heading
+                        i.fa.fa-edit.fa-4x
+                      .panel-footer.text-right
+                        span.pull-left> Custom Post
+                        i.fa.fa-arrow-circle-right
+hr
+p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post], class: 'requires-plan-upgrade'} if you don't see a match.

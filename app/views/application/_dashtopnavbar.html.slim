@@ -1,25 +1,25 @@
 .row.admin-dash
   nav.navbar.navbar-static-top[role="navigation" style="margin-bottom: 0"]
-    .navbar-header
+    .navbar-header[style="width: 100%; text-align: center;"]
       a.navbar-minimalize.minimalize-styl-2.btn.btn-primary[href="#"]
         i.fa.fa-bars
-      = link_to image_tag('impact-dark.png', alt: 'IMPACT Marketing Suite', class: 'img-responsive'), :root, class: 'navbar-brand hidden-xs', style: 'padding: 10px 15px;'
-      = link_to image_tag('impact-dark-s.png', alt: 'IMPACT', class: 'img-responsive'), :root, class: 'navbar-brand hidden-sm hidden-md hidden-lg', style: 'padding: 11px 15px;'
-    ul.nav.navbar-top-links.navbar-right
-      li.dropdown
-        a.dropdown-toggle.count-info[data-toggle="dropdown" href="#"]
-          i.fa.fa-tasks
-        ul.dropdown-menu.dropdown-messages
-          li = link_to 'http://impactsupport.locable.com/', target: :_blank do
-            i.fa.fa-life-ring>
-            | Support
-          - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-            li = link_to connect_locable_path, target: :_blank do
-              i.fa.fa-external-link>
-              | Go to Locable
-          li = link_to :destroy_user_session, method: :delete do
-            i.fa.fa-sign-out
-            |  Sign out 
+      = link_to image_tag('impact-dark.png', alt: 'IMPACT Marketing Suite', class: 'img-responsive '), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand hidden-xs', style: 'padding: 10px 15px;'
+      = link_to image_tag('impact-dark-s.png', alt: 'IMPACT', class: 'img-responsive'), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand hidden-sm hidden-md hidden-lg', style: 'padding: 11px 15px;'
+      ul.nav.navbar-top-links.navbar-right
+        li.dropdown
+          a.dropdown-toggle.count-info[data-toggle="dropdown" href="#"]
+            i.fa.fa-tasks
+          ul.dropdown-menu.dropdown-messages
+            li = link_to 'http://impactsupport.locable.com/', target: :_blank do
+              i.fa.fa-life-ring>
+              | Support
+            - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
+              li = link_to connect_locable_path, target: :_blank do
+                i.fa.fa-external-link>
+                | Go to Locable
+            li = link_to :destroy_user_session, method: :delete do
+              i.fa.fa-sign-out
+              |  Sign out
 
   .col-md-12
     .fluid-nav
@@ -57,5 +57,9 @@
         li.list-divider = link_to [@business, :crm_reviews] do
           i.fa.fa-star>
           span
-            | Customer Review
-
+            | Collect Customer Reviews
+        - if !@business.is_on_engage_plan? || current_user.super_user?
+          li = link_to [:new, @business, :content_post] do
+            i.fa.fa-edit>
+            span
+              | Custom Post

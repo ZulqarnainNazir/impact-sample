@@ -92,6 +92,10 @@ class EventDefinition < ActiveRecord::Base
     created_at
   end
 
+  def published_at
+    created_at
+  end
+
   def description_html
     Sanitize.fragment(description.to_s, Sanitize::Config::RELAXED).html_safe
   end

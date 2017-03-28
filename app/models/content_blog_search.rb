@@ -305,7 +305,7 @@ class ContentBlogSearch
       (
         (Elasticsearch::Model.search(dsl1, content_classes_without_post).records) + 
         (Elasticsearch::Model.search(dsl2, content_classes_just_post).records)
-      ).to_a.sort_by {|obj| obj.published_on}.reverse!
+      ).to_a.sort_by {|obj| obj.published_at}.reverse!
 
     elsif !@query.blank? && @content_types.count > 1 && !@content_types.include?('Post')
       #if the query string is not empty, and content types are specified, but those
@@ -319,7 +319,7 @@ class ContentBlogSearch
       (
         (Elasticsearch::Model.search(dsl1, [QuickPost]).records) + 
         (Elasticsearch::Model.search(dsl2, content_classes_just_post).records)
-      ).to_a.sort_by {|obj| obj.published_on}.reverse!
+      ).to_a.sort_by {|obj| obj.published_at}.reverse!
 
     else
 
