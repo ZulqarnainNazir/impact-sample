@@ -5,6 +5,9 @@
   - title @post.title
   - description @post.meta_description
   - image @post.main_image.try(:attachment_url, :jumbo) || @post.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_url, :jumbo)
+  - unless @post.image_size.nil?
+    - image_width = image_og_width(@post.image_size[0])
+    - image_height = image_og_height(@post.image_size[1])
   - canonize_obj({url: website_post_url, params: @post.to_generic_param})
 
 = webpage_container do

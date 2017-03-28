@@ -5,6 +5,9 @@
   - title @offer.title
   - description @offer.meta_description
   - image @offer.main_image.try(:attachment_url, :jumbo) || @offer.offer_image.try(:attachment_url, :jumbo)
+  - unless @offer.image_size.nil?
+    - image_width = image_og_width(@offer.image_size[0]) 
+    - image_height = image_og_height(@offer.image_size[1])
   - canonize_obj({url: website_offer_url, params: @offer.to_generic_param})
 
 = webpage_container do

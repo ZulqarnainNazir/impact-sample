@@ -277,6 +277,7 @@ ImagePlacement = React.createClass
 
   renderEmbed: ->
     `<div className="form-group">
+        <input type="hidden" name={this.name('kind')} value={this.state.placementKind} />
         <div>
          <span className="btn-group btn-group-sm">
            <span onClick={this.setKind.bind(null, 'images')} className="btn btn-default">

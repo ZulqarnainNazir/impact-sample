@@ -52,7 +52,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
 
   def update
     @quick_post.update(quick_post_params)
-    if params[:draft]
+    if params[:draft].present?
       @quick_post.published_status = false
     else
       @quick_post.published_status = true

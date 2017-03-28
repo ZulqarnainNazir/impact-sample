@@ -43,7 +43,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
   def update
     @before_after.update(before_after_params)
-    if params[:draft]
+    if params[:draft].present?
       @before_after.published_status = false
     else
        @before_after.published_status = true

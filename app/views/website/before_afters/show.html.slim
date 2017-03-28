@@ -2,6 +2,9 @@
   - title @before_after.title
   - description @before_after.meta_description
   - image @before_after.main_image.try(:attachment_url, :jumbo) || @before_after.before_image.try(:attachment_url, :jumbo) || @before_after.after_image.try(:attachment_url, :jumbo)
+  - unless @before_after.after_image.nil? || @before_after.image_size.nil?
+    - image_width = image_og_width(@before_after.image_size[0]) 
+    - image_height = image_og_height(@before_after.image_size[1])
   - canonical_url website_generic_post_url(@before_after.to_generic_param)
 - else
   - title "This post is not yet published"

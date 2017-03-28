@@ -5,6 +5,9 @@
   - title @gallery.title
   - description @gallery.meta_description
   - image @gallery.main_image.try(:attachment_url, :jumbo) || @gallery.gallery_images.first.try(:gallery_image).try(:attachment_url, :jumbo)
+  - unless @gallery.image_size.nil?
+    - image_width = image_og_width(@gallery.image_size[0])
+    - image_height = image_og_height(@gallery.image_size[1])
   - canonize_obj({url: website_gallery_url, params: @gallery.to_generic_param})
 
 = webpage_container do

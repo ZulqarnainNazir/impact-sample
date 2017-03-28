@@ -36,6 +36,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
       @event_definition.update_column :facebook_id, result['id']
     end
+
     if params[:draft].present?
       @event_definition.published_status = false
     else

@@ -11,6 +11,14 @@ module ContentHelper
         content_for :image, "http:#{url}"
     end
 
+    def image_og_width(width)
+        content_for :image_width, width.to_s
+    end
+
+    def image_og_height(height)
+        content_for :image_height, height.to_s
+    end
+
     def errors_for(resource, message: nil)
         if resource && resource.errors.full_messages.any?
             render partial: 'errors', locals: { message: message, error_messages: resource.errors.full_messages.uniq }

@@ -30,7 +30,7 @@ class Post < ActiveRecord::Base
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 } do
       mapping do
-        
+
         indexes :business_id, type: "long"
         indexes :content_category_ids, type: "long"
         indexes :content_tag_ids, type: "long"
@@ -84,7 +84,7 @@ class Post < ActiveRecord::Base
       include: { post_sections: {only: [:content, :heading, :ancestry, :created_at, :id, :kind, :position, :post_id, :updated_at]} }
     )
   end
-  
+
   def arranged_sections
     sections = false
     p = post_sections.each do |f|
@@ -138,6 +138,18 @@ class Post < ActiveRecord::Base
 
   def sections_placement
     find_sections_placement post_sections.arrange(order: :position)
+  end
+
+  def share_image_url
+    self.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_full_url, :jumbo)
+  end
+
+  def image_size
+    FastImage.size(self.share_image_url)
+  end
+
+  def has_section_image?
+    self.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_url, :jumbo).nil?
   end
 
   def sorting_date

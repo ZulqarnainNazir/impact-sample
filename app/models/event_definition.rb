@@ -31,6 +31,7 @@ class EventDefinition < ActiveRecord::Base
   validates_presence_of :start_date, if: :not_draft?
   validates_presence_of :start_time, if: :not_draft?
   validates_presence_of :end_date, if: :repetition? and :not_draft?
+  validate :end_date_cannot_before_start_date
 
   before_validation do
     unless self.virtual_event?
@@ -40,6 +41,11 @@ class EventDefinition < ActiveRecord::Base
 
   after_save do
     LocableEventsExportJob.perform_later(business)
+  end
+
+  def end_date_cannot_before_start_date
+    errors.add(:end_date, "can't be before start date") if
+      !end_date.blank? and (end_date.to_time.to_i + end_time.to_i) < (start_date.to_time.to_i + start_time.to_i)
   end
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
@@ -93,6 +99,21 @@ class EventDefinition < ActiveRecord::Base
   end
 
   def published_at
+    #published_at is used in content_feed_search.rb and content_blog_search.rb to
+    #as the method an each loop leverages to sort content types before displaying them.
+    #published_at also exists in other content type models, because
+    # there exists the attribute "published_on" in those models.
+    #published_on does not exist in Event or EventDefinition.
+    #published_on was added to content type models (excluding Event/EventDefinitions) 
+    # after many content type records had been already been created
+    #(e.g., in QuickPost, Post, BeforeAfter, etc.). This wasn't done just right,
+    #resulting in a situation where sometimes published_on was nil for old
+    #content types. #published_at was a method added to content types that would
+    #pull published_on for sorting purposes in content_feed_search and content_
+    #blog_search.rb; if published_on was nil, it will pull created_at.
+    #in order to sort the payload from ES consistently, published_at
+    #is added here, too, so we can sort all content types by the same method.
+    #see content_feed_search.rb and content_blog_search.rb.
     created_at
   end
 

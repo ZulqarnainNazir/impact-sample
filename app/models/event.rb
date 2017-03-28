@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
   def description
     event_definition.description
   end
- 
+
   def as_indexed_json(options = {})
     as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
@@ -44,8 +44,19 @@ class Event < ActiveRecord::Base
     event_definition.event_image.try(:attachment_full_url, :original)
   end
 
+  # This is not a duplicate of share_image_url
+  # This method works with spaces in image names for og:images
+  # share_image_url strips the url special chars when this leaves them.
+  def og_image_url
+    event_definition.event_image.try(:attachment_full_url, :jumbo)
+  end
+
+  def image_size
+    FastImage.size(self.og_image_url)
+  end
+
   def share_callback_url
-    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}") 
+    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
   end
 
   def to_generic_param

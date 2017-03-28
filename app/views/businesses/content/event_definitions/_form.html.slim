@@ -72,18 +72,18 @@
           .form-group.col-xs-6
             = form.label :start_time, class: 'control-label'
             div class="input-group clockpicker" data-align="top" data-autoclose="true"
-              = form.text_field :start_time, :value => (form.object.start_time.present? ? form.object.start_time.in_time_zone("Pacific Time (US & Canada)").strftime("%I:%M") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%I:%M")), class: 'form-control'
+              = form.text_field :start_time, :value => (form.object.start_time.present? ? form.object.start_time.try(:strftime, '%I:%M%p') : Time.now.in_time_zone("Pacific Time (US & Canada)").strftime("%I:%M%p")), class: 'form-control'
               span class="input-group-addon"
                 span class="glyphicon glyphicon-time"
           .form-group.col-xs-6
             = form.label :end_date, class: 'control-label'
             .input-group
-              = form.text_field :end_date, value: form.object.end_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: {provide: 'datepicker'}
+              = form.text_field :end_date, value: form.object.end_date&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%b %d %Y"), class: 'form-control', data: {provide: 'datepicker'}
               span.input-group-addon: i.fa.fa-calendar
           .form-group.col-xs-6
-            = form.label :end_time, value: form.object.end_time.try(:strftime, '%I:%M'), class: 'control-label'
+            = form.label :end_time, class: 'control-label'
             div class="input-group clockpicker" data-align="top" data-autoclose="true"
-              = form.text_field :end_time, class: 'form-control'
+              = form.text_field :end_time, value: form.object.end_time.try(:strftime, '%I:%M%p'), class: 'form-control'
               span class="input-group-addon"
                 span class="glyphicon glyphicon-time"
           hr
@@ -93,9 +93,7 @@
           - content_for :javascript do
             javascript:
               $('#event_definition_repetition option[value*="validation"]').prop('selected', true);
-              $('.clockpicker').clockpicker({
-                twelvehour: true
-              });
+              $('.clockpicker').clockpicker({ twelvehour: true });
           hr
           .form-group
             = form.label :private, class: 'control-label' do
