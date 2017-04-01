@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
   has_many :to_do_comments, as: :commenter
 
-  devise *%i[confirmable database_authenticatable lockable registerable recoverable rememberable trackable validatable]
+  devise *%i[confirmable database_authenticatable lockable registerable recoverable rememberable trackable validatable masqueradable]
 
   validates :first_name, presence: true
   validates :last_name, presence: true

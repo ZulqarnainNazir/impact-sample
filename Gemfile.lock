@@ -110,6 +110,9 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    devise_masquerade (0.4.0)
+      devise (>= 2.1.0)
+      railties (>= 3.0)
     dotenv (2.0.1)
     dotenv-rails (2.0.1)
       dotenv (= 2.0.1)
@@ -422,6 +425,7 @@ DEPENDENCIES
   country_select (~> 1.1.1)
   dalli
   devise
+  devise_masquerade
   dotenv-rails
   elasticsearch-model
   elasticsearch-rails

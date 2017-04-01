@@ -1,5 +1,6 @@
 class BusinessesController < ApplicationController
   before_action :authenticate_user!
+  before_action :masquerade_user!
   layout 'businesses'
 
   def index

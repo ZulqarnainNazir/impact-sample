@@ -85,11 +85,16 @@ class Image < ActiveRecord::Base
           else
             attachment_cache_url
           end
-    URI.unescape(
-      URI.parse(
-        URI.escape(url).gsub("[","%5B").gsub("]","%5D")
-      ).path[1..-1]
-    )
+    begin
+      URI.unescape(
+        URI.parse(
+          URI.escape(url).gsub("[","%5B").gsub("]","%5D")
+        ).path[1..-1]
+      )
+    rescue => ex
+      raise "Error #{ex.message} url=#{url}"
+    end
+
   end
 
   def attachment_thumbnail_url

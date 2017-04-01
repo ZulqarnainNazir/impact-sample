@@ -20,4 +20,6 @@
                 | Go to Locable
             li = link_to :destroy_user_session, method: :delete do
               i.fa.fa-sign-out
-              |  Sign out 
+              |  Sign out
+            - if user_masquerade?
+              li = link_to "Reverse masquerade", back_masquerade_path(current_user)

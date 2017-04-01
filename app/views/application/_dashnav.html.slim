@@ -42,6 +42,25 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           i.fa.fa-tachometer
           span.nav-label[data-i18n="nav.dashboard"]
             | Dashboard
+      li title="Marketing Assistant" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders)/))
+        = link_to "#"
+          i.fa.fa-check-square-o
+          span.nav-label[data-i18n="nav.contacts"]
+            | Marketing Assistant
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/activity_calendar|missions|reminders/))
+          / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant_index/))
+          /   = link_to "Virtual Marketing Assistant", [@business, :marketing_assistant_index]
+          li class=('active' if controller_path.match(/activity_calendar/))
+            = link_to "Activity Calendar", [:timeline, @business, :activity_calendar, :index]
+          li class=('active' if controller_path.match(/\Abusinesses\/reminders/))
+            = link_to "Active Reminders", [@business, :reminders]
+          li class=('active' if action_name == 'index' && controller_path.match(/\Abusinesses\/missions/))
+            = link_to "Standard Missions", [@business, :missions]
+          li class=('active' if action_name == 'custom' && controller_path.match(/\Abusinesses\/missions/))
+            = link_to "Custom Missions", [:custom, @business, :missions]
+          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
+          /   = link_to "Website Onboarding", [@business, :crm_feedbacks]
       li title="Content & Distribution" class=('active' if controller_path.match(/\Abusinesses\/content/))
         = link_to "#"
           i.fa.fa-bold
@@ -59,6 +78,25 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Promote Reviews", [@business, :tools_review_widgets]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
             = link_to "Import Events", [@business, :content_event_imports]
+      li title="Contacts & Relationships" class=('active' if controller_path.match(/\Abusinesses\/crm/))
+        = link_to "#"
+          i.fa.fa-address-card
+          span.nav-label[data-i18n="nav.contacts"]
+            | Main Street CRM&trade;
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
+            = link_to "People", [@business, :crm_contacts]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
+            = link_to "Companies", [@business, :crm_companies]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_messages/))
+            = link_to "Submitted Forms", [@business, :crm_contact_messages]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
+            = link_to "Customer Reviews", [@business, :crm_reviews]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
+            = link_to "Customer Feedback", [@business, :crm_feedbacks]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
+            = link_to "CSV Import", [@business, :crm_imports]
       li title="Manage Website" class=('active' if controller_path.match(/\Abusinesses\/website/))
         = link_to "#"
           i.fa.fa-desktop
@@ -80,44 +118,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Sidebars", [:edit, @business, :website_sidebars]
           li class=('active' if controller_path.match(/\Abusinesses\/website\/redirects/))
             = link_to "Redirects", [@business, :website_redirects]
-      li title="Contacts & Relationships" class=('active' if controller_path.match(/\Abusinesses\/crm/))
-        = link_to "#"
-          i.fa.fa-address-card
-          span.nav-label[data-i18n="nav.contacts"]
-            | Main Street CRM&trade;
-          span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
-            = link_to "People", [@business, :crm_contacts]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
-            = link_to "Companies", [@business, :crm_companies]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_messages/))
-            = link_to "Submitted Forms", [@business, :crm_contact_messages]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
-            = link_to "Customer Reviews", [@business, :crm_reviews]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
-            = link_to "Customer Feedback", [@business, :crm_feedbacks]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
-            = link_to "CSV Import", [@business, :crm_imports]
-      li title="Marketing Assistant" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders)/))
-        = link_to "#"
-          i.fa.fa-check-square-o
-          span.nav-label[data-i18n="nav.contacts"]
-            | Marketing Assistant
-          span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/activity_calendar|missions|reminders/))
-          / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant_index/))
-          /   = link_to "Virtual Marketing Assistant", [@business, :marketing_assistant_index]
-          li class=('active' if controller_path.match(/activity_calendar/))
-            = link_to "Activity Calendar", [:timeline, @business, :activity_calendar, :index]
-          li class=('active' if controller_path.match(/\Abusinesses\/reminders/))
-            = link_to "Active Reminders", [@business, :reminders]
-          li class=('active' if action_name == 'index' && controller_path.match(/\Abusinesses\/missions/))
-            = link_to "Standard Missions", [@business, :missions]
-          li class=('active' if action_name == 'custom' && controller_path.match(/\Abusinesses\/missions/))
-            = link_to "Custom Missions", [:custom, @business, :missions]
-          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
-          /   = link_to "Website Onboarding", [@business, :crm_feedbacks]
       li title="Business Data" class=('active' if controller_path.match(/\Abusinesses\/data/))
         = link_to "#"
           i.fa.fa-map-marker

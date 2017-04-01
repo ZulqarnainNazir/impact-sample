@@ -9,6 +9,7 @@ div id="super_users_partial"
 			  th Remember Created At
 			  th Sign-in Count
 			  th Current Sign-in At
+              th Masquerade
 		tbody
 			- @users.each do |sub|
 			    tr
@@ -34,6 +35,7 @@ div id="super_users_partial"
 
 				   td = !sub.current_sign_in_at.nil? ? sub.current_sign_in_at.to_date.to_formatted_s(:long_ordinal) : '-'
 
+                   td = link_to "Login", masquerade_path(sub)
 
 				   / td = link_to edit_super_subscription_plan_path(sub) do
 					  /  = sub.name
