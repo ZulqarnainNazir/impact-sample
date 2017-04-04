@@ -2,10 +2,12 @@ class Users::SessionsController < Devise::SessionsController
   before_action :set_affiliate_cookie, :only => [:new]
   layout 'landing'
 
+  respond_to :json
+
   def new
     super
   end
-  
+
   def create
     user = User.where(email: user_params[:email]).first
 

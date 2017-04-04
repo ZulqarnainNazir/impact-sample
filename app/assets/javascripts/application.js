@@ -9,6 +9,8 @@
 //= require jstz
 //= require browser_timezone_rails/set_time_zone
 //= require react
+//= require ./vendor/react-router-v3.0.2
+//= require ./vendor/store-v1.3.20
 //= require react_ujs
 //= require components
 //= require bootstrap-sprockets

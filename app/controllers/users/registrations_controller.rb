@@ -6,6 +6,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  respond_to :json
+
   def new
   	super
   end

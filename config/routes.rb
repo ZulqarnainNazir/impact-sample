@@ -80,6 +80,8 @@ Rails.application.routes.draw do
     end
 
     namespace :onboard do
+      resources :users, only: %i[new create]
+      resources :businesses, only: %i[create update], format: :json
       namespace :website do
         resources :businesses, only: %i[new create edit update destroy] do
           post :import_cce, on: :collection
@@ -173,7 +175,7 @@ Rails.application.routes.draw do
             get :clone, on: :member
           end
         end
-        
+
 
         namespace :data do
           root to: 'roots#show'

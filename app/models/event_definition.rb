@@ -111,7 +111,7 @@ class EventDefinition < ActiveRecord::Base
     #published_at also exists in other content type models, because
     # there exists the attribute "published_on" in those models.
     #published_on does not exist in Event or EventDefinition.
-    #published_on was added to content type models (excluding Event/EventDefinitions) 
+    #published_on was added to content type models (excluding Event/EventDefinitions)
     # after many content type records had been already been created
     #(e.g., in QuickPost, Post, BeforeAfter, etc.). This wasn't done just right,
     #resulting in a situation where sometimes published_on was nil for old

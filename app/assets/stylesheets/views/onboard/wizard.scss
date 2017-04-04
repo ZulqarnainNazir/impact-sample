@@ -1,0 +1,151 @@
+.onboarding-wizard {
+  // input {
+  //   border: none;
+  //   border-bottom: 1px solid #e5e6e7;
+  // }
+  h1 {
+    margin-bottom: 30px;
+  }
+  .group {
+    position: relative;
+    margin-top: 35px;
+    input 				{
+      font-size:18px;
+      padding:10px 10px 10px 5px;
+      display:block;
+      // width:300px;
+      border:none;
+      border-bottom:1px solid #e5e6e7;
+    }
+    label 				 {
+      color:#999;
+      font-size:18px;
+      font-weight:normal;
+      position:absolute;
+      pointer-events:none;
+      left:5px;
+      top:10px;
+      transition:0.2s ease all;
+      -moz-transition:0.2s ease all;
+      -webkit-transition:0.2s ease all;
+    }
+
+    /* active state */
+    input:focus ~ label, input:valid ~ label, select ~ label 		{
+      top: -20px;
+      font-size: 14px;
+      color: #1ab394;
+    }
+    .bar 	{ position:relative; display:block; width:100%; }
+    .bar:before, .bar:after 	{
+      content:'';
+      height:2px;
+      width:0;
+      bottom:1px;
+      position:absolute;
+      background:#1ab394;
+      transition:0.2s ease all;
+      -moz-transition:0.2s ease all;
+      -webkit-transition:0.2s ease all;
+    }
+    .bar:before {
+      left:50%;
+    }
+    .bar:after {
+      right:50%;
+    }
+
+    /* active state */
+    input:focus ~ .bar:before, input:focus ~ .bar:after {
+      width:50%;
+    }
+    /* HIGHLIGHTER ================================== */
+    .highlight {
+      position:absolute;
+      height:60%;
+      width:100px;
+      top:25%;
+      left:0;
+      pointer-events:none;
+      opacity:0.5;
+    }
+
+    /* active state */
+    input:focus ~ .highlight {
+      -webkit-animation:inputHighlighter 0.3s ease;
+      -moz-animation:inputHighlighter 0.3s ease;
+      animation:inputHighlighter 0.3s ease;
+    }
+
+    /* ANIMATIONS ================ */
+    @-webkit-keyframes inputHighlighter {
+    	from { background:#1ab394; }
+      to 	{ width:0; background:transparent; }
+    }
+    @-moz-keyframes inputHighlighter {
+    	from { background:#1ab394; }
+      to 	{ width:0; background:transparent; }
+    }
+    @keyframes inputHighlighter {
+    	from { background:#1ab394; }
+      to 	{ width:0; background:transparent; }
+    }
+  }
+
+  .steps {
+    @media (max-width: 768px) {
+      .btn { display: none; }
+      .btn.current-step { display: inline-block; }
+    }
+    .btn {
+      pointer-events: none;
+      text-align: left;
+      background-color: #eee;
+      border-color: #eee;
+      color: #aaa;
+    }
+    .btn.completed {
+      pointer-events: auto;
+      text-align: left;
+      background-color: #6fd1bd;
+      border-color: #6fd1bd;
+      color: #ffffff;
+    }
+    .btn.current-step {
+      // pointer-events: none;
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: #FFFFFF;
+    }
+    .btn.current-step ~ .btn {
+      background-color: #eee;
+      border-color: #eee;
+      color: #aaa;
+    }
+  }
+  .content {
+    // background-color: #eee;
+    margin: 10px 0px;
+    border-radius: 4px;
+    button[disabled] ~ label::after {
+      content: 'Account already exists';
+      padding: 5px;
+      border-radius: 2px;
+    }
+    .business-card[disabled] {
+      cursor: default;
+      color: #aaa;
+      background-color: #f5f5f5
+    }
+    .business-card[disabled] ~ .contact-box-footer {
+      cursor: default;
+      color: #aaa;
+      background-color: #f5f5f5
+    }
+  }
+
+  .col-center {
+    float: none;
+    margin: auto;
+  }
+}
