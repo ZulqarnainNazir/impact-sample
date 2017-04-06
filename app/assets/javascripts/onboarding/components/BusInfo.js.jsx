@@ -67,7 +67,7 @@ class BusInfo extends React.Component {
   render() {
     return (
       <div className="row">
-        <h1 className="col-xs-12"> Please confirm the details below </h1>
+        <h1 className="col-xs-12"> Confirm the details below </h1>
         <form className="col-md-8 p-t-30px" onSubmit={this.completeStep}>
           <div className="group">
             <input className="form-control" type="text" ref={(input) => this.businessName = input} defaultValue={store.get('business').name} required />
