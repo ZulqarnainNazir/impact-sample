@@ -15,10 +15,9 @@
 const { Router, Route, IndexRoute, hashHistory } = ReactRouter;
 
 const OnboardingWizard = (props) => {
-  if (window.location.search === "?reset=true") {
+  if (window.location.hash === "#reset") {
     store.clear();
-    location.href = "new/"
-    // console.log(location.search);
+    hashHistory.push("/");
   }
   store.set('categories', props.categories);
   if (props.current_user) {
