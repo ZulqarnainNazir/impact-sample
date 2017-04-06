@@ -32,10 +32,12 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     end
     respond_to do |format|
       if @quick_post.save
+        @quick_post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to new_business_content_quick_post_share_path(@business, @quick_post) } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "new" }
       end
     end
@@ -51,24 +53,24 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def update
-    @quick_post.update(quick_post_params)
     if params[:draft].present?
       @quick_post.published_status = false
     else
       @quick_post.published_status = true
     end
     respond_to do |format|
-      if @quick_post.save
+      if @quick_post.update(quick_post_params)
+        @quick_post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft updated." } if params[:draft].present?
+        format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
       end
     end
-
-    @quick_post.__elasticsearch__.index_document
-    QuickPost.__elasticsearch__.refresh_index!
+    #@quick_post.__elasticsearch__.index_document
+    #QuickPost.__elasticsearch__.refresh_index!
   end
 
   def destroy

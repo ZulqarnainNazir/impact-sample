@@ -39,6 +39,8 @@ var ready = function() {
   $('.openings-associations').openingsAssociations();
   $('.pages-associations').pagesAssociations();
   $('.post-sections-associations').postSectionsAssociations();
+  $('.company-list-categories-associations').CompanyListCategoriesAssociations();
+  //$('.save-once').saveOnce();
   $('.selectpicker').selectpicker();
   $('.webhosts-associations').webhostsAssociations();
   $('.webpage-designer').webpageDesigner();

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324184506) do
+ActiveRecord::Schema.define(version: 20170403065901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -242,6 +242,39 @@ ActiveRecord::Schema.define(version: 20170324184506) do
     t.string   "houzz_id"
   end
 
+  create_table "company_list_categories", force: :cascade do |t|
+    t.integer  "company_list_id"
+    t.string   "label"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "position"
+  end
+
+  create_table "company_list_companies", force: :cascade do |t|
+    t.integer  "company_list_id"
+    t.integer  "company_list_category_id"
+    t.integer  "company_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "company_lists", force: :cascade do |t|
+    t.string  "name"
+    t.integer "sort_by"
+    t.integer "business_id"
+  end
+
+  add_index "company_lists", ["business_id"], name: "index_company_lists_on_business_id", using: :btree
+
+  create_table "company_lists_s", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "sort_by"
+    t.integer  "business_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "uuid"
+  end
+
   create_table "company_locations", force: :cascade do |t|
     t.integer  "company_id",                                                     null: false
     t.string   "name",                                                           null: false
@@ -370,6 +403,30 @@ ActiveRecord::Schema.define(version: 20170324184506) do
 
   add_index "crm_notes", ["company_id"], name: "index_crm_notes_on_company_id", using: :btree
   add_index "crm_notes", ["contact_id"], name: "index_crm_notes_on_contact_id", using: :btree
+
+  create_table "directory_widgets", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "business_id"
+    t.integer  "company_list_id"
+    t.string   "background_color"
+    t.string   "uuid"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.boolean  "enable_search"
+  end
+
+  add_index "directory_widgets", ["business_id"], name: "index_directory_widgets_on_business_id", using: :btree
+  add_index "directory_widgets", ["company_list_id"], name: "index_directory_widgets_on_company_list_id", using: :btree
+
+  create_table "customer_notes", force: :cascade do |t|
+    t.integer  "contact_id", null: false
+    t.text     "content",    null: false
+    t.text     "user_name",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "customer_notes", ["contact_id"], name: "index_customer_notes_on_contact_id", using: :btree
 
   create_table "event_definition_locations", force: :cascade do |t|
     t.integer  "event_definition_id", null: false
@@ -940,10 +997,10 @@ ActiveRecord::Schema.define(version: 20170324184506) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
-    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
+    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree

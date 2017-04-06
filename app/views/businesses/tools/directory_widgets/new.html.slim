@@ -1,0 +1,36 @@
+- title 'Add Directory Widget'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Directory Widget', :sp => :tools_directory_widgets, :an => 'Add Directory Widget'}
+
+wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @directory_widget, url: [@business, :tools_directory_widgets] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Create a Directory Widget
+        .ibox-content
+          = errors_for @directory_widget
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            label Enable In Widget Search
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
+          .form-group
+            = form.label :company_list_id, "Company List", class: 'control-label'
+            = form.select :company_list_id, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @directory_widget.company_list_id), {:include_blank => true}, {:class => 'form-control'}
+          = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
+            => icon 'plus-circle'
+            | Add New Company List
+
+        .ibox-content
+          = form.button 'Add Widget', class: 'btn btn-primary'
+
+

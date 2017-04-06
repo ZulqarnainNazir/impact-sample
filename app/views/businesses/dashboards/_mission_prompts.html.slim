@@ -24,3 +24,6 @@
                       span.label.label-default.m-r-1.small Recommendation
                       = mission.title
                       span.badge.badge-warning.pull-right = mission.time_to_complete
+                = link_to timeline_business_activity_calendar_index_path(@business), class: 'block text-white' do
+                    li.list-group-item
+                      .text-center Upcoming Missions

@@ -21,15 +21,17 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
     respond_to do |format|
       if @before_after.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to new_business_content_before_after_share_path(@business, @before_after), notice: "Post created successfully" } if !params[:draft].present?
+        @before_after.__elasticsearch__.index_document
+        flash[:notice] = 'Before/After post was successfully created.'
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Before/After post created successfully" } if params[:draft].present?
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Post created successfully" } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "new" }
       end
     end
 
-    BeforeAfter.__elasticsearch__.refresh_index!
+    #BeforeAfter.__elasticsearch__.refresh_index!
     intercom_event 'created-before-after'
   end
 
@@ -42,23 +44,24 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
 
   def update
-    @before_after.update(before_after_params)
-    if params[:draft].present?
+    if params[:draft]
       @before_after.published_status = false
     else
        @before_after.published_status = true
     end
     respond_to do |format|
-      if @before_after.save
+      if @before_after.update(before_after_params)
+        @before_after.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Draft updated." } if params[:draft].present?
+        format.html { redirect_to edit_business_content_before_after_path(@business, @before_after) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
       end
     end
-    @before_after.__elasticsearch__.index_document
-    BeforeAfter.__elasticsearch__.refresh_index!
+    #@before_after.__elasticsearch__.index_document
+    #eforeAfter.__elasticsearch__.refresh_index!
   end
 
   def destroy

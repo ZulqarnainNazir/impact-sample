@@ -48,19 +48,20 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     end
     respond_to do |format|
       if @post.save
+        @post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Post created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft post created successfully" } if params[:draft].present?
+        format.html { redirect_to edit_business_content_post_path(@business, @post) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "new" }
       end
     end
-    Post.__elasticsearch__.refresh_index!
+    #Post.__elasticsearch__.refresh_index!
     intercom_event 'created-custom-post'
   end
 
   def update
-    @post.update(post_params)
     fix_post_section_parent_ids(@post.post_sections)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish] && @post.published_on < DateTime.now
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
@@ -79,16 +80,17 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
 
     respond_to do |format|
-      if @post.save
+      if @post.update(post_params)
+        @post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft updated." } if params[:draft].present?
+        format.html { redirect_to edit_business_content_post_path(@business, @post) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
       end
     end
-    @post.__elasticsearch__.index_document
-    Post.__elasticsearch__.refresh_index!
+    #Post.__elasticsearch__.refresh_index!
   end
 
   def edit

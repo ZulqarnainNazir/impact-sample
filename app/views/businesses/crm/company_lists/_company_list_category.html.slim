@@ -1,0 +1,26 @@
+- appended = company_list_category.new_record? && company_list_category.errors.empty? && company_list_category.label.blank?
+li.company-list-category-fields class=[appended ? 'is-appended' : '']
+  .company-list-category-tolerance
+    i.fa.fa-reorder.company-list-category-handle
+    = list_form.fields_for :company_list_categories, company_list_category, child_index: appended ? 98765432101 : nil do |category_form|
+      .company-list-category-hidden-fields
+        = category_form.hidden_field :position
+      .form-group.category-label
+        = category_form.label :label, "Label/Category", class: 'control-label'
+        - if disabled == true
+          = category_form.text_field :label, :class => 'form-control', :disabled => true
+        - else 
+          = category_form.text_field :label, :class => 'form-control'
+      .form-group
+        = category_form.label :company_ids, "Companies", class: 'control-label'
+        - if disabled == true
+          = category_form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', company_list_category.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids', :disabled => true}
+        - else 
+          = category_form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', company_list_category.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids'}
+        = link_to [:new, @business, :crm_company], :target => "_blank"  do
+          => icon 'plus-circle'
+          | Add New Company
+        = category_form.label :_destroy, class: 'btn' do
+          => category_form.check_box :_destroy
+          ' Remove
+          i.fa.fa-trash-o

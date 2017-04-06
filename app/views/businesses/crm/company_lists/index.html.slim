@@ -1,0 +1,42 @@
+- title 'Company Lists'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => 'Company Lists'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .pull-right
+            = form_tag [@business, :crm_company_lists], method: :get, style: 'float:left; margin-right:0.5em' do
+              .form-group
+                = label_tag :query, 'Query', class: 'sr-only'
+                .input-group
+                  = text_field_tag :query, params[:query], class: 'form-control'
+                  span.input-group-btn
+                    = button_tag icon('search'), class: 'btn btn-default'
+            = link_to [:new, @business, :crm_company_list], class: 'btn btn-sm btn-default' do
+              => icon 'plus-circle'
+              | Add a Company List
+          
+          - if @company_lists.empty?
+            .p-a-3.text-center
+              h2 No Company Lists Found
+              h4
+                = link_to 'Create a New Company List', [:new, @business, :crm_company_list], class: 'text-navy'
+          - else
+            p style="margin:2em 0" = page_entries_info @company_lists
+            table.footable.table.table-stripped
+              thead
+                tr
+                  th
+                    | Name
+              tbody
+                = render @company_lists
+          = paginate @company_lists
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $('.footable').footable();
+    });

@@ -1,0 +1,66 @@
+- title 'Edit Company List'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Company Lists', :sp => :crm_company_lists, :an => 'Edit Company List'}
+
+wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @company_list, url: [@business, :crm, @company_list] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Create a Company List
+        .ibox-content
+          = errors_for @company_list
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.radio_button :sort_by, 0, class: 'sort_by', checked: 'checked'
+            = form.label :sort_by, "Show Alphabetically", class: 'control-label'
+          div.sort-by-divider -- or --
+          .form-group
+            = form.radio_button :sort_by, 1, class: 'sort_by'
+            = form.label :sort_by, "Organize by Category (Label)", class: 'control-label'
+          - if @company_list.sort_by == 0 
+            .form-group.just-companies.visible
+              = form.label :company_ids, "Companies", class: 'control-label'
+              = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @company_list.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids'}
+            = link_to [:new, @business, :crm_company], :target => "_blank"  do
+              => icon 'plus-circle'
+              | Add New Company
+            ol.company-list-categories-associations.hidden style="margin: 20px 20px 20px 20px;"
+              - form.object.company_list_categories.build
+              = render partial: 'company_list_category', collection: form.object.company_list_categories, locals: { company_list: @company_list, list_form: form, disabled: true }
+          - else
+            .form-group.just-companies.hidden
+              = form.label :company_ids, "Companies", class: 'control-label'
+              = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @company_list.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids', :disabled => true}
+            ol.company-list-categories-associations.visible style="margin: 20px 20px 20px 20px;"
+              - form.object.company_list_categories.build
+              = render partial: 'company_list_category', collection: form.object.company_list_categories, locals: { company_list: @company_list, list_form: form, disabled: false }
+        .ibox-content
+          = form.button 'Save List', class: 'btn btn-primary'
+
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      if($(".company-list-categories-associations.visible").length > 0) {
+        $(".btn.add-category").show(10);
+      }
+      $(".company_ids:enabled").chosen();
+      $("input.sort_by").click(function() {
+        if($(this).val() == 0) {
+          $(".just-companies").slideDown(300);
+          $(".just-companies select").prop('disabled', false);
+          $(".company-list-categories-associations, .btn.add-category").slideUp(300);
+          $(".company-list-categories-associations input, .company-list-categories-associations select").prop('disabled', true);
+        } else {
+          $(".company-list-categories-associations, .btn.add-category").slideDown(300);
+          $(".just-companies select").prop('disabled', true);
+          $(".just-companies").slideUp(300);
+          $(".company-list-categories-associations input, .company-list-categories-associations select").prop('disabled', false);
+        }
+        $(".company_ids:enabled").chosen();
+      });
+    });

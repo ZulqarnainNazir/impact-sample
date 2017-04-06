@@ -29,14 +29,16 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     end
     respond_to do |format|
       if @offer.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to new_business_content_offer_share_path(@business, @offer), notice: "Post created successfully" } if !params[:draft].present?
+        @offer.__elasticsearch__.index_document
+        flash[:notice] = 'Offer was successfully created.'
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Offer draft created successfully" } if params[:draft].present?
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Offer created successfully" } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "new" }
       end
     end
-    Offer.__elasticsearch__.refresh_index!
+    #Offer.__elasticsearch__.refresh_index!
     intercom_event 'created-offer'
   end
 
@@ -49,24 +51,23 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
 
 
   def update
-    @offer.update(offer_params)
     if params[:draft].present?
       @offer.published_status = false
     else
       @offer.published_status = true
     end
     respond_to do |format|
-      if @offer.save
+      if @offer.update(offer_params)
+        @offer.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft updated." } if params[:draft].present?
+        format.html { redirect_to edit_business_content_offer_path(@business, @offer) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
       end
     end
-
-    @offer.__elasticsearch__.index_document
-    Offer.__elasticsearch__.refresh_index!
+    #Offer.__elasticsearch__.refresh_index!
   end
 
 

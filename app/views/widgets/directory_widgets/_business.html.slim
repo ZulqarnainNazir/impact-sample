@@ -1,0 +1,60 @@
+
+.col-sm-4
+  .contact-box.center-version id="business-#{business.id}"
+    a.business-card data-business-id=business.id
+      - if business.logo
+        = image_tag(business.logo.attachment_url())
+      h3.m-b-xs: strong=business.name
+        / a href="tel:#{business.business.location.phone_number}"
+      div= business.website_url
+      - if business.location
+        address.m-t-md
+          p.m-b-none = business.location.street1
+          p.m-b-none = business.location.street2
+          p.m-b-none = business.location.city && business.location.state ? "#{business.location.city}, #{business.location.state} #{business.location.zip_code}" : ""
+          - if business.location.phone_number
+            abbr title="Phone"
+              | P:
+            = " #{business.location.phone_number}"
+          p.m-b-none= business.location.email
+
+    - if !business.reviews.blank?
+      p.text-center
+        span.review-rating
+          - if business.reviews.average(:overall_rating) >= 1.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 2.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 3.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 4.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 5.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+    .contact-box-footer
+      .mt-xs.btn-group
+        - if business.location.phone_number
+          a.btn.btn-xs.btn-white href="tel:#{business.location.phone_number}"
+            i.fa.fa-phone
+            |  Call 
+        - if business.location.email
+          a.btn.btn-xs.btn-white href="mailto:#{business.location.email}"
+            i.fa.fa-phone
+            |  Email
+        - if business.website_url
+          a.btn.btn-xs.btn-white href=business.website_url target="_blank"
+            i.fa.fa-external-link
+            |  Website 
+
+      
+  = render partial: "widgets/directory_widgets/business_modal", locals: { business: business }  

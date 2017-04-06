@@ -17,22 +17,38 @@ class Event < ActiveRecord::Base
   end
 
   def title
+    #leveraged in as_indexed_json below for ElasticSearch
     event_definition.title
   end
 
   def description
+    #leveraged in as_indexed_json below for ElasticSearch
     event_definition.description
   end
-
+  
+  def subtitle
+    #leveraged in as_indexed_json below for ElasticSearch
+    event_definition.subtitle
+  end
+  
   def as_indexed_json(options = {})
-    as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
+    #the methods called here are defined in this model;
+    #they are included in the ElasticSearch
+    #cluster index for Events as 'method_name: value'
+    #once an event is added to the cluster that has
+    #values for content_category_ids, or title, or description, etc.
+    #e.g., if title has value 'foo', and is the first event to have
+    #a title, then title is then added to mapping, where before it was not present.
+    as_json(methods: %i[content_category_ids content_tag_ids sorting_date title description subtitle])
   end
 
   def content_category_ids
+    #leveraged in as_indexed_json below for ElasticSearch
     event_definition.try(:content_category_ids) || []
   end
 
   def content_tag_ids
+    #leveraged in as_indexed_json below for ElasticSearch
     event_definition.try(:content_tag_ids) || []
   end
 
@@ -57,6 +73,10 @@ class Event < ActiveRecord::Base
 
   def share_callback_url
     url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
+  end
+
+  def published_at
+    created_at
   end
 
   def to_generic_param

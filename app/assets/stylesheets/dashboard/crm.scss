@@ -19,3 +19,64 @@
 span.red {
   color: red;
 }
+input.sort_by {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  position: relative;
+  vertical-align: middle;
+  background: none;
+  -webkit-appearance: none;
+  border: 1px solid #e5e6e7;
+  &:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 4px;
+  }
+  &:checked:before {
+    content: "\f00c";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    background-color: #1ab394;
+    color: #FFFFFF;
+  }
+}
+.btn.add-category {
+  display: none;
+  &.visible {
+    display: block;
+  }
+}
+.form-group.just-companies {
+  &.hidden {
+    display: none;
+  }
+}
+.company-list-categories-associations {
+  display: none;
+  &.visible {
+    display: block;
+  }
+  padding: 0;
+  .placeholder {
+    min-height: 200px;
+    outline: 1px dashed #4183C4;
+  }
+}
+.company-list-category-handle {
+  position: absolute;
+  top: 0.5em;
+  left: -2em;
+  cursor: pointer;
+}
+.company-list-category-fields {
+  border: 3px solid #e5e6e7;
+  border-radius: 5px;
+  padding: 15px;
+  position: relative;
+  margin: 1em 0;
+  display: block;
+}

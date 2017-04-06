@@ -21,10 +21,26 @@ html lang="en"
       link rel="canonical" href=content_for(:canonical_url)
     = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
     = javascript_include_tag 'application', data: { turbolinks_track: true }
+    = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
     = javascript_include_tag 'plugins/iframeResizer.contentWindow.min.js', data: { turbolinks_track: true }
     css:
+      body {
+        padding: 20px;
+        background-color: #FFFFFF;
+      }
+      .row.full-list .col-sm-4:nth-child(3n+1) {
+        clear: both;
+      }
       div.reviews.reviews-columns {
         padding: 20px 40px;
+      }
+      div.modal-dialog {
+        max-width: 1200px;
+        width: 90% !important;
+      }
+      select#category {
+        height: 26px;
+        width: 180px;
       }
   body
     = yield

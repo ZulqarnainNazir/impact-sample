@@ -13,7 +13,7 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
     query = params[:query].to_s.strip
 
     if query.present?
-      scope = scope.join(:business).where('businesses.name ILIKE ?', "%#{query}%")
+      scope = scope.where('companies.name ILIKE ?', "%#{query}%")
     end
 
     @companies = scope.order(companies_order).page(params[:page]).per(20)
@@ -69,6 +69,7 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
       :twitter_id, :youtube_id, :citysearch_id, :instagram_id, :pinterest_id, :yelp_id, :foursquare_id, :zillow_id,
       :opentable_id, :trulia_id, :realtor_id, :tripadvisor_id, :houzz_id,
       crm_notes_attributes: [ :content, ],
+      :company_list_ids => [],
       :company_location_attributes => [:name, :email, :street1, :street2, :city, :state, :zip_code, :phone_number]
     ).tap do |safe_params|
       if safe_params[:crm_notes_attributes]

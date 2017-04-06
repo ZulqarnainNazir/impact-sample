@@ -23,7 +23,6 @@
               a href="#{@company.business.website_url}" 
                 = @company.business.website_url
             p Description: #{@company.business.description && @company.business.description.length > 100 ? "#{@company.business.description[0..100]}..." : @company.business.description}
-            
             a.company-view-more.btn.btn-sm.btn-white href="#company-more-collapse" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="company-profile-collapse"
               i.fa.fa-chevron-down>
               i.fa.fa-chevron-up>
@@ -152,6 +151,19 @@
                       .form-group
                         = location.label :phone_number, class: 'col-lg-2 control-label'
                         .col-lg-10 = location.phone_field :phone_number, class: 'form-control', value: @company.company_location.phone_number ? @company.company_location.phone_number : @company.business.location.phone_number
+                .ibox.float-e-margins
+                  .ibox-title
+                    h4 Company Lists
+                  .ibox-content#company_list
+                    .row
+                      .col-xs-12
+                        h3 Currently appart of the following lists:
+                        - @company.company_lists.each do |company_list|
+                          ul
+                            li = link_to company_list.name, [:edit, @business, :crm, company_list]
+                        h3 Add to the following lists
+                        = form.select :company_list_ids, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @company.company_list_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_list_ids'}  
+                        .clearfix
                 
                 .ibox-footer
                   = form.button 'Save Private Changes', class: 'btn btn-primary btn-block'
@@ -200,3 +212,10 @@
             - # New activity types should be named something like `_crm_note_activity.html.slim`.
             / div = obj.class.name.underscore
             = render "#{obj.class.name.underscore}_activity", subject: obj
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $(".company_list_ids").chosen();
+    });
+

@@ -67,7 +67,7 @@ class Businesses::SuperSettingsController < Businesses::BaseController
 
   def add_legacy_plan
     if params[:add_legacy] == "true"
-
+      
       if !@business.subscription.nil?
         @subscription = @business.subscription
         @subscription.plan = SubscriptionPlan.legacy_plan

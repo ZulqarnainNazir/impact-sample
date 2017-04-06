@@ -145,7 +145,6 @@
               - # New activity types should be named something like `_crm_note_activity.html.slim`.
               = render "#{obj.class.name.underscore}_activity", subject: obj
   .clearfix
-
 - content_for :javascript do
   javascript:
     $(function() {

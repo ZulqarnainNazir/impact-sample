@@ -254,7 +254,7 @@ class ContentBlogSearch
         content_classes << EventDefinition
       end
     else
-      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post]
+      content_classes = [QuickPost, EventDefinition, Event, Gallery, BeforeAfter, Offer, Post]
     end
 
     #without post
@@ -267,16 +267,16 @@ class ContentBlogSearch
         end
         content_classes_without_post << QuickPost if type == 'Post'
       end
-      if content_classes.include?(Event)
+      if content_classes_without_post.include?(Event)
         # content_classes.delete(Event)
-        content_classes << EventDefinition
+        content_classes_without_post << EventDefinition
       end
       if content_classes_without_post.include?(Post)
         # content_classes.delete(Event)
         content_classes_without_post.delete(Post)
       end
     else
-      content_classes_without_post = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer]
+      content_classes_without_post = [QuickPost, Event, EventDefinition, Gallery, BeforeAfter, Offer]
     end
 
     #just post

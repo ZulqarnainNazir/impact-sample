@@ -6,6 +6,8 @@ class Company < ActiveRecord::Base
   has_many :contacts, :through => :contact_companies
   has_many :crm_notes, :dependent => :destroy
   has_many :reviews
+  has_many :company_list_companies
+  has_many :company_lists, :through => :company_list_companies
 
   accepts_nested_attributes_for :business, update_only: true
   accepts_nested_attributes_for :company_location, update_only: true
@@ -72,6 +74,51 @@ class Company < ActiveRecord::Base
       'no data available'
     end
   end
+
+  def logo
+    self.business.logo
+  end
+
+  def location
+    if !self.company_location.street1.blank?
+      self.company_location
+    else
+      self.business.location
+    end
+  end
+
+  def categories
+    self.business.categories
+  end
+
+  def offers
+    self.business.offers
+  end
+
+  def events
+    self.business.events
+  end
+
+  def posts
+    self.business.posts.where(:published_status => true)
+  end
+
+  def quick_posts
+    self.business.quick_posts.where(:published_status => true)
+  end
+
+  def galleries
+    self.business.galleries
+  end
+
+  def event_definitions
+    self.business.event_definitions
+  end
+
+  def website
+    self.business.website
+  end
+
 
   def self.select_collection(user_business_id, contact_id = nil) 
     if contact_id.nil?

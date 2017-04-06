@@ -1,0 +1,124 @@
+.modal.fade.business-modal id="business-modal-#{business.id}" aria-hidden="true" role="dialog" data-dismiss="modal"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        span.close data-dismiss="modal"
+          | &times;
+        h1.h4=business.name
+      .modal-body
+        .row
+          .col-sm-4
+            .ibox.float-e-margins
+              div
+                .ibox-content.no-padding.border-left-right
+                  - if business.logo
+                    img.img-responsive src=business.logo.attachment_url(:logo_large)
+                  - if !business.location.hide_address? && !business.location.street1.blank?
+                    - map_params = { center: [business.location.latitude, business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
+                      q: [business.location.address_line_one, business.location.address_line_two].reject(&:blank?).join(' '), zoom: 18 }.to_param
+                    iframe width="100%" height="200" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+                .ibox-content.profile-content
+                  h4: strong=business.name
+                  - if !business.reviews.blank?
+                    p
+                      span.review-rating
+                        - if business.reviews.average(:overall_rating) >= 1.0
+                          span.fa.fa-star
+                        - else
+                          span.fa.fa-star-o
+                        - if business.reviews.average(:overall_rating) >= 2.0
+                          span.fa.fa-star
+                        - else
+                          span.fa.fa-star-o
+                        - if business.reviews.average(:overall_rating) >= 3.0
+                          span.fa.fa-star
+                        - else
+                          span.fa.fa-star-o
+                        - if business.reviews.average(:overall_rating) >= 4.0
+                          span.fa.fa-star
+                        - else
+                          span.fa.fa-star-o
+                        - if business.reviews.average(:overall_rating) >= 5.0
+                          span.fa.fa-star
+                        - else
+                          span.fa.fa-star-o
+                  - if !business.location.hide_address? && !business.location.street1.blank?
+                    p
+                      i.fa.fa-map-marker
+                      = " #{business.location.full_address}"
+                  p
+                    a href="tel:#{business.location.phone_number}"
+                      = business.location.phone_number
+                  p: small=business.categories.map(&:name).join(", ")
+                  h5=business.tagline
+                  p
+                    = business.description.try(:html_safe)
+                  .row.m-t-lg
+                    - if business.website_url
+                      a.col-md-4 href=business.website_url target="_blank"
+                        i.fa.fa-external-link
+                        = " #{business.website_url}"
+                    / Add additonal social media links & icons here
+                  .row.m-t-xs
+                    .col-md-6
+                      a.btn.btn-primary.btn-sm.btn-block href="mailto:#{business.location.email}"
+                        i.fa.fa-envelope
+                        |  Send Email 
+          
+          .col-sm-8
+            .ibox.float-e-margins.tabs-container
+              ul.nav.nav-tabs
+                li
+                  a.count-info href="#tab-Offers-#{business.id}" data-toggle="tab"
+                    | Offers 
+                    i.fa.fa-envelope
+                    span.label.label-primary=business.offers.size
+                li
+                  a.count-info href="#tab-Events-#{business.id}" data-toggle="tab"
+                    | Events 
+                    i.fa.fa-envelope
+                    span.label.label-primary=business.events.size
+                li.active
+                  a.count-info href="#tab-Posts-#{business.id}" data-toggle="tab"
+                    | Posts 
+                    i.fa.fa-envelope
+                    span.label.label-primary=business.posts.size + business.quick_posts.size
+                li
+                  a.count-info href="#tab-Galleries-#{business.id}" data-toggle="tab"
+                    | Galleries 
+                    i.fa.fa-envelope
+                    span.label.label-primary=business.galleries.size
+              .tab-content
+                .tab-pane id="tab-Offers-#{business.id}"
+                  = render partial: 'widgets/directory_widgets/content/offer', collection: business.offers, locals: { business: business }
+                .tab-pane id="tab-Events-#{business.id}"
+                  = render partial: 'widgets/directory_widgets/content/event_definition', collection: business.event_definitions, locals: { business: business }
+                .tab-pane.active id="tab-Posts-#{business.id}"
+                  - posts = (business.posts + business.quick_posts).sort_by(&:published_on).reverse
+                  - posts.each do |post|
+                    - if post.class == QuickPost
+                      = render partial: 'website/quick_posts/quick_post', locals: { quick_post: post, business: business }
+                    - else
+                      = render partial: 'website/posts/post', locals: { post: post, business: business }
+                .tab-pane id="tab-Galleries-#{business.id}"
+                  = render partial: 'widgets/directory_widgets/content/gallery', collection: business.galleries, locals: { business: business }
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal"
+          | Done
+javascript: 
+  jQuery(document).ready(function() {
+    setTimeout(function() {
+      var element = jQuery("#business-modal-#{business.id}");
+      var target = jQuery("#business-#{business.id}").offset().top;
+      var frameHeight = jQuery(document).height();
+      // just an approximation, but better than nothihg.
+      var modalHeight = 800;
+      if ((target + modalHeight) > frameHeight) {
+        target = frameHeight - modalHeight;
+      }
+      if (target < 10) {
+        target = 150;
+      }
+      element.css("transform", "translateY("+target+"px)");
+    }, 3000);
+  });

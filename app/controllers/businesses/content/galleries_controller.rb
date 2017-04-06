@@ -13,7 +13,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   def create
     @gallery = Gallery.new(gallery_params)
     @gallery.business = @business
-    @gallery.generate_slug
+    #@gallery.generate_slug
     @gallery.gallery_images.each do |image|
       image.gallery = @gallery
     end
@@ -24,14 +24,16 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     end
     respond_to do |format|
       if @gallery.save
+        @gallery.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to new_business_content_gallery_share_path(@business, @gallery), notice: "Post created successfully" } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Post created successfully" } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "new" }
       end
     end
-    Gallery.__elasticsearch__.refresh_index!
+    #Gallery.__elasticsearch__.refresh_index!
     intercom_event 'created-gallery'
   end
 
@@ -44,25 +46,24 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
 
 
   def update
-    @gallery.update(gallery_params)
-    @gallery.generate_slug
     if params[:draft].present?
       @gallery.published_status = false
     else
       @gallery.published_status = true
     end
     respond_to do |format|
-      if @gallery.save
-        flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+      if @gallery.update(gallery_params)
+        #@gallery.generate_slug
+        @gallery.__elasticsearch__.index_document
+        flash[:notice] = 'Post updated.'
+        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft updated." } if params[:draft].present?
+        format.html { redirect_to edit_business_content_gallery_path(@business, @gallery) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
       end
     end
-
-    @gallery.__elasticsearch__.index_document
-    Gallery.__elasticsearch__.refresh_index!
+    #Gallery.__elasticsearch__.refresh_index!
   end
 
   def destroy

@@ -5,6 +5,7 @@ Bundler.require(*Rails.groups)
 
 module Impact
   class Application < Rails::Application
+    config.action_controller.default_url_options = { :trailing_slash => true }
     config.action_dispatch.cookies_serializer = :json
     config.active_job.queue_adapter = :sidekiq
     config.active_record.raise_in_transactional_callbacks = true

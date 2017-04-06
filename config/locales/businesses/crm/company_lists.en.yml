@@ -1,0 +1,12 @@
+en:
+  businesses:
+    crm:
+      company_lists:
+        create:
+          notice: Your new list was added successfully.
+          alert: There was a problem adding the company list.
+        update:
+          notice: The company list was updated successfully.
+          alert: There was a problem updating the company list.
+        destroy:
+          notice: The company list has been hidden from your site.

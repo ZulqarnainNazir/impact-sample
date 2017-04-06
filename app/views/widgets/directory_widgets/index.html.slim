@@ -1,0 +1,61 @@
+.row
+  - if @directory.enable_search
+    .col-md-12
+      = form_tag nil, :method => "get", :class => "form-inline"
+        .form-group
+          label.sr-only for="query" Search Query
+          = text_field_tag :query, params[:query], :placeholder => "Search Query"
+        .form-group
+          label.sr-only for="category" Category
+          = select_tag :category, content_tag(:option,'Search by Category...',:value=>"")+options_from_collection_for_select(@categories, "id", "label", params[:category])
+        .form-group
+          = submit_tag "Search"
+
+
+- if @directory.company_list.sort_by == 0
+  .row.full-list
+    - @businesses.sort_by { |c| c.name }.each do |business|
+      = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false }
+- else
+  - @categories_search.each do |category|
+    .row.categories-view
+      .col-md-12
+        h3 = category.label
+      - i = 0
+      - if !params[:query].blank?
+        - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |business|
+          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false }
+          - i += 1
+          - if (i%3 == 0)
+            .clearfix
+      - else
+        - category.companies.sort_by { |c| c.name }.each do |business|
+          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false }
+          - i += 1
+          - if (i%3 == 0)
+            .clearfix
+    
+- if @business_id
+  div.params-info data-business-id=@business_id
+  javascript:
+    $(document).on('ready', function(event) {
+      console.log(window.location, $('.params-info').data('business-id'))
+      $('#business-modal-' + $('.params-info').data('business-id')).modal('show')
+    })
+    
+javascript:
+  $(document).on('ready', function() {
+    $('.business-card').on('click', function(event) {
+      var businessId = $(this).data('business-id');
+      // Important Note: this only works if the url is guaranteed to have a trailing slash 
+      window.history.replaceState(null, null, businessId);
+      $('#business-modal-' + businessId).modal('show');
+      window.parent.postMessage('open', '*');
+    });
+    $('.business-modal').on('click', function(event) {
+      if ($(event.target).data('dismiss') === 'modal') {
+        window.history.replaceState(null, null, './');
+        window.parent.postMessage('close', '*');
+      }
+    });
+  });

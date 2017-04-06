@@ -36,6 +36,8 @@ class Business < ActiveRecord::Base
     has_many :to_dos
     has_many :to_do_notification_settings
     has_many :review_widgets
+    has_many :directory_widgets
+    has_many :company_lists
     has_one :location
     has_one :website
   end
@@ -90,7 +92,7 @@ class Business < ActiveRecord::Base
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
 
-#One column should be "Active Account" with options "True" if there's an owner, 
+#One column should be "Active Account" with options "True" if there's an owner,
 #"Sample" if account ID but no owner, "False" if no ID.
 
   def account_status
@@ -271,6 +273,27 @@ class Business < ActiveRecord::Base
     location_attr = attributes.delete :location_attributes
     location.update_attributes_only_if_blank(location_attr, create)
     update_attributes(attributes)
+  end
+
+  def social
+    social_links =  { facebook: facebook_id,
+                      twitter: twitter_id,
+                      google_plus: google_plus_id,
+                      youtube: youtube_id,
+                      linkedin: linkedin_id,
+                      pinterest: pinterest_id,
+                      instagram: instagram_id,
+                      yelp: yelp_id,
+                      citysearch: citysearch_id,
+                      foursquare: foursquare_id,
+                      zillow: zillow_id,
+                      opentable: opentable_id,
+                      trulia: trulia_id,
+                      realtor: realtor_id,
+                      tripadvisor: tripadvisor_id,
+                      houzz: houzz_id
+                    }
+    social_links.delete_if { |key, value| value.to_s.strip == '' }
   end
 
   private

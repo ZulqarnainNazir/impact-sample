@@ -77,6 +77,7 @@ Rails.application.routes.draw do
 
     namespace :widgets do
       get '/review_widgets/:uuid', to: 'review_widgets#index'
+      get '/directory_widgets/:uuid', to: 'directory_widgets#index'
     end
 
     namespace :onboard do
@@ -211,6 +212,7 @@ Rails.application.routes.draw do
               post 'process_csv'
             end
           end
+          resources :company_lists, only: %i[index new create edit update destroy]
           resources :companies, only: %i[index new create edit update destroy] do
             resources :business, only: %i[new create edit update]
             resources :crm_notes, only: %i[new create edit update destroy]
@@ -226,6 +228,7 @@ Rails.application.routes.draw do
         namespace :tools do
           root to: 'roots#index'
           resources :review_widgets, only: %i[index new create edit update destroy]
+          resources :directory_widgets, only: %i[index new create edit update destroy]
         end
 
         namespace :website do

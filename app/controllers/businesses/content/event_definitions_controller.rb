@@ -45,15 +45,17 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     respond_to do |format|
       if @event_definition.save
         @event_definition.reschedule_events!
-        flash[:notice] = 'Event was successfully created.'
-        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to new_business_content_event_definition_share_path(@business, @event_definition), notice: "Post created successfully" } if !params[:draft].present?
+        @event_definition.__elasticsearch__.index_document
+        flash[:notice] = 'Event successfully created.'
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft event saved" } if params[:draft].present?
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Event created successfully" } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "new" }
       end
     end
-    @event_definition.__elasticsearch__.index_document
-    EventDefinition.__elasticsearch__.refresh_index!
+    #@event_definition.__elasticsearch__.index_document
+    #EventDefinition.__elasticsearch__.refresh_index!
     intercom_event 'created-event'
   end
 
@@ -64,23 +66,25 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     if params[:event_definition][:event_definition_location_attributes][:location_id].empty? && @event_definition.event_definition_location.present?
       params[:event_definition][:event_definition_location_attributes][:location_id] = @event_definition.event_definition_location.location_id
     end
-    @event_definition.update(event_definition_params)
-    @event_definition.reschedule_events!
+
     if params[:draft].present?
       @event_definition.published_status = false
     else
       @event_definition.published_status = true
     end
     respond_to do |format|
-      if @event_definition.save
+      if @event_definition.update(event_definition_params)
+        @event_definition.reschedule_events!
+        @event_definition.__elasticsearch__.index_document
         flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft created successfully" } if params[:draft].present?
-        format.html { redirect_to business_content_feed_path @business } if !params[:draft].present?
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft updated." } if params[:draft].present?
+        format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition) } if !params[:draft].present?
       else
+        flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
       end
     end
-    EventDefinition.__elasticsearch__.refresh_index!
+    #EventDefinition.__elasticsearch__.refresh_index!
   end
 
 

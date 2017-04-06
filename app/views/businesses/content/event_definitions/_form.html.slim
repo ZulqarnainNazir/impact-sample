@@ -7,13 +7,13 @@
             .center-block
               .btn-group.js-business-kind
                 => form.label :event, class: 'btn btn-default', id: 'kind-event' do
-                  => form.radio_button :kind, :event, id: 'kind-event-radio', style: 'margin-right: 5px'
+                  => form.radio_button :kind, 0, id: 'kind-event-radio', style: 'margin-right: 5px'
                   | Event
                 => form.label :class, class: 'btn btn-default', id: 'kind-aclass' do
-                  => form.radio_button :kind, :is_aclass, id: 'kind-aclass-radio', style: 'margin-right: 5px'
+                  => form.radio_button :kind, 1, id: 'kind-aclass-radio', style: 'margin-right: 5px'
                   | Class
                 => form.label :deadline, class: 'btn btn-default', id: 'kind-deadline' do
-                  => form.radio_button :kind, :deadline, id: 'kind-deadline-radio', style: 'margin-right: 5px'
+                  => form.radio_button :kind, 2, id: 'kind-deadline-radio', style: 'margin-right: 5px'
                   | Deadline
           javascript:
 
@@ -212,7 +212,7 @@
       .modal-content
         .modal-body
           .text-center style="margin:2em"
-            i.fa.fa-spinner.fa-spin.fa-4x
+            i.fa.fa-spinner.fa-spin.fa-4x 
   javascript:
     $('.js-event-location').eventLocation();
     $('#virtual-event-button').on("click", function(event){
