@@ -11,7 +11,13 @@ gem 'kaminari-bootstrap'
 gem 'ancestry'
 gem 'asset_sync'
 gem 'autoprefixer-rails'
+
+#IMPORTANT!
+#RE AWS gems: 
+#https://aws.amazon.com/blogs/developer/upcoming-stable-release-of-aws-sdk-for-ruby-version-2/
 gem 'aws-sdk-v1'
+gem 'aws-sdk', '~> 2'
+
 gem 'bcrypt'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
@@ -63,6 +69,9 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'letter_opener', group: :development
 gem 'jquery-turbolinks'
 gem 'browser-timezone-rails'
+
+#ahoy email tracks email opens, among other things. google for more info.
+gem 'ahoy_email'
 
 #RailsKits integrations
 gem 'simple_form'

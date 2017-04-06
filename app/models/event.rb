@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
     event_definition.title
   end
 
+
   def description
     #leveraged in as_indexed_json below for ElasticSearch
     event_definition.description

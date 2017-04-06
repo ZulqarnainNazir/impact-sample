@@ -1,0 +1,14 @@
+- title 'Email Data Overview'
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Email Data Overview
+	div class="ibox-content"
+
+		br
+
+		div class="wrapper wrapper-content animated fadeInRight" id="businesses-table"
+			= render 'emails'
+
+
+
+= paginate @emails

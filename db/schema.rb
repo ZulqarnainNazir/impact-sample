@@ -26,6 +26,22 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.datetime "updated_at"
   end
 
+  create_table "ahoy_messages", force: :cascade do |t|
+    t.string   "token"
+    t.text     "to"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.string   "mailer"
+    t.text     "subject"
+    t.datetime "sent_at"
+    t.datetime "opened_at"
+    t.datetime "clicked_at"
+    t.integer  "business_id"
+  end
+
+  add_index "ahoy_messages", ["token"], name: "index_ahoy_messages_on_token", using: :btree
+  add_index "ahoy_messages", ["user_id", "user_type"], name: "index_ahoy_messages_on_user_id_and_user_type", using: :btree
+
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                  null: false
     t.integer  "user_id",                                      null: false
@@ -83,6 +99,17 @@ ActiveRecord::Schema.define(version: 20170406195048) do
 
   add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
   add_index "blocks", ["link_type", "link_id"], name: "index_blocks_on_link_type_and_link_id", using: :btree
+
+  create_table "bounced_emails", force: :cascade do |t|
+    t.text     "bounce_type"
+    t.text     "email_address"
+    t.text     "status"
+    t.text     "action"
+    t.text     "diagnostic_code"
+    t.text     "reporting_mta"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "business_location_update_requests", force: :cascade do |t|
     t.integer  "business_update_request_id"
@@ -182,9 +209,9 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
-    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
+    t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
   end
@@ -300,6 +327,15 @@ ActiveRecord::Schema.define(version: 20170406195048) do
   end
 
   add_index "company_locations", ["company_id"], name: "index_company_locations_on_company_id", using: :btree
+
+  create_table "complaints_emails", force: :cascade do |t|
+    t.text     "user_agent"
+    t.text     "email_address"
+    t.text     "complaint_feedback_type"
+    t.text     "feedback_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "contact_companies", force: :cascade do |t|
     t.integer  "contact_id"

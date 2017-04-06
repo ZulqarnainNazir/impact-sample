@@ -11,7 +11,11 @@
             - review_count = @contact.reviews.count
             ' Reviews:
             = link_to review_count.zero? ? 'None' : review_count, [@business, :crm, :reviews]
-            = link_to 'Request Review', [:new, @business, :crm, @contact, :feedback], class: 'btn btn-primary btn-xs m-l-sm'
+            - if !@contact.bounce_or_complaint?
+              = link_to 'Request Review', [:new, @business, :crm, @contact, :feedback], class: 'btn btn-primary btn-xs m-l-sm'
+            - elsif @contact.bounce_or_complaint?
+              = button_tag "Request Review", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "#{@contact.complaint_or_bounce_report}" }
+
         .ibox-content
           .row
             .col-xs-4.text-center
@@ -23,7 +27,11 @@
                 a href="tel:#{@contact.phone}" = @contact.phone
               p.m-b-none 
                 | Email: 
-                a href="mailto:#{@contact.email}" = @contact.email
+                - if !@contact.bounce_or_complaint?
+                  a href="mailto:#{@contact.email}" = @contact.email
+                - elsif @contact.bounce_or_complaint?
+                  = @contact.email
+                  = button_tag "email error", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "#{@contact.complaint_or_bounce_report}" }
               
               - if @contact.companies.any?
                 p.m-b-none.m-t-1: strong Related Companies Info
@@ -141,6 +149,14 @@
           h4 Recent Activity
         .ibox-content
           #vertical-timeline.vertical-container.no-margins
+            - if @contact.bounce_or_complaint?
+              .vertical-timeline-block
+                .vertical-timeline-icon.blue-bg
+                  i.fa.fa-envelope
+
+                .vertical-timeline-content
+                  p = @contact.complaint_or_bounce_report
+
             - @contact.recent_activities.each do |obj|
               - # New activity types should be named something like `_crm_note_activity.html.slim`.
               = render "#{obj.class.name.underscore}_activity", subject: obj

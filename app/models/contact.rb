@@ -23,6 +23,43 @@ class Contact < ActiveRecord::Base
 #  validates :last_name, presence: true
   validate :name_and_or_email
 
+  def complaint_or_bounce_report
+    if self.complaint_report?
+      "Emails to this address have been marked as spam."
+    elsif self.bounce_report?
+      "This address is not accepting emails (error: email bounce)."
+    else
+      "This address is accepting emails."
+    end
+  end
+
+  def bounce_or_complaint?
+    if self.bounce_report? || self.complaint_report?
+      true
+    else
+      false
+    end
+  end
+
+  def bounce_report?
+    bounce_report = BouncedEmail.find_by(email_address: self.email)
+    if bounce_report.nil?
+      false
+    elsif !bounce_report.nil?
+      true
+    end
+  end
+
+  def complaint_report?
+    complaint_report = ComplaintsEmail.find_by(email_address: self.email)
+    if complaint_report.nil?
+      false
+    elsif !complaint_report.nil?
+      true
+    end
+  end
+
+
   class << self
     def get_duplicates business, new_contacts, skip_indexes
       duplicates = {}
@@ -72,6 +109,10 @@ class Contact < ActiveRecord::Base
     end
   end
 
+  def get_email_records
+    AhoyMessage.where(:to => self.email, :business_id => self.business.id)
+  end
+
   def recent_activities
     # This is a potential performance issue. Most likely this data should be loaded
     # using an async request after page load. There should also be a central Activity
@@ -83,7 +124,8 @@ class Contact < ActiveRecord::Base
     activities = [
       contact_messages.to_a,
       crm_notes.to_a,
-      reviews.to_a
+      reviews.to_a,
+      get_email_records.to_a
     ].flatten!
 
     activities.sort_by!(&:created_at).reverse!

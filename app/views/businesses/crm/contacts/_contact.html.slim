@@ -10,14 +10,25 @@ tr class=('unread' unless contact.read_by.include?(current_user.id))
   td = contact.feedbacks.map(&:completed_at).sort.first.try(:strftime, '%D') || '--'
   td = contact.feedbacks.map(&:score).sort.first || '--'
   td
+
     - if last_complete_feedback
       | Yes
     - elsif last_incomplete_feedback
       ' No
-      = link_to 'Reinvite', [contact.business, :crm, last_incomplete_feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+
+      - if !contact.bounce_or_complaint?
+        = link_to 'Reinvite', [contact.business, :crm, last_incomplete_feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+      - elsif contact.bounce_or_complaint?
+        = button_tag "Email Error", type: 'button', class: 'btn btn-xs btn-default', data: {toggle: "popover", placement: "auto top", content: "#{contact.complaint_or_bounce_report}" }
+
     - elsif contact.reviews.empty?
       ' No
-      = link_to 'Invite to Review', [:new, contact.business, :crm, contact, :feedback], class: 'btn btn-xs btn-default'
+
+      - if !contact.bounce_or_complaint?
+        = link_to 'Invite to Review', [:new, contact.business, :crm, contact, :feedback], class: 'btn btn-xs btn-default'
+      - elsif contact.bounce_or_complaint?
+        = button_tag "Email Error", type: 'button', class: 'btn btn-xs btn-default', data: {toggle: "popover", placement: "auto top", content: "#{contact.complaint_or_bounce_report}" }
+
     - else
       | --
   td

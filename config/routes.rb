@@ -59,6 +59,11 @@ Rails.application.routes.draw do
           get :super_admins
         end
       end
+      resources :email_data, only: [:none] do
+        collection do
+          get :overview
+        end
+      end
       resources :business_data, only: [:index, :edit, :update]
       resources :subscription_plans
       resources :affiliates, only: [:index]
@@ -72,6 +77,13 @@ Rails.application.routes.draw do
           get :all_subscriptions
           get :past_dues
         end
+      end
+    end
+
+    resources :sns, only: [:none] do
+      collection do
+        post :bounce_data
+        post :report_data
       end
     end
 

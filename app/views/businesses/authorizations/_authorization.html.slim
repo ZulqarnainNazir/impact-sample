@@ -1,7 +1,19 @@
 tr
   td = authorization.user.first_name
   td = authorization.user.last_name
+
+
   td = authorization.user.email
+
+  - if !authorization.user.bounce_or_complaint?
+	td 
+		= authorization.user.email
+
+  - elsif authorization.user.bounce_or_complaint?
+  	td 
+	  	= authorization.user.email
+	    = button_tag "email error", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "#{authorization.user.complaint_or_bounce_report}" }
+
   td = authorization.role.capitalize
   td
     .btn-group
