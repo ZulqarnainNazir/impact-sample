@@ -95,16 +95,12 @@ class Account extends React.Component {
   }
 
   onSuccess(userResponse) {
-    onboardingHelpers.submitBusiness(userResponse, (busResponse) => {
-      store.set('accountComplete', true);
-      this.setState({
-        submitting: false,
-      });
-      store.set('user', _.merge({}, store.get('user'), userResponse))
-      store.set('business', _.merge({}, store.get('business'), busResponse.business))
-      this.nextStep();
-      // console.log(response);
+    this.setState({
+      submitting: false,
     });
+    store.set('user', _.merge({}, store.get('user'), userResponse));
+    store.set('accountComplete', true);
+    this.nextStep();
   }
 
   onError(resp) {
@@ -122,7 +118,7 @@ class Account extends React.Component {
             <h2>Succesffully Created Your Account!</h2>
             <p>Proceed to the next step to finish signing up.</p>
           </div>
-          <div className='btn-group pull-right col-md-12 m-t-5px'>
+          <div className='btn-group pull-right m-t-5px'>
             <button className="btn btn-default" onClick={this.prevStep}>
               Previous Step
             </button>
@@ -178,18 +174,18 @@ class Account extends React.Component {
               <span className="highlight"></span>
               <label className="">Confirm Password</label>
             </div>
+            <div className='btn-group pull-right m-t-5px'>
+              <button className="btn btn-default" onClick={this.prevStep}>
+                Previous Step
+              </button>
+              <button className="btn btn-primary" onClick={this.completeStep} disabled={this.state.submitting || store.get('accountComplete')}>
+                {
+                  this.state.submitting ? <i className="fa fa-spinner fa-spin" /> : ''
+                }
+                {" Submit"}
+              </button>
+            </div>
           </form>
-          <div className='btn-group pull-right col-md-12 m-t-5px'>
-            <button className="btn btn-default" onClick={this.prevStep}>
-              Previous Step
-            </button>
-            <button className="btn btn-primary" onClick={this.completeStep} disabled={this.state.submitting || store.get('accountComplete')}>
-              {
-                this.state.submitting ? <i className="fa fa-spinner fa-spin" /> : ''
-              }
-              {" Submit"}
-            </button>
-          </div>
         </div>
       );
     }

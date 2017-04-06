@@ -30,6 +30,8 @@
 //= require jqGrid/i18n/grid.locale-el.js
 //= require jqGrid/jquery.jqGrid.min.js
 
+//= require iCheck/icheck.min.js
+
 $(document).ready(function () {
 
 
@@ -133,6 +135,12 @@ $(document).ready(function () {
     $('.tooltip-demo').tooltip({
         selector: "[data-toggle=tooltip]",
         container: "body"
+    });
+
+    // Initialize i-check plugin
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green'
     });
 
 

@@ -20,6 +20,7 @@ class BusInfo extends React.Component {
     const business = {
       name: this.businessName.value,
       website_url: this.website.value,
+      membership_org: this.membershipOrg.checked,
       location: {
         phone_number: this.phone.value,
         street1: this.streetAddress.value,
@@ -73,6 +74,12 @@ class BusInfo extends React.Component {
             <span className="bar"></span>
             <span className="highlight"></span>
             <label className="control-label">Organization / Business Name <small>(required)</small></label>
+          </div>
+          <div className="checkbox text-muted text-right">
+            <label>
+              <input type="checkbox" ref={(input) => this.membershipOrg = input} defaultChecked={store.get('business').membership_org} />
+              {" We're a membership organization (we have members)"}
+            </label>
           </div>
 
           <div className="group">
@@ -159,7 +166,7 @@ class BusInfo extends React.Component {
             <span className="highlight"></span>
             <label className="control-label">Business Category <small>(required)</small></label>
           </div>
-          <div className="btn-group pull-right col-md-12 m-t-5px">
+          <div className="btn-group pull-right m-t-5px">
             <Link to="wizard/lookup" className="btn btn-default">Previous Step</Link>
             <button type="submit" className="btn btn-primary">Next Step</button>
           </div>

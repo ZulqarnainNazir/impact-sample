@@ -1,5 +1,5 @@
 div
   = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
   = csrf_meta_tag
-  = react_component "OnboardingWizard", businesses: @businesses.as_json(include: [:categories, :location, :owners]), categories: @categories
+  = react_component "OnboardingWizard", businesses: @businesses.as_json(include: [:categories, :location, :owners]), categories: @categories, current_user: current_user
   

@@ -19,6 +19,7 @@ class Businesses::Data::DetailsController < Businesses::BaseController
       :tagline,
       :website_url,
       :year_founded,
+      :membership_org,
       category_ids: [],
       logo_placement_attributes: placement_attributes,
     ).deep_merge(

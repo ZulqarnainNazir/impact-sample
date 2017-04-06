@@ -15,7 +15,16 @@
 const { Router, Route, IndexRoute, hashHistory } = ReactRouter;
 
 const OnboardingWizard = (props) => {
-  store.set('categories', props.categories)
+  if (window.location.search === "?reset=true") {
+    store.clear();
+    location.href = "new/"
+    // console.log(location.search);
+  }
+  store.set('categories', props.categories);
+  if (props.current_user) {
+    store.set('user', props.current_user);
+    store.set('accountComplete', true);
+  }
   return (
     <Router history={hashHistory}>
       <Route path="/" component={SelectPlan}/>

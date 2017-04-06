@@ -1,4 +1,8 @@
 .row
+  - if @directory.public_label
+    .col-md-12
+      h1 = @directory.public_label
+.row
   - if @directory.enable_search
     .col-md-12
       = form_tag nil, :method => "get", :class => "form-inline"

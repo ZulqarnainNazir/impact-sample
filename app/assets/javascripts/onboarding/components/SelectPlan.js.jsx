@@ -19,6 +19,7 @@ class SelectPlan extends React.Component {
       $('.engage-includes').click();
       $('.build-includes').click();
     }
+    // $('.build-includes').click();
   }
 
   selectBuild() {
@@ -75,7 +76,7 @@ class SelectPlan extends React.Component {
                   <div className="col-sm-8 col-sm-offset-2">
                     <h3>IMPACT empowers your marketing with a built-in local marketing assistant that guides your efforts, tools specially built for local, unlimited users and content, and more from a smartphone or PC.</h3>
                   </div>
-                  <div className="col-xs-12 text-center">
+                  <div className="col-xs-12 text-center coming-soon">
                     <label
                       className="btn btn-primary btn-sm btn-rounded"
                       onClick={() => this.setState({ payments: 'monthly' })}
@@ -96,7 +97,7 @@ class SelectPlan extends React.Component {
             </div>
         </section>
 
-        <div className="row">
+        <div className="row p-l-15px p-r-15px">
           <div className="col-lg-4 wow zoomIn col-lg-offset-1 m-t-10px">
             <ul className="pricing-plan list-unstyled panel" >
               <li className="pricing-title no-borders btn btn-block" onClick={this.selectEngage}>
@@ -145,58 +146,60 @@ class SelectPlan extends React.Component {
               </li>
             </ul>
           </div>
+
           <div className="col-lg-6 wow zoomIn m-t-30px">
-              <ul className="pricing-plan list-unstyled selected" >
-                  <li className="pricing-title btn btn-block" onClick={this.selectBuild}>
-                      Build
+            <h1 className="build-label"><label className="label label-warning">Coming Soon</label></h1>
+
+            <ul className="pricing-plan list-unstyled selected  coming-soon" >
+                <li className="pricing-title btn btn-block" onClick={this.selectBuild}>
+                    Build
+                </li>
+                <li className="no-borders">
+                  Build your business with expanded local marketing tools and automation at a price you can afford
+                </li>
+                {this.renderPricing()}
+
+                <div className="text-center p-h-sm">
+                  <p className="text-muted">
+                    <a data-toggle="collapse" href="#build-collapse" aria-expanded="true" className="build-includes text-muted"><strong>Includes <i className="fa fa-chevron-down"></i></strong></a>
+                  </p>
+                </div>
+
+                <div id="build-collapse" className="panel-collapse in" aria-expanded="true">
+                  <li className="font-italic">
+                      -- Everything in Engage Plus --
                   </li>
-                  <li className="no-borders">
-                    Build your business with expanded local marketing tools and automation at a price you can afford
-                  </li>
-                  {this.renderPricing()}
-
-                  <div className="text-center p-h-sm">
-                    <p className="text-muted">
-                      <a data-toggle="collapse" href="#build-collapse" aria-expanded="true" className="build-includes text-muted"><strong>Includes <i className="fa fa-chevron-down"></i></strong></a>
-                    </p>
-                  </div>
-
-                  <div id="build-collapse" className="panel-collapse in" aria-expanded="true">
-                    <li className="font-italic">
-                        -- Everything in Engage Plus --
-                    </li>
-
-                    <li>
-                        Customer Reviews Generation <br />
-                          <small>Unlimited Monthly Requests</small>
-                    </li>
-                    <li>
-                        Expanded Content Engine<br />
-                          <small>Adds "Before & After" Posts and Galleries</small>
-                    </li>
-                    <li>
-                        Expanded Contacts Database<br />
-                          <small>Organize Unlimited Companies and Up to 500 People with Lists & Segments and Assignable To-Do's with Reminders</small>
-                    </li>
-
-                    <li>
-                        Social Scheduling with Instagram, Twitter <span className="badge">coming soon</span>
-                    </li>
-                    <li>
-                        Advanced Forms & Landing Pages <span className="badge">coming soon</span>
-                    </li>
-                  </div>
 
                   <li>
-                    <Link
-                      to="wizard/lookup"
-                      onClick={this.selectBuild}
-                      className="btn btn-primary btn-sm btn-rounded"
-                    >Select
-                    </Link>
+                      Customer Reviews Generation <br />
+                        <small>Unlimited Monthly Requests</small>
+                  </li>
+                  <li>
+                      Expanded Content Engine<br />
+                        <small>Adds "Before & After" Posts and Galleries</small>
+                  </li>
+                  <li>
+                      Expanded Contacts Database<br />
+                        <small>Organize Unlimited Companies and Up to 500 People with Lists & Segments and Assignable To-Do's with Reminders</small>
                   </li>
 
-              </ul>
+                  <li>
+                      Social Scheduling with Instagram, Twitter <span className="badge">coming soon</span>
+                  </li>
+                  <li>
+                      Advanced Forms & Landing Pages <span className="badge">coming soon</span>
+                  </li>
+                </div>
+
+                <li>
+                  <Link
+                    to="wizard/lookup"
+                    onClick={this.selectBuild}
+                    className="btn btn-primary btn-sm btn-rounded"
+                  >Select
+                  </Link>
+                </li>
+            </ul>
           </div>
         </div>
         <div className="row m-t-lg">

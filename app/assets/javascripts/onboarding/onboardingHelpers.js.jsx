@@ -1,5 +1,5 @@
 const onboardingHelpers = {
-  submitBusiness(response, callback) {
+  submitBusiness(callback) {
     const type = store.get('business').id ? 'PATCH' : 'POST';
     $.ajax({
       url: type === 'PATCH' ? `/onboard/businesses/${store.get('business').id}` : '/onboard/businesses',

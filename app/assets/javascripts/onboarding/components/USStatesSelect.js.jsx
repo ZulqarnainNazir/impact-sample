@@ -1,6 +1,6 @@
 const USStatesSelect = ({value, onChange, className}) => (
   <select value={value} onChange={onChange} className={className}>
-    <option disabled>Select a State</option>
+    <option disabled selected>Select a State</option>
   	<option value="AL">Alabama</option>
   	<option value="AK">Alaska</option>
   	<option value="AZ">Arizona</option>

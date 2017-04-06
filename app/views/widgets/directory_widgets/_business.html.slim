@@ -7,12 +7,12 @@
       h3.m-b-xs: strong=business.name
         / a href="tel:#{business.business.location.phone_number}"
       div= business.website_url
-      - if business.location
+      - if !business.location.street1.blank?
         address.m-t-md
           p.m-b-none = business.location.street1
           p.m-b-none = business.location.street2
           p.m-b-none = business.location.city && business.location.state ? "#{business.location.city}, #{business.location.state} #{business.location.zip_code}" : ""
-          - if business.location.phone_number
+          - if !business.location.phone_number.blank?
             abbr title="Phone"
               | P:
             = " #{business.location.phone_number}"
@@ -43,15 +43,15 @@
             span.fa.fa-star-o
     .contact-box-footer
       .mt-xs.btn-group
-        - if business.location.phone_number
+        - if !business.location.phone_number.blank?
           a.btn.btn-xs.btn-white href="tel:#{business.location.phone_number}"
             i.fa.fa-phone
             |  Call 
-        - if business.location.email
+        - if !business.location.email.blank?
           a.btn.btn-xs.btn-white href="mailto:#{business.location.email}"
             i.fa.fa-phone
             |  Email
-        - if business.website_url
+        - if !business.website_url.blank?
           a.btn.btn-xs.btn-white href=business.website_url target="_blank"
             i.fa.fa-external-link
             |  Website 

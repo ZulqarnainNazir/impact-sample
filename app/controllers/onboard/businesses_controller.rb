@@ -67,6 +67,7 @@ class Onboard::BusinessesController < ApplicationController
       :kind,
       :name,
       :tagline,
+      :membership_org,
       :website_url,
       :year_founded,
       :cce_url,

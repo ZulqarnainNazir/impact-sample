@@ -15,6 +15,9 @@ wrapper.wrapper-content
             = form.label :name, class: 'control-label'
             = form.text_field :name, class: 'form-control'
           .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+          .form-group
             label Enable In Widget Search
             br
             label.radio-inline

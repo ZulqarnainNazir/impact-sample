@@ -5,6 +5,8 @@ class Confirm extends React.Component {
   constructor() {
     super()
     this.onError = this.onError.bind(this);
+    this.onSuccess = this.onSuccess.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   completeStep() {
@@ -43,10 +45,15 @@ class Confirm extends React.Component {
           },
         },
         success: (resp) => {
+          const id = store.get('business').id
           store.clear();
-          window.location.href = `/businesses/${store.get('business').id}/subscriptions/setup_billing`
+          // console.log(resp);
+          window.location.href = `/businesses/${id}/subscriptions/setup_billing`
         },
-        error: (resp) => console.log(resp),
+        error: (resp) => {
+          console.log(resp);
+          store.clear();
+        },
       });
     } else if (location) {
       store.clear();
@@ -60,7 +67,13 @@ class Confirm extends React.Component {
   }
 
   componentDidMount() {
-    this.completeStep();
+    onboardingHelpers.submitBusiness((busResponse) => {
+      store.set(
+        'business',
+        _.merge({}, store.get('business'), busResponse.business)
+      )
+      this.completeStep();
+    });
   }
 
   render() {

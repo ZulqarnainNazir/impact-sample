@@ -41,7 +41,7 @@ class Businesses::Tools::DirectoryWidgetsController < Businesses::BaseController
   private
 
   def directory_widget_params
-    params.require(:directory_widget).permit(:name, :enable_search, :background_color, :company_list_id)
+    params.require(:directory_widget).permit(:name, :enable_search, :public_label, :background_color, :company_list_id)
   end
 
 end
