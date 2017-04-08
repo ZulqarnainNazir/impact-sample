@@ -69,7 +69,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/content/))
           li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
-            = link_to "Content Library", [@business, :content_feed]
+            = link_to "Content Library", [@business, :content_root]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/content_category_tag_management_index/))
             = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))

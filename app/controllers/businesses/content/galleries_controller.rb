@@ -52,6 +52,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
       @gallery.published_status = true
     end
     respond_to do |format|
+
       if @gallery.update(gallery_params)
         #@gallery.generate_slug
         @gallery.__elasticsearch__.index_document
@@ -67,7 +68,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
   end
 
   def destroy
-    destroy_resource @gallery, location: [@business, :content_feed] do |success|
+    destroy_resource @gallery, location: [@business, :content_root] do |success|
       if success
         Gallery.__elasticsearch__.refresh_index!
       end

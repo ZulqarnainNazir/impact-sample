@@ -141,7 +141,7 @@ Rails.application.routes.draw do
           end
 
         namespace :content do
-          root to: 'roots#show'
+          root to: 'feeds#show'
           resource :images_upload, only: %i[new create]
           resource :feed, only: %i[show]
           resources :before_afters, only: %i[new create edit update destroy] do

@@ -2,11 +2,16 @@
 #the code works, why it was set-up the way it was as of 3.19.17, and for info RE associated
 #rake tasks.
 class ContentFeedSearch
-  def initialize(business, unpublished, published, query = '')
+  def initialize(business, unpublished, published, query = '', content_types = '', content_category_ids: [], content_tag_ids: [])
+
     @business = business
-    @query = query.to_s.strip
     @unpublished = unpublished
     @published = published
+    @query = query.to_s.strip
+    @content_types = content_types.to_s.strip
+    @content_category_ids = Array.new << content_category_ids.to_i unless content_category_ids.blank?
+    @content_tag_ids = Array.new << content_tag_ids.to_i unless content_tag_ids.blank?
+
   end
 
   def search
@@ -26,7 +31,7 @@ class ContentFeedSearch
       },
     }
     if @unpublished == 'true' && @published != 'true'
-      dsl[:filter][:and] << {
+      dsl1[:filter][:and] << {
         term: {
           published_status: false,
         },
@@ -34,9 +39,25 @@ class ContentFeedSearch
     end
 
     if @unpublished != 'true' && @published == 'true'
-      dsl[:filter][:and] << {
+      dsl1[:filter][:and] << {
         term: {
           published_status: !false,
+        },
+      }
+    end
+
+    if @content_category_ids.present?
+      dsl1[:filter][:and] << {
+        terms: {
+          content_category_ids: @content_category_ids,
+        },
+      }
+    end
+
+    if @content_tag_ids.present?
+      dsl1[:filter][:and] << {
+        terms: {
+          content_tag_ids: @content_tag_ids,
         },
       }
     end
@@ -72,7 +93,7 @@ class ContentFeedSearch
       },
     }
     if @unpublished == 'true' && @published != 'true'
-      dsl[:filter][:and] << {
+      dsl2[:filter][:and] << {
         term: {
           published_status: false,
         },
@@ -80,9 +101,25 @@ class ContentFeedSearch
     end
 
     if @unpublished != 'true' && @published == 'true'
-      dsl[:filter][:and] << {
+      dsl2[:filter][:and] << {
         term: {
           published_status: !false,
+        },
+      }
+    end
+
+    if @content_category_ids.present?
+      dsl2[:filter][:and] << {
+        terms: {
+          content_category_ids: @content_category_ids,
+        },
+      }
+    end
+
+    if @content_tag_ids.present?
+      dsl2[:filter][:and] << {
+        terms: {
+          content_tag_ids: @content_tag_ids,
         },
       }
     end
@@ -117,30 +154,74 @@ class ContentFeedSearch
       }
     end
 #END OF DSL2
-    content_classes = [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost]
-    content_classes_without_post = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer]
-    content_classes_just_post = [Post]
-    #combining the payloads delivered to app by ElasticSearch
-    if @query.blank?
-      #if the user searches for nothing, and specifies no specific content types,
+
+    #all content types submitted, or all types
+    if !@content_types.present?
+      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post]
+    elsif @content_types.present?
+      formatted = @content_types.classify.constantize
+      if formatted == Event
+        formatted = EventDefinition
+      end
+      content_classes = [formatted]
+    else
+      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post]
+    end
+
+    #determining which query above to use depending on request
+    if @query.blank? && content_classes.count > 1
+      #if the user searches for no query string, and specifies no specific content types,
       #search for everything in all content types.
 
       Elasticsearch::Model.search(dsl1, content_classes).records.to_a
 
-    elsif !@query.blank?
-      #if the user has specified a query string, and has specified a content_type,
-      #and that content_type includes Post, then execute TWO queries. The first 
-      #for content types exclusive of Post and PostSection, the second query
-      #only searches for JUST Post and PostSection using query dsl2. This is
-      #because we need a specific, customized query just for the nested content
-      #type PostSections and its parent, Post.
+    elsif @query.blank? && content_classes.count == 1 && content_classes.include?(Post)
+      #if the user specifies no query string, and specifies content type Post:
 
-      (
-        (Elasticsearch::Model.search(dsl1, content_classes_without_post).records) + 
-        (Elasticsearch::Model.search(dsl2, content_classes_just_post).records)
-      ).to_a.sort_by {|obj| obj.published_at}.reverse!
+      Elasticsearch::Model.search(dsl2, content_classes).records.to_a
+
+    elsif !@query.blank? && content_classes.count == 1 && content_classes.include?(Post)
+      #if the user has specified a query string, and has specified Post as content type:
+
+      Elasticsearch::Model.search(dsl2, content_classes).records.to_a
+
+    elsif !@query.blank? && content_classes.count == 1 && !content_classes.include?(Post)
+      #if the user has specified a query string, and has *not* specified Post as content type:
+
+      Elasticsearch::Model.search(dsl1, content_classes).records.to_a
+
+    else
+
+      Elasticsearch::Model.search(dsl1, content_classes).records.to_a
 
     end
+
+
+
+    # content_classes = [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost]
+    # content_classes_without_post = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer]
+    # content_classes_just_post = [Post]
+    # #combining the payloads delivered to app by ElasticSearch
+    # if @query.blank?
+    #   #if the user searches for nothing, and specifies no specific content types,
+    #   #search for everything in all content types.
+
+    #   Elasticsearch::Model.search(dsl1, content_classes).records.to_a
+
+    # elsif !@query.blank?
+    #   #if the user has specified a query string, and has specified a content_type,
+    #   #and that content_type includes Post, then execute TWO queries. The first 
+    #   #for content types exclusive of Post and PostSection, the second query
+    #   #only searches for JUST Post and PostSection using query dsl2. This is
+    #   #because we need a specific, customized query just for the nested content
+    #   #type PostSections and its parent, Post.
+
+    #   (
+    #     (Elasticsearch::Model.search(dsl1, content_classes_without_post).records) + 
+    #     (Elasticsearch::Model.search(dsl2, content_classes_just_post).records)
+    #   ).to_a.sort_by {|obj| obj.published_at}.reverse!
+
+    # end
 
   end
 end

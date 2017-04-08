@@ -14,7 +14,7 @@ class Businesses::Content::SharesController < Businesses::Content::BaseControlle
     @business = @post.business
     @share = @post.shares.create!(share_params)
     MakeFacebookShare.new(business_id: @business.id, post_id: @post.id, klass: @post.class, share_id: @share.id).share_post
-    redirect_to business_content_feed_path(@business)
+    redirect_to business_content_root_path(@business)
   end
 
  private

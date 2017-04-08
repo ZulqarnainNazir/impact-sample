@@ -77,8 +77,10 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
         @event_definition.reschedule_events!
         @event_definition.__elasticsearch__.index_document
         flash[:notice] = 'Event was successfully updated.'
+
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition), notice: "Draft updated." } if params[:draft].present?
         format.html { redirect_to edit_business_content_event_definition_path(@business, @event_definition) } if !params[:draft].present?
+
       else
         flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
@@ -96,7 +98,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   end
 
   def destroy
-    destroy_resource @event_definition, location: [@business, :content_feed] do |success|
+    destroy_resource @event_definition, location: [@business, :content_root] do |success|
       if success
         EventDefinition.__elasticsearch__.refresh_index!
       end

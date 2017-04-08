@@ -1,6 +1,6 @@
 - title 'Manage Existing Business Content'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Content', :fp => :content_root, :an => ' Existing Content'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Content & Distribution', :fp => :content_root, :an => ' Existing Content Library'}
 
 .row
   .col-lg-12
@@ -9,28 +9,53 @@
         .col-lg-12
           .ibox.float-e-margins
             .ibox-content
-              = form_tag business_content_feed_path(@business), method: :get do
-                  div.input-group
-                    = text_field_tag '[query]', params[:query], placeholder: 'Search for...', class: 'form-control'
-                    div.input-group-btn
-                      = button_tag class: 'btn btn-default' do
-                        ' Search
-                  br>
-                  span.pull-right.content-checkboxes
-                    p Filter:
-                    span style="font-size:14px;"
-                      = check_box_tag "unpublished", true, class: '', style: 'padding-right: 2px; margin:0px;'
-                    span style="font-size:14px;"
-                      ' Unpublished
-                    span style="font-size:14px;"
-                      = check_box_tag "published", true, class: '', style: 'padding-right: 2px; margin:0px;'
-                    span style="font-size:14px;"
-                      ' Published
-              br>
-              hr
+              = form_tag business_content_root_path(@business), method: :get do
+                .row
+                  .col-md-8
+                    .form-group
+                      - if @results.present?
+                        span
+                          = link_to "All (#{@results.count}) ", business_content_root_path
+                          = ' | '
+                      span
+                        = link_to_unless params[:published], ' Published ', business_content_root_path(published: true)
+                        = ' | '
+                      span
+                        = link_to_unless params[:unpublished], ' Drafts ', business_content_root_path(unpublished: true)
+                        = ' | '
+                      / span
+                      /  | Excluded from Feed
+                  .col-md-4
+                    .input-group
+                      = text_field_tag '[query]', params[:query], placeholder: 'Search for...', class: 'form-control'
+                      .input-group-btn
+                        = button_tag class: 'btn btn-default' do
+                          ' Search
+
+                #content-feed-filters
+                  .row
+                    .col-md-3
+                      .form-group
+                        = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
+                    .col-md-3
+                      .form-group
+                        = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
+                    .col-md-3
+                      .form-group
+                        = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
+                    .col-md-3
+                      .form-group
+                        = button_tag class: 'btn btn-default' do
+                          ' Filter
+                        br
+                      = link_to business_content_root_path(@business), role: :button do
+                          'Clear Search
+
+              hr>
+
               - if @results.empty?
                 p
-                  'Sorry, there are no results matching that query.
+                  'Looks like we don't have any content. Why not create something?
               - else
                 p
                   = page_entries_info @results, entry_name: 'item'

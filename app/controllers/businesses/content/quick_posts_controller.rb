@@ -62,8 +62,10 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       if @quick_post.update(quick_post_params)
         @quick_post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully updated.'
+
         format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft updated." } if params[:draft].present?
         format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post) } if !params[:draft].present?
+
       else
         flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
@@ -74,7 +76,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def destroy
-    destroy_resource @quick_post, location: [@business, :content_feed] do |success|
+    destroy_resource @quick_post, location: [@business, :content_root] do |success|
       if success
         QuickPost.__elasticsearch__.refresh_index!
       end

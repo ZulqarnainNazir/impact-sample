@@ -33,10 +33,10 @@
 
               - if share_authorized?(@business)
                       = form.submit 'Distribute', class: 'btn btn-primary distribute'
-                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+                      = link_to 'Skip Sharing for now', [@business, :content, :root], class: 'btn btn-link'
               - else 
                       = form.submit 'Distribute', class: 'btn btn-primary distribute unauthorized'
-                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+                      = link_to 'Skip Sharing for now', [@business, :content, :root], class: 'btn btn-link'
           - else
             = form_for :share, url: [@business, :content, @post, :shares], class: 'form-inline' do |form|
               = form.text_area :message, class: 'form-control', placeholder: 'This message will appear along side your share which you can preview and edit below', rows: 3
@@ -53,10 +53,10 @@
                     input.checkbox.now-box type="checkbox" checked="checked"Now
               - if share_authorized?(@business)
                       = form.submit 'Distribute', class: 'btn btn-primary distribute'
-                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+                      = link_to 'Skip Sharing for now', [@business, :content, :root], class: 'btn btn-link'
               - else 
                       = form.submit 'Distribute', class: 'btn btn-primary distribute unauthorized'
-                      = link_to 'Skip Sharing for now', [@business, :content, :feed], class: 'btn btn-link'
+                      = link_to 'Skip Sharing for now', [@business, :content, :root], class: 'btn btn-link'
 
 javascript:
 

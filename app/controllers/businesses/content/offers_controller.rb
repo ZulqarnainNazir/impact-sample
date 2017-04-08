@@ -60,8 +60,10 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
       if @offer.update(offer_params)
         @offer.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
+
         format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Draft updated." } if params[:draft].present?
         format.html { redirect_to edit_business_content_offer_path(@business, @offer) } if !params[:draft].present?
+
       else
         flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
@@ -72,7 +74,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
 
 
   def destroy
-    destroy_resource @offer, location: [@business, :content_feed] do |success|
+    destroy_resource @offer, location: [@business, :content_root] do |success|
       if success
         Offer.__elasticsearch__.refresh_index!
       end

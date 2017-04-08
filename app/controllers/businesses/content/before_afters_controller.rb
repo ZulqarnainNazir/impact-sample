@@ -65,7 +65,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
   end
 
   def destroy
-    destroy_resource @before_after, location: [@business, :content_feed] do |success|
+    destroy_resource @before_after, location: [@business, :content_root] do |success|
       if success
         BeforeAfter.__elasticsearch__.refresh_index!
       end

@@ -50,8 +50,10 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       if @post.save
         @post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
+
         format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft post created successfully" } if params[:draft].present?
         format.html { redirect_to edit_business_content_post_path(@business, @post) } if !params[:draft].present?
+
       else
         flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "new" }
@@ -83,8 +85,10 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       if @post.update(post_params)
         @post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully updated.'
+
         format.html { redirect_to edit_business_content_post_path(@business, @post), notice: "Draft updated." } if params[:draft].present?
         format.html { redirect_to edit_business_content_post_path(@business, @post) } if !params[:draft].present?
+
       else
         flash[:notice] = 'Something went wrong - please try again.'
         format.html { render :action => "edit" }
@@ -101,7 +105,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
   end
 
   def destroy
-    destroy_resource @post, location: [@business, :content_feed] do |success|
+    destroy_resource @post, location: [@business, :content_root] do |success|
       if success
         begin
           if @business.facebook_id? && @business.facebook_token? && @post.facebook_id?
