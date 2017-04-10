@@ -288,6 +288,10 @@ Rails.application.routes.draw do
         end
         resources :mission_instance_comments, only: :create
         resources :mission_notes, only: :update
+        resources :to_do_lists do
+          post :add_mission, on: :member
+          post :remove_mission, on: :member
+        end
         resources :missions, only: %i[index show] do
           get :custom, on: :collection
           resources :mission_assignments, only: :create
@@ -299,6 +303,7 @@ Rails.application.routes.draw do
             post :snooze
             post :deactivate
             post :activate
+            post :update_list
           end
         end
         resources :to_dos, only: %i[index show create update destroy] do

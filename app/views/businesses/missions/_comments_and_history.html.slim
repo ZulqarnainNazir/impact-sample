@@ -42,6 +42,7 @@
                     = history.created_at.strftime('%m/%d/%Y %l:%M%p')
                     - if history.actor == current_user
                     span.m-l-5px
-                      = render partial: 'edit_note_modal', locals: { history: history }
+                      - if history.id
+                        = render partial: 'edit_note_modal', locals: { history: history }
           - else
             .m-y-3 No history to show

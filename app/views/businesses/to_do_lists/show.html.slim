@@ -1,0 +1,64 @@
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Marketing To-Do Lists', fp: :marketing_assistant_index, an: 'Mission List'}
+
+.ibox
+  .ibox-content
+    .row
+      - if @to_do_list.owned_by?(@business)
+        = render partial: 'edit_modal', locals: { to_do_list: @to_do_list }
+        = link_to 'Delete', business_to_do_list_path(@business, @to_do_list), class: 'btn btn-danger delete-link m-y-2 m-r-1 p-x-2 pull-right'
+
+      .p-a-2
+        h1.bold = @to_do_list.name
+        p = @to_do_list.description
+
+    - if @missions.any?
+      - @missions.group_by(&:admin_created?).each do |admin, missions|
+        .panel.panel-default
+          .panel-heading = admin ? 'Standard' : 'Custom'
+
+          table.table
+            thead
+              th Name
+              th Status
+              th Description
+              th Actions
+            tbody
+              - missions.each do |mission|
+                tr
+                  td = link_to mission.title, business_mission_path(@business, mission)
+                  td
+                    .label.label-primary = mission.status
+                  td = mission.description.html_safe
+                  td
+                    = link_to 'Remove', remove_mission_business_to_do_list_path(@business, @to_do_list, mission_id: mission.id), method: :post, class: 'btn btn-danger btn-sm m-r-1'
+                    = render partial: 'businesses/reminders/mission_actions', locals: { mission: mission }
+
+      = paginate @missions
+
+    .row
+      = render partial: 'add_missions_modal', locals: { to_do_list: @to_do_list }
+
+javascript:
+  $('.delete-link').click(function(event){
+    event.preventDefault();
+
+    swal({
+      title: "Are you sure?",
+      text: "You will not be able to recover this imaginary file!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: false
+    },
+    function(){
+      $.ajax({
+        url: window.location.pathname,
+        type: 'DELETE',
+        success: function(result) {
+          console.log(result)
+          window.location = result.redirect;
+        }
+      });
+    });
+  });

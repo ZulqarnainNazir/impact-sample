@@ -1,0 +1,14 @@
+- @to_do_list = local_assigns[:to_do_list] || ToDoList.new
+= form_for [@business, @to_do_list] do |f|
+  .form-group.row
+    = f.label :name, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :name, class: 'form-control'
+  .form-group.row
+    = f.label :description, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_area :description, class: 'form-control'
+
+  .text-center
+    = link_to 'Cancel', '#', class: 'btn btn-default m-r-1',data: {dismiss: "modal"}
+    = f.submit 'Submit', class: 'btn btn-primary'

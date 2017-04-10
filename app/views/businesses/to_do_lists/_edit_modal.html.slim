@@ -1,0 +1,15 @@
+= link_to '#', class: 'btn btn-primary m-y-2 m-r-1 p-x-2 pull-right', data: { toggle: 'modal', target: '#edit-note-modal' } do
+  i.fa.fa-pencil.m-r-15px
+  | Edit
+
+.modal.inmodal.fade#edit-note-modal tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Edit List
+
+        .modal-body
+          = render partial: 'form', locals: { to_do_list: to_do_list }

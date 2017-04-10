@@ -58,6 +58,24 @@ class Mission < ActiveRecord::Base
     where(business_id: [nil, business.id])
   end
 
+  def self.unassigned_to_list(business)
+    self
+      .joins("LEFT JOIN mission_instances ON missions.id = mission_instances.mission_id AND mission_instances.business_id = #{business.id}")
+      .where('COALESCE(mission_instances.to_do_list_id, missions.to_do_list_id) IS NULL')
+  end
+
+  def self.assigned_to_list(business, list)
+    self
+      .joins("LEFT JOIN mission_instances ON missions.id = mission_instances.mission_id AND mission_instances.business_id = #{business.id}")
+      .where('COALESCE(mission_instances.to_do_list_id, missions.to_do_list_id) = ?', list.id)
+  end
+
+  def self.assigned_to_lists(business, lists)
+    self
+      .joins("LEFT JOIN mission_instances ON missions.id = mission_instances.mission_id AND mission_instances.business_id = #{business.id}")
+      .where('COALESCE(mission_instances.to_do_list_id, missions.to_do_list_id) IN (?)', lists.map(&:id))
+  end
+
   def self.recommended_for_business(business, exclude_ids)
     # Admin recommended missions
     admin_created.recommended.where.not(id: exclude_ids)

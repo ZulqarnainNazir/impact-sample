@@ -49,8 +49,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Marketing Assistant
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/activity_calendar|missions|reminders/))
-          / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant_index/))
-          /   = link_to "Virtual Marketing Assistant", [@business, :marketing_assistant_index]
+          li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant_index/))
+            = link_to "To-Do Lists", [@business, :marketing_assistant_index]
           li class=('active' if controller_path.match(/activity_calendar/))
             = link_to "Activity Calendar", [:timeline, @business, :activity_calendar, :index]
           li class=('active' if controller_path.match(/\Abusinesses\/reminders/))

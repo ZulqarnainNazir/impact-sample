@@ -1,0 +1,33 @@
+= link_to '#', class: 'btn btn-primary m-y-2 m-r-1 p-x-2 pull-right', data: { toggle: 'modal', target: '#add-missions-note-modal' } do
+  i.fa.fa-plus.m-r-15px
+  | Add Missions
+
+.modal.inmodal.fade#add-missions-note-modal tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Add Missions
+
+        .modal-body.fixed-height
+          - @unassigned_missions.group_by(&:admin_created?).each do |admin, missions|
+            .panel.panel-default
+              .panel-heading = admin ? 'Standard' : 'Custom'
+
+              table.table
+                thead
+                  th Name
+                  th Status
+                  th Description
+                  th Actions
+                tbody
+                  - missions.each do |mission|
+                    tr
+                      td = link_to mission.title, business_mission_path(@business, mission)
+                      td
+                        .label.label-primary = mission.status
+                      td = mission.description.html_safe
+                      td
+                        = link_to 'Add', add_mission_business_to_do_list_path(@business, @to_do_list, mission_id: mission.id), method: :post, class: 'btn btn-success btn-xm'

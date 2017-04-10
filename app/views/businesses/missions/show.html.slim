@@ -74,10 +74,12 @@
           dd = @mission_instance&.creating_user&.name
           dt Time to Complete
           dd = @mission.time_to_complete
-          - if @mission.to_do_list
-            dt To-Do List
-            dd
-              a.text-navy = @mission.to_do_list.name
+          dt To-Do List
+          dd
+            - if @mission_instance.associated_list
+              = link_to @mission_instance.associated_list.name, business_to_do_list_path(@business, @mission_instance.associated_list), class: 'text-navy'
+              br
+            = render partial: 'to_do_list_modal'
 
       .col-sm-7
         dl.dl-horizontal.m-t-1

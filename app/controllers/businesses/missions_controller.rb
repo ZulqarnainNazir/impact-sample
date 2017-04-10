@@ -27,5 +27,6 @@ class Businesses::MissionsController < Businesses::BaseController
     @mission_instance = @mission.mission_instances.for_business(@business.id)
     @mission_instance ||= @mission.mission_instances.new(business: @business, last_status: nil)
     @comments = @mission_instance ? @mission_instance.comments : Comment.none
+    @to_do_lists = ToDoList.for_business(@business)
   end
 end

@@ -1,0 +1,27 @@
+- @mission = mission if local_assigns[:mission]
+- @mission_instance = mission_instance if local_assigns[:mission_instance]
+
+= link_to '#', class: (local_assigns[:color_class] ? color_class : 'text-navy'), data: { toggle: 'modal', target: '#mission-list-assignment-modal' } do
+  - if @mission_instance&.associated_list
+    | Change list
+  - else
+    | Assign to list
+
+.modal.inmodal.fade#mission-list-assignment-modal tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    = form_tag update_list_business_mission_instances_path(@business, mission_id: @mission.id) do
+      .modal-content
+        .modal-header
+          button type="button" class="close" data-dismiss="modal"
+            span aria-hidden="true" ×
+            span.sr-only Close
+          h4.modal-title Edit List Assignment
+
+        .modal-body
+          .form-group
+            = label_tag :to_do_list, nil, class: 'control-label'
+            = select_tag 'mission_instance[to_do_list_id]', options_for_select(@to_do_lists.map{ |u| [u.name.capitalize, u.id] }, @mission_instance&.associated_list&.id), class: 'form-control selectpicker', include_blank: true
+
+        .modal-footer
+          button.btn.btn-white type="button" data-dismiss="modal" Close
+          = submit_tag 'Update List', class: 'btn btn-primary'

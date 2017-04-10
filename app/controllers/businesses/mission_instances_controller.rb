@@ -112,6 +112,23 @@ class Businesses::MissionInstancesController < Businesses::BaseController
     end
   end
 
+  def update_list
+    mission = Mission.find(params[:mission_id])
+    mission_instance = MissionInstance.find_or_initialize_by(mission_id: mission.id, business_id: @business.id)
+
+    if mission_instance_params[:to_do_list_id].blank?
+      mission_instance.excluded_from_list = true
+    else
+      mission_instance.excluded_from_list = false
+    end
+
+    if mission_instance.update(mission_instance_params)
+      redirect_to [@business, mission], notice: 'Mission added to list'
+    else
+      redirect_to :back, error: 'Failed to update list'
+    end
+  end
+
   private
 
   def mission_instance_params
@@ -121,7 +138,8 @@ class Businesses::MissionInstancesController < Businesses::BaseController
       :start_date,
       :end_date,
       :start_time,
-      :end_time
+      :end_time,
+      :to_do_list_id
     )
   end
 

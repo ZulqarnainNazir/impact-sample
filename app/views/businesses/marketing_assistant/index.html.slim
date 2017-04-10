@@ -1,40 +1,24 @@
-h1 Virtual Marketing Assistant
-= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, an: "Virtual Assistant" }
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, an: "Marketing To-Do Lists" }
 
-.row
-  .col-md-4
-    .ibox
-      .ibox-title
-        h4 Marketing Suggestions
-      .ibox-content
-        h4 Smart prompts are simple, actionable activities to grow your business.
-        p These suggestions are based on you, your business priorities, your industry and your ongoing activities
+.container-fluid
+  .row
+    = render partial: 'businesses/to_do_lists/new_modal'
 
-        ul
-          li Prompt1
-          li Prompt2
-          li Prompt3
-  .col-md-4
-    .ibox
-      .ibox-title
-        h4 Foundational Marketing Checklist
-      .ibox-content
-        h4 Smart prompts are simple, actionable activities to grow your business.
-        p These suggestions are based on you, your business priorities, your industry and your ongoing activities
+  .row
+    - @to_do_lists.each_slice(3) do |group|
+      .row
+        - group.each do |to_do_list|
+          .col-md-4
+            .ibox
+              .ibox-title
+                h4
+                  = link_to to_do_list.name, business_to_do_list_path(@business, to_do_list)
+              .ibox-content
+                p = to_do_list.description
 
-        ul
-          li Prompt1
-          li Prompt2
-          li Prompt3
-  .col-md-4
-    .ibox
-      .ibox-title
-        h4 Recurring Marketing Activities
-      .ibox-content
-        h4 Smart prompts are simple, actionable activities to grow your business.
-        p These suggestions are based on you, your business priorities, your industry and your ongoing activities
+                ul
+                  - Array(@grouped_missions[to_do_list.id]).first(5).each do |mission|
+                    li
+                      = link_to mission.title, business_mission_path(@business.id, mission.id)
 
-        ul
-          li Prompt1
-          li Prompt2
-          li Prompt3
+= paginate @to_do_lists

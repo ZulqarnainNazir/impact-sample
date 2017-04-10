@@ -14,6 +14,8 @@ class MissionInstance < ActiveRecord::Base
   belongs_to :creating_user, class_name: 'User'
   belongs_to :assigned_user, class_name: 'User'
 
+  belongs_to :to_do_list
+
   enum last_status: [:created, :active, :completed, :skipped, :snoozed, :deactivated]
 
   scope :active, -> { where(last_status: ACTIVE_STATUS_INDEXES) }
@@ -60,6 +62,12 @@ class MissionInstance < ActiveRecord::Base
       mission.save
       update(mission_id: mission.id)
     end
+  end
+
+  def associated_list
+    return nil if excluded_from_list
+
+    to_do_list_id? ? to_do_list : mission.to_do_list
   end
 
   def completion_rate
@@ -114,7 +122,7 @@ class MissionInstance < ActiveRecord::Base
   def next_due_at(future_only = false)
     if scheduled?
       if future_only
-        mission_instance_events.next_due_event&.occurs_on
+        mission_instance_events.next_due_event&.first&.occurs_on
       else
         mission_instance_events.oldest.first&.occurs_on
       end

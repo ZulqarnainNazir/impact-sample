@@ -33,6 +33,12 @@ input[type="checkbox"] {
 .modal-dialog .nav {
   margin-bottom: 15px;
 }
+
+.modal-body.fixed-height {
+  height: 500px;
+  overflow-y: scroll;
+}
+
 html, body {
   width: auto !important;
   overflow-x: hidden !important;
