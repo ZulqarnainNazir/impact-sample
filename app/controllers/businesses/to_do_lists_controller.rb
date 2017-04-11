@@ -6,13 +6,17 @@ class Businesses::ToDoListsController < Businesses::BaseController
       redirect_to :back
     end
 
-    @unassigned_missions = Mission.unassigned_to_list(@business)
+    @unassigned_missions = Mission.unassigned_to_list(@business).order('mission_instances.last_status')
     @missions = Mission.assigned_to_list(@business, @to_do_list)
                        .page(params[:page])
                        .per(15)
+
     @mission_instances = @business.mission_instances
                                   .where(mission_id: @missions.map(&:id))
                                   .group_by(&:mission_id)
+    @unassigned_mission_instances = @business.mission_instances
+                                             .where(mission_id: @unassigned_missions.map(&:id))
+                                             .group_by(&:mission_id)
   end
 
   def create

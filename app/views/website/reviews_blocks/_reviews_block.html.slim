@@ -2,7 +2,6 @@
   - business = reviews_block.business
   - reviews = business.reviews.published.order(reviewed_at: :desc).limit(6)
   - if reviews.length > 0
-    h2 Contact Reviews
     - if reviews_block.style == 'columns'
       .reviews.reviews-columns
         #carousel-reviews-widget-columns-md.carousel.slide data-ride="carousel"

@@ -23,10 +23,17 @@
               th Actions
             tbody
               - missions.each do |mission|
+                - instance = @mission_instances[mission.id]&.first
+
                 tr
                   td = link_to mission.title, business_mission_path(@business, mission)
-                  td
-                    .label.label-primary = mission.status
+                  - if instance && instance&.active?
+                    td
+                      span.label.label-primary Active
+                  - else
+                    td
+                      span.label.label-default Inactive
+
                   td
                     = link_to 'Remove', remove_mission_business_to_do_list_path(@business, @to_do_list, mission_id: mission.id), method: :post, class: 'btn btn-danger btn-sm m-r-1'
                     = render partial: 'businesses/reminders/mission_actions', locals: { mission: mission }
