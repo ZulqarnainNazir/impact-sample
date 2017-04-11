@@ -4,7 +4,7 @@
 = webpage_container do
   ol.breadcrumb
     li = link_to icon('home'), :website_root
-    li = link_to 'Contact Reviews', :website_reviews
+    li = link_to 'Customer Reviews', :website_reviews
     li.active Review Details
   .row
     div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
