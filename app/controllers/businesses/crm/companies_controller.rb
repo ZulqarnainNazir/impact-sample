@@ -45,11 +45,12 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
         #redirect_to [@business, :crm_companies]
         redirect_to [:edit, @business, :crm, company], :notice => "Successfully Saved Company"
       else
-        render 'businesses/crm/business/edit'
+        Rails.logger.info(company.errors.messages.inspect)
+        redirect_to [:edit, @business, :crm, company], :notice => "Failed To Save Company"
       end
     else
       if company.update_attributes(company_params)
-        redirect_to [@business, :crm_companies]
+        redirect_to [:edit, @business, :crm, company], :notice => "Successfully Saved Company"
       else
         render 'edit'
       end
@@ -69,6 +70,7 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
       :twitter_id, :youtube_id, :citysearch_id, :instagram_id, :pinterest_id, :yelp_id, :foursquare_id, :zillow_id,
       :opentable_id, :trulia_id, :realtor_id, :tripadvisor_id, :houzz_id,
       crm_notes_attributes: [ :content, ],
+      :contact_ids => [],
       :company_list_ids => [],
       :company_location_attributes => [:name, :email, :street1, :street2, :city, :state, :zip_code, :phone_number]
     ).tap do |safe_params|
@@ -83,7 +85,15 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
     params.require(:company).permit(:private_details, :business_attributes => [:name, :description, :website_url, 
       :website_url, :facebook_id, :google_plus_id, :linkedin_id, :twitter_id, :youtube_id, :citysearch_id, :instagram_id, 
       :pinterest_id, :yelp_id, :foursquare_id, :zillow_id, :opentable_id, :trulia_id, :realtor_id, :tripadvisor_id, :houzz_id,
-      :location_attributes => [:name, :email, :street1, :street2, :city, :state, :zip_code, :phone_number]])
+      :logo_placement_attributes => [:id, :kind, :_destroy, :image_id, :image_attachment_cache_url, :image_attachment_content_type, :image_attachment_file_name, :image_attachment_file_size, :image_alt, :image_title],
+      :location_attributes => [:id, :name, :email, :street1, :street2, :city, :state, :zip_code, :phone_number]]).deep_merge(
+        business_attributes: {
+          logo_placement_attributes: {
+            image_user: current_user,
+            image_business: @business,
+          },
+        },
+      )
   end
 
   def business_update_params

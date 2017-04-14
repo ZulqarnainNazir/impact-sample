@@ -43,7 +43,11 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
 
   def update
     @contact.relationship = params[:contact][:relationship]
-    update_resource @contact, contact_params, location: [@business, :crm_contacts]
+    if @contact.update_attributes contact_params
+      redirect_to [:edit, @business, :crm, @contact], :notice => "Successfully Saved Contact"
+    else
+      redirect_to [:edit, @business, :crm, @contact], :notice => "Failed to Save Contact"
+    end
   end
 
   def destroy

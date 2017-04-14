@@ -119,7 +119,10 @@
           - @contact.companies.each do |company|
             .row
               .col-xs-4.text-center.p-xs
-                i.fa.fa-building.fa-5x aria-hidden="true"
+                - if company.business.logo
+                  = image_tag company.business.logo.attachment_thumbnail_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
+                - else
+                  i.fa.fa-building.fa-5x aria-hidden="true"
               .col-xs-8
                 h3 = link_to company.name, [:edit, @business, :crm, company]
                 address

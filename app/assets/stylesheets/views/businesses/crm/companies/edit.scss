@@ -18,10 +18,18 @@
   display: block;
 }
 
+.badge-claimed {
+  margin: 5px;
+}
+
 .company-form {
   .form-group {
     .public::after {
-      content: '*'
+      content: '?';
+      position: relative;
+      bottom: 5px;
+      font-size: 12px;
+      left: 2px;
     }
     select {
       background-color: inherit;

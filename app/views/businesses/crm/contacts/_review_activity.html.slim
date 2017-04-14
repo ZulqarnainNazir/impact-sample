@@ -1,0 +1,30 @@
+.vertical-timeline-block
+  .vertical-timeline-icon.blue-bg
+    i.fa.fa-comment
+
+  .vertical-timeline-content
+    h5 = subject.title
+    p
+      span.review-rating
+        - if subject.overall_rating >= 1.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if subject.overall_rating >= 2.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if subject.overall_rating >= 3.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if subject.overall_rating >= 4.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+        - if subject.overall_rating >= 5.0
+          span.fa.fa-star
+        - else
+          span.fa.fa-star-o
+    p = subject.description
+    = activity_time_tag(subject)

@@ -2,6 +2,14 @@
   = errors_for business
   - tooltip = 'This data is Core Data.'
   = form_for @business, url: super_business_datum_path, html: { class: "company-form form-horizontal"} do |business|
+    = react_component 'ImagePlacement',
+      imagesPath: business_images_path(business.object),
+      inputPrefix: 'business[logo_placement_attributes]',
+      label: 'Logo Image',
+      placement: business.object.logo_placement_json,
+      presignedPost: s3_logo_presigned_post_hash,
+      bulkUploadPath: new_business_content_images_upload_path(business.object),
+      showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
     .form-group
       = business.label :name, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
       .col-lg-10 = business.text_field :name, class: 'form-control', value: @business.name

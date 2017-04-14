@@ -2,6 +2,15 @@
       = errors_for company
       - tooltip = 'This data is part of the public Local Graph. Private data is only available within your account.'
       = form.fields_for :business do |business|
+        - if !disabled && @company.business.logo.blank?
+          = react_component 'ImagePlacement',
+            imagesPath: business_images_path(form.object),
+            inputPrefix: 'company[business_attributes][logo_placement_attributes]',
+            label: 'Logo Image',
+            placement: business.object.logo_placement_json,
+            presignedPost: s3_logo_presigned_post_hash,
+            bulkUploadPath: new_business_content_images_upload_path(form.object),
+            showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
         .form-group
           = business.label :name, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
           .col-lg-10 = business.text_field :name, class: 'form-control', value: company.business.name, disabled: (disabled || !company.business.name.blank?)

@@ -7,11 +7,16 @@
   .col-md-6
     .ibox.float-e-margins
       .ibox-title
+        - if @company.business.in_impact
+          .badge.badge-info.pull-right.badge-claimed data-toggle="tooltip" title="Claimed businesses are controlled by their owner or manager, the public data is thus provided by them directly." Claimed
         h1.h4 Company Information (Public)
       .ibox-content
         .row
           .col-xs-4.text-center.p-xs
-            i.fa.fa-building.fa-5x aria-hidden="true"
+            - if @company.business.logo
+              = image_tag @company.business.logo.attachment_thumbnail_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
+            - else
+              i.fa.fa-building.fa-5x aria-hidden="true"
           .col-xs-8
             h3: strong = @company.name
             p.m-b-none 
@@ -186,6 +191,11 @@
                 | Email: 
                 a href="mailto:#{contact.email}" = contact.email
             .clearfix
+      .ibox-content style="padding: 20px"
+        = form_for @company, url: [@business, :crm, @company] do |form|
+          .form-group
+            = form.select :contact_ids, options_from_collection_for_select(Contact.where(:business_id => @business.id), :id, :name, @company.contact_ids), { include_blank: true }, { multiple: true, class: 'form-control' }
+          = form.submit 'Update Associations', class: 'btn btn-primary btn-block'
       / .ibox-content style="padding: 20px"
       /   = form_for @company, url: [@business, :crm, @company] do |form|
       /     .form-group
@@ -216,6 +226,6 @@
 - content_for :javascript do
   javascript:
     $(function() {
-      $(".company_list_ids").chosen();
+      $(".company_list_ids, #company_contact_ids").chosen();
     });
 

@@ -15,7 +15,10 @@
 	        .ibox-content
 	          .row
 	            .col-xs-4.text-center.p-xs
-	              i.fa.fa-building.fa-5x aria-hidden="true"
+                  - if @business.logo
+                    = image_tag @business.logo.attachment_thumbnail_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
+                  - else
+                    i.fa.fa-building.fa-5x aria-hidden="true"
 	            .col-xs-8
 	              h3: strong = @business.name
 	              p.m-b-none 

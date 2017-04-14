@@ -6,8 +6,8 @@ tr class=('unread' unless contact.read_by.include?(current_user.id))
   td = link_to contact.name, [:edit, contact.business, :crm, contact]
   td = contact.email
   td = contact.phone? ? contact.phone : '--'
-  td = contact.feedbacks.map(&:serviced_at).sort.first.try(:strftime, '%D') || '--'
-  td = contact.feedbacks.map(&:completed_at).sort.first.try(:strftime, '%D') || '--'
+  td = (contact.feedbacks.map(&:serviced_at).reject{|a| a.blank?}.length > 0) ? contact.feedbacks.map(&:serviced_at).reject{|a| a.blank?}.sort.first.try(:strftime, '%D') : '--'
+  td = (contact.feedbacks.map(&:completed_at).reject{|a| a.blank?}.length > 0) ? contact.feedbacks.map(&:completed_at).reject{|a| a.blank?}.sort.first.try(:strftime, '%D') : '--'
   td = contact.feedbacks.map(&:score).sort.first || '--'
   td
 
