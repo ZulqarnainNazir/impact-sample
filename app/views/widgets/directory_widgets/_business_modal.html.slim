@@ -12,7 +12,7 @@
               div
                 .ibox-content.no-padding.border-left-right
                   - if business.logo
-                    img.img-responsive src=business.logo.attachment_url(:logo_large)
+                    = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
                   - if !business.location.hide_address? && !business.location.street1.blank?
                     - map_params = { center: [business.location.latitude, business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
                       q: [business.location.address_line_one, business.location.address_line_two].reject(&:blank?).join(' '), zoom: 18 }.to_param

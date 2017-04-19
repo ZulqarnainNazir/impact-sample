@@ -2,7 +2,7 @@
   = link_to [business, :dashboard], class: 'thumbnail' do
     .thumbnail
       - if (business.logo.attachment_cache_url? rescue nil)
-        = image_tag business.logo.attachment_url(:thumbnail), alt: business.logo.alt, title: business.logo.title
+        = image_tag business.logo.attachment_url(:logo_jumbo), alt: business.logo.alt, title: business.logo.title
       - else
         i.fa.fa-photo
     h2 = business.name

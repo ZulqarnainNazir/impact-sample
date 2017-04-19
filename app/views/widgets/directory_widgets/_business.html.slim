@@ -3,12 +3,12 @@
   .contact-box.center-version id="business-#{business.id}"
     a.business-card data-business-id=business.id
       - if business.logo
-        = image_tag(business.logo.attachment_url())
+        = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto;'
       h3.m-b-xs: strong=business.name
         / a href="tel:#{business.business.location.phone_number}"
       div= business.website_url
       - if !business.location.street1.blank?
-        address.m-t-md
+        address.m-t-sm
           p.m-b-none = business.location.street1
           p.m-b-none = business.location.street2
           p.m-b-none = business.location.city && business.location.state ? "#{business.location.city}, #{business.location.state} #{business.location.zip_code}" : ""

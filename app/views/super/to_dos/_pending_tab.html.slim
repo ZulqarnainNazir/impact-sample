@@ -10,7 +10,7 @@ div.tab-pane#pending role="tabpanel"
           tr
             td
               - if (business.logo.attachment_cache_url? rescue nil)
-                = image_tag business.logo.attachment_url(:thumbnail), alt: business.logo.alt, title: business.logo.title, class: 'table-logo'
+                = image_tag business.logo.attachment_url(:logo_large), alt: business.logo.alt, title: business.logo.title, class: 'table-logo logo-large'
               - else
                 i.fa.fa-photo
             td = link_to business.name, business_dashboard_path(business)
