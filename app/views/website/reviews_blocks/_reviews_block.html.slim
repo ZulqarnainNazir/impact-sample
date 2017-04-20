@@ -22,7 +22,7 @@
           .col-md-8.col-md-offset-2
             #carousel-reviews-widget.carousel.slide data-ride="carousel"
               .carousel-inner
-                - reviews_block.business.reviews.order(reviewed_at: :desc).limit(6).each_with_index do |review, i|
+                - reviews_block.business.reviews.published.order(reviewed_at: :desc).limit(6).each_with_index do |review, i|
                   .item class=('active' if i == 0)
                     = render partial: 'website/reviews/review_full_width', object: review, as: :review
               => link_to '#carousel-reviews-widget', class: 'carousel-control left', role: 'button', data: { slide: 'prev' } do
