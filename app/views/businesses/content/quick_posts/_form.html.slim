@@ -85,18 +85,18 @@ javascript:
     $('#datetimepicker').datetimepicker({
         format: 'MMM D YYYY h:mm A ZZ'
     });
-    $('button[name="draft"]').click(function () {
-      $('[name="quick_post[content]"]').rules('remove');
-      $('#draftField').val(1);
-      $(".save-once").submit();
-    });
+    // $('button[name="draft"]').click(function () {
+    //   $('[name="quick_post[content]"]').rules('remove');
+    //   $('#draftField').val(1);
+    //   $(".save-once").submit();
+    // });
 
-    $('button[name="publish"]').click(function () {
-      $('[name="quick_post[content]"]').rules('add', {
-        required: true
-      });
-      $(".save-once").submit();
-    });
+    // $('button[name="publish"]').click(function () {
+    //   $('[name="quick_post[content]"]').rules('add', {
+    //     required: true
+    //   });
+    //   $(".save-once").submit();
+    // });
 
     $('button[name="draft"]').click(function () {
       $('#draftField').val(1);
