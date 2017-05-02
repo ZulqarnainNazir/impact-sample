@@ -1,7 +1,7 @@
 class PlatformConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
-    blank_or_impact_subdomain = request.subdomain.blank? || request.subdomains.first == 'impact' || request.subdomains.first == 'www'
+    blank_or_impact_subdomain = (request.subdomain.blank? || request.subdomains.first == 'impact' || request.subdomains.first == 'www') && request.subdomains.first != 'listings'
 
     host_match && blank_or_impact_subdomain
   end
@@ -10,13 +10,35 @@ end
 class WebsiteConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape(Rails.application.secrets.host))
-    present_and_not_impact_subdomain = request.subdomain.present? && request.subdomains.first != 'impact' && request.subdomains.first != 'www'
+    present_and_not_impact_subdomain = request.subdomain.present? && request.subdomains.first != 'impact' && request.subdomains.first != 'listings' && request.subdomains.first != 'www'
 
     !host_match || present_and_not_impact_subdomain
   end
 end
 
+class ListingConstraint
+  def matches?(request)
+    host_match = request.host.match(Regexp.escape("listings.locabledev.com"))
+    listings_subdomain = request.subdomain.present? && request.subdomains.first == 'listings' && request.subdomains.first != 'www' && request.subdomains.first != 'impact'
+    
+    host_match || listings_subdomain
+  end
+end
+
 Rails.application.routes.draw do
+
+  
+  scope module: :listing, as: :listing, constraints: ListingConstraint.new do
+    root to: 'listings#index'
+    match '/:lookup', to: 'listings#listing', via: :get
+    match '/:lookup/:content_type/', to: 'listings#content_type', :as => "content_type", via: :get
+    # match '/:lookup/:event_id', to: 'listings#event', :as => "event", via: :get
+    # match '/:lookup/:gallery_id', to: 'listings#gallery', :as => "gallery", via: :get
+    # match '/:lookup/:offer_id', to: 'listings#offer', :as => "offer", via: :get
+    # match ':lookup/:post_id/', to: 'listings#post', :as => "post", via: :get
+    # match'/:lookup/:quick_post_id', to: 'listings#quick_post', :as => "quick_post", via: :get
+  end
+
   scope constraints: PlatformConstraint.new do
     get :authenticate_facebook_page, to: 'authentications#facebook_page'
 

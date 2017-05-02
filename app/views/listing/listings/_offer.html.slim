@@ -5,7 +5,7 @@
         div.ibox-content.product-box
           div.product-imitation
             .offer-border
-              = link_to [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank do
+              = link_to listing_content_type_path(@business.generate_listing_segment, offer.slug, content: 'offer'), target: :_blank do
                 - if offer.try(:offer_image)
                   - image = offer.offer_image
                   - if image && !image.nil?
@@ -13,11 +13,11 @@
                 - else
                   = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
+            = link_to listing_content_type_path(@business.generate_listing_segment, offer.slug, content: 'offer'), target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(offer.title), length: 75, omission: '...'
             small.m-t-xs = truncate sanitize(offer.offer), length: 90, omission: '... '
             div.mt-text.rt
-              = link_to [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
+              = link_to listing_content_type_path(@business.generate_listing_segment, offer.slug, content: 'offer'), target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
 - else
@@ -30,11 +30,11 @@
         - if offer.content_categories.any? || offer.content_tags.any?
           span.text-muted> in
           - (offer.content_categories + offer.content_tags).each_with_index do |classification, i|
-            = link_to classification.name, [:website, classification]
+            = classification.name
             - if i < offer.content_categories.count + offer.content_tags.count - 1
               ' ,
     - cache offer do
-      h2 = link_to offer.title, website_generic_post_path(offer.to_generic_param)
+      h2 = link_to offer.title, listing_content_type_path(@business.generate_listing_segment, offer.slug, content: 'offer')
       - if defined?(small)
         - if offer.try(:offer_image)
           - image = offer.offer_image
@@ -51,7 +51,7 @@
         div style="margin:10px 0"
           = truncate sanitize(offer.description), length: 250
         p.text-right
-          = link_to website_generic_post_path(offer.to_generic_param), class: 'btn btn-primary' do
+          = link_to listing_content_type_path(@business.generate_listing_segment, offer.slug, content: 'offer'), class: 'btn btn-primary' do
             ' Learn More
             i.fa.fa-angle-right
         div
@@ -76,6 +76,6 @@
               div style="margin:10px 0"
                 = truncate sanitize(offer.description), length: 250
               p.text-right
-                = link_to website_generic_post_path(offer.to_generic_param), class: 'btn btn-primary' do
+                = link_to listing_content_type_path(@business.generate_listing_segment, offer.slug, content: 'offer'), class: 'btn btn-primary' do
                   ' Learn More
                   i.fa.fa-angle-right

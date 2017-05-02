@@ -30,7 +30,11 @@ class QuickPost < ActiveRecord::Base
   end
 
   def share_callback_url
-    url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
+    if self.business.webhost_primary? && !self.business.is_on_engage_plan?
+      url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
+    elsif self.business.is_on_engage_plan?
+      "http://#{ENV['LISTING_HOST']}#{self.business.generate_listing_path}/#{self.slug}?content=quick_post"
+    end  
   end
 
   # This is not a duplicate of share_image_url

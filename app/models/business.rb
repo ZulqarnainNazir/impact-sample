@@ -95,6 +95,52 @@ class Business < ActiveRecord::Base
 #One column should be "Active Account" with options "True" if there's an owner,
 #"Sample" if account ID but no owner, "False" if no ID.
 
+  def self.listing_lookup(params)
+    #this method is for use RE listings subdomain (see constraints for listings in routes, and listing controller)
+    #the purpose is to get the id of the business from the URL string
+    exp = /\W\d*\W/ #first we get a regular expression that gets patterns mathching '-integer-', i.e., '-4-'
+    id = /\d+/ #this will get an integer from '-4-'
+    Business.find(id.match(exp.match(params).to_s).to_s.to_i)
+    #^finally, we use the regex to get the id from the params. the id should be the first
+    #integer in the URL (see generate_listing_path, below). although the business
+    #name might also have a pattern matching '-integer-', our use of match here ensures that the
+    #FIRST match is returned only.
+    #sample test string: "nm-40-asdfadfs-na-1-asdfad"
+  end
+
+  def has_plan?
+    if self.subscription.present? && self.subscription.plan.present?
+      true
+    else
+      false
+    end
+  end
+
+  def webhost_primary?
+    if self.website.present? && self.website.webhost.present? && self.website.webhost.primary == true
+      return true
+    else
+      return false
+    end
+  end
+
+  def generate_listing_path
+    if !self.location.state.nil?
+      "/#{self.location.state}-#{self.id}-#{self.sitemap_name}"
+    elsif self.location.state.nil? || self.location.state.empty?
+      "/na-#{self.id}-#{self.sitemap_name}"
+    end
+  end
+
+  def generate_listing_segment
+    #for use in route helpers
+    if !self.location.state.nil?
+      "#{self.location.state}-#{self.id}-#{self.sitemap_name}"
+    elsif self.location.state.nil? || self.location.state.empty?
+      "na-#{self.id}-#{self.sitemap_name}"
+    end
+  end
+
   def account_status
     #checks the ownership and user relationships with business
     if self.owners.present?

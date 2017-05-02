@@ -5,7 +5,7 @@
       div.ibox-content.product-box
         - cache before_after do
           div.product-imitation
-            = link_to [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank do
+            = link_to listing_content_type_path(@business.generate_listing_segment, before_after.slug, content: 'before_after'), target: :_blank do
               - if before_after.before_image.present? && before_after.after_image.present?
                 - image_before = before_after.before_image.attachment_url(:thumbnail)
                 - image_after = before_after.after_image.attachment_url(:thumbnail)
@@ -21,12 +21,12 @@
             /       = link_to classification.name.titleize , [:website, classification]
             /       - if i < before_after.content_categories.count + before_after.content_tags.count - 1
             /         '  |
-            = link_to [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
+            = link_to listing_content_type_path(@business.generate_listing_segment, before_after.slug, content: 'before_after'), target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(before_after.title.titleize), length: 50, omission: '... '
             small.m-t-xs
               i BEFORE & AFTER
             div.mt-text.rt
-              = link_to [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
+              = link_to listing_content_type_path(@business.generate_listing_segment, before_after.slug, content: 'before_after'), target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
   / .col-xs-4.slider-content.single-blog
@@ -56,11 +56,11 @@
         - if before_after.content_categories.any? || before_after.content_tags.any?
           span.text-muted> in
           - (before_after.content_categories + before_after.content_tags).each_with_index do |classification, i|
-            = link_to classification.name, [:website, classification]
+            = classification.name
             - if i < before_after.content_categories.count + before_after.content_tags.count - 1
               ' ,
     - cache before_after do
-      h2.h3 = link_to before_after.title, website_generic_post_path(before_after.to_generic_param)
+      h2.h3 = link_to before_after.title, listing_content_type_path(@business.generate_listing_segment, before_after.slug, content: 'before_after')
       - if defined?(small)
         - if before_after.before_image
           h3.h4 Before
@@ -69,7 +69,7 @@
           h3.h4 After
           = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
         = truncate sanitize(before_after.description), length: 250, omission: '... ' do
-          = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)
+          = link_to 'Read More', listing_content_type_path(@business.generate_listing_segment, before_after.slug, content: 'before_after')
       - else
         - if before_after.before_image || before_after.after_image
           .row style="margin-top: 20px"
@@ -82,4 +82,4 @@
                 h3.h4 After
                 = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
         = truncate sanitize(before_after.description), length: 250, omission: '... ' do
-          = link_to 'Read More', website_generic_post_path(before_after.to_generic_param)
+          = link_to 'Read More', listing_content_type_path(@business.generate_listing_segment, before_after.slug, content: 'before_after')

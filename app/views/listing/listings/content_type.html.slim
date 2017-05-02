@@ -1,0 +1,12 @@
+- if params[:content] == 'before_after'
+  = render 'before_after_2', before_after: @post
+- elsif params[:content] == 'event'
+  = render 'event_2', event: @post
+- elsif params[:content] == 'gallery'
+  = render 'gallery_2', gallery: @post
+- elsif params[:content] == 'offer'
+  = render 'offer_2', offer: @post
+- elsif params[:content] == 'post'
+  = render 'post_2', post: @post
+- elsif params[:content] == 'quick_post'
+  = render 'quick_post_2', quick_post: @post

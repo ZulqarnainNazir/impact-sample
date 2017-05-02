@@ -9,6 +9,18 @@ module ApplicationHelper
      business.facebook_token?
   end
 
+  def listing_path(business)
+    business.generate_listing_path
+  end
+
+  def listing_path_url(business)
+    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}"
+  end
+
+  def listing_path_content_url(business, content, content_type)
+    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/#{content}?content=#{content_type}"
+  end
+
   def shared?(post, business)
     post.facebook_id? && business.facebook_token?
   end

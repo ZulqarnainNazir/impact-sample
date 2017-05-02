@@ -1,7 +1,13 @@
+.form-group.control-label
+  = form.label :locable_listing, class: 'control-label' do
+    i.fa.fa-square>
+    = Business.human_attribute_name(:locable_listing)
+  p.help-block
+    = link_to listing_path_url(@business), listing_path_url(@business), target: :_blank
 .form-group
   = form.label :cce_url, class: 'control-label' do
     i.fa.fa-square>
-    = Business.human_attribute_name(:cce_url)
+    = Business.human_attribute_name(:locable_publisher_network)
   = form.text_field :cce_url, autocomplete: 'off', class: 'form-control'
 .form-group
   = form.label :facebook_id, class: 'control-label' do

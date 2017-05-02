@@ -21,6 +21,8 @@
                     i.fa.fa-building.fa-5x aria-hidden="true"
 	            .col-xs-8
 	              h3: strong = @business.name
+	              p.m-b-none
+		            = link_to listing_path_url(@business), listing_path_url(@business), target: :_blank
 	              p.m-b-none 
 	                | Phone: 
 	                a href="tel:#{@business.location.phone_number}" 

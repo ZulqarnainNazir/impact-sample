@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406195048) do
+ActiveRecord::Schema.define(version: 20170407010809) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -162,17 +163,6 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end
-
-  create_table "business_widgets", force: :cascade do |t|
-    t.integer  "widget_id"
-    t.integer  "business_id"
-    t.jsonb    "settings"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
-  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
 
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
@@ -457,16 +447,6 @@ ActiveRecord::Schema.define(version: 20170406195048) do
   add_index "directory_widgets", ["business_id"], name: "index_directory_widgets_on_business_id", using: :btree
   add_index "directory_widgets", ["company_list_id"], name: "index_directory_widgets_on_company_list_id", using: :btree
 
-  create_table "customer_notes", force: :cascade do |t|
-    t.integer  "contact_id", null: false
-    t.text     "content",    null: false
-    t.text     "user_name",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "customer_notes", ["contact_id"], name: "index_customer_notes_on_contact_id", using: :btree
-
   create_table "event_definition_locations", force: :cascade do |t|
     t.integer  "event_definition_id", null: false
     t.integer  "location_id",         null: false
@@ -497,6 +477,7 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
+    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -698,12 +679,15 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.datetime "activated_at"
     t.time     "start_time"
     t.time     "end_time"
+    t.integer  "to_do_list_id"
+    t.boolean  "excluded_from_list"
   end
 
   add_index "mission_instances", ["assigned_user_id"], name: "index_mission_instances_on_assigned_user_id", using: :btree
   add_index "mission_instances", ["business_id"], name: "index_mission_instances_on_business_id", using: :btree
   add_index "mission_instances", ["creating_user_id"], name: "index_mission_instances_on_creating_user_id", using: :btree
   add_index "mission_instances", ["mission_id"], name: "index_mission_instances_on_mission_id", using: :btree
+  add_index "mission_instances", ["to_do_list_id"], name: "index_mission_instances_on_to_do_list_id", using: :btree
 
   create_table "missions", force: :cascade do |t|
     t.integer  "to_do_list_id"
@@ -860,7 +844,7 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.time     "published_time"
+    t.datetime "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -877,7 +861,7 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.time     "published_time"
+    t.datetime "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -1078,7 +1062,10 @@ ActiveRecord::Schema.define(version: 20170406195048) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "business_id"
   end
+
+  add_index "to_do_lists", ["business_id"], name: "index_to_do_lists_on_business_id", using: :btree
 
   create_table "to_do_notification_settings", force: :cascade do |t|
     t.boolean  "assigned",                  default: true
@@ -1208,13 +1195,6 @@ ActiveRecord::Schema.define(version: 20170406195048) do
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
-
-  create_table "widgets", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "widget_type", default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
 
   add_foreign_key "lines", "businesses"
   add_foreign_key "pdfs", "businesses"

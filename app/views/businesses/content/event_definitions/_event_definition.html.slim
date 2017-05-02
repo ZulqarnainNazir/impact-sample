@@ -24,7 +24,7 @@
               - if event_definition.content_categories.any? || event_definition.content_tags.any?
                 span.text-muted> Posted in
                 - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
-                  - if @business.website
+                  - if @business.webhost_primary?
                     - if event_definition.published_status == false
                       = link_to classification.name, [:website, :generic_post, :preview, :type => "event_definitions", only_path: false, :host => website_host(@business.website), protocol: :http, :id => event_definition.id], target: :_blank
                     - else
@@ -64,11 +64,17 @@
               - if placement && !placement.embeds? && placement.image
                 = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
               .event-info
-                - if event_definition.published_status != true
-                  h2.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => event_definition.id], target: :_blank
+                - if @business.webhost_primary?
+                  - if event_definition.published_status != true
+                    h2.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => event_definition.id], target: :_blank
+                  - else
+                    h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+                  .event-desc.truncate = truncate sanitize(event_definition.description), length: 250
+                - elsif !@business.webhost_primary? && @business.has_plan?
+                  h2 = link_to event_definition.title, listing_path_content_url(@business, event.id, 'event'), target: :_blank
                 - else
-                  h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
-                .event-desc.truncate = truncate sanitize(event_definition.description), length: 250
+                  h2 = event_definition.title
+
   javascript:
 
     $('.event-definition-unauthorized').click(function (e) {

@@ -11,7 +11,10 @@
               - if @gallery.published_status == false
                 = link_to "Preview Post", [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @gallery.id], class: 'btn btn-block btn-default', :target => "_blank"
               - else
-                = link_to "View Post", [:website, @gallery, only_path: false, host: website_host(@business.website), protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
+                - if @business.webhost_primary?
+                  = link_to "View Post", [:website, @gallery, only_path: false, host: website_host(@business.website), protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
+                - elsif !@business.webhost_primary? && @business.has_plan?
+                  = link_to "View Post", listing_path_content_url(@business, @gallery.slug, 'gallery'), class: 'btn btn-block btn-default', :target => "_blank"
           .form-group
             = form.label :description, class: 'control-label'
             = form.text_area :description, rows: 3, class: 'form-control wysihtml-editor', placeholder: 'Describe what the gallery is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the gallery is about.'

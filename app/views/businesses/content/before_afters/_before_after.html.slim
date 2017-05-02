@@ -46,16 +46,24 @@
 
           = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
           = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-      - if @business.website
+
+      - if @business.webhost_primary?
         - if before_after.published_status == false
           h2 = link_to before_after.title, [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), protocol: :http, :id => before_after.id], target: :_blank
         - else
-          - if Rails.env.development? || Rails.env.test?
-            h2 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
-          - elsif Rails.env.production?
-            h2 = link_to before_after.title, "http://#{website_host(@business.website)}/#{path_to_external_content(before_after)}", only_path: false, protocol: :http, target: :_blank
+          - if !@business.is_on_engage_plan?
+            - if Rails.env.development? || Rails.env.test?
+              h2 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+            - elsif Rails.env.production?
+              h2 = link_to before_after.title, "http://#{website_host(@business.website)}/#{path_to_external_content(before_after)}", only_path: false, protocol: :http, target: :_blank
+      - elsif !@business.webhost_primary? && @business.has_plan?
+        - if Rails.env.development? || Rails.env.test?
+          h2 = link_to before_after.title, listing_path_content_url(@business, before_after.slug, 'before_after'), target: :_blank
+        - elsif Rails.env.production?
+          h2 = link_to before_after.title, listing_path_content_url(@business, before_after.slug, 'before_after'), target: :_blank
       - else
         h2 = before_after.title
+
       - if before_after.before_image || before_after.after_image
         .row style="margin-top: 20px"
           .col-sm-6

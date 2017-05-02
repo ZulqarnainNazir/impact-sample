@@ -1,0 +1,174 @@
+.row
+  .col-sm-12
+    h2.fn.org itemprop="name" = @business.location.name
+    hr
+  .col-sm-4
+    ul.list-inline
+        - if @business.facebook_id?
+          li = link_to "https://www.facebook.com/#{@business.facebook_id}", target: :_blank do
+            i.fa.fa-facebook-square.fa-2x
+        - if @business.twitter_id?
+          li = link_to "https://www.twitter.com/#{@business.twitter_id}", target: :_blank do
+            i.fa.fa-twitter-square.fa-2x
+        - if @business.google_plus_id?
+          li = link_to "https://plus.google.com/+#{@business.google_plus_id}", target: :_blank do
+            i.fa.fa-google-plus-square.fa-2x
+        - if @business.youtube_id?
+          li = link_to "https://www.youtube.com/user/#{@business.youtube_id}", target: :_blank do
+            i.fa.fa-youtube-square.fa-2x
+        - if @business.linkedin_id?
+          li = link_to "https://www.linkedin.com/#{@business.linkedin_id}", target: :_blank do
+            i.fa.fa-linkedin-square.fa-2x
+        - if @business.pinterest_id?
+          li = link_to "https://www.pinterest.com/#{@business.pinterest_id}", target: :_blank do
+            i.fa.fa-pinterest-square.fa-2x
+        - if @business.instagram_id?
+          li = link_to "https://www.instagram.com/#{@business.instagram_id}", target: :_blank do
+            i.fa.fa-instagram.fa-2x
+        - if @business.yelp_id?
+          li = link_to "https://www.yelp.com/biz/#{@business.yelp_id}", target: :_blank do
+            i.fa.fa-yelp.fa-2x
+        - if @business.citysearch_id?
+          li = link_to "https://www.citysearch.com/#{@business.citysearch_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if @business.foursquare_id?
+          li = link_to "https://foursquare.com/v/#{@business.foursquare_id}", target: :_blank do
+            i.fa.fa-foursquare.fa-2x
+        - if @business.zillow_id?
+          li = link_to "https://www.zillow.com/profile/#{@business.zillow_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if @business.opentable_id?
+          li = link_to "https://www.opentable.com/#{@business.opentable_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if @business.trulia_id?
+          li = link_to "https://www.trulia.com/profile/#{@business.trulia_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if @business.realtor_id?
+          li = link_to "https://www.realtor.com/realestateagents/#{@business.realtor_id}", target: :_blank do
+            i.fa.fa-square.fa-2x
+        - if @business.tripadvisor_id?
+          li = link_to "https://www.tripadvisor.com/#{@business.tripadvisor_id}", target: :_blank do
+            i.fa.fa-tripadvisor.fa-2x
+        - if @business.houzz_id?
+          li = link_to "https://www.houzz.com/pro/#{@business.houzz_id}", target: :_blank do
+            i.fa.fa-houzz.fa-2x
+        - if @business.location.email? && !@business.location.hide_email?
+          li = link_to "mailto:#{@business.location.email}" do
+            i.fa.fa-envelope-square.fa-2x
+
+    .vcard
+        - if @business.location.phone_number? && !@business.location.hide_phone?
+          p.tel = link_to number_to_phone(@business.location.phone_number), "tel:#{@business.location.phone_number.gsub(/[^0-9]/, '')}", itemprop: 'telephone'
+        - if !@business.location.hide_address?
+          - if !@business.location.latitude.nil? && !@business.location.longitude.nil?
+            p.adr = link_to "http://maps.google.com/maps?ll=#{@business.location.latitude}, #{@business.location.longitude}", itemprop: 'address', target: :_blank do
+              span
+                => @business.location.address_line_one
+                br>
+                = @business.location.address_line_two
+          - else
+            p.adr itemprop="address"
+              => @business.location.address_line_one
+              br>
+              = @business.location.address_line_two
+        - if @business.location.email? && !@business.location.hide_email?
+          p = link_to @business.location.email, "mailto:#{@business.location.email}", class: 'email', itemprop: 'email'
+        = render partial: 'website/contact_pages/opening', collection: @business.location.openings
+  .col-sm-8
+    - if !@business.location.hide_address?
+      - if @business.location && !@business.location.latitude.nil? && !@business.location.longitude.nil?
+        - map_params = { center: [@business.location.latitude, @business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
+          q: [@business.location.address_line_one, @business.location.address_line_two].reject(&:blank?).join(' '), zoom: 18 }.to_param
+        iframe width="100%" height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+hr
+.row
+    .col-sm-9
+
+		- request_url = url_for({ controller: params[:controller], action: params[:action] })
+
+	    div
+	      - if params[:blog_search].present? && !params[:blog_search].empty?
+	        - posts = blog_search_base(@business, params[:blog_search], content_types: params[:content_types], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 12)
+	      - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
+	        - posts = events_organized_desc(@business, page: params[:page], limit: 12)
+	      - else
+	        - posts = posts(@business, content_types: params[:content_types], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 12)
+
+
+	      div style="padding-top:30px;"
+		    - request_url = url_for({ controller: params[:controller], action: params[:action] })
+		    = render partial: 'website/blog_pages/search_full', locals: {request_url: request_url}
+	        = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
+	      .m-t-lg
+	      .grid
+	        - if posts.present? && !posts.empty?
+	          / h1 =blog_feed_block.content_types.to_s.split(' ')
+	          - order_the_events(posts.to_a).each do |posts|
+                - if !@business.webhost_primary? && @business.has_plan?
+                  = render_content_type_partial(posts, true)
+                - elsif @business.webhost_primary?
+                  = render_content_type_partial(posts, false)
+	        - elsif !posts.present? || posts.empty?
+	          div.col-xs-9
+	          h2 Nothing matched your search or there is no content here yet...
+	        .text-center.clear-container
+	          = paginate posts
+
+
+    .col-sm-3
+		h3 Browse Customer Reviews
+		hr
+
+		- business = @business
+		- reviews = @business.reviews.published.order(reviewed_at: :desc).limit(6)
+		- if reviews.count == 0
+			p This business has no reviews at this time.
+		- elsif reviews.count > 0
+			- reviews.each do |review|
+				blockquote.review itemprop="review" itemscope="true" itemtype="http://schema.org/Review"
+				  h2.h4 itemprop="name"
+				    = link_to review.title, website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+				    meta itemprop="worstRating=" content="1"
+				    meta itemprop="bestRating=" content="5"
+				    meta itemprop="ratingValue=" content=review.overall_rating
+				    p
+				      span.review-rating
+				        - if review.overall_rating >= 1.0
+				          span.fa.fa-star
+				        - else
+				          span.fa.fa-star-o
+				        - if review.overall_rating >= 2.0
+				          span.fa.fa-star
+				        - else
+				          span.fa.fa-star-o
+				        - if review.overall_rating >= 3.0
+				          span.fa.fa-star
+				        - else
+				          span.fa.fa-star-o
+				        - if review.overall_rating >= 4.0
+				          span.fa.fa-star
+				        - else
+				          span.fa.fa-star-o
+				        - if review.overall_rating == 5.0
+				          span.fa.fa-star
+				        - else
+				          span.fa.fa-star-o
+				  p.review-text.review-quote itemprop="description" = review.description
+				  p.reviewer
+				    span.reviewer-name itemprop="author" => review.contact.name
+				    - if review.company
+				      span> from
+				      - if review.company.business.name? && review.company.business.website_url?
+				        = link_to review.company.business.name, review.company.business.website_url, target: :_blank
+				      - elsif review.company.business.website_url?
+				        = link_to review.company.business.website_url, review.company.business.website_url, target: :_blank
+				      - elsif review.company.business.name?
+				        = review.company.business.name
+				    - if review.external_type == 'locable'
+				      span.text-muted> – via
+				      => link_to review.external_url, target: :_blank do
+				        => review.external_name
+				        = image_tag 'locable.png', alt: ''
+				      meta itemprop="datePublished" content=review.reviewed_at.strftime('%F')
+				      span.text-muted #{time_ago_in_words review.reviewed_at} ago
+				hr

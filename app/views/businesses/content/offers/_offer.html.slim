@@ -23,7 +23,7 @@
         - if offer.content_categories.any? || offer.content_tags.any?
           span.text-muted> Posted in
           - (offer.content_categories + offer.content_tags).each_with_index do |classification, i|
-            - if @business.website
+            - if @business.webhost_primary?
               = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
             - else
               = classification.name
@@ -48,7 +48,8 @@
           = link_to icon('pencil'), [:edit, @business, :content, offer], class: 'btn btn-default'
           = link_to icon('copy'), [:clone, @business, :content, offer], class: 'btn btn-default'
           = link_to icon('trash'), [@business, :content, offer], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-      - if @business.website
+
+      - if @business.webhost_primary?
         - if offer.published_status == false
           h2 = link_to offer.title, [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => website_host(@business.website), protocol: :http, :id => offer.id], target: :_blank
         -else
@@ -56,6 +57,8 @@
             h2 = link_to offer.title, [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
           - elsif Rails.env.production?
             h2 = link_to offer.title, "http://#{website_host(@business.website)}/#{path_to_external_content(offer)}", only_path: false, protocol: :http, target: :_blank
+      - elsif !@business.webhost_primary? && @business.has_plan?
+        h2 = link_to offer.title, listing_path_content_url(@business, offer.slug, 'offer'), only_path: false, protocol: :http, target: :_blank        
       - else
         h2 = offer.title
       .offer-row class=(offer.kind || 'image_left')

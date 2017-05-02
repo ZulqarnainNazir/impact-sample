@@ -5,7 +5,7 @@
     .ibox-blog  
       div.ibox-content.product-box    
         - cache gallery do  
-          div.product-imitation = link_to [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank do
+          div.product-imitation = link_to listing_content_type_path(@business.generate_listing_segment, gallery.slug, content: 'gallery'), target: :_blank do
             - if gallery_count > 0 && gallery_count <= 2
               - gallery.gallery_images.limit(2).each_with_index do |gallery_image, index|
                   - image = gallery_image.gallery_image
@@ -28,12 +28,12 @@
             -elsif gallery_count == 0
               = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+            = link_to listing_content_type_path(@business.generate_listing_segment, gallery.slug, content: 'gallery'), target: :_blank
               div.grid-feed-title  = truncate sanitize(gallery.title), length: 75, omission: '... '
               / p.slider-text.slider-text-sub
             small.m-t-xs #{pluralize(gallery.gallery_images.count, 'photo').upcase}
             div.mt-text.rt
-              = link_to [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
+              = link_to listing_content_type_path(@business.generate_listing_segment, gallery.slug, content: 'gallery'), target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
           
@@ -47,24 +47,24 @@
         - if gallery.content_categories.any? || gallery.content_tags.any?
           span.text-muted> in
           - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
-            = link_to classification.name, [:website, classification]
+            = classification.name
             - if i < gallery.content_categories.count + gallery.content_tags.count - 1
               ' ,
     - cache gallery do
       h2
-        => link_to gallery.title, website_generic_post_path(gallery.to_generic_param)
+        => link_to gallery.title, listing_content_type_path(@business.generate_listing_segment, gallery.slug, content: 'gallery')
         span.small Click to View All #{pluralize gallery.gallery_images.count, 'Pic'}
       .row.row-narrow
         - gallery.gallery_images.limit(6).each do |gallery_image|
           - image = gallery_image.gallery_image
           .col-xs-3.col-lg-2
             - if @gallery.published_status != false
-              = link_to [:website, :generic_post, :gallery_id => gallery.id, :id => gallery_image.id], class: 'gallery-item' do
+              = link_to listing_content_type_path(@business.generate_listing_segment, gallery.slug, content: 'gallery'), class: 'gallery-item' do
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
             - else
-              = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(@business.website), protocol: :http, :gallery_id => gallery.id, :id => gallery_image.id], class: 'gallery-item' do
+              = link_to listing_content_type_path(@business.generate_listing_segment, gallery.slug, content: 'gallery'), class: 'gallery-item' do
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
