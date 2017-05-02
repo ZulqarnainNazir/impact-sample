@@ -67,7 +67,9 @@
         .ibox-content
           = form_tag [:review, @business, :crm_imports], :multipart => true do
             .form-group
-              label.control-label for="import_file" CSV for Importing
+              span.bg-warning.p-xs When saving CSV, select Western (ASCII) for best results
+              br
+              label.control-label.m-t-md for="import_file" CSV for Importing
               = file_field_tag :import_file, class: 'form-control'
             .form-group
               - if params[:import_type] == "companies"

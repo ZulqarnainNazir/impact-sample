@@ -23,7 +23,12 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
   end
 
   def review_contacts
-    @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    begin
+      @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    rescue => error
+      redirect_to [@business, :crm_imports], :notice => "Invalid CSV file, it appears the file you uploaded has some non-standard characters. Please remove these characters and upload again."
+      return
+    end
     if @contacts.first.first_name == "Company Name" || @contacts.first.attributes.length != 11
       redirect_to [@business, :crm_imports], :notice => "Invalid CSV Import for contacts. Did you intend to import this as companies?"
       return
@@ -37,7 +42,12 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
   end
 
   def review_companies
-    @companies = CompanySchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    begin
+      @companies = CompanySchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    rescue => error
+      redirect_to [@business, :crm_imports], :notice => "Invalid CSV file, it appears the file you uploaded has some non-standard characters. Please remove these characters and upload again."
+      return
+    end
     if @companies.first.name == "First Name" || @companies.first.attributes.length != 14
       redirect_to [@business, :crm_imports], :notice => "Invalid CSV Import for companies. Did you intend to import this as contacts?"
       return
@@ -187,12 +197,12 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def download_contact_template
     @file = "#{::Rails.root}/app/assets/documents/Contact-Import-Template.csv"
-    send_file @file, :type => 'text/csv'
+    send_file @file, :type => 'text/csv; charset=ascii'
   end
 
   def download_company_template
     @file = "#{::Rails.root}/app/assets/documents/Company-Import-Template.csv"
-    send_file @file, :type => 'text/csv'
+    send_file @file, :type => 'text/csv; charset=ascii'
   end
 
   private
