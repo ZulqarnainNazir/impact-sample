@@ -188,7 +188,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
-    ice_cube (0.8.1)
+    ice_cube (0.15.0)
     intercom (3.0.2)
       json (~> 1.8)
     ipaddress (0.8.0)
@@ -442,6 +442,7 @@ DEPENDENCIES
   coffee-rails
   conformist
   country_select (~> 1.1.1)
+  crass
   dalli
   devise
   devise_masquerade
@@ -455,7 +456,7 @@ DEPENDENCIES
   geocoder
   honeybadger (~> 2.0)
   httparty
-  ice_cube
+  ice_cube (~> 0.15.0)
   intercom
   jbuilder
   jquery-fileupload-rails

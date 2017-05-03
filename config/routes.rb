@@ -310,6 +310,12 @@ Rails.application.routes.draw do
         end
         resources :mission_instance_comments, only: :create
         resources :mission_notes, only: :update
+        resources :mission_notifications, only: [] do
+          collection do
+            get :edit
+            put :update
+          end
+        end
         resources :to_do_lists do
           post :add_mission, on: :member
           post :remove_mission, on: :member

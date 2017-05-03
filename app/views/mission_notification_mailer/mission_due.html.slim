@@ -1,23 +1,24 @@
 div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
   div style="max-width: 600px; margin-left: auto; margin-right: auto;"
     span style="float: right;"
-    - if @mission_instance.business.logo.present?
+    - if @mission_instance&.business&.logo.present?
       = image_tag @mission_instance.business.logo.attachment_url(:logo_medium), alt: @mission_instance.business.name
     - else
-      strong = @mission_instance.business.name
+      strong = @mission_instance&.business&.name
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
   div style="padding: 2em 1em; background-color: #448ccb;"
     h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" A Marketing Mission is now due
     p style="font-size: 14px; margin: 1em 0 0; color: #fff" Marketing Missions help your business take action toward important marketing goals.
   div style="margin: 1em 0;"
-    h3= @mission_instance.mission.title
-    = @mission_instance.mission.description.html_safe
+    h3= @mission_instance&.mission&.title
+    = @mission_instance&.mission&.description&.html_safe
   div style="margin: 1em 0;"
     - if @mission_instance.scheduled?
-      | This marketing mission happens every #{@mission_instance.schedule.to_s} and is due #{@mission_instance.next_due_at.strftime('%m/%d/%Y')}
+      | This marketing mission happens every #{@mission_instance.schedule.to_s} and is due #{@mission_instance.next_due_at&.strftime('%m/%d/%Y')}
     - else
-      | This is a one time marketing mission that is scheduled for #{@mission_instance.start_date.strftime('%m/%d/%Y')}.
+      | This is a one time marketing mission that is scheduled for #{@mission_instance.start_date&.strftime('%m/%d/%Y')}.
   div style="margin: 1em 0;"
-  h2 style="margin: 1em 0; font-size: 1.5em; color: #036;"
-    = link_to 'View Mission to Complete or Skip', business_mission_url(@mission_instance.business, @mission_instance.mission), style: 'color: #448ccb;'
+  - if @mission_instance && @mission_instance.mission
+    h2 style="margin: 1em 0; font-size: 1.5em; color: #036;"
+      = link_to 'View Mission to Complete or Skip', business_mission_url(@mission_instance.business.id, @mission_instance.mission.id), style: 'color: #448ccb;'
   p style="margin: 1em 0 2em; padding-top: 0.5em; border-top: dotted 1px #ccc"

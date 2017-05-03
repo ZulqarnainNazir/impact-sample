@@ -104,13 +104,14 @@ const GroupContainer = React.createClass({
   },
 
   groupClass() {
+    const custom_class = this.props.group.custom_class
     if (this.props.sidebarPosition === 'left') {
       if (this.props.group.type === 'SidebarGroup') {
-        return 'webpage-group webpage-group-sidebar webpage-group-sidebar-left';
-      } else { return 'webpage-group webpage-group-basic webpage-group-basic-right'; }
+        return `webpage-group webpage-group-sidebar webpage-group-sidebar-left ${custom_class}`;
+      } else { return `webpage-group webpage-group-basic webpage-group-basic-right ${custom_class}`; }
     } else if (this.props.group.type === 'SidebarGroup') {
-      return 'webpage-group webpage-group-sidebar webpage-group-sidebar-right';
-    } else { return 'webpage-group webpage-group-basic webpage-group-basic-left'; }
+      return `webpage-group webpage-group-sidebar webpage-group-sidebar-right ${custom_class}`;
+    } else { return `webpage-group webpage-group-basic webpage-group-basic-left ${custom_class}`; }
   },
 
   // inputName: (name) ->
@@ -171,32 +172,32 @@ const GroupContainer = React.createClass({
 
   renderMoveHandle() {
     if (this.props.editing) {
-      return <span className="fa fa-reorder webpage-group-sort-handle" />;
+      return <span className="fa fa-reorder webpage-group-sort-handle" style={{color: 'black'}}/>;
     }
   },
 
   renderCustomHandle() {
     if (this.props.editing) {
-      return <span onClick={groupHelpers.editCustomGroup.bind(null, this.props.group)} className="fa fa-cog webpage-group-custom-handle" />;
+      return <span onClick={groupHelpers.editCustomGroup.bind(null, this.props.group)} className="fa fa-cog webpage-group-custom-handle" style={{ color: 'black' }}/>;
     }
   },
 
   renderSidebarSwitcher() {
     if (this.props.editing && (this.props.group.type === 'SidebarGroup')) {
-      return <span onClick={this.props.switchSidebarPosition} className="fa webpage-group-sidebar-handle" />;
+      return <span onClick={this.props.switchSidebarPosition} className="fa webpage-group-sidebar-handle" style={{ color: 'black' }}/>;
     }
   },
 
   renderCallToActionSizeChanger() {
     if (this.props.editing && (this.props.group.type === 'CallToActionGroup')) {
-      return <strong onClick={this.props.updateGroup.bind(null, this.props.group.uuid, { maxBlocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle">{this.props.group.maxBlocks}x</strong>;
+      return <strong onClick={this.props.updateGroup.bind(null, this.props.group.uuid, { maxBlocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle" style={{ color: 'black' }}>{this.props.group.maxBlocks}x</strong>;
     }
   },
 
   renderHeroToggles() {
     if (this.props.editing && (this.props.group.type === 'HeroGroup')) {
       return (<ul className="webpage-group-hero-handles">
-        <ul className="sortable-hero-handles" data-group-uuid={this.props.group.uuid}>
+        <ul className="sortable-hero-handles" data-group-uuid={this.props.group.uuid} style={{ color: 'black' }}>
           {this.renderHeroSwitchers()}
           {this.renderHeroAdder()}
         </ul>
@@ -213,19 +214,19 @@ const GroupContainer = React.createClass({
 
   renderHeroSwitcher(block) {
     if (this.props.group.currentBlock === block.uuid) {
-      return <li onClick={this.props.updateGroup.bind(null, this.props.group.uuid, { currentBlock: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" data-uuid={block.uuid}  key={block.uuid} />;
+      return <li onClick={this.props.updateGroup.bind(null, this.props.group.uuid, { currentBlock: block.uuid })} className="fa fa-square webpage-group-hero-switch-handle" data-uuid={block.uuid}  key={block.uuid} style={{ color: 'black' }} />;
     }
 
-    return <li onClick={this.props.updateGroup.bind(null, this.props.group.uuid || this.props.group.uuid, { currentBlock: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle webpage-group-popover" data-content="Click to edit this slide. Drag to change ordering" data-uuid={block.uuid} key={block.uuid} />;
+    return <li onClick={this.props.updateGroup.bind(null, this.props.group.uuid || this.props.group.uuid, { currentBlock: block.uuid })} className="fa fa-square-o webpage-group-hero-switch-handle webpage-group-popover" data-content="Click to edit this slide. Drag to change ordering" data-uuid={block.uuid} key={block.uuid} style={{ color: 'black' }} />;
   },
 
 
   renderHeroAdder() {
     let blocksLength = Object.keys(_.reject(this.props.group.blocks, block => block === undefined)).length;
     if (blocksLength === 1) {
-      return <span onClick={this.props.insertBlock.bind(null, this.props.group.uuid || this.props.group.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle webpage-group-popover" data-content="Click to turn hero into rotating carousel" />;
+      return <span onClick={this.props.insertBlock.bind(null, this.props.group.uuid || this.props.group.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle webpage-group-popover" data-content="Click to turn hero into rotating carousel" style={{ color: 'black' }}/>;
     } else if (blocksLength < 6) {
-      return <span onClick={this.props.insertBlock.bind(null, this.props.group.uuid || this.props.group.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle webpage-group-popover" data-content="Click to add slide to carousel" />;
+      return <span onClick={this.props.insertBlock.bind(null, this.props.group.uuid || this.props.group.uuid, 'HeroBlock')} className="fa fa-plus-square-o webpage-group-hero-add-handle webpage-group-popover" data-content="Click to add slide to carousel" style={{ color: 'black' }}/>;
     }
   },
 

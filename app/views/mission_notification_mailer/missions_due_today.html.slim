@@ -1,0 +1,31 @@
+div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
+  div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+    span style="float: right;"
+    - if @mission_instances&.first&.business&.logo.present?
+      = image_tag @mission_instances.first.business.logo.attachment_url(:logo_medium), alt: @mission_instances.first.business.name
+    - else
+      strong = @mission_instances&.first&.business&.name
+div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+  div style="padding: 2em 1em; background-color: #448ccb;"
+    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" You have marketing missions due now
+    p style="font-size: 14px; margin: 1em 0 0; color: #fff" Marketing Missions help your business take action toward important marketing goals.
+  table
+    thead
+      tr
+        td
+        td
+        td
+    tbody
+      - @mission_instances.each do |mi|
+        - next unless mi.mission
+        tr
+          td style="padding: 10px 0;"
+            strong= mi.mission&.title
+          td style="padding: 10px 10px;"
+            - if mi.scheduled?
+              | This marketing mission happens every #{mi.schedule.to_s} and is due #{mi.next_due_at&.strftime('%m/%d/%Y')}
+            - else
+              | This is a one time marketing mission that is scheduled for #{mi&.start_date&.strftime('%m/%d/%Y')}.
+          td style="padding: 10px 0;"
+            - if mi && mi.mission
+              = link_to 'View Mission', business_mission_url(mi.business.id, mi.mission.id), style: 'color: #448ccb;'

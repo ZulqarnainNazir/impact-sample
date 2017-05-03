@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :businesses, through: :authorizations
   has_many :pdfs
 
+  has_one :mission_notification_setting
+
   has_many :to_do_notification_settings, dependent: :destroy
   has_many :following_businesses, through: :to_do_notification_settings, source: :business
 

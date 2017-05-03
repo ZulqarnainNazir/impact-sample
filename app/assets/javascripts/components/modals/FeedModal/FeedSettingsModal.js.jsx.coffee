@@ -53,7 +53,7 @@ FeedSettingsModal = React.createClass
             </div>
             <div id="feed_settings_link_inputs_internal">
               <div className="form-group">
-                <label htmlFor="feed_settings_link_id" className="control-label">IMPACT Webpage</label>
+                <label htmlFor="feed_settings_link_id" className="control-label">Locable's Marketing Suite Webpage</label>
                 <EditLinkOptions
                   id={"feed_settings_link_id"} internalWebpages={this.props.internalWebpages}/>
               </div>

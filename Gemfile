@@ -13,7 +13,7 @@ gem 'asset_sync'
 gem 'autoprefixer-rails'
 
 #IMPORTANT!
-#RE AWS gems: 
+#RE AWS gems:
 #https://aws.amazon.com/blogs/developer/upcoming-stable-release-of-aws-sdk-for-ruby-version-2/
 gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
@@ -24,6 +24,7 @@ gem 'bootstrap-sass'
 gem 'bootstrap-select-rails'
 gem 'conformist'
 gem 'coffee-rails'
+gem 'crass'
 gem 'devise'
 gem 'devise_masquerade'
 gem 'elasticsearch-model'
@@ -32,7 +33,7 @@ gem 'fastimage'
 gem 'font-awesome-sass'
 gem 'geocoder'
 gem 'httparty'
-gem 'ice_cube'
+gem 'ice_cube', '~> 0.15.0'
 gem 'intercom'
 gem 'jbuilder'
 gem 'jquery-fileupload-rails'

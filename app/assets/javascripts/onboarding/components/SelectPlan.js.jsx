@@ -74,7 +74,7 @@ class SelectPlan extends React.Component {
                   <div className="navy-line"></div>
                   <h1>Pick a plan that's right for you</h1>
                   <div className="col-sm-8 col-sm-offset-2">
-                    <h3>IMPACT empowers your marketing with a built-in local marketing assistant that guides your efforts, tools specially built for local, unlimited users and content, and more from a smartphone or PC.</h3>
+                    <h3>Locable's Marketing Suite empowers your marketing with a built-in local marketing assistant that guides your efforts, tools specially built for local, unlimited users and content, and more from a smartphone or PC.</h3>
                   </div>
                   <div className="col-xs-12 text-center coming-soon">
                     <label

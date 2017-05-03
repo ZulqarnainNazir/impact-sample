@@ -1,12 +1,11 @@
-- title 'Add Your Business to the IMPACT Marketing Suite'
+- title 'Add Your Business to the Locable's Marketing Suite'
 - content_for :onboard_instructions, 'Let’s get started adding your business. If you have a Facebook page for your business or organization it will help you create your listing & website even faster by importing content & images you’ve posted.'
 
 .row
   .col-md-8.col-md-offset-2
     .lead style="margin-top:30px"
-      p Let’s get started adding your business. IMPACT allows you to extend your directory listing and link it to your Facebook page, your website and more.
-      p The next few steps will walk you through creating your IMPACT business profile & website even faster by importing content & images you’ve posted.
-      p At the end you'll have the option to join the IMPACT Pilot Program to turn on your mobile, social, search and local marketing optimized website.
+      p Let’s get started adding your business. Locable's Marketing Suite allows you to extend your directory listing and link it to your Facebook page, your website and more.
+      p The next few steps will walk you through creating your business profile & website even faster by importing content & images you’ve posted.
     br
     hr
     br
@@ -15,7 +14,7 @@
     = form_for [:import_cce_onboard_website, @business] do |form|
       .panel.panel-default
         .panel-heading
-          h1.h4.panel-title Import from Locable
+          h1.h4.panel-title Import from Locable Publisher Network
         .panel-body
           .form-group
             = label_tag :cce_business_url, 'Locable Business URL/Slug', class: 'control-label'
@@ -23,7 +22,7 @@
         .panel-footer.clearfix
           = form.button class: 'btn btn-primary pull-right' do
             i.fa.fa-cloud-download>
-            ' Import Locable Business Data
+            ' Import Locable Publisher Network Business Data
             i.fa.fa-angle-double-right
     br
     hr

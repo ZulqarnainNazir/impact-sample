@@ -136,7 +136,7 @@ Block = React.createClass
 
   renderBlockOptions: ->
     if this.props.editing
-      `<div className="webpage-options btn-group btn-group-sm">
+      `<div className="webpage-options btn-group btn-group-sm exclude-custom-css">
         {this.renderPrevThemeOption()}
         {this.renderExpandOption()}
         {this.renderCompressOption()}

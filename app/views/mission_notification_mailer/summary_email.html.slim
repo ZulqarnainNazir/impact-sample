@@ -1,0 +1,43 @@
+div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
+  div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+    span style="float: right;"
+    - if @completed.first&.business&.logo.present?
+      = image_tag @completed.first.business.logo.attachment_url(:logo_medium), alt: @completed.first.business.name
+    - else
+      strong = @completed.first&.business&.name
+div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+  div style="padding: 2em 1em; background-color: #448ccb;"
+    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" Update on your Marketing Progress
+    p style="font-size: 14px; margin: 1em 0 0; color: #fff" Marketing Missions help you stay on track, here's a summary
+
+  div
+    - if @completed.any?
+      h2 style="padding:15px 0; font-weight: bold; margin: 0; font-size: 1.5em; color: #000" Missions due:
+      - @completed.each do |mi|
+        - if mi && mi.mission
+          div style="padding:10px 0;"
+            = link_to mi.mission&.title, business_mission_url(mi.business.id, mi.mission.id), style: 'color: #448ccb;'
+            = ' - '
+            = " Assigned to: #{mi.assigned_user&.name}"
+
+    - if @prompts.any?
+      h2 style="padding:15px 0; font-weight: bold; margin: 0; font-size: 1.5em; color: #000" Recommended Marketing Missions:
+      - @prompts.each do |mi|
+        - if mi && mi.mission
+          div style="padding:10px 0;"
+            = link_to mi.mission&.title, business_mission_url(mi.business.id, mi.mission.id), style: 'color: #448ccb;'
+            = ' - '
+            = mi.mission&.time_to_complete
+      div style="background-color: #eee; margin-bottom: 1em; padding: 1em; margin-top: 10px;"
+        div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+          div style="text-align: center;"
+            = link_to 'View All Recommended Missions', business_missions_url(@completed.first.business.id), style: 'color: #448ccb;'
+
+    - if @due.any?
+      h2 style="padding:15px 0; font-weight: bold; margin: 0; font-size: 1.5em; color: #000" Marketing Missions completed:
+      - @due.each do |mi|
+        - if mi && mi.mission
+          div style="padding:10px 0;"
+            = link_to mi.mission&.title, business_mission_url(mi.business.id, mi.mission.id), style: 'color: #448ccb;'
+            = ' - '
+            = " Assigned to: #{mi.assigned_user&.name}"

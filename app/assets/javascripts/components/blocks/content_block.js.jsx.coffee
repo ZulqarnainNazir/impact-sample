@@ -6,7 +6,7 @@ ContentBlock = React.createClass
     </div>`
 
   renderHeading: ->
-    if (this.props.heading and this.props.heading.length > 0 and this.props.heading != '<br>') or this.props.richText
+    if (this.props.heading and this.props.heading.length > 0 and this.props.heading != '<br>') or this.props.richText or true
       `<div>
         <div className="lead text-center">
           <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} />

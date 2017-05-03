@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407010809) do
+ActiveRecord::Schema.define(version: 20170425221245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,9 +199,9 @@ ActiveRecord::Schema.define(version: 20170407010809) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
+    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
-    t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
   end
@@ -688,6 +688,24 @@ ActiveRecord::Schema.define(version: 20170407010809) do
   add_index "mission_instances", ["creating_user_id"], name: "index_mission_instances_on_creating_user_id", using: :btree
   add_index "mission_instances", ["mission_id"], name: "index_mission_instances_on_mission_id", using: :btree
   add_index "mission_instances", ["to_do_list_id"], name: "index_mission_instances_on_to_do_list_id", using: :btree
+
+  create_table "mission_notification_settings", force: :cascade do |t|
+    t.integer  "business_id"
+    t.boolean  "weeky_due_notification",             default: true
+    t.boolean  "daily_due_notification",             default: true
+    t.boolean  "summary_notification",               default: true
+    t.boolean  "suggestions_notification",           default: true
+    t.boolean  "comment_notification",               default: true
+    t.datetime "created_at",                                                                                                                                                        null: false
+    t.datetime "updated_at",                                                                                                                                                        null: false
+    t.text     "summary_frequency"
+    t.text     "suggestions_frequency",              default: "{\"interval\":1,\"until\":null,\"count\":null,\"validations\":{\"day\":[1]},\"rule_type\":\"IceCube::WeeklyRule\"}"
+    t.integer  "user_id"
+    t.integer  "daily_due_notification_preference",  default: 0
+    t.integer  "weekly_due_notification_preference", default: 0
+  end
+
+  add_index "mission_notification_settings", ["business_id"], name: "index_mission_notification_settings_on_business_id", using: :btree
 
   create_table "missions", force: :cascade do |t|
     t.integer  "to_do_list_id"

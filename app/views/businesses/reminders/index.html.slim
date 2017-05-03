@@ -1,3 +1,5 @@
+- title 'Active Reminders'
+
 = render partial: 'dashbreadcrumb', locals: { lnk: :businesses, an: 'Active Reminders'}
 
 .ibox
@@ -6,6 +8,11 @@
     .ibox-tools
       = link_to 'Add Custom Reminder', new_business_mission_instance_path(@business), class: 'btn btn-primary btn-xs'
   .ibox-content
+    .pull-right
+      .btn-group
+        = link_to [:edit, @business, :mission_notifications], class: 'btn btn-sm btn-default' do
+          => icon 'check-square-o'
+          | Set Notifications
     table.table.table-hover
       thead
         th Status

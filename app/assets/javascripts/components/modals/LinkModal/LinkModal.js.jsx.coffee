@@ -51,7 +51,7 @@ LinkModal = React.createClass
             <div id="link_inputs_internal">
               <hr />
               <div className="form-group">
-                <label htmlFor="link_id" className="control-label">IMPACT Webpage</label>
+                <label htmlFor="link_id" className="control-label">Locable's Marketing Suite Webpage</label>
                 <EditLinkOptions internalWebpages={this.props.internalWebpages} />
               </div>
             </div>

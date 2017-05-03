@@ -3,10 +3,14 @@
   padding: 0;
   border: none;
   .note-toolbar {
+    color: black;
     margin: 0;
     padding: 0;
     background: none;
     border: none;
+    i {
+      color: black !important;
+    }
     .btn-group {
       margin-left: 0;
     }
@@ -27,6 +31,28 @@
     background: #fff;
     border: solid 1px #ccc;
     border-radius: 4px;
-    color: #000;
+    // color: black;
   }
+}
+
+.note-air-editor:hover {
+
+  box-shadow: 0 0px 0px 2px #1ab394;
+  border-radius: 1px;
+  transition: box-shadow 0.2s
+}
+.note-air-editor:empty:hover {
+  text-align: center;
+}
+.note-air-editor:empty:hover::after {
+  // text-align: center;
+  transition: content 0.2s;
+  font-family: FontAwesome;
+  content: "\f055";
+  opacity: 0.8;
+  color: #1ab394;
+  // content: '<i class="fa fa-plus-circle"></i>'
+}
+.note-air-editor:empty:hover:focus::after {
+  content: ""
 }

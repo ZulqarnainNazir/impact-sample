@@ -24,6 +24,12 @@ class MissionInstance < ActiveRecord::Base
   scope :recurring, -> { where.not(repetition: nil) }
   scope :for_today, -> { where('start_date = ?', Time.zone.now) }
 
+  scope :completed_between, -> (s_date, e_date) { where('last_completed_at > ? AND last_completed_at < ?', s_date, e_date) }
+  scope :due_between, -> (s_date, e_date) {
+    joins('LEFT JOIN mission_instance_events mie ON mie.mission_instance_id = mission_instances.id')
+      .where('(repetition IS NULL AND start_date >= ? AND start_date <= ?) OR (repetition IS NOT NULL AND mie.occurs_on >= ? AND mie.occurs_on <= ?)', s_date, e_date, s_date, e_date)
+  }
+
   validates :business, presence: true
   validates :mission, presence: true
   validates :start_date, presence: true, on: :update
@@ -237,6 +243,37 @@ class MissionInstance < ActiveRecord::Base
                         .for_today
                         .where(mission_instances: { last_status: ACTIVE_STATUS_INDEXES })
                         .map(&:mission_instance)
+  end
+
+  # def self.one_time_missions_due_today(business)
+  #   business
+  #     .mission_instances
+  #     .includes(business: :users)
+  #     .one_time
+  #     .where(start_date: Date.today)
+  # end
+
+  # def self.scheduled_missions_due_today(business)
+  #   business
+  #     .mission_instances
+  #     .includes(business: :users)
+  #     .scheduled
+  #     .joins(:mission_instance_events)
+  #     .where(mission_instance_events: { occurs_on: Date.today })
+  # end
+
+  def self.missions_due_today(business)
+    business
+      .mission_instances
+      .includes(business: :users)
+      .due_between(Time.now.beginning_of_day, Time.now.end_of_day)
+  end
+
+  def self.missions_due_this_week(business)
+    business
+      .mission_instances
+      .includes(business: :users)
+      .due_between(Time.now.beginning_of_week, Time.now.end_of_week)
   end
 
   private

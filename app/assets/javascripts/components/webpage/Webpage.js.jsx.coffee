@@ -42,9 +42,9 @@ Webpage = React.createClass
           {...this.props.webpageState}
         />
 
-        <div className="panel-footer clearfix">
-          <p className="checkbox pull-right" style={{ margin: 0 }}>
-            <label>
+        <div className="panel-footer clearfix exclude-custom-css">
+          <p className="checkbox pull-right exclude-custom-css" style={{ margin: 0 }}>
+            <label className="exclude-custom-css">
               <input type="checkbox" checked={this.props.editing} onChange={this.props.toggleEditing} />
               Display Editing Dialogs?
             </label>

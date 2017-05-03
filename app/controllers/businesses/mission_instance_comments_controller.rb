@@ -9,6 +9,8 @@ class Businesses::MissionInstanceCommentsController < Businesses::BaseController
     @comment.commenter = current_user
 
     if @comment.save
+      notify_users_about_comment
+
       redirect_to :back, notice: 'Comment added'
     else
       redirect_to :back, error: 'Failed to add comment'
@@ -19,5 +21,20 @@ class Businesses::MissionInstanceCommentsController < Businesses::BaseController
 
   def comment_params
     params.require(:comment).permit(:content)
+  end
+
+  def notify_users_about_comment
+    setting = @business.mission_notification_setting
+
+    return if setting && !setting.comment_notification
+
+    @business.users.each do |user|
+      MissionNotificationMailer.new_comment(
+        user: current_user,
+        business: @business,
+        mission_instance: @mission_instance,
+        comment: @comment
+      ).deliver_now
+    end
   end
 end

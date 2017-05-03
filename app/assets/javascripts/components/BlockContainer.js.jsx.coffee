@@ -105,7 +105,7 @@ BlockContainer = React.createClass
     switch (blockType)
       when 'HeroBlock'
         # return {
-        editText: this.editText # #.bind(null),
+        # editText: this.editText # #.bind(null),
         editBackground: this.editMedia.bind(null, 'background'),
         editImage: this.editMedia.bind(null, 'image'),
         editLink: this.editLink #.bind(null),
@@ -124,7 +124,7 @@ BlockContainer = React.createClass
         updateText: this.updateText #.bind(null)
       when 'TaglineBlock'
         return {
-          editText: this.editText #.bind(null),
+          # editText: this.editText #.bind(null),
           editLink: this.editLink #.bind(null),
           editCustom: this.editTaglineSettings #.bind(null),
           prevTheme: this.prevTheme.bind(null, ['left', 'center', 'right']),
@@ -137,7 +137,7 @@ BlockContainer = React.createClass
         }
       when 'CallToActionBlock'
         return {
-          editText: this.editText #.bind(null),
+          # editText: this.editText #.bind(null),
           editImage: this.editMedia.bind(null, 'image'),
           editLink: this.editLink #.bind(null),
           editCustom: this.editDefaultSettings #.bind(null),
@@ -149,7 +149,7 @@ BlockContainer = React.createClass
         }
       when 'ContentBlock'
         return {
-          editText: this.editText #.bind(null),
+          # editText: this.editText #.bind(null),
           editImage: this.editMedia.bind(null, 'image'),
           editCustom: this.editDefaultSettings #.bind(null),
           prevTheme: this.prevTheme.bind(null, ['left', 'left_half', 'right_half', 'right', 'text', 'image']),
@@ -174,7 +174,7 @@ BlockContainer = React.createClass
         }
       when 'SidebarContentBlock'
         return {
-          editText: this.editText #.bind(null),
+          # editText: this.editText #.bind(null),
           editImage: this.editMedia.bind(null, 'image'),
           editLink: this.editLink #.bind(null),
           editCustom: this.editDefaultSettings #.bind(null),
@@ -198,7 +198,7 @@ BlockContainer = React.createClass
         }
       when 'AboutBlock'
         return {
-          editText: this.editText #.bind(null),
+          # editText: this.editText #.bind(null),
           editBackground: this.editMedia.bind(null, 'background'),
           editImage: this.editMedia.bind(null, 'image'),
           prevTheme: this.prevTheme.bind(null, ['banner', 'left']),
@@ -222,7 +222,7 @@ BlockContainer = React.createClass
         }
       when 'ContactBlock'
         return {
-          editText: this.editText #.bind(null),
+          # editText: this.editText #.bind(null),
           prevTheme: this.prevTheme.bind(null, ['right', 'banner', 'inline', 'content']),
           nextTheme: this.nextTheme.bind(null, ['right', 'banner', 'inline', 'content']),
           text: LoremFull,

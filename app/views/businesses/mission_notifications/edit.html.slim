@@ -1,0 +1,51 @@
+- title 'Mission Notifications'
+
+= render partial: 'dashbreadcrumb', locals: { fn: 'Active Reminders', fp: :reminders, an: 'Notifications'}
+
+.ibox
+  .ibox-content
+    = form_for @notification_setting, url: [@business, :mission_notifications], method: :put do |f|
+      table.table.table-bordered.table-striped
+        thead
+          tr
+            th Name
+            th Recurrence (if applicable)
+            th Receive Notifications?
+        tbody
+          tr
+            td Weekly Due Notification
+            td
+            td = f.check_box :weeky_due_notification
+          tr
+            td Daily Due Notification
+            td
+            td = f.check_box :daily_due_notification
+          tr
+            td Summary Notification
+            td = f.select_recurring :summary_frequency, nil, class: 'form-control repetition_select'
+            td = f.check_box :summary_notification
+          tr
+            td Marketing Suggestions Notification
+            td = f.select_recurring :suggestions_frequency, nil, class: 'form-control repetition_select'
+            td = f.check_box :suggestions_notification
+          tr
+            td Mission Comments Notification
+            td
+            td = f.check_box :comment_notification
+          tr
+            td Which daily notifications do you want to receive?
+            td
+            td
+              = f.select :daily_due_notification_preference, MissionNotificationSetting.daily_due_notification_preferences.map{|k,v| [k.humanize[/\w+/], k]}
+          tr
+            td Which weekly notifications do you want to receive?
+            td
+            td
+              = f.select :weekly_due_notification_preference, MissionNotificationSetting.weekly_due_notification_preferences.map{|k,v| [k.humanize[/\w+/], k]}
+
+      = f.submit 'Save', class: 'btn btn-primary'
+
+javascript:
+  $.ready(function() {
+    $('.repetition_select option[value*="validation"]').prop('selected', true)
+  })
