@@ -15,6 +15,10 @@
           = form_tag [:process_csv, @business, :crm_imports], class: "import-form" do
             - if @duplicates.count > 0
               - @duplicates.each do |i, company|
+                - if company.class.name == "Business"
+                  - core_data = true;
+                - else 
+                  - core_data = false;
                 .scrolling-table
                   table.footable.table.table-stripped
                     thead
@@ -51,12 +55,12 @@
                           | Description
                     tbody
                       tr
-                        - if company.class.name == "Business"
+                        - if core_data
                           td = select_tag "merge[#{i}]", "<option value='yes'>Create Company From Core Business</option><option value='no'>Create New Company and Core Business</option><option value='skip'>Skip Import of Company</option>".html_safe 
                         - else
                           td = select_tag "merge[#{i}]", "<option value='yes'>Update Company</option><option value='no'>Create a New Company</option><option value='skip'>Skip Import of Company</option>".html_safe 
                         td 
-                          - if company.class.name == "Business"
+                          - if core_data
                             b Existing Business
                             = hidden_field_tag "merge_class[#{i}]", "business"
                             = hidden_field_tag "merge_id[#{i}]", company.id
@@ -68,10 +72,13 @@
                           - if company.website_url.blank?
                             td 
                               span.red *
-                              = company.business.website_url
+                              - if core_data
+                                = company.website_url
+                              - else
+                                = company.business.website_url
                           - else
                             td = company.website_url
-                          - if company.class.name == "Business"
+                          - if core_data
                             td = company.location.email
                             td = company.location.phone_number
                             td = company.location.street1
