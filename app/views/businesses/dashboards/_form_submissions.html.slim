@@ -1,0 +1,26 @@
+.ibox.float-e-margins
+  .ibox-title
+    h5 Recent Form Submissions
+    small.pull-right.text-muted
+      = link_to '#' do
+        i.fa.fa-edit
+        |  Manage Forms
+  - if @business.contact_messages.where(hide: false).empty?
+    .ibox-content
+      .p-a-3.text-center
+        h2 No Form Submissions
+        h4
+          = link_to "Click to Quickly Create Forms & Contact Pages Now", "#", class: "text-navy"
+  - else
+    .ibox-content
+      .feed-activity-list
+        - business.contact_messages.includes(:contact).where(hide: false).order(created_at: :desc).limit(5).each do |message|
+          .feed-element
+            div
+              small.pull-right = "#{time_ago_in_words(message.created_at)} ago"
+              strong 
+                = link_to message.name, [:edit, business, :crm, message.contact]
+              = link_to [business, :crm, message] do
+                p = message.message
+              small.text-muted = message.created_at.to_formatted_s(:long)
+      = link_to 'View All', [business, :crm_contact_messages], class: 'btn btn-primary btn-block m-t'

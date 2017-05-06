@@ -8,6 +8,28 @@
   .col-lg-12
     .wrapper.wrapper-content
       .row
+        .col-lg-4
+          - if @business.contact_messages.empty?
+            .ibox
+              .ibox-content
+                .p-a-3.text-center
+                  h2 No Form Submissions
+                  h4
+                    = link_to "Click to Quickly Create Forms & Contact Pages Now", "#", class: "text-navy"
+          - else
+            = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
+        .col-lg-4
+          / - if @business.reviews.empty?
+          /   .ibox
+          /     .ibox-content
+          /       .p-a-3.text-center
+          /         h2 No Customer Reviews
+          /         h4
+          /           = link_to "Click to Begin Requesting & Collecting Reviews Now", [@business, :crm_contacts], class: "text-navy"
+          / - else
+          = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
+        .col-lg-4
+          = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
         .col-lg-12
           .ibox.float-e-margins
             .ibox-title
@@ -76,4 +98,3 @@
                         i.fa.fa-arrow-circle-right
 
 p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your allies, the Locable Publisher Network, and any linked accounts.
-

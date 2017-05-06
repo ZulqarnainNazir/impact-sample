@@ -4,10 +4,10 @@ class Businesses::Crm::ReviewPublicationsController < Businesses::BaseController
   end
 
   def create
-    toggle_resource_boolean_on @review, :published, location: [@business, :crm, params[:page].present? ? :reviews : @review].compact
+    toggle_resource_boolean_on @review, :published, location: params[:dashboard] ? [@business, :dashboard] : [@business, :crm, params[:page].present? ? :reviews : @review].compact
   end
 
   def destroy
-    toggle_resource_boolean_off @review, :published, location: [@business, :crm, params[:page].present? ? :reviews : @review].compact
+    toggle_resource_boolean_off @review, :published, location: params[:dashboard] ? [@business, :dashboard] : [@business, :crm, params[:page].present? ? :reviews : @review].compact
   end
 end

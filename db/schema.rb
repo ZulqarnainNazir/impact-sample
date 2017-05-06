@@ -164,6 +164,17 @@ ActiveRecord::Schema.define(version: 20170425221245) do
     t.datetime "updated_at",                      null: false
   end
 
+  create_table "business_widgets", force: :cascade do |t|
+    t.integer  "widget_id"
+    t.integer  "business_id"
+    t.jsonb    "settings"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
+  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
+
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
     t.string   "tagline"
@@ -477,7 +488,6 @@ ActiveRecord::Schema.define(version: 20170425221245) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -578,6 +588,15 @@ ActiveRecord::Schema.define(version: 20170425221245) do
 
   add_index "images", ["business_id"], name: "index_images_on_business_id", using: :btree
   add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
+
+  create_table "invites", force: :cascade do |t|
+    t.integer  "company_id", null: false
+    t.integer  "invitee_id"
+    t.integer  "inviter_id", null: false
+    t.string   "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "line_images", force: :cascade do |t|
     t.integer  "line_id",                null: false
@@ -862,7 +881,7 @@ ActiveRecord::Schema.define(version: 20170425221245) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -879,7 +898,7 @@ ActiveRecord::Schema.define(version: 20170425221245) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -1213,6 +1232,13 @@ ActiveRecord::Schema.define(version: 20170425221245) do
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
+
+  create_table "widgets", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "widget_type", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   add_foreign_key "lines", "businesses"
   add_foreign_key "pdfs", "businesses"
