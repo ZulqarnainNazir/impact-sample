@@ -15,11 +15,22 @@
 const { Router, Route, IndexRoute, hashHistory } = ReactRouter;
 
 const OnboardingWizard = (props) => {
+  console.log(props);
   if (window.location.hash === "#reset") {
     store.clear();
     hashHistory.push("/");
   }
   store.set('categories', props.categories);
+  if (props.invited_user) {
+    store.set('user', props.invited_user);
+  }
+  if (props.invited_company) {
+    console.log("there was an invited company");
+    store.set('business', props.invited_company);
+    store.set('lookupComplete', true);
+    store.set('plan', { name: 'engage' });
+    hashHistory.push('wizard/businfo')
+  }
   if (props.current_user) {
     store.set('user', props.current_user);
     store.set('accountComplete', true);

@@ -40,11 +40,11 @@
             span
               | Gallery
         - else
-          li.requires-plan-upgrade = link_to [:new, @business, :content_before_after] do
+          li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
             i.fa.fa-columns>
             span
               | Before &amp; After
-          li.requires-plan-upgrade = link_to [:new, @business, :content_gallery] do
+          li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
             i.fa.fa-photo>
             span
               | Gallery
@@ -62,6 +62,11 @@
             | Collect Customer Reviews
         - if !@business.is_on_engage_plan? || current_user.super_user?
           li = link_to [:new, @business, :content_post] do
+            i.fa.fa-edit>
+            span
+              | Custom Post
+        - elsif @business.is_on_engage_plan?
+          li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
             i.fa.fa-edit>
             span
               | Custom Post

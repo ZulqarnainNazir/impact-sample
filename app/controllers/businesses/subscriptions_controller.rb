@@ -87,7 +87,7 @@ class Businesses::SubscriptionsController < Businesses::BaseController
 					active, and your billing information has been added."
 					StripeChargeNowJob.perform_now(@subscription.id)
 					redirect_to :action => "subscription_dashboard" and return
-				elsif
+				elsif @subscription_plan.setup_amount == 0
 					flash[:notice] = "Thank you! Your new subscription is now 
 					active, and your billing information has been saved."
 					StripeChargeNowJobTwo.perform_now(@subscription.id)

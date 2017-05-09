@@ -7,6 +7,13 @@ class Onboard::UsersController < ApplicationController
       @businesses = Business.all.limit(6)
     end
     @categories = Category.alphabetical
+    if params[:contact_id]
+      @invited_user = Contact.find(params[:contact_id])
+    end
+    if params[:company_id]
+      @invited_company = Company.find(params[:company_id]) #.try(:business)
+      # raise StandardError, @invited_business.to_json
+    end
 
     respond_to do |format|
       format.html

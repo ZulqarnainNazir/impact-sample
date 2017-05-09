@@ -124,7 +124,14 @@
                 - else
                   i.fa.fa-building.fa-5x aria-hidden="true"
               .col-xs-8
-                h3 = link_to company.name, [:edit, @business, :crm, company]
+                h3 
+                  = link_to company.name, [:edit, @business, :crm, company]
+                  - if company.business.owners.length > 0
+                    span.pull-right Claimed
+                  - else
+                    = link_to new_business_crm_invite_path(@business, company_id: company.id, invitee_id: @contact.id), class: 'btn btn-xs btn-default pull-right' do
+                      => icon 'envelope'
+                      | Invite
                 address
                   div = company.business.location.address_line_one
                   div = company.business.location.address_line_two

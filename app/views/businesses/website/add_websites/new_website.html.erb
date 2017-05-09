@@ -1,0 +1,150 @@
+<% content_for :title do %>
+  IMPACT Plan Setup
+<% end %>
+
+<div class= "ibox-content">
+    <div id="page-top" class="landing-page">
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <% if flash[:notice] %>
+                        <div class="alert alert-success alert-dismissable" role="alert">
+                            <%= flash[:notice] %>
+                        </div>
+                    <% end %>
+                    <div class="navy-line"></div>
+                    <h1>IMPACT Pricing - <small>Save Nearly 17% with Annual Billing</small></h1>
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <p>Content Engine, Customer Review Generation & Promotion, Landing Pages, Contacts Database, Content Distribution, Unlimited Users, Virtual Marketing Assistant (coming soon), Ongoing software updates including new feature development and feature improvements, email/chat support & knowledge base</p>
+
+                        <div class="col-xs-6 col-sm-4 col-sm-offset-2">
+                            <h2>$29.99/mo <i id = "monthly-check" class="fa fa-check-square-o "></i></h2>
+
+                            <button class="btn btn-outline btn-primary btn-sm btn-rounded" id="btn-monthly" data-toggle="tab" href="#tab-1" aria-expanded="false"> Paid Monthly </button>
+
+                        </div>
+                        <div class="col-xs-6 col-sm-4 ">
+                            <h2>$24.99/mo <i id = "annual-check" class="fa fa-check-square-o "></i> </h2>
+
+                            <button class="btn btn-outline btn-primary btn-sm btn-rounded" id="btn-annually" data-toggle="tab" href="#tab-2" aria-expanded="true"> Paid Annually </button>
+
+                            <h4 class="block-center"> (Save ~17%)<p></p></h4>
+                        </div>
+
+                      </div>
+
+                    </div>  
+                </div>
+            </div>
+            <div class="tabs-container">
+                <div class="tab-content">
+                  <div id="tab-1" class="tab-pane">
+                    <%= render 'setup_monthly' %>
+                  </div>
+                  <div id="tab-2" class="tab-pane active">
+                    <%= render 'setup_annually' %>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="contact" class="gray-section contact">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Contact Us</h1>
+                    <p>Have questions? Contact Us</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <a href="mailto:help@locable.com" class="btn btn-primary">Email to Get Help</a>
+                
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                    <p><strong>&copy; 2017 Locable</strong><br/> Main Street for the 21st Century</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+
+
+        $(document).ready(function () {
+
+            $( "#monthly-check" ).hide();
+            $('#btn-monthly').click(function() {
+                  $("#btn-monthly").removeClass("btn-outline");
+                  $("#btn-annually").addClass("btn-outline");
+                  $( "#monthly-check" ).show();
+                  $( "#annual-check" ).hide();
+            });
+
+            $('#btn-annually').click(function() {
+                  $("#btn-annually").removeClass("btn-outline");
+                  $("#btn-monthly").addClass("btn-outline");
+                  $( "#monthly-check" ).hide();
+                  $( "#annual-check" ).show();
+            });
+
+            $('body').scrollspy({
+                target: '.navbar-fixed-top',
+                offset: 80
+            });
+
+            // Page scrolling feature
+            $('a.page-scroll').bind('click', function(event) {
+                var link = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $(link.attr('href')).offset().top - 50
+                }, 500);
+                event.preventDefault();
+                $("#navbar").collapse('hide');
+            });
+        });
+
+        var cbpAnimatedHeader = (function() {
+            var docElem = document.documentElement,
+                    header = document.querySelector( '.navbar-default' ),
+                    didScroll = false,
+                    changeHeaderOn = 200;
+            function init() {
+                window.addEventListener( 'scroll', function( event ) {
+                    if( !didScroll ) {
+                        didScroll = true;
+                        setTimeout( scrollPage, 250 );
+                    }
+                }, false );
+            }
+            function scrollPage() {
+                var sy = scrollY();
+                if ( sy >= changeHeaderOn ) {
+                    $(header).addClass('navbar-scroll')
+                }
+                else {
+                    $(header).removeClass('navbar-scroll')
+                }
+                didScroll = false;
+            }
+            function scrollY() {
+                return window.pageYOffset || docElem.scrollTop;
+            }
+            init();
+
+        })();
+
+        // Activate WOW.js plugin for animation on scrol
+        // new WOW().init();
+
+    </script>
+</div>

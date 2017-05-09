@@ -1,5 +1,5 @@
 class Company < ActiveRecord::Base
-  
+
   belongs_to :business, :class_name => "Business", :foreign_key => "company_business_id"
   has_one :company_location
   has_many :contact_companies, :dependent => :destroy
@@ -120,11 +120,11 @@ class Company < ActiveRecord::Base
   end
 
 
-  def self.select_collection(user_business_id, contact_id = nil) 
+  def self.select_collection(user_business_id, contact_id = nil)
     if contact_id.nil?
-      select("companies.id, businesses.name").joins(:business).where(:user_business_id => user_business_id) 
+      select("companies.id, businesses.name").joins(:business).where(:user_business_id => user_business_id)
     else
-      select("companies.id, businesses.name").joins(:business).joins(:contact_companies).where(:user_business_id => user_business_id, :"contact_companies.contact_id" => contact_id) 
+      select("companies.id, businesses.name").joins(:business).joins(:contact_companies).where(:user_business_id => user_business_id, :"contact_companies.contact_id" => contact_id)
     end
   end
   def self.create_with_associations(params, user_business)
@@ -151,12 +151,12 @@ class Company < ActiveRecord::Base
       if skip_indexes.include?(i.to_s)
         next
       end
-      business_dup = 
+      business_dup =
       dup = self.get_duplicate business, new_company
       if dup != false
         duplicates[i] = dup
       end
-    end 
+    end
     if !duplicates.blank?
       duplicates
     end

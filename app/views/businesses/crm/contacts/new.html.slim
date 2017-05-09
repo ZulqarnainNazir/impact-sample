@@ -2,6 +2,12 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Contacts', :sp => :crm_contacts, :an => ' Add Contacts'}
 
+- if @business.contacts_limit? && !current_user.super_user?
+  .alert.alert-success.alert-dismissable
+    | Your plan only allows up to 100 contacts. Click #{link_to 'here', new_website_business_website_add_website_path} to compare plans and upgrade.
+    
+
+
 = form_for @contact, url: [@business, :crm_contacts], html: { class: 'new-contact-form form-horizontal' } do |form|
   .row
     .col-lg-12
@@ -82,9 +88,16 @@
                 / / hr
                 = form.fields_for :feedbacks, @contact.feedbacks.last || @contact.feedbacks.new do |form|
                   .checkbox
-                    = label_tag :_inverse_destroy do
-                      => check_box_tag :_inverse_destroy, '1', !params[:_inverse_destroy] || params[:_inverse_destroy] == '1'
-                      ' Request that the contact leave a review (and trigger automatic email to guide them through the process)
+                    -if @business.reviews_limit? && !current_user.super_user?
+                      = label_tag :_inverse_destroy do
+                        => check_box_tag :_inverse_destroy, nil, nil, disabled: true
+                        ' Request that the contact leave a review (and trigger automatic email to guide them through the process)
+                      .alert.alert-success.alert-dismissable
+                        | Your plan only allows up to 5 reviews. Click #{link_to 'here', new_website_business_website_add_website_path} to compare plans and upgrade
+                    -else
+                      = label_tag :_inverse_destroy do
+                        => check_box_tag :_inverse_destroy, '1', !params[:_inverse_destroy] || params[:_inverse_destroy] == '1'
+                        ' Request that the contact leave a review (and trigger automatic email to guide them through the process)
                   .row
                     .col-sm-8.col-md-6
                       div style="margin-top:1em; margin-left:1.3em"
@@ -93,6 +106,9 @@
                           = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: 'datepicker' }
                           span.input-group-addon: i.fa.fa-calendar
               .panel-footer
-                = form.button 'Add Contact', class: 'btn btn-primary btn-block'
+                -if @business.contacts_limit? && !current_user.super_user?
+                  = form.button 'Add Contact', class: 'btn btn-primary btn-block', disabled: true
+                -else
+                  = form.button 'Add Contact', class: 'btn btn-primary btn-block'
       hr
       hr

@@ -1,6 +1,5 @@
 class Businesses::Content::QuickPostsController < Businesses::Content::BaseController
   include PlacementAttributesConcern
-  include RequiresWebPlanConcern
 
   before_action only: new_actions do
     @quick_post = @business.quick_posts.new

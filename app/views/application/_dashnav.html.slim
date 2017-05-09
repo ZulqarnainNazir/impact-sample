@@ -108,20 +108,30 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Manage Website
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/website/))
-          li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
-            = link_to "Pages", [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages]
-          li class=('active' if controller_path.match(/\Abusinesses\/website\/menus/))
-            = link_to "Navigation Menus", [:edit, @business, :website_menus]
-          li class=('active' if controller_path.match(/\Abusinesses\/website\/theme/))
-            = link_to "Theme & Design", [:edit, @business, :website_theme]
-          li class=('active' if controller_path.match(/\Abusinesses\/website\/details/))
-            = link_to "Domain Settings", [:edit, @business, :website_details]
-          li class=('active' if controller_path.match(/\Abusinesses\/website\/meta/))
-            = link_to "Site Settings", [:edit, @business, :website_meta]
-          li class=('active' if controller_path.match(/\Abusinesses\/website\/sidebars/))
-            = link_to "Sidebars", [:edit, @business, :website_sidebars]
-          li class=('active' if controller_path.match(/\Abusinesses\/website\/redirects/))
-            = link_to "Redirects", [@business, :website_redirects]
+          - if @business.is_on_engage_plan? || @business.build_plan_no_setup_fee || !@business.webhost_primary?
+
+
+            li class=('active' if controller_path.match(/\Aonboard\/users\/new/))
+              = link_to new_website_business_website_add_website_path
+                i.fa.fa-plus-circle
+                | Add New Website
+
+          - else
+
+            li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
+              = link_to "Pages", [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages]
+            li class=('active' if controller_path.match(/\Abusinesses\/website\/menus/))
+              = link_to "Navigation Menus", [:edit, @business, :website_menus]
+            li class=('active' if controller_path.match(/\Abusinesses\/website\/theme/))
+              = link_to "Theme & Design", [:edit, @business, :website_theme]
+            li class=('active' if controller_path.match(/\Abusinesses\/website\/details/))
+              = link_to "Domain Settings", [:edit, @business, :website_details]
+            li class=('active' if controller_path.match(/\Abusinesses\/website\/meta/))
+              = link_to "Site Settings", [:edit, @business, :website_meta]
+            li class=('active' if controller_path.match(/\Abusinesses\/website\/sidebars/))
+              = link_to "Sidebars", [:edit, @business, :website_sidebars]
+            li class=('active' if controller_path.match(/\Abusinesses\/website\/redirects/))
+              = link_to "Redirects", [@business, :website_redirects]
       li title="Business Data" class=('active' if controller_path.match(/\Abusinesses\/data/))
         = link_to "#"
           i.fa.fa-map-marker

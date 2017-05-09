@@ -257,6 +257,7 @@ Rails.application.routes.draw do
           resources :reviews, only: %i[index show destroy] do
             resource :review_publication, only: %i[create destroy]
           end
+          resources :invites, only: %i[index new create]
         end
 
         namespace :tools do
@@ -268,6 +269,12 @@ Rails.application.routes.draw do
         namespace :website do
           root to: 'roots#show'
           resource :about_page, only: %i[edit update]
+          resource :add_website, only: [:none] do
+            collection do
+              get :new_website
+              match 'upgrade_to_new_plan', via: [:get, :post]
+            end
+          end
           resource :blog_page, only: %i[edit update]
           resource :contact_page, only: %i[edit update]
           resource :details, only: %i[edit update]

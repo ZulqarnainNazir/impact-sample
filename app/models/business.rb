@@ -96,6 +96,30 @@ class Business < ActiveRecord::Base
 #One column should be "Active Account" with options "True" if there's an owner,
 #"Sample" if account ID but no owner, "False" if no ID.
 
+  def reviews_limit?
+    if self.is_on_engage_plan? 
+      if self.reviews.count >= 5
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
+  def build_plan_no_setup_fee
+    if !self.subscription.nil?
+      if self.subscription.plan.present? and self.subscription.plan.name == "Build"
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+  
   def self.listing_lookup(params)
     #this method is for use RE listings subdomain (see constraints for listings in routes, and listing controller)
     #the purpose is to get the id of the business from the URL string
@@ -125,6 +149,18 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def contacts_limit?
+    if self.is_on_engage_plan? 
+      if self.contacts.count >= 100
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+  
   def generate_listing_path
     if !self.location.state.nil?
       "/#{self.location.state}-#{self.id}-#{self.sitemap_name}"

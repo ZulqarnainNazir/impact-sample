@@ -49,6 +49,12 @@ module ApplicationHelper
       link_to('Cancel', initial_plan_setup_business_subscriptions_path), :id => 'submit_or_cancel', :class => 'submit'))
   end
 
+  def submit_or_cancel_back_to_new_website(cancel_url = session[:return_to] ? session[:return_to] : url_for(:action => 'new_website'), label = 'Save Changes', submit_html_options = {})
+    submit_html_options.merge!({ :class => "btn btn-primary" })
+    raw(content_tag(:div, submit_tag(label, submit_html_options) + ' or ' +
+      link_to('Cancel', new_website_business_website_add_website_path), :id => 'submit_or_cancel', :class => 'submit'))
+  end
+
   def submit_or_cancel_back_to_plan(cancel_url = session[:return_to] ? session[:return_to] : url_for(:action => 'index'), label = 'Save Changes', submit_html_options = {})
     submit_html_options.merge!({ :class => "btn btn-primary" })
     raw(content_tag(:div, submit_tag(label, submit_html_options) + ' or ' +

@@ -89,6 +89,9 @@ class Subscription < ActiveRecord::Base
     end
 
     self.subscription_plan = plan
+    if self.annual?
+      self.amount = plan.amount_annual
+    end
   end
 
   # The plan_id and plan_id= methods are convenience methods for the
@@ -251,6 +254,7 @@ class Subscription < ActiveRecord::Base
   # Accounts for users require states to be active to be accessed, and this is the usual
   # manner in which to flip an account from inactive to active.
   # - 12.21.16
+  #@response = @gateway.purchase(bs.setup_fee_plus_subscription_fee_in_pennies, bs.billing_id)
   def charge_setup_fee_plus_subscription_fee
     if amount == 0 && self.upgrade_to.nil? || (@response = gateway.purchase(
       self.setup_fee_plus_subscription_fee_in_pennies, billing_id)).success?

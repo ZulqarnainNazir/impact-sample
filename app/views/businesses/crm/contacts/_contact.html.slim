@@ -48,3 +48,6 @@ tr class=('unread' unless contact.read_by.include?(current_user.id))
       = link_to [:new, contact.business, :crm, contact, :crm_note], class: 'btn btn-xs btn-default' do
         => icon 'plus-circle'
         | Add Note
+      / = link_to new_business_crm_invite_path(@business, contact_id: contact.id), class: 'btn btn-xs btn-default' do
+      /   => icon 'envelope'
+      /   | Invite
