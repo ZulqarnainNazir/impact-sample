@@ -1,0 +1,159 @@
+- title 'Leave a Review'
+
+= webpage_container do
+  .row
+    .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+      p.lead.text-center Thanks for taking the time to leave us a review and some feedback. This should only take a minute.
+      br
+      = errors_for @feedback
+      = form_for @feedback, url: listing_create_review_path(@business.generate_listing_segment), method: :post do |form|
+        = hidden_field_tag :feedback_token, params[:feedback_token]
+        .form-group
+          .row
+            .col-sm-8.col-md-6
+              = form.label :serviced_at, class: 'control-label'
+              .input-group
+                = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: :datepicker }
+                span.input-group-addon: i.fa.fa-calendar
+        hr
+        = form.fields_for :review do |form|
+          = form.hidden_field :company_id, :value => @feedback.company_id
+          .row
+            .col-sm-6.h4 How would you rate us on:
+            .col-sm-6.text-right.h4: small
+              | (1 = Very Bad... 5 = Fantastic)
+          br
+          .text-center
+            .row
+              .col-sm-4
+                .form-group.form-group-rating
+                  = form.hidden_field :quality_rating
+                  = form.label :quality_rating, class: 'control-label'
+                  .text-warning style="font-size:1.5em; cursor:pointer"
+                    span.fa> class=(form.object.quality_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.quality_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.quality_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.quality_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.quality_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
+              .col-sm-4
+                .form-group.form-group-rating
+                  = form.hidden_field :value_rating
+                  = form.label :value_rating, class: 'control-label'
+                  .text-warning style="font-size:1.5em; cursor:pointer"
+                    span.fa> class=(form.object.value_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.value_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.value_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.value_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.value_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
+              .col-sm-4
+                .form-group.form-group-rating
+                  = form.hidden_field :service_rating
+                  = form.label :service_rating, class: 'control-label'
+                  .text-warning style="font-size:1.5em; cursor:pointer"
+                    span.fa> class=(form.object.service_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.service_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.service_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.service_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.service_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
+            .row style="margin-top:1em"
+              .col-sm-6.col-sm-offset-3
+                .form-group.form-group-rating
+                  = form.hidden_field :overall_rating
+                  = form.label :overall_rating, class: 'control-label'
+                  .text-warning style="font-size:2em; cursor:pointer"
+                    span.fa> class=(form.object.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                    span.fa> class=(form.object.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                    span.fa> class=(form.object.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                    span.fa> class=(form.object.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                    span.fa class=(form.object.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
+          hr
+          .form-group
+            = form.label :title, 'Summarize Your Experience – Bottom Line', class: 'control-label'
+            = form.text_field :title, class: 'form-control'
+          .form-group
+            = form.label :description, 'Describe your experience in a sentence or two and what a future customer should know.', class: 'control-label'
+            = form.text_area :description, rows: 4, class: 'form-control'
+        hr
+        - unless form.object.score?
+          .form-group
+            p: strong How likely is it that you would recommend #{@business.name} to a friend or colleague?
+            .table-repsonsive
+              table.table.text-center style="border:none"
+                tbody
+                  tr
+                    td
+                      = form.label :score_1 do
+                        ' 01
+                        br>
+                        = form.radio_button :score, 1
+                    td
+                      = form.label :score_2 do
+                        ' 2
+                        br>
+                        = form.radio_button :score, 2
+                    td
+                      = form.label :score_3 do
+                        ' 3
+                        br>
+                        = form.radio_button :score, 3
+                    td
+                      = form.label :score_4 do
+                        ' 4
+                        br>
+                        = form.radio_button :score, 4
+                    td
+                      = form.label :score_5 do
+                        ' 5
+                        br>
+                        = form.radio_button :score, 5
+                    td
+                      = form.label :score_6 do
+                        ' 6
+                        br>
+                        = form.radio_button :score, 6
+                    td
+                      = form.label :score_7 do
+                        ' 7
+                        br>
+                        = form.radio_button :score, 7
+                    td
+                      = form.label :score_8 do
+                        ' 8
+                        br>
+                        = form.radio_button :score, 8
+                    td
+                      = form.label :score_9 do
+                        ' 9
+                        br>
+                        = form.radio_button :score, 9
+                    td
+                      = form.label :score_10 do
+                        ' 10
+                        br>
+                        = form.radio_button :score, 10
+          .row
+            .col-sm-4.text-left Not at all likely
+            .col-sm-4.text-center Neutral
+            .col-sm-4.text-right Extremely Likely
+        .form-group
+          = form.label :description, form.object.score? ? "Why might you recommend #{@business.name} to a friend or colleague" : 'Why?', class: 'control-label'
+          = form.text_area :description, rows: 4, class: 'form-control'
+        .text-center style="margin-top:2em"
+          .form-group
+            = form.button class: 'btn btn-lg btn-success' do
+              ' Submit Review
+              = icon 'angle-double-right'
+
+javascript:
+  $('.form-group-rating .fa').click(function(e) {
+    e.preventDefault();
+    var value = parseInt($(this).data('rating'));
+    var group = $(this).closest('.form-group-rating');
+    var input = group.find('input[type="hidden"]');
+    group.find('.fa').removeClass('fa-star-o').addClass('fa-star')
+    if (value < 5) { group.find('[data-rating="5"]').removeClass('fa-star').addClass('fa-star-o'); }
+    if (value < 4) { group.find('[data-rating="4"]').removeClass('fa-star').addClass('fa-star-o'); }
+    if (value < 3) { group.find('[data-rating="3"]').removeClass('fa-star').addClass('fa-star-o'); }
+    if (value < 2) { group.find('[data-rating="2"]').removeClass('fa-star').addClass('fa-star-o'); }
+    input.val(value);
+  });

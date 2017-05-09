@@ -32,7 +32,7 @@ class Review < ActiveRecord::Base
     LocableReviewsExportJob.perform_later(business)
   end
 
-  after_create do
+  after_save do
     business.authorizations.includes(:user).where(review_notifications: true).each do |authorization|
       AuthorizationsMailer.review_notification(authorization, self).deliver_later
     end

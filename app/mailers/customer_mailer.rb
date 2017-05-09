@@ -1,5 +1,7 @@
 class CustomerMailer < ApplicationMailer
   include WebsiteHelper
+  include ApplicationHelper
+  add_template_helper(ApplicationHelper)
 
   def feedback(feedback)
     unless feedback.completed_at?

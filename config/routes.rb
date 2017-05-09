@@ -32,11 +32,11 @@ Rails.application.routes.draw do
     root to: 'listings#index'
     match '/:lookup', to: 'listings#listing', via: :get
     match '/:lookup/:content_type/', to: 'listings#content_type', :as => "content_type", via: :get
-    # match '/:lookup/:event_id', to: 'listings#event', :as => "event", via: :get
-    # match '/:lookup/:gallery_id', to: 'listings#gallery', :as => "gallery", via: :get
-    # match '/:lookup/:offer_id', to: 'listings#offer', :as => "offer", via: :get
-    # match ':lookup/:post_id/', to: 'listings#post', :as => "post", via: :get
-    # match'/:lookup/:quick_post_id', to: 'listings#quick_post', :as => "quick_post", via: :get
+    match '/:lookup/reviews/all', to: 'reviews#index', :as => 'reviews', via: :get
+    match '/:lookup/reviews/create', to: 'reviews#create', :as => 'create_review', via: :post
+    match '/:lookup/reviews/show/:id', to: 'reviews#show', :as => 'review', via: :get
+    match '/:lookup/reviews/new', to: 'reviews#new', :as => 'new_review', via: :get
+    match '/:lookup/shares/share', to: 'shares#show', :as => 'share', via: :get
   end
 
   scope constraints: PlatformConstraint.new do

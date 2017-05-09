@@ -1,0 +1,19 @@
+- title "Review – #{@review.title}"
+
+= webpage_container do
+  / ol.breadcrumb
+  /   li = link_to icon('home'), listing_path(@business)
+  /   li = link_to 'Customer Reviews', listing_reviews_path(@business)
+  /   li.active Review Details
+  .row
+    div class='col-sm-12'
+      = render partial: 'review', object: @review
+      div
+        - if @business.cce_id? && @business.cce_url?
+          = link_to @business.cce_url + '/reviews/new', class: 'btn btn-default', target: :_blank do
+            span.fa.fa-plus-circle>
+            | Leave us a Review
+    / - if @website.content_blog_sidebar_on_reviews?
+    /   .col-sm-4.m-t-lg
+    /     .show-sidebar-grid
+    /       = render posts(@business), small: true

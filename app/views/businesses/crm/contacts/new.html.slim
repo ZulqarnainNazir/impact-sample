@@ -72,8 +72,8 @@
                       => form.check_box :relationship, { :multiple => true }, 'Prospect', nil
                       | Prospect
                     label.checkbox-inline
-                      => form.check_box :relationship, { :multiple => true }, 'Contact', nil
-                      | Contact
+                      => form.check_box :relationship, { :multiple => true }, 'Customer', nil
+                      | Customer
                 / = form.fields_for :crm_notes, @contact.crm_notes.last || @contact.crm_notes.new do |form|
                 /   .form-group
                 /     = form.label :content, class: 'col-xs-2 control-label'
