@@ -1,6 +1,6 @@
-- title 'Edit Directory Widget'
+- title 'Edit SupportLocal Embed'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Directory Widget', :sp => :tools_directory_widgets, :an => 'Edit Directory Widget'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'SupportLocal Embed', :sp => :tools_directory_widgets, :an => 'Edit SupportLocal Embed'}
 
 wrapper.wrapper-content
 .row.animated.fadeInRight
@@ -8,7 +8,8 @@ wrapper.wrapper-content
     = form_for @directory_widget, url: [@business, :tools, @directory_widget] do |form|
       .ibox.float-e-margins
         .ibox-title
-          h5 Create a Directory Widget
+          <a class="btn btn-primary btn-outline pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Embed Setup Hints</a>
+          h3 Edit SupportLocal Embed
         .ibox-content
           = errors_for @directory_widget
           .form-group
@@ -18,7 +19,7 @@ wrapper.wrapper-content
             = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
             = form.text_field :public_label, class: 'form-control'
           .form-group
-            label Enable In Widget Search
+            label Enable Embed Search
             br
             label.radio-inline
               = form.radio_button :enable_search, true
@@ -34,12 +35,13 @@ wrapper.wrapper-content
             | Add New Company List
 
         .ibox-content
-          = form.button 'Save Widget', class: 'btn btn-primary'
+          = form.button 'Save Embed', class: 'btn btn-primary'
         - #  a.btn.btn-success#preview style="margin-left: 20px;" href="#{website_root_url()}widgets/directory_widgets/#{@directory_widget.uuid}?widget_layout=#{@directory_widget.layout}" data-toggle="lightbox" data-width="" Preview
   .col-md-6
     .ibox.float-e-margins
       .ibox-title
-        h5 Embed Code
+        <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjiuC6C3qdzgx4DJFq5')">Installation Hints</a>
+        h3 Embed Code
       .ibox-content
         .panel-group#accordian
           .panel.panel-default

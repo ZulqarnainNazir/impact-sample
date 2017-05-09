@@ -15,10 +15,10 @@
                   = text_field_tag :query, params[:query], class: 'form-control'
                   span.input-group-btn
                     = button_tag icon('search'), class: 'btn btn-default'
-            = link_to [:new, @business, :crm_company], class: 'btn btn-sm btn-default pull-right' do
+            = link_to [:new, @business, :crm_company], class: 'btn btn-sm btn-primary' do
               => icon 'plus-circle'
               | Add company
-            = link_to polymorphic_url([@business, :crm_imports], :import_type => 'companies'), class: 'btn btn-sm btn-primary pull-right' do
+            = link_to polymorphic_url([@business, :crm_imports], :import_type => 'companies'), class: 'btn btn-sm btn-primary btn-outline pull-right' do
               => icon 'plus-circle'
               | Import contacts in bulk
           

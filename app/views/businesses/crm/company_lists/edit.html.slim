@@ -8,7 +8,8 @@ wrapper.wrapper-content
     = form_for @company_list, url: [@business, :crm, @company_list] do |form|
       .ibox.float-e-margins
         .ibox-title
-          h5 Create a Company List
+          <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">See list hints</a>
+          h3 Edit Company List
         .ibox-content
           = errors_for @company_list
           .form-group

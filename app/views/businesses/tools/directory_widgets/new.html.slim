@@ -1,6 +1,6 @@
-- title 'Add Directory Widget'
+- title 'Add SupportLocal Embed'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Directory Widget', :sp => :tools_directory_widgets, :an => 'Add Directory Widget'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'SupportLocal', :sp => :tools_directory_widgets, :an => 'Add SupportLocal Embed'}
 
 wrapper.wrapper-content
 .row.animated.fadeInRight
@@ -8,7 +8,8 @@ wrapper.wrapper-content
     = form_for @directory_widget, url: [@business, :tools_directory_widgets] do |form|
       .ibox.float-e-margins
         .ibox-title
-          h5 Create a Directory Widget
+          <a class="btn btn-primary pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Show Me How</a>
+          h3 Create a SupportLocal Embed
         .ibox-content
           = errors_for @directory_widget
           .form-group
@@ -18,7 +19,7 @@ wrapper.wrapper-content
             = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
             = form.text_field :public_label, class: 'form-control'
           .form-group
-            label Enable In Widget Search
+            label Enable Embed Search
             br
             label.radio-inline
               = form.radio_button :enable_search, true
@@ -34,6 +35,6 @@ wrapper.wrapper-content
             | Add New Company List
 
         .ibox-content
-          = form.button 'Add Widget', class: 'btn btn-primary'
+          = form.button 'Create Embed', class: 'btn btn-primary'
 
 

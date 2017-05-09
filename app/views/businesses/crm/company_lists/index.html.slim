@@ -15,9 +15,10 @@
                   = text_field_tag :query, params[:query], class: 'form-control'
                   span.input-group-btn
                     = button_tag icon('search'), class: 'btn btn-default'
-            = link_to [:new, @business, :crm_company_list], class: 'btn btn-sm btn-default' do
+            = link_to [:new, @business, :crm_company_list], class: 'btn btn-sm btn-primary' do
               => icon 'plus-circle'
               | Add a Company List
+            <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kji_9AqPYjaqSE1WIvD')">What is this?</a>  
           
           - if @company_lists.empty?
             .p-a-3.text-center

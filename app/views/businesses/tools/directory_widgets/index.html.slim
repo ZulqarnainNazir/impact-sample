@@ -1,6 +1,6 @@
-- title 'Directory Widgets'
+- title 'SupportLocal Embeds'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :an => 'Directory Widgets'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :an => 'SupportLocal Embeds'}
 
 .wrapper.wrapper-content.animated.fadeInRight
   .row
@@ -15,15 +15,16 @@
                   = text_field_tag :query, params[:query], class: 'form-control'
                   span.input-group-btn
                     = button_tag icon('search'), class: 'btn btn-default'
-            = link_to [:new, @business, :tools_directory_widget], class: 'btn btn-sm btn-default' do
+            = link_to [:new, @business, :tools_directory_widget], class: 'btn btn-sm btn-primary' do
               => icon 'plus-circle'
-              | Add Directory Widget
+              | Add SupportLocal Embed
+            <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kjip2iZDWHjSmajfUPL')">What is this?</a>  
           
           - if @directory_widgets.empty?
             .p-a-3.text-center
-              h2 No Directory Widgets Found
+              h2 No SupportLocal Embeds Found
               h4
-                = link_to 'Create a New Directory Widget', [:new, @business, :tools_directory_widget], class: 'text-navy'
+                = link_to 'Create a New SupportLocal Embed', [:new, @business, :tools_directory_widget], class: 'text-navy'
           - else
             p style="margin:2em 0" = page_entries_info @directory_widgets
             table.footable.table.table-stripped
