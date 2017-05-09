@@ -98,4 +98,5 @@ group :production do
   gem 'newrelic_rpm'
   gem 'rails_12factor'
   gem 'honeybadger', '~> 2.0'
+  gem 'rails_autoscale_agent'
 end
