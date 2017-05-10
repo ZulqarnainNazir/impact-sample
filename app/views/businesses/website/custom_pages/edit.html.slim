@@ -12,21 +12,29 @@
             = form.label :title, class: 'col-md-2 control-label'
             .col-md-10
               = form.text_field :title, class: 'form-control js-title-input', data: { affects_pathname: form.object.pathname.blank?, affects_name: form.object.name.blank? }
-              p.help-block Important for SEO
-          .form-group
-            = form.label :pathname, class: 'col-md-2 control-label'
-            .col-md-10
-              = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input'
             .col-md-10.col-md-offset-2
-              p.help-block
-                = website_host(form.object.website)
-                | /
-                strong.text-info.js-pathname-label = form.object.pathname
+              p.help-block Important for SEO
+          / .form-group
+          /   = form.label :pathname, class: 'col-md-2 control-label'
+          /   .col-md-10
+          /     = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input'
+          /   .col-md-10.col-md-offset-2
+          /     p.help-block
+          /       = website_host(form.object.website)
+          /       | /
+          /       strong.text-info.js-pathname-label = form.object.pathname
+          / .form-group
+          /   = form.label :name, class: 'col-md-2 control-label'
+          /   .col-md-10
+          /     = form.text_field :name, class: 'form-control js-name-input'
+          /     p.help-block Used on headers and footers.
           .form-group
-            = form.label :name, class: 'col-md-2 control-label'
-            .col-md-10
-              = form.text_field :name, class: 'form-control js-name-input'
-              p.help-block Used on headers and footers.
+            / span.text-right.text-muted.small
+            .col-md-10.col-md-offset-2
+              - if form.object.in_navbar?
+                .list-group-item.list-group-item-success = link_to "This page is in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
+              - else
+                .list-group-item.disabled = link_to "This page is not in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
         - if @custom_page.persisted?
           .row
             .col-md-offset-2
@@ -47,6 +55,20 @@
                 strong> Hide Page from Search Engines?
                 small If checked, this page will be hidden from search engines
             hr
+            .form-group
+              = form.label :pathname, class: 'col-md-2 control-label'
+              .col-md-10
+                = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input'
+              .col-md-10.col-md-offset-2
+                p.help-block
+                  = website_host(form.object.website)
+                  | /
+                  strong.text-info.js-pathname-label = form.object.pathname
+            .form-group
+              = form.label :name, class: 'col-md-2 control-label'
+              .col-md-10
+                = form.text_field :name, class: 'form-control js-name-input'
+                p.help-block Used on headers and footers.
             .form-group
               = form.label :description, class: 'control-label'
               = form.text_area :description, rows: 2, class: 'form-control'
@@ -71,11 +93,6 @@
             span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
               ' Toggle Advanced Settings
               span.fa
-          p.text-right.text-muted.small
-            - if form.object.in_navbar?
-              .list-group-item.list-group-item-success = link_to "This page is in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
-            - else
-              .list-group-item.disabled = link_to "This page is not in the site navbar. Adjust navbar settings here", edit_business_website_menus_path
 
     javascript:
       var setPathname = function(inputVal) {

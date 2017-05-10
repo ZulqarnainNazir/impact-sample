@@ -12,21 +12,22 @@
             = form.label :title, class: 'col-md-2 control-label'
             .col-md-10
               = form.text_field :title, class: 'form-control js-title-input', data: { affects_pathname: form.object.pathname.blank?, affects_name: form.object.name.blank? }, required: true
-              p.help-block Important for SEO
-          .form-group
-            = form.label :pathname, class: 'col-md-2 control-label'
-            .col-md-10
-              = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input', required: true
             .col-md-10.col-md-offset-2
-              p.help-block
-                = website_host(form.object.website)
-                | /
-                strong.text-info.js-pathname-label = form.object.pathname
-          .form-group
-            = form.label :name, class: 'col-md-2 control-label'
-            .col-md-10
-              = form.text_field :name, class: 'form-control js-name-input', required: true
-              p.help-block Used on headers and footers.
+              p.help-block Important for SEO
+          / .form-group
+          /   = form.label :pathname, class: 'col-md-2 control-label'
+          /   .col-md-10
+          /     = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input', required: true
+          /   .col-md-10.col-md-offset-2
+          /     p.help-block
+          /       = website_host(form.object.website)
+          /       | /
+          /       strong.text-info.js-pathname-label = form.object.pathname
+          / .form-group
+          /   = form.label :name, class: 'col-md-2 control-label'
+          /   .col-md-10
+          /     = form.text_field :name, class: 'form-control js-name-input', required: true
+          /     p.help-block Used on headers and footers.
         - if @custom_page.persisted?
           .row
             .col-md-offset-2
@@ -47,6 +48,20 @@
                 strong> Hide Page from Spiders?
                 small If checked, this page is hidden from search engines
             hr
+            .form-group
+              = form.label :pathname, class: 'col-md-2 control-label'
+              .col-md-10
+                = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input', required: true
+              .col-md-10.col-md-offset-2
+                p.help-block
+                  = website_host(form.object.website)
+                  | /
+                  strong.text-info.js-pathname-label = form.object.pathname
+            .form-group
+              = form.label :name, class: 'col-md-2 control-label'
+              .col-md-10
+                = form.text_field :name, class: 'form-control js-name-input', required: true
+                p.help-block Used on headers and footers.
             .form-group
               = form.label :description, class: 'control-label'
               = form.text_area :description, rows: 2, class: 'form-control'
