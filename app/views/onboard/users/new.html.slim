@@ -1,5 +1,13 @@
 div
   = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
+  css:
+    .navbar-inverse {
+      background-color: #222;
+      border-color: #090909;
+    }
+    .dropdown-menu-right {
+      left: auto;
+    }
   = csrf_meta_tag
   = react_component "OnboardingWizard", businesses: @businesses.as_json(include: [:categories, :location, :owners]), categories: @categories, current_user: current_user, invited_user: @invited_user, invited_company: @invited_company.try(:business).try(:as_json, include: [:categories, :location, :owners])
   
