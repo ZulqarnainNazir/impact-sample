@@ -3,6 +3,7 @@ html
   = render 'head'
   = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
   body
+    = render 'appcues'
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
       - if current_user.super_user?
         = render 'billing_dashnav'
@@ -19,3 +20,4 @@ html
             |  Locable © 2017 
     = yield :javascript
     = intercom_tag
+    = render 'appcues_user_info'
