@@ -76,7 +76,7 @@ class SelectPlan extends React.Component {
                   <div className="col-sm-8 col-sm-offset-2">
                     <h3>Locable's Marketing Suite empowers your marketing with a built-in local marketing assistant that guides your efforts, tools specially built for local, unlimited users and content, and more from a smartphone or PC.</h3>
                   </div>
-                  <div className="col-xs-12 text-center coming-soon">
+                  <div className="col-xs-12 text-center">
                     <label
                       className="btn btn-primary btn-sm btn-rounded"
                       onClick={() => this.setState({ payments: 'monthly' })}
@@ -148,9 +148,8 @@ class SelectPlan extends React.Component {
           </div>
 
           <div className="col-lg-6 wow zoomIn m-t-30px">
-            <h1 className="build-label"><label className="label label-warning">Coming Soon</label></h1>
 
-            <ul className="pricing-plan list-unstyled selected  coming-soon" >
+            <ul className="pricing-plan list-unstyled selected" >
                 <li className="pricing-title btn btn-block" onClick={this.selectBuild}>
                     Build
                 </li>

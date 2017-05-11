@@ -18,6 +18,8 @@ gem 'autoprefixer-rails'
 gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
 
+gem 'rails_autoscale_agent'
+
 gem 'bcrypt'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'

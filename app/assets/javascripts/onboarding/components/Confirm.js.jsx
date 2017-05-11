@@ -40,7 +40,7 @@ class Confirm extends React.Component {
         data: {
           business_id: store.get('business').id,
           subscription: {
-            subscription_plan_id: 2,
+            subscription_plan_id: store.get('build_plan_id'),
             annual: store.get('plan').payments === 'annual',
           },
         },

@@ -1,7 +1,7 @@
 Rails.application.configure do
   config.action_controller.asset_host = Rails.application.secrets.aws_cloudfront_host
   config.action_controller.perform_caching = true
-  config.action_mailer.default_url_options = { host: "www.#{Rails.application.secrets.host}" }
+  config.action_mailer.default_url_options = { host: "#{Rails.application.secrets.host}" }
   config.active_record.dump_schema_after_migration = false
   config.active_support.deprecation = :notify
   config.assets.compile = false

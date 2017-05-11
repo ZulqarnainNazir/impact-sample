@@ -35,6 +35,7 @@ const OnboardingWizard = (props) => {
     store.set('user', props.current_user);
     store.set('accountComplete', true);
   }
+  store.set('build_plan_id', props.build_plan_id);
   return (
     <Router history={hashHistory}>
       <Route path="/" component={SelectPlan}/>

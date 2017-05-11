@@ -35,7 +35,7 @@ class Account extends React.Component {
     store.set('user', _.merge({}, user));
     if (this.formIsValid()) {
       $.ajax({
-        url: '/users',
+        url: '/users?confirm=false',
         type: 'POST',
         dataType: 'json',
         data: { user: {
@@ -175,9 +175,9 @@ class Account extends React.Component {
               <label className="">Confirm Password</label>
             </div>
             <div className='btn-group pull-right m-t-5px'>
-              <button className="btn btn-default" onClick={this.prevStep}>
+              <a className="btn btn-default" onClick={this.prevStep}>
                 Previous Step
-              </button>
+              </a>
               <button className="btn btn-primary" onClick={this.completeStep} disabled={this.state.submitting || store.get('accountComplete')}>
                 {
                   this.state.submitting ? <i className="fa fa-spinner fa-spin" /> : ''

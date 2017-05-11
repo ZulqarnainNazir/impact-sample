@@ -12,6 +12,8 @@
                 h1.h4 Invite business owners you know, respect, and endorse to enroll their business and begin collaborating & cross promoting. It's free for them to participate.
               .ibox-content
                 = errors_for @invite
+                input id="business-name" type="hidden" value="#{@business.name}"
+                input id="invite-business-name" type="hidden" value="#{@invite.company.try(:name)}"
                 .group
                   = form.select :invitee_id, {}, { :include_blank => true }, { :class => 'form-control js-invitee-select' } do
                     - @business.contacts.sort_by(&:name).each do |contact|
@@ -58,6 +60,15 @@
                           $('.small.hideable').show();
                         }
                       });
+                      $('#invite_invite_as_member_true').on('ifToggled', function(e) {
+                        if (e.target.checked) {
+                          $('span.email-subject').text("Subject: Confirm " + $('#invite-business-name').val() + " membership with " + $('#business-name').val())
+                          $('#variable-invite-content').text('to promote our business and our members.')
+                        } else {
+                          $('span.email-subject').text("Subject: Join " + $('#business-name').val() + " and Support Local at " + $('#invite-business-name').val())
+                          $('#variable-invite-content').text('to promote our business and free Support Local tools to promote those we endorse and recommend.')
+                        }
+                      });
                     });
                 hr
                 .group
@@ -69,18 +80,40 @@
                   span.bar
                   span.highlight
                   label.control-label Select their company
+                - if @business.membership_org
+                  .m-t.text-center.js-membership-toggle
+                    / .i-checks
+                    = form.label :invite_as_member_true, class: 'checkbox-inline i-checks' do
+                      = form.radio_button :invite_as_member, true
+                      i
+                      |  Invite as Member
+                    = form.label :invite_as_member_false, class: 'checkbox-inline i-checks' do
+                      = form.radio_button :invite_as_member, false
+                      i
+                      |  Non-Member Invite
                 .ibox.m-t-10px
+                  / - membership_subject =  "Subject: Confirm your membership with #{@business.name}"
+                  - membership_subject =  "Subject: Confirm #{@invite.company.try(:name)} membership with #{@business.name}"
+                  - nonmembership_subject = "Subject: Join #{@business.name} and Support Local at #{@invite.company.try(:name)}"
                   .ibox-title
                     h2 Invite Preview
                   .mail-box-header
                     .mail-tools
-                      span.font-normal Subject: Confirm you membership in #{@business.name}
+                      span.font-normal.email-subject = @invite.invite_as_member ? membership_subject : nonmembership_subject
                   .mail-box
                     .mail-body
                       p 
-                        | We're using free local marketing tools from Locable to promote our business and those we endorse and recommend. You can create your free account in just a couple minutes by visiting 
-                        a this link
+                        | We're using free local marketing tools from
+                        a href="http://www.locable.com"  Locable 
+                        - if @invite.invite_as_member
+                          span id="variable-invite-content" to promote our business and our members.
+                        - else
+                          span id="variable-invite-content" to promote our business and free Support Local tools to promote those we endorse and recommend.
+                        |  You can create your free account in just a couple minutes by visiting this
+                        a  link
                         | .
+                      p 
+                        | In addition to generating referrals their free tools will help you improve your website, create and distribute content, track your contacts and collect customer reviews, and even includes a virtual marketing assistant to guide you with easy-to-follow marketing missions. All included in their free plan.
                 .ibox-footer
                   = form.button 'Send Invite', class: 'btn btn-primary btn-block'
             

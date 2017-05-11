@@ -28,6 +28,8 @@ module Impact
       }
     }
 
+    config.action_mailer.default_url_options = { host: ENV['HOST'] }
+
     # React
     config.react.addons = true
     # Dashboard CSS

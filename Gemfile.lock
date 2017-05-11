@@ -314,6 +314,8 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
+    rails_autoscale_agent (0.1.0)
+      activesupport (>= 3.2)
     rails_serve_static_assets (0.0.4)
     rails_stdout_logging (0.0.3)
     railties (4.2.6)
@@ -482,6 +484,7 @@ DEPENDENCIES
   rack-timeout
   rails
   rails_12factor
+  rails_autoscale_agent
   react-rails
   recurring_select
   remotipart (~> 1.3)

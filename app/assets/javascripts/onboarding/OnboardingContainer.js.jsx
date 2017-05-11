@@ -12,6 +12,8 @@ class OnboardingContainer extends React.Component {
     this.startOver = this.startOver.bind(this);
     this.prevStep = this.prevStep.bind(this);
     this.nextStep = this.nextStep.bind(this);
+    this.completedSteps = this.completedSteps.bind(this);
+    this.totalSteps = store.get('plan').name === 'build' ? 4 : 3;
   }
 
   goToCurrentStep() {
@@ -22,6 +24,24 @@ class OnboardingContainer extends React.Component {
     } else if (store.get('plan') && store.get('plan').name) {
       hashHistory.push('wizard/lookup');
     }
+  }
+
+  completedSteps() {
+    let steps = 0
+    if (store.get('busInfoComplete')) {
+      steps += 1;
+    }
+    if (store.get('lookupComplete')) {
+      steps += 1;
+    }
+    // if (store.get('plan') && store.get('plan').name) {
+    //   steps += 1;
+    // }
+    if (store.get('accountComplete')) {
+      steps += 1;
+    }
+    return steps;
+    // console.log("steps!", store.get('busInfoComplete') + store.get('lookupComplete'));
   }
 
   startOver(e) {
@@ -92,6 +112,14 @@ class OnboardingContainer extends React.Component {
                 </div>
               ) : <div />
             }
+          </div>
+          <div className="progress progress-striped">
+            <div
+              className="progress-bar progress-bar-primary"
+              style={{ width: `${this.completedSteps() / this.totalSteps * 100}%`}}
+            >
+              {this.completedSteps()}/{this.totalSteps}
+            </div>
           </div>
           <div className="content ibox-content no-padding">
             {this.props.children}

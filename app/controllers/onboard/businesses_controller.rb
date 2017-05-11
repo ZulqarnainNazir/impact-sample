@@ -18,6 +18,20 @@ class Onboard::BusinessesController < ApplicationController
     end
   end
 
+  def build_subscription
+    @subscription = @business.build_subscription
+    @subscription.plan = SubscriptionPlan.engage_plan
+    @subscription.state = 'active'
+    @subscription.subscriber = @business
+    unless cookies[:affiliate_token].nil?
+      @affiliate = SubscriptionAffiliate.find_by(token: cookies[:affiliate_token])
+      unless !@affiliate.business.affiliate_activated?
+        @subscription.affiliate = @affiliate
+      end
+    end
+    @subscription.save!
+  end
+
   def create
     @business.location_attributes= { name: initial_business_params[:name] }
     @business.website_attributes = {
@@ -28,19 +42,20 @@ class Onboard::BusinessesController < ApplicationController
     # create_resource @business, initial_business_params, template: "onboard/businesses/new"
     @business.assign_attributes(initial_business_params)
     if @business.save
+      build_subscription
       #this code block creates the default subscription for businesses, i.e.,
       #the "Engage", or Free plan.
-      @subscription = @business.build_subscription
-      @subscription.plan = SubscriptionPlan.engage_plan
-      @subscription.state = 'active'
-      @subscription.subscriber = @business
-      unless cookies[:affiliate_token].nil?
-        @affiliate = SubscriptionAffiliate.find_by(token: cookies[:affiliate_token])
-        unless !@affiliate.business.affiliate_activated?
-          @subscription.affiliate = @affiliate
-        end
-      end
-      @subscription.save!
+      # @subscription = @business.build_subscription
+      # @subscription.plan = SubscriptionPlan.engage_plan
+      # @subscription.state = 'active'
+      # @subscription.subscriber = @business
+      # unless cookies[:affiliate_token].nil?
+      #   @affiliate = SubscriptionAffiliate.find_by(token: cookies[:affiliate_token])
+      #   unless !@affiliate.business.affiliate_activated?
+      #     @subscription.affiliate = @affiliate
+      #   end
+      # end
+      # @subscription.save!
       @business.update!(business_params)
       @business.location.update!(business_location_params)
     end
@@ -48,7 +63,16 @@ class Onboard::BusinessesController < ApplicationController
   end
 
   def update
-    @business.update(business_params)
+    build_subscription
+    unless @business.website
+      @business.website_attributes = {
+        subdomain: Subdomain.available(initial_business_params[:name]),
+        header_block_attributes: {},
+        footer_block_attributes: {},
+      }
+    end
+    @business.in_impact = true
+    @business.update!(business_params)
     @business.location.update(business_location_params)
     render :show
   end

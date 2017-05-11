@@ -134,7 +134,7 @@ class Login extends React.Component {
             </div>
             <div className='btn-group pull-right m-t-5px'>
               <Link to="wizard/businfo" className="btn btn-default">Previous Step</Link>
-              <button className="btn btn-primary" onClick={this.completeStep} disabled={this.state.submitting || store.get('accountComplete')}>
+              <button type="submit" className="btn btn-primary" onClick={this.completeStep} disabled={this.state.submitting || store.get('accountComplete')}>
                 {
                   this.state.submitting ? <i className="fa fa-spinner fa-spin" /> : ''
                 }
