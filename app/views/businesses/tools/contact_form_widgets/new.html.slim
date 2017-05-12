@@ -1,0 +1,30 @@
+- title 'Add Contact Form Widget'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Contact Form Widget', :sp => :tools_contact_form_widgets, :an => 'Add Contact Form Widget'}
+
+wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @contact_form_widget, url: [@business, :tools_contact_form_widgets] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Create a Contact Form Widget
+        .ibox-content
+          = errors_for @contact_form_widget
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+          .form-group
+            = form.label :contact_form_id, "Contact Form", class: 'control-label'
+            = form.select :contact_form_id, options_from_collection_for_select(@business.contact_forms, 'id', 'name', @contact_form_widget.contact_form_id), {:include_blank => true}, {:class => 'form-control'}
+          = link_to [:new, @business, :crm_contact_form], :target => "_blank"  do
+            => icon 'plus-circle'
+            | Add New Contact Form
+
+        .ibox-content
+          = form.button 'Add Widget', class: 'btn btn-primary'
+
+

@@ -9,10 +9,18 @@
         .col-lg-12
           .ibox.float-e-margins
             .ibox-content
-              / .pull-right
-              = link_to [:edit, @business, :crm_contact_message_notifications], class: 'btn btn-sm btn-default' do
-                => icon 'check-square-o'
-                | Set Notifications
+              .pull-right
+                = link_to [:edit, @business, :crm_contact_message_notifications], class: 'btn btn-sm btn-default' do
+                  => icon 'check-square-o'
+                  | Set Notifications
+              .pull-left
+                = form_tag [@business, :crm_form_submissions], method: :get, style: 'float:left; margin-right:0.5em' do
+                  .form-group
+                    = label_tag :contact_form_id, 'Contact Form', class: 'sr-only'
+                    .input-group
+                      = select_tag :contact_form_id, content_tag(:option,'Contact Us Page',:value=>"legacy",:selected=>"selected")+options_from_collection_for_select(@business.contact_forms, "id", "name", params[:contact_form_id]), :prompt => "Select a Form", class: 'form-control'
+                      span.input-group-btn
+                        = button_tag icon('search'), class: 'btn btn-default'
               - if @contact_messages.empty?
                 p style="margin:2em 0"
                   em No submitted forms found.
@@ -20,7 +28,7 @@
                 / p style="margin:2em 0" = page_entries_info @contact_messages
                 / .panel.panel-default
                 div
-                  .table-responsive
+                  .table-responsive style="clear:both;"
                     table.table.table-striped.datatable
                       thead
                         tr

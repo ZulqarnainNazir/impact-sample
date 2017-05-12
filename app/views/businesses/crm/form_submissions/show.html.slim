@@ -1,0 +1,21 @@
+- title 'Form Submission'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Form Submissions', :sp => :crm_form_submissions, :an => "Form Submission"}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+          h5 = link_to @form_submission.contact.name, [:edit, @form_submission.business, :crm, @form_submission.contact]
+        .ibox-content
+          - @form_submission.form_submission_values.each do |value|
+            div
+            strong = value.contact_form_form_field.label << ": "
+            = value.value
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $('.footable').footable();
+    });

@@ -1,0 +1,9 @@
+.vertical-timeline-block
+  .vertical-timeline-icon.blue-bg
+    i.fa.fa-envelope
+
+  .vertical-timeline-content
+    - subject.form_submission_values.each do |value|
+      div
+      strong = value.contact_form_form_field.label << ": "
+      = value.value

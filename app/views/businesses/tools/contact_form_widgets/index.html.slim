@@ -1,0 +1,42 @@
+- title 'Contact Form Widgets'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :an => 'Contact Form Widgets'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .pull-right
+            = form_tag [@business, :tools_contact_form_widgets], method: :get, style: 'float:left; margin-right:0.5em' do
+              .form-group
+                = label_tag :query, 'Query', class: 'sr-only'
+                .input-group
+                  = text_field_tag :query, params[:query], class: 'form-control'
+                  span.input-group-btn
+                    = button_tag icon('search'), class: 'btn btn-default'
+            = link_to [:new, @business, :tools_contact_form_widget], class: 'btn btn-sm btn-default' do
+              => icon 'plus-circle'
+              | Add Contact Form Widget
+          
+          - if @contact_form_widgets.empty?
+            .p-a-3.text-center
+              h2 No Contact Form Widgets Found
+              h4
+                = link_to 'Create a New Contact Form Widget', [:new, @business, :tools_contact_form_widget], class: 'text-navy'
+          - else
+            p style="margin:2em 0" = page_entries_info @contact_form_widgets
+            table.footable.table.table-stripped
+              thead
+                tr
+                  th
+                    | Name
+              tbody
+                = render @contact_form_widgets
+          = paginate @contact_form_widgets
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $('.footable').footable();
+    });

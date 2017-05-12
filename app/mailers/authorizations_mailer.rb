@@ -15,4 +15,10 @@ class AuthorizationsMailer < ApplicationMailer
     @review = review
     mail to: @authorization.user.email
   end
+
+  def contact_form_submission_notification(authorization, form_submission)
+    @authorization = authorization
+    @form_submission = form_submission
+    mail to: @authorization.user.email
+  end
 end

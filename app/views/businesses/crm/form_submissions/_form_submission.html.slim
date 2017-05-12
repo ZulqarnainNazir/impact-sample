@@ -1,0 +1,9 @@
+- i = 0
+tr class=('unread' unless form_submission.read_by.include?(current_user.id))
+  - @contact_form.contact_form_form_fields.first(6).each do |field|
+    td
+      - if i == 0
+        = link_to form_submission.form_submission_values.find_by(:contact_form_form_field_id => field.id).value, [@business, :crm, form_submission]
+      - else
+        = form_submission.form_submission_values.find_by(:contact_form_form_field_id => field.id).value
+      - i += 1

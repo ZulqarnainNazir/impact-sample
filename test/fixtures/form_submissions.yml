@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contact_form_id: 
+  form_field_id: 
+  contact_id: 
+  value: MyString
+
+two:
+  contact_form_id: 
+  form_field_id: 
+  contact_id: 
+  value: MyString

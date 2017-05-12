@@ -9,6 +9,7 @@ class Contact < ActiveRecord::Base
     has_many :feedbacks
     has_many :reviews
     has_many :contact_companies, :dependent => :destroy
+    has_many :form_submissions
   end
 
   has_many :companies, :through => :contact_companies
@@ -125,10 +126,37 @@ class Contact < ActiveRecord::Base
       contact_messages.to_a,
       crm_notes.to_a,
       reviews.to_a,
-      get_email_records.to_a
+      get_email_records.to_a,
+      form_submissions.to_a
     ].flatten!
 
     activities.sort_by!(&:created_at).reverse!
+  end
+
+  def self.find_and_update_or_create contact_hash
+    matches = []
+    if !contact_hash[:first_name].blank? and !contact_hash[:last_name].blank?
+      matches += where('(first_name = ? AND last_name = ?)', contact_hash[:first_name], contact_hash[:last_name])
+    end
+    if !contact_hash[:email].blank?
+      matches += where(:email => contact_hash[:email])
+    end
+    if !contact_hash[:phone].blank?
+      matches += where(:phone => contact_hash[:phone])
+    end
+    if matches.blank?
+      return create(contact_hash)
+    end
+    counts = matches.each_with_object(Hash.new(0)) { |o, h| h[o[:id]] += 1 }
+    best_match_id = counts.sort_by {|k,v| v}.reverse[0][0].to_i
+    best_match = find(best_match_id)
+    best_match.update_attributes_only_if_blank contact_hash
+    best_match
+  end
+
+  def update_attributes_only_if_blank(attributes)
+    attributes.each { |k,v| attributes.delete(k) unless read_attribute(k).blank? }
+    update_attributes(attributes)
   end
 
   private

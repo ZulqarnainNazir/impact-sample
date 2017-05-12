@@ -1,0 +1,27 @@
+- appended = contact_form_form_field.new_record? && contact_form_form_field.errors.empty? && contact_form_form_field.label.blank?
+li.contact-form-form-field-fields class=[appended ? 'is-appended' : '']
+  .contact-form-form-field-tolerance
+    i.fa.fa-reorder.contact-form-form-field-handle
+    - if !contact_form_form_field.form_field.blank?
+      h2.text-center 
+        = contact_form_form_field.form_field.label
+    = list_form.fields_for :contact_form_form_fields, contact_form_form_field, child_index: appended ? 98765432101 : nil do |field_form|
+      .contact-form-form-field-hidden-fields
+        = field_form.hidden_field :position
+      .form-group
+        = field_form.label :label, "Custom Label", class: 'control-label'
+        = field_form.text_field :label, :class => 'form-control'
+      .pull-right
+        = field_form.label :_destroy, class: 'btn' do
+          => field_form.check_box :_destroy
+          ' Remove
+          i.fa.fa-trash-o
+      .form-group
+        label Required Field
+        br
+        label.radio-inline
+          = field_form.radio_button :required, true
+          | Yes
+        label.radio-inline
+          = field_form.radio_button :required, false
+          | No

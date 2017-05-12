@@ -1,0 +1,86 @@
+- title 'Edit Contact Form Widget'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Contact Form Widget', :sp => :tools_contact_form_widgets, :an => 'Edit Contact Form Widget'}
+
+wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @contact_form_widget, url: [@business, :tools, @contact_form_widget] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Create a Contact Form Widget
+        .ibox-content
+          = errors_for @contact_form_widget
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+          .form-group
+            = form.label :contact_form_id, "Contact Form", class: 'control-label'
+            = form.select :contact_form_id, options_from_collection_for_select(@business.contact_forms, 'id', 'name', @contact_form_widget.contact_form_id), {:include_blank => true}, {:class => 'form-control'}
+          = link_to [:new, @business, :crm_contact_form], :target => "_blank"  do
+            => icon 'plus-circle'
+            | Add New Contact Form
+
+        .ibox-content
+          = form.button 'Save Widget', class: 'btn btn-primary'
+        - #  a.btn.btn-success#preview style="margin-left: 20px;" href="#{website_root_url()}widgets/contact_form_widgets/#{@contact_form_widget.uuid}?widget_layout=#{@contact_form_widget.layout}" data-toggle="lightbox" data-width="" Preview
+  .col-md-6
+    .ibox.float-e-margins
+      .ibox-title
+        h5 Embed Code
+      .ibox-content
+        .panel-group#accordian
+          .panel.panel-default
+            .panel-heading
+              h2.h4.panel-title 
+                a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" Script Embed Tag (Preferred Method)
+            .panel-body.panel-collapse.collapse.in#collapseOne
+              button.btn.btn-primary#btn-script data-clipboard-target="#copy-script" Copy 
+              pre#copy-script
+                = h "<div id=\"contact-form-widget-#{@contact_form_widget.uuid}\"></div>\n\
+                  <script src=\"#{website_root_url()}javascripts/website_embed.js\"></script>\n\
+                  <script async=\"true\">\n  \
+                    ContactFormWidget.load(\"#{@contact_form_widget.uuid}\", \"#{website_root_url()}\");\n\ 
+                  </script>"
+          .panel.panel-default
+            .panel-heading
+              h2.h4.panel-title
+                a.collapsed role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" iFrame Embed Code
+            .panel-body.panel-collapse.collapse#collapseTwo
+              p If your crm/webmaster doesn't allow you to include script tags you can use this iframe tag. You may need to manually adjust to height and width for this method to appear correctly in your website
+              p
+                button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy 
+              pre#copy-iframe
+                = h "<iframe width=\"100%\" height=\"400px\" frameBorder=\"0\" height src=\"#{website_root_url()}widgets/contact_form_widgets/#{@contact_form_widget.uuid}\"></iframe>"
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      new Clipboard('.btn');
+      $('#btn-script').click(function(){
+          swal({
+              title: "Success",
+              text: "The script code has been copied to your clipboard",
+              type: "success"
+          });
+      });
+      $('#btn-iframe').click(function(){
+          swal({
+              title: "Success",
+              text: "The iframe code has been copied to your clipboard",
+              type: "success"
+          });
+      });
+      $("#preview").data('width', $(window).width()-100);
+      $("select#contact_form_widget_layout").change(function() {
+        var layout = $(this).find("option:selected").val();
+        var href = $("#preview").attr("href");
+        $("#preview").attr("href", href.replace(/\=[A-Za-z]*$/, "="+layout));
+      });
+      $("#preview").click(function () {
+        setTimeout(function() { $("iframe").css('height', '500px'); }, 1000);
+      });
+    });

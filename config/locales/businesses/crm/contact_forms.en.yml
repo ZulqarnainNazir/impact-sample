@@ -1,0 +1,12 @@
+en:
+  businesses:
+    crm:
+      contact_forms:
+        create:
+          notice: Your new form was added successfully.
+          alert: There was a problem adding the form.
+        update:
+          notice: The form was updated successfully.
+          alert: There was a problem updating the form.
+        destroy:
+          notice: The form has been hidden from your site.

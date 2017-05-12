@@ -55,7 +55,7 @@ input.sort_by {
     display: none;
   }
 }
-.company-list-categories-associations {
+.company-list-categories-associations, .contact-form-form-fields-associations {
   display: none;
   &.visible {
     display: block;
@@ -66,13 +66,13 @@ input.sort_by {
     outline: 1px dashed #4183C4;
   }
 }
-.company-list-category-handle {
+.company-list-category-handle, .contact-form-form-field-handle {
   position: absolute;
   top: 0.5em;
   left: -2em;
   cursor: pointer;
 }
-.company-list-category-fields {
+.company-list-category-fields, .contact-form-form-field-fields {
   border: 3px solid #e5e6e7;
   border-radius: 5px;
   padding: 15px;

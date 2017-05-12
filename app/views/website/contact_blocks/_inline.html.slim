@@ -53,9 +53,15 @@
         - if location.email? && !location.hide_email?
           li = link_to "mailto:#{location.email}" do
             i.fa.fa-envelope-square.fa-2x
-    - cache block do
+    - if !@contact_form.blank?
+      = @contact_form.public_description
+      = render partial: 'widgets/contact_form_widgets/form', locals: { contact_form: @contact_form }
+    - elsif !contact_form.blank?
+      = contact_form.public_description
+      = render partial: 'widgets/contact_form_widgets/form', locals: { contact_form: contact_form }
+    - else
       = sanitize_html block.text
-    = render 'form'
+      = render 'form'
   - cache location do
     .col-sm-6
       .vcard
@@ -76,7 +82,7 @@
               = location.address_line_two
         - if location.email? && !location.hide_email?
           p = link_to location.email, "mailto:#{location.email}", class: 'email', itemprop: 'email'
-        = render partial: 'opening', collection: location.openings
+        = render partial: 'website/contact_pages/opening', collection: location.openings
       - if !location.hide_address?
         div style="margin-top:20px; margin-bottom:50px"
           - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',

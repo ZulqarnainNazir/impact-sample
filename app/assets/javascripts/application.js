@@ -40,6 +40,7 @@ var ready = function() {
   $('.pages-associations').pagesAssociations();
   $('.post-sections-associations').postSectionsAssociations();
   $('.company-list-categories-associations').CompanyListCategoriesAssociations();
+  $('.contact-form-form-fields-associations').ContactFormFormFieldsAssociations();
   //$('.save-once').saveOnce();
   $('.selectpicker').selectpicker();
   $('.webhosts-associations').webhostsAssociations();

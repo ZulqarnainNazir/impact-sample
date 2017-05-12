@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505214449) do
-
+ActiveRecord::Schema.define(version: 20170510084047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -294,6 +293,15 @@ ActiveRecord::Schema.define(version: 20170505214449) do
 
   add_index "company_lists", ["business_id"], name: "index_company_lists_on_business_id", using: :btree
 
+  create_table "company_lists_s", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "sort_by"
+    t.integer  "business_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "uuid"
+  end
+
   create_table "company_locations", force: :cascade do |t|
     t.integer  "company_id",                                                     null: false
     t.string   "name",                                                           null: false
@@ -336,6 +344,34 @@ ActiveRecord::Schema.define(version: 20170505214449) do
 
   add_index "contact_companies", ["company_id"], name: "index_contact_companies_on_company_id", using: :btree
   add_index "contact_companies", ["contact_id"], name: "index_contact_companies_on_contact_id", using: :btree
+
+  create_table "contact_form_form_fields", force: :cascade do |t|
+    t.string   "label"
+    t.integer  "position"
+    t.integer  "contact_form_id"
+    t.integer  "form_field_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "required",        default: false
+  end
+
+  add_index "contact_form_form_fields", ["contact_form_id"], name: "index_contact_form_form_fields_on_contact_form_id", using: :btree
+  add_index "contact_form_form_fields", ["form_field_id"], name: "index_contact_form_form_fields_on_form_field_id", using: :btree
+
+  create_table "contact_forms", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "business_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "uuid"
+    t.integer  "company_list_id"
+    t.string   "public_label"
+    t.string   "layout"
+    t.string   "public_description"
+  end
+
+  add_index "contact_forms", ["business_id"], name: "index_contact_forms_on_business_id", using: :btree
+  add_index "contact_forms", ["company_list_id"], name: "index_contact_forms_on_company_list_id", using: :btree
 
   create_table "contact_messages", force: :cascade do |t|
     t.integer  "business_id",                         null: false
@@ -518,6 +554,40 @@ ActiveRecord::Schema.define(version: 20170505214449) do
   add_index "feedbacks", ["business_id"], name: "index_feedbacks_on_business_id", using: :btree
   add_index "feedbacks", ["company_id"], name: "index_feedbacks_on_company_id", using: :btree
   add_index "feedbacks", ["contact_id"], name: "index_feedbacks_on_contact_id", using: :btree
+
+  create_table "form_fields", force: :cascade do |t|
+    t.string   "name"
+    t.string   "label"
+    t.string   "contact_field"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "default",       default: false
+    t.string   "field_type"
+    t.boolean  "required",      default: false
+  end
+
+  create_table "form_submission_values", force: :cascade do |t|
+    t.integer  "form_submission_id"
+    t.integer  "contact_form_form_field_id"
+    t.string   "value"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "form_submission_values", ["contact_form_form_field_id"], name: "index_form_submission_values_on_contact_form_form_field_id", using: :btree
+  add_index "form_submission_values", ["form_submission_id"], name: "index_form_submission_values_on_form_submission_id", using: :btree
+
+  create_table "form_submissions", force: :cascade do |t|
+    t.integer  "contact_form_id"
+    t.integer  "contact_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "business_id"
+    t.integer  "read_by",         default: [], null: false, array: true
+  end
+
+  add_index "form_submissions", ["contact_form_id"], name: "index_form_submissions_on_contact_form_id", using: :btree
+  add_index "form_submissions", ["contact_id"], name: "index_form_submissions_on_contact_id", using: :btree
 
   create_table "galleries", force: :cascade do |t|
     t.integer  "business_id",      null: false
@@ -1047,10 +1117,10 @@ ActiveRecord::Schema.define(version: 20170505214449) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
-    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
+    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree
@@ -1224,6 +1294,11 @@ ActiveRecord::Schema.define(version: 20170505214449) do
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
+  add_foreign_key "contact_form_form_fields", "contact_forms"
+  add_foreign_key "contact_form_form_fields", "form_fields"
+  add_foreign_key "contact_forms", "businesses"
+  add_foreign_key "form_submissions", "contact_forms"
+  add_foreign_key "form_submissions", "contacts"
   add_foreign_key "lines", "businesses"
   add_foreign_key "pdfs", "businesses"
   add_foreign_key "pdfs", "users"

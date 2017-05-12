@@ -112,6 +112,8 @@ Rails.application.routes.draw do
     namespace :widgets do
       get '/review_widgets/:uuid', to: 'review_widgets#index'
       get '/directory_widgets/:uuid', to: 'directory_widgets#index'
+      get '/contact_form_widgets/:uuid', to: 'contact_form_widgets#index'
+      post '/contact_form_widgets/:uuid', to: 'contact_form_widgets#submit'
     end
 
     namespace :onboard do
@@ -247,6 +249,8 @@ Rails.application.routes.draw do
             end
           end
           resources :company_lists, only: %i[index new create edit update destroy]
+          resources :contact_forms, only: %i[index new create edit update destroy]
+          resources :form_submissions, only: %i[index show]
           resources :companies, only: %i[index new create edit update destroy] do
             resources :business, only: %i[new create edit update]
             resources :crm_notes, only: %i[new create edit update destroy]

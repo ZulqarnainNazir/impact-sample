@@ -89,8 +89,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "People", [@business, :crm_contacts]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
             = link_to "Companies", [@business, :crm_companies]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_messages/))
-            = link_to "Submitted Forms", [@business, :crm_contact_messages]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
             = link_to "Customer Reviews", [@business, :crm_reviews]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
@@ -101,6 +99,10 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Company Lists", [@business, :crm_company_lists]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
             = link_to "SupportLocal Embeds", [@business, :tools_directory_widgets]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
+            = link_to "Contact Form Embeds", [@business, :crm_contact_forms]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/form_submissions/))
+            = link_to "Contact Form Submissions", [@business, :crm_form_submissions]
       li title="Manage Website" class=('active' if controller_path.match(/\Abusinesses\/website/))
         = link_to "#"
           i.fa.fa-desktop

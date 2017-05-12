@@ -72,9 +72,14 @@
               = location.address_line_two
         - if location.email? && !location.hide_email?
           p = link_to location.email, "mailto:#{location.email}", class: 'email', itemprop: 'email'
-        = render partial: 'opening', collection: location.try(:openings)
+        = render partial: 'website/contact_pages/opening', collection: location.try(:openings)
     hr
-    = render 'form'
+    - if !@contact_form.blank?
+      = render partial: 'widgets/contact_form_widgets/form', locals: { contact_form: @contact_form }
+    - elsif !contact_form.blank?
+      = render partial: 'widgets/contact_form_widgets/form', locals: { contact_form: contact_form }
+    - else
+      = render 'form'
   .col-sm-8
     - if !location.hide_address?
       - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',

@@ -1,0 +1,26 @@
+.row
+  - if contact_form.public_label
+    .col-md-12
+      h1 = contact_form.public_label
+  - if flash[:notice]
+    .col-md-12
+      .alert.alert-success.alert-dismissable role="alert"
+        = flash[:notice]
+  - if flash[:error]
+    .col-md-12
+      .alert.alert-danger.alert-dismissable role="alert"
+        = simple_format(flash[:error])
+  .col-md-12
+    = form_tag nil, :method => 'post'
+      = text_field_tag :honey, nil, style: 'margin-left: -10000px'
+      - contact_form.contact_form_form_fields.each do |field|
+          .form-group
+            = label_tag field.form_field.name, field.label, :class => 'control-label'
+            - if field.required
+              span style="color: red;" *
+            - if field.form_field.field_type == "textarea"
+              = text_area_tag field.form_field.name, params[field.form_field.name.to_sym], :class => 'form-control', :cols => 50, :rows => 5, :required => field.required
+            - else
+              = text_field_tag field.form_field.name, params[field.form_field.name.to_sym], :class => 'form-control', :required => field.required
+      = submit_tag "Submit"
+

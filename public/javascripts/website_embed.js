@@ -19,6 +19,27 @@ var ReviewWidget = new function () {
     setTimeout(function() {iFrameResize({log: false}, '#impact-reviews-'+uuid); }, 1000);
   }
 }
+var ContactFormWidget = new function () {
+  this.load = function (uuid, site) {
+    var head = document.getElementsByTagName('head')[0],
+        script = document.createElement('script'),
+        widgetDiv = document.getElementById("contact-form-widget-"+uuid),
+        iframe = document.createElement('iframe');
+
+    script.src = site+'javascripts/iframeResizer.min.js';    
+    if(typeof iFrameResize === "undefined") {
+      head.appendChild(script);
+    }
+
+    iframe.width = '100%';
+    iframe.height = '400px';
+    iframe.frameBorder = '0';
+    iframe.id = 'impact-contact-forms-'+uuid;
+    iframe.src = site+'widgets/contact_form_widgets/'+uuid
+    widgetDiv.appendChild(iframe);
+    setTimeout(function() {iFrameResize({log: false}, '#impact-contact-forms-'+uuid); }, 1000);
+  }
+}
 var DirectoryWidget = new function () {
   this.load = function (uuid, site) {
     var head = document.getElementsByTagName('head')[0],

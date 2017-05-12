@@ -1,0 +1,12 @@
+en:
+  businesses:
+    tools:
+      contact_form_widgets:
+        create:
+          notice: Your new contact form widget was added successfully.
+          alert: There was a problem creating your contact form widget.
+        update:
+          notice: The contact form widget was updated successfully.
+          alert: There was a problem updating the contact form widget.
+        destroy:
+          notice: The contact form widget has been removed from your site.

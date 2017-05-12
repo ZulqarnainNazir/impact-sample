@@ -1,0 +1,38 @@
+- title 'Add a Contact Form'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :crm_root, :sn => 'Contact Forms', :sp => :crm_contact_forms, :an => 'Add a Contact Form'}
+
+wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @contact_form, url: [@business, :crm_contact_forms] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Create a Contact Form
+        .ibox-content
+          = errors_for @contact_form
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+          .form-group
+            = form.label :form_field_ids, "Form Fields (Select the fields you want included in this form)", class: 'control-label'
+            = form.select :form_field_ids, options_from_collection_for_select(@form_fields, 'id', 'label', @contact_form.form_field_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control'}
+          .form-group
+            = form.label :layout, "Form Fields (Select the fields you want included in this form)", class: 'control-label'
+            = form.select :layout, options_for_select(@layout_options.map { |obj| [obj[:name], obj[:id]] }, @contact_form.layout), {}, {:class => 'form-control'}
+          .form-group
+            = form.label :public_description, "Publicly Visible Description (depends on layout above)", class: 'control-label'
+            = form.text_area :public_description, class: 'form-control'
+        .ibox-content
+          = form.button 'Add Form', class: 'btn btn-primary'
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $("#contact_form_form_field_ids").chosen();
+    });
+
+
