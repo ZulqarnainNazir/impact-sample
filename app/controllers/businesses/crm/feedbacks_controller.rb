@@ -10,7 +10,7 @@ class Businesses::Crm::FeedbacksController < Businesses::BaseController
   end
 
   def index
-    @feedbacks = @business.feedbacks.includes(:contact, :review).where(hide: false).order(feedbacks_order).page(params[:page]).per(20)
+    @feedbacks = @business.feedbacks.includes(:contact, :review).where(hide: false).order(feedbacks_order) #.page(params[:page]).per(20)
   end
 
   def create

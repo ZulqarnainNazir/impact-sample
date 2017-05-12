@@ -5,7 +5,7 @@ class Businesses::Crm::ContactMessagesController < Businesses::BaseController
   end
 
   def index
-    @contact_messages = @business.contact_messages.includes(:contact).where(hide: false).order(contact_messages_order).page(params[:page]).per(20)
+    @contact_messages = @business.contact_messages.includes(:contact).where(hide: false).order(contact_messages_order) #.page(params[:page]).per(20)
   end
 
   def destroy

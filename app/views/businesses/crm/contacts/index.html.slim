@@ -7,27 +7,27 @@
     .col-lg-12
       .ibox.float-e-margins
         .ibox-content
-          .pull-right
-            = form_tag [@business, :crm_contacts], method: :get, style: 'float:left; margin-right:0.5em' do
-              .form-group
-                = label_tag :query, 'Query', class: 'sr-only'
-                .input-group
-                  = text_field_tag :query, params[:query], class: 'form-control'
-                  span.input-group-btn
-                    = button_tag icon('search'), class: 'btn btn-default'
-            = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-primary' do
-              => icon 'plus-circle'
-              | Add a contact
-            = link_to [@business, :crm_imports], class: 'btn btn-sm btn-primary btn-outline pull-right' do
-              => icon 'plus-circle'
-              | Import contacts in bulk
+          / .pull-right
+            / = form_tag [@business, :crm_contacts], method: :get, style: 'float:left; margin-right:0.5em' do
+            /   .form-group
+            /     = label_tag :query, 'Query', class: 'sr-only'
+            /     .input-group
+            /       = text_field_tag :query, params[:query], class: 'form-control'
+            /       span.input-group-btn
+            /         = button_tag icon('search'), class: 'btn btn-default'
+          = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-primary' do
+            => icon 'plus-circle'
+            | Add a contact
+          = link_to [@business, :crm_imports], class: 'btn btn-sm btn-primary btn-outline pull-right' do
+            => icon 'plus-circle'
+            | Import contacts in bulk
           
           - if @contacts.empty?
             p style="margin:2em 0"
               em No contacts found.
           - else
-            p style="margin:2em 0" = page_entries_info @contacts
-            table.footable.table.table-stripped
+            / p style="margin:2em 0" = page_entries_info @contacts
+            table.footable.table.table-stripped.datatable
               thead
                 tr
                   th
@@ -36,19 +36,19 @@
                     | Email
                   th
                     | Phone
-                  th
-                    | Service Date
-                  th
-                    | Feedback
-                  th
-                    | Date
+                  / th
+                  /   | Service Date
+                  / th
+                  /   | Feedback
+                  / th
+                    / | Date
                   th
                     | Score
                   th Review
                   th style="width:9em"
               tbody
                 = render @contacts
-          = paginate @contacts
+          / = paginate @contacts
 - content_for :javascript do
   javascript:
     /*

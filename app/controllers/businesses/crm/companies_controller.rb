@@ -16,7 +16,7 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
       scope = scope.where('companies.name ILIKE ?', "%#{query}%")
     end
 
-    @companies = scope.order(companies_order).page(params[:page]).per(20)
+    @companies = scope.order(companies_order) #.page(params[:page]).per(20)
   end
 
   def create

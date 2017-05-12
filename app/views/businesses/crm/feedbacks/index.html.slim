@@ -9,20 +9,21 @@
         .col-lg-12
           .ibox.float-e-margins
             .ibox-content
-              .pull-right
-                = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
-                  => icon 'plus-circle'
-                  | Invite a Contact
+              / .pull-right
+              = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
+                => icon 'plus-circle'
+                | Invite a Contact
               
               - if @feedbacks.empty?
                 p style="margin:2em 0"
                   em No feedback found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an email prompting for their feedback.
                 hr
               - else
-                p style="margin:2em 0" = page_entries_info @feedbacks
-                .panel.panel-default
+                / p style="margin:2em 0" = page_entries_info @feedbacks
+                / .panel.panel-default
+                div
                   .table-responsive
-                    table.table.table-striped
+                    table.table.table-striped.datatable
                       thead
                         tr
                           th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
@@ -43,7 +44,7 @@
                           th style="width:9em"
                       tbody
                         = render @feedbacks
-                = paginate @feedbacks
+                / = paginate @feedbacks
               
               = form_for @business, url: [@business, :crm, :feedbacks_automation] do |form|
                 .text-center style="margin-top:2em"

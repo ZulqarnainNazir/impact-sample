@@ -5,7 +5,7 @@ class Businesses::Crm::ReviewsController < Businesses::BaseController
   end
 
   def index
-    @reviews = @business.reviews.includes(:contact).where(hide: false).order(reviews_order).page(params[:page]).per(20)
+    @reviews = @business.reviews.includes(:contact).where(hide: false).order(reviews_order) #.page(params[:page]).per(20)
   end
 
   def destroy

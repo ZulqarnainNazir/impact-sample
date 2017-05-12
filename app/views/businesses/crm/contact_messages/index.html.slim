@@ -9,18 +9,19 @@
         .col-lg-12
           .ibox.float-e-margins
             .ibox-content
-              .pull-right
-                = link_to [:edit, @business, :crm_contact_message_notifications], class: 'btn btn-sm btn-default' do
-                  => icon 'check-square-o'
-                  | Set Notifications
+              / .pull-right
+              = link_to [:edit, @business, :crm_contact_message_notifications], class: 'btn btn-sm btn-default' do
+                => icon 'check-square-o'
+                | Set Notifications
               - if @contact_messages.empty?
                 p style="margin:2em 0"
                   em No submitted forms found.
               - else
-                p style="margin:2em 0" = page_entries_info @contact_messages
-                .panel.panel-default
+                / p style="margin:2em 0" = page_entries_info @contact_messages
+                / .panel.panel-default
+                div
                   .table-responsive
-                    table.table.table-striped
+                    table.table.table-striped.datatable
                       thead
                         tr
                           th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
@@ -43,4 +44,4 @@
                           th style="width:9em"
                       tbody
                         = render @contact_messages
-                = paginate @contact_messages
+                / = paginate @contact_messages

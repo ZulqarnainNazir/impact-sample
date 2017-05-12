@@ -16,7 +16,7 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
       scope = scope.where("CONCAT_WS(' ', first_name, last_name) ILIKE ? OR business_name ILIKE ?", "%#{query}%", "%#{query}%")
     end
 
-    @contacts = scope.order(contacts_order).page(params[:page]).per(20)
+    @contacts = scope.order(contacts_order) #.page(params[:page]).per(20)
   end
 
   def create

@@ -52,16 +52,17 @@
                     = form.button 'Save', class: 'btn btn-xs btn-default'
                 hr
               - else
-                p style="margin:2em 0" = page_entries_info @reviews
+                / p style="margin:2em 0" = page_entries_info @reviews
                 = form_for @business, url: [@business, :crm, :reviews_automation] do |form|
                   .text-right style="margin-top:1em; margin-bottom: 1em;"
                     span> Automatically publish reviews rated at or above
                     => form.select :automated_reviews_publishing, options_for_select([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], selected: form.object.automated_reviews_publishing), include_blank: true
                     span.text-muted> –
                     = form.button 'Save', class: 'btn btn-xs btn-default'
-                .panel.panel-default
+                / .panel.panel-default
+                div
                   .table-responsive
-                    table.table.table-striped
+                    table.table.table-striped.datatable
                       thead
                         tr
                           th = link_to params.slice(:page).merge(order_by: :name, order_dir: params[:order_by] == 'name' && params[:order_dir] == 'asc' ? :desc : :asc) do
@@ -86,4 +87,4 @@
                           th style="width:9em"
                       tbody
                         = render @reviews
-                = paginate @reviews
+                / = paginate @reviews
