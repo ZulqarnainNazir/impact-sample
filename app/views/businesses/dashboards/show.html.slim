@@ -9,27 +9,15 @@
     .wrapper.wrapper-content
       .row
         .col-lg-4
-          - if @business.contact_messages.empty?
-            .ibox
-              .ibox-content
-                .p-a-3.text-center
-                  h2 No Form Submissions
-                  h4
-                    = link_to "Click to Quickly Create Forms & Contact Pages Now", "#", class: "text-navy"
-          - else
-            = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
+          = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
         .col-lg-4
-          / - if @business.reviews.empty?
-          /   .ibox
-          /     .ibox-content
-          /       .p-a-3.text-center
-          /         h2 No Customer Reviews
-          /         h4
-          /           = link_to "Click to Begin Requesting & Collecting Reviews Now", [@business, :crm_contacts], class: "text-navy"
-          / - else
           = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
-        .col-lg-4
+        .col-lg-4.col-md-6
           = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
+      .row
+        .col-md-6.clearfix
+          = render partial: 'businesses/dashboards/overview', locals: { business: @business }
+      .row
         .col-lg-12
           .ibox.float-e-margins
             .ibox-title
