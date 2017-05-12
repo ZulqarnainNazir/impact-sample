@@ -13,7 +13,7 @@
   - else
     .ibox-content
       .feed-activity-list
-        - business.reviews.order(reviewed_at: :desc).limit(5).each do |review|
+        - business.reviews.order(reviewed_at: :desc).limit(3).each do |review|
           .feed-element
             = link_to [:edit, business, :crm, review.contact], class: "pull-left" do
               / img.img-circle src=""
@@ -30,7 +30,6 @@
                 span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
                 span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
               div = truncate(review.description, length: 90)
-              small.text-muted = review.reviewed_at.to_formatted_s(:long)
             .text-center
               - if review.published?
                 strong.text-success> Published
