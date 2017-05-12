@@ -14,7 +14,7 @@
   - else
     .ibox-content
       .feed-activity-list
-        - business.contact_messages.includes(:contact).where(hide: false).order(created_at: :desc).limit(5).each do |message|
+        - business.contact_messages.includes(:contact).where(hide: false).order(created_at: :desc).limit(3).each do |message|
           .feed-element
             div
               small.pull-right = "#{time_ago_in_words(message.created_at)} ago"
@@ -22,5 +22,4 @@
                 = link_to message.name, [:edit, business, :crm, message.contact]
               = link_to [business, :crm, message] do
                 p = truncate(message.message, length: 90)
-              small.text-muted = message.created_at.to_formatted_s(:long)
       = link_to 'View All', [business, :crm_contact_messages], class: 'btn btn-primary btn-block m-t'
