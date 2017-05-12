@@ -1,4 +1,4 @@
-- title 'Add a Contact Form'
+- title 'Create a Contact Form'
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :crm_root, :sn => 'Contact Forms', :sp => :crm_contact_forms, :an => 'Add a Contact Form'}
 
@@ -27,7 +27,7 @@ wrapper.wrapper-content
             = form.label :public_description, "Publicly Visible Description (depends on layout above)", class: 'control-label'
             = form.text_area :public_description, class: 'form-control'
         .ibox-content
-          = form.button 'Add Form', class: 'btn btn-primary'
+          = form.button 'Create Form', class: 'btn btn-primary'
 
 - content_for :javascript do
   javascript:
