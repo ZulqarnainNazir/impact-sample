@@ -1,5 +1,5 @@
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-  p You have a new submission to your form #{@form_submission.name} in your Locable Marketing Suite account for #{link_to @authorization.business.name, [@authorization.business, :crm_form_submissions:]}.
+  p You have a new submission to your form #{@form_submission.contact_form.name} in your Locable Marketing Suite account for #{link_to @authorization.business.name, [@authorization.business, :crm_form_submissions]}.
   dl
     - @form_submission.form_submission_values.each do |value|
       dt = value.contact_form_form_field.label << ": "
