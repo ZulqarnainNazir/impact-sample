@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: Rails.application.secrets.support_email
+  default from: "Buzz at Locable <#{Rails.application.secrets.support_email}>"
   layout 'mailer'
 
   def test(user)

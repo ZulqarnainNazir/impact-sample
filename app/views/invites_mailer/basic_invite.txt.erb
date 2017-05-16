@@ -4,3 +4,5 @@ If the link above isn’t active copy this link and paste it into your browser:
 <%=new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https')%>
 
 In addition to generating referrals their free tools will help you improve your website, create and distribute content, track your contacts and collect customer reviews, and even includes a virtual marketing assistant to guide you with easy-to-follow marketing missions. All included in their free plan.
+
+This email was initiated by <%= @inviter.name %> at <%= @business.name %> in <%= @business.location.city_and_state %>.

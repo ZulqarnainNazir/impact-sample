@@ -43,6 +43,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
           @invite.company_id, #business_id of recipient
           @invite.invitee_id,
           @invite.invite_as_member,
+          @invite.inviter
         ).deliver_now
 
         flash[:notice] = "Invite successfully sent."
@@ -62,6 +63,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
           @invite.company_id, #business_id of recipient
           @invite.invitee_id,
           @invite.invite_as_member,
+          @invite.inviter
         ).deliver_now
 
         flash[:notice] = "Invite successfully sent."
@@ -82,7 +84,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
   end
 
   private
-  
+
   def default_url_options(options = nil)
     if Rails.env.production?
       { :host => ENV['HOST'] }
