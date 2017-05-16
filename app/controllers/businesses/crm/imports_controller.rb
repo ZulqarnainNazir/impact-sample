@@ -148,7 +148,7 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
             end
           end
           location_attributes = company.attributes[:company_location_attributes].clone
-          category_ids = Category.where("name in (?)", company.attributes[:category_ids].delete).ids
+          category_ids = Category.where("name in (?)", company.attributes[:category_ids]).ids
           company_db.business.location.attributes.each do |key,value|
             if company.attributes[:company_location_attributes][key] == value
               company.attributes[:company_location_attributes].delete key
