@@ -21,11 +21,17 @@ class User < ActiveRecord::Base
   has_many :images
 
   has_many :to_do_comments, as: :commenter
+  has_many :invites,
+    foreign_key: :inviter_id
 
   devise *%i[confirmable database_authenticatable lockable registerable recoverable rememberable trackable validatable masqueradable]
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+
+  def sent_invite?
+    invites.size > 0
+  end
 
   def complaint_or_bounce_report
     if self.complaint_report?
