@@ -26,8 +26,8 @@ module IntercomHelper
 
         sent_invite: current_user.invites.size > 0,
         sent_member_invite: current_user.invites.where(invite_as_member: true).any?,
-        recieved_invite: Invite.where(invitee: Contact.find_by(email: current_user.email)).any?,
-        recieved_member_invite: Invite.where(invitee: Contact.find_by(email: current_user.email), invite_as_member: true).any?,
+        received_invite: Invite.where(invitee: Contact.find_by(email: current_user.email)).any?,
+        received_member_invite: Invite.where(invitee: Contact.find_by(email: current_user.email), invite_as_member: true).any?,
 
         created_reviews_widget: current_user.businesses.any? { |b| !b.review_widgets.empty? },
         created_directory_widget: current_user.businesses.any? { |b| !b.directory_widgets.empty? },
@@ -55,6 +55,7 @@ module IntercomHelper
         company_list_count: current_business.company_lists.size,
         people_contacts_count: current_business.contacts.size,
         company_contacts_count: current_business.owned_companies.size,
+        account_id: params[:business_id],
       )
     end
 

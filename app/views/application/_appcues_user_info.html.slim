@@ -5,7 +5,7 @@
 / - raise StandardError, params
 - current_business = Business.find_by(id: params[:business_id])
 - if current_business
-  - settings = { plan: current_business.try(:subscription).try(:subscription_plan).try(:name), membership_org: current_business.membership_org, company_list_count: current_business.company_lists.size, people_contacts_count: current_business.contacts.size, company_contacts_count: current_business.owned_companies.size }
+  - settings = { plan: current_business.try(:subscription).try(:subscription_plan).try(:name), membership_org: current_business.membership_org, company_list_count: current_business.company_lists.size, people_contacts_count: current_business.contacts.size, company_contacts_count: current_business.owned_companies.size, account_id: params[:business_id]}
 - else
   - settings = Hash.new("")
 
@@ -17,8 +17,8 @@ javascript:
         created_at: "#{current_user.created_at}", // Unix timestamp of user signup date
         sent_invite: "#{current_user.invites.any?}",
         sent_member_invite: "#{current_user.invites.where(invite_as_member: true).any?}",
-        recieved_invite: "#{Invite.where(invitee: Contact.find_by(email: current_user.email)).any?}",
-        recieved_member_invite: "#{Invite.where(invitee: Contact.find_by(email: current_user.email), invite_as_member: true).any?}",
+        received_invite: "#{Invite.where(invitee: Contact.find_by(email: current_user.email)).any?}",
+        received_member_invite: "#{Invite.where(invitee: Contact.find_by(email: current_user.email), invite_as_member: true).any?}",
 
         created_reviews_widget: "#{current_user.businesses.any? { |b| !b.review_widgets.empty? }}",
         created_directory_widget: "#{current_user.businesses.any? { |b| !b.directory_widgets.empty? }}",
@@ -38,6 +38,7 @@ javascript:
         company_list_count: "#{settings[:company_list_count]}",
         people_contacts_count: "#{settings[:people_contacts_count]}",
         company_contacts_count: "#{settings[:company_contacts_count]}",
+        account_id: "#{settings[:account_id]}",
 
         // Additional user properties.
         // is_trial: "<%= current_user.is_trial %>",
