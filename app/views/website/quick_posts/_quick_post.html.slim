@@ -3,7 +3,7 @@
     div.ibox-blog
       div.ibox-content.product-box
         - cache quick_post do
-          div.product-imitation
+          div.product-imitation.p-a-0
             = link_to [:website, quick_post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank do
               - placement = quick_post.quick_post_image_placement
               - if placement.try(:embeds?)

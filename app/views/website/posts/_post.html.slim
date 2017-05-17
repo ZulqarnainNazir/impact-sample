@@ -4,7 +4,7 @@
     div.ibox-blog
       div.ibox-content.product-box
         - cache post do
-          div.product-imitation
+          div.product-imitation.p-a-0
             = link_to [:website, post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank do
               - placement = post.sections_placement
               - if placement.try(:embeds?)

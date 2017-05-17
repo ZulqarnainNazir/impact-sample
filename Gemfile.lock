@@ -25,6 +25,7 @@ GEM
     active_model-errors_details (1.2.0)
       activemodel (>= 3.2.13, < 5.0.0.alpha)
       activesupport
+    active_record_query_trace (1.5.4)
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
@@ -428,6 +429,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_record_query_trace
   ahoy_email
   ancestry
   asset_sync
