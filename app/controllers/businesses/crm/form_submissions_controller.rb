@@ -6,18 +6,22 @@ class Businesses::Crm::FormSubmissionsController < Businesses::BaseController
 
   def index
     scope = @business.form_submissions
-    contact_form_id = params[:contact_form_id]
-
-    if contact_form_id.present?
-      if contact_form_id === "legacy"
-        @contact_messages = @business.contact_messages.includes(:contact).where(hide: false).order(contact_messages_order).page(params[:page]).per(20)
-        render 'businesses/crm/contact_messages/index'
-      else
-        scope = scope.where(:contact_form_id => contact_form_id)
-        @contact_form = ContactForm.find(contact_form_id)
-        @form_submissions = scope.page(params[:page]).per(20)
-      end
-    end
+    # contact_form_id = params[:contact_form_id]
+    #
+    # if contact_form_id.present?
+    #   if contact_form_id === "legacy"
+    #     @contact_messages = @business.contact_messages.includes(:contact).where(hide: false).order(contact_messages_order).page(params[:page]).per(20)
+    #     render 'businesses/crm/contact_messages/index'
+    #   else
+    #     scope = scope.where(:contact_form_id => contact_form_id)
+    #     @contact_form = ContactForm.find(contact_form_id)
+    #     @form_submissions = scope.page(params[:page]).per(20)
+    #     # @form_submissions = scope
+    #   end
+    # end
+    @contact_messages = @business.contact_messages.includes(:contact).where(hide: false).order(contact_messages_order)
+    @contact_forms = @business.contact_forms.includes(:form_submissions)
+    @form_submissions = scope
   end
 
   def show

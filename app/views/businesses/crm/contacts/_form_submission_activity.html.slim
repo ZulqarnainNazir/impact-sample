@@ -3,7 +3,8 @@
     i.fa.fa-envelope
 
   .vertical-timeline-content
+    h4 = "Completed form #{subject.contact_form.name} on #{subject.created_at.strftime("%B %-d, %Y") }"
     - subject.form_submission_values.each do |value|
       div
-      strong = value.contact_form_form_field.label << ": "
-      = value.value
+        strong = value.contact_form_form_field.label << ": "
+        = value.value

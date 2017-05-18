@@ -1,10 +1,7 @@
-/ tr
-/   td = link_to contact_form.name, [:edit, @business, :crm, contact_form]
-
 tr
-  td = link_to contact_form.name, [:edit, @business, :crm, contact_form]
-  td = link_to contact_form.form_submissions.size, [@business, :crm_form_submissions]
-  td = contact_form.form_submissions.order(created_at: :desc).first.try(:created_at).try(:to_formatted_s, :long) 
+  td = contact_form.name
+  td = contact_form.form_submissions.size
+  td = contact_form.form_submissions.order(created_at: :desc).first.created_at.to_formatted_s(:long) 
   td
     .btn-group
       = link_to [:edit, @business, :crm, contact_form], class: 'btn btn-xs btn-default' do
@@ -22,3 +19,4 @@ tr
           - contact_form.form_submissions.order(created_at: :desc).each do |form_submission|
             = render partial: 'businesses/crm/form_submissions/form_submission', locals: {form_submission: form_submission, contact_form: contact_form}
           / - contact_form.form_submissions.each do 
+    

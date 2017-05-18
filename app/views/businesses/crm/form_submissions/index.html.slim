@@ -7,36 +7,71 @@
     .col-lg-12
       .ibox.float-e-margins
         .ibox-content
-          .pull-right
-            = form_tag [@business, :crm_form_submissions], method: :get, style: 'float:left; margin-right:0.5em' do
-              .form-group
-                = label_tag :contact_form_id, 'Contact Form', class: 'sr-only'
-                .input-group
-                  = select_tag :contact_form_id, content_tag(:option,'Contact Us Page',:value=>"legacy")+options_from_collection_for_select(@business.contact_forms, "id", "name", params[:contact_form_id]), :prompt => "Select a Form", class: 'form-control'
-                  span.input-group-btn
-                    = button_tag icon('search'), class: 'btn btn-default'
-          
-          - if params[:contact_form_id].blank?
+          = link_to '#', class: 'btn btn-sm btn-default' do
+            i.fa.fa-check-square-o
+            |  Set Notifications
+          / .pull-right
+          /   = form_tag [@business, :crm_form_submissions], method: :get, style: 'float:left; margin-right:0.5em' do
+          /     .form-group
+          /       = label_tag :contact_form_id, 'Contact Form', class: 'sr-only'
+          /       .input-group
+          /         = select_tag :contact_form_id, content_tag(:option,'Contact Us Page',:value=>"legacy")+options_from_collection_for_select(@business.contact_forms, "id", "name", params[:contact_form_id]), :prompt => "Select a Form", class: 'form-control'
+          /         span.input-group-btn
+          /           = button_tag icon('search'), class: 'btn btn-default'
+          / 
+          / - if params[:contact_form_id].blank? && false
+          /   .p-a-3.text-center
+          /     h2 Please Select a Form From Above
+          / - else
+          / - if @contact_forms.none? { |form| form.form_submissions.present? }
+          - if @form_submissions.empty?
             .p-a-3.text-center
-              h2 Please Select a Form From Above
+              h2 No Form Submissions Found
+              h4
+                = link_to 'Create a New Contact Form', [:new, @business, :crm_contact_form], class: 'text-navy'
           - else
-            - if @form_submissions.empty?
-              .p-a-3.text-center
-                h2 No Form Submissions Found
-                h4
-                  = link_to 'Create a New Contact Form', [:new, @business, :crm_contact_form], class: 'text-navy'
-            - else
-              p style="margin:2em 0" = page_entries_info @form_submissions
-              table.footable.table.table-stripped
-                thead
-                  tr
-                    - @contact_form.contact_form_form_fields.first(6).each do |field|
-                      th
-                        = field.label
+            / p style="margin:2em 0" = page_entries_info @form_submissions
+            table.table.datatable
+              thead
+                tr
+                  th Form Name
+                  th Submitter Name
+                  th Email
+                  th Message
+                  th Date
+                  th
+                  / - @contact_form.contact_form_form_fields.first(6).each do |field|
+                  /   th
+                  /     = field.label
 
-                tbody
-                  = render @form_submissions
-            = paginate @form_submissions
+              tbody
+                - @form_submissions.each do |form_submission|
+                  = render form_submission
+                / tr
+                /   td Contact Us Page
+                /   td = @contact_messages.size
+                /   td = @contact_messages.order(created_at: :desc).first.created_at.to_formatted_s(:long)
+                /   td
+                /     .btn-group
+                /       = link_to [:edit, @business, :crm_contact_message_notifications], class: 'btn btn-xs btn-default' do
+                /         i.fa.fa-check-square-o
+                /         |  Set Notifications
+                  / td
+                  / table.table.datatable
+                  /   thead
+                  /     tr
+                  /       th Contact Name
+                  /       th Email
+                  /       th Phone
+                  /       th Date Received
+                  /       th Message
+                  /       th 
+                  /   tbody
+                  /     - @contact_messages.each do |message|
+                  /       = render message
+                  /     / = render partial: 'businesses/crm/contact_messages/contact_message', locals: {contact_message: message}
+                / - @contact_forms.each do |contact_form|
+                /   = render partial: 'businesses/crm/form_submissions/contact_form', locals: {contact_form: contact_form}
 
 - content_for :javascript do
   javascript:
