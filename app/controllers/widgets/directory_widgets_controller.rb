@@ -19,4 +19,11 @@ class Widgets::DirectoryWidgetsController < Widgets::BaseController
       @widget.layout = params[:widget_layout]
     end
   end
+  def show
+    @directory = DirectoryWidget.where(:uuid => params[:uuid]).first
+    if @directory.blank?
+      return false
+    end
+    @business = @directory.business.owned_companies.find(params[:business_id])
+  end
 end

@@ -19,7 +19,7 @@
 - if @directory.company_list.sort_by == 0
   .row.full-list
     - @businesses.sort_by { |c| c.name }.each do |business|
-      = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false }
+      = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false, directory: @directory }
 - else
   - @categories_search.each do |category|
     .row.categories-view
@@ -28,13 +28,13 @@
       - i = 0
       - if !params[:query].blank?
         - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |business|
-          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false }
+          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false, directory: @directory }
           - i += 1
           - if (i%3 == 0)
             .clearfix
       - else
         - category.companies.sort_by { |c| c.name }.each do |business|
-          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false }
+          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false, directory: @directory }
           - i += 1
           - if (i%3 == 0)
             .clearfix
@@ -52,14 +52,16 @@ javascript:
     $('.business-card').on('click', function(event) {
       var businessId = $(this).data('business-id');
       // Important Note: this only works if the url is guaranteed to have a trailing slash 
-      window.history.replaceState(null, null, businessId);
+      //window.history.replaceState(null, null, businessId);
+      $('#business-modal-' + businessId + " iframe").attr('src', $('#business-modal-' + businessId + " iframe").data('src'));
       $('#business-modal-' + businessId).modal('show');
       window.parent.postMessage('open', '*');
     });
     $('.business-modal').on('click', function(event) {
       if ($(event.target).data('dismiss') === 'modal') {
-        window.history.replaceState(null, null, './');
+        //window.history.replaceState(null, null, './');
         window.parent.postMessage('close', '*');
+
       }
     });
   });

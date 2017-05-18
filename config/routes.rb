@@ -112,6 +112,7 @@ Rails.application.routes.draw do
     namespace :widgets do
       get '/review_widgets/:uuid', to: 'review_widgets#index'
       get '/directory_widgets/:uuid', to: 'directory_widgets#index'
+      get '/directory_widgets/:uuid/:business_id', to: 'directory_widgets#show'
       get '/contact_form_widgets/:uuid', to: 'contact_form_widgets#index'
       post '/contact_form_widgets/:uuid', to: 'contact_form_widgets#submit'
     end
