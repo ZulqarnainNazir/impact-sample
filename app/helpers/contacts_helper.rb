@@ -1,4 +1,5 @@
 module ContactsHelper
+  include LetterAvatar::AvatarHelper
   def related_companies_summary(companies)
     count = companies.count
     text = count > 1 ? "#{companies.first.name} + #{count - 1} More" : companies.first.name

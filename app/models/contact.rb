@@ -24,6 +24,14 @@ class Contact < ActiveRecord::Base
 #  validates :last_name, presence: true
   validate :name_and_or_email
 
+  def full_name
+    if first_name && last_name
+      "#{first_name} #{last_name}"
+    else
+      first_name || last_name
+    end
+  end
+
   def complaint_or_bounce_report
     if self.complaint_report?
       "Emails to this address have been marked as spam."
@@ -59,7 +67,6 @@ class Contact < ActiveRecord::Base
       true
     end
   end
-
 
   class << self
     def get_duplicates business, new_contacts, skip_indexes

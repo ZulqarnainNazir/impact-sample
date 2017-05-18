@@ -19,11 +19,11 @@
         .ibox-content
           .row
             .col-xs-4.text-center
-              i.fa.fa-user-circle-o style="font-size: 6em" aria-hidden="true"
+             img.img-responsive src="http://#{ENV['HOST']}#{letter_avatar_url(@contact.full_name, 120)}"
             .col-xs-8
               h3: strong = @contact.name
-              p.m-b-none 
-                | Phone: 
+              p.m-b-none
+                | Phone:
                 a href="tel:#{@contact.phone}" = @contact.phone
               p.m-b-none 
                 | Email: 
@@ -32,86 +32,85 @@
                 - elsif @contact.bounce_or_complaint?
                   = @contact.email
                   = button_tag "email error", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "#{@contact.complaint_or_bounce_report}" }
-              
               - if @contact.companies.any?
                 p.m-b-none.m-t-1: strong Related Companies Info
                 p = link_to related_companies_summary(@contact.companies), '#related_associations'
-                
+
               a.contact-view-more.btn.btn-sm.btn-white href="#contact-more-collapse" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="contact-profile-collapse"
                 i.fa.fa-chevron-down>
                 i.fa.fa-chevron-up>
-                
+
           #contact-more-collapse.collapse.in aria-expanded="true"
             = form_for @contact, url: [@business, :crm, @contact], html: { class: 'contact-form form-horizontal' } do |form|
               = errors_for @contact
-              
+
               .form-group
                 = form.label :first_name, class: 'control-label col-lg-2'
                 .col-lg-10 = form.text_field :first_name, class: 'form-control'
-                
+
               .form-group
                 = form.label :last_name, class: 'control-label col-lg-2'
                 .col-lg-10 = form.text_field :last_name, class: 'form-control'
-                
+
               .form-group
                 = form.label :email, class: 'control-label col-lg-2'
                 .col-lg-10 = form.email_field :email, class: 'form-control'
-              
+
               .form-group
                 = form.label :street1, class: 'control-label col-lg-2'
                 .col-lg-10 = form.text_field :street1, class: 'form-control'
-                
+
               .form-group
                 = form.label :street2, class: 'control-label col-lg-2'
                 .col-lg-10 = form.text_field :street2, class: 'form-control'
-                
+
               .form-group
                 = form.label :city, class: 'control-label col-lg-2'
                 .col-lg-10 = form.text_field :city, class: 'form-control'
-                
+
               .form-group
                 = form.label :state, class: 'control-label col-lg-2'
                 .col-lg-10 = form.text_field :state, class: 'form-control'
-                
+
               .form-group
                 = form.label :zip, class: 'control-label col-lg-2'
                 .col-lg-10 = form.text_field :zip, class: 'form-control'
-                
+
               .form-group
                 = form.label :phone, class: 'control-label col-lg-2'
                 .col-lg-10 = form.phone_field :phone, class: 'form-control'
-              
+
               .panel-footer
                 .checkbox.p-h-sm.row
                   .col-sm-6
                     h3 Type
-                  
+
                     = form.label :relationship, value: 'Contact' do
                       => form.check_box :relationship, {:multiple => true}, 'Contact', nil
                       | Contact
                     br
-                    
+
                     = form.label :relationship, value: 'Lead' do
                       => form.check_box :relationship, {:multiple => true}, 'Lead', nil
                       | Lead
                     br
-                    
+
                     = form.label :relationship, value: 'Prospect' do
                       => form.check_box :relationship, {:multiple => true}, 'Prospect', nil
                       | Prospect
                     br
-                    
+
                     = form.label :relationship, value: 'Customer' do
                       => form.check_box :relationship, {:multiple => true}, 'Customer', nil
                       | Customer
                     br
-                    
+
                   .col-sm-6
                     h3 Groups
 
                 = form.button 'Save Changes', class: 'btn btn-primary btn-block'
           .clearfix
-          
+
       .ibox.float-e-margins
         .ibox-title
           h4 Related Companies
@@ -144,7 +143,7 @@
             .form-group
               = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), :id, :name, @contact.company_ids), { include_blank: true }, { multiple: true, class: 'form-control' }
             = form.submit 'Update Associations', class: 'btn btn-primary btn-block'
-  
+
     .col-md-7
       .ibox.float-e-margins
         .ibox-content
@@ -153,7 +152,7 @@
               = form.label :content, 'Contact Note', class: 'control-label'
               = form.text_area :content, rows: 3, class: 'form-control'
             = form.submit 'Add Note', class: 'btn btn-primary btn-block'
-            
+
       .ibox.float-e-margins
         .ibox-title
           h4 Recent Activity
