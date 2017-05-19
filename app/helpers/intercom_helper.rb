@@ -9,7 +9,8 @@ module IntercomHelper
 
     if current_user
       settings.merge!(
-        name: current_user.name,
+        first_name: current_user.first_name,
+        last_name: current_user.last_name,
         email: current_user.email,
         created_at: current_user.created_at.to_i,
         last_sign_in_at: current_user.last_sign_in_at.to_i,
