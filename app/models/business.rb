@@ -100,7 +100,7 @@ class Business < ActiveRecord::Base
 #"Sample" if account ID but no owner, "False" if no ID.
 
   def reviews_limit?
-    if self.is_on_engage_plan? 
+    if self.is_on_engage_plan?
       if self.reviews.count >= 5
         true
       else
@@ -122,7 +122,7 @@ class Business < ActiveRecord::Base
       return false
     end
   end
-  
+
   def self.listing_lookup(params)
     #this method is for use RE listings subdomain (see constraints for listings in routes, and listing controller)
     #the purpose is to get the id of the business from the URL string
@@ -153,7 +153,7 @@ class Business < ActiveRecord::Base
   end
 
   def contacts_limit?
-    if self.is_on_engage_plan? 
+    if self.is_on_engage_plan?
       if self.contacts.count >= 100
         true
       else
@@ -163,7 +163,7 @@ class Business < ActiveRecord::Base
       false
     end
   end
-  
+
   def generate_listing_path
     if !self.location.state.nil?
       "/#{self.location.state}-#{self.id}-#{self.sitemap_name}"

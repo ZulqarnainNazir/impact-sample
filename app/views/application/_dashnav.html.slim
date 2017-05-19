@@ -110,7 +110,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Manage Website
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/website/))
-          - if @business.is_on_engage_plan? || @business.build_plan_no_setup_fee || !@business.webhost_primary?
+          - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user?
 
 
             li class=('active' if controller_path.match(/\Aonboard\/users\/new/))

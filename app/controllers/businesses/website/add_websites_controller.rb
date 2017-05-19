@@ -22,7 +22,7 @@ class Businesses::Website::AddWebsitesController < Businesses::Website::BaseCont
       if @annual == true
         @subscription.amount = @subscription_plan.amount_annual
       end
-      
+
       if @subscription.save
         @subscription.reload
         result = if params[:stripeToken].present?
@@ -37,15 +37,15 @@ class Businesses::Website::AddWebsitesController < Businesses::Website::BaseCont
         if result
           if @subscription_plan.setup_amount > 0
             if StripeChargeNowJob.perform_now(@subscription.id) == true
-              flash[:notice] = "Congratulations! Your subscription is now 
+              flash[:notice] = "Congratulations! Your subscription is now
               upgraded, and your billing information has been added."
               redirect_to subscription_dashboard_business_subscriptions_path and return
             else
               flash[:notice] = "Something went wrong with the setup payment. Please try again."
             end
-          elsif @subscription.setup_amount == 0 
+          elsif @subscription.setup_amount == 0
             if StripeChargeNowJobTwo.perform_now(@subscription.id)
-              flash[:notice] = "Congratulations! Your subscription is now 
+              flash[:notice] = "Congratulations! Your subscription is now
               upgraded, and your billing information has been added."
               redirect_to subscription_dashboard_business_subscriptions_path and return
             else
@@ -68,7 +68,7 @@ class Businesses::Website::AddWebsitesController < Businesses::Website::BaseCont
 
     def load_billing
       #if you're getting weird errors related to this method, or I18n::InvalidLocaleData,
-      #check to make sure that indentation/spacing in your editor is done with tabs, not spaces. 
+      #check to make sure that indentation/spacing in your editor is done with tabs, not spaces.
       #yml flips-out if indentation/spacing not done with tabs.
       #http://stackoverflow.com/questions/15331873/error-i18ninvalidlocaledata
       @creditcard = ActiveMerchant::Billing::CreditCard.new(params[:creditcard] || {})
