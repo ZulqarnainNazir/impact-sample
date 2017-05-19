@@ -7,7 +7,7 @@
     .col-lg-12
       .ibox.float-e-margins
         .ibox-content
-          = link_to '#', class: 'btn btn-sm btn-default' do
+          = link_to [:edit, @business, :crm_contact_message_notifications], class: 'btn btn-sm btn-default' do
             i.fa.fa-check-square-o
             |  Set Notifications
           / .pull-right
