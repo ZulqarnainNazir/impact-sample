@@ -40,6 +40,12 @@ HeroSettingsModal = React.createClass
               </label>
               <input type="text" id="hero_settings_custom_class" className="form-control" />
             </div>
+            <div className="form-group">
+              <label htmlFor="hero_settings_custom_anchor_id" className="control-label">
+                Set an ID for a Custom Anchor link (Advanced)
+              </label>
+              <input type="text" id="hero_settings_custom_anchor_id" className="form-control" />
+            </div>
           </div>
           <div className="modal-footer">
             <span className="btn btn-default" data-dismiss="modal" onClick={this.props.resetHeroSettings}>Cancel</span>

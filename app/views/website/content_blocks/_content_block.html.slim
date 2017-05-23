@@ -1,5 +1,6 @@
 - cache content_block do
-  .webpage-block class=content_block.custom_class
+  .webpage-block class=content_block.custom_class 
+    a id=content_block.custom_anchor_id
     .webpage-content
       - if content_block.heading? && content_block.heading != '<br>'
         .lead.text-center = sanitize_html content_block.heading

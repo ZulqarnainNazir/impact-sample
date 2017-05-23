@@ -13,6 +13,7 @@ module GroupsAttributesConcern
       :position,
       :hero_position,
       :custom_class,
+      :custom_anchor_id,
       :_destroy,
       aspect_ratio: [
         :height,
@@ -42,6 +43,7 @@ module GroupsAttributesConcern
         :items_limit,
         :well_style,
         :custom_class,
+        :custom_anchor_id,
         :content_types,
         :content_category_ids,
         :content_tag_ids,

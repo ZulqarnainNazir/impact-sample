@@ -9,6 +9,7 @@ heroHelpers = {
     $('#hero_settings_group_uuid').val groupId
     $('#hero_settings_block_uuid').val block.uuid
     $('#hero_settings_custom_class').val block.custom_class
+    $('#hero_settings_custom_anchor_id').val block.custom_anchor_id
     $('#hero_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
     $('#hero_settings_modal').modal('show')
 
@@ -18,6 +19,7 @@ heroHelpers = {
       background_color: $('#hero_settings_background_color').val()
       foreground_color: $('#hero_settings_foreground_color').val()
       well_style: $('#hero_settings_well_style').val()
+      custom_anchor_id: $('#hero_settings_custom_anchor_id').val()
 
   resetHeroSettings: ->
     $('#hero_settings_background_color').val('').minicolors('destroy')

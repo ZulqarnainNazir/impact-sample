@@ -26,6 +26,7 @@ feedHelpers = {
     if block.settings && block.settings.include_search == 'true' && block.include_search == undefined
       block.include_search = true
     $('#feed_settings_include_search').prop 'checked', if block.include_search then true else false
+    $('#feed_settings_custom_anchor_id').val block.custom_anchor_id
     feedHelpers.toggleFeedLinkOptions()
     $('#feed_settings_modal').modal('show')
 
@@ -43,6 +44,7 @@ feedHelpers = {
       link_target_blank: $('#feed_settings_link_target_blank').prop('checked')
       link_version: $('input[name="link_version"]:checked').val()
       include_search: $('#feed_settings_include_search').prop('checked')
+      custom_anchor_id: $('#feed_settings_custom_anchor_id').val()
     this.resetFeedSettings()
 
   resetFeedSettings: ->

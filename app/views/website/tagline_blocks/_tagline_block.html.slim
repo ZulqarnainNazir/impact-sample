@@ -1,5 +1,6 @@
 - cache tagline_block do
-  .webpage-block class=tagline_block.custom_class
+  .webpage-block class=tagline_block.custom_class 
+    a id=tagline_block.custom_anchor_id
     .webpage-tagline
       .well class=(tagline_block.well_style == 'transparent' ? 'well-transparent' : (tagline_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="text-align: #{tagline_block.theme}"
         .lead = sanitize_html tagline_block.text

@@ -1,6 +1,7 @@
 - cache [hero_block.frame, hero_block] do
   div
-    .webpage-block class=hero_block.custom_class
+    .webpage-block class=hero_block.custom_class 
+      a id=hero_block.custom_anchor_id
       .webpage-hero
         - background_image_url = hero_block.block_background.try(:attachment_jumbo_url).present? ? (hero_block.block_background.attachment_jumbo_url.gsub(/'/){"\\'"}) : ''
         - jumbo_class = ""
