@@ -43,7 +43,8 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
           @invite.company_id, #business_id of recipient
           @invite.invitee_id,
           @invite.invite_as_member,
-          @invite.inviter
+          @invite.inviter,
+          @invite.message,
         ).deliver_now
 
         flash[:notice] = "Invite successfully sent."
@@ -63,7 +64,8 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
           @invite.company_id, #business_id of recipient
           @invite.invitee_id,
           @invite.invite_as_member,
-          @invite.inviter
+          @invite.inviter,
+          @invite.message,
         ).deliver_now
 
         flash[:notice] = "Invite successfully sent."
@@ -98,6 +100,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
 
   def invite_params
     params.require(:invite).permit(
+      :message,
       :company_id,
       :invitee_id,
       :invite_as_member,

@@ -45,38 +45,11 @@
                       span.bar
                       span.highlight
                       label.control-label Their Email
-                  javascript:
-                    $( document ).ready(function() {
-                      $('.js-invitee-select').change(function(event) {
-                        if (event.target.value) {
-                          var optionSelected = $("option:selected", this);
-                          $('#invite_invitee_email').val(optionSelected.data('email'))
-                          $('.invitee-info .hideable').hide();
-                          $('.invitee-info .hideable input').prop('required', false);
-                          $('.small.hideable').hide();
-                        } else {
-                          $('.invitee-info').show();
-                          $('.invitee-info input').prop('required', true);
-                          $('.small.hideable').show();
-                        }
-                      });
-                      $('#invite_invite_as_member_true').on('ifToggled', function(e) {
-                        if (e.target.checked) {
-                          $('span.email-subject').text("Subject: Confirm " + $('#invite-business-name').val() + " membership with " + $('#business-name').val())
-                          $('#variable-invite-content').text('to promote our business and our members.')
-                        } else {
-                          $('span.email-subject').text("Subject: Join " + $('#business-name').val() + " and Support Local at " + $('#invite-business-name').val())
-                          $('#variable-invite-content').text('to promote our business and free Support Local tools to promote those we endorse and recommend.')
-                        }
-                      });
-                    });
                 hr
                 .group
                   = form.select :company_id, {}, { :include_blank => true }, { :class => 'form-control', required: true } do
                     - @business.owned_companies.sort_by(&:name).each do |comp|
                       = content_tag(:option, "#{comp.name} - #{comp.location.full_address}", value: comp.id, selected: comp.id == @invite.company_id)
-                    end
-                  end 
                   span.bar
                   span.highlight
                   label.control-label Select their company
@@ -91,6 +64,12 @@
                       = form.radio_button :invite_as_member, false
                       i
                       |  Non-Member Invite
+                hr
+                .group
+                  = form.text_area :message, class: 'form-control', required: true
+                  span.bar
+                  span.highlight
+                  label.control-label Optional: include a personal message
                 .ibox.m-t-10px
                   / - membership_subject =  "Subject: Confirm your membership with #{@business.name}"
                   - membership_subject =  "Subject: Confirm #{@invite.company.try(:name)} membership with #{@business.name}"
@@ -117,4 +96,33 @@
                 .ibox-footer
                   = form.button 'Send Invite', class: 'btn btn-primary btn-block'
             
+javascript:
+  $( document ).ready(function() {
+    $('button[type=submit]').on('click', function(event) {
+      console.log('submitting');
+      $('#invite_message').prop('required', false);
+    });
+    $('.js-invitee-select').change(function(event) {
+      if (event.target.value) {
+        var optionSelected = $("option:selected", this);
+        $('#invite_invitee_email').val(optionSelected.data('email'))
+        $('.invitee-info .hideable').hide();
+        $('.invitee-info .hideable input').prop('required', false);
+        $('.small.hideable').hide();
+      } else {
+        $('.invitee-info').show();
+        $('.invitee-info input').prop('required', true);
+        $('.small.hideable').show();
+      }
+    });
+    $('#invite_invite_as_member_true').on('ifToggled', function(e) {
+      if (e.target.checked) {
+        $('span.email-subject').text("Subject: Confirm " + $('#invite-business-name').val() + " membership with " + $('#business-name').val())
+        $('#variable-invite-content').text('to promote our business and our members.')
+      } else {
+        $('span.email-subject').text("Subject: Join " + $('#business-name').val() + " and Support Local at " + $('#invite-business-name').val())
+        $('#variable-invite-content').text('to promote our business and free Support Local tools to promote those we endorse and recommend.')
+      }
+    });
+  });
   

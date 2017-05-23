@@ -1,14 +1,16 @@
 tbody
   tr
+    td.content-block = @personal_message
+  tr
     td.content-block
       | We're using free local marketing tools from 
       = link_to "Locable", "http://www.locable.com"
-      | to promote our business and our members to Support Local. You can create your free account in just a couple minutes by visiting this 
+      |  to promote our business and our members to Support Local. You can create your free account in just a couple minutes by visiting this 
       = link_to "link", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https')
       | .
   tr
     td.content-block
-    	| If the link above isn’t active copy this link and paste it into your browser:
+      | If the link above isn’t active copy this link and paste it into your browser:
       br
       = new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https')
   tr

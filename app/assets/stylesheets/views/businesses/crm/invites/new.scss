@@ -31,7 +31,7 @@
     }
 
     /* active state */
-    input:focus ~ label, input:valid ~ label, select ~ label 		{
+    input:focus ~ label, input:valid ~ label, select ~ label,	textarea:focus ~ label, textarea:valid ~ label {
       top: -20px;
       font-size: 14px;
       color: #1ab394;
