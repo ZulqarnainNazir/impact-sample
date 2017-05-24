@@ -32,8 +32,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      set_minimum_password_length
+      @validatable = devise_mapping.validatable?
+      if @validatable
+        @minimum_password_length = resource_class.password_length.min
+      end
       respond_with resource
+      # clean_up_passwords resource
+      # set_minimum_password_length
+      # respond_with resource
     end
   end
 
