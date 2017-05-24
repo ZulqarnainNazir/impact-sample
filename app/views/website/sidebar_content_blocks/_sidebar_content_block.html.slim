@@ -6,8 +6,7 @@
         .panel-body
           h4.text-center = sanitize_html sidebar_content_block.heading
           - if sidebar_content_block.block_image_placement.try(:embeds?)
-            .embed-responsive.embed-responsive-4by3
-              = sidebar_content_block.block_image_placement.embed.html_safe
+            = sidebar_content_block.block_image_placement.embed.html_safe
           - elsif sidebar_content_block.block_image
             = image_tag sidebar_content_block.block_image.attachment_url(sidebar_content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
           = sanitize_html sidebar_content_block.text

@@ -12,8 +12,7 @@
           .panel-body
             h4.text-center = sanitize_html call_to_action_block.heading
             - if call_to_action_block.block_image_placement.try(:embeds?)
-              .embed-responsive.embed-responsive-4by3
-                = call_to_action_block.block_image_placement.embed.html_safe
+              = call_to_action_block.block_image_placement.embed.html_safe
             - elsif call_to_action_block.block_image
               - if call_to_action_block.link?
                 = link_to call_to_action_block.link_location, target: (call_to_action_block.link_target_blank ? :_blank : nil), rel: (call_to_action_block.link_no_follow ? 'no-follow' : nil) do

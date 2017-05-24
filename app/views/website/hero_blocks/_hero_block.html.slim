@@ -23,8 +23,7 @@
                 
                 - if hero_block.block_image_placement.try(:embeds?)
                   .col-sm-6
-                    .embed-responsive.embed-responsive-4by3
-                      = hero_block.block_image_placement.embed.html_safe
+                    = hero_block.block_image_placement.embed.html_safe
                 - elsif hero_block.block_image
                   .col-sm-6
                     = image_tag hero_block.block_image.attachment_url(hero_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive thumbnail'
@@ -35,8 +34,7 @@
                 - missing_image = false
                 - if hero_block.block_image_placement.try(:embeds?)
                   .col-sm-6
-                    .embed-responsive.embed-responsive-4by3
-                      = hero_block.block_image_placement.embed.html_safe
+                    = hero_block.block_image_placement.embed.html_safe
                 - elsif hero_block.block_image
                   .col-sm-6
                     = image_tag hero_block.block_image.attachment_url(hero_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive thumbnail'

@@ -9,8 +9,7 @@
           .row
             section.col-sm-4 style="margin-top: 40px"
               - if about_block.block_image_placement.try(:embeds?)
-                .embed-responsive.embed-responsive-4by3
-                  = about_block.block_image_placement.embed.html_safe
+                = about_block.block_image_placement.embed.html_safe
               - elsif about_block.block_image
                 = image_tag about_block.block_image.attachment_url(about_block.block_image_placement.full_width ? :medium_fixed : :medium), alt: about_block.block_image.alt, class: 'img-responsive', style: 'width: 100%'
             section.col-sm-8
@@ -20,8 +19,7 @@
               = sanitize_html about_block.text
         - else
           - if about_block.block_background_placement.try(:embeds?)
-            .embed-responsive.embed-responsive-4by3
-              = about_block.block_background_placement.embed.html_safe
+            = about_block.block_background_placement.embed.html_safe
           - elsif about_block.block_background
             = image_tag about_block.block_background.attachment_url, alt: about_block.block_background.alt, class: 'img-responsive', style: 'width: 100%'
           .page-header
