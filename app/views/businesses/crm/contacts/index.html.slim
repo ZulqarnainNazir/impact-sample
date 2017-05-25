@@ -45,14 +45,41 @@
                   th
                     | Score
                   th Review
-                  th style="width:9em"
+                  th
+                  
               tbody
                 = render @contacts
           / = paginate @contacts
 - content_for :javascript do
   javascript:
-    /*
-    $(function() {
-      $('.footable').footable();
-    });
-    */
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This cannot be reversed and will also destroy all messages, form submissions, feedback, and notes associated with this person.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };

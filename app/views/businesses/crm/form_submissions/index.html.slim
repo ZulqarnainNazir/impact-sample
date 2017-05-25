@@ -45,6 +45,8 @@
                   /     = field.label
 
               tbody
+                - @contact_messages.each do |contact_message|
+                  = render partial: 'businesses/crm/form_submissions/contact_message', locals: { contact_message: contact_message }
                 - @form_submissions.each do |form_submission|
                   = render form_submission
                 / tr
@@ -75,6 +77,34 @@
 
 - content_for :javascript do
   javascript:
-    $(function() {
-    //  $('.footable').footable();
-    });
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This action cannot be reversed.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };

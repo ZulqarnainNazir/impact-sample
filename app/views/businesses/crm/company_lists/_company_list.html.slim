@@ -1,2 +1,6 @@
 tr
   td = link_to company_list.name, [:edit, @business, :crm, company_list]
+  td
+    = link_to [@business, :crm, company_list], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+      => icon 'times-circle'
+      | Delete

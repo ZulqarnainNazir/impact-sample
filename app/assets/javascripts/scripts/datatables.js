@@ -1,6 +1,6 @@
 $(document).ready(function(){
     if (!$.fn.dataTable.isDataTable('table.datatable')) {
-      $('table.datatable').DataTable({
+      var table = $('table.datatable').DataTable({
         pageLength: 25,
         responsive: true,
         dom: '<"html5buttons"B>lTfgitp',

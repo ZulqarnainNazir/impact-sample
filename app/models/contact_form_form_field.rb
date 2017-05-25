@@ -7,7 +7,7 @@ class ContactFormFormField < ActiveRecord::Base
   def set_defaults
     if self.form_field_id
       if FormField.find(self.form_field_id).required
-        self.required = true 
+        self.required = true
       end
     end
   end

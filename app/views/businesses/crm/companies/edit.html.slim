@@ -9,12 +9,16 @@
       .ibox-title
         - if @company.business.in_impact
           .badge.badge-info.pull-right.badge-claimed data-toggle="tooltip" title="Claimed businesses are controlled by their owner or manager, the public data is thus provided by them directly." Claimed
+        - else
+          = link_to new_business_crm_invite_path(@business, company_id: @company.id), class: 'btn btn-sm btn-default pull-right' do
+            => icon 'envelope'
+            | Invite
         h1.h4 Company Information (Public)
       .ibox-content
         .row
           .col-xs-4.text-center.p-xs
             - if @company.business.logo
-              = image_tag @company.business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large'
+              = image_tag @company.business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'img-responsive'
             - else
               i.fa.fa-building.fa-5x aria-hidden="true"
           .col-xs-8
@@ -185,7 +189,7 @@
             .col-xs-8
               h3 
                 = link_to contact.name, [:edit, @business, :crm, contact]
-                - if @company.business.owners.length > 0
+                - if @company.business.in_impact
                   span.pull-right Claimed
                 - else
                   = link_to new_business_crm_invite_path(@business, company_id: @company.id, invitee_id: contact.id), class: 'btn btn-xs btn-default pull-right' do

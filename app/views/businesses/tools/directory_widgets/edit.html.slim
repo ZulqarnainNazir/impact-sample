@@ -35,7 +35,11 @@ wrapper.wrapper-content
             | Add New Company List
 
         .ibox-content
-          = form.button 'Save Embed', class: 'btn btn-primary'
+          .btn-group
+            = form.button 'Save Embed', class: 'btn btn-primary'
+            = link_to [@business, :tools, @directory_widget], class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+              => icon 'times-circle'
+              | Delete
         - #  a.btn.btn-success#preview style="margin-left: 20px;" href="#{website_root_url()}widgets/directory_widgets/#{@directory_widget.uuid}?widget_layout=#{@directory_widget.layout}" data-toggle="lightbox" data-width="" Preview
   .col-md-6
     .ibox.float-e-margins
@@ -69,6 +73,38 @@ wrapper.wrapper-content
 
 - content_for :javascript do
   javascript:
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This action cannot be reversed.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };
+
     $(function() {
       new Clipboard('.btn');
       $('#btn-script').click(function(){

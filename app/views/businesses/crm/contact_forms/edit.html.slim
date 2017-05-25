@@ -27,7 +27,11 @@ wrapper.wrapper-content
             = form.label :public_description, "Publicly Visible Description (depends on layout above)", class: 'control-label'
             = form.text_area :public_description, class: 'form-control', :rows => 5
         .ibox-content
-          = form.button 'Update Form Fields', class: 'btn btn-primary'
+          .btn-group
+            = form.button 'Update Form Fields', class: 'btn btn-primary'
+            = link_to [@business, :crm, @contact_form], class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+              => icon 'times-circle'
+              | Delete
     .ibox.float-e-margins
       .ibox-title
         h5 Embed Code
@@ -96,3 +100,34 @@ wrapper.wrapper-content
         setTimeout(function() { $("iframe").css('height', '500px'); }, 1000);
       });
     });
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This action cannot be reversed.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };

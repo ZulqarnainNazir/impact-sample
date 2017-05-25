@@ -28,6 +28,12 @@ class Businesses::Crm::FormSubmissionsController < Businesses::BaseController
     @form_submission = @business.form_submissions.find(params[:id])
   end
 
+  def destroy
+    # @form_submission = @business.form_submissions.find(params[:id])
+    FormSubmission.destroy(params[:id])
+    redirect_to [@business, :crm_form_submissions]
+  end
+
   private
 
   def contact_messages_order

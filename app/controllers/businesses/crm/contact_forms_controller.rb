@@ -1,7 +1,7 @@
 class Businesses::Crm::ContactFormsController < Businesses::BaseController
 
   before_action only: member_actions do
-    @contact_form = @business.contact_forms.find(params[:id])
+    @contact_form = @business.contact_forms.where(archived: false).find(params[:id])
     @form_fields = FormField.all
     @layout_options = layout_options
   end
@@ -14,7 +14,7 @@ class Businesses::Crm::ContactFormsController < Businesses::BaseController
   end
 
   def index
-    scope = @business.contact_forms
+    scope = @business.contact_forms.where(archived: false)
     query = params[:query].to_s.strip
 
     if query.present?
@@ -39,14 +39,16 @@ class Businesses::Crm::ContactFormsController < Businesses::BaseController
   end
 
   def destroy
-    ContactForm.destroy(@contact_form.id)
-    redirect_to [@business, :crm_contact_forms]
+    toggle_resource_boolean_on @contact_form, :archived, location: [@business, :crm_contact_forms]
+    # destroy_resource @contact_form, location: [@business, :crm_contact_forms]
+    # ContactForm.destroy(@contact_form.id)
+    # redirect_to [@business, :crm_contact_forms]
   end
 
   private
 
   def contact_form_params
-    params.require(:contact_form).permit(:name, :public_label, :company_list_id, :layout, :public_description, :form_field_ids => [], 
+    params.require(:contact_form).permit(:name, :public_label, :company_list_id, :layout, :public_description, :form_field_ids => [],
                                          :contact_form_form_fields_attributes => [
                                            :id, :label, :position, :required, :_destroy])
   end

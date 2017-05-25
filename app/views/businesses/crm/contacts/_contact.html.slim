@@ -4,50 +4,51 @@
 - last_incomplete_feedback = contact.feedbacks.incomplete.order(completed_at: :desc).last
 tr class=('unread' unless contact.read_by.include?(current_user.id))
   td = link_to contact.name, [:edit, contact.business, :crm, contact]
+      / = link_to new_business_crm_invite_path(@business, contact_id: contact.id), class: 'btn btn-xs btn-default' do
+      /   => icon 'envelope'
+      /   | Invite
   td = contact.email
   td = contact.phone? ? contact.phone : '--'
-  / td = (contact.feedbacks.map(&:serviced_at).reject{|a| a.blank?}.length > 0) ? contact.feedbacks.map(&:serviced_at).reject{|a| a.blank?}.sort.first.try(:strftime, '%D') : '--'
-  / td = (contact.feedbacks.map(&:completed_at).reject{|a| a.blank?}.length > 0) ? contact.feedbacks.map(&:completed_at).reject{|a| a.blank?}.sort.first.try(:strftime, '%D') : '--'
   td = contact.feedbacks.map(&:score).sort.first || '--'
   / td
-
-    - if last_complete_feedback
-      | Yes
-    - elsif last_incomplete_feedback
-      ' No
-
-      - if !contact.bounce_or_complaint?
-        = link_to 'Reinvite', [contact.business, :crm, last_incomplete_feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
-      - elsif contact.bounce_or_complaint?
-        = button_tag "Email Error", type: 'button', class: 'btn btn-xs btn-default', data: {toggle: "popover", placement: "auto top", content: "#{contact.complaint_or_bounce_report}" }
-
-    - elsif contact.reviews.empty?
-      ' No
-
-      - if !contact.bounce_or_complaint?
-        = link_to 'Invite to Review', [:new, contact.business, :crm, contact, :feedback], class: 'btn btn-xs btn-default'
-      - elsif contact.bounce_or_complaint?
-        = button_tag "Email Error", type: 'button', class: 'btn btn-xs btn-default', data: {toggle: "popover", placement: "auto top", content: "#{contact.complaint_or_bounce_report}" }
-
-    - else
-      | --
+    / - if last_complete_feedback
+    /   | Yes
+    / - elsif last_incomplete_feedback
+    /   ' No
+    / 
+    /   - if !contact.bounce_or_complaint?
+    /     = link_to 'Reinvite', [contact.business, :crm, last_incomplete_feedback, :review_invitation], method: :post, class: 'btn btn-xs btn-default'
+    /   - elsif contact.bounce_or_complaint?
+    /     = button_tag "Email Error", type: 'button', class: 'btn btn-xs btn-default', data: {toggle: "popover", placement: "auto top", content: "#{contact.complaint_or_bounce_report}" }
+    / 
+    / - elsif contact.reviews.empty?
+    /   ' No
+    / 
+    /   - if !contact.bounce_or_complaint?
+    /     = link_to 'Invite to Review', [:new, contact.business, :crm, contact, :feedback], class: 'btn btn-xs btn-default'
+    /   - elsif contact.bounce_or_complaint?
+    /     = button_tag "Email Error", type: 'button', class: 'btn btn-xs btn-default', data: {toggle: "popover", placement: "auto top", content: "#{contact.complaint_or_bounce_report}" }
+    / 
+    / - else
+    /   | --
   td
     - if last_complete_feedback_review
       = link_to 'Yes', [contact.business, :crm, last_complete_feedback_review]
     - else
       | No
-  td
-    .btn-group
-      = link_to [:edit, contact.business, :crm, contact], class: 'btn btn-xs btn-default' do
-        => icon 'pencil'
-        | Edit
-      = link_to [contact.business, :crm, contact], method: :delete, class: 'btn btn-xs btn-default', data: { confirm: 'Are you sure you want to remove this contact from your site?' } do
-        => icon 'minus-circle'
-        | Hide
-    .btn-group style="margin-top:0.5em;"
-      = link_to [:new, contact.business, :crm, contact, :crm_note], class: 'btn btn-xs btn-default' do
-        => icon 'plus-circle'
-        | Add Note
-      / = link_to new_business_crm_invite_path(@business, contact_id: contact.id), class: 'btn btn-xs btn-default' do
-      /   => icon 'envelope'
-      /   | Invite
+  td.col-xs-3 data-priority="2"
+    .row
+      .btn-group
+        = link_to [:edit, contact.business, :crm, contact], class: 'btn btn-xs btn-default' do
+          => icon 'pencil'
+          | Edit
+        - if contact.reviews.empty?
+          = link_to [contact.business, :crm, contact], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+            => icon 'times-circle'
+            | Delete
+    .row
+      .btn-group 
+        = link_to [:new, contact.business, :crm, contact, :crm_note], class: 'btn btn-xs btn-default' do
+          => icon 'plus-circle'
+          | Add Note
+  

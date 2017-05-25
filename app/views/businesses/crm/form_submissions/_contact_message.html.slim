@@ -1,0 +1,14 @@
+tr class=('unread' unless contact_message.read_by.include?(current_user.id))
+  td Contact Us
+  td = contact_message.try(:contact).try(:name)
+  td = contact_message.try(:contact).try(:email)
+  td = truncate(contact_message.message)
+  td = contact_message.created_at.to_formatted_s(:short)
+  td
+    .btn-group
+      = link_to [@business, :crm, contact_message], class: 'btn btn-xs btn-default' do
+        i.fa.fa-book
+        |  View
+      = link_to [@business, :crm, contact_message], class: 'btn btn-xs btn-danger', style: 'color:white;', method: :delete, data: { confirm: 'Are you sure?' } do
+        => icon 'times-circle'
+        | Delete

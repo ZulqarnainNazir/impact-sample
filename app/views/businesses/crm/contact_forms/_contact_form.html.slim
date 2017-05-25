@@ -10,6 +10,10 @@ tr
       = link_to [:edit, @business, :crm, contact_form], class: 'btn btn-xs btn-default' do
         i.fa.fa-pencil
         |  Edit
+      = link_to [@business, :crm, contact_form], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+        => icon 'times-circle'
+        | Delete
+      
   / td
     .table-responsive
       table.table 

@@ -16,6 +16,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
                 strong.font-bold
                   | #{current_user.first_name} #{current_user.last_name}
                 span.caret.pull-right
+              span.text-muted = truncate(@business.name, length: 29)
           ul.dropdown-menu
             li
               = link_to 'Edit Profile info', :edit_user_registration

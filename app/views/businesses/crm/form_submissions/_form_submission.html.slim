@@ -9,12 +9,20 @@
   /     - i += 1
 
 tr class=('unread' unless form_submission.read_by.include?(current_user.id))
-  td = link_to form_submission.contact_form.name, [:edit, @business, :crm, form_submission.contact_form]
+  td
+    - if form_submission.contact_form.archived
+      = form_submission.try(:contact_form).try(:name)
+    - else
+      = link_to form_submission.try(:contact_form).try(:name), [:edit, @business, :crm, form_submission.contact_form]
   td = form_submission.try(:contact).try(:name)
   td = form_submission.try(:contact).try(:email)
   td = truncate(form_submission.form_submission_values.joins(:form_field).find_by(form_fields: {name: 'message'}).try(:value))
   td = form_submission.created_at.to_formatted_s(:short)
-  td 
-    = link_to [@business, :crm, form_submission], class: 'btn btn-xs btn-default' do
-      i.fa.fa-book
-      |  View
+  td
+    .btn-group
+      = link_to [@business, :crm, form_submission], class: 'btn btn-xs btn-default' do
+        i.fa.fa-book
+        |  View
+      = link_to [@business, :crm, form_submission], class: 'btn btn-xs btn-danger', style: 'color:white;', method: :delete, data: { confirm: 'Are you sure?' } do
+        => icon 'times-circle'
+        | Delete

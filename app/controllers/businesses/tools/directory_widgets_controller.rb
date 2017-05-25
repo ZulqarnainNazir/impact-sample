@@ -34,7 +34,7 @@ class Businesses::Tools::DirectoryWidgetsController < Businesses::BaseController
   end
 
   def destroy
-    Widget.destroy(@directory_widget.id)
+    DirectoryWidget.destroy(@directory_widget.id)
     redirect_to [@business, :tools_directory_widgets]
   end
 

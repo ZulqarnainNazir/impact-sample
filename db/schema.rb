@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510084047) do
+ActiveRecord::Schema.define(version: 20170525213242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,6 +163,17 @@ ActiveRecord::Schema.define(version: 20170510084047) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end
+
+  create_table "business_widgets", force: :cascade do |t|
+    t.integer  "widget_id"
+    t.integer  "business_id"
+    t.jsonb    "settings"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
+  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
 
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
@@ -353,13 +364,14 @@ ActiveRecord::Schema.define(version: 20170510084047) do
   create_table "contact_forms", force: :cascade do |t|
     t.string   "name"
     t.integer  "business_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "uuid"
     t.integer  "company_list_id"
     t.string   "public_label"
     t.string   "layout"
     t.string   "public_description"
+    t.boolean  "archived",           default: false
   end
 
   add_index "contact_forms", ["business_id"], name: "index_contact_forms_on_business_id", using: :btree
@@ -505,7 +517,6 @@ ActiveRecord::Schema.define(version: 20170510084047) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -934,7 +945,7 @@ ActiveRecord::Schema.define(version: 20170510084047) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -951,7 +962,7 @@ ActiveRecord::Schema.define(version: 20170510084047) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end

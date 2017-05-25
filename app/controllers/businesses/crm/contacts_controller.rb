@@ -51,7 +51,11 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
   end
 
   def destroy
-    toggle_resource_boolean_on @contact, :hide, location: [@business, :crm_contacts]
+    if @contact.reviews.empty?
+      destroy_resource @contact, location: [@business, :crm_contacts]
+    else
+      redirect_to [@business, :crm_contacts], :notice => "Cannot Delete Contact with Reviews"
+    end
   end
 
   private

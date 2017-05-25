@@ -20,14 +20,14 @@ class ListingConstraint
   def matches?(request)
     host_match = request.host.match(Regexp.escape("listings.locabledev.com"))
     listings_subdomain = request.subdomain.present? && request.subdomains.first == 'listings' && request.subdomains.first != 'www' && request.subdomains.first != 'impact'
-    
+
     host_match || listings_subdomain
   end
 end
 
 Rails.application.routes.draw do
 
-  
+
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do
     root to: 'listings#index'
     match '/:lookup', to: 'listings#listing', via: :get
@@ -251,7 +251,7 @@ Rails.application.routes.draw do
           end
           resources :company_lists, only: %i[index new create edit update destroy]
           resources :contact_forms, only: %i[index new create edit update destroy]
-          resources :form_submissions, only: %i[index show]
+          resources :form_submissions, only: %i[index show destroy]
           resources :companies, only: %i[index new create edit update destroy] do
             resources :business, only: %i[new create edit update]
             resources :crm_notes, only: %i[new create edit update destroy]
