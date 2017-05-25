@@ -44,15 +44,21 @@ class EventDefinition < ActiveRecord::Base
   end
 
   def end_date_cannot_before_start_date
-    time_comparison = if !end_time.blank?
-                        (end_date.to_time.to_i + end_time.to_i) < (start_date.to_time.to_i + start_time.to_i)
-                      else
-                        end_date.to_time.to_i < start_date.to_time.to_i
-                      end
-    puts end_date.to_time.to_i + end_time.to_i
-    puts start_date.to_time.to_i + start_time.to_i
-    errors.add(:end_date, "can't be before start date") if
-      !end_date.blank? and time_comparison
+    if ( !end_time.blank? || !end_time.nil? ) && ( !end_date.blank? || !end_date.nil? )
+      time_comparison = if !end_time.blank? || !end_time.nil?
+                          (end_date.to_time.to_i + end_time.to_i) < (start_date.to_time.to_i + start_time.to_i)
+                        else
+                          end_date.to_time.to_i < start_date.to_time.to_i
+                        end
+      if !end_time.blank? || !end_time.nil?
+        puts end_date.to_time.to_i + end_time.to_i
+      end
+      if !start_time.blank? || !start_time.nil?
+        puts start_date.to_time.to_i + start_time.to_i
+      end
+      errors.add(:end_date, "can't be before start date") if
+        ( !end_date.blank? || !end_time.nil? ) and time_comparison
+    end
   end
 
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
