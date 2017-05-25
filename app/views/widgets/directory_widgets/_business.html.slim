@@ -55,32 +55,32 @@
             a.btn.btn-xs.btn-white href=business.website_url target="_blank"
               i.fa.fa-external-link
               |  Website 
-  .modal.fade.business-modal id="business-modal-#{business.id}" aria-hidden="true" role="dialog" data-dismiss="modal"
-    .modal-dialog.modal-lg
-      .modal-content
-        .modal-header
-          span.close data-dismiss="modal"
-            | &times;
-          h1.h4=business.name
-        .modal-body
-          iframe data-src="#{website_root_url()}/widgets/directory_widgets/#{directory.uuid}/#{business.id}" width="100%" height="700px" frameBorder="0"
-        .modal-footer
-          button.btn.btn-default data-dismiss="modal"
-            | Done
-  javascript: 
-    jQuery(document).ready(function() {
-      setTimeout(function() {
-        var element = jQuery("#business-modal-#{business.id}");
-        var target = jQuery("#business-#{business.id}").offset().top;
-        var frameHeight = jQuery(document).height();
-        // just an approximation, but better than nothihg.
-        var modalHeight = 800;
-        if ((target + modalHeight) > frameHeight) {
-          target = frameHeight - modalHeight;
-        }
-        if (target < 10) {
-          target = 150;
-        }
-        element.css("transform", "translateY("+target+"px)");
-      }, 3000);
-    });
+    .modal.fade.business-modal id="business-modal-#{business.id}" aria-hidden="true" role="dialog" data-dismiss="modal"
+      .modal-dialog.modal-lg
+        .modal-content
+          .modal-header
+            span.close data-dismiss="modal"
+              | &times;
+            h1.h4=business.name
+          .modal-body
+            iframe data-src="#{website_root_url()}/widgets/directory_widgets/#{directory.uuid}/#{business.id}" width="100%" height="700px" frameBorder="0"
+          .modal-footer
+            button.btn.btn-default data-dismiss="modal"
+              | Done
+    javascript: 
+      jQuery(document).ready(function() {
+        setTimeout(function() {
+          var element = jQuery("#business-modal-#{business.id}");
+          var target = jQuery("#business-#{business.id}").offset().top;
+          var frameHeight = jQuery(document).height();
+          // just an approximation, but better than nothihg.
+          var modalHeight = 800;
+          if ((target + modalHeight) > frameHeight) {
+            target = frameHeight - modalHeight;
+          }
+          if (target < 10) {
+            target = 150;
+          }
+          element.css("transform", "translateY("+target+"px)");
+        }, 3000);
+      });

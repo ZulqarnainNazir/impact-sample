@@ -4,8 +4,6 @@
       .ibox.float-e-margins
         div
           .ibox-content.no-padding.border-left-right
-            - if business.logo
-              = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
             - if !business.location.hide_address? && !business.location.street1.blank?
               - map_params = { center: [business.location.latitude, business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
                 q: [business.location.address_line_one, business.location.address_line_two].reject(&:blank?).join(' '), zoom: 18 }.to_param
@@ -60,7 +58,19 @@
     
     .col-sm-8
       .ibox.float-e-margins.tabs-container
+        .ibox-title
+          .row
+            .col-xs-5
+              - if business.logo
+                = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
+            .col-xs-7
+              p = simple_format(business.business.description)
         ul.nav.nav-tabs
+          li.active
+            a.count-info href="#tab-All-#{business.id}" data-toggle="tab"
+              | All 
+              i.fa.fa-book
+              span.label.label-primary=business.offers.size + business.events.size + business.posts.length + business.quick_posts.length + business.galleries.size
           li
             a.count-info href="#tab-Offers-#{business.id}" data-toggle="tab"
               | Offers 
@@ -71,7 +81,7 @@
               | Events 
               i.fa.fa-calendar
               span.label.label-primary=business.events.size
-          li.active
+          li
             a.count-info href="#tab-Posts-#{business.id}" data-toggle="tab"
               | Posts 
               i.fa.fa-edit
@@ -82,11 +92,26 @@
               i.fa.fa-photo
               span.label.label-primary=business.galleries.size
         .tab-content
+          .tab-pane.active id="tab-All-#{business.id}"
+            - content = business.offers + business.event_definitions + business.posts + business.quick_posts + business.galleries
+            - content.each do |thing|
+              / - case thing.class
+              - if thing.class == Offer
+                = render partial: 'widgets/directory_widgets/content/offer', locals: { business: business, offer: thing }
+              - elsif thing.class == EventDefinition
+                = render partial: 'widgets/directory_widgets/content/event_definition', locals: { business: business, event_definition: thing }
+              - elsif thing.class == QuickPost
+                = render partial: 'website/quick_posts/quick_post', locals: { quick_post: thing, business: business }
+              - elsif thing.class == Post
+                = render partial: 'website/posts/post', locals: { post: thing, business: business }
+              - elsif thing.class == Gallery
+                = render partial: 'widgets/directory_widgets/content/gallery', locals: { business: business, gallery: thing }
+              / span = thing.class
           .tab-pane id="tab-Offers-#{business.id}"
             = render partial: 'widgets/directory_widgets/content/offer', collection: business.offers, locals: { business: business }
           .tab-pane id="tab-Events-#{business.id}"
             = render partial: 'widgets/directory_widgets/content/event_definition', collection: business.event_definitions, locals: { business: business }
-          .tab-pane.active id="tab-Posts-#{business.id}"
+          .tab-pane id="tab-Posts-#{business.id}"
             - posts = (business.posts + business.quick_posts).sort_by(&:published_on).reverse
             - posts.each do |post|
               - if post.class == QuickPost
