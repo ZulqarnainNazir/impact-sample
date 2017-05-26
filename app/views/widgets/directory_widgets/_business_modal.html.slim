@@ -112,7 +112,7 @@
           .tab-pane id="tab-Events-#{business.id}"
             = render partial: 'widgets/directory_widgets/content/event_definition', collection: business.event_definitions, locals: { business: business }
           .tab-pane id="tab-Posts-#{business.id}"
-            - posts = (business.posts + business.quick_posts).sort_by(&:published_on).reverse
+            - posts = (business.posts + business.quick_posts).sort_by(&:published_at).reverse
             - posts.each do |post|
               - if post.class == QuickPost
                 = render partial: 'website/quick_posts/quick_post', locals: { quick_post: post, business: business }
