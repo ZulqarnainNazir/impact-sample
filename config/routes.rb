@@ -312,7 +312,7 @@ Rails.application.routes.draw do
           post 'associate_with_affiliate', on: :member
         end
         resources :alliances, only: %i[index]
-        resources :authorizations, only: %i[index new create destroy]
+        resources :authorizations, only: %i[index new create destroy update]
         resources :images, only: %i[index]
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]

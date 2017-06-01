@@ -14,9 +14,10 @@
           .col-lg-3
             .contact-box.center-version
               = link_to company.name, business_crm_companies_path(:add => 'true', :new_business_id => company.id), :method => :post
-              p = company.location.street1.to_s + " " + company.location.street2.to_s
-              p = company.location.city.to_s + ", " + company.location.state.to_s + " " + company.location.zip_code.to_s
-              p = company.location.phone_number.to_s
+              - unless company.location.nil?
+                p = company.location.street1.to_s + " " + company.location.street2.to_s
+                p = company.location.city.to_s + ", " + company.location.state.to_s + " " + company.location.zip_code.to_s
+                p = company.location.phone_number.to_s
               p = link_to "This is it", business_crm_companies_path(:add => 'true', :new_business_id => company.id), :method => :post, :class => "btn btn-primary"
         .row
           .col-sm-12

@@ -26,6 +26,12 @@
                   .form-group
                     => form.label :email, class: 'control-label'
                     = form.email_field :email, class: 'form-control'
+                .form-group
+                  label.control-label Optional: include a personal message
+                  = form.text_area :invite_message, class: 'form-control'
+                  / span.bar
+                  / span.highlight
+                .ibox.m-t-10px
                 div
                   hr
                   => form.button 'Invite User', class: 'btn btn-primary btn-block'

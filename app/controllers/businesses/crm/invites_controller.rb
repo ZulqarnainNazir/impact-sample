@@ -4,6 +4,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
     # should be fetched and pre-filled into the form for the user.
     @invite = Invite.new(initial_invite_params)
     @invite.invite_as_member = true if @business.membership_org
+    @invite.type_of = 'membership_1' if @business.membership_org
   end
 
   def index
@@ -13,21 +14,9 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
   end
 
   def create
-    # unless params[:invite][:invitee_id]
-    #   @invite = Invite.new(invite_params)
-    #   @invite.invitee
-    #   @invite.inviter = current_user
-    # else
     @invite = Invite.new(invite_params)
     @invite.inviter = current_user
-    # if params[:invite][:invitee_id]
-    #   invitee = find(params[:invitee_id])
-    #   invitee.update!(invitee_params)
-    # else
-    #   invitee = Contact.new(invitee_params)
-    #   invitee.business_id = params[:business_id]
-    #   @invite.invitee = invitee
-    # end
+
     unless !params[:invite][:invitee_id].blank? && Contact.find(params[:invite][:invitee_id]).present?
       #invitee.update!(invitee_params)
       @invitee = Contact.new(invitee_params)
@@ -36,56 +25,51 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       @invitee.save!
     end
     @invite.save!
-    if @invite.invite_as_member
-      if  InvitesMailer.member_invite(
-          @business.id, #sender
-          params[:invite][:invitee][:email], #recipient
-          @invite.company_id, #business_id of recipient
-          @invite.invitee_id,
-          @invite.invite_as_member,
-          @invite.inviter,
-          @invite.message,
-        ).deliver_now
-
+    if @invite.type_of == 'membership_1'
+      if InvitesMailer.member_invite(*mailer_args).deliver_now
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
-
       else
-
         flash[:alert] = "Something went wrong. Please try again."
         render 'now'
-
       end
 
+    elsif @invite.type_of == 'basic'
+      if InvitesMailer.basic_invite(*mailer_args).deliver_now
+        flash[:notice] = "Invite successfully sent."
+        redirect_to business_crm_companies_path
+      else
+        flash[:alert] = "Something went wrong. Please try again."
+        render 'now'
+      end
+
+    elsif @invite.type_of == 'membership_2'
+      if InvitesMailer.member_invite(*mailer_args).deliver_now
+        flash[:notice] = "Invite successfully sent."
+        redirect_to business_crm_companies_path
+      else
+        flash[:alert] = "Something went wrong. Please try again."
+        render 'now'
+      end
     else
-      if  InvitesMailer.basic_invite(
-          @business.id, #sender
-          params[:invite][:invitee][:email], #recipient
-          @invite.company_id, #business_id of recipient
-          @invite.invitee_id,
-          @invite.invite_as_member,
-          @invite.inviter,
-          @invite.message,
-        ).deliver_now
-
-        flash[:notice] = "Invite successfully sent."
-        redirect_to business_crm_companies_path
-
-      else
-
-        flash[:alert] = "Something went wrong. Please try again."
-        render 'now'
-
-      end
+      flash[:alert] = "Something went wrong. Please try again."
+      render 'now'
     end
-
-    # once created the invite should actually send a message to the email of the invitee.
-    # IMPORTANT: the custom invite link included in the email should be
-    # /onboard/users/new/?company_id=#{invite.company_id}&contact_id=#{invite.invitee_id}
-    # for the onboarding wizard to recognize and prefill the relevant parts.
   end
 
   private
+
+  def mailer_args
+    [
+      @business.id, #sender
+      params[:invite][:invitee][:email], #recipient
+      @invite.company_id, #business_id of recipient
+      @invite.invitee_id,
+      @invite.invite_as_member,
+      @invite.inviter,
+      @invite.message,
+    ]
+  end
 
   def default_url_options(options = nil)
     if Rails.env.production?
@@ -104,6 +88,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       :company_id,
       :invitee_id,
       :invite_as_member,
+      :type_of,
       :invitee_attributes => [
         :first_name,
         :last_name,

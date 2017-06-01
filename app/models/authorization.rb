@@ -25,7 +25,7 @@ class Authorization < ActiveRecord::Base
   end
 
   after_create do
-    AuthorizationsMailer.owner_welcome(self).deliver_later(wait: 10.seconds)
+    # AuthorizationsMailer.owner_welcome(self).deliver_now #.deliver_later(wait: 10.seconds)
   end
 
   def self.alphabetical

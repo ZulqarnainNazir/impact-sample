@@ -27,6 +27,12 @@ class Businesses::AuthorizationsController < Businesses::BaseController
     create_resource [@business, @authorization], authorization_params, context: :invite, location: [@business, :authorizations]
   end
 
+  def update
+    @authorization.user.resend_confirmation_instructions
+    # AuthorizationsMailer.owner_welcome(@authorization).deliver_now
+    redirect_to [@business, :authorizations]
+  end
+
   def destroy
     destroy_resource [@business, @authorization]
   end
@@ -36,6 +42,7 @@ class Businesses::AuthorizationsController < Businesses::BaseController
   def authorization_params
     params.require(:authorization).permit(
       :role,
+      :invite_message,
       user_attributes: [
         :first_name,
         :last_name,

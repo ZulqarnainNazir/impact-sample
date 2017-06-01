@@ -2,26 +2,33 @@ tbody
   tr
     td.content-block = @personal_message
   tr
-    td.content-block
-      | We're using free local marketing tools from 
-      = link_to "Locable", "http://www.locable.com"
-      |  to promote our business and our members to Support Local. You can create your free account in just a couple minutes by visiting this 
-      = link_to "link", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https')
-      | .
+    td.content-block.h3 Let's help each other grow our community and your business!
   tr
     td.content-block
-      | If the link above isn’t active copy this link and paste it into your browser:
-      br
-      = new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https')
+      | We’re using free marketing tools from Locable to promote our website as well as all of our members. You can join the party by accepting our invitation which will give you access to our site and Locable’s Free Tools. 
+  tr
+    td It takes less than 5-minutes to join and will ensure your information is correct.
+  br
+  tr
+    td.content-block.aligncenter
+      = link_to "ACCEPT NOW", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https'), class: 'btn-primary'
   tr
     td.content-block
-      | In addition to generating referrals their free tools will help you improve your website, create and distribute content, track your contacts and collect customer reviews, and even includes a virtual marketing assistant to guide you with easy-to-follow marketing missions. All included in their free plan.
+      | The Forever Free Plan makes it so EVERY local business can participate!
   tr
     td.content-block
-      | This email was initiated by 
-      = @inviter.name
-      |  at 
-      = @business.name
-      |  in 
-      = @business.location.city_and_state
-      | .
+      | It's Simple:
+  tr
+    td.content-block
+      div style="padding-left: 20px;"
+        ol
+          li.content-block Accept our invitation and add your business information (name, address, phone number, description, hours of operation, etc.)
+          li.content-block Recommended: Install the SupportLocal Embed Tool™ on your site and choose who you want to support – This can be other businesses or organizations, nonprofits, sports teams, groups or clubs. Anyone really.
+          li.content-block The Virtual Marketing Assistant (Nicknamed “Buzz”) will periodically make recommendations and remind you to do things you need to grow your business including sharing photos, events, special offers, and announcements for those in your network as well as collecting & promoting customer reviews – never be left wondering what to do again!
+          li Your content gets automatically featured on local sites with you in their network. The more people you have in your network, the more people you reach. Collaboration = more impressions = more followers = more customers = more $$$ = more moon pies (Buzz’s favorite food). 
+  tr
+    td Getting started only takes a few minutes (we’ll even do it for you if you want – just reply to this email).
+  br
+  tr
+    td.content-block.aligncenter
+      = link_to "JOIN US TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https'), class: 'btn-primary'

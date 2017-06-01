@@ -131,6 +131,9 @@ css:
       margin-left: 5px;
       list-style-position: inside;
   }
+  ol li {
+    list-style-position: outside;
+  }
 
   /* -------------------------------------
       LINKS & BUTTONS
@@ -288,6 +291,9 @@ body
                   tr
                     td.aligncenter.content-block
                       | Powered by 
-                      = link_to "Locable's Marketing Suite", "https://www.locable.com"
+                      = link_to "Locable’s Marketing Platform", "https://www.locable.com"
+                      br
+                      | P.S. If you no longer wish to receive such invitation emails, please 
+                      = link_to "unsubscribe here", "#"
+                      |.
         td
-/ = yield

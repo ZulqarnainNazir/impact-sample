@@ -1,4 +1,9 @@
 <p>Welcome <%= @email %>!</p>
+<% unless @user.authorizations.empty? %>
+  <% authorization = @user.authorizations.first %>
+  <p> <%= authorization.invite_message %> </p>
+  <p>You are now the authorized <%= authorization.role %> of <%= authorization.business.name %>.</p>
+<% end %>
 
 <p>You can confirm your account email through the link below:</p>
 
