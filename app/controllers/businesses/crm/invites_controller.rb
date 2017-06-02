@@ -3,8 +3,9 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
     # if following a link already associated with a specific company or contact, the information
     # should be fetched and pre-filled into the form for the user.
     @invite = Invite.new(initial_invite_params)
-    @invite.invite_as_member = true if @business.membership_org
-    @invite.type_of = 'membership_1' if @business.membership_org
+    # @invite.invite_as_member = true if @business.membership_org
+    @business.membership_org ? @invite.type_of = 'membership_1' : @invite.type_of = 'basic'
+
   end
 
   def index
@@ -14,6 +15,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
   end
 
   def create
+    params[:invite][:type_of] ||= 'basic'
     @invite = Invite.new(invite_params)
     @invite.inviter = current_user
 
@@ -31,7 +33,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
         redirect_to business_crm_companies_path
       else
         flash[:alert] = "Something went wrong. Please try again."
-        render 'now'
+        render 'new'
       end
 
     elsif @invite.type_of == 'basic'
@@ -40,7 +42,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
         redirect_to business_crm_companies_path
       else
         flash[:alert] = "Something went wrong. Please try again."
-        render 'now'
+        render 'new'
       end
 
     elsif @invite.type_of == 'membership_2'
@@ -49,11 +51,11 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
         redirect_to business_crm_companies_path
       else
         flash[:alert] = "Something went wrong. Please try again."
-        render 'now'
+        render 'new'
       end
     else
       flash[:alert] = "Something went wrong. Please try again."
-      render 'now'
+      render 'new'
     end
   end
 
@@ -87,7 +89,6 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       :message,
       :company_id,
       :invitee_id,
-      :invite_as_member,
       :type_of,
       :invitee_attributes => [
         :first_name,

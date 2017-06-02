@@ -21,7 +21,8 @@ class InvitesMailer < ApplicationMailer
       @business = Business.find(sender_id)
       @invitee = Contact.find(invitee_id)
       @invite_company = Business.find(Company.find(business_id).show_business_id)
-      mail to: recipient_email, subject: "#{@invitee.first_name}, your free account for #{@invite_company.name} on #{@business.website_url} is ready for you!".gsub("on http://", "")
+      subject = @business.website_url == "http://" ? "#{@invitee.first_name}, your free account for #{@invite_company.name} is ready for you!" : "#{@invitee.first_name}, your free account for #{@invite_company.name} on #{@business.website_url.gsub("http://", "")} is ready for you!"
+      mail to: recipient_email, subject: subject
     end
   end
 

@@ -87,8 +87,10 @@
                     .mail-tools
                       span.font-normal.email-subject = @invite.invite_as_member ? member_subject : basic_subject
                   .mail-box
-                    - if @invite.invite_as_member
+                    - if @invite.type_of == 'membership_1'
                       = render partial: 'membership_invite'
+                    - elsif @invite.type_of == 'membership_2'
+                      = render partial: 'membership_invite_2'
                     - else
                       = render partial: 'basic_invite'
                 .ibox-footer
