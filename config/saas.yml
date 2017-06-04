@@ -1,5 +1,5 @@
 defaults: &defaults
-  app_name: IMPACT Marketing Suite
+  app_name: Locable Marketing Platform
   from_email: <%= ENV['SUPPORT_EMAIL'] %>
   base_domain: <%= ENV['HOST'] %>
 
