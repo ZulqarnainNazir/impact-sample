@@ -58,6 +58,7 @@ class Onboard::BusinessesController < ApplicationController
       # @subscription.save!
       @business.update!(business_params)
       @business.location.update!(business_location_params)
+      @business.create_default_directories
     end
     render :show
   end

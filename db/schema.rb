@@ -165,17 +165,6 @@ ActiveRecord::Schema.define(version: 20170531220133) do
     t.datetime "updated_at",                      null: false
   end
 
-  create_table "business_widgets", force: :cascade do |t|
-    t.integer  "widget_id"
-    t.integer  "business_id"
-    t.jsonb    "settings"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
-  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
-
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
     t.string   "tagline"
@@ -305,6 +294,15 @@ ActiveRecord::Schema.define(version: 20170531220133) do
   end
 
   add_index "company_lists", ["business_id"], name: "index_company_lists_on_business_id", using: :btree
+
+  create_table "company_lists_s", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "sort_by"
+    t.integer  "business_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "uuid"
+  end
 
   create_table "company_locations", force: :cascade do |t|
     t.integer  "company_id",                                                     null: false
@@ -518,6 +516,7 @@ ActiveRecord::Schema.define(version: 20170531220133) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
+    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -947,7 +946,7 @@ ActiveRecord::Schema.define(version: 20170531220133) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.time     "published_time"
+    t.datetime "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -964,7 +963,7 @@ ActiveRecord::Schema.define(version: 20170531220133) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.time     "published_time"
+    t.datetime "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -1122,10 +1121,10 @@ ActiveRecord::Schema.define(version: 20170531220133) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
-    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
+    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree
@@ -1298,13 +1297,6 @@ ActiveRecord::Schema.define(version: 20170531220133) do
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
-
-  create_table "widgets", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "widget_type", default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
 
   add_foreign_key "contact_form_form_fields", "contact_forms"
   add_foreign_key "contact_form_form_fields", "form_fields"

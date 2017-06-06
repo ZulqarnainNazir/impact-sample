@@ -96,6 +96,20 @@ class Business < ActiveRecord::Base
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
 
+  def create_default_directories
+    case self[:kind]
+    when 0
+      default_list = self.company_lists.create(:name => "Support and Endorse", :sort_by => 0)
+    when 1
+      default_list = self.company_lists.create(:name => "Sponsors and Supportors", :sort_by => 0)
+    end
+    self.directory_widgets.create(:company_list_id => default_list.id, :name=> default_list.name, :enable_search => true)
+    if self[:membership_org]
+      member_list = self.company_lists.create(:name => "Members", :sort_by => 0)
+      self.directory_widgets.create(:company_list_id => member_list.id, :name=> "Member Directory", :enable_search => true)
+    end
+  end
+
 #One column should be "Active Account" with options "True" if there's an owner,
 #"Sample" if account ID but no owner, "False" if no ID.
 
