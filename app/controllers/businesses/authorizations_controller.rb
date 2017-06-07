@@ -28,7 +28,11 @@ class Businesses::AuthorizationsController < Businesses::BaseController
   end
 
   def update
-    @authorization.user.resend_confirmation_instructions
+    if @authorization.user.confirmed?
+      AuthorizationsMailer.welcome(@authorization).deliver_now
+    else
+      @authorization.user.resend_confirmation_instructions
+    end
     # AuthorizationsMailer.owner_welcome(@authorization).deliver_now
     redirect_to [@business, :authorizations]
   end

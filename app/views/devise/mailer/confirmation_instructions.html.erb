@@ -1,4 +1,5 @@
-<p>Welcome <%= @email %>!</p>
+<% name = @user.name %>
+<p>Welcome, <%= name.length > 0 ? name : @email%>!</p>
 <% unless @user.authorizations.empty? %>
   <% authorization = @user.authorizations.first %>
   <p> <%= authorization.invite_message %> </p>
@@ -8,3 +9,6 @@
 <p>You can confirm your account email through the link below:</p>
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>If the link above isn't active, copy and paste this into your browser:</p>
+<p><%= confirmation_url(@resource, confirmation_token: @token) %></p>

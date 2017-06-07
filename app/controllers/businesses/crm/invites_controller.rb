@@ -46,7 +46,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       end
 
     elsif @invite.type_of == 'membership_2'
-      if InvitesMailer.member_invite(*mailer_args).deliver_now
+      if InvitesMailer.member_invite_2(*mailer_args).deliver_now
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
       else

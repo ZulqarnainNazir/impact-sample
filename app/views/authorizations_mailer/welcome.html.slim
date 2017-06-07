@@ -1,0 +1,9 @@
+- name = @authorization.user.name
+tbody
+  tr
+    td.content-block
+      = @authorization.invite_message
+  tr
+    td.content-block 
+      | #{name.length > 0 ? name : @authorization.user.email}, You are now an authorized #{@authorization.role} of 
+      = link_to @authorization.business.name, [@authorization.business, :dashboard]

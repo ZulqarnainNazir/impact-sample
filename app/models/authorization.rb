@@ -15,6 +15,7 @@ class Authorization < ActiveRecord::Base
 
     if existing_user
       self.user = existing_user
+      AuthorizationsMailer.welcome(self).deliver_now
     else
       self.user.tap do |user|
         def user.password_required?

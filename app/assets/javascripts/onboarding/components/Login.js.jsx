@@ -116,7 +116,7 @@ class Login extends React.Component {
             <span className="alert alert-warning">Don't have an Account? <Link to="wizard/account">Sign up here.</Link></span>
           </div>
 
-          <form className="form col-md-8" ref={(input) => this.questions = input}>
+          <form className="form col-md-12" ref={(input) => this.questions = input}>
             {this.state.errors ? <div className="alert alert-danger m-t-30px">{JSON.stringify(this.state.errors)}</div> : ''}
 
             <div className="group">

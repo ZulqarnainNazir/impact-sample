@@ -30,6 +30,9 @@ module Impact
 
     config.action_mailer.default_url_options = { host: ENV['HOST'] }
 
+    config.to_prepare do
+      Devise::Mailer.layout 'mailer.html.slim'
+    end
     # React
     config.react.addons = true
     # Dashboard CSS

@@ -136,7 +136,7 @@ class Account extends React.Component {
             <span className="alert alert-warning">Already have an Account? <Link to="wizard/account/login">Log in here</Link> instead.</span>
           </div>
 
-          <form className="form col-md-8" ref={(input) => this.questions = input}>
+          <form className="form col-md-12" ref={(input) => this.questions = input}>
             {this.state.errors ? <div className="alert alert-danger m-t-30px">{JSON.stringify(this.state.errors)}</div> : ''}
             <div className="row">
               <div className="group col-sm-6">

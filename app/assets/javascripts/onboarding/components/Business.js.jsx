@@ -1,5 +1,5 @@
 Business = ({ name, location, onClick, owners }) => (
-  <div className="col-sm-4">
+  <div className="col-sm-3 col-md-6">
     <div className="contact-box center-version">
       <a className="business-card" disabled={owners.length > 0}>
         <h3>{name}</h3>
