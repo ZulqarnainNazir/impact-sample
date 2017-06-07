@@ -87,7 +87,7 @@ class OnboardingContainer extends React.Component {
             <div className="col-md-6">
               <img className="center-block img-responsive thumbnail" src="https://assets.locable.com/r/medium/420b6dee-e528-4629-825a-162c6ef46035/Buzz%20Face%20Welcome.png" alt="Suggestions" />
               <p className="lead">A Simple, Stepwise Approach to Better Local Marketing - Even If You're Not Marketing or Tech-savvy. <i> Really</i>!</p>
-              <ul className="list-unstyled benefits" style={{lineHeight: 2}}>
+              <ul className="list-unstyled benefits hidden-xs hidden-sm" style={{lineHeight: 2}}>
                   <li>
                   <i className="fa fa-star fa-fw" aria-hidden="true"></i> Drive more word-of-mouth referrals, grow your reputation, &amp; leverage your local network
                 </li>
@@ -108,7 +108,7 @@ class OnboardingContainer extends React.Component {
                 </li>
               </ul>
               <hr/>
-              <p className="features">
+              <p className="features hidden-xs hidden-sm">
                 <b>Key Features:</b> Main Street CRM™ - easy-to-use contact database, create simple forms and an Instant Contact Page™, collect &amp; promote customer reviews &amp; local endorsements. Complete simple marketing missions suggested by Buzz using built in marketing message and distribution tools &amp; more.
               </p>
             </div>
