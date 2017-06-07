@@ -1,3 +1,5 @@
+require 'sidekiq/api'
+
 class Businesses::Crm::ImportsController < Businesses::BaseController
   def index
   end
@@ -89,110 +91,35 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
   end
 
   def process_csv
-    if params[:import_type] == "contacts"
-      process_csv_contacts
+    upload = S3Service.upload(Rails.root.join('tmp', params[:filename]))
+
+    job = if params[:import_type] == "contacts"
+      ContactImportJob.perform_later(upload.key, @business, params)
     elsif params[:import_type] == "companies"
-      process_csv_companies
+      CompanyImportJob.perform_later(upload.key, @business, params)
     end
+
+    polling_path = import_status_check_business_crm_imports_path(
+      @business.id, job.job_id, import_type: params[:import_type]
+    )
+
+    render json: { polling_path: polling_path }
   end
 
-  def process_csv_contacts
-    @filename = params[:filename]
-    @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
-    if @contacts.first.first_name == "First Name"
-      @contacts = @contacts.drop(1)
+  def import_status_check
+    if params[:import_type] == "contacts"
+      job_class = ContactImportJob
+      path = business_crm_contacts_path(@business)
+    elsif params[:import_type] == "companies"
+      job_class = CompanyImportJob
+      path = business_crm_companies_path(@business)
     end
-    contact_business = {:business_id => @business.id}
-    @contacts.each_with_index do |contact, i|
-      if params[:skip_indexes].split(',').include?(i.to_s)
-        next
-      end
-      contact.attributes.merge!(contact_business)
-      if !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "yes"
-        Contact.find(params[:merge_id][i.to_s].to_i).update_attributes! contact.attributes.reject{|k,v| v.blank?}
-      elsif !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "skip"
-        next
-      else
-        Contact.create! contact.attributes
-      end
-    end
-    File.delete(Rails.root.join("tmp", @filename))
-    redirect_to [@business, :crm_contacts], :notice => "Import was successful"
-  end
 
-  def process_csv_companies
-    @filename = params[:filename]
-    @companies = CompanySchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
-    if @companies.first.name == "Company Name"
-      @companies = @companies.drop(1)
+    if job_running?(job_class, params[:job_id])
+      render json: { status: 'Pending', redirect_path: path }
+    else
+      render json: { status: 'Executed', redirect_path: path }
     end
-    @companies.each_with_index do |company, i|
-      if params[:skip_indexes].split(',').include?(i.to_s)
-        next
-      end
-      company.attributes[:company_location_attributes] = Hash.new
-      company.attributes.each do |key, value|
-        if key.to_s.include? "location_" and !key.to_s.include? "location_attributes"
-          company.attributes[:company_location_attributes][key[9..key.length].to_sym] = value
-          company.attributes.delete(key.to_sym)
-        end
-      end
-      if !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "yes"
-        if !params[:merge_class][i.to_s].blank? and params[:merge_class][i.to_s] == "business"
-          company_db = Company.new(:user_business_id => @business.id, :company_business_id => params[:merge_id][i.to_s].to_i, :name => company.name,
-                                   :company_location_attributes => {:name => company.name})
-          company_db.save
-          company_db.business.attributes.each do |key,value|
-            if company.attributes[key] == value
-              company.attributes.delete key.to_sym
-            end
-          end
-          location_attributes = company.attributes[:company_location_attributes].clone
-          category_ids = Category.where("name in (?)", company.attributes[:category_ids]).ids
-          company_db.business.location.attributes.each do |key,value|
-            if company.attributes[:company_location_attributes][key] == value
-              company.attributes[:company_location_attributes].delete key
-            end
-          end
-          company_db.business.location.attributes.each do |key,value|
-            if value.blank? and key != "email" and !company_db.business.in_impact == true
-              company.attributes[:company_location_attributes].delete key.to_sym
-            end
-          end
-          company_db.update_attributes! company.attributes
-          company.attributes.delete :company_location_attributes
-          #No importing data into company if its a new business. All data should go to business
-          #company_db.update_attributes! company.attributes
-          company.attributes[:location_attributes] = location_attributes
-          company.attributes[:category_ids] = category_ids
-          company_db.business.update_attributes_only_if_blank company.attributes
-        else
-          company_db = Company.find(params[:merge_id][i.to_s].to_i)
-          company_db.business.attributes.each do |key,value|
-            if company.attributes[key.to_sym] == value
-              company.attributes.delete key.to_sym
-            end
-          end
-          company_db.business.location.attributes.each do |key,value|
-            if company.attributes[:company_location_attributes][key.to_sym] == value
-              company.attributes[:company_location_attributes].delete key.to_sym
-            end
-          end
-          company_db.update_attributes! company.attributes
-        end
-      elsif !params[:merge].blank? and !params[:merge][i.to_s].blank? and params[:merge][i.to_s] == "skip"
-        next
-      else
-        company_db = Company.create_with_associations company.attributes, @business
-        #No importing data into company if its a new business. All data should go to business
-        #company_db.update_attributes! company.attributes
-        company.attributes[:location_attributes] = company.attributes.delete :company_location_attributes
-        company.attributes[:category_ids] = Category.where("name in (?)", company.attributes[:category_ids]).ids
-        company_db.business.update_attributes_only_if_blank company.attributes, true
-      end
-    end
-    File.delete(Rails.root.join("tmp", @filename))
-    redirect_to [@business, :crm_companies], :notice => "Import was successful"
   end
 
   def download_contact_template
@@ -206,6 +133,13 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
   end
 
   private
+
+  def job_running?(job_class, job_id)
+    Sidekiq::Workers.new.find do |process_id, thread_id, work|
+      args = work.dig('payload', 'args').first
+      args.dig('job_class') == job_class.to_s && args.dig('job_id') == job_id
+    end.present?
+  end
 
   def check_contact_validation contacts
     skip_indexes = []

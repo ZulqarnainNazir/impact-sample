@@ -2,6 +2,8 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_companies, :an => 'Import Contacts'}
 
+= render partial: 'importing_modal'
+
 .wrapper.wrapper-content
   .row.animated.fadeInRight
     .col-md-12
@@ -9,7 +11,7 @@
         .ibox-title
           h5 Review Import
         .ibox-content.profile-content
-          p Here's what we see in the file you uploaded, if the fields don't line up correctly or something doesn't look right click "Back" to upload a new file using our template. No changes will be made to your data until you complete the import.
+          p Here's a SAMPLE of what we see in the file you uploaded, if the fields don't line up correctly or something doesn't look right click "Back" to upload a new file using our template. No changes will be made to your data until you complete the import.
           p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
           - if @skip[:keep_companies].count > 0
             .scrolling-table
@@ -131,7 +133,7 @@
                 = hidden_field_tag :skip_indexes, @skip[:skip_indexes].join(',')
                 = submit_tag "Continue to Review Duplicates"
             - else
-              = form_tag [:process_csv, @business, :crm_imports] do
+              = form_tag [:process_csv, @business, :crm_imports], class: 'remote-import-form', remote: true do
                 = hidden_field_tag :filename, @filename
                 = hidden_field_tag :import_type, "companies"
                 = hidden_field_tag :skip_indexes, @skip[:skip_indexes].join(',')

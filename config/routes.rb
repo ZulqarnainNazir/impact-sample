@@ -244,6 +244,7 @@ Rails.application.routes.draw do
             collection do
               get 'download_contact_template'
               get 'download_company_template'
+              get '/import_status_check/:job_id', to: :import_status_check, as: :import_status_check
               post 'review'
               post 'review_duplicates'
               post 'process_csv'

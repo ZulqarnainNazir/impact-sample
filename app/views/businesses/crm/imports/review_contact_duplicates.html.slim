@@ -2,6 +2,8 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'People', :sp => :crm_contacts, :an => 'Import Contacts'}
 
+= render partial: 'importing_modal'
+
 .wrapper.wrapper-content
   .row.animated.fadeInRight
     .col-md-12
@@ -9,10 +11,10 @@
         .ibox-title
           h5 Review Potential Duplicates
         .ibox-content.profile-content
-          p Below are duplicates we've detected with data currently in your database. You can skip importing the new record, import a new contact entirely or merge with existing. 
-          p <b>Please note:</b> When you merge with an existing contact the information from your upload file will replace the data in the existing contact record. 
+          p Below are duplicates we've detected with data currently in your database. You can skip importing the new record, import a new contact entirely or merge with existing.
+          p <b>Please note:</b> When you merge with an existing contact the information from your upload file will replace the data in the existing contact record.
           p = link_to "Back", [@business, :crm_imports], class: 'btn btn-primary'
-          = form_tag [:process_csv, @business, :crm_imports], class: "import-form" do
+          = form_tag [:process_csv, @business, :crm_imports], class: "import-form remote-import-form" do
             - if @duplicates.count > 0
               - @duplicates.each do |i, contact|
                 table.footable.table.table-stripped
@@ -46,8 +48,8 @@
                         | Description
                   tbody
                     tr
-                      td = select_tag "merge[#{i}]", "<option value='yes'>Update Contact</option><option value='no'>Create a New Contact</option><option value='skip'>Skip Import of Contact</option>".html_safe 
-                      td 
+                      td = select_tag "merge[#{i}]", "<option value='yes'>Update Contact</option><option value='no'>Create a New Contact</option><option value='skip'>Skip Import of Contact</option>".html_safe
+                      td
                         b Existing Contact
                         = hidden_field_tag "merge_id[#{i}]", contact.id
                       td = contact.first_name
@@ -65,8 +67,8 @@
                       - else
                         td = contact.description
                     tr
-                      td 
-                      td 
+                      td
+                      td
                         b Pending Update
                       td = @contacts[i].first_name
                       td = @contacts[i].last_name
@@ -83,7 +85,7 @@
                       - else
                         td = @contacts[i].description
                 hr style="margin: 30px 0"
-                
+
               = hidden_field_tag :filename, @filename
               = hidden_field_tag :import_type, "contacts"
               = hidden_field_tag :skip_indexes, params[:skip_indexes]

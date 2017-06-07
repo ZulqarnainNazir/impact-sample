@@ -1,0 +1,11 @@
+.modal.inmodal.fade#importing-modal tabindex="-1" role="dialog" aria-hidden="true"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        h4.modal-title Importing #{params[:import_type].capitalize}
+
+      .modal-body
+        div.text-center
+          i.fa.fa-spinner.fa-spin.fa-3x.fa-fw
+        h4.m-t-3.text-center Import loading, please don't navigate away from this page.
+
