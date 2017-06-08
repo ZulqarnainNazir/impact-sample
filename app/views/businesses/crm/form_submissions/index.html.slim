@@ -24,7 +24,7 @@
           /     h2 Please Select a Form From Above
           / - else
           / - if @contact_forms.none? { |form| form.form_submissions.present? }
-          - if @form_submissions.empty?
+          - if @form_submissions.empty? && @contact_messages.empty?
             .p-a-3.text-center
               h2 No Form Submissions Found
               h4
