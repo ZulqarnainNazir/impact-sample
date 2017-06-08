@@ -26,14 +26,18 @@
               = link_to [:website, event, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
                  = truncate sanitize(event_definition.title.titleize), length: 60, omission: '... '
               - if event_definition.try(:location)
-                small.m-t-xs.block
-                  i.fa.fa-map-marker.m-r-xs
-                  = truncate sanitize(event_definition.location.street1.titleize)
-                  = truncate sanitize(event_definition.location.street2.titleize)  
+                - if event_definition.location.street1?
+                  small.m-t-xs.block
+                    i.fa.fa-map-marker.m-r-xs 
+                    = truncate sanitize(event_definition.location.street1.titleize)
+                    - if event_definition.location.street2?
+                      = truncate sanitize(event_definition.location.street2.titleize) 
                 small.m-t-xs.block.m-lt-8
-                  i.icon-block.m-r-xs   
-                  = truncate sanitize(event_definition.location.city.titleize) + " "               
-                  = truncate sanitize(event_definition.location.state.upcase) + ", "
+                  i.icon-block.m-r-xs
+                  - if event_definition.location.city?   
+                    = truncate sanitize(event_definition.location.city.titleize) + " "
+                  - if event_definition.location.state?              
+                    = truncate sanitize(event_definition.location.state.upcase) + ", "
                   = truncate sanitize(event_definition.location.zip_code)
               div.mt-text.rt
                 = link_to [:website, event, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
