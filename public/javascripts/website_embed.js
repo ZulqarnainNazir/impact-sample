@@ -58,12 +58,12 @@ var DirectoryWidget = new function () {
     iframe.height = '400px';
     iframe.frameBorder = '0';
     iframe.id = 'impact-directory-'+uuid;
-    iframe.style.zIndex = 10000000;
+    iframe.style.zIndex = 1028;
     iframe.style.position = 'relative';
     iframe.src = site+'widgets/directory_widgets/'+uuid
     widgetDiv.appendChild(iframe);
     overlay.id = 'impact-directory-overlay';
-    overlay.style.cssText = 'top: 0; bottom: 0; left: 0; right: 0; background-color: #000000; opacity: .5; position: fixed; display: none; z-index: 9999999;';
+    overlay.style.cssText = 'top: 0; bottom: 0; left: 0; right: 0; background-color: #000000; opacity: .5; position: fixed; display: none; z-index: 1025;';
     body.appendChild(overlay);
     setTimeout(function() {iFrameResize({log: false}, '#impact-directory-'+uuid); }, 1000);
   }

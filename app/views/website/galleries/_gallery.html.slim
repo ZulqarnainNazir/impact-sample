@@ -1,3 +1,4 @@
+/ - raise StandardError, website_host(@business.website)
 - if @masonry.present? && @masonry == true
   / .col-xs-4.slider-content.single-blog
   - gallery_count = gallery.gallery_images.count  
@@ -58,7 +59,7 @@
         - gallery.gallery_images.limit(6).each do |gallery_image|
           - image = gallery_image.gallery_image
           .col-xs-3.col-lg-2
-            - if @gallery.published_status != false
+            - if gallery.published_status != false && false
               = link_to [:website, :generic_post, :gallery_id => gallery.id, :id => gallery_image.id], class: 'gallery-item' do
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"

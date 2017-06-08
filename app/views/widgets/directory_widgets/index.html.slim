@@ -9,19 +9,19 @@
         .form-group
           label.sr-only for="query" Search Query
           = text_field_tag :query, params[:query], :placeholder => "Search Query", class: "form-control"
-        .form-group
+        .form-group.m-l-5px
           label.sr-only for="category" Category
           / .col-md-12
           = select_tag :category, content_tag(:option,'Search by Category...',:value=>"")+options_from_collection_for_select(@categories, "id", "label", params[:category]), class: "form-control"
-        .form-group
+        .form-group.m-l-5px
           = submit_tag "Search", class: "btn btn-primary"
 
 
 - if @directory.company_list.sort_by == 0
   .row.full-list
     - i = 0
-    - @businesses.sort_by { |c| c.name }.each do |business|
-      = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false, directory: @directory }
+    - @businesses.sort_by { |c| c.name }.each do |company|
+      = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
       - i += 1
       - if (i%3 == 0)
         .clearfix
@@ -32,14 +32,14 @@
         h3 = category.label
       - i = 0
       - if !params[:query].blank?
-        - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |business|
-          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false, directory: @directory }
+        - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |company|
+          = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
           - i += 1
           - if (i%3 == 0)
             .clearfix
       - else
-        - category.companies.sort_by { |c| c.name }.each do |business|
-          = render partial: "widgets/directory_widgets/business", locals: { business: business, columns: false, directory: @directory }
+        - category.companies.sort_by { |c| c.name }.each do |company|
+          = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
           - i += 1
           - if (i%3 == 0)
             .clearfix

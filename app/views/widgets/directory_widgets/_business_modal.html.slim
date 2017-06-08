@@ -58,59 +58,83 @@
     
     .col-sm-8
       .ibox.float-e-margins.tabs-container
-        .ibox-title
+        header
           .row
             .col-xs-5
               - if business.logo
                 = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
-            .col-xs-7
-              p = simple_format(business.business.description)
+            .col-xs-7.m-b-5px
+              div class="full-description-#{business.id}"
+                = business.description
+                - if business.description && business.description.length > 0
+                  .text-center
+                    = link_to "View Less", "#", class: 'btn btn-default js-view-less'
+              div class="short-description-#{business.id}"
+                - description = truncate(business.description, length: 250) do
+                  .text-center
+                    = link_to "Read More", "#", class: 'btn btn-default js-read-more'
+                = description
+                  
+              javascript:
+                $( document ).on('ready', function() {
+                  $(".full-description-#{business.id}").hide();
+                  $('.js-view-less').click(function(e) {
+                    e.preventDefault();
+                    $(".full-description-#{business.id}").hide();
+                    $(".short-description-#{business.id}").show();
+                  });
+                  $('.js-read-more').click(function(e) {
+                    e.preventDefault();
+                    $(".full-description-#{business.id}").show();
+                    $(".short-description-#{business.id}").hide();
+                  });
+                });
         ul.nav.nav-tabs
           li.active
-            a.count-info href="#tab-All-#{business.id}" data-toggle="tab"
+            a.count-info style="padding: 20px 14px" href="#tab-All-#{business.id}" data-toggle="tab"
+
               | All 
               i.fa.fa-book
               span.label.label-primary=business.offers.size + business.events.size + business.posts.length + business.quick_posts.length + business.galleries.size
           li
-            a.count-info href="#tab-Offers-#{business.id}" data-toggle="tab"
+            a.count-info style="padding: 20px 14px" href="#tab-Offers-#{business.id}" data-toggle="tab"
               | Offers 
               i.fa.fa-ticket
               span.label.label-primary=business.offers.size
           li
-            a.count-info href="#tab-Events-#{business.id}" data-toggle="tab"
+            a.count-info style="padding: 20px 14px" href="#tab-Events-#{business.id}" data-toggle="tab"
               | Events 
               i.fa.fa-calendar
               span.label.label-primary=business.events.size
           li
-            a.count-info href="#tab-Posts-#{business.id}" data-toggle="tab"
+            a.count-info style="padding: 20px 14px" href="#tab-Posts-#{business.id}" data-toggle="tab"
               | Posts 
               i.fa.fa-edit
               span.label.label-primary=business.posts.length + business.quick_posts.length
           li
-            a.count-info href="#tab-Galleries-#{business.id}" data-toggle="tab"
+            a.count-info style="padding: 20px 14px" href="#tab-Galleries-#{business.id}" data-toggle="tab"
               | Galleries 
               i.fa.fa-photo
               span.label.label-primary=business.galleries.size
         .tab-content
           .tab-pane.active id="tab-All-#{business.id}"
-            - content = business.offers + business.event_definitions + business.posts + business.quick_posts + business.galleries
+            - content = (business.offers + business.event_definitions + business.posts + business.quick_posts + business.galleries).sort_by(&:published_at).reverse
             - content.each do |thing|
               / - case thing.class
               - if thing.class == Offer
-                = render partial: 'widgets/directory_widgets/content/offer', locals: { business: business, offer: thing }
+                = render partial: 'website/offers/offer', locals: { business: business, offer: thing }
               - elsif thing.class == EventDefinition
-                = render partial: 'widgets/directory_widgets/content/event_definition', locals: { business: business, event_definition: thing }
+                = render partial: 'website/event_definitions/event_definition', locals: { business: business, event_definition: thing }
               - elsif thing.class == QuickPost
                 = render partial: 'website/quick_posts/quick_post', locals: { quick_post: thing, business: business }
               - elsif thing.class == Post
                 = render partial: 'website/posts/post', locals: { post: thing, business: business }
               - elsif thing.class == Gallery
-                = render partial: 'widgets/directory_widgets/content/gallery', locals: { business: business, gallery: thing }
-              / span = thing.class
+                = render partial: 'website/galleries/gallery', locals: { business: business, gallery: thing }
           .tab-pane id="tab-Offers-#{business.id}"
-            = render partial: 'widgets/directory_widgets/content/offer', collection: business.offers, locals: { business: business }
+            = render partial: 'website/offers/offer', collection: business.offers.sort_by(&:published_at).reverse, locals: { business: business }
           .tab-pane id="tab-Events-#{business.id}"
-            = render partial: 'widgets/directory_widgets/content/event_definition', collection: business.event_definitions, locals: { business: business }
+            = render partial: 'website/event_definitions/event_definition', collection: business.event_definitions.sort_by(&:published_at).reverse, locals: { business: business }
           .tab-pane id="tab-Posts-#{business.id}"
             - posts = (business.posts + business.quick_posts).sort_by(&:published_at).reverse
             - posts.each do |post|
@@ -119,4 +143,5 @@
               - else
                 = render partial: 'website/posts/post', locals: { post: post, business: business }
           .tab-pane id="tab-Galleries-#{business.id}"
-            = render partial: 'widgets/directory_widgets/content/gallery', collection: business.galleries, locals: { business: business }
+            / - raise StandardError, business.galleries.sort_by(&:published_at).reverse
+            = render partial: 'website/galleries/gallery', collection: business.galleries.sort_by(&:published_at).reverse, locals: { business: business }
