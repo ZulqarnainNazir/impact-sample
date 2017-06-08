@@ -1,6 +1,6 @@
 - title "Share your Review of #{@business.name}"
 - canonical_url listing_path_url(@business)
-- share_url = params[:review_url] ? params[:review_url] : listing_path_url(@business)
+- share_url = listing_path_url(@business)
 
 #fb-root
 javascript:
@@ -31,7 +31,7 @@ css:
     div style="margin-top: 2em; margin-bottom: 2em;"
       span style="position: relative; left: -28px"
         span style="position: relative; top: 1em"
-          = link_to 'Tweet', share_url, class: 'twitter-share-button', data: { size: 'large', count: 'none', text: "Check out #{@business.name}, I just left them a review!" }
+          = link_to 'Tweet', share_url, class: 'twitter-share-button', data: { size: 'large', count: 'none', text: "Check out #{@business.name}, I just left them a review!", url: listing_path_url(@business) }
         span style="position: relative; left: 0.5em"
           .fb-share-button data-href=share_url data-layout="button"
   - if @business.social.any?
