@@ -9,7 +9,7 @@ class Businesses::Crm::ContactMessagesController < Businesses::BaseController
   end
 
   def destroy
-    toggle_resource_boolean_on @contact_message, :hide, location: [@business, :crm_contact_messages]
+    toggle_resource_boolean_on @contact_message, :hide, location: [@business, :crm_form_submissions]
   end
 
   private
