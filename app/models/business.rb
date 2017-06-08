@@ -62,7 +62,7 @@ class Business < ActiveRecord::Base
 
   has_many :owned_companies, :class_name => "Company", :foreign_key => "user_business_id"
   has_many :owned_by_business, :class_name => "Company", :foreign_key => "company_business_id"
-  belongs_to :company, :class_name => "Company", :foreign_key => "company_business_id"
+  belongs_to :company, :class_name => "Company", :foreign_key => "company_business_id", touch: true
   has_one :subscription_affiliate
 
 
