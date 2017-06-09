@@ -21,7 +21,7 @@
           .row
             .col-sm-6.h4 How would you rate us on:
             .col-sm-6.text-right.h4: small
-              | (1 = Very Bad... 5 = Fantastic)
+              | (5 = Fantastic... 1 = Very Bad)
           br
           .text-center
             .row
@@ -68,10 +68,10 @@
                     span.fa class=(form.object.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
           hr
           .form-group
-            = form.label :title, 'Summarize Your Experience – Bottom Line', class: 'control-label'
+            = form.label :title, 'Please Summarize Your Experience – Bottom Line', class: 'control-label'
             = form.text_field :title, class: 'form-control'
           .form-group
-            = form.label :description, 'Describe your experience in a sentence or two and what a future customer should know.', class: 'control-label'
+            = form.label :description, 'This is your review, include any details that you think would benefit others.', class: 'control-label'
             = form.text_area :description, rows: 4, class: 'form-control'
         hr
         - unless form.object.score?
