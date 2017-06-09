@@ -14,7 +14,8 @@
             .col-sm-8.col-md-6
               = form.label :serviced_at, class: 'control-label'
               .input-group
-                = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: :datepicker }
+                = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: :
+                picker }
                 span.input-group-addon: i.fa.fa-calendar
         hr
         = form.fields_for :review do |form|
@@ -22,7 +23,7 @@
           .row
             .col-sm-6.h4 How would you rate us on:
             .col-sm-6.text-right.h4: small
-              | (1 = Very Bad... 5 = Fantastic)
+              | (5 = Fantastic... 1 = Very Bad)
           br
           .text-center
             .row
@@ -69,10 +70,10 @@
                     span.fa class=(form.object.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
           hr
           .form-group
-            = form.label :title, 'Summarize Your Experience – Bottom Line', class: 'control-label'
+            = form.label :title, 'Do you have a quick summary you can share?', class: 'control-label'
             = form.text_field :title, class: 'form-control'
           .form-group
-            = form.label :description, 'Describe your experience in a sentence or two and what a future customer should know.', class: 'control-label'
+            = form.label :description, 'This is your review, include any details that you think would benefit others.', class: 'control-label'
             = form.text_area :description, rows: 4, class: 'form-control'
         hr
         - unless form.object.score?
@@ -137,7 +138,7 @@
             .col-sm-4.text-center Neutral
             .col-sm-4.text-right Extremely Likely
         .form-group
-          = form.label :description, form.object.score? ? "Why might you recommend #{@business.name} to a friend or colleague" : 'Why?', class: 'control-label'
+          = form.label :description, form.object.score? ? "(Optional) Why might you recommend #{@business.name} to a friend or colleague" : 'Why?', class: 'control-label'
           = form.text_area :description, rows: 4, class: 'form-control'
         .text-center style="margin-top:2em"
           .form-group
