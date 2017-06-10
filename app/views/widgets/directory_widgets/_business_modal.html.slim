@@ -42,8 +42,6 @@
                 = business.location.phone_number
             p: small=business.categories.map(&:name).join(", ")
             h5=business.tagline
-            p
-              = business.description.try(:html_safe)
             .row.m-t-lg
               - if business.website_url
                 a.col-md-4 href=business.website_url target="_blank"
