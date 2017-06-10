@@ -36,12 +36,33 @@ module SearchHelper
       per(limit)
   end
 
-  def events_organized_desc(business, page: 1, limit: 4)
+  ###
+
+  def events_organized_desc(business, content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+    @events = []
     business.events.
       where('occurs_on >= ?', Time.zone.now).
-      order(occurs_on: :desc).
-      page(page).
-      per(limit)
+      order(occurs_on: :desc).each do |x|
+        tag_ids = x.content_tag_ids
+        category_ids = x.content_category_ids
+
+        tag_ids.each do |n|
+          if content_tag_ids.include?(n)
+            @events << x
+          end
+        end
+
+
+        if !@events.include?(x)
+          category_ids.each do |n|
+            if content_category_ids.include?(n)
+              @events << x
+            end
+          end
+        end
+      end
+
+      return Kaminari.paginate_array(@events).page(page).per(limit)
   end
 
   def posts(business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
@@ -76,19 +97,19 @@ module SearchHelper
 
   def render_content_type_partial(object, engage)
     if engage == false
-    	if object.class.name == "Post"
-    		render 'website/posts/post', post: object
-    	elsif object.class.name == "Offer"
-    		render 'website/offers/offer', offer: object
-    	elsif object.class.name == "BeforeAfter"
-    		render 'website/before_afters/before_after', before_after: object
-    	elsif object.class.name == "Gallery"
-    		render 'website/galleries/gallery', gallery: object
-    	elsif object.class.name == "EventDefinition"
-    		render 'website/event_definitions/event_definition', event_definition: object
-    	elsif object.class.name == "QuickPost"
-    		render 'website/quick_posts/quick_post', quick_post: object
-    	end
+      if object.class.name == "Post"
+        render 'website/posts/post', post: object
+      elsif object.class.name == "Offer"
+        render 'website/offers/offer', offer: object
+      elsif object.class.name == "BeforeAfter"
+        render 'website/before_afters/before_after', before_after: object
+      elsif object.class.name == "Gallery"
+        render 'website/galleries/gallery', gallery: object
+      elsif object.class.name == "EventDefinition"
+        render 'website/event_definitions/event_definition', event_definition: object
+      elsif object.class.name == "QuickPost"
+        render 'website/quick_posts/quick_post', quick_post: object
+      end
     elsif engage == true
       if object.class.name == "Post"
         render 'listing/listings/post', post: object
