@@ -39,6 +39,16 @@ module SearchHelper
   ###
 
   def events_organized_desc(business, content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+
+    #this method is used to display events on a consumer-facing feed
+    #on the client's website. 
+    #first, it pulls all events for the given business.
+    #then, if the user has designated that only events with a certain tag and/or category
+    #should appear, it plucks those and gives them to Kaminari to paginate.
+    #otherwise, it shows all events.
+    #keep in mind that "all events" means those that will occur in the future.
+    #past events are not included here, ever.
+
     @events = []
     business.events.
       where('occurs_on >= ?', Time.zone.now).
@@ -46,20 +56,27 @@ module SearchHelper
         tag_ids = x.content_tag_ids
         category_ids = x.content_category_ids
 
-        tag_ids.each do |n|
-          if content_tag_ids.include?(n)
-            @events << x
-          end
-        end
+        if !content_category_ids.empty? || !content_tag_ids.empty?
 
-
-        if !@events.include?(x)
-          category_ids.each do |n|
-            if content_category_ids.include?(n)
+          tag_ids.each do |n|
+            if content_tag_ids.include?(n)
               @events << x
             end
           end
+
+
+          if !@events.include?(x)
+            category_ids.each do |n|
+              if content_category_ids.include?(n)
+                @events << x
+              end
+            end
+          end
+
+        else
+          @events << x
         end
+        
       end
 
       return Kaminari.paginate_array(@events).page(page).per(limit)
