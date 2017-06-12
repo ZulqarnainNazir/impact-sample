@@ -42,5 +42,16 @@ html lang="en"
         height: 26px;
         width: 180px;
       }*/
+      @media(max-width:767px) {
+        .modal-body {
+          padding: 10px 5px;
+        }
+        #embeded-widget {
+          padding: 5px;
+        }
+        div.modal-dialog.modal-lg {
+          width: 95% !important;
+        }
+      }
   body
     = yield
