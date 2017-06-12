@@ -65,7 +65,7 @@ var DirectoryWidget = new function () {
     overlay.id = 'impact-directory-overlay';
     overlay.style.cssText = 'top: 0; bottom: 0; left: 0; right: 0; background-color: #000000; opacity: .5; position: fixed; display: none; z-index: 1025;';
     body.appendChild(overlay);
-    setTimeout(function() {iFrameResize({log: false}, '#impact-directory-'+uuid); }, 1000);
+    setTimeout(function() {iFrameResize({log: false, minHeight: 400}, '#impact-directory-'+uuid); }, 1000);
   }
 }
 
