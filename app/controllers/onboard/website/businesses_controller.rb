@@ -123,6 +123,9 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def update
+    if current_user.super_user? && @business.company_lists.blank?
+      @business.create_default_directories
+    end
     update_resource @business, business_params, context: :requires_categories, location: [:edit_onboard_website, @business, :location]
   end
 

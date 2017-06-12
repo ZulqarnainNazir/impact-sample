@@ -75,6 +75,9 @@ class Onboard::BusinessesController < ApplicationController
     @business.in_impact = true
     @business.update!(business_params)
     @business.location.update(business_location_params)
+    if current_user.super_user? && @business.company_lists.blank?
+      @business.create_default_directories
+    end
     render :show
   end
 
