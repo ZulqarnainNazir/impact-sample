@@ -1,6 +1,10 @@
 class Website::OffersController < Website::BaseController
   def show
     @offer = @business.offers.find(params[:id])
-    redirect_to website_generic_post_path(@offer.to_generic_param), status: 301
+    generic_params = @offer.to_generic_param
+    if params[:uuid] =~ /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+      generic_params[:uuid] = params[:uuid]
+    end
+    redirect_to website_generic_post_path(generic_params), status: 301
   end
 end

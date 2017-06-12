@@ -42,6 +42,9 @@ html lang="en"
         height: 26px;
         width: 180px;
       }*/
+      #embeded-widget .product-imitation {
+        padding: 0;
+      }
       @media(max-width:767px) {
         .modal-body {
           padding: 10px 5px;
@@ -53,5 +56,24 @@ html lang="en"
           width: 95% !important;
         }
       }
-  body
+  body#embeded-widget
+    / We want to add a back button on all "internal" pages of the content_feed_widget
+    - if @content_feed_widget && params[:controller] != 'widgets/content_feed_widgets'
+      = link_to "Back", '#', onclick: "history.back(); return false"
     = yield
+
+  - if @content_feed_widget && params[:uuid] =~ /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+    javascript:
+      var uuid = "#{params[:uuid]}"
+      window.parent.postMessage('scrollup-'+uuid, '*');
+      jQuery(document).ready(function($) {
+        $("a").each(function() {
+          var href = $(this).attr('href');
+          console.log(href);
+          if("undefined" !== typeof href && href != "" && href != "#" && href.indexOf('/widgets/content_feed_widgets') !== 0) {
+            console.log('adjusting')
+            var new_href = href + "?uuid=" + uuid;
+            $(this).attr('href', new_href).removeAttr('target');
+          }
+        });
+      }(jQuery));

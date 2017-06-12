@@ -38,6 +38,7 @@ class Business < ActiveRecord::Base
     has_many :review_widgets
     has_many :directory_widgets
     has_many :contact_form_widgets
+    has_many :content_feed_widgets
     has_many :company_lists
     has_many :contact_forms
     has_many :form_submissions

@@ -113,6 +113,8 @@ Rails.application.routes.draw do
       get '/review_widgets/:uuid', to: 'review_widgets#index'
       get '/directory_widgets/:uuid', to: 'directory_widgets#index'
       get '/directory_widgets/:uuid/:business_id', to: 'directory_widgets#show'
+      get '/content_feed_widgets/:uuid', to: 'content_feed_widgets#index'
+      get '/content_feed_widgets/:uuid/:content_id', to: 'content_feed_widgets#show'
       get '/contact_form_widgets/:uuid', to: 'contact_form_widgets#index'
       post '/contact_form_widgets/:uuid', to: 'contact_form_widgets#submit'
     end
@@ -270,6 +272,7 @@ Rails.application.routes.draw do
           root to: 'roots#index'
           resources :review_widgets, only: %i[index new create edit update destroy]
           resources :directory_widgets, only: %i[index new create edit update destroy]
+          resources :content_feed_widgets, only: %i[index new create edit update destroy]
         end
 
         namespace :website do
@@ -392,9 +395,9 @@ Rails.application.routes.draw do
     get '/:type/preview/:id', to: 'generic_posts#preview', as: :generic_post_preview
     get '/:galleries/:gallery_id/:type/preview/:id', to: 'generic_posts#preview'
     # ^ preview route for gallery images
-    get '/:year/:month/:day/:id/:slug', to: 'generic_posts#show', as: :generic_post, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
-    get '/:year/:month/:day/:id/:gallery_slug/:image_id/:image_slug', to: 'generic_posts#show', as: :gallery_image, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
-    get '/:year/:month/:day/:id/:gallery_slug/:image_id', to: 'generic_posts#show', as: :gallery_image_no_title, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
+    get '/:year/:month/:day/:id/:slug(/:uuid)', to: 'generic_posts#show', as: :generic_post, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
+    get '/:year/:month/:day/:id/:gallery_slug(/:uuid)/:image_id/:image_slug', to: 'generic_posts#show', as: :gallery_image, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
+    get '/:year/:month/:day/:id/:gallery_slug(/:uuid)/:image_id', to: 'generic_posts#show', as: :gallery_image_no_title, year: /\d{4}/, month: /\d{2}/, day: /\d{2}/, id: /\d+/
 
     get '*id', to: 'custom_pages#show', as: :custom_page
   end

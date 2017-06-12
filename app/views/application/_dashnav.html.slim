@@ -79,6 +79,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Promote Reviews", [@business, :tools_review_widgets]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
             = link_to "Import Events", [@business, :content_event_imports]
+          li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
+            = link_to "Content Embeds", [@business, :tools_content_feed_widgets]
       li title="Contacts & Relationships" class=('active' if controller_path.match(/\Abusinesses\/crm/))
         = link_to "#"
           i.fa.fa-address-card

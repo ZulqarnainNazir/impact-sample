@@ -11,10 +11,11 @@
   -canonize_obj({url: website_event_url, params: @event.to_generic_param})
   
 = webpage_container do
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li = link_to 'Events', :website_events
-    li.active = @event.event_definition.title
+  - if !@content_feed_widget
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li = link_to 'Events', :website_events
+      li.active = @event.event_definition.title
   .page-header
     - if (@event.event_definition.published_status == false && !@preview)
       p This post has not been published by the business owner yet. Check back later!

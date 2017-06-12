@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531220133) do
+ActiveRecord::Schema.define(version: 20170606183918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -438,6 +438,41 @@ ActiveRecord::Schema.define(version: 20170531220133) do
 
   add_index "content_categorizations", ["content_category_id"], name: "index_content_categorizations_on_content_category_id", using: :btree
   add_index "content_categorizations", ["content_item_type", "content_item_id"], name: "index_content_categorizations_on_polymorphic_content_item", using: :btree
+
+  create_table "content_feed_widget_content_categories", force: :cascade do |t|
+    t.integer  "content_feed_widget_id"
+    t.integer  "content_category_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "content_feed_widget_content_categories", ["content_category_id"], name: "content_fwidget_on_cats_idx", using: :btree
+  add_index "content_feed_widget_content_categories", ["content_feed_widget_id"], name: "content_fwidget_cats_on_fwidget_idx", using: :btree
+
+  create_table "content_feed_widget_content_tags", force: :cascade do |t|
+    t.integer  "content_feed_widget_id"
+    t.integer  "content_tag_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "content_feed_widget_content_tags", ["content_feed_widget_id"], name: "content_fwidget_tags_on_fwidget_idx", using: :btree
+  add_index "content_feed_widget_content_tags", ["content_tag_id"], name: "content_fwidget_on_tags_idx", using: :btree
+
+  create_table "content_feed_widgets", force: :cascade do |t|
+    t.string   "name"
+    t.string   "public_label"
+    t.string   "uuid"
+    t.integer  "business_id"
+    t.integer  "max_items"
+    t.string   "link_label"
+    t.boolean  "enable_search"
+    t.string   "content_types",              array: true
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "content_feed_widgets", ["business_id"], name: "index_content_feed_widgets_on_business_id", using: :btree
 
   create_table "content_taggings", force: :cascade do |t|
     t.integer  "content_item_id",   null: false

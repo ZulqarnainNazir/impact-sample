@@ -1,6 +1,14 @@
+require 'search_helper'
 class Widgets::BaseController < ApplicationController
-  after_action :allow_iframe
+  include SearchHelper
   layout "website_embed"
+
+  before_action do
+    @masonry = true
+  end
+
+  after_action :allow_iframe
+
   def index
   end
 

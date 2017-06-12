@@ -145,8 +145,12 @@ module SearchHelper
   end
 
   def get_content_types(group_type, page_instance_variable)
-    if page_instance_variable.groups.where(type: group_type).first.try(:blocks)
-      @content_types_all = page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types
+    if defined?(page_instance_variable.content_types) || page_instance_variable.groups.where(type: group_type).first.try(:blocks)
+      if defined?(page_instance_variable.content_types)
+        @content_types_all = page_instance_variable.content_types.join(" ")
+      else
+        @content_types_all = page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types
+      end
       if @content_types_all.nil? || @content_types_all.empty? # ||....<=checks to see if "", empty string, is in db, signifying "show all content types"
         @content_types_all = "Event Gallery BeforeAfter Offer Post"
       end

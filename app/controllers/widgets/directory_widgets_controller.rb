@@ -6,7 +6,6 @@ class Widgets::DirectoryWidgetsController < Widgets::BaseController
     end
     @businesses = @directory.company_list.companies.includes(:company_location, :reviews, business: [:logo, :location, :reviews, :offers, :events, :event_definitions, :posts, :quick_posts, :galleries, :categories])
     @categories_search = @categories = @directory.company_list.company_list_categories
-    @masonry = true
 
     if !params[:query].blank?
       @businesses = @businesses.where("companies.name ILIKE ?", "%#{params[:query]}%")

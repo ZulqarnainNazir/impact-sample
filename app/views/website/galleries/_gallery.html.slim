@@ -60,8 +60,7 @@
           - image = gallery_image.gallery_image
           .col-xs-3.col-lg-2
             - if gallery.published_status != false && false
-              = link_to [:website, :generic_post, :gallery_id => gallery.id, :id => gallery_image.id], class: 'gallery-item' do
-                  figure
+              = link_to [:website, :generic_post, :gallery_id => gallery.id, :slug => gallery.slug, :year => gallery.created_at.year, :month => sprintf('%02i', gallery.created_at.month), :day => sprintf('%02i', gallery.created_at.day), :id => gallery_image.id], class: 'gallery-item' do
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
             - else

@@ -3,7 +3,26 @@ class Website::BaseController < ApplicationController
   include SearchHelper
 
   helper_method :events, :posts, :order_the_events, :blog_search_base, :events_organized_desc, :get_content_types
-  layout 'website'
+
+  before_action do
+    if !params[:uuid].blank?
+      @content_feed_widget = ContentFeedWidget.where(:uuid => params[:uuid]).first
+    end
+    if @content_feed_widget
+      self.class.layout "website_embed"
+    else
+      self.class.layout 'website'
+    end
+  end
+
+  after_action do
+    if !params[:uuid].blank?
+      @content_feed_widget = ContentFeedWidget.where(:uuid => params[:uuid]).first
+    end
+    if @content_feed_widget
+      allow_iframe
+    end
+  end
 
   before_action do
     @masonry = true
@@ -48,6 +67,10 @@ class Website::BaseController < ApplicationController
     else
       render 'website/application/webpage_not_found', status: 404
     end
+  end
+
+  def allow_iframe
+    response.headers.except! 'X-Frame-Options'
   end
 
   private

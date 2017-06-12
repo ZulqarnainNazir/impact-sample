@@ -1,0 +1,6 @@
+tr
+  td = link_to content_feed_widget.name, [:edit, @business, :tools, content_feed_widget]
+  td
+    = link_to [@business, :tools, content_feed_widget], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+      => icon 'times-circle'
+      | Delete

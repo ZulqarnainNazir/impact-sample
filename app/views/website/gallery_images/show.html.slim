@@ -2,11 +2,12 @@
 - canonize_nested_resource(@gallery, @gallery_image)
 
 = webpage_container do
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li = link_to 'Galleries', :website_galleries
-    li = link_to @gallery.title, [:website, @gallery]
-    li.active View Images
+  - if !@content_feed_widget
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li = link_to 'Galleries', :website_galleries
+      li = link_to @gallery.title, [:website, @gallery]
+      li.active View Images
   .row
     - image = @gallery_image.gallery_image
     - cache @gallery_image do

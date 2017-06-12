@@ -1,0 +1,147 @@
+- title 'Edit Content Embed'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Content', :sp => :tools_content_feed_widgets, :an => 'Edit Content Embed'}
+
+wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @content_feed_widget, url: [@business, :tools, @content_feed_widget] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          <a class="btn btn-primary btn-outline pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Embed Setup Hints</a>
+          h3 Edit Content Embed
+        .ibox-content
+          = errors_for @content_feed_widget
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+          .form-group
+            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
+            = form.text_field :max_items, class: 'form-control'
+          .form-group
+            = form.label :link_label, "View More Button Label", class: 'control-label'
+            = form.text_field :link_label, class: 'form-control'
+          .form-group
+            label Enable Search Bar
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
+          .form-group.content-type-checkboxes
+            = form.label :content_types, "What Types of Content Do You Want to Include?", class: 'control-label'
+            br
+            = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
+
+          .form-group
+            = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
+            = form.select :content_category_ids, options_from_collection_for_select(@business.content_categories.all, 'id', 'name', @content_feed_widget.content_category_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+          .form-group
+            = form.label :content_tag_ids, "Only Include Content for Tags (Leave blank to include all)", class: 'control-label'
+            = form.select :content_tag_ids, options_from_collection_for_select(@business.content_tags.all, 'id', 'name', @content_feed_widget.content_tag_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+
+        .ibox-content
+          .btn-group
+            = form.button 'Save Embed', class: 'btn btn-primary'
+            = link_to [@business, :tools, @content_feed_widget], class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+              => icon 'times-circle'
+              | Delete
+        - #  a.btn.btn-success#preview style="margin-left: 20px;" href="#{website_root_url()}widgets/content_feed_widgets/#{@content_feed_widget.uuid}?widget_layout=#{@content_feed_widget.layout}" data-toggle="lightbox" data-width="" Preview
+  .col-md-6
+    .ibox.float-e-margins
+      .ibox-title
+        <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjiuC6C3qdzgx4DJFq5')">Installation Hints</a>
+        h3 Embed Code
+      .ibox-content
+        .panel-group#accordian
+          .panel.panel-default
+            .panel-heading
+              h2.h4.panel-title 
+                a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" Script Embed Tag (Preferred Method)
+            .panel-body.panel-collapse.collapse.in#collapseOne
+              button.btn.btn-primary#btn-script data-clipboard-target="#copy-script" Copy 
+              pre#copy-script
+                = h "<div id=\"content-feed-widget-#{@content_feed_widget.uuid}\"></div>\n\
+                  <script src=\"#{website_root_url()}javascripts/website_embed.js\"></script>\n\
+                  <script async=\"true\">\n  \
+                    ContentFeedWidget.load(\"#{@content_feed_widget.uuid}\", \"#{website_root_url()}\");\n\ 
+                  </script>"
+          .panel.panel-default
+            .panel-heading
+              h2.h4.panel-title
+                a.collapsed role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" iFrame Embed Code
+            .panel-body.panel-collapse.collapse#collapseTwo
+              p If your crm/webmaster doesn't allow you to include script tags you can use this iframe tag. You may need to manually adjust to height and width for this method to appear correctly in your website
+              p
+                button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy 
+              pre#copy-iframe
+                = h "<iframe width=\"100%\" height=\"400px\" frameBorder=\"0\" height src=\"#{website_root_url()}widgets/content_feed_widgets/#{@content_feed_widget.uuid}\"></iframe>"
+
+- content_for :javascript do
+  javascript:
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This action cannot be reversed.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };
+
+    $(function() {
+      $("select").chosen();
+      new Clipboard('.btn');
+      $('#btn-script').click(function(){
+          swal({
+              title: "Success",
+              text: "The script code has been copied to your clipboard",
+              type: "success"
+          });
+      });
+      $('#btn-iframe').click(function(){
+          swal({
+              title: "Success",
+              text: "The iframe code has been copied to your clipboard",
+              type: "success"
+          });
+      });
+      $("#preview").data('width', $(window).width()-100);
+      $("select#content_feed_widget_layout").change(function() {
+        var layout = $(this).find("option:selected").val();
+        var href = $("#preview").attr("href");
+        $("#preview").attr("href", href.replace(/\=[A-Za-z]*$/, "="+layout));
+      });
+      $("#preview").click(function () {
+        setTimeout(function() { $("iframe").css('height', '500px'); }, 1000);
+      });
+    });

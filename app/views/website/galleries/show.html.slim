@@ -14,10 +14,11 @@
   - if (@gallery.published_status == false && !@preview)
     p This post has not been published by the business owner yet. Check back later!
   - else
-    ol.breadcrumb
-      li = link_to icon('home'), :website_root
-      li = link_to 'Galleries', :website_galleries
-      li.active = @gallery.title
+    - if !@content_feed_widget
+      ol.breadcrumb
+        li = link_to icon('home'), :website_root
+        li = link_to 'Galleries', :website_galleries
+        li.active = @gallery.title
     .page-header
       h1
         => @gallery.title

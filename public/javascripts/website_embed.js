@@ -40,8 +40,31 @@ var ContactFormWidget = new function () {
     setTimeout(function() {iFrameResize({log: false}, '#impact-contact-forms-'+uuid); }, 1000);
   }
 }
+var ContentFeedWidget = new function () {
+  this.load = function (uuid, site) {
+    window.addEventListener('message', receiveContentFeedMessage, false);
+    var head = document.getElementsByTagName('head')[0],
+        script = document.createElement('script'),
+        widgetDiv = document.getElementById("content-feed-widget-"+uuid),
+        iframe = document.createElement('iframe');
+
+    script.src = site+'javascripts/iframeResizer.min.js';    
+    if(typeof iFrameResize === "undefined") {
+      head.appendChild(script);
+    }
+
+    iframe.width = '100%';
+    iframe.height = '400px';
+    iframe.frameBorder = '0';
+    iframe.id = 'impact-content-feed-'+uuid;
+    iframe.src = site+'widgets/content_feed_widgets/'+uuid
+    widgetDiv.appendChild(iframe);
+    setTimeout(function() {iFrameResize({log: false, checkOrigin: false}, '#impact-content-feed-'+uuid); }, 1000);
+  }
+}
 var DirectoryWidget = new function () {
   this.load = function (uuid, site) {
+    window.addEventListener('message', receiveDirectoryMessage, false);
     var head = document.getElementsByTagName('head')[0],
         body = document.getElementsByTagName('body')[0],
         script = document.createElement('script'),
@@ -70,9 +93,8 @@ var DirectoryWidget = new function () {
 }
 
 
-window.addEventListener('message', receiveMessage, false);
 
-function receiveMessage(evt)
+function receiveDirectoryMessage(evt)
 {
   if (evt.data === 'open')
   {
@@ -84,3 +106,21 @@ function receiveMessage(evt)
   }
 }
 
+function receiveContentFeedMessage(evt)
+{
+  if (evt.data.indexOf('scrollup') !== -1)
+  {
+    window.scrollTo(0, findPos(document.getElementById(evt.data.replace('scrollup', 'impact-content-feed'))));
+  }
+}
+
+
+function findPos(obj) {
+    var curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+    return [curtop];
+    }
+}
