@@ -24,11 +24,34 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       @invitee = Contact.new(invitee_params)
       @invitee.business_id = params[:business_id]
       @invite.invitee = @invitee
-      @invitee.save!
+      # @invitee.save!
+    end
+    # unless @invite.skip_company || (!params[:invite][:company_id].blank? && Company.find(params[:invite][:company_id]).present?)
+    #   # raise StandardError, params
+    #   @company = Company.create(name: params[:invite][:company][:name], user_business_id: params[:business_id])
+    #   @invite.company_id = @company.id
+    #   # raise StandardError, @invite.to_json
+    #   # @invite.save!
+    # end
+
+    # raise StandardError, @invite.to_json
+    # if @invite.skip_company || params[:invite][:company_id].blank? || !Company.find(params[:invite][:company_id]).present?
+    #   @invite.type_of == nil
+    #   if InvitesMailer.quick_invite(@invite, @business).deliver_now
+    #     flash[:notice] = "Invite successfully sent."
+    #     redirect_to business_crm_companies_path and return
+    #   else
+    #     flash[:alert] = "Something went wrong. Please try again."
+    #     render 'new'
+    #   end
+    # end
+    if @invite.skip_company || params[:invite][:company_id].blank? || !Company.find(params[:invite][:company_id]).present?
+      @invite.skip_company = true
+      @invite.company_id = nil
     end
     @invite.save!
     if @invite.type_of == 'membership_1'
-      if InvitesMailer.member_invite(*mailer_args).deliver_now
+      if InvitesMailer.member_invite(@invite, @business).deliver_now
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
       else
@@ -37,7 +60,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       end
 
     elsif @invite.type_of == 'basic'
-      if InvitesMailer.basic_invite(*mailer_args).deliver_now
+      if InvitesMailer.basic_invite(@invite, @business).deliver_now
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
       else
@@ -46,7 +69,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       end
 
     elsif @invite.type_of == 'membership_2'
-      if InvitesMailer.member_invite_2(*mailer_args).deliver_now
+      if InvitesMailer.member_invite_2(@invite, @business).deliver_now
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
       else
@@ -80,6 +103,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       { :host => "impact.locabledev.com" }
     end
   end
+
   def initial_invite_params
     params.permit(:company_id, :invitee_id)
   end
@@ -90,6 +114,10 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       :company_id,
       :invitee_id,
       :type_of,
+      :skip_company,
+      :company_attributes => [
+        :name,
+      ],
       :invitee_attributes => [
         :first_name,
         :last_name,

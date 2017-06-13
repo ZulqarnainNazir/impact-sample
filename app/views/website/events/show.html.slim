@@ -19,8 +19,6 @@
   .page-header
     - if (@event.event_definition.published_status == false && !@preview)
       p This post has not been published by the business owner yet. Check back later!
-    - else
-      h1 = @event.event_definition.title
   .row
     .col-sm-6
       - placement = @event.event_definition.event_image_placement
@@ -34,25 +32,22 @@
         .h4 Description
         p.m-t-sm = sanitize_html @event.event_definition.description
     .col-sm-6
-    
       - location = @event.event_definition.try(:location)
       .well
+        h4 = @event.event_definition.title
         .event-details
-          .block 
-            strong Event Type: 
-            =@event.event_definition.readable_kind
           - if location 
               span.font-bold.mg-l-md = location.name
               
           - unless @event.event_definition.hide_full_address? || @event.event_definition.virtual_event?
             - if !@event.event_definition.hide_full_address? && !@event.event_definition.show_city_only?
-            .block
-              i.fa.fa-map-marker
-              = location.full_address
+              .block
+                i.fa.fa-map-marker
+                = location.full_address
             - if @event.event_definition.show_city_only?
-            .block
-              i.fa.fa-map-marker
-              = location.city_and_state
+              .block
+                i.fa.fa-map-marker
+                = location.city_and_state
           .block
             i.fa.fa-calendar
             = @event.occurs_on.strftime('%b %d, %Y')

@@ -6,6 +6,14 @@
       = link_to image_tag('Locable_Dark_Logo.png', alt: 'IMPACT Marketing Suite', class: 'img-responsive '), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand', style: 'padding: 10px 15px;'
       / = link_to image_tag('impact-dark-s.png', alt: 'IMPACT', class: 'img-responsive'), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand hidden-sm hidden-md hidden-lg', style: 'padding: 11px 15px;'
       ul.nav.navbar-top-links.navbar-right
+        li
+          a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
+            i.fa.fa-user-plus.fa-2 aria-hidden="true"
+            |  Invite Friend
+        / li
+        /   a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-block href="#{new_business_crm_invite_url}"
+        /     i.fa.fa-user-plus.fa-2 aria-hidden="true"
+        /     |  Invite Friend
         li.dropdown
           a.dropdown-toggle.count-info[data-toggle="dropdown" href="#"]
             i.fa.fa-tasks
@@ -22,7 +30,6 @@
               |  Sign out
             - if user_masquerade?
               li = link_to "Reverse masquerade", back_masquerade_path(current_user)
-
   .col-md-12
     .fluid-nav
       ul.nav.navbar-top-links
@@ -70,3 +77,6 @@
             i.fa.fa-edit>
             span
               | Custom Post
+  a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-inline-block href="#{new_business_crm_invite_url}"
+    i.fa.fa-user-plus.fa-2 aria-hidden="true"
+    |  Invite Friend

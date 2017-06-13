@@ -14,7 +14,7 @@ tbody
   br
   tr
     td.content-block.aligncenter
-      = link_to "ACCEPT THEIR INVITATION", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
+      = link_to "ACCEPT THEIR INVITATION", new_onboard_user_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), class: 'btn-primary'
   tr
     td.content-block
       = @business.name 
@@ -38,7 +38,7 @@ tbody
   br
   tr
     td.content-block.aligncenter
-      = link_to "JOIN #{@business.name} TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
+      = link_to "JOIN #{@business.name} TODAY", new_onboard_user_url(:contact_id => @invitee_id, quick_invite: true, :protocol => 'https'), class: 'btn-primary'
   tr
     td.content-block
       | Note: This invite expires in 24 hours. If you don’t accept our invite, that would make Buzz very sad indeed. Please don’t make Buzz sad.

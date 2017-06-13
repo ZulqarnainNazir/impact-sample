@@ -9,4 +9,4 @@ div
       left: auto;
     }
   = csrf_meta_tag
-  = react_component "OnboardingWizard", businesses: @businesses.as_json(include: [:categories, :location, :owners]), categories: @categories, current_user: current_user, invited_user: @invited_user, invited_company: @invited_company.try(:business).try(:as_json, include: [:categories, :location, :owners]), build_plan_id: @build_plan_id
+  = react_component "OnboardingWizard", businesses: @businesses.as_json(include: [:categories, :location, :owners]), categories: @categories, current_user: current_user, invited_user: @invited_user, invited_company: @invited_company.try(:business).try(:as_json, include: [:categories, :location, :owners]), build_plan_id: @build_plan_id, quick_invite: @quick_invite

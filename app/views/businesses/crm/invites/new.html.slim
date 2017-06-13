@@ -1,9 +1,10 @@
 - title 'Invite'
 - basic_subject = "Subject: #{@invite.invitee.try(:first_name) || '[Their Name Here]'}, #{@business.name} wants you to join them in supporting local!"
 - member_subject = "Subject: #{@invite.invitee.try(:first_name) || '[Their Name Here]'}, your free account for #{@invite.company.try(:name)} on #{@business.website_url} is ready for you!"
+- member_subject_2 = "Subject: Confirm #{@invite.company.try(:name) || "your"} membership with #{@business.name}"
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => 'Invite'}
-= form_for @invite, url: [@business, :crm_invites], html: { class: 'new-invite-form form' } do |form|
+= form_for @invite, url: [@business, :crm_invites], html: { class: 'new-invite-form form form-inline' } do |form|
   .row
     .col-lg-12
       .wrapper.wrapper-content
@@ -17,7 +18,7 @@
                 input id="business-name" type="hidden" value="#{@business.name}"
                 input id="invite-business-name" type="hidden" value="#{@invite.company.try(:name)}"
                 .group
-                  = form.select :invitee_id, {}, { :include_blank => true }, { :class => 'form-control js-invitee-select' } do
+                  = form.select :invitee_id, {}, { :include_blank => true }, { :class => 'form-control js-invitee-select', style: "width: 100%;" } do
                     - @business.contacts.sort_by(&:name).each do |contact|
                       = content_tag(:option, "#{contact.name} - #{contact.email}", value: contact.id, selected: @invite.invitee_id == contact.id, data: { email: contact.email } )
                     end
@@ -31,30 +32,49 @@
                   .invitee-info
                     h1.h4.center-text Enter their information
                     .hideable
-                      .group
-                        = contact.text_field :first_name, value: invitee.try(:first_name), class: 'form-control', 'js-name' => 'first_name', required: true
-                        span.bar
-                        span.highlight
-                        label.control-label First Name
-                      .group
-                        = contact.text_field :last_name, value: invitee.try(:last_name), class: 'form-control', 'js-name' => 'last_name', required: true
-                        span.bar
-                        span.highlight
-                        label.control-label Last Name
+                      .row
+                        .form-group.col-sm-6
+                          .group.m-t-0
+                            = contact.text_field :first_name, value: invitee.try(:first_name), class: 'form-control', 'js-name' => 'first_name', required: true, style: "width: 100%"
+                            span.bar
+                            span.highlight
+                            label.control-label First Name
+                        .form-group.col-sm-6
+                          .group.m-t-0
+                            = contact.text_field :last_name, value: invitee.try(:last_name), class: 'form-control', 'js-name' => 'last_name', required: true, style: "width: 100%"
+                            span.bar
+                            span.highlight
+                            label.control-label Last Name
                     .group
-                      = contact.email_field :email, value: invitee.try(:email), class: 'form-control', 'js-name' => 'email',
+                      = contact.email_field :email, value: invitee.try(:email), class: 'form-control', 'js-name' => 'email', style: "width: 100%;",
                       required: true
                       span.bar
                       span.highlight
-                      label.control-label Their Email
-                hr
+                      label.control-label Their Email (required)
                 .group
-                  = form.select :company_id, {}, { :include_blank => true }, { :class => 'form-control', required: true } do
-                    - @business.owned_companies.sort_by(&:name).each do |comp|
-                      = content_tag(:option, "#{comp.name} - #{comp.location.full_address}", value: comp.id, selected: comp.id == @invite.company_id)
+                  = form.select :company_id, {}, { :include_blank => true }, { :class => 'form-control', style: "width: 100%;" } do
+                    / - raise StandardError, @business.owned_companies.sort_by(&:name)
+                    - unless @business.owned_companies.empty?
+                      - @business.owned_companies.sort_by(&:name).each do |comp|
+                        = content_tag(:option, "#{comp.name} - #{comp.location.full_address}", value: comp.id, selected: comp.id == @invite.company_id)
                   span.bar
                   span.highlight
                   label.control-label Select their company
+                = form.fields_for :company do |company|
+                  .small.text-center.m-t-10px - or -
+                  / .form-group
+                  /   .group.m-t-30px
+                  /     = company.text_field :name, class: 'form-control', required: true
+                  /     span.bar
+                  /     span.highlight
+                  /     label.control-label Company Name
+                  .form-group
+                    / div style="margin: auto"
+                    = form.label :skip_company, class: 'checkbox-inline i-checks' do
+                      = form.check_box :skip_company
+                      i
+                      |  Skip Company
+                  
                 - if @business.membership_org
                   .m-t.text-center.js-membership-toggle
                     / .i-checks
@@ -72,7 +92,7 @@
                       |  Non-Member Invite
                 hr
                 .group
-                  = form.text_area :message, class: 'form-control', required: true
+                  = form.text_area :message, class: 'form-control', style: "width: 100%; margin-bottom: 10px", required: true
                   span.bar
                   span.highlight
                   label.control-label Optional: include a personal message
@@ -101,6 +121,9 @@ javascript:
     $('button[type=submit]').on('click', function(event) {
       console.log('submitting');
       $('#invite_message').prop('required', false);
+      $('#invite_invitee_first_name').prop('required', false);
+      $('#invite_invitee_last_name').prop('required', false);
+      $('#invite_company_company_name').prop('required', false);
     });
     $('.js-invitee-select').change(function(event) {
       if (event.target.value) {
@@ -120,7 +143,7 @@ javascript:
       $('.mail-box').html(#{render(partial: 'membership_invite').to_json.html_safe});
     });
     $('#invite_type_of_membership_2').on('ifChecked', function(e) {
-      $('span.email-subject').text("#{member_subject}");
+      $('span.email-subject').text("#{member_subject_2}");
       $('.mail-box').html(#{render(partial: 'membership_invite_2').to_json.html_safe});
     });
     $('#invite_type_of_basic').on('ifChecked', function(e) {

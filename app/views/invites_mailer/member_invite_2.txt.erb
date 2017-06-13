@@ -16,4 +16,4 @@ It’s simple:
 
 Getting it set up will only take a few minutes (we’ll even do it for you if you want – just reply to this email).
 
-<%= link_to "JOIN TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https') %>
+<%= link_to "JOIN TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>

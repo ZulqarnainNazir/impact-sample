@@ -307,3 +307,11 @@ button.dim:active:before {
 .btn:focus {
   outline: none !important;
 }
+
+.btn.sidebar-btn {
+  position: absolute;
+  z-index: 200;
+  top: 180px;
+  right: -48px;
+  transform: rotate(-90deg);
+}

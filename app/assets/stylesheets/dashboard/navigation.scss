@@ -8,6 +8,23 @@
   color: #999c9e;
 }
 
+.nav.navbar-right .invite-btn {
+  color: white;
+  padding: 6px 12px;
+  min-height: 0;
+}
+
+.nav.navbar-right .invite-btn:hover {
+  color: #999c9e;
+}
+
+// .nav.navbar-right .invite-btn.sidebar-btn {
+//   position: absolute;
+//   top: 90px;
+//   right: 0;
+//   transform: rotate(-90deg);
+// }
+
 .nav > li.active > a {
   color: #ffffff;
 }

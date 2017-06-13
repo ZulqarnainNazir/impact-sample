@@ -14,6 +14,7 @@ class Onboard::UsersController < ApplicationController
       @invited_company = Company.find(params[:company_id]) #.try(:business)
       # raise StandardError, @invited_business.to_json
     end
+    @quick_invite = params[:quick_invite]
     @build_plan_id = SubscriptionPlan.find_by(name: "Build").id
 
     respond_to do |format|

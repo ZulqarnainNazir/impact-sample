@@ -2,11 +2,11 @@
 
 Let's help each other grow our community and your business!
 
-We’re using free marketing tools from Locable to promote our website as well as all of our members. You can join the party by accepting our invitation which will give you access to our site and Locable’s Free Tools. 
+We’re using free marketing tools from Locable to promote our website as well as all of our members. You can join the party by accepting our invitation which will give you access to our site and Locable’s Free Tools.
 
 It takes less than 5-minutes to join and will ensure your information is correct.
 
-<%= link_to "ACCEPT NOW", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https') %>
+<%= link_to "ACCEPT NOW", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
 
 The Forever Free Plan makes it so EVERY local business can participate!
 
@@ -18,8 +18,8 @@ It’s simple:
 
   3. The Virtual Marketing Assistant (Nicknamed “Buzz”) will periodically make recommendations and remind you to do things you need to grow your business including sharing photos, events, special offers, and announcements for those in your network as well as collecting & promoting customer reviews – never be left wondering what to do again!
 
-  4. Your content gets automatically featured on sites with you in their network. The more people you have in your network, the more people you reach. Collaboration = more impressions = more followers = more customers = more $$$ = more moon pies (Buzz’s favorite food). 
+  4. Your content gets automatically featured on sites with you in their network. The more people you have in your network, the more people you reach. Collaboration = more impressions = more followers = more customers = more $$$ = more moon pies (Buzz’s favorite food).
 
 Getting started only takes a few minutes (we’ll even do it for you if you want – just reply to this email).
 
-<%= link_to "JOIN US TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https') %>
+<%= link_to "JOIN US TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
