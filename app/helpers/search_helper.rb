@@ -79,7 +79,7 @@ module SearchHelper
         
       end
 
-      return Kaminari.paginate_array(@events).page(page).per(limit)
+      return Kaminari.paginate_array(@events.reverse).page(page).per(limit)
   end
 
   def posts(business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)

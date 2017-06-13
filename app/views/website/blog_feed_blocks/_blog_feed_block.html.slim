@@ -17,9 +17,12 @@
       .m-t-lg
       .grid
         - if posts.present? && !posts.empty?
-          / h1 =blog_feed_block.content_types.to_s.split(' ')
-          - order_the_events(posts.to_a).each do |posts|
-            = render posts
+          - if params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
+            - posts.to_a.each do |posts|
+              = render posts
+          - else
+            - order_the_events(posts.to_a).each do |posts|
+              = render posts
         - elsif !posts.present? || posts.empty?
           div.col-xs-9
           h2 Nothing matched your search or there is no content here yet...
