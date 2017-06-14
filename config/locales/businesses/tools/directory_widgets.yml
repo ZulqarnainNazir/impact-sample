@@ -3,10 +3,10 @@ en:
     tools:
       directory_widgets:
         create:
-          notice: Your new review widget was added successfully.
-          alert: There was a problem creating your review widget.
+          notice: Your new SupportLocal Embed was added successfully.
+          alert: There was a problem creating your SupportLocal Embed.
         update:
-          notice: The review widget was updated successfully.
-          alert: There was a problem updating the review widget.
+          notice: The SupportLocal Embed was updated successfully.
+          alert: There was a problem updating the SupportLocal Embed.
         destroy:
-          notice: The review widget has been removed from your site.
+          notice: The SupportLocal Embed has been removed from your site.

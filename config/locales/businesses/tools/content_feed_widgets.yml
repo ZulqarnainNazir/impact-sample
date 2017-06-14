@@ -1,0 +1,12 @@
+en:
+  businesses:
+    tools:
+      content_feed_widgets:
+        create:
+          notice: Your new content embed was added successfully.
+          alert: There was a problem creating your content embed.
+        update:
+          notice: The content embed was updated successfully.
+          alert: There was a problem updating the content embed.
+        destroy:
+          notice: The content embed has been removed from your site.

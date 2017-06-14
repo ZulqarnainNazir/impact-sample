@@ -36,7 +36,9 @@ wrapper.wrapper-content
           .form-group.content-type-checkboxes
             = form.label :content_types, "What Types of Content Do You Want to Include?", class: 'control-label'
             br
-            = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last)
+            = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
           .form-group
             = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
             = form.select :content_category_ids, options_from_collection_for_select(@business.content_categories.all, 'id', 'name', @content_feed_widget.content_category_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
