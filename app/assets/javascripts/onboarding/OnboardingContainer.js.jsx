@@ -78,36 +78,39 @@ class OnboardingContainer extends React.Component {
     return (
       <div className="ibox float-e-margins">
         <div className="ibox-title">
-          <h2 className="text-center">Grow Your Business with Locable's Marketing Essentials Platform
+          <h2 className="text-center">Grow Your Business with Locable's Marketing Platform
 </h2>
-          <h4 className="text-center">For authentic local businesses who want to grow their business without the headache while supporting their community!</h4>
+          <h4 className="text-center">A simple, step-wise approach for authentic local businesses who want to grow their business and support their community!</h4>
         </div>
         <div className="ibox-content">
           <div className="row">
             <div className="col-md-6">
-              <h1 className="text-center">Grow Your Business with Locable's Local Marketing Platform</h1>
-              <h3 className="text-center">For authentic local businesses Who Want To Grow Their Business Without the Headache while supporting their community!</h3>
               <img className="center-block img-responsive thumbnail" src="https://assets.locable.com/r/medium/420b6dee-e528-4629-825a-162c6ef46035/Buzz%20Face%20Welcome.png" alt="Suggestions" />
-              <p className="lead">A Simple, Stepwise Approach to Better Local Marketing - Even If You're Not Marketing or Tech-savvy. <i> Really</i>!</p>
-              <ul className="list-unstyled benefits" style={{lineHeight: 2}}>
+              <p className="lead"><b>Join in under 60-seconds...</b> free & low-cost local marketing for busy business owners!</p>
+              <ul className="list-unstyled benefits hidden-xs hidden-sm" style={{lineHeight: 2}}>
                 <li>
-                  <i className="fa fa-address-card fa-fw"></i> Track &amp; Manage Your Contacts &amp; Relationships
+                  <i className="fa fa-star fa-fw" aria-hidden="true"></i> Drive more word-of-mouth referrals grow your reputation &amp; leverage your local network
                 </li>
-                <li>
-                  <i className="fa fa-star fa-fw" aria-hidden="true"></i> Grow Your Reputation, Leverage Your Network &amp; Increase Word-of-Mouth Referrals
+                <li classname="m-t-sm">
+                  <span className="fa fa-heart fa-fw"></span><i> #SupportLocal causes, charities &amp; organizations you care about </i>
                 </li>
-                <li>
-                  <i className="fa fa-check-square-o fa-fw"></i> Guided marketing missions to keep you moving forward
+                <li classname="m-t-sm">
+                  <i className="fa fa-address-card fa-fw"></i> Organize, track &amp; manage your contacts, relationships &amp; notes
                 </li>
-                <li>
-                  <i className="fa fa-bold fa-fw"></i> Quickly and easily create marketing content to improve SEO &amp; Social Media while converting visitors
+
+                <li classname="m-t-sm">
+                  <i className="fa fa-check-square-o fa-fw"></i> Guided marketing missions and marketing support to keep you moving forward
                 </li>
-                <li>
-                  <span className="fa fa-check text-success"></span><i><a target="_blank" href="http://locable.pgtb.me/qNcV6Q"> #SupportLocal</a></i>
+                <li classname="m-t-sm">
+                  <i className="fa fa-bullhorn fa-fw"></i> Quickly and easily create marketing messages to improve SEO (Search Engine Optimization) &amp; Social Media with more consistent data across sites like Google, Facebook etc.
                 </li>
+                <li classname="m-t-sm">
+                  <i className="fa fa-random fa-fw"></i> Collaborate &amp; cross-promote with other local businesses you support, endorse or recommend
+                </li>
+                
               </ul>
               <hr/>
-              <p className="features">
+              <p className="features hidden-xs hidden-sm">
                 <b>Key Features:</b> Track contacts, create simple forms and an Instant Contact Page™, collect &amp; promote customer reviews with the Main Street CRM™. Complete simple marketing missions suggested by Buzz, our virtual marketing assistant, using built in content and distribution tools.
               </p>
             </div>

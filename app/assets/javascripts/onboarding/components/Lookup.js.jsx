@@ -94,7 +94,7 @@ class Lookup extends React.Component {
 
     return (
       <div>
-        <h1> What is the name of your business? </h1>
+        <h1> Let's start with the name of your business or organization </h1>
         <form className='form-horizontal' onSubmit={this.handleSubmit}>
           <div className="group">
             <input
@@ -107,7 +107,7 @@ class Lookup extends React.Component {
             />
             <span className="bar"></span>
             <span className="highlight"></span>
-            <label className="">Business / Organization Name <small>(required)</small></label>
+            <label className="">Business / Organization Name <small>(Click to Type)</small></label>
           </div>
         </form>
 
@@ -117,9 +117,9 @@ class Lookup extends React.Component {
           this.state.manualSubmit ? (
             <div className="form-horizontal">
               <div className="form-group">
-                <label className="col-sm-4 control-label">Can't find your business?</label>
-                <div className="col-sm-7">
-                  <button className="form-control btn btn-primary" onClick={this.handleSubmit}> Add it manually </button>
+                <label className="col-sm-12 control-label">Can't find your business?</label>
+                <div className="col-sm-12">
+                  <button className="form-control btn btn-primary" onClick={this.handleSubmit}> Add it now! </button>
                 </div>
               </div>
             </div>
