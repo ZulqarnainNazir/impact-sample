@@ -12,4 +12,4 @@
     = form_tag [@business, :crm_companies], method: :post
       = hidden_field_tag :force , true
       = hidden_field_tag :search_add , true
-      = react_component "CRMLookup"
+      = react_component "CRMLookup", business_id: @business.id

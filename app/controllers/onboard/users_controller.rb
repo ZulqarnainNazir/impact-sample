@@ -19,7 +19,7 @@ class Onboard::UsersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @businesses.as_json(include: [:location, :categories, :owners]) }
+      format.json { render json: @businesses.as_json(include: [:location, :categories, :owners, :company]) }
     end
   end
 

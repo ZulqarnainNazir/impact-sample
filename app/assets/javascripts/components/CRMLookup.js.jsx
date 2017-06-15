@@ -39,7 +39,8 @@ class CRMLookup extends React.Component {
               progress: search.length > 0 ? '50%' : '0%',
               manualSubmit: true,
             });
-          }
+          },
+          error: (m) => { console.log(m) }
         });
       }
     }
@@ -63,18 +64,33 @@ class CRMLookup extends React.Component {
     }
 
     if (this.state.matches) {
+      let businesses = [];
+      this.state.matches.forEach((bus, i) => {
+        let disabled = bus.company && bus.company.user_business_id === this.props.business_id
+        // console.log(disabled);
+        let href;
+        if (disabled) {
+          href = `${window.location.href.slice(0, -4)}${bus.company.id}/edit`
+        } else {
+          href = `${window.location.href.slice(0, -4)}?add=true&new_business_id=${bus.id}`
+        }
+        businesses.push(
+          <CRMBusiness
+            href={href}
+            key={bus.id}
+            onClick={this.selectBusiness.bind(null, bus)}
+            disabled={disabled}
+            {...bus}
+            owners={[]}
+          />
+        );
+        if (i % 3 === 2) {
+          businesses.push(<div className="clearfix"/>);
+        }
+      });
       return (
         <div className="row m-b-5px m-t-10px">
-          {this.state.matches.map((bus, i) => (
-            <CRMBusiness
-              href={`${window.location.href.slice(0, -4)}?add=true&new_business_id=${bus.id}`}
-              key={bus.id}
-              onClick={this.selectBusiness.bind(null, bus)}
-              {...bus}
-              owners={[]}
-            />
-
-          ))}
+          {businesses}
         </div>
       )
     }

@@ -1,6 +1,6 @@
 class Company < ActiveRecord::Base
 
-  belongs_to :business, :class_name => "Business", :foreign_key => "company_business_id"
+  belongs_to :business, :class_name => "Business", :foreign_key => "company_business_id", touch: true
   has_one :company_location
   has_many :contact_companies, :dependent => :destroy
   has_many :contacts, :through => :contact_companies
