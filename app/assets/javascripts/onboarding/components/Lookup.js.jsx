@@ -15,6 +15,7 @@ class Lookup extends React.Component {
     this.renderMatches = this.renderMatches.bind(this);
     this.selectBusiness = this.selectBusiness.bind(this);
     store.set('business', store.get('business') || { location: {} });
+    store.set('plan', store.get('plan') || { name: 'engage' });
   }
 
   componentDidMount() {

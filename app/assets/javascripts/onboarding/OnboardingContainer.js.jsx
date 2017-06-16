@@ -13,6 +13,7 @@ class OnboardingContainer extends React.Component {
     this.prevStep = this.prevStep.bind(this);
     this.nextStep = this.nextStep.bind(this);
     this.completedSteps = this.completedSteps.bind(this);
+    store.set('plan', store.get('plan') || { name: 'engage' });
     this.totalSteps = store.get('plan').name === 'build' ? 4 : 3;
   }
 
@@ -91,23 +92,23 @@ class OnboardingContainer extends React.Component {
                 <li>
                   <i className="fa fa-star fa-fw" aria-hidden="true"></i> Drive more word-of-mouth referrals grow your reputation &amp; leverage your local network
                 </li>
-                <li classname="m-t-sm">
+                <li className="m-t-sm">
                   <span className="fa fa-heart fa-fw"></span><i> #SupportLocal causes, charities &amp; organizations you care about </i>
                 </li>
-                <li classname="m-t-sm">
+                <li className="m-t-sm">
                   <i className="fa fa-address-card fa-fw"></i> Organize, track &amp; manage your contacts, relationships &amp; notes
                 </li>
 
-                <li classname="m-t-sm">
+                <li className="m-t-sm">
                   <i className="fa fa-check-square-o fa-fw"></i> Guided marketing missions and marketing support to keep you moving forward
                 </li>
-                <li classname="m-t-sm">
+                <li className="m-t-sm">
                   <i className="fa fa-bullhorn fa-fw"></i> Quickly and easily create marketing messages to improve SEO (Search Engine Optimization) &amp; Social Media with more consistent data across sites like Google, Facebook etc.
                 </li>
-                <li classname="m-t-sm">
+                <li className="m-t-sm">
                   <i className="fa fa-random fa-fw"></i> Collaborate &amp; cross-promote with other local businesses you support, endorse or recommend
                 </li>
-                
+
               </ul>
               <hr/>
               <p className="features hidden-xs hidden-sm">
