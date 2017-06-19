@@ -1,9 +1,9 @@
-- title 'Leave a Review'
+- title 'Leave a Customer Review'
 
 = webpage_container do
   .row
     .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
-      p.lead.text-center Thanks for taking the time to leave us a review and some feedback. This should only take a minute.
+      p.lead.text-center Thank you for taking the time to leave a review and some feedback. This should only take a minute.
       br
       = errors_for @feedback
       = form_for @feedback, url: listing_create_review_path(@business.generate_listing_segment), method: :post do |form|
@@ -71,7 +71,7 @@
             = form.label :title, 'Please Summarize Your Experience – Bottom Line', class: 'control-label'
             = form.text_field :title, class: 'form-control'
           .form-group
-            = form.label :description, 'This is your review, include any details that you think would benefit others.', class: 'control-label'
+            = form.label :description, 'This is your review, include any details that you think would benefit others. If you can reference any relevant products, services or other details that would be great!', class: 'control-label'
             = form.text_area :description, rows: 4, class: 'form-control'
         hr
         - unless form.object.score?
