@@ -16,6 +16,12 @@ class Listing::ListingsController < ApplicationController
       @post = @business.before_afters.find_by(slug: params[:content_type])
     elsif params[:content] == 'event'
       @post = @business.events.find(params[:content_type])
+      @upcoming_events = @post.event_definition.events.
+        where.not(id: @post.id).
+        where('occurs_on >= ?', Time.zone.now).
+        order(occurs_on: :asc).
+        page(1).
+        per(4)
     elsif params[:content] == 'event_definition'
       @post = @business.event_definitions.find(params[:content_type])
     elsif params[:content] == 'gallery'
@@ -26,6 +32,17 @@ class Listing::ListingsController < ApplicationController
       @post = @business.posts.find_by(slug: params[:content_type])
     elsif params[:content] == 'quick_post'
       @post = @business.quick_posts.find_by(slug: params[:content_type])
+    end
+  end
+
+  def gallery_image #in routes, a child of content_type (specficially, gallery)
+    @gallery = @business.galleries.find_by(slug: params[:content_type])
+    @gallery_image = GalleryImage.find(params[:gallery_image])
+    if @gallery_image == GalleryImage.find(params[:gallery_image])
+      render 'gallery_image'
+      return
+    else
+      raise ActiveRecord::RecordNotFound
     end
   end
   

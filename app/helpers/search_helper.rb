@@ -38,6 +38,14 @@ module SearchHelper
 
   ###
 
+  def events_organized_desc_listings(business, page: 1, limit: 4)
+    Kaminari.paginate_array(business.events.
+      where('occurs_on >= ?', Time.zone.now).
+      order(occurs_on: :desc)).
+      page(page).
+      per(limit)
+  end
+
   def events_organized_desc(business, content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
 
     #this method is used to display events on a consumer-facing feed
@@ -122,6 +130,8 @@ module SearchHelper
         render 'website/before_afters/before_after', before_after: object
       elsif object.class.name == "Gallery"
         render 'website/galleries/gallery', gallery: object
+      elsif object.class.name == "Event"
+        render 'website/events/event', event: object
       elsif object.class.name == "EventDefinition"
         render 'website/event_definitions/event_definition', event_definition: object
       elsif object.class.name == "QuickPost"
@@ -136,6 +146,8 @@ module SearchHelper
         render 'listing/listings/before_after', before_after: object
       elsif object.class.name == "Gallery"
         render 'listing/listings/gallery', gallery: object
+      elsif object.class.name == "Event"
+        render 'listing/listings/event', event: object
       elsif object.class.name == "EventDefinition"
         render 'listing/listings/event_definition', event_definition: object
       elsif object.class.name == "QuickPost"

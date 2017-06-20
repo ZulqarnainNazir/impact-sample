@@ -12,9 +12,9 @@
   
 = webpage_container do
   ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li = link_to 'Events', :website_events
-    li.active = event.event_definition.title
+    / li = link_to icon('home'), :website_root
+    / li = link_to 'Events', :website_events
+    / li.active = event.event_definition.title
   .page-header
     - if (event.event_definition.published_status == false && !@preview)
       p This post has not been published by the business owner yet. Check back later!
@@ -92,8 +92,8 @@
       - elsif event.event_definition.virtual_event?
           div style="": strong Virtual Event
           p Please note that this is a virtual event and has no physical location.
-    / - if @upcoming_events.any?
-    /   .col-sm-12
-    /     h4 Other Upcoming Instances
-    /     .grid 
-    /       = render partial: 'website/events/event', collection: @upcoming_events, locals: { small: true }
+    - if @upcoming_events.any?
+      .col-sm-12
+        h4 Other Upcoming Instances
+        .grid 
+          = render partial: 'event', collection: @upcoming_events, locals: { small: true }

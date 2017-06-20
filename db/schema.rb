@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606183918) do
+ActiveRecord::Schema.define(version: 20170610204027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,9 +200,9 @@ ActiveRecord::Schema.define(version: 20170606183918) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
-    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
+    t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
   end
@@ -294,15 +294,6 @@ ActiveRecord::Schema.define(version: 20170606183918) do
   end
 
   add_index "company_lists", ["business_id"], name: "index_company_lists_on_business_id", using: :btree
-
-  create_table "company_lists_s", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "sort_by"
-    t.integer  "business_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "uuid"
-  end
 
   create_table "company_locations", force: :cascade do |t|
     t.integer  "company_id",                                                     null: false
@@ -688,7 +679,7 @@ ActiveRecord::Schema.define(version: 20170606183918) do
   add_index "images", ["user_id"], name: "index_images_on_user_id", using: :btree
 
   create_table "invites", force: :cascade do |t|
-    t.integer  "company_id",                       null: false
+    t.integer  "company_id"
     t.integer  "invitee_id"
     t.integer  "inviter_id",                       null: false
     t.string   "message"
@@ -696,6 +687,7 @@ ActiveRecord::Schema.define(version: 20170606183918) do
     t.datetime "updated_at",                       null: false
     t.boolean  "invite_as_member", default: false
     t.string   "type_of"
+    t.boolean  "skip_company",     default: false
   end
 
   create_table "line_images", force: :cascade do |t|
@@ -747,6 +739,20 @@ ActiveRecord::Schema.define(version: 20170606183918) do
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
+
+  create_table "mailkick_opt_outs", force: :cascade do |t|
+    t.string   "email"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.boolean  "active",     default: true, null: false
+    t.string   "reason"
+    t.string   "list"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mailkick_opt_outs", ["email"], name: "index_mailkick_opt_outs_on_email", using: :btree
+  add_index "mailkick_opt_outs", ["user_id", "user_type"], name: "index_mailkick_opt_outs_on_user_id_and_user_type", using: :btree
 
   create_table "mission_histories", force: :cascade do |t|
     t.integer  "actor_id"
@@ -1156,10 +1162,10 @@ ActiveRecord::Schema.define(version: 20170606183918) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
+    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
-    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree

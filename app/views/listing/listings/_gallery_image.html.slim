@@ -1,0 +1,15 @@
+- cache gallery_image do
+  - image = gallery_image.gallery_image
+  .col-xs-3.col-sm-2.col-md-3
+    - if @gallery.published_status != false
+      = link_to listing_gallery_image_path(@business.generate_listing_segment, @gallery.slug, gallery_image.id), class: 'gallery-item-page-thumb' do
+          figure
+            .gallery-item-image style="background-image:url('#{image.attachment_url(:small)}')"
+              = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive'
+    - else
+      = link_to listing_gallery_image_path(@business.generate_listing_segment, @gallery.slug, gallery_image.id), target: :_blank, class: 'gallery-item-page-thumb' do
+          figure
+            .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
+              = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive'
+    figcaption.gallery-item-caption
+            h4.truncate = image.title

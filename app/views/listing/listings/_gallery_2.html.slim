@@ -14,9 +14,9 @@
     p This post has not been published by the business owner yet. Check back later!
   - else
     ol.breadcrumb
-      li = link_to icon('home'), :website_root
-      li = link_to 'Galleries', :website_galleries
-      li.active = gallery.title
+      / li = link_to icon('home'), :website_root
+      / li = link_to 'Galleries', :website_galleries
+      / li.active = gallery.title
     .page-header
       h1
         => gallery.title
@@ -33,7 +33,7 @@
           - image = gallery_image.gallery_image
           .col-xs-3.col-lg-2
             - if gallery.published_status != false
-              = link_to website_gallery_gallery_image_path(gallery, gallery_image), class: 'gallery-item' do
+              = link_to listing_gallery_image_path(@business.generate_listing_segment, gallery.slug, gallery_image.id), class: 'gallery-item' do
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
