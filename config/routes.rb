@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     root to: 'listings#index'
     match '/:lookup', to: 'listings#listing', via: :get
     match '/:lookup/:content_type/', to: 'listings#content_type', :as => "content_type", via: :get
-    match '/:lookup/:content_type/:gallery_image', to: 'listings#gallery_image', :as => "gallery_image", via: :get
+    match '/:lookup/:content_type/gallery/:gallery_image', to: 'listings#gallery_image', :as => "gallery_image", via: :get
     match '/:lookup/reviews/all', to: 'reviews#index', :as => 'reviews', via: :get
     match '/:lookup/reviews/create', to: 'reviews#create', :as => 'create_review', via: :post
     match '/:lookup/reviews/show/:id', to: 'reviews#show', :as => 'review', via: :get
