@@ -13,7 +13,7 @@
               br
               | -- or --
               br
-              = link_to "Import Contacts in Bulk", [business, :crm_imports], class: 'text-navy'
+              = link_to "Import Contacts", [business, :crm_imports], class: 'text-navy'
         - else
           .p-a-1.text-center
             = link_to [business, :crm_contacts] do
@@ -25,7 +25,7 @@
             .row.m-t-sm
               = link_to [business, :crm_imports], class: 'btn btn-sm btn-primary btn-outline' do
                 i.fa.fa-plus-circle
-                |  Import contacts in bulk
+                |  Import Contacts
               = link_to "Add a Contact", [:new, business, :crm_contact], class: 'clear text-muted'
       .col-xs-6
         - if business.owned_companies.empty?
@@ -36,7 +36,7 @@
               br
               | -- or --
               br
-              = link_to "Import Companies in Bulk", [business, :crm_imports, import_type: :companies], class: 'text-navy'
+              = link_to "Import Companies", [business, :crm_imports, import_type: :companies], class: 'text-navy'
         - else
           .p-a-1.text-center
             = link_to [business, :crm_companies] do
@@ -48,5 +48,5 @@
             .row.m-t-sm
               = link_to [business, :crm_imports, import_type: :companies], class: 'btn btn-sm btn-primary btn-outline' do
                 i.fa.fa-plus-circle
-                |  Import companies in bulk  
+                |  Import Companies  
               = link_to "Add a Company", [:new, business, :crm_company], class: 'clear text-muted'

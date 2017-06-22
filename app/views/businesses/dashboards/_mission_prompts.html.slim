@@ -2,28 +2,17 @@
 - instances = MissionInstance.dashboard_prompts(@business, goal_num_prompts)
 - recommended = Mission.recommended_for_business(@business, instances.map(&:mission_id)).first(goal_num_prompts - instances.size)
 
-- if instances.any? || recommended.any?
-  .row.m-b-2
-    .col-lg-12
-      .wrapper.wrapper-content
-        .prompts.row.col-lg-6.col-lg-offset-3
-          .widget.navy-bg.no-padding.no-margins
-            .p-m
-              h1.m-xs Things to Do Today
+.ibox.float-e-margins
+  .ibox-title
+    h5 Recommended Marketing Missions
 
-              ul.list-group.to-dos
-                - instances.each do |mi|
-                  = link_to business_mission_path(@business, mi.mission), class: 'block text-white border-bottom' do
-                    li.list-group-item
-                      span.label.label-default.m-r-1.small Reminder
-                      = mi.mission.title
-                      span.badge.badge-warning.pull-right = mi.mission.time_to_complete
-                - recommended.each do |mission|
-                  = link_to business_mission_path(@business, mission), class: 'block text-white border-bottom' do
-                    li.list-group-item
-                      span.label.label-default.m-r-1.small Recommendation
-                      = mission.title
-                      span.badge.badge-warning.pull-right = mission.time_to_complete
-                = link_to timeline_business_activity_calendar_index_path(@business), class: 'block text-white' do
-                    li.list-group-item
-                      .text-center Upcoming Missions
+  .ibox-content
+    .row
+      - recommended.any? 
+        ul.list-group.to-dos
+          - recommended.each do |mission|
+            = link_to business_mission_path(@business, mission), class: 'block border-bottom' do
+              li.list-group-item
+                = mission.title
+                span.badge.badge-warning.pull-right = mission.time_to_complete
+          = link_to 'Browse Recommended Marketing Missions', business_missions_path(@business), class: 'text-navy block text-center'

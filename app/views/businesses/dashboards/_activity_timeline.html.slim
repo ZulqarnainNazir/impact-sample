@@ -3,7 +3,7 @@
 
 .ibox id="activity_timeline"
   .ibox-title
-    h5 Activity Timeline
+    h5="#{events.size} #{params[:future] ? "Upcoming" : "Past"} Marketing Mission#{events.size == 1 ? '' : 's'}"
     .ibox-tools
       = link_to 'Add Custom Mission', new_business_mission_instance_path(business), class: 'btn btn-primary btn-xs'
   .ibox-content
@@ -31,8 +31,8 @@
 
             .vertical-timeline-content
               = link_to business_mission_path(business, event.id)
-                h2= event.title
-              p= event.description.html_safe
+                h2= truncate(event.title, length: 40)
+              p= truncate(event.description.html_safe, length: 115)
 
               - if @mission_instance = MissionInstance.find_by(id: event.mission_instance_id)
                 .row
