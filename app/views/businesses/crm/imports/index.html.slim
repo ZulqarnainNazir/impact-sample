@@ -38,7 +38,7 @@
         .ibox-title
           h5 Import Instructions
         .ibox-content.profile-content
-          p Please use our template to build your import file. The column names and order must match this template to be successful.
+          p We've included a sample import file so show the available fields. You do <b>NOT</b> need to use all fields or even keep the same order. After uploading your file, you'll be prompted to choose which columns contain which data.
           - if params[:import_type] == "companies"
             p.contact-instruction style="display: none;" All contacts must have <b>EITHER</b> first name, last name, or email address to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
             p.contact-instruction style="display: none;" <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer.
@@ -49,8 +49,8 @@
             p.company-instruction style="display: none;" All companies must include the company name to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
           h3 We'll walk you through the following steps
           ol
-            li Download and Complete Template File
-            li Upload Template file then review data to see problem entires and that it's in the correct columns
+            li Download and Complete Template File - Remove title row prior to uploading & export to .csv
+            li Upload Template file then map categories to the correct content
             li Review duplicates to merge, skip or create new
             li Accept Import to update contact database
           p
@@ -67,8 +67,6 @@
         .ibox-content
           = form_tag ["match_columns", @business, :crm_imports], :multipart => true do
             .form-group
-              span.bg-warning.p-xs When saving CSV, select Western (ASCII) for best results
-              br
               label.control-label.m-t-md for="import_file" CSV for Importing
               = file_field_tag :import_file, class: 'form-control'
             .form-group
