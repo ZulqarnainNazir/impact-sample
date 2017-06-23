@@ -24,6 +24,10 @@ class Contact < ActiveRecord::Base
 #  validates :last_name, presence: true
   validate :name_and_or_email
 
+  def user
+    User.find_by(email: self.email)
+  end
+
   def full_name
     if first_name && last_name
       "#{first_name} #{last_name}"

@@ -2,12 +2,20 @@
 - last_complete_feedback = contact.feedbacks.complete.order(completed_at: :desc).last
 - last_complete_feedback_review = contact.feedbacks.complete.joins(:review).where.not(reviews: { id: nil }).order(completed_at: :desc).last.try(:review)
 - last_incomplete_feedback = contact.feedbacks.incomplete.order(completed_at: :desc).last
+
 tr class=('unread' unless contact.read_by.include?(current_user.id))
   td = link_to contact.name, [:edit, contact.business, :crm, contact]
       / = link_to new_business_crm_invite_path(@business, contact_id: contact.id), class: 'btn btn-xs btn-default' do
       /   => icon 'envelope'
       /   | Invite
-  td = contact.email
+  td = link_to contact.email, [:edit, @business, :crm, contact]
+  td 
+    - if contact.user && contact.user.authorized_businesses.any?
+      span.text-nowrap
+        / = contact.user.authorized_businesses.first.company
+        / = link_to contact.user.authorized_businesses.first.name, [:edit, @business, :crm, contact.user.authorized_businesses.first.company]
+        = contact.user.authorized_businesses.first.name
+        .badge.badge-info.badge-claimed data-toggle="tooltip" title="Claimed businesses are controlled by their owner or manager." Claimed
   td = contact.phone? ? contact.phone : '--'
   td = contact.feedbacks.map(&:score).sort.first || '--'
   / td
