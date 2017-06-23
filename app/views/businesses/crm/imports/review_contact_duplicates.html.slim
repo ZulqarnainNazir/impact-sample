@@ -61,7 +61,7 @@
                       td = contact.city
                       td = contact.state
                       td = contact.zip
-                      td = contact.relationship.join(", ")
+                      td = contact.relationship&.join(", ")
                       - if !contact.description.blank? and contact.description.length > 100
                         td = contact.description[0..100] + "..."
                       - else

@@ -254,6 +254,7 @@ Rails.application.routes.draw do
               post 'review'
               post 'review_duplicates'
               post 'process_csv'
+              post 'match_columns'
             end
           end
           resources :company_lists, only: %i[index new create edit update destroy]

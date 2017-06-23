@@ -5,22 +5,39 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
   end
 
   def review
-    file_data = params[:import_file]
-    if file_data.respond_to?(:read)
-        uploaded_io = file_data.read
-    elsif file_data.respond_to?(:path)
-        uploaded_io = File.read(file_data.path)
-    else
-        logger.error "Bad file_data: #{file_data.class.name}: #{file_data.inspect}"
-    end
-    @filename = "#{SecureRandom.uuid}.csv"
-    File.open(Rails.root.join('tmp', @filename), 'wb') do |file|
-        file.write(uploaded_io)
-    end
+    @filename = params[:filename]
+    ordering = params[:order]
+    tmp_file_path = Rails.root.join("tmp", @filename)
+    csv = CSV.read(tmp_file_path, skip_blanks: true)
+
     if params[:import_type] == "contacts"
+      File.open(tmp_file_path, 'w') do |file|
+        file.puts ContactSchema.remap(csv, ordering)
+      end
       review_contacts
     elsif params[:import_type] == "companies"
+      File.open(tmp_file_path, 'w') do |file|
+        file.puts CompanySchema.remap(csv, ordering)
+      end
       review_companies
+    end
+  end
+
+  def match_columns
+    begin
+      write_import_file
+      csv = CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true)
+    rescue => error
+      redirect_to [@business, :crm_imports], notice: "Invalid CSV file, it appears the file you uploaded has some non-standard characters. Please remove these characters and upload again."
+      return
+    end
+
+    if params[:import_type] == "contacts"
+      @csv_columns = csv.first.map.with_index { |item, idx| { key: item, index: idx, sample: (csv.second[idx] if csv.second) } }
+      @columns = ContactSchema.to_hash
+    elsif params[:import_type] == "companies"
+      @csv_columns = csv.first.map.with_index { |item, idx| { key: item, index: idx, sample: (csv.second[idx] if csv.second) } }
+      @columns = CompanySchema.to_hash
     end
   end
 
@@ -35,7 +52,7 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
       redirect_to [@business, :crm_imports], :notice => "Invalid CSV Import for contacts. Did you intend to import this as companies?"
       return
     end
-    if @contacts.first.first_name == "First Name"
+    if @contacts.first.first_name&.downcase == "first name"
       @contacts = @contacts.drop(1)
     end
     @skip = check_contact_validation @contacts
@@ -73,7 +90,7 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
   def review_contact_duplicates
     @filename = params[:filename]
     @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
-    if @contacts.first.first_name == "First Name"
+    if @contacts.first.first_name&.downcase == "first name"
       @contacts = @contacts.drop(1)
     end
     @duplicates = Contact.get_duplicates(@business, @contacts, params[:skip_indexes].split(','))
@@ -169,5 +186,20 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
       end
     end
     {:skip_indexes => skip_indexes, :skip_companies => skip_companies, :keep_companies => keep_companies}
+  end
+
+  def write_import_file
+    file_data = params[:import_file]
+    if file_data.respond_to?(:read)
+      uploaded_io = file_data.read
+    elsif file_data.respond_to?(:path)
+      uploaded_io = File.read(file_data.path)
+    else
+      logger.error "Bad file_data: #{file_data.class.name}: #{file_data.inspect}"
+    end
+    @filename = "#{SecureRandom.uuid}.csv"
+    File.open(Rails.root.join('tmp', @filename), 'wb') do |file|
+      file.write(uploaded_io)
+    end
   end
 end

@@ -38,14 +38,14 @@
         .ibox-title
           h5 Import Instructions
         .ibox-content.profile-content
-          p Please use our template to build your import file. The column names and order must match this template to be successful. 
+          p Please use our template to build your import file. The column names and order must match this template to be successful.
           - if params[:import_type] == "companies"
             p.contact-instruction style="display: none;" All contacts must have <b>EITHER</b> first name, last name, or email address to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
-            p.contact-instruction style="display: none;" <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer. 
+            p.contact-instruction style="display: none;" <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer.
             p.company-instruction All companies must include the company name to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
-          - else 
+          - else
             p.contact-instruction All contacts must have <b>EITHER</b> first name, last name, or email address to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
-            p.contact-instruction <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer. 
+            p.contact-instruction <b>Optional:</b> Tag Contacts using one or more of the following (separate each with commas): Contact, Lead, Prospect, Customer.
             p.company-instruction style="display: none;" All companies must include the company name to import, and the optional state must be a 2 character abbreviation i.e. CA, NV etc. if present.
           h3 We'll walk you through the following steps
           ol
@@ -53,7 +53,7 @@
             li Upload Template file then review data to see problem entires and that it's in the correct columns
             li Review duplicates to merge, skip or create new
             li Accept Import to update contact database
-          p 
+          p
             - if params[:import_type] == "companies"
               = link_to "Download CSV Template", [:download_contact_template, @business, :crm_imports,], class: 'btn btn-primary', id: "contact_template", disabled: true, style: "display: none;"
               = link_to "Download CSV Template", [:download_company_template, @business, :crm_imports,], class: 'btn btn-primary', id: "company_template"
@@ -63,9 +63,9 @@
     .col-md-6
       .ibox.float-e-margins
         .ibox-title
-          h5 Process Import 
+          h5 Process Import
         .ibox-content
-          = form_tag [:review, @business, :crm_imports], :multipart => true do
+          = form_tag ["match_columns", @business, :crm_imports], :multipart => true do
             .form-group
               span.bg-warning.p-xs When saving CSV, select Western (ASCII) for best results
               br

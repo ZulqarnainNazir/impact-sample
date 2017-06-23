@@ -1,0 +1,31 @@
+- import_type = params[:import_type] ? params[:import_type] : 'contacts'
+- title "Match #{import_type.singularize.capitalize} Columns"
+
+= render partial: 'dashbreadcrumb', locals: { fn: 'CRM', fp: :crm_root, an: "Match #{import_type.singularize.capitalize} Columns"}
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .ibox.float-e-margins
+      .ibox-title
+        h1 Map Columns
+      .ibox-content
+        .row
+          .col-md-6
+            = form_tag [:review, @business, :crm_imports], multipart: true do
+              = hidden_field_tag :filename, @filename
+              = hidden_field_tag :import_type, import_type
+              table.table
+                thead
+                  tr
+                    th Locable Property
+                    th Column Label From CSV
+                    th Preview Information
+                tbody
+                  - @csv_columns.each do |column|
+                    tr
+                      td
+                        = select_tag "order[#{column[:index]}]", options_for_select(@columns.map{ |name, index| [name.to_s.humanize, index] }), include_blank: true
+                      td= column[:key]
+                      td= column[:sample]
+
+              = submit_tag 'Continue to Review Duplicates', class: 'btn btn-primary'
