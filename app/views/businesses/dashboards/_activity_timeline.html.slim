@@ -3,7 +3,7 @@
 
 .ibox id="activity_timeline"
   .ibox-title
-    h5="#{event_count} #{params[:future] ? "Upcoming" : "Past"} Marketing Mission#{event_count == 1 ? '' : 's'}
+    h5="#{event_count} #{params[:future] ? "Upcoming" : "Past"} Marketing Mission#{event_count == 1 ? '' : 's'}"
     .ibox-tools
       = link_to 'Add Custom Mission', new_business_mission_instance_path(business), class: 'btn btn-primary btn-xs'
   .ibox-content
