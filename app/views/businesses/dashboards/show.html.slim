@@ -30,7 +30,7 @@
                         span.pull-left> Manage Forms
                         i.fa.fa-arrow-circle-right
                 .col-xs-6.col-lg-3
-                  = link_to [@business, :crm_contacts] do
+                  = link_to [@business, :crm_reviews] do
                     .panel.panel-success
                       .panel-body
                         .row
@@ -76,15 +76,15 @@
                         span.pull-left> SupportLocal Network
                         i.fa.fa-arrow-circle-right
                 .col-xs-6.col-lg-3
-                  = link_to [@business, :missions] do
+                  = link_to [:custom, @business, :missions] do
                     .panel.panel-success
                       .panel-body
                         .row
                           .col-xs-3
                             i.fa.fa-flag.fa-4x
                           .col-xs-9.text-right
-                            div style="font-size: 36px" = (@mission_instances.count rescue 0)
-                            - if (@mission_instances.count rescue 0) == 1
+                            div style="font-size: 36px" = (@event_count rescue 0)
+                            - if (@event_count rescue 0) == 1
                               | Mission
                             - else
                               | Missions

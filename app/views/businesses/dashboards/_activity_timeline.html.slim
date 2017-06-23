@@ -1,9 +1,9 @@
-- params[:future] ||= true unless params[:past]
-- events = ActivityCalendar.new(business: business).timeline_events(nil, params[:future], params[:past]).limit(2)
+- events = @events
+- event_count = @event_count
 
 .ibox id="activity_timeline"
   .ibox-title
-    h5="#{events.size} #{params[:future] ? "Upcoming" : "Past"} Marketing Mission#{events.size == 1 ? '' : 's'}"
+    h5="#{event_count} #{params[:future] ? "Upcoming" : "Past"} Marketing Mission#{event_count == 1 ? '' : 's'}
     .ibox-tools
       = link_to 'Add Custom Mission', new_business_mission_instance_path(business), class: 'btn btn-primary btn-xs'
   .ibox-content
