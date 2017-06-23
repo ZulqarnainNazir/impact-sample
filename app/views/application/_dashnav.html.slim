@@ -45,7 +45,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Dashboard
       li title="Marketing Assistant" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders|marketing_assistant)/))
         = link_to "#"
-          i.fa.fa-check-square-o
+          i.fa.fa-flag
           span.nav-label[data-i18n="nav.contacts"]
             | Marketing Assistant
           span.fa.arrow
@@ -70,17 +70,18 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/content/))
           li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
-            = link_to "Content Library", [@business, :content_root]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/content_category_tag_management_index/))
-            = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
-            = link_to "Media Manager", [@business, :content_images]
+            = link_to "Marketing Messages", [@business, :content_root]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
             = link_to "Promote Reviews", [@business, :tools_review_widgets]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
-            = link_to "Import Events", [@business, :content_event_imports]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to "Content Embeds", [@business, :tools_content_feed_widgets]
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
+            = link_to "Media Manager", [@business, :content_images]
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/content_category_tag_management_index/))
+            = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
+            = link_to "Import Events", [@business, :content_event_imports]
+          
       li title="Contacts & Relationships" class=('active' if controller_path.match(/\Abusinesses\/crm/))
         = link_to "#"
           i.fa.fa-address-card
@@ -92,20 +93,27 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "People", [@business, :crm_contacts]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
             = link_to "Companies", [@business, :crm_companies]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/form_submissions/))
+            = link_to "Form Submissions", [@business, :crm_form_submissions]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
             = link_to "Customer Reviews", [@business, :crm_reviews]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
             = link_to "Customer Feedback", [@business, :crm_feedbacks]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
+            = link_to "Contact Forms", [@business, :crm_contact_forms]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
             = link_to "CSV Import", [@business, :crm_imports]
+      li title="SupportLocal Network" class=('active' if controller_path.match(/\Abusinesses\/crm/))
+        = link_to "#"
+          i.fa.fa-group
+          span.nav-label[data-i18n="nav.support_local"]
+            | SupportLocal Network&trade;
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists/))
             = link_to "Company Lists", [@business, :crm_company_lists]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
-            = link_to "SupportLocal Embeds", [@business, :tools_directory_widgets]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
-            = link_to "Contact Forms", [@business, :crm_contact_forms]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/form_submissions/))
-            = link_to "Form Submissions", [@business, :crm_form_submissions]
+            = link_to "SupportLocal Embeds", [@business, :tools_directory_widgets]     
       li title="Manage Website" class=('active' if controller_path.match(/\Abusinesses\/website/))
         = link_to "#"
           i.fa.fa-desktop
@@ -114,7 +122,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/website/))
           - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user?
-
 
             li class=('active' if controller_path.match(/\Aonboard\/users\/new/))
               = link_to new_website_business_website_add_website_path
