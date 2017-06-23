@@ -1,6 +1,6 @@
 - request_url = url_for({ controller: params[:controller], action: params[:action] })
 
-- cache_unless params[:blog_search].present? || params[:content_types].present?, [blog_feed_block, blog_feed_block.cache_sensitive_key(params)] do  
+ 
     div class=blog_feed_block.custom_class 
       a id=blog_feed_block.custom_anchor_id
       - if params[:blog_search].present? && !params[:blog_search].empty?
