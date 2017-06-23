@@ -3,7 +3,7 @@
 = webpage_container do
   .row
     .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
-      p.lead.text-center Thank you for taking the time to leave a review and some feedback. This should only take a minute.
+      p.lead.text-center Thank you for taking the time to leave a review and some feedback for #{@business.name}. This should only take a minute.
       br
       = errors_for @feedback
       = form_for @feedback, url: listing_create_review_path(@business.generate_listing_segment), method: :post do |form|

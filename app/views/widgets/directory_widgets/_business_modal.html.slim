@@ -46,7 +46,7 @@
               - if business.website_url
                 a.col-md-4 href=business.website_url target="_blank"
                   i.fa.fa-external-link
-                  = " #{business.website_url}"
+                  = " #{truncate(business.website_url, length: 30)}"
               / Add additonal social media links & icons here
             .row.m-t-xs
               .col-md-6
@@ -58,10 +58,10 @@
       .ibox.float-e-margins.tabs-container
         header
           .row
-            .col-xs-5
+            .col-xs-12.col-sm-5
               - if business.logo
                 = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
-            .col-xs-7.m-b-5px
+            .col-xs-12.col-sm-7.m-b-5px
               div class="full-description-#{business.id}"
                 = business.description
                 - if business.description && business.description.length > 0
