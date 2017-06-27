@@ -2,13 +2,25 @@ tbody
   tr
     td.content-block = @personal_message
   tr
-    td.content-block.h3 Do you care about your community?
-  tr
     td.content-block
       = @business.name
       |  in  
       = @business.location.city_and_state 
-      |  has added you to their SupportLocal Network™ to promote you and your relationship. Participating is fast & easy. 
+      |  is using Locable's Marketing Platform to simplify their local marketing and thought you'd want to checkout us out. The link below leads to your forever-free account.
+
+  tr
+    td.content-block.aligncenter
+      = link_to "CLAIM FREE ACCOUNT", new_onboard_user_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), class: 'btn-primary'
+ 
+  tr
+    td.content-block.h3 Do you care about your community?
+  tr
+    td.content-block
+      | SupportLocal Network™ features enable you to create an online referral network from your real-world relationships. Plus, you can highlight your community involvement including the local causes and charities you support which is good for everyone. 
+  tr
+    td.content-block 
+      | Participating is fast, easy & free. 
+
   tr
     td Join now to drive more referrals and word-of-mouth, plus use the included free local marketing tools to promote your business online.
   br

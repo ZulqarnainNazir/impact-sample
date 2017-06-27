@@ -1,10 +1,15 @@
 .mail-body
+  p
+  = @business.name
+  |  in  
+  = @business.location.city_and_state 
+  |  is using Locable's Marketing Platform to simplify their local marketing and thought you'd want to checkout us out. The link below leads to your forever-free account.
+  p.text-center
+    a.btn.btn-primary CLAIM FREE ACCOUNT
   h3 Do you care about your community?
   p
-    = @business.name
-    |  in  
-    = @business.location.city_and_state 
-    |  has added you to their SupportLocal Network™ to promote you and your relationship. Participating is fast & easy. 
+    | SupportLocal Network™ features enable you to create an online referral network from your real-world relationships. Plus, you can highlight your community involvement including the local causes and charities you support which is good for everyone. 
+  p Participating is fast, easy & free. 
   p Join now to drive more referrals and word-of-mouth, plus use the included free local marketing tools to promote your business online.
   p.text-center
     a.btn.btn-primary ACCEPT THEIR INVITATION
