@@ -9,7 +9,7 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
   end
 
   def index
-    scope = @business.owned_companies
+    scope = @business.owned_companies.includes(business: [:location])
     query = params[:query].to_s.strip
 
     if query.present?

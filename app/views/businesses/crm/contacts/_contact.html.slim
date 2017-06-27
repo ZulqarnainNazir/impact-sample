@@ -1,7 +1,11 @@
-- last_feedback = contact.feedbacks.order(completed_at: :desc).last
-- last_complete_feedback = contact.feedbacks.complete.order(completed_at: :desc).last
+/ - last_feedback = contact.feedbacks.order(completed_at: :desc).last
+/ - last_feedback = contact.feedbacks.last
+/ - last_complete_feedback = contact.feedbacks.complete.order(completed_at: :desc).last
+/ ^^N + 1 query that needs optimizing^^
 - last_complete_feedback_review = contact.feedbacks.complete.joins(:review).where.not(reviews: { id: nil }).order(completed_at: :desc).last.try(:review)
-- last_incomplete_feedback = contact.feedbacks.incomplete.order(completed_at: :desc).last
+/ ^^N + 1 query that needs optimizing^^
+/ - last_incomplete_feedback = contact.feedbacks.incomplete.order(completed_at: :desc).last
+/ ^^N + 1 query that needs optimizing^^
 
 tr class=('unread' unless contact.read_by.include?(current_user.id))
   td = link_to contact.name, [:edit, contact.business, :crm, contact]
@@ -11,6 +15,7 @@ tr class=('unread' unless contact.read_by.include?(current_user.id))
   td = link_to contact.email, [:edit, @business, :crm, contact]
   td 
     - if contact.user && contact.user.authorized_businesses.any?
+      / ^^N + 1 query that needs optimizing^^
       span.text-nowrap
         / = contact.user.authorized_businesses.first.company
         / = link_to contact.user.authorized_businesses.first.name, [:edit, @business, :crm, contact.user.authorized_businesses.first.company]

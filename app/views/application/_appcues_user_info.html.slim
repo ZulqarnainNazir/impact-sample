@@ -1,5 +1,5 @@
-
-- createad_landing_page = current_user.businesses.any? do |b|
+- current_user
+- createad_landing_page = current_user.businesses.includes(website: [:webpages]).any? do |b|
   - webpages = b.website.try(:webpages)
   - webpages ? !webpages.empty? : false
 / - raise StandardError, params
@@ -21,17 +21,17 @@ javascript:
         received_invite: "#{Invite.where(invitee: Contact.find_by(email: current_user.email)).any?}",
         received_member_invite: "#{Invite.where(invitee: Contact.find_by(email: current_user.email), invite_as_member: true).any?}",
 
-        created_reviews_widget: "#{current_user.businesses.any? { |b| !b.review_widgets.empty? }}",
-        created_directory_widget: "#{current_user.businesses.any? { |b| !b.directory_widgets.empty? }}",
+        created_reviews_widget: "#{current_user.businesses.includes(:review_widgets).any? { |b| !b.review_widgets.empty? }}",
+        created_directory_widget: "#{current_user.businesses.includes(:directory_widgets).any? { |b| !b.directory_widgets.empty? }}",
         created_custom_marketing_mission: "#{MissionInstance.where(creating_user: current_user).any?}",
 
         assigned_marketing_mission: "#{MissionInstance.where(assigned_user: current_user).any?}",
-        created_todo_list: "#{current_user.businesses.any? { |b| !b.to_do_lists.empty? }}",
+        created_todo_list: "#{current_user.businesses.includes(:to_do_lists).any? { |b| !b.to_do_lists.empty? }}",
         activated_marketing_mission: "#{MissionHistory.where(actor: current_user, action: 'activated').any?}",
-        added_contact: "#{current_user.businesses.any? { |b| !b.contacts.empty? }}",
-        added_company: "#{current_user.businesses.any? { |b| !b.owned_companies.empty? }}",
+        added_contact: "#{current_user.businesses.includes(:contacts).any? { |b| !b.contacts.empty? }}",
+        added_company: "#{current_user.businesses.includes(:owned_companies).any? { |b| !b.owned_companies.empty? }}",
         has_today_enabled: "#{current_user.businesses.any?(&:to_dos_enabled?)}",
-        is_affiliate: "#{current_user.businesses.any? { |b| b.is_affiliate? }}",
+        is_affiliate: "#{current_user.businesses.includes(:subscription_affiliate).any? { |b| b.is_affiliate? }}",
         createad_landing_page: "#{createad_landing_page}",
         
         plan: "#{settings[:plan]}",

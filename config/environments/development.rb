@@ -31,4 +31,10 @@ Rails.application.configure do
     }
   }
   # config.paperclip_defaults[:url] = ':s3_domain_url'
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    Bullet.add_footer = true
+  end
 end

@@ -95,6 +95,9 @@ GEM
       jstz-rails3-plus
       rails (>= 3.1)
     builder (3.2.2)
+    bullet (5.5.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     choice (0.1.7)
@@ -420,6 +423,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    uniform_notifier (1.10.0)
     url_safe_base64 (0.2.2)
     warden (1.2.3)
       rack (>= 1.0)
@@ -444,6 +448,7 @@ DEPENDENCIES
   bootstrap-select-rails
   bootstrap3-datetimepicker-rails (~> 4.14.30)
   browser-timezone-rails
+  bullet
   coffee-rails
   conformist
   country_select (~> 1.1.1)

@@ -6,7 +6,7 @@ class Contact < ActiveRecord::Base
   with_options dependent: :destroy do
     has_many :contact_messages
     has_many :crm_notes
-    has_many :feedbacks
+    has_many :feedbacks, -> { order(:completed_at => :desc) }
     has_many :reviews
     has_many :contact_companies, :dependent => :destroy
     has_many :form_submissions

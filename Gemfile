@@ -89,6 +89,7 @@ group :development, :test do
   gem 'spring'
   gem 'pry-rails'
   gem 'active_record_query_trace'
+  gem 'bullet'
 end
 
 group :test do

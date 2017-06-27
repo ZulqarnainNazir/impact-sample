@@ -9,7 +9,7 @@ class Businesses::Crm::ContactsController < Businesses::BaseController
   end
 
   def index
-    scope = @business.contacts.includes(:feedback).where(hide: false)
+    scope = @business.contacts.includes(:feedbacks, :reviews).where(hide: false)
     query = params[:query].to_s.strip
 
     if query.present?
