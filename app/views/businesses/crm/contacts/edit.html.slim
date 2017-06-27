@@ -19,7 +19,7 @@
         .ibox-content
           .row
             .col-xs-4.text-center
-             img.img-responsive src="http://#{ENV['HOST']}#{letter_avatar_url(@contact.full_name, 120)}"
+             img.img-responsive src="http://#{ENV['HOST']}#{try(:letter_avatar_url, @contact.full_name, 120)}"
             .col-xs-8
               h3: strong = @contact.name
               p.m-b-none
