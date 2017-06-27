@@ -51,7 +51,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
     end
     @invite.save!
     if @invite.type_of == 'membership_1'
-      if InvitesMailer.member_invite(@invite, @business).deliver_now
+      if @invite.send_member_invite(@business) #method used here is found in invite model
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
       else
@@ -60,7 +60,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       end
 
     elsif @invite.type_of == 'basic'
-      if InvitesMailer.basic_invite(@invite, @business).deliver_now
+      if @invite.send_basic_invite(@business) #method used here is found in invite model
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
       else
@@ -69,7 +69,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       end
 
     elsif @invite.type_of == 'membership_2'
-      if InvitesMailer.member_invite_2(@invite, @business).deliver_now
+      if @invite.send_member_invite_2(@business) #method used here is found in invite model
         flash[:notice] = "Invite successfully sent."
         redirect_to business_crm_companies_path
       else
