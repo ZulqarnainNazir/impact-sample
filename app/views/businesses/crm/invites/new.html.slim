@@ -20,7 +20,8 @@
                 .group
                   = form.select :invitee_id, {}, { :include_blank => true }, { :class => 'form-control js-invitee-select', style: "width: 100%;" } do
                     - @business.contacts.sort_by(&:name).each do |contact|
-                      = content_tag(:option, "#{contact.name} - #{contact.email}", value: contact.id, selected: @invite.invitee_id == contact.id, data: { email: contact.email } )
+                      - unless contact.opted_out?
+                        = content_tag(:option, "#{contact.name} - #{contact.email}", value: contact.id, selected: @invite.invitee_id == contact.id, data: { email: contact.email } )
                     end
                   end
                   span.bar

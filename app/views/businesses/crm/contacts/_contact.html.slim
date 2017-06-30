@@ -22,7 +22,7 @@ tr class=('unread' unless contact.read_by.include?(current_user.id))
         = contact.user.authorized_businesses.first.name
         .badge.badge-info.badge-claimed data-toggle="tooltip" title="Claimed businesses are controlled by their owner or manager." Claimed
   td = contact.phone? ? contact.phone : '--'
-  td = contact.feedbacks.map(&:score).sort.first || '--'
+  / td = contact.feedbacks.map(&:score).sort.first || '--'
   / td
     / - if last_complete_feedback
     /   | Yes

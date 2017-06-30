@@ -1,4 +1,8 @@
 class Contact < ActiveRecord::Base
+  mailkick_user #determines (and sets status as) if a user has requested "unsubscribe" from emails
+
+  Mailkick.user_method = -> (email) { Contact.find_by(email: email) }
+
   belongs_to :business
 
   serialize :relationship
@@ -23,6 +27,17 @@ class Contact < ActiveRecord::Base
 #  validates :first_name, presence: true
 #  validates :last_name, presence: true
   validate :name_and_or_email
+  validates_uniqueness_of :email, scope: :business_id, :message => "is an address you've already saved to your contact list"
+
+  def count_review_emails_sent
+    AhoyMessage.where(business_id: self.business_id, to: self.email, mailer: "CustomerMailer#feedback").count
+    #AhoyMessage.where(business_id: a.business_id, to: a.email, mailer: "CustomerMailer#feedback").count
+  end
+
+  def review_emails_last_sent
+    AhoyMessage.where(business_id: self.business_id, to: self.email, mailer: "CustomerMailer#feedback").last.sent_at.to_date.to_formatted_s(:long_ordinal)
+    #AhoyMessage.where(business_id: a.business_id, to: a.email, mailer: "CustomerMailer#feedback").count
+  end
 
   def user
     User.find_by(email: self.email)

@@ -8,13 +8,28 @@
       .ibox.float-e-margins
         .ibox-title
           span.pull-right
+            - review_emails_sent = @contact.count_review_emails_sent
             - review_count = @contact.reviews.count
             ' Reviews:
             = link_to review_count.zero? ? 'None' : review_count, [@business, :crm, :reviews]
-            - if !@contact.bounce_or_complaint?
-              = link_to 'Request Review', [:new, @business, :crm, @contact, :feedback], class: 'btn btn-primary btn-xs m-l-sm'
-            - elsif @contact.bounce_or_complaint?
-              = button_tag "Request Review", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "#{@contact.complaint_or_bounce_report}" }
+
+            - if review_emails_sent == 0
+                - if !@contact.opted_out? 
+                  = link_to 'Request Review', [:new, @business, :crm, @contact, :feedback], class: 'btn btn-primary btn-xs m-l-sm'
+                - elsif @contact.opted_out?
+                  = button_tag "Request Review", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "This address has opted-out of receiving emails." }
+            - elsif review_emails_sent > 0
+              / = tag("i", {class: ["fa", "fa-info-circle"], data: {toggle: "popover", placement: "auto top", content: "invite already sent" }}, true)
+              / = tag("i")
+
+              i.fa.fa-info-circle style="margin-left: 6px;" data-toggle="popover" data-placement="auto top" data-content="invite last sent at #{@contact.review_emails_last_sent}"
+
+              - if !@contact.bounce_or_complaint? && !@contact.opted_out?
+                = link_to 'Request Review', [:new, @business, :crm, @contact, :feedback], class: 'btn btn-primary btn-xs m-l-sm'
+              - elsif @contact.bounce_or_complaint?
+                = button_tag "Request Review", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "#{@contact.complaint_or_bounce_report}" }
+              - elsif @contact.opted_out?
+                = button_tag "Request Review", type: 'button', class: 'btn btn-default btn-xs m-l-sm', data: {toggle: "popover", placement: "auto top", content: "This address has opted-out of receiving emails." }
 
         .ibox-content
           .row

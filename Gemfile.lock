@@ -245,6 +245,9 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    mailkick (0.2.0)
+      activesupport
+      safely_block (>= 0.1.1)
     method_source (0.8.2)
     mime-types (2.99.1)
     mimemagic (0.3.0)
@@ -480,6 +483,7 @@ DEPENDENCIES
   koala
   letter_avatar (~> 0.3.6)
   letter_opener
+  mailkick
   minimalizer
   momentjs-rails (>= 2.9.0)
   newrelic_rpm

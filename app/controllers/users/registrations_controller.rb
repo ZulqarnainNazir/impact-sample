@@ -36,6 +36,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if @validatable
         @minimum_password_length = resource_class.password_length.min
       end
+
+      if resource.opted_out?
+        #this conditional is leveraging the functionality of the gem 'mailkick'
+        #it checks to see if the new user had previously opted-out (unsubscribed) from
+        #emails from IMPACT. if so, it "opts them in" (subscribes them back) to emails
+        #from IMPACT. It does so regardless of whether it was a Contact (from Contact table)
+        #that opted out or a User. The mailkick table is polymorphic, and the methods at play
+        #simply find the email address that opted-out, and opts it in, regardless of whether that
+        #email belongs to a User, Contact, or some other table.
+        resource.opt_in
+      end
+
       respond_with resource
       # clean_up_passwords resource
       # set_minimum_password_length

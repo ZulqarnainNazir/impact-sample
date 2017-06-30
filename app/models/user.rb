@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  mailkick_user #determines (and sets status as) if a user has requested "unsubscribe" from emails
+  
+  Mailkick.user_method = -> (email) { User.find_by(email: email) }
+
   store_accessor :settings, :custom_domains, :viewed_dashboard_tour
 
   has_many :messages, class_name: "Ahoy::Message"

@@ -77,6 +77,9 @@ gem 'browser-timezone-rails'
 #ahoy email tracks email opens, among other things. google for more info.
 gem 'ahoy_email'
 
+#allows for unsubscribe option for emails. google for more info.
+gem 'mailkick'
+
 #RailsKits integrations
 gem 'simple_form'
 gem 'country_select', '~> 1.1.1'
