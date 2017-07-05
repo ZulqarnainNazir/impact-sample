@@ -43,7 +43,9 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def review_contacts
     begin
-      @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+      @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true)
+                               .reject { |row| row.all?(&:nil?) })
+                               .to_a
     rescue => error
       redirect_to [@business, :crm_imports], :notice => "Invalid CSV file, it appears the file you uploaded has some non-standard characters. Please remove these characters and upload again."
       return
@@ -89,7 +91,9 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def review_contact_duplicates
     @filename = params[:filename]
-    @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    @contacts = ContactSchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true)
+                              .reject { |row| row.all?(&:nil?) })
+                              .to_a
     if @contacts.first.first_name&.downcase == "first name"
       @contacts = @contacts.drop(1)
     end
@@ -99,7 +103,9 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
 
   def review_company_duplicates
     @filename = params[:filename]
-    @companies = CompanySchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true).reject { |row| row.all?(&:nil?) })
+    @companies = CompanySchema.conform(CSV.read(Rails.root.join("tmp", @filename), skip_blanks: true)
+                              .reject { |row| row.all?(&:nil?) })
+                              .to_a
     if @companies.first.name == "Company Name"
       @companies = @companies.drop(1)
     end
