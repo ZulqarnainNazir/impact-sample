@@ -6,8 +6,8 @@ class Super::UsersController < SuperController
   end
 
   def all_users
-	@users = User.order("id").search(params[:search], params[:constraint]).page(params[:page]).per(20)
-  end 
+	@users = User.includes(:businesses).order("id").search(params[:search], params[:constraint]) #.page(params[:page]).per(20)
+  end
 
   private
 

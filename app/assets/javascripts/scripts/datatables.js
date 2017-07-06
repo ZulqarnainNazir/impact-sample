@@ -1,6 +1,7 @@
 $(document).ready(function(){
     if (!$.fn.dataTable.isDataTable('table.datatable')) {
       var table = $('table.datatable').DataTable({
+        aaSorting: [],
         pageLength: 25,
         responsive: true,
         dom: '<"html5buttons"B>lTfgitp',

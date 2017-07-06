@@ -40,7 +40,7 @@ div class="ibox float-e-margins"
 
 
 
-= paginate @subscriptions
+/ = paginate @subscriptions
 
 javascript:
 
@@ -51,5 +51,3 @@ javascript:
 	$('#all-subscriptions').click(function() {
 		$.get("/super/subscriptions_data/all_subscriptions")
 	});
-
-
