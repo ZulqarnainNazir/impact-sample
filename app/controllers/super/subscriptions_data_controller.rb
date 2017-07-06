@@ -5,7 +5,7 @@ class Super::SubscriptionsDataController < SuperController
   end
 
   def subscriptions
-    @subscriptions = Subscription.order("id" => :desc).search(params[:search], params[:constraint]) #.page(params[:page]).per(20)
+    @subscriptions = Subscription.includes( { subscriber: [:subscription_affiliate, :owners] }, :subscription_plan).order("id" => :desc).search(params[:search], params[:constraint]) #.page(params[:page]).per(20)
   end
 
   def all_subscriptions
