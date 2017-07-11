@@ -108,7 +108,7 @@ html lang="en"
       - if !group.attributes.nil? && group.attributes['type'] == 'HeroGroup' && !group.attributes['settings'].nil? && !group.attributes['settings']['hero_position'].nil? 
          - hero_position = 'hero-' + group.attributes['settings']['hero_position']
 
-  body[class="#{hero_position}"]
+  body[class="#{hero_position}", data-turbolinks="false"]
     - if @website.header_block
       - unless @page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1'
         .webpage-header[class="#{hero_position}"]
