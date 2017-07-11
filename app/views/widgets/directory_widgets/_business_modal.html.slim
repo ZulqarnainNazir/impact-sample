@@ -58,35 +58,33 @@
       .ibox.float-e-margins.tabs-container
         header
           .row
-            .col-xs-12.col-sm-5
-              - if business.logo
+            - if business.logo
+              .col-xs-12.col-sm-5
                 = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
-            .col-xs-12.col-sm-7.m-b-5px
-              div class="full-description-#{business.id}"
-                = business.description
-                - if business.description && business.description.length > 0
-                  .text-center
-                    = link_to "View Less", "#", class: 'btn btn-default js-view-less'
-              div class="short-description-#{business.id}"
-                - description = truncate(business.description, length: 250) do
-                  .text-center
-                    = link_to "Read More", "#", class: 'btn btn-default js-read-more'
-                = description
-                  
-              javascript:
-                $( document ).on('ready', function() {
-                  $(".full-description-#{business.id}").hide();
-                  $('.js-view-less').click(function(e) {
-                    e.preventDefault();
-                    $(".full-description-#{business.id}").hide();
-                    $(".short-description-#{business.id}").show();
-                  });
-                  $('.js-read-more').click(function(e) {
-                    e.preventDefault();
-                    $(".full-description-#{business.id}").show();
-                    $(".short-description-#{business.id}").hide();
-                  });
-                });
+              .col-xs-12.col-sm-7.m-b-5px
+                div class="full-description-#{business.id}"
+                  = business.description
+                  - if business.description && business.description.length > 0
+                    .text-center
+                      = link_to "View Less", "#", class: 'btn btn-default js-view-less'
+                div class="short-description-#{business.id}"
+                  - description = truncate(business.description, length: 250) do
+                    .text-center
+                      = link_to "Read More", "#", class: 'btn btn-default js-read-more'
+                  = description
+            - else
+              .col-xs-12.m-b-5px
+                div class="full-description-#{business.id}"
+                  = business.description
+                  - if business.description && business.description.length > 0
+                    .text-center
+                      = link_to "View Less", "#", class: 'btn btn-default js-view-less'
+                div class="short-description-#{business.id}"
+                  - description = truncate(business.description, length: 250) do
+                    .text-center
+                      = link_to "Read More", "#", class: 'btn btn-default js-read-more'
+                  = description
+            
         ul.nav.nav-tabs
           li.active
             a.count-info style="padding: 20px 14px" href="#tab-All-#{business.id}" data-toggle="tab"
@@ -116,7 +114,9 @@
               span.label.label-primary=business.galleries.size
         .tab-content
           .tab-pane.active id="tab-All-#{business.id}"
-            - content = (business.offers + business.event_definitions + business.posts + business.quick_posts + business.galleries).sort_by(&:published_at).reverse
+            / - raise StandardError, business.offers.merge(business.event_definitions).to_json
+            - content = Kaminari.paginate_array((business.offers + business.event_definitions + business.posts + business.quick_posts + business.galleries).sort_by(&:published_at).reverse).page(params[:page]).per(8)
+            - 
             - content.each do |thing|
               / - case thing.class
               - if thing.class == Offer
@@ -129,17 +129,41 @@
                 = render partial: 'website/posts/post', locals: { post: thing, business: business }
               - elsif thing.class == Gallery
                 = render partial: 'website/galleries/gallery', locals: { business: business, gallery: thing }
+            = paginate content
           .tab-pane id="tab-Offers-#{business.id}"
-            = render partial: 'website/offers/offer', collection: business.offers.sort_by(&:published_at).reverse, locals: { business: business }
+            - offers = Kaminari.paginate_array(business.offers.sort_by(&:published_at).reverse).page(params[:offer_page]).per(8)
+            = render partial: 'website/offers/offer', collection: offers, locals: { business: business }
+            = paginate offers, param_name: :offer_page
           .tab-pane id="tab-Events-#{business.id}"
-            = render partial: 'website/event_definitions/event_definition', collection: business.event_definitions.sort_by(&:published_at).reverse, locals: { business: business }
+            - events = Kaminari.paginate_array(business.event_definitions.sort_by(&:published_at).reverse).page(params[:event_page]).per(8)
+            = render partial: 'website/event_definitions/event_definition', collection: events, locals: { business: business }
+            = paginate events, param_name: :event_page
           .tab-pane id="tab-Posts-#{business.id}"
-            - posts = (business.posts + business.quick_posts).sort_by(&:published_at).reverse
+            - posts = Kaminari.paginate_array((business.posts + business.quick_posts).sort_by(&:published_at).reverse).page(params[:post_page]).per(8)
             - posts.each do |post|
               - if post.class == QuickPost
                 = render partial: 'website/quick_posts/quick_post', locals: { quick_post: post, business: business }
               - else
                 = render partial: 'website/posts/post', locals: { post: post, business: business }
+            = paginate posts, param_name: :post_page
           .tab-pane id="tab-Galleries-#{business.id}"
-            / - raise StandardError, business.galleries.sort_by(&:published_at).reverse
-            = render partial: 'website/galleries/gallery', collection: business.galleries.sort_by(&:published_at).reverse, locals: { business: business }
+            - galleries = Kaminari.paginate_array(business.galleries.sort_by(&:published_at).reverse).page(params[:gallery_page]).per(8)
+            = render partial: 'website/galleries/gallery', collection: galleries, locals: { business: business }
+            = paginate galleries, param_name: :gallery_page
+
+    javascript:
+      var ready = function() {
+        $(".full-description-#{business.id}").hide();
+        $('.js-view-less').click(function(e) {
+          e.preventDefault();
+          $(".full-description-#{business.id}").hide();
+          $(".short-description-#{business.id}").show();
+        });
+        $('.js-read-more').click(function(e) {
+          e.preventDefault();
+          $(".full-description-#{business.id}").show();
+          $(".short-description-#{business.id}").hide();
+        });
+      }
+      $(document).on('page:load', ready)
+      $(document).on('ready', ready)
