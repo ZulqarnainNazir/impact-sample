@@ -9,6 +9,12 @@ ContactBlock = React.createClass
   preventSave: (e) ->
     e.preventDefault()
 
+  editInfoUrl: () ->
+    "/businesses/#{this.props.location.business_id}/data/location/edit"
+
+  editOpeningsUrl: () ->
+    "/businesses/#{this.props.location.business_id}/data/openings/edit"
+
   render: ->
     `<div className="webpage-contact">
       {this.renderInterior()}
@@ -38,7 +44,10 @@ ContactBlock = React.createClass
             <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
           </ul>
           <div className="vcard">
-            <h3 className="fn org">{this.props.location.name}</h3>
+            <h3 className="fn org">
+              {this.props.location.name}
+              <a href={this.editInfoUrl()} className="btn btn-primary btn-xs pull-right" style={{color: 'white'}}><i className="fa fa-pencil"></i> Edit Info</a>
+            </h3>
             <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
               {this.props.location.address_line_one}
@@ -47,6 +56,7 @@ ContactBlock = React.createClass
             </p>
             <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
+            <a href={this.editOpeningsUrl()} className="btn btn-primary btn-xs" style={{color: 'white'}}><i className="fa fa-plus"></i> Add/Edit Hours</a>
           </div>
           <hr />
           <div className="form-group">
@@ -87,7 +97,10 @@ ContactBlock = React.createClass
             <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
           </ul>
           <div className="vcard">
-            <h3 className="fn org">{this.props.location.name}</h3>
+            <h3 className="fn org">
+              {this.props.location.name}
+              <a href={this.editInfoUrl()} className="btn btn-primary btn-xs pull-right" style={{color: 'white'}}><i className="fa fa-pencil"></i> Edit Info</a>
+            </h3>
             <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
               {this.props.location.address_line_one}
@@ -96,6 +109,7 @@ ContactBlock = React.createClass
             </p>
             <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
+            <a href={this.editOpeningsUrl()} className="btn btn-primary btn-xs" style={{color: 'white'}}><i className="fa fa-plus"></i> Add/Edit Hours</a>
           </div>
           <hr />
           <div className="form-group">
@@ -158,7 +172,10 @@ ContactBlock = React.createClass
         </div>
         <div className="col-sm-6">
           <div className="vcard">
-            <h5 className="fn org">{this.props.location.name}</h5>
+            <h5 className="fn org">
+              {this.props.location.name}
+              <a href={this.editInfoUrl()} className="btn btn-primary btn-xs pull-right" style={{color: 'white'}}><i className="fa fa-pencil"></i> Edit Info</a>
+            </h5>
             <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
               {this.props.location.address_line_one}
@@ -167,6 +184,7 @@ ContactBlock = React.createClass
             </p>
             <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
+            <a href={this.editOpeningsUrl()} className="btn btn-primary btn-xs" style={{color: 'white'}}><i className="fa fa-plus"></i> Add/Edit Hours</a>
           </div>
           <div style={{marginTop: 20, marginBottom: 50}}>
             <iframe width="100%" height="200" frameBorder="0" style={{border: 0}} src={this.mapSrc()} />
@@ -191,7 +209,10 @@ ContactBlock = React.createClass
             <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
           </ul>
           <div className="vcard">
-            <h3 className="fn org">{this.props.location.name}</h3>
+            <h3 className="fn org">
+              {this.props.location.name}
+              <a href={this.editInfoUrl()} className="btn btn-primary btn-xs pull-right" style={{color: 'white'}}><i className="fa fa-pencil"></i> Edit Info</a>
+            </h3>
             <p className="tel">{this.props.location.phone_number}</p>
             <p className="adr">
               {this.props.location.address_line_one}
@@ -200,6 +221,7 @@ ContactBlock = React.createClass
             </p>
             <p><a className="email" href={this.mailTo(this.props.location.email)}>{this.props.location.email}</a></p>
             {this.renderOpenings()}
+            <a href={this.editOpeningsUrl()} className="btn btn-primary btn-xs" style={{color: 'white'}}><i className="fa fa-plus"></i> Add/Edit Hours</a>
           </div>
         </div>
         <div className="col-sm-8">
@@ -230,7 +252,8 @@ ContactBlock = React.createClass
 
   renderOpenings: ->
     for opening in this.props.openings
-      `<div key={opening.id}>{opening.days} <span className="pull-right">{opening.hours}</span></div>`
+      if opening.days.length > 0
+        `<div key={opening.id}>{opening.days} <span className="pull-right">{opening.hours}</span></div>`
 
   mailTo: (email) ->
     "mailto:#{email}"

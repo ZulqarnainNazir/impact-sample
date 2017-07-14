@@ -1,9 +1,15 @@
 TeamBlock = React.createClass
+  editTeamUrl: ->
+    "#{this.props.imagesPath.slice(0, -7)}data/team_members/"
+
   render: ->
     `<div>
       <article>
         <header className="page-header">
-          <h1>Our Team</h1>
+          <h1>
+            Our Team
+            <a href={this.editTeamUrl()} className="btn btn-primary btn-sm m-l-10px" style={{color: 'white'}}><i className="fa fa-pencil"></i> Edit Team</a>
+          </h1>
         </header>
       </article>
       {this.renderInterior()}

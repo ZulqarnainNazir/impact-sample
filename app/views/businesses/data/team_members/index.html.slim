@@ -12,7 +12,9 @@
               = link_to [:new, @business, :data_team_member], class: 'btn btn-primary btn-xs pull-right' do
                 i.fa.fa-plus-circle>
                 ' Add a New Team Member
-              h1.h3.panel-title Manage Team Members
+              h1.h3.panel-title
+                | Manage Team Members 
+                = link_to "Manage Users", [@business, :authorizations], class: "btn btn-xs btn-primary", style: "color: white; margin-left: 10px;"
             .ibox-content
               = form_tag [@business, :data_team_members_positions], method: :patch do
                 .table-responsive

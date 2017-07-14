@@ -12,7 +12,9 @@
               = link_to [:new, @business, :authorization], class: 'btn btn-primary btn-xs pull-right' do
                 i.fa.fa-plus-circle>
                 ' Add a New User
-              h2 Manage Authorized Users
+              h2 
+                | Manage Authorized Users
+                = link_to "Manage Team", [@business, :data, :team_members], class: "btn btn-xs btn-primary", style: "color: white; margin-left: 10px;"
             .ibox-content
               .table-responsive
                 table.table.table-striped
