@@ -1,0 +1,431 @@
+- title 'Businesses Data'
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 "Select Fields to Merge into #{@business.name}"
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-12"
+				= form_for :business, url: merge_now_super_business_datum_path(@business, businesses: params[:businesses]), method: 'put' do |n|
+
+					h2 Name
+					-if @business.name.present?
+						= n.radio_button :name, @business.name
+						= n.label @business.name
+					br
+					- @businesses.each do |x|
+						- if x[:name].present?
+							= n.radio_button :name, x[:name]
+							= n.label x[:name]
+						br
+
+					h2 Tagline
+					-if @business.tagline.present?
+						= n.radio_button :tagline, @business.tagline
+						= n.label @business.tagline
+					br
+					- @businesses.each do |x|
+						- if x[:tagline].present?
+							= n.radio_button :tagline, x[:tagline]
+							= n.label x[:tagline] 
+						br
+
+					h2 Website URL
+					-if @business.website_url.present?
+						= n.radio_button :website_url, @business.website_url
+						= n.label @business.website_url
+					br
+					- @businesses.each do |x|
+						- if x[:website_url].present?
+							= n.radio_button :website_url, x[:website_url]
+							= n.label x[:website_url] 
+						br
+
+
+				    = n.fields_for :location_attributes do |location|
+				      
+				    	h2 Location Name
+				    	- if @business.location.name.present?
+					        = location.radio_button :name, @business.location.name
+					        = location.label @business.location.name
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:name].present?
+								= location.radio_button :name, x.location[:name]
+								= location.label x.location[:name] 
+							br
+				      
+				      	h2 Location Email
+				      	- if @business.location.email.present?
+					        = location.radio_button :email, @business.location.email
+					        = location.label @business.location.email
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:email].present?
+								= location.radio_button :email, x.location[:email]
+								= location.label x.location[:email] 
+							br
+				      
+						h2 Street 1
+						- if @business.location.street1.present?
+					        = location.radio_button :street1, @business.location.street1
+					        = location.label @business.location.street1
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:street1].present?
+								= location.radio_button :street1, x.location[:street1]
+								= location.label x.location[:street1] 
+							br
+
+						h2 Street 2
+						- if @business.location.street2.present?
+					        = location.radio_button :street2, @business.location.street2
+					        = location.label @business.location.street2
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:street2].present?
+								= location.radio_button :street2, x.location[:street2]
+								= location.label x.location[:street2] 
+							br
+
+				        h2 City
+				        - if @business.location.city.present?
+					        = location.radio_button :city, @business.location.city
+					        = location.label @business.location.city
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:city].present?
+								= location.radio_button :city, x.location[:city]
+								= location.label x.location[:city] 
+							br
+
+				      	h2 State
+				      	- if @business.location.state.present?
+					        = location.radio_button :state, @business.location.state
+					        = location.label @business.location.state
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:state].present?
+								= location.radio_button :state, x.location[:state]
+								= location.label x.location[:state] 
+							br
+				      
+				        h2 Zip Code
+				        - if @business.location.zip_code.present?
+					        = location.radio_button :zip_code, @business.location.zip_code
+					        = location.label @business.location.zip_code
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:zip_code].present?
+								= location.radio_button :zip_code, x.location[:zip_code]
+								= location.label x.location[:zip_code] 
+							br
+				      	h2 Phone Number
+				      	- if @business.location.phone_number.present?
+					        = location.radio_button :phone_number, @business.location.phone_number
+					        = location.label @business.location.phone_number
+						br
+						- @businesses.each do |x|
+
+							- if x.location[:phone_number].present?
+								= location.radio_button :phone_number, x.location[:phone_number]
+								= location.label x.location[:phone_number] 
+							br
+
+
+
+					h2 Facebook ID
+					-if @business.facebook_id.present?
+						= n.radio_button :facebook_id, @business.facebook_id
+						= n.label @business.facebook_id
+					br
+					- @businesses.each do |x|
+						- if x[:facebook_id].present?
+							= n.radio_button :facebook_id, x[:facebook_id]
+							= n.label x[:facebook_id] 
+						br
+
+					h2 Google Plus ID
+					-if @business.google_plus_id.present?
+						= n.radio_button :google_plus_id, @business.google_plus_id
+						= n.label @business.google_plus_id
+					br
+					- @businesses.each do |x|
+						- if x[:google_plus_id].present?
+							= n.radio_button :google_plus_id, x[:google_plus_id]
+							= n.label x[:google_plus_id] 
+						br
+
+					h2 LinkedIn ID
+					-if @business.linkedin_id.present?
+						= n.radio_button :linkedin_id, @business.linkedin_id
+						= n.label @business.linkedin_id
+					br
+					- @businesses.each do |x|
+						- if x[:linkedin_id].present?
+							= n.radio_button :linkedin_id, x[:linkedin_id]
+							= n.label x[:linkedin_id] 
+						br
+
+					h2 Twitter ID
+					-if @business.twitter_id.present?
+						= n.radio_button :twitter_id, @business.twitter_id
+						= n.label @business.twitter_id
+					br
+					- @businesses.each do |x|
+						- if x[:twitter_id].present?
+							= n.radio_button :twitter_id, x[:twitter_id]
+							= n.label x[:twitter_id] 
+						br
+
+					h2 YouTube ID
+					-if @business.youtube_id.present?
+						= n.radio_button :youtube_id, @business.youtube_id
+						= n.label @business.youtube_id
+					br
+					- @businesses.each do |x|
+						- if x[:youtube_id].present?
+							= n.radio_button :youtube_id, x[:youtube_id]
+							= n.label x[:youtube_id] 
+						br
+
+					h2 Description
+					-if @business.description.present?
+						= n.radio_button :description, @business.description
+						= n.label @business.description
+					br
+					- @businesses.each do |x|
+						- if x[:description].present?
+							= n.radio_button :description, x[:description]
+							= n.label x[:description] 
+						br
+
+					h2 Kind
+					-if @business.kind.present?
+						= n.radio_button :kind, @business.kind
+						= n.label @business.kind
+					br
+					- @businesses.each do |x|
+						- if x[:kind].present?
+							= n.radio_button :kind, x.kind
+							= n.label x.kind 
+						br
+
+					h2 Year Founded
+					-if @business.year_founded.present?
+						= n.radio_button :year_founded, @business.year_founded
+						= n.label @business.year_founded
+					br
+					- @businesses.each do |x|
+						- if x[:year_founded].present?
+							= n.radio_button :year_founded, x[:year_founded]
+							= n.label x[:year_founded] 
+						br
+
+					h2 Citysearch ID
+					-if @business.citysearch_id.present?
+						= n.radio_button :citysearch_id, @business.citysearch_id
+						= n.label @business.citysearch_id
+					br
+					- @businesses.each do |x|
+						- if x[:citysearch_id].present?
+							= n.radio_button :citysearch_id, x[:citysearch_id]
+							= n.label x[:citysearch_id] 
+						br
+
+					h2 Instagram ID
+					-if @business.instagram_id.present?
+						= n.radio_button :instagram_id, @business.instagram_id
+						= n.label @business.instagram_id
+					br
+					- @businesses.each do |x|
+						- if x[:instagram_id].present?
+							= n.radio_button :instagram_id, x[:instagram_id]
+							= n.label x[:instagram_id] 
+						br
+
+					h2 Pinterest ID
+					-if @business.pinterest_id.present?
+						= n.radio_button :pinterest_id, @business.pinterest_id
+						= n.label @business.pinterest_id
+					br
+					- @businesses.each do |x|
+						- if x[:pinterest_id].present?
+							= n.radio_button :pinterest_id, x[:pinterest_id]
+							= n.label x[:pinterest_id] 
+						br
+
+					h2 Yelp ID
+					-if @business.yelp_id.present?
+						= n.radio_button :yelp_id, @business.yelp_id
+						= n.label @business.yelp_id
+					br
+					- @businesses.each do |x|
+						- if x[:yelp_id].present?
+							= n.radio_button :yelp_id, x[:yelp_id]
+							= n.label x[:yelp_id] 
+						br
+
+					h2 Values
+					-if @business.values.present?
+						= n.radio_button :values, @business.values
+						= n.label @business.values
+					br
+					- @businesses.each do |x|
+						- if x[:values].present?
+							= n.radio_button :values, x[:values]
+							= n.label x[:values] 
+						br
+
+					h2 History
+					-if @business.history.present?
+						= n.radio_button :history, @business.history
+						= n.label @business.history
+					br
+					- @businesses.each do |x|
+						- if x[:history].present?
+							= n.radio_button :history, x[:history]
+							= n.label x[:history] 
+						br
+
+
+					h2 Vision
+					-if @business.vision.present?
+						= n.radio_button :vision, @business.vision
+						= n.label @business.vision
+					br
+					- @businesses.each do |x|
+						- if x[:vision].present?
+							= n.radio_button :vision, x[:vision]
+							= n.label x[:vision] 
+						br
+
+					h2 Community Involvement
+					-if @business.community_involvement.present?
+						= n.radio_button :community_involvement, @business.community_involvement
+						= n.label @business.community_involvement
+					br
+					- @businesses.each do |x|
+						- if x[:community_involvement].present?
+							= n.radio_button :community_involvement, x[:community_involvement]
+							= n.label x[:community_involvement] 
+						br
+
+					h2 CCE ID
+					-if @business.cce_id.present?
+						= n.radio_button :cce_id, @business.cce_id
+						= n.label @business.cce_id
+					br
+					- @businesses.each do |x|
+						- if x[:cce_id].present?
+							= n.radio_button :cce_id, x[:cce_id]
+							= n.label x[:cce_id] 
+						br
+
+					h2 CCE URL
+					-if @business.cce_url.present?
+						= n.radio_button :cce_url, @business.cce_url
+						= n.label @business.cce_url
+					br
+					- @businesses.each do |x|
+						- if x[:cce_url].present?
+							= n.radio_button :cce_url, x[:cce_url]
+							= n.label x[:cce_url] 
+						br
+
+
+					h2 Facebook Token
+					-if @business.facebook_token.present?
+						= n.radio_button :facebook_token, @business.facebook_token
+						= n.label @business.facebook_token
+					br
+					- @businesses.each do |x|
+						- if x[:facebook_token].present?
+							= n.radio_button :facebook_token, x[:facebook_token]
+							= n.label x[:facebook_token] 
+						br
+
+					h2 Foursquare ID
+					-if @business.foursquare_id.present?
+						= n.radio_button :foursquare_id, @business.foursquare_id
+						= n.label @business.foursquare_id
+					br
+					- @businesses.each do |x|
+						- if x[:foursquare_id].present?
+							= n.radio_button :foursquare_id, x[:foursquare_id]
+							= n.label x[:foursquare_id] 
+						br
+
+					h2 Zillow ID
+					-if @business.zillow_id.present?
+						= n.radio_button :zillow_id, @business.zillow_id
+						= n.label @business.zillow_id
+					br
+					- @businesses.each do |x|
+						- if x[:zillow_id].present?
+							= n.radio_button :zillow_id, x[:zillow_id]
+							= n.label x[:zillow_id] 
+						br
+
+					h2 OpenTable ID
+					-if @business.opentable_id.present?
+						= n.radio_button :opentable_id, @business.opentable_id
+						= n.label @business.opentable_id
+					br
+					- @businesses.each do |x|
+						- if x[:opentable_id].present?
+							= n.radio_button :opentable_id, x[:opentable_id]
+							= n.label x[:opentable_id] 
+						br
+
+					h2 Trulia ID
+					-if @business.trulia_id.present?
+						= n.radio_button :trulia_id, @business.trulia_id
+						= n.label @business.trulia_id
+					br
+					- @businesses.each do |x|
+						- if x[:trulia_id].present?
+							= n.radio_button :trulia_id, x[:trulia_id]
+							= n.label x[:trulia_id] 
+						br
+
+					h2 Realtor ID
+					-if @business.realtor_id.present?
+						= n.radio_button :realtor_id, @business.realtor_id
+						= n.label @business.realtor_id
+					br
+					- @businesses.each do |x|
+						- if x[:realtor_id].present?
+							= n.radio_button :realtor_id, x[:realtor_id]
+							= n.label x[:realtor_id] 
+						br
+
+					h2 TripAdvisor ID
+					-if @business.tripadvisor_id.present?
+						= n.radio_button :tripadvisor_id, @business.tripadvisor_id
+						= n.label @business.tripadvisor_id
+					br
+					- @businesses.each do |x|
+						- if x[:tripadvisor_id].present?
+							= n.radio_button :tripadvisor_id, x[:tripadvisor_id]
+							= n.label x[:tripadvisor_id] 
+						br
+
+					h2 Houzz ID
+					-if @business.houzz_id.present?
+						= n.radio_button :houzz_id, @business.houzz_id
+						= n.label @business.houzz_id
+					br
+					- @businesses.each do |x|
+						- if x[:houzz_id].present?
+							= n.radio_button :houzz_id, x[:houzz_id]
+							= n.label x[:houzz_id] 
+						br
+
+					= n.submit "Merge Now"

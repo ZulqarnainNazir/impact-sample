@@ -90,7 +90,13 @@ Rails.application.routes.draw do
           get :overview
         end
       end
-      resources :business_data, only: [:index, :edit, :update]
+      resources :business_data, only: [:index, :edit, :update] do
+        member do
+          get :merge_with
+          get :select_merge_fields
+          put :merge_now
+        end
+      end
       resources :subscription_plans
       resources :affiliates, only: [:index]
       resources :to_dos, only: :index

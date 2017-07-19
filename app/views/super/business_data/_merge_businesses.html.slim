@@ -1,0 +1,22 @@
+div id="companies-partial"
+  = form_tag select_merge_fields_super_business_datum_path(@business), method: 'get' do
+	  .table-responsive
+	    table.table.table-striped.table-bordered.table-hover.datatable
+			thead
+				th Select for Merge
+				th Name
+				th Business Table ID
+				th Entries in Company Table
+				th Active Account
+				th Last Updated On
+
+			tbody
+				- @businesses.each do |a|
+				    tr
+				    	td = check_box_tag "businesses[]", a.id
+				    	td = a.name
+				        td = a.id
+				        td = a.owned_by_business.count
+						td = a.in_impact
+				        td = a.updated_at.to_date.to_formatted_s(:long_ordinal)
+		= submit_tag "Go to Field Selection"

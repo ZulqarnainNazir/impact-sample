@@ -1,0 +1,28 @@
+- title 'Businesses Data'
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	    h1 Select the Businesses You Want to Merge with
+	    h1 "#{@business.name}" (Database Table ID = "#{@business.id}")
+	div class="ibox-content"
+		div class="row"
+			div class="col-sm-3 m-b-xs"
+			div class="col-sm-4 m-b-xs"
+				h3 class="pull-right"
+					| Search All Businesses by Title
+
+			= form_tag merge_with_super_business_datum_path(@business), :method => 'get' do
+
+				div class="col-sm-5 m-b-xs"
+					.input-group
+				        = text_field_tag :search, params[:search], class: "form-control", placeholder: "search businesses by name"
+				        span.input-group-btn
+				          = submit_tag "Search Database", :name => nil, class: "btn btn-default"
+
+		br
+
+		div class="wrapper wrapper-content animated fadeInRight" id="businesses-table"
+			= render 'merge_businesses'
+
+
+
+= paginate @businesses

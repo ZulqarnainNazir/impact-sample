@@ -126,6 +126,46 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def merge_crm_relations(business_ids)
+    #this method takes the business_ids of businesses the admin wants to merge into
+    #self, and changes CRM relations so that the businesses to be merged now have their
+    #associated CRM records pointing to self.
+
+    business_ids.each do |biz|
+
+      @biz = Business.find(biz) #get the business
+      has_many_tables = [] #create an empty array
+
+      companies = @biz.owned_by_business #has_many
+      contacts = @biz.contacts #has_many
+      feedbacks = @biz.feedbacks #has_many
+      reviews = @biz.reviews #has_many
+
+      has_many_tables += [contacts, feedbacks, reviews, companies] #store has_many relationships here
+
+      # if !business.in_impact?
+      #   invites = @biz.invites
+      #   invites.each do |invite|
+      #     if invite
+      # end
+
+      has_many_tables.each do |table| #change parent
+        table.each do |record|
+          record.business = self
+          record.save
+        end
+      end
+
+      @biz.delete
+
+    end
+
+  end
+
+  def self.merge_search(query, business)
+    return Business.search(query).where("id != ?", business.id)
+  end
+
   def build_plan_no_setup_fee
     if !self.subscription.nil?
       if self.subscription.plan.present? and self.subscription.plan.name == "Build"
