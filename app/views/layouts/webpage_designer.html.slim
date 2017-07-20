@@ -2,9 +2,11 @@ doctype html
 html lang="en"
   = render 'head'
   body style="margin-bottom:4em"
+    = render 'appcues'
     = render 'navbar'
     .container-mock style="padding-top: 15px"
       = render 'alerts'
       = yield
     = yield :javascript
     = intercom_tag
+    = render 'appcues_user_info'

@@ -57,6 +57,8 @@ module IntercomHelper
         people_contacts_count: current_business.contacts.size,
         company_contacts_count: current_business.owned_companies.size,
         account_id: params[:business_id],
+        form_count: current_business.contact_forms.size,
+        form_submissions_count: current_business.form_submissions.size,
       )
     end
 

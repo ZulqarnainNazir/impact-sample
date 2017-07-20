@@ -140,8 +140,9 @@ class Company < ActiveRecord::Base
     else
       company = Company.new(:user_business_id => user_business.id, :company_business_id => business.id, :name => params[:name], :website_url => params[:website_url])
     end
-    company.save(:validate => false)
+    success = company.save(:validate => false)
     CompanyLocation.create(:company_id => company.id, :name => params[:name])
+    yield success if block_given?
     company
   end
 

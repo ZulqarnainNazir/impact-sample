@@ -23,7 +23,12 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
     if params[:search_add] == 'true'
       @companies = Business.where("name ILIKE ?", "%#{params[:name]}%")
       if @companies.length < 1 or params[:force] == 'true'
-        company = Company.create_with_associations(params, @business)
+        company = Company.create_with_associations(params, @business) do |success|
+          if success
+            flash[:appcues_event] = "Appcues.track('added company')"
+            intercom_event 'added-company'
+          end
+        end
         redirect_to [:edit, @business, :crm, company, company.business]
       end
     elsif params[:add] == 'true'
@@ -34,6 +39,8 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
                              :company_location_attributes => {:name => new_business.name})
         company.save
       end
+      flash[:appcues_event] = "Appcues.track('added company')"
+      intercom_event 'added-company'
       redirect_to [:edit, @business, :crm, company]
     end
   end

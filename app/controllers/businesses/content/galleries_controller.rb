@@ -24,6 +24,7 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
     end
     respond_to do |format|
       if @gallery.save
+        flash[:appcues_event] = "Appcues.track('created gallery')"
         @gallery.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_gallery_path(@business, @gallery), notice: "Draft created successfully" } if params[:draft].present?

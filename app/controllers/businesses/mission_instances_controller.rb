@@ -29,6 +29,8 @@ class Businesses::MissionInstancesController < Businesses::BaseController
     @mission = Mission.new((mission_params[:mission] || {}).merge(business: @business))
 
     if @mission_instance.save_with_mission(@mission)
+      flash[:appcues_event] = "Appcues.track('created marketing mission')"
+      intercom_event 'created-marketing-mission'
       redirect_to custom_business_missions_path, notice: 'Mission Added'
     else
       render :new
@@ -62,6 +64,8 @@ class Businesses::MissionInstancesController < Businesses::BaseController
     service = MissionActioner.new(mission, @business, current_user, params[:note])
 
     if service.complete
+      flash[:appcues_event] = "Appcues.track('completed mission')"
+      intercom_event 'completed-mission'
       redirect_to :back, notice: 'Mission completed'
     else
       redirect_to :back, error: 'Failed to mark mission completed'
