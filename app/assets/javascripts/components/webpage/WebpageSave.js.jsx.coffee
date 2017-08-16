@@ -49,6 +49,16 @@ WebpageSave = React.createClass
     unless this.props.groupTypes.indexOf('ContactGroup') is -1 or _.find(this.props.groups, (group) -> group and group.type is 'ContactGroup')
       `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ContactGroup', 'ContactBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}}>Contact Information</span>`
 
+  renderDataFeedButton: ->
+    unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 ||
+           this.props.groupTypes.indexOf('ReviewsGroup') is -1 ||
+           this.props.groupTypes.indexOf('SupportLocalGroup') is -1 ||
+           this.props.groupTypes.indexOf('ContactFormGroup') is -1
+
+      `<span className="btn btn-sm btn-default" onClick={this.props.showFeedContentModal} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Choose and configure dynamic content" data-content="Incorporate content feeds, forms, reviews, and your SupportLocal Network.">
+        Feed Content
+      </span>`
+
   renderInsertSidebarContent: ->
     unless this.props.groupTypes.indexOf('SidebarContentGroup') is -1
       group = _.find(this.props.groups, (group) -> group and group.type is 'SidebarGroup')
@@ -94,11 +104,10 @@ WebpageSave = React.createClass
               {this.renderInsertTaglineGroup()}
               {this.renderInsertCallToActionGroup()}
               {this.renderInsertContentGroup()}
-              {this.renderInsertBlogFeedGroup()}
-              {this.renderInsertReviewsGroup()}
               {this.renderInsertAboutGroup()}
               {this.renderInsertTeamGroup()}
               {this.renderInsertContactGroup()}
+              {this.renderDataFeedButton()}
             </div>
           </div>
           <div className="col-sm-4">

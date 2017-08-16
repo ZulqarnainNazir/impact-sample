@@ -1,0 +1,69 @@
+.col-sm-4.pull-left
+  .contact-box.center-version id="business-#{business.id}"
+    = link_to '#', class: 'business-card', data: { 'business-id' => business.id, toggle: 'modal', target: "#business-modal-#{business.id}", 'slug' => business.slug } do
+      - if business.logo
+        = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto;'
+      h3.m-b-xs: strong=business.name
+        / a href="tel:#{business.business.location.phone_number}"
+      div= truncate(business.website_url, length: 35)
+      - if !business.location.street1.blank?
+        address.m-t-sm
+          p.m-b-none = business.location.street1
+          p.m-b-none = business.location.street2
+          p.m-b-none = business.location.city && business.location.state ? "#{business.location.city}, #{business.location.state} #{business.location.zip_code}" : ""
+          - if !business.location.phone_number.blank?
+            abbr title="Phone"
+              | P:
+            = " #{business.location.phone_number}"
+          p.m-b-none= business.location.email
+
+    - if !business.reviews.blank?
+      p.text-center
+        span.review-rating
+          - if business.reviews.average(:overall_rating) >= 1.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 2.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 3.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 4.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if business.reviews.average(:overall_rating) >= 5.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+    .contact-box-footer
+      .mt-xs.btn-group
+        - if !business.location.phone_number.blank?
+          a.btn.btn-xs.btn-white href="tel:#{business.location.phone_number}"
+            i.fa.fa-phone
+            |  Call
+        - if !business.location.email.blank?
+          a.btn.btn-xs.btn-white href="mailto:#{business.location.email}"
+            i.fa.fa-phone
+            |  Email
+        - if !business.website_url.blank?
+          a.btn.btn-xs.btn-white href=business.website_url target="_blank"
+            i.fa.fa-external-link
+            |  Website
+
+  .modal.fade.business-modal id="business-modal-#{business.id}" data-slug="#{business.slug}" aria-hidden="true" role="dialog" data-dismiss="modal"
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          span.close data-dismiss="modal"
+            | &times;
+          h1.h4=business.name
+        .modal-body
+          = render partial: "website/support_local_blocks/business_modal", locals: { business: business }
+        .modal-footer
+          button.btn.btn-default data-dismiss="modal"
+            | Done

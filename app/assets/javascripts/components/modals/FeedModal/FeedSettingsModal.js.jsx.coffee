@@ -11,6 +11,9 @@ FeedSettingsModal = React.createClass
       `<option value={tag.id}>{tag.name}</option>`
 
   render: ->
+    # Not sure why but modal-open is being removed before render
+    $('body').addClass('modal-open')
+
     `<div id="feed_settings_modal" className="modal fade">
       <input id="feed_settings_group_uuid" type="hidden" />
       <input id="feed_settings_block_uuid" type="hidden" />

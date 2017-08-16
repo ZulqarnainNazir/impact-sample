@@ -1,0 +1,2 @@
+class SupportLocalGroup < Group
+end

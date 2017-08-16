@@ -3,6 +3,8 @@
 WebpageContainer = React.createClass
   getInitialState: () ->
     return {
+      directoryWidgets: this.props.directoryWidgets,
+      contactForms: this.props.contactForms,
       teamMembers: this.props.teamMembers,
       location: this.props.location,
       openings: this.props.openings,
@@ -21,6 +23,8 @@ WebpageContainer = React.createClass
       contentsPath: this.props.contentsPath,
       imagesPath: this.props.imagesPath,
       reviewsPath: this.props.reviewsPath,
+      newSupportLocalPath: this.props.newSupportLocalPath,
+      newContactFormPath: this.props.newContactFormPath,
 
       contentCategories: this.props.contentCategories,
       contentTags: this.props.contentTags,
@@ -297,6 +301,14 @@ WebpageContainer = React.createClass
     event.preventDefault()
     feedHelpers.updateFeedSettings this
 
+  updateSupportLocalSettings: (event) ->
+    event.preventDefault()
+    supportLocalHelpers.updateSupportLocalSettings this
+
+  updateContactFormSettings: (event) ->
+    event.preventDefault()
+    contactFormHelpers.updateContactFormSettings this
+
   updateReviewsSettings: (event) ->
     event.preventDefault()
     reviewHelpers.updateReviewsSettings this
@@ -308,6 +320,10 @@ WebpageContainer = React.createClass
   removeMediaImage: (event) ->
     event.preventDefault()
     mediaHelpers.removeMediaImage(this)
+
+  showFeedContentModal: () ->
+    event.preventDefault()
+    $('#feed_content_modal').modal('show');
 
   toggleMediaLibraryLocalOnly: ->
     changes =
@@ -337,11 +353,14 @@ WebpageContainer = React.createClass
       editHeroSettings: this.editHeroSettings,
       resetHeroSettings: this.resetHeroSettings,
       updateHeroSettings: this.updateHeroSettings,
+      showFeedContentModal: this.showFeedContentModal,
 
-      updateTaglineSettings: this.updateTaglineSettings #.bind(this),
-      updateDefaultSettings: this.updateDefaultSettings #.bind(this),
-      updateFeedSettings: this.updateFeedSettings #.bind(this),
-      updateCustomGroup: this.updateCustomGroup #.bind(this),
+      updateTaglineSettings: this.updateTaglineSettings,
+      updateDefaultSettings: this.updateDefaultSettings,
+      updateFeedSettings: this.updateFeedSettings,
+      updateSupportLocalSettings: this.updateSupportLocalSettings,
+      updateContactFormSettings: this.updateContactFormSettings,
+      updateCustomGroup: this.updateCustomGroup,
       updateBlock: this.updateBlock,
       updateGroup: this.updateGroup,
       insertGroup: this.insertGroup,

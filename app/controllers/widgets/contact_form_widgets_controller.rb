@@ -5,11 +5,12 @@ class Widgets::ContactFormWidgetsController < Widgets::BaseController
     if @contact_form.blank?
       return false
     end
-    
+
     if !params[:widget_layout].blank?
       @widget.layout = params[:widget_layout]
     end
   end
+
   def submit
     @contact_form = ContactForm.find_by(:uuid => params[:uuid])
     @business = @contact_form.business
@@ -31,7 +32,7 @@ class Widgets::ContactFormWidgetsController < Widgets::BaseController
           required_fields_error << "#{field.label} is required\n" if field.required && params[field.form_field.name.to_sym].blank?
           FormSubmissionValue.create(:form_submission_id => submission.id, :contact_form_form_field_id => field.id, :value => params[field.form_field.name.to_sym])
         end
-        raise StandardError, required_fields_error if !required_fields_error.blank? 
+        raise StandardError, required_fields_error if !required_fields_error.blank?
       end
     rescue StandardError => error
       redirect_to "/widgets/contact_form_widgets/#{@contact_form.uuid}?#{params.to_query}", :flash => { :error => "Please Fill all Required Fields\n\n" << error.message }

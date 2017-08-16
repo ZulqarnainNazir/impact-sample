@@ -5,7 +5,7 @@ var ReviewWidget = new function () {
         widgetDiv = document.getElementById("review-widget-"+uuid),
         iframe = document.createElement('iframe');
 
-    script.src = site+'javascripts/iframeResizer.min.js';    
+    script.src = site+'javascripts/iframeResizer.min.js';
     if(typeof iFrameResize === "undefined") {
       head.appendChild(script);
     }
@@ -26,7 +26,7 @@ var ContactFormWidget = new function () {
         widgetDiv = document.getElementById("contact-form-widget-"+uuid),
         iframe = document.createElement('iframe');
 
-    script.src = site+'javascripts/iframeResizer.min.js';    
+    script.src = site+'javascripts/iframeResizer.min.js';
     if(typeof iFrameResize === "undefined") {
       head.appendChild(script);
     }
@@ -48,7 +48,7 @@ var ContentFeedWidget = new function () {
         widgetDiv = document.getElementById("content-feed-widget-"+uuid),
         iframe = document.createElement('iframe');
 
-    script.src = site+'javascripts/iframeResizer.min.js';    
+    script.src = site+'javascripts/iframeResizer.min.js';
     if(typeof iFrameResize === "undefined") {
       head.appendChild(script);
     }
@@ -72,7 +72,7 @@ var DirectoryWidget = new function () {
         overlay = document.createElement('div'),
         iframe = document.createElement('iframe');
 
-    script.src = site+'javascripts/iframeResizer.min.js';    
+    script.src = site+'javascripts/iframeResizer.min.js';
     if(typeof iFrameResize === "undefined") {
       head.appendChild(script);
     }

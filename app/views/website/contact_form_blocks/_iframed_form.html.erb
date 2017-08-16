@@ -1,0 +1,5 @@
+<div id="contact-form-widget-<%= contact_form.uuid %>"></div>
+<script src="<%= impact_url(request) %>/javascripts/website_embed.js"></script>
+<script async="true">
+  ContactFormWidget.load("<%= contact_form.uuid %>", "<%= impact_url(request) %>/");
+</script>

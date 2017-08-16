@@ -47,6 +47,8 @@ module GroupsAttributesConcern
         :content_types,
         :content_category_ids,
         :content_tag_ids,
+        :widget_id,
+        :contact_form_widget_id,
         :include_search,
         :background_aspect_ratio,
         :_destroy,

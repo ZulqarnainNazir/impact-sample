@@ -95,4 +95,13 @@ module ApplicationHelper
     end
   end
 
+  def impact_url(request = nil)
+    host = Rails.application.secrets.host
+
+    if Rails.env.production?
+      "https://#{host}"
+    else
+      "http://#{host}:#{request.port}"
+    end
+  end
 end

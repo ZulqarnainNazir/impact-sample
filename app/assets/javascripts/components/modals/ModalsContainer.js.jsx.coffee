@@ -11,6 +11,9 @@ ModalsContainer = React.createClass
       <TaglineSettingsModal updateTaglineSettings={this.props.updateTaglineSettings} />
       <FeedSettingsModal {...this.props.webpageState} updateFeedSettings={this.props.updateFeedSettings} />
       <ReviewSettingsModal {...this.props.webpageState} />
+      <FeedContentModal {...this.props.webpageState} {...this.props.callbacks} />
+      <SupportLocalSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateSupportLocalSettings={this.props.updateSupportLocalSettings} />
+      <ContactFormSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateContactFormSettings={this.props.updateContactFormSettings} />
       <MediaModal
         bulkUploadPath={this.props.bulkUploadPath}
         loadMediaLibraryImages={this.props.loadMediaLibraryImages}

@@ -126,7 +126,7 @@ Rails.application.routes.draw do
       get '/content_feed_widgets/:uuid', to: 'content_feed_widgets#index'
       get '/content_feed_widgets/:uuid/:content_id', to: 'content_feed_widgets#show'
       get '/contact_form_widgets/:uuid', to: 'contact_form_widgets#index'
-      post '/contact_form_widgets/:uuid', to: 'contact_form_widgets#submit'
+      post '/contact_form_widgets/:uuid', to: 'contact_form_widgets#submit', as: :contact_form_submit
     end
 
     namespace :onboard do

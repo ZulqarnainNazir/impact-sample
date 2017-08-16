@@ -1,0 +1,167 @@
+.row
+  .col-sm-4
+    .ibox.float-e-margins
+      div
+        .ibox-content.no-padding.border-left-right
+          - if !business.location.hide_address? && !business.location.street1.blank?
+            - map_params = { center: [business.location.latitude, business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
+              q: [business.location.address_line_one, business.location.address_line_two].reject(&:blank?).join(' '), zoom: 18 }.to_param
+            iframe width="100%" height="200" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+        .ibox-content.profile-content
+          h4: strong=business.name
+          - if !business.reviews.blank?
+            p
+              span.review-rating
+                - if business.reviews.average(:overall_rating) >= 1.0
+                  span.fa.fa-star
+                - else
+                  span.fa.fa-star-o
+                - if business.reviews.average(:overall_rating) >= 2.0
+                  span.fa.fa-star
+                - else
+                  span.fa.fa-star-o
+                - if business.reviews.average(:overall_rating) >= 3.0
+                  span.fa.fa-star
+                - else
+                  span.fa.fa-star-o
+                - if business.reviews.average(:overall_rating) >= 4.0
+                  span.fa.fa-star
+                - else
+                  span.fa.fa-star-o
+                - if business.reviews.average(:overall_rating) >= 5.0
+                  span.fa.fa-star
+                - else
+                  span.fa.fa-star-o
+          - if !business.location.hide_address? && !business.location.street1.blank?
+            p
+              i.fa.fa-map-marker
+              = " #{business.location.full_address}"
+          p
+            a href="tel:#{business.location.phone_number}"
+              = business.location.phone_number
+          p: small=business.categories.map(&:name).join(", ")
+          h5=business.tagline
+          .row.m-t-lg
+            - if business.website_url
+              a.col-md-4 href=business.website_url target="_blank"
+                i.fa.fa-external-link
+                = " #{truncate(business.website_url, length: 30)}"
+            / Add additonal social media links & icons here
+          .row.m-t-xs
+            .col-md-6
+              a.btn.btn-primary.btn-sm.btn-block href="mailto:#{business.location.email}"
+                i.fa.fa-envelope
+                |  Send Email
+
+  .col-sm-8
+    .ibox.float-e-margins.tabs-container
+      header
+        .row
+          - if business.logo
+            .col-xs-12.col-sm-5
+              = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
+            .col-xs-12.col-sm-7.m-b-5px
+              div class="full-description-#{business.id}"
+                = business.description
+                - if business.description && business.description.length > 0
+                  .text-center
+                    = link_to "View Less", "#", class: 'btn btn-default js-view-less'
+              div class="short-description-#{business.id}"
+                - description = truncate(business.description, length: 250) do
+                  .text-center
+                    = link_to "Read More", "#", class: 'btn btn-default js-read-more'
+                = description
+          - else
+            .col-xs-12.m-b-5px
+              div class="full-description-#{business.id}"
+                = business.description
+                - if business.description && business.description.length > 0
+                  .text-center
+                    = link_to "View Less", "#", class: 'btn btn-default js-view-less'
+              div class="short-description-#{business.id}"
+                - description = truncate(business.description, length: 250) do
+                  .text-center
+                    = link_to "Read More", "#", class: 'btn btn-default js-read-more'
+                = description
+
+      ul.nav.nav-tabs
+        li.active
+          a.count-info style="padding: 20px 14px" href="#tab-All-#{business.id}" data-toggle="tab"
+
+            | All
+            i.fa.fa-book
+            span.label.label-primary=business.offers.size + business.events.size + business.posts.length + business.quick_posts.length + business.galleries.size
+        li
+          a.count-info style="padding: 20px 14px" href="#tab-Offers-#{business.id}" data-toggle="tab"
+            | Offers
+            i.fa.fa-ticket
+            span.label.label-primary=business.offers.size
+        li
+          a.count-info style="padding: 20px 14px" href="#tab-Events-#{business.id}" data-toggle="tab"
+            | Events
+            i.fa.fa-calendar
+            span.label.label-primary=business.events.size
+        li
+          a.count-info style="padding: 20px 14px" href="#tab-Posts-#{business.id}" data-toggle="tab"
+            | Posts
+            i.fa.fa-edit
+            span.label.label-primary=business.posts.length + business.quick_posts.length
+        li
+          a.count-info style="padding: 20px 14px" href="#tab-Galleries-#{business.id}" data-toggle="tab"
+            | Galleries
+            i.fa.fa-photo
+            span.label.label-primary=business.galleries.size
+      .tab-content
+        .tab-pane.active id="tab-All-#{business.id}"
+          / - raise StandardError, business.offers.merge(business.event_definitions).to_json
+          - content = Kaminari.paginate_array((business.offers + business.event_definitions + business.posts + business.quick_posts + business.galleries).sort_by(&:published_at).reverse).page(params[:page]).per(8)
+          -
+          - content.each do |thing|
+            / - case thing.class
+            - if thing.class == Offer
+              = render partial: 'website/offers/offer', locals: { business: business, offer: thing }
+            - elsif thing.class == EventDefinition
+              = render partial: 'website/event_definitions/event_definition', locals: { business: business, event_definition: thing }
+            - elsif thing.class == QuickPost
+              = render partial: 'website/quick_posts/quick_post', locals: { quick_post: thing, business: business }
+            - elsif thing.class == Post
+              = render partial: 'website/posts/post', locals: { post: thing, business: business }
+            - elsif thing.class == Gallery
+              = render partial: 'website/galleries/gallery', locals: { business: business, gallery: thing }
+          = paginate content
+        .tab-pane id="tab-Offers-#{business.id}"
+          - offers = Kaminari.paginate_array(business.offers.sort_by(&:published_at).reverse).page(params[:offer_page]).per(8)
+          = render partial: 'website/offers/offer', collection: offers, locals: { business: business }
+          = paginate offers, param_name: :offer_page
+        .tab-pane id="tab-Events-#{business.id}"
+          - events = Kaminari.paginate_array(business.event_definitions.sort_by(&:published_at).reverse).page(params[:event_page]).per(8)
+          = render partial: 'website/event_definitions/event_definition', collection: events, locals: { business: business }
+          = paginate events, param_name: :event_page
+        .tab-pane id="tab-Posts-#{business.id}"
+          - posts = Kaminari.paginate_array((business.posts + business.quick_posts).sort_by(&:published_at).reverse).page(params[:post_page]).per(8)
+          - posts.each do |post|
+            - if post.class == QuickPost
+              = render partial: 'website/quick_posts/quick_post', locals: { quick_post: post, business: business }
+            - else
+              = render partial: 'website/posts/post', locals: { post: post, business: business }
+          = paginate posts, param_name: :post_page
+        .tab-pane id="tab-Galleries-#{business.id}"
+          - galleries = Kaminari.paginate_array(business.galleries.sort_by(&:published_at).reverse).page(params[:gallery_page]).per(8)
+          = render partial: 'website/galleries/gallery', collection: galleries, locals: { business: business }
+          = paginate galleries, param_name: :gallery_page
+javascript:
+  var ready = function() {
+    $(".full-description-#{business.id}").hide();
+    $('.js-view-less').click(function(e) {
+      e.preventDefault();
+      $(".full-description-#{business.id}").hide();
+      $(".short-description-#{business.id}").show();
+    });
+    $('.js-read-more').click(function(e) {
+      e.preventDefault();
+      $(".full-description-#{business.id}").show();
+      $(".short-description-#{business.id}").hide();
+    });
+  }
+  $(document).on('page:load', ready)
+  $(document).on('ready', ready)

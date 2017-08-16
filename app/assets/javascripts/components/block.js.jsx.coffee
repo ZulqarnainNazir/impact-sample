@@ -49,6 +49,8 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('content_category_ids')} value={this.props.content_category_ids} />
         <input type="hidden" name={this.inputName('content_tag_ids')} value={this.props.content_tag_ids} />
         <input type="hidden" name={this.inputName('background_aspect_ratio')} value={this.props.aspect_ratio} />
+        <input type="hidden" name={this.inputName('widget_id')} value={this.props.widget_id} />
+        <input type="hidden" name={this.inputName('contact_form_widget_id')} value={this.props.contact_form_widget_id} />
         {this.renderHeaderInputs()}
         {this.renderBlockBackgroundPlacementInputs()}
         {this.renderBlockImagePlacementInputs()}
@@ -242,5 +244,9 @@ Block = React.createClass
         `<HeaderBlock {...this.props} />`
       when 'FooterBlock'
         `<FooterBlock {...this.props} />`
+      when 'SupportLocalBlock'
+        `<SupportLocalBlock {...this.props} />`
+      when 'ContactFormBlock'
+        `<ContactFormBlock {...this.props} />`
 
 window.Block = Block

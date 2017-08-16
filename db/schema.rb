@@ -205,6 +205,7 @@ ActiveRecord::Schema.define(version: 20170610204027) do
     t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
+    t.text     "slug"
   end
 
   create_table "categories", force: :cascade do |t|

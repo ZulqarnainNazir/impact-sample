@@ -6,7 +6,4 @@ class DirectoryWidget < ActiveRecord::Base
   def init
     self.uuid ||= SecureRandom.uuid
   end
-
-
-
 end

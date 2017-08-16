@@ -1,52 +1,38 @@
 # // import React, { PropTypes } from 'react'
 
 BlockContainer = React.createClass
-  # constructor(props) {
-  #   super(props)
-  # }
-
   updateBlock: (attrs) ->
     this.props.updateBlock(this.props.block.uuid, attrs)
-
 
   editText: (event) ->
     event.preventDefault()
     this.props.updateBlock(this.props.block.uuid, { richText: !(this.props.block.richText) })
 
-
   editMedia: (type, event) ->
     event.preventDefault()
     this.props.editMedia(type, this.props.block)
-
 
   editLink: (event) ->
     event.preventDefault()
     this.props.editLink(this.props.block)
 
-
   editDefaultSettings: (event) ->
     event.preventDefault()
     this.props.editDefaultSettings(this.props.block)
-
 
   editHeroSettings: (event) ->
     event.preventDefault()
     this.props.editHeroSettings(this.props.block)
 
-
   compressHero: (event) ->
     this.props.compressHero(event)
-
 
   expandHero: (event) ->
     this.props.expandHero(event)
 
-
   editTaglineSettings: (event) ->
     event.preventDefault()
     this.props.editTaglineSettings(this.props.block)
-
-
 
   updateText: (richText) ->
     content = richText
@@ -66,13 +52,11 @@ BlockContainer = React.createClass
       content = ''
     this.props.updateBlock(this.props.block.uuid, { subheading: content })
 
-
   prevTheme: (themes, event) ->
     event.preventDefault()
     themeIdx = (themes.indexOf(this.props.block.theme) - 1)
     themeIdx = if themeIdx < 0 then themes.length - 1 else themeIdx
     this.props.updateBlock(this.props.block.uuid, { theme: themes[themeIdx] })
-
 
   nextTheme: (themes, event) ->
     event.preventDefault()
@@ -80,11 +64,17 @@ BlockContainer = React.createClass
     themeIdx = if themeIdx > themes.length - 1 then 0 else themeIdx
     this.props.updateBlock(this.props.block.uuid, { theme: themes[themeIdx] })
 
-
   editFeedSettings: (event) ->
     event.preventDefault()
     this.props.editFeedSettings(this.props.block)
 
+  editSupportLocalSettings: (event) ->
+    event.preventDefault()
+    this.props.editSupportLocalSettings(this.props.block)
+
+  editContactFormSettings: (event) ->
+    event.preventDefault()
+    this.props.editContactFormSettings(this.props.block)
 
   editReviewsSettings: (event) ->
     event.preventDefault()
@@ -92,7 +82,6 @@ BlockContainer = React.createClass
 
   removeBlock: (event) ->
     this.props.removeBlock(this.props.block.uuid, event)
-
 
   # // [
   # //  'HeroBlock', 'TaglineBlock', 'CallToActionBlock', 'ContentBlock',
@@ -232,9 +221,12 @@ BlockContainer = React.createClass
           location: this.props.location,
           openings: this.props.openings,
         }
+      when 'SupportLocalBlock'
+        return { editCustom: this.editSupportLocalSettings }
+      when 'ContactFormBlock'
+        return { editCustom: this.editContactFormSettings }
       # default:
       #   return {}
-
 
   render: () ->
     aspectRatio = if this.props.aspect_ratio then (this.props.aspect_ratio.height / this.props.aspect_ratio.width) * 100 else ''
@@ -253,9 +245,6 @@ BlockContainer = React.createClass
       {...block}
     />`
 
-
-
-
 BlockContainer.propTypes = {
   block: React.PropTypes.shape({
     id: React.PropTypes.number,
@@ -267,5 +256,4 @@ BlockContainer.propTypes = {
 }
 
 # // export default BlockContainer
-
 window.BlockContainer = BlockContainer

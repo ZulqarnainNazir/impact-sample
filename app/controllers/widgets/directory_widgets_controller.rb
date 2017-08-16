@@ -24,6 +24,6 @@ class Widgets::DirectoryWidgetsController < Widgets::BaseController
       return false
     end
     @business = @directory.business.owned_companies.find_by(company_business_id: params[:business_id]).business
-    
+
   end
 end

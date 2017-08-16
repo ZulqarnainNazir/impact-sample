@@ -96,6 +96,7 @@ class Business < ActiveRecord::Base
   end
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
+  before_save :generate_slug, unless: :slug?
 
   def create_default_directories
     case self[:kind]
@@ -435,6 +436,10 @@ class Business < ActiveRecord::Base
                       houzz: houzz_id
                     }
     social_links.delete_if { |key, value| value.to_s.strip == '' }
+  end
+
+  def generate_slug
+    self.slug = name.gsub(/['’]/, '').gsub(/,/, '').parameterize
   end
 
   private
