@@ -8,7 +8,7 @@ class ToDoNotificationSetting < ActiveRecord::Base
     if send(notifiable) # notiable represents a boolean field on this model
       if notifiable_is_scheduled?(notifiable)
         if scheduled_and_ready?(notifiable)
-          send_notification(message, to_do, notifiable)
+          send_notification(message, to_do)
         end
       else
         send_notification(message, to_do)
