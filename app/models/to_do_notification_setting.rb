@@ -17,6 +17,8 @@ class ToDoNotificationSetting < ActiveRecord::Base
   end
 
   def send_notification(message, to_do)
+    return unless user && user.email.present?
+
     ToDoNotificationMailer.notify(message: message,
                                   user: user,
                                   to_do: to_do,
