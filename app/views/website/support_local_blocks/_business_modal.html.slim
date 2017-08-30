@@ -150,7 +150,7 @@
           = render partial: 'website/galleries/gallery', collection: galleries, locals: { business: business }
           = paginate galleries, param_name: :gallery_page
 javascript:
-  var ready = function() {
+  $(document).ready(function() {
     $(".full-description-#{business.id}").hide();
     $('.js-view-less').click(function(e) {
       e.preventDefault();
@@ -162,6 +162,4 @@ javascript:
       $(".full-description-#{business.id}").show();
       $(".short-description-#{business.id}").hide();
     });
-  }
-  $(document).on('page:load', ready)
-  $(document).on('ready', ready)
+  })
