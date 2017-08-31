@@ -29,6 +29,7 @@ class Businesses::MissionInstancesController < Businesses::BaseController
     @mission = Mission.new((mission_params[:mission] || {}).merge(business: @business))
 
     if @mission_instance.save_with_mission(@mission)
+      @mission_instance.reschedule_events!
       flash[:appcues_event] = "Appcues.track('created marketing mission')"
       intercom_event 'created-marketing-mission'
       redirect_to custom_business_missions_path, notice: 'Mission Added'
