@@ -6,7 +6,8 @@
       .ibox.float-e-margins
         .ibox-title
           h2
-            | ToDo's
+            | Website Launch Tasks
+            span.small These tasks need to be completed, click on titles to view details and comment
         .ibox-content
           - unless @get_started_to_dos.empty?
             = render partial: 'businesses/to_dos/collection', locals: { to_dos: @get_started_to_dos, business: @business, group: 'Getting Started' }
