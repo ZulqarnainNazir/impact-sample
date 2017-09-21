@@ -46,6 +46,8 @@ module GroupsAttributesConcern
         :custom_anchor_id,
         :content_types,
         :content_category_ids,
+        :company_list_ids,
+        :show_our_content,
         :content_tag_ids,
         :widget_id,
         :contact_form_widget_id,

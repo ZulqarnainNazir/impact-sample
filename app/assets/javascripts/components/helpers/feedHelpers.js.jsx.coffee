@@ -12,6 +12,11 @@ feedHelpers = {
     $('#feed_settings_content_type_post').prop 'checked', (block.content_types || '').indexOf('CustomPost') >= 0
     $('.feed_settings_content_type').prop('checked', true) if $('.feed_settings_content_type:checked').length == 0
     $('#feed_settings_content_category_ids').val (block.content_category_ids || '').split(' ')
+    $('#feed_settings_company_list_ids').val (block.company_list_ids || '').split(' ')
+
+    $('#feed_settings_show_our_content').prop 'checked', if block && block.show_our_content == false then false else true
+    $('.i-checks').iCheck({checkboxClass: 'icheckbox_square-green', radioClass: 'iradio_square-green'});
+
     $('#feed_settings_content_tag_ids').val (block.content_tag_ids || '').split(' ')
     $('#feed_settings_custom_class').val block.custom_class
     $('#feed_settings_link_id').val block.link_id
@@ -30,10 +35,30 @@ feedHelpers = {
     feedHelpers.toggleFeedLinkOptions()
     $('#feed_settings_modal').modal('show')
 
+    categorySelect = $('#feed_settings_content_category_ids')
+    tagSelect = $('#feed_settings_content_tag_ids')
+    listSelect = $('#feed_settings_company_list_ids')
+
+    checkListSelect = ->
+      if listSelect.val() and listSelect.val().length > 0
+        categorySelect.prop('disabled', true)
+        tagSelect.prop('disabled', true)
+      else
+        categorySelect.prop('disabled', false)
+        tagSelect.prop('disabled', false)
+
+    listSelect.change ->
+      checkListSelect()
+
+    checkListSelect()
+
+
   updateFeedSettings: (component) ->
     component.updateBlock $('#feed_settings_group_uuid').val(), $('#feed_settings_block_uuid').val(),
       content_types: _.map($('.feed_settings_content_type:checked'), (input) -> return $(input).data().type).join(' ')
       content_category_ids: ($('#feed_settings_content_category_ids').val() || []).join(' ')
+      show_our_content: $('#feed_settings_show_our_content').prop('checked')
+      company_list_ids: ($('#feed_settings_company_list_ids').val() || []).join(' ')
       content_tag_ids: ($('#feed_settings_content_tag_ids').val() || []).join(' ')
       custom_class: $('#feed_settings_custom_class').val()
       items_limit: $('#feed_settings_items_limit').val()
@@ -50,6 +75,8 @@ feedHelpers = {
   resetFeedSettings: ->
     $('.feed_settings_content_type').prop 'checked', false
     $('#feed_settings_content_category_ids').val null
+    $('#feed_settings_company_list_ids').val null
+    $('#feed_settings_show_our_content').prop 'checked', false
     $('#feed_settings_content_tag_ids').val null
     $('#feed_settings_custom_class').val ''
     $('#feed_settings_items_limit').val 4

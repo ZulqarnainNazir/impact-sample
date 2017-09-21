@@ -25,6 +25,8 @@ module BlockAttributesConcern
       :link_color,
       :content_types,
       :content_category_ids,
+      :company_list_ids,
+      :show_our_content,
       :content_tag_ids,
       :include_search,
       :background_aspect_ratio,

@@ -90,9 +90,10 @@ module SearchHelper
       return Kaminari.paginate_array(@events.reverse).page(page).per(limit)
   end
 
-  def posts(business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+  def posts(blog_feed_block, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
     Kaminari.paginate_array(
         ContentBlogSearch.new(
+          blog_feed_block,
           business, 
           '', 
           content_types: content_types, 
@@ -102,11 +103,41 @@ module SearchHelper
       ).page(page).per(limit)
   end
 
-  def blog_search_base(business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+  def blog_search_base(blog_feed_block, business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
     Kaminari.paginate_array(
         ContentBlogSearch.new(
+          blog_feed_block,
           business, 
           search_string, 
+          content_types: content_types,
+          content_category_ids: content_category_ids, 
+          content_tag_ids: content_tag_ids
+        ).search
+      ).page(page).per(limit)
+  end
+
+  #CONTENT FEED WIDGET HELPERS FOR ELASTICSEARCH QUERIES
+  def content_feed_widget_base_search(widget, business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+    #for search queries
+    Kaminari.paginate_array(
+        ContentFeedWidgetSearch.new(
+          widget,
+          business,
+          search_string, 
+          content_types: content_types,
+          content_category_ids: content_category_ids, 
+          content_tag_ids: content_tag_ids
+        ).search
+      ).page(page).per(limit)
+  end
+
+  def content_feed_widget_base(widget, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+    #excluding search queries
+    Kaminari.paginate_array(
+        ContentFeedWidgetSearch.new(
+          widget,
+          business,
+          '', 
           content_types: content_types,
           content_category_ids: content_category_ids, 
           content_tag_ids: content_tag_ids

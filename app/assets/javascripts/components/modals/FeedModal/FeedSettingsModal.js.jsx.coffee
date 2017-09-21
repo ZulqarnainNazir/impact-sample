@@ -6,6 +6,10 @@ FeedSettingsModal = React.createClass
     for category in this.props.contentCategories
       `<option value={category.id}>{category.name}</option>`
 
+  renderFeedSettingsCompanyLists: ->
+    for list in this.props.companyLists
+      `<option value={list.id}>{list.name}</option>`
+
   renderFeedSettingsTags: ->
     for tag in this.props.contentTags
       `<option value={tag.id}>{tag.name}</option>`
@@ -123,6 +127,26 @@ FeedSettingsModal = React.createClass
               <div className="col-xs-4">
                 <div className="checkbox" style={{ margin: 0 }}>
                   <label><input className="feed_settings_content_type" id="feed_settings_content_type_post" type="checkbox" data-type="CustomPost" defaultChecked="true" /> Custom Posts</label>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div className="form-group">
+              <label>Show content from:</label>
+              <div className="form-group">
+                <label htmlFor="feed_settings_show_our_content" className="i-checks">
+                  <input className="feed_settings_show_our_content" id="feed_settings_show_our_content" type="checkbox" defaultChecked="true"/>
+                  <i> Our Content</i>
+                </label>
+                <br/>
+                - And / Or -
+                <div className="form-group">
+                  <label htmlFor="feed_settings_company_list_ids" className="control-label">
+                    Companies in these lists
+                  </label>
+                  <select type="text" id="feed_settings_company_list_ids" className="form-control" multiple>
+                    {this.renderFeedSettingsCompanyLists()}
+                  </select>
                 </div>
               </div>
             </div>

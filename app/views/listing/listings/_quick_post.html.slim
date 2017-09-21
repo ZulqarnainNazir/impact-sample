@@ -1,10 +1,11 @@
+- business = quick_post.business
 - if @masonry.present? && @masonry == true
   div.grid-item
     div.ibox-blog
       div.ibox-content.product-box
         - cache quick_post do
           div.product-imitation
-            = link_to listing_content_type_path(@business.generate_listing_segment, quick_post.slug, content: 'quick_post'), target: :_blank do
+            = link_to listing_content_type_path(business.generate_listing_segment, quick_post.slug, content: 'quick_post'), target: :_blank do
               - placement = quick_post.quick_post_image_placement
               - if placement.try(:embeds?)
                 = placement.embed.html_safe
@@ -13,11 +14,11 @@
               - else
                 = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to listing_content_type_path(@business.generate_listing_segment, quick_post.slug, content: 'quick_post'), target: :_blank, class: 'grid-feed-title'
+            = link_to listing_content_type_path(business.generate_listing_segment, quick_post.slug, content: 'quick_post'), target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(quick_post.title), length: 60, omission: '... '
             small.m-t-xs = truncate sanitize(quick_post.description), length: 80, omission: '... '
             div.mt-text.rt
-              = link_to listing_content_type_path(@business.generate_listing_segment, quick_post.slug, content: 'quick_post'), target: :_blank, class: 'btn-feed-block'
+              = link_to listing_content_type_path(business.generate_listing_segment, quick_post.slug, content: 'quick_post'), target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
                 
@@ -35,7 +36,7 @@
             - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
               ' ,
     - cache quick_post do
-      h2.h3 = link_to listing_content_type_path(@business.generate_listing_segment, quick_post.slug, content: 'quick_post')
+      h2.h3 = link_to listing_content_type_path(business.generate_listing_segment, quick_post.slug, content: 'quick_post')
       - placement = quick_post.quick_post_image_placement
       - if placement.try(:embeds?)
         .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
@@ -44,4 +45,4 @@
         = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
         br
       = truncate sanitize(quick_post.content), length: 250, omission: '... ' do
-        = link_to 'Read More', listing_content_type_path(@business.generate_listing_segment, quick_post.slug, content: 'quick_post')
+        = link_to 'Read More', listing_content_type_path(business.generate_listing_segment, quick_post.slug, content: 'quick_post')

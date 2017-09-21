@@ -39,7 +39,23 @@ wrapper.wrapper-content
             = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last) do |b|
               = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
             br style="clear:both;"
-
+          
+          .form-group
+            = form.label "Show content from:"
+            .form-group
+              = form.label :show_our_content, class: 'i-checks' do
+                = form.check_box :show_our_content
+                i
+                |  Our Content
+              br
+              | - And / Or -
+              .form-group
+                = form.label :company_list_ids, "Companies in These Lists", class: 'control-label'
+                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @content_feed_widget.company_list_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+                = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
+                  => icon 'plus-circle'
+                  | Add New Company List
+          hr
           .form-group
             = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
             = form.select :content_category_ids, options_from_collection_for_select(@business.content_categories.all, 'id', 'name', @content_feed_widget.content_category_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}

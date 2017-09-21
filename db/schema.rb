@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170610204027) do
+ActiveRecord::Schema.define(version: 20170913210738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 20170610204027) do
     t.datetime "updated_at",                            null: false
     t.string   "layout",            default: "default"
     t.integer  "position",          default: 0,         null: false
+    t.boolean  "show_our_content",  default: true
   end
 
   add_index "blocks", ["frame_type", "frame_id"], name: "index_blocks_on_frame_type_and_frame_id", using: :btree
@@ -459,9 +460,11 @@ ActiveRecord::Schema.define(version: 20170610204027) do
     t.integer  "max_items"
     t.string   "link_label"
     t.boolean  "enable_search"
-    t.string   "content_types",              array: true
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "content_types",                                array: true
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.text     "company_list_ids", default: [],                array: true
+    t.boolean  "show_our_content", default: true
   end
 
   add_index "content_feed_widgets", ["business_id"], name: "index_content_feed_widgets_on_business_id", using: :btree

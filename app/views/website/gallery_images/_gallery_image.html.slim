@@ -1,3 +1,4 @@
+- business = gallery_image.gallery.business
 - cache gallery_image do
   - image = gallery_image.gallery_image
   .col-xs-3.col-sm-2.col-md-3
@@ -7,7 +8,7 @@
             .gallery-item-image style="background-image:url('#{image.attachment_url(:small)}')"
               = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive'
     - else
-      = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @gallery.id, :image_id => gallery_image.id], target: :_blank , class: 'gallery-item-page-thumb' do
+      = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(business.website), protocol: :http, :id => @gallery.id, :image_id => gallery_image.id], target: :_blank , class: 'gallery-item-page-thumb' do
           figure
             .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
               = image_tag image.attachment_url(:large), alt: image.alt, title: image.title, class: 'img-responsive'

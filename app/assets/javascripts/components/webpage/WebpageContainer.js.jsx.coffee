@@ -5,6 +5,7 @@ WebpageContainer = React.createClass
     return {
       directoryWidgets: this.props.directoryWidgets,
       contactForms: this.props.contactForms,
+      companyLists: this.props.companyLists,
       teamMembers: this.props.teamMembers,
       location: this.props.location,
       openings: this.props.openings,

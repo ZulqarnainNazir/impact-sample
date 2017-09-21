@@ -23,4 +23,11 @@ class ContentFeedWidget < ActiveRecord::Base
      ["CustomPost", "Custom Posts"]]
   end
 
+  def get_business_ids
+    business_ids = []
+    company_list = []
+    self.company_list_ids.each {|n| company_list << CompanyList.find(n) unless n == ""}
+    company_list.each {|n| n.companies.each {|n| business_ids << n.business.id if n.business} }
+    return business_ids
+  end
 end

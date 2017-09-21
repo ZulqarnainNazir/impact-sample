@@ -47,6 +47,8 @@ Block = React.createClass
         <input type="hidden" name={this.inputName('custom_anchor_id')} value={this.props.custom_anchor_id} />
         <input type="hidden" name={this.inputName('content_types')} value={this.props.content_types} />
         <input type="hidden" name={this.inputName('content_category_ids')} value={this.props.content_category_ids} />
+        <input type="hidden" name={this.inputName('company_list_ids')} value={this.props.company_list_ids} />
+        <input type="hidden" name={this.inputName('show_our_content')} value={this.props.show_our_content} />
         <input type="hidden" name={this.inputName('content_tag_ids')} value={this.props.content_tag_ids} />
         <input type="hidden" name={this.inputName('background_aspect_ratio')} value={this.props.aspect_ratio} />
         <input type="hidden" name={this.inputName('widget_id')} value={this.props.widget_id} />

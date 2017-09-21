@@ -1,10 +1,11 @@
+- business = post.business
 - if @masonry.present? && @masonry == true
   /.col-xs-4.slider-content.single-blog
   div.grid-item
     div.ibox-blog
       div.ibox-content.product-box
         div.product-imitation
-          = link_to listing_content_type_path(@business.generate_listing_segment, post.slug, :content => 'post'), target: :_blank do
+          = link_to listing_content_type_path(business.generate_listing_segment, post.slug, :content => 'post'), target: :_blank do
             - placement = post.sections_placement
             - if placement.try(:embeds?)
               = placement.embed.html_safe
@@ -13,11 +14,11 @@
             - else
               = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to listing_content_type_path(@business.generate_listing_segment, post.slug, content: 'post'), target: :_blank, class: 'grid-feed-title'
+            = link_to listing_content_type_path(business.generate_listing_segment, post.slug, content: 'post'), target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(post.title.titleize), length: 60, omission: '... '
             small.m-t-xs = truncate sanitize(post.sections_content), length: 90, omission: '... '
             div.mt-text.rt
-              = link_to listing_content_type_path(@business.generate_listing_segment, post.slug, content: 'post'), target: :_blank, class: 'btn-feed-block'
+              = link_to listing_content_type_path(business.generate_listing_segment, post.slug, content: 'post'), target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
   / .col-xs-4.slider-content.single-blog
@@ -48,7 +49,7 @@
             - if i < post.content_categories.count + post.content_tags.count - 1
               ' ,
 
-    h2 = link_to post.title, listing_content_type_path(@business.generate_listing_segment, post.slug, content: 'post')
+    h2 = link_to post.title, listing_content_type_path(business.generate_listing_segment, post.slug, content: 'post')
     .clearfix
       - placement = post.sections_placement
       - if placement.try(:embeds?)

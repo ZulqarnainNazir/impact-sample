@@ -5,11 +5,11 @@
     div class=blog_feed_block.custom_class
       a id=blog_feed_block.custom_anchor_id
       - if params[:blog_search].present? && !params[:blog_search].empty?
-        - posts = blog_search_base(blog_feed_block.business, params[:blog_search], content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit.to_i + 1)
+        - posts = blog_search_base(blog_feed_block, blog_feed_block.business, params[:blog_search], content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit.to_i + 1)
       - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
         - posts = events_organized_desc(blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit.to_i + 1)
       - else
-        - posts = posts(blog_feed_block.business, content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit.to_i + 1)
+        - posts = posts(blog_feed_block, blog_feed_block.business, content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit.to_i + 1)
 
       a name="blog-feed"
       - if blog_feed_block.include_search == "true"

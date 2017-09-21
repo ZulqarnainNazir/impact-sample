@@ -1,24 +1,18 @@
 #IMPORTANT: Look at the comments *at the end* of the code below for guidance on how
 #the code works, why it was set-up the way it was as of 3.19.17, and for info RE associated
 #rake tasks.
-class ContentBlogSearch
-  def initialize(blog_feed_block, business, query = '', content_types: [], content_category_ids: [], content_tag_ids: [])
+class ContentFeedWidgetSearch
+  def initialize(widget, business, query = '', content_types: [], content_category_ids: [], content_tag_ids: [])
+    @widget = widget
     @business = business
-    @blog_feed_block = blog_feed_block
+    @business_ids = @widget.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
+    if @widget.show_our_content == true
+      @business_ids << @business.id #includes parent business' content
+    end
     @query = query.to_s.strip
     @content_types = content_types
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
-
-    @business_ids = []
-    if @blog_feed_block != nil
-      @business_ids = @blog_feed_block.get_business_ids #returns array of Business ids, or empty array
-      unless @blog_feed_block.show_our_content == false
-        @business_ids << @business.id #includes parent business' content
-      end
-    else
-      @business_ids << @business.id
-    end
   end
 
   def search
@@ -37,6 +31,7 @@ class ContentBlogSearch
           {
             terms: {
               business_id: @business_ids,
+              #example from documentation: "terms" : { "user" : ["kimchy", "elasticsearch"]}
             },
           },
           # {

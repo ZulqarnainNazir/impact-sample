@@ -1,3 +1,4 @@
+- business = offer.business
 - if @masonry.present? && @masonry == true
   - cache offer do
     div.grid-item
@@ -5,7 +6,7 @@
         div.ibox-content.product-box
           div.product-imitation
             .offer-border
-              = link_to [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank do
+              = link_to [:website, offer, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
                 - if offer.try(:offer_image)
                   - image = offer.offer_image
                   - if image && !image.nil?
@@ -13,11 +14,11 @@
                 - else
                   = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
+            = link_to [:website, offer, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(offer.title), length: 75, omission: '...'
             small.m-t-xs = truncate sanitize(offer.offer), length: 90, omission: '... '
             div.mt-text.rt
-              = link_to [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
+              = link_to [:website, offer, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
 - else

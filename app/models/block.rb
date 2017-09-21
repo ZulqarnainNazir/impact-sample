@@ -5,7 +5,7 @@ class Block < ActiveRecord::Base
                             :height, :items_limit, :well_style, :custom_class,
                             :content_types, :content_category_ids, :content_tag_ids,
                             :include_search, :background_aspect_ratio, :custom_anchor_id,
-                            :widget_id, :contact_form_widget_id
+                            :widget_id, :contact_form_widget_id, :company_list_ids
 
   enum link_version: { link_none: 0, link_internal: 1, link_external: 2, link_paginate: 3, }
 

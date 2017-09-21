@@ -88,11 +88,11 @@ hr
 
 	    div
 	      - if params[:blog_search].present? && !params[:blog_search].empty?
-	        - posts = blog_search_base(@business, params[:blog_search], content_types: params[:content_types], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 12)
+	        - posts = blog_search_base(nil, @business, params[:blog_search], content_types: params[:content_types], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 12)
 	      - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
 	        - posts = events_organized_desc_listings(@business, page: params[:page], limit: 12)
 	      - else
-	        - posts = posts(@business, content_types: params[:content_types], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 12)
+	        - posts = posts(nil, @business, content_types: params[:content_types], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 12)
 
 
 	      div style="padding-top:30px;"
