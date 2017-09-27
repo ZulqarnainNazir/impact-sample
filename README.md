@@ -50,6 +50,18 @@ To refresh the indices at a later time, run:
 
 `rake environment elasticsearch:import:all`
 
+**Settig Up the Databse**
+
+Create the database and load the schema and seeds
+
+```
+  rake db:create
+  rake db:schema:load
+  rake db:seed
+```
+
+Note running `rake db:migrate` before loading the schema will return an error.
+
 **What You Need Running in Terminal**
 
 As indicated by the dependencies listed earlier, you will need to have ElasticSearch and Redis running for the app to work. If you do not have these installed, do so, preferably using Homebrew where applicable. You should also be passingly familiar (at least) with what ElasticSearch and Redis do and how they work. This is especially relevant for ElasticSearch, as it is leveraged in the app extensively and a fundamental knowledge of how it works and how to manipulate it will save you time and frustration. Please keep in mind that IMPACT does **not** use SearchKick to handle ElasticSearch. If you're only familiar with SearchKick, read the documentation on the gems used for ES in IMPACT. It should make sense after a read through or two.
