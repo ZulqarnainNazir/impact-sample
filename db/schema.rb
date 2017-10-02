@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913210738) do
+ActiveRecord::Schema.define(version: 20170927233814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1338,6 +1338,9 @@ ActiveRecord::Schema.define(version: 20170913210738) do
     t.text     "footer_embed"
     t.boolean  "hide_embed_on_landing"
     t.boolean  "hide_embed_on_blog"
+    t.text     "header_embed"
+    t.boolean  "hide_header_embed_on_landing"
+    t.boolean  "hide_header_embed_on_blog"
   end
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree

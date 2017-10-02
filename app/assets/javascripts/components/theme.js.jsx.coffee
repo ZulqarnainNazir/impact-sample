@@ -9,6 +9,7 @@ Theme = React.createClass
         defaultLinkColor: React.PropTypes.string
 
     getInitialState: ->
+        headerEmbed: this.props.initialHeaderEmbed
         wrapContainer: if this.props.defaultWrapContainer is 'true' then true else false
         background_color: this.props.defaultBackgroundColor || ''
         foreground_color: this.props.defaultForegroundColor || ''
@@ -286,6 +287,20 @@ Theme = React.createClass
             </div>
             <BrowserPanel browserButtonsSrc={this.props.browserButtonsSrc} toggleEditing={this.toggleEditing} editing={this.state.editing}>
                 <div style={{position: 'relative', backgroundColor: this.state.background_color, color: this.state.foreground_color}}>
+
+                    <div className="webpage-group webpage-group-basic-left">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-sm-12">
+                                    <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '1em 0.5em'}}>
+                                        <span style={{fontSize: 20}}>Embedded Header Content – <a href="#" data-toggle="modal" data-target="#header-embed-modal">View/Edit</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div className="webpage-group webpage-group-basic-left">
                         <Block {...this.state.headerBlock} kind="full_width" groupInputName="header_block_attributes" editing={this.state.editing} editCustom={this.editHeader} editLogo={this.editLogo} />
                     </div>

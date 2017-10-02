@@ -15,6 +15,7 @@ p.text-right = link_to website_root_url(host: website_host(@business.website), p
       defaultBackgroundColor: form.object.background_color,
       defaultForegroundColor: form.object.foreground_color,
       defaultLinkColor: form.object.link_color,
+      initialHeaderEmbed: form.object.header_embed,
       initialHeaderBlock: form.object.header_block.try(:as_theme_json, form.object.business),
       initialFooterBlock: form.object.footer_block.try(:as_theme_json, form.object.business),
       initialFooterEmbed: form.object.footer_embed,
@@ -45,6 +46,33 @@ p.text-right = link_to website_root_url(host: website_host(@business.website), p
               .checkbox_section
                 = form.check_box :hide_embed_on_landing, class: 'checkbox', rows:3
                 = form.label :hide_embed_on_landing, "Hide on Landing Pages", rows:3, checked: true
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            = form.submit class: "btn btn-primary", placeholder: "Save Changes"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="header-embed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Add text to your Header Embed block</h4>
+          </div>
+          <div class="modal-body">
+            .form-group
+              = form.text_area :header_embed, rows:8, class: 'form-control', placeholder: "Enter Text Here"
+              .checkbox_section
+                = form.check_box :hide_header_embed_on_blog, class: 'checkbox', rows:3
+                = form.label :hide_header_embed_on_blog, "Hide on Blog Posts", rows:3
+              .checkbox_section
+                = form.check_box :hide_header_embed_on_landing, class: 'checkbox', rows:3
+                = form.label :hide_header_embed_on_landing, "Hide on Landing Pages", rows:3, checked: true
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

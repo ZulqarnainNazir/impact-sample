@@ -109,6 +109,9 @@ html lang="en"
          - hero_position = 'hero-' + group.attributes['settings']['hero_position']
 
   body[class="#{hero_position}", data-no-turbolink="true"]
+    - if has_header_embed(@website, @page)
+      .webpage-header-embed
+        == @website.header_embed
     - if @website.header_block
       - unless @page && @page.respond_to?(:hide_navigation) && @page.hide_navigation == '1'
         .webpage-header[class="#{hero_position}"]

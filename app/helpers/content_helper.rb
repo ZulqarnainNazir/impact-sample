@@ -65,6 +65,20 @@ module ContentHelper
       end
     end
 
+    def has_header_embed(website, page)
+      if website.header_embed
+        is_blog = (page.class == BlogPage) || !page # <--- BlogPage entry or generic post page
+        is_landing_page = page.respond_to?(:hide_navigation) && page.hide_navigation == '1'
+        if (is_blog && website.hide_header_embed_on_blog) || (is_landing_page && website.hide_header_embed_on_landing)
+          return false
+        elsif is_blog || is_landing_page
+          return true
+        else
+          return true
+        end
+      end
+    end
+
     def placeholder_image_url
       asset_path 'impact_gs.jpg'
     end
