@@ -1,5 +1,7 @@
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
+  h3 You have a new message!
   p A form has been submitted to your Locable Marketing Suite account at #{link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]}.
+  small Please do NOT reply to this message directly, use the email address included below...
   dl
     dt First Name
     dd = @contact_message.customer_first_name
