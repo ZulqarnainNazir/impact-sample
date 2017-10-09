@@ -69,6 +69,10 @@ wrapper.wrapper-content
 
 - content_for :javascript do
   javascript:
+    // Select all content types by default
+    var contentTypes = $('input[name="content_feed_widget[content_types][]"]')
+        contentTypes.prop('checked', 'checked');
+
     $(function() {
       $("select").chosen();
     });
