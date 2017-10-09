@@ -62,7 +62,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Custom Missions", [:custom, @business, :missions]
           / li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
           /   = link_to "Website Onboarding", [@business, :crm_feedbacks]
-      li title="Content & Distribution" class=('active' if controller_path.match(/\Abusinesses\/content/))
+      li title="Content & Distribution" class=('active' if controller_path.match(/\Abusinesses\/content/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/) || controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
         = link_to "#"
           i.fa.fa-bullhorn
           span.nav-label[data-i18n="nav.manage_content"]
@@ -81,8 +81,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
             = link_to "Import Events", [@business, :content_event_imports]
-          
-      li title="Contacts & Relationships" class=('active' if controller_path.match(/\Abusinesses\/crm/))
+      li title="Contacts & Relationships" class=('active' if controller_path.match(/\Abusinesses\/crm/) && !controller_path.match(/\Abusinesses\/crm\/company_lists/) )
         = link_to "#"
           i.fa.fa-address-card
           span.nav-label[data-i18n="nav.contacts"]
@@ -103,7 +102,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Contact Forms", [@business, :crm_contact_forms]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
             = link_to "CSV Import", [@business, :crm_imports]
-      li title="SupportLocal Network" class=('active' if controller_path.match(/\Abusinesses\/crm/))
+
+      li title="SupportLocal Network" class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists/) || controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
         = link_to "#"
           i.fa.fa-group
           span.nav-label[data-i18n="nav.support_local"]
@@ -113,7 +113,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists/))
             = link_to "Company Lists", [@business, :crm_company_lists]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
-            = link_to "SupportLocal Embeds", [@business, :tools_directory_widgets]     
+            = link_to "SupportLocal Embeds", [@business, :tools_directory_widgets]
       li title="Manage Website" class=('active' if controller_path.match(/\Abusinesses\/website/))
         = link_to "#"
           i.fa.fa-desktop
@@ -170,7 +170,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Customer Information", [:edit, @business, :data_customers]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/values/))
             = link_to "Community & Values", [:edit, @business, :data_values]
-      li title="Account Details" class=('active' if controller_path.match(/\Aaccount\/details/))
+      li title="Account Details" class=('active' if controller_path.match(/\Abusinesses\/accounts/) || controller_path.match(/\Abusinesses\/authorizations/) || controller_path.match(/\Abusinesses\/subscriptions/))
         = link_to "#"
           i.fa.fa-bookmark
           span.nav-label[data-i18n="nav.business_data"]
