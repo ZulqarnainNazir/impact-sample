@@ -51,29 +51,29 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
     end
     @invite.save!
     if @invite.type_of == 'membership_1'
-      if InvitesMailer.member_invite(@invite, @business).deliver_now
+      if InvitesMailer.member_invite(@invite, @business).deliver_later(wait: 2.seconds)
         flash[:notice] = "Invite successfully sent."
         flash[:appcues_event] = "Appcues.track('invited member')"
         intercom_event 'invited-member'
         redirect_to business_crm_companies_path
       else
-        flash[:alert] = "Something went wrong. Please try again."
+        flash[:alert] = "Something went wrong here. Please try again."
         render 'new'
       end
 
     elsif @invite.type_of == 'basic'
-      if InvitesMailer.basic_invite(@invite, @business).deliver_now
+      if InvitesMailer.basic_invite(@invite, @business).deliver_later(wait: 2.seconds)
         flash[:notice] = "Invite successfully sent."
         flash[:appcues_event] = "Appcues.track('invited non member')"
         intercom_event 'invited-non-member'
         redirect_to business_crm_companies_path
       else
-        flash[:alert] = "Something went wrong. Please try again."
+        flash[:alert] = "Something went wrong sending this email. Please try again."
         render 'new'
       end
 
     elsif @invite.type_of == 'membership_2'
-      if InvitesMailer.member_invite_2(@invite, @business).deliver_now
+      if InvitesMailer.member_invite_2(@invite, @business).deliver_later(wait: 2.seconds)
         flash[:notice] = "Invite successfully sent."
         flash[:appcues_event] = "Appcues.track('invited member')"
         intercom_event 'invited-member'
