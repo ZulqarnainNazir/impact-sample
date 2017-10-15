@@ -73,6 +73,7 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'letter_opener', group: :development
 gem 'jquery-turbolinks'
 gem 'browser-timezone-rails'
+gem 'rb-readline'
 
 #ahoy email tracks email opens, among other things. google for more info.
 gem 'ahoy_email'

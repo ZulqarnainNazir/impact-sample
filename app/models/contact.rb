@@ -185,6 +185,17 @@ class Contact < ActiveRecord::Base
     update_attributes(attributes)
   end
 
+  def invite_sent_to_contact?
+    email = AhoyMessage.where(to: self.email, business_id: self.business_id).first
+    if email.nil?
+      return false
+    elsif !email.nil? && email.was_invite_email?
+      return true
+    else
+      return false
+    end
+  end
+
   private
 
   def name_and_or_email

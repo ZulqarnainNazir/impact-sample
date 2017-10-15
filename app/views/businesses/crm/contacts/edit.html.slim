@@ -7,6 +7,13 @@
     .col-md-5
       .ibox.float-e-margins
         .ibox-title
+          span.pull-left
+            ' Invite Status:
+            - if @contact.invite_sent_to_contact?
+              'invite sent
+            - else
+              'no invite sent
+
           span.pull-right
             - review_emails_sent = @contact.count_review_emails_sent
             - review_count = @contact.reviews.count

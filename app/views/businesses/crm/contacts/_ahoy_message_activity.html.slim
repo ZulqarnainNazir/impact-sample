@@ -3,4 +3,20 @@
     i.fa.fa-envelope
 
   .vertical-timeline-content
-    p = "#{subject.sent_at.strftime("%m/%d/%Y %I:%M%p")}: Review Request Sent"
+  	- if subject.was_feedback_email?
+
+		- if subject.feedback_calculator == 1
+			p = "#{subject.sent_at.strftime("%m/%d/%Y %I:%M%p")}: review request sent. Next review request will be sent on #{subject.sent_at.advance(days:3).strftime("%m/%d/%Y")}."
+		- elsif subject.feedback_calculator == 2
+			p = "#{subject.sent_at.strftime("%m/%d/%Y %I:%M%p")}: review request sent. Next review request will be sent on #{subject.sent_at.advance(days:7).strftime("%m/%d/%Y")}."
+		- elsif subject.feedback_calculator >= 3
+			p = "#{subject.sent_at.strftime("%m/%d/%Y %I:%M%p")}: review request sent. Max number of review requests sent to this contact."
+
+	- elsif subject.was_invite_email?
+
+		- if subject.invite_calculator == 1
+			p = "#{subject.sent_at.strftime("%m/%d/%Y %I:%M%p")}: invite sent. Next invite will be sent on #{subject.sent_at.advance(days:3).strftime("%m/%d/%Y")}."
+		- elsif subject.invite_calculator == 2
+			p = "#{subject.sent_at.strftime("%m/%d/%Y %I:%M%p")}: invite sent. Next invite will be sent on #{subject.sent_at.advance(days:7).strftime("%m/%d/%Y")}."
+		- elsif subject.invite_calculator >= 3
+			p = "#{subject.sent_at.strftime("%m/%d/%Y %I:%M%p")}: invite sent. Max number of invites sent to this contact."

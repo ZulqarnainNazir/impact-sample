@@ -37,6 +37,41 @@ class User < ActiveRecord::Base
     invites.size > 0
   end
 
+  def invite_sent_email?(email)
+    @email = email
+    return AhoyMessage.invite_sent_check?(self.id, @email)
+  end
+
+  def find_invite_by_invitee_id(email, business, invitee_id)
+    #the purpose is to return an invite if it is found, and if not, return nil
+    #as of creation, used in invites_controller#create.rb
+    @invitee_id = invitee_id
+    @email = email
+    @business = business
+    @contacts = @business.contacts.where(email: @email)
+    @result = nil
+
+    #if there is an invitee_id argued, and if it is in an invite sent by the user, return the contact
+    if !@invitee_id.blank?
+      if self.invites.where(invitee_id: @invitee_id).present?
+        return self.invites.where(invitee_id: @invitee_id).first.invitee #this returns a contact
+      else
+        return @result
+      end
+    end
+    #no invitee_id present? then search contacts by email
+    # if @contacts.count == 0
+    #   return nil
+    # elsif @contacts.count > 0
+    #   @contacts.each do |record|
+    #     if self.invites.where(email: record.email)
+    #       @result = record
+    #     end
+    #   end
+    #   return @result
+    # end
+  end
+
   def complaint_or_bounce_report
     if self.complaint_report?
       "Emails to this address have been marked as spam."

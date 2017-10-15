@@ -115,6 +115,14 @@ class Business < ActiveRecord::Base
 #One column should be "Active Account" with options "True" if there's an owner,
 #"Sample" if account ID but no owner, "False" if no ID.
 
+  # def biz_sent_invite_to_company(company_id)?
+  #   if self.owned_companies.where(id: company_id).present && Invite.where(company_id: 768).present?
+  #     return true
+  #   else
+  #     return false
+  #   end
+  # end
+
   def reviews_limit?
     if self.is_on_engage_plan?
       if self.reviews.count >= 5
