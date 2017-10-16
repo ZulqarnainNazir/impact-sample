@@ -85,7 +85,7 @@ Rails.application.routes.draw do
           get :super_admins
         end
       end
-      resources :email_data, only: [:none] do
+      resources :email_data, only: [:index] do
         collection do
           get :overview
         end

@@ -1,27 +1,23 @@
 div id="companies-partial"
   .table-responsive
-    table.table.table-striped.table-bordered.table-hover.datatable
+    table.table.table-striped.table-bordered.table-hover.ajax-datatable data-url="/super/email_data" data-columns="[
+          { "data": "sent_at" },
+          { "data": "to" },
+          { "data": "user_id" },
+          { "data": "bounced_report" },
+          { "data": "complaints_report" },
+          { "data": "opened_at" },
+          { "data": "clicked_at" },
+          { "data": "subject" },
+          { "data": "mailer" }
+    ]"
 		thead
-			th Sent
-			th Recipient
-			th UserID
-			th Bounce Report
-			th Spam Report
-			th Opened
-			th Clicked
-			th Subject
-			th Mailer
-
-		tbody
-			- @emails.each do |n|
-			    tr
-			    	td = n.sent_at
-			        td = n.to
-			        td = n.user_id
-			        td = n.bounce_report
-			        td = n.complaint_report
-			        td = n.opened_at
-			        td = n.clicked_at
-			        td = n.subject			        
-			        td = n.mailer
-			        
+			th.all Sent
+			th.all Recipient
+			th.all UserID
+			th.all Bounce Report
+			th.all Spam Report
+			th.all Opened
+			th.all Clicked
+			th.all Subject
+			th.all Mailer

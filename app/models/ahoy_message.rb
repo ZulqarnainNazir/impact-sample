@@ -1,21 +1,12 @@
 class AhoyMessage < ActiveRecord::Base
-
   def bounce_report
     bounce_report = BouncedEmail.find_by(email_address: self.to)
-    if bounce_report.nil?
-      'none'
-    elsif !bounce_report.nil?
-      bounce_report.bounce_type
-    end
+    bounce_report ? bounce_report.bounce_type : 'none'
   end
 
   def complaint_report
     complaint_report = ComplaintsEmail.find_by(email_address: self.to)
-    if complaint_report.nil?
-      'none'
-    elsif !complaint_report.nil?
-      complaint_report.complaint_feedback_type
-    end
+    complaint_report ? complaint_report.complaint_feedback_type : 'none'
   end
 
   def self.invite_sent_check?(user_id, email)
@@ -62,5 +53,4 @@ class AhoyMessage < ActiveRecord::Base
   def created_at
     self.sent_at
   end
-
 end
