@@ -213,7 +213,7 @@ $(document).ready(function () {
       nextArrow: '<a role="button" class="right carousel-control"><span class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a>',
       dotsClass: 'carousel-indicators'
     });
-
+    $('.slick-carousel').slick('slickPlay');
 });
 
 
