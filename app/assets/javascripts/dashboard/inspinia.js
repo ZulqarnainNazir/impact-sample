@@ -209,11 +209,13 @@ $(document).ready(function () {
     $('.slick-carousel').slick({
       dots: true,
       infinite: true,
+      autoplay: true,
+      autoplaySpeed: 7000,
+      pauseOnHover: true,
       prevArrow: '<a role="button" class="left carousel-control"><span class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Next</span></a>',
       nextArrow: '<a role="button" class="right carousel-control"><span class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a>',
       dotsClass: 'carousel-indicators'
     });
-    $('.slick-carousel').slick('slickPlay');
 });
 
 
