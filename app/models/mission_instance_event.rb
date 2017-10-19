@@ -10,5 +10,6 @@ class MissionInstanceEvent < ActiveRecord::Base
   scope :next_due, -> { incomplete.where('occurs_on >= ?', Time.now) }
   scope :next_due_event, -> { incomplete.where('occurs_on >= ?', Time.now) }
 
+  scope :occurs_on, -> (date) { where(occurs_on: date) }
   scope :for_today, -> { incomplete.where('occurs_on = ?', Time.zone.now) }
 end

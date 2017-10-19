@@ -19,6 +19,7 @@ class MissionInstance < ActiveRecord::Base
   enum last_status: [:created, :active, :completed, :skipped, :snoozed, :deactivated]
 
   scope :active, -> { where(last_status: ACTIVE_STATUS_INDEXES) }
+  scope :created_or_active, -> { where(last_status: [0, 1]) }
   scope :scheduled, -> { where.not(end_date: nil) }
   scope :one_time, -> { where(repetition: [nil, '']) }
   scope :recurring, -> { where.not(repetition: nil) }
@@ -125,13 +126,9 @@ class MissionInstance < ActiveRecord::Base
     repetition? && end_date?
   end
 
-  def next_due_at(future_only = false)
+  def next_due_at
     if scheduled?
-      if future_only
-        mission_instance_events.next_due_event&.first&.occurs_on
-      else
-        mission_instance_events.oldest.first&.occurs_on
-      end
+      mission_instance_events.incomplete.next_due_event&.first&.occurs_on
     else
       start_date
     end
@@ -197,7 +194,7 @@ class MissionInstance < ActiveRecord::Base
   end
 
   def due_in_future?
-    next_due = next_due_at(true)
+    next_due = next_due_at
     next_due && next_due >= Time.now
   end
 
@@ -245,6 +242,16 @@ class MissionInstance < ActiveRecord::Base
                         .map(&:mission_instance)
   end
 
+  def self.recurring_missions_due_on(date)
+    scheduled
+      .joins(:mission_instance_events)
+      .where(mission_instance_events: { occurs_on: date})
+  end
+
+  def self.one_time_missions_due_on(date)
+    one_time.where(start_date: date)
+  end
+
   # def self.one_time_missions_due_today(business)
   #   business
   #     .mission_instances
@@ -288,7 +295,7 @@ class MissionInstance < ActiveRecord::Base
 
   def ensure_end_date
     if self.repetition?
-      self.end_date ||= Time.now + DEFAULT_END_DAYS.days
+      self.end_date = Time.now + DEFAULT_END_DAYS.days
     end
   end
 

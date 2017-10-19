@@ -32,7 +32,7 @@
               td
                 - if instance && instance.scheduled?
                   a = instance.schedule.to_s
-                  .small = "Next due: #{instance&.next_due_at(true)&.strftime('%m/%d/%y')}"
+                  .small = "Next due: #{instance&.next_due_at&.strftime('%m/%d/%y')}"
                 - else
                   a One time
                   .small = "Due: #{instance&.start_date&.strftime('%m/%d/%y')}"

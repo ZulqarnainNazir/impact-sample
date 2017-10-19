@@ -8,7 +8,7 @@ class MissionHistory < ActiveRecord::Base
   scope :newest, -> { order('created_at DESC') }
   scope :mission_historical, -> { where(action: ['completed', 'skipped', 'activated']) }
 
-  validates :action, :mission_instance, :actor, presence: true
+  validates :action, :mission_instance, presence: true
 
   def completed?
     action == 'completed'

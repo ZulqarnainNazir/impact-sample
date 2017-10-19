@@ -18,21 +18,21 @@ class MissionActioner
   def complete
     mission_instance.mark_complete.tap do
       track 'completed'
-      mission_instance.mission_instance_events.oldest&.first&.update(status: 'completed')
+      mission_instance.mission_instance_events.next_due.first&.update(status: 'completed')
     end
   end
 
   def skip
     mission_instance.mark_skipped.tap do
       track 'skipped'
-      mission_instance.mission_instance_events.oldest&.first&.update(status: 'skipped')
+      mission_instance.mission_instance_events.next_due.first&.update(status: 'skipped')
     end
   end
 
   def snooze
     mission_instance.mark_snoozed.tap do
       track 'snoozed'
-      mission_instance.mission_instance_events.oldest&.first&.update(status: 'snoozed')
+      mission_instance.mission_instance_events.next_due.first&.update(status: 'snoozed')
     end
   end
 

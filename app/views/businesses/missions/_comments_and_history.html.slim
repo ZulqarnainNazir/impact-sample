@@ -36,11 +36,11 @@
                     blockquote.small.m-t-2
                       p= history.note.note.html_safe
                 - else
-                  strong = "#{history.description} at #{history.happened_at.strftime('%m/%d/%Y %l:%M%p')}"
+                  strong = history.description
                 .text-muted
                   small
                     = history.created_at.strftime('%m/%d/%Y %l:%M%p')
-                    - if history.actor == current_user
+                    - if history&.actor == current_user
                     span.m-l-5px
                       - if history.id && history.note
                         = render partial: 'edit_note_modal', locals: { history: history }

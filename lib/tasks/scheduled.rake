@@ -1,4 +1,40 @@
 namespace :scheduled do
+  desc 'Mark missions overdue by 3 days as skipped'
+  # bundle exec rake scheduled:skip_missions_too_long_overdue OVERDUE_NUM=3
+  task skip_missions_too_long_overdue: :environment do
+    @overdue_num = ENV['OVERDUE_NUM']&.to_i || 3
+    @overdue_date = Date.today - @overdue_num
+
+    admin_ids = User.where(super_user: true).pluck(:id)
+
+    scheduled_missions = MissionInstance.created_or_active
+                                        .recurring_missions_due_on(@overdue_date)
+
+    one_time_missions = MissionInstance.created_or_active
+                                       .one_time_missions_due_on(@overdue_date)
+
+    puts "Automatically skipping #{scheduled_missions.length} scheduled missions and #{one_time_missions.length} one time missions."
+
+    [scheduled_missions, one_time_missions].each do |batch|
+      batch.each do |mi|
+        mi.mark_skipped
+
+        if mi.scheduled?
+          mi.mission_instance_events
+            .incomplete
+            .occurs_on(@overdue_date)
+            .update_all(status: 'skipped')
+        end
+
+        mi.mission_histories.create!(
+          action: 'skipped',
+          happened_at: Time.zone.now,
+          description: "We automatically marked this Mission instance as skipped because it was 3-days overdue."
+        )
+      end
+    end
+  end
+
   desc 'Trigger summary todo notification emails'
   task trigger_summary_todo_notifications: :environment do
     admin_ids = User.where(super_user: true).map(&:id)
