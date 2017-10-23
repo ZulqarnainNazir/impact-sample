@@ -38,7 +38,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
             - else
               i.fa.fa-photo.fa-2x
-        div.m-t-sm
+        div.m-t-sm.profile-element
           strong.text-muted Quick Links
           ul.unstyled.p-w-xs
               - if (@business.build_plan_no_setup_fee == false)
@@ -229,9 +229,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Community & Values", [:edit, @business, :data_values]
       li title="Account Details" class=('active' if controller_path.match(/\Abusinesses\/authorizations/) || controller_path.match(/\Abusinesses\/subscriptions/))
         = link_to "#"
-          i.fa.fa-bookmark
+          i.fa.fa-cog
           span.nav-label[data-i18n="nav.business_data"]
-            | Account Details
+            | Account Settings
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Aaccount\/details/))
           li class=('active' if controller_path.match(/\Abusinesses\/authorizations/))
@@ -242,6 +242,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
       - if current_user.super_user?
         li class=('active' if controller_path.match(/\Abusinesses\/super_settings/))
           = link_to [:edit, @business, :super_settings] do
-            i.fa.fa-cog>
+            i.fa.fa-cogs>
             span.nav-label[data-i18n="nav.super_settings"]
-              | Super Settings
+              | Super Admin
