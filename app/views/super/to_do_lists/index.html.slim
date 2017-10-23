@@ -1,6 +1,11 @@
 .row.m-t-3
   .col-md-12
     = link_to 'Add New ToDoList', new_super_to_do_list_path, class: 'btn btn-primary pull-right'
+  .btn-group
+      = link_to 'Manage ToDos', super_to_dos_path, class: 'btn btn-default'
+      = link_to 'Manage To Do Lists', super_to_do_lists_path, class: 'btn btn-default'
+      = link_to 'Manage Missions', super_missions_path, class: 'btn btn-default'
+      = link_to 'Manage Custom Missions', custom_super_missions_path, class: 'btn btn-default'
 .ibox-content.m-t-3
   table.table
     thead

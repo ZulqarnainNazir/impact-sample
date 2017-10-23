@@ -70,10 +70,10 @@
                             i.fa.fa-group.fa-4x
                           .col-xs-9.text-right
                             div style="font-size: 36px" = @business.company_lists.inject(0) {|acc, list| acc + list.companies.size}
-                            | In Network
+                            | In Networks
                             br
                       .panel-footer.text-right
-                        span.pull-left> SupportLocal Network
+                        span.pull-left> Local Networks
                         i.fa.fa-arrow-circle-right
                 .col-xs-6.col-lg-3
                   = link_to [:custom, @business, :missions] do
@@ -89,7 +89,7 @@
                             - else
                               | Missions
                       .panel-footer.text-right
-                        span.pull-left> Build Marketing Plan
+                        span.pull-left> Custom Marketing Missions
                         i.fa.fa-arrow-circle-right
                 .col-xs-6.col-lg-3
                   = link_to [@business, :website_root] do
@@ -136,4 +136,4 @@
 = render partial: 'businesses/dashboards/overview', locals: { business: @business }
 
   
-p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your SupportLocal Network, the Locable Publisher Network, and any linked social accounts.
+p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your relevant Local Networks, the Locable Publisher Network, and any linked social accounts.

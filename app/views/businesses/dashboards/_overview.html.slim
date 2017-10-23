@@ -1,52 +1,52 @@
 .ibox.float-e-margins
   .ibox-title
-    h5 Contact &amp; Company Overview
+    h5 Local Connections
 
   .ibox-content
     .row
       .col-xs-6
         - if business.contacts.empty?
           .p-a-1.text-center
-            h2 No Contacts
+            h2 No People Contacts
             p
-              = link_to "Create a Contact", [:new, business, :crm_contact], class: 'text-navy'
+              = link_to "Create People Contact", [:new, business, :crm_contact], class: 'text-navy'
               br
               | -- or --
               br
-              = link_to "Import Contacts", [business, :crm_imports], class: 'text-navy'
+              = link_to "Import People Contacts", [business, :crm_imports], class: 'text-navy'
         - else
           .p-a-1.text-center
             = link_to [business, :crm_contacts] do
               h1.no-margins = business.contacts.size
-            small Contacts
+            small People Contacts
             hr
             / h1.no-margins 12
             / small New Contacts
             .row.m-t-sm
               = link_to [business, :crm_imports], class: 'btn btn-sm btn-primary btn-outline' do
                 i.fa.fa-plus-circle
-                |  Import Contacts
+                |  Import People Contacts
               = link_to "Add a Contact", [:new, business, :crm_contact], class: 'clear text-muted'
       .col-xs-6
         - if business.owned_companies.empty?
           .p-a-1.text-center
-            h2 No Companies
+            h2 No Companies or Causes
             p
-              = link_to "Create a Company", [:new, business, :crm_company], class: 'text-navy'
+              = link_to "Add a Company or Cause", [:new, business, :crm_company], class: 'text-navy'
               br
               | -- or --
               br
-              = link_to "Import Companies", [business, :crm_imports, import_type: :companies], class: 'text-navy'
+              = link_to "Import Companies or Causes", [business, :crm_imports, import_type: :companies], class: 'text-navy'
         - else
           .p-a-1.text-center
             = link_to [business, :crm_companies] do
               h1.no-margins = business.owned_companies.size
-            small Companies
+            small Companies &amp; Causes
             hr
             / h1.no-margins 12
             / small New Contacts
             .row.m-t-sm
               = link_to [business, :crm_imports, import_type: :companies], class: 'btn btn-sm btn-primary btn-outline' do
                 i.fa.fa-plus-circle
-                |  Import Companies  
+                |  Import Companies or Causes 
               = link_to "Add a Company", [:new, business, :crm_company], class: 'clear text-muted'

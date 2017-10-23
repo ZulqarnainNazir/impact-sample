@@ -1,25 +1,25 @@
 .ibox.float-e-margins
   .ibox-title
-    h5 Company Lists
+    h5 Local Networks
     / a.pull-right.text-muted data-toggle="modal" data-target="#configure-list-feed"
     /   i.fa.fa-cog
     /   |  Configure
   - if business.company_lists.empty?
     .ibox-content
       .p-a-3.text-center
-        h2 No Company Lists
+        h2 No Local Networks
         h4
-          = link_to "Click to Create a List and Add Companies", [:new, business, :crm_company_list], class: "text-navy"
+          = link_to "Click to Create a Network and Add Companies & Causes", [:new, business, :crm_company_list], class: "text-navy"
   - else
     .ibox-content.ibox-heading
       h3
         i.fa.fa-list
-        |  Company & Org Lists
+        |  Local Networks
       small
         - companies = []
         - business.company_lists.each {|list| companies = companies.concat(list.companies)}
-        = "Following #{companies.uniq.size} Companies in #{business.company_lists.size} Lists."
-        = link_to " Manage lists", [business, :crm_company_lists]
+        = "Following #{companies.uniq.size} Companies & Causes in #{business.company_lists.size} Networks."
+        = link_to " Manage Networks", [business, :crm_company_lists]
     .ibox-content
       .feed-activity-list
         / =======
@@ -31,7 +31,7 @@
               = link_to list.name, [:edit, @business, :crm, list]
             div
               = list.companies.size
-              |  Companies
+              |  Companies &amp; Causes
             
       / eventually change to link to actual feed page, not just company lists
       = link_to [business, :crm_company_lists], class: 'btn btn-primary btn-block btn-outline m-t' do
