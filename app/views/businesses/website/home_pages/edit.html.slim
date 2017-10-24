@@ -56,6 +56,8 @@
       hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
       imagesPath: business_images_path(form.object.website.business),
       contentsPath: business_content_root_path(form.object.website.business),
+      contactFormsPath: business_crm_contact_forms_path(form.object.website.business),
+      companyListsPath: business_crm_company_lists_path(form.object.website.business),
       reviewsPath: business_crm_reviews_path(form.object.website.business),
       newSupportLocalPath: new_business_tools_directory_widget_path(form.object.website.business),
       newContactFormPath: new_business_crm_contact_form_path(form.object.website.business),

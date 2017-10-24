@@ -22,6 +22,8 @@ WebpageContainer = React.createClass
       browserButtonsSrc: this.props.browserButtonsSrc,
       bulkUploadPath: this.props.bulkUploadPath,
       contentsPath: this.props.contentsPath,
+      contactFormsPath: this.props.contactFormsPath,
+      companyListsPath: this.props.companyListsPath,
       imagesPath: this.props.imagesPath,
       reviewsPath: this.props.reviewsPath,
       newSupportLocalPath: this.props.newSupportLocalPath,
@@ -392,6 +394,8 @@ WebpageContainer.propTypes = {
   browserButtonsSrc: React.PropTypes.string,
   bulkUploadPath: React.PropTypes.string,
   contentsPath: React.PropTypes.string,
+  contactFormsPath: React.PropTypes.string,
+  companyListsPath: React.PropTypes.string,
   imagesPath: React.PropTypes.string,
   reviewsPath: React.PropTypes.string,
 
