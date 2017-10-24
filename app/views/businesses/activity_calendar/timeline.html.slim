@@ -1,12 +1,26 @@
-- title 'Activity Timeline'
+- title 'Mission Timeline'
 
-= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Reminder list', fp: :reminders, an: 'Activity Timeline'}
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Marketing Missions', fp: :reminders, an: 'Marketing Mission Timeline'}
 
 .ibox
   .ibox-title
-    h5 Activity Timeline
+    h5 Mission Timeline
     .ibox-tools
-      = link_to 'Add Custom Mission', new_business_mission_instance_path(@business), class: 'btn btn-primary btn-xs'
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             i.fa.fa-edit
+             |  Manage Missions
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to "Active Missions List View", [@business, :reminders]
+        li
+          = link_to "Browse Missions", [@business, :missions]
+        li
+          = link_to 'Create New Mission', new_business_mission_instance_path(@business)
+        li
+          = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
   .ibox-content
     = render partial: 'timeline_toolbar'
 

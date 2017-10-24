@@ -1,14 +1,14 @@
 .fc-toolbar
-  .fc-left
-    .fc-button-group
-      = link_to 'Upcoming', timeline_business_activity_calendar_index_path(@business, future: true, past: nil), class: "fc-button #{params[:future] ? 'fc-state-active' : nil}"
-      = link_to 'Past', timeline_business_activity_calendar_index_path(@business, past: true, future: nil), class: "fc-button #{params[:past] ? 'fc-state-active' : nil}"
+  .fc-left.col-xs-4.no-padding
+    .fc-button-group.col-xs-12.no-padding
+      = link_to 'Upcoming', timeline_business_activity_calendar_index_path(@business, future: true, past: nil), class: "fc-button #{params[:future] ? 'fc-state-active' : nil} col-sm-4 col-xs-12"
+      = link_to 'Past', timeline_business_activity_calendar_index_path(@business, past: true, future: nil), class: "fc-button #{params[:past] ? 'fc-state-active' : nil} col-sm-4 col-xs-12"
 
   .fc-center
 
-  .fc-right
-    = link_to 'Timeline', timeline_business_activity_calendar_index_path(@business), class: 'fc-timelineButton-button fc-button fc-state-default fc-corner-left fc-corner-right fc-state-active'
-    .fc-button-group
-      = link_to 'month', business_activity_calendar_index_path(view: 'month'), class: "fc-month-button fc-button fc-state-default fc-corner-left #{params[:filtering] == 'month' ? 'fc-state-active' : nil}"
-      = link_to 'week', business_activity_calendar_index_path(view: 'week'), class: "fc-agendaWeek-button fc-button fc-state-default #{params[:filtering] == 'week' ? 'fc-state-active' : nil}"
-      = link_to 'day', business_activity_calendar_index_path(view: 'day'), class: "fc-agendaDay-button fc-button fc-state-default fc-corner-right #{params[:filtering] == 'day' ? 'fc-state-active' : nil}"
+  .fc-right.col-xs-8.col-sm-4
+    = link_to 'Timeline', timeline_business_activity_calendar_index_path(@business), class: 'fc-timelineButton-button fc-button fc-state-default fc-state-active col-xs-12 col-sm-4'
+    .fc-button-group.col-xs-12.col-sm-8.no-padding
+      = link_to 'month', business_activity_calendar_index_path(view: 'month'), class: "fc-month-button fc-button fc-state-default col-xs-4 no-padding #{params[:filtering] == 'month' ? 'fc-state-active' : nil}"
+      = link_to 'week', business_activity_calendar_index_path(view: 'week'), class: "fc-agendaWeek-button fc-button fc-state-default #{params[:filtering] == 'week' ? 'fc-state-active' : nil} col-xs-4 no-padding"
+      = link_to 'day', business_activity_calendar_index_path(view: 'day'), class: "fc-agendaDay-button fc-button fc-state-default #{params[:filtering] == 'day' ? 'fc-state-active' : nil} col-xs-4 no-padding"

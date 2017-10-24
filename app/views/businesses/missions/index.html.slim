@@ -1,12 +1,24 @@
-- title 'Standard Missions'
+- title 'Browse Missions'
 
-= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, an: 'Standard Missions'}
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Marketing Missions', fp: :reminders, an: 'Browse Missions'}
 
 .ibox
   .ibox-title
-    h5 Standard Missions
+    h5 Browse Missions
     .ibox-tools
-      = link_to 'Create new Mission', new_business_mission_instance_path(@business), class: 'btn btn-primary btn-xs'
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             i.fa.fa-edit
+             |  Manage Missions
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to 'Create New Mission', new_business_mission_instance_path(@business)
+        li
+          = link_to "View Active Missions", [@business, :reminders]
+        li
+          = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
   .ibox-content
     table.table.table-hover
       thead
