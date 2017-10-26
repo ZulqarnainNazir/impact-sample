@@ -19,6 +19,7 @@ class Businesses::Website::HomePagesController < Businesses::Website::BaseContro
     params.require(:home_page).permit(
       :description,
       :sidebar_position,
+      :page_head_injection,
       :title,
       groups_attributes: groups_attributes,
       main_image_placement_attributes: placement_attributes,
