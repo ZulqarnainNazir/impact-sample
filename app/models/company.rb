@@ -119,6 +119,22 @@ class Company < ActiveRecord::Base
     self.business.website
   end
 
+  def not_editable?(current_business)
+    #current_business mirrors Devise's use of the nomenclature and should be what's passed as the argument if available.
+    # if not, @business, or whatever variable is holding the record for the current account/business being used
+    #current_business == business/account logged-into.
+    if self.business.in_impact? 
+      #in_impact == business has been claimed, and cannot be edited by a business that created the current_business
+      return true
+    elsif self.business_record_creator && self.user_business_id == current_business.id
+      #if the business is not in impact, i.e., unclaimed, then:
+      #1. did the current_biz create the record? if so, this business is editable (until it's claimed!)
+      return false
+    else
+      return true
+    end
+  end
+
 
   def self.select_collection(user_business_id, contact_id = nil)
     if contact_id.nil?
@@ -136,9 +152,9 @@ class Company < ActiveRecord::Base
     business.save(:validate => false)
     Location.new(:business_id => business.id, :name => params[:name]).save(:validate => false)
     if params[:website_url].nil?
-      company = Company.new(:user_business_id => user_business.id, :company_business_id => business.id, :name => params[:name])
+      company = Company.new(:user_business_id => user_business.id, :company_business_id => business.id, :name => params[:name], business_record_creator: true)
     else
-      company = Company.new(:user_business_id => user_business.id, :company_business_id => business.id, :name => params[:name], :website_url => params[:website_url])
+      company = Company.new(:user_business_id => user_business.id, :company_business_id => business.id, :name => params[:name], :website_url => params[:website_url], business_record_creator: true)
     end
     success = company.save(:validate => false)
     CompanyLocation.create(:company_id => company.id, :name => params[:name])

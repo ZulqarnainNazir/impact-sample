@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170927233814) do
+ActiveRecord::Schema.define(version: 20171022191434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,9 +247,9 @@ ActiveRecord::Schema.define(version: 20170927233814) do
     t.integer  "user_business_id"
     t.integer  "company_business_id"
     t.text     "private_details"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.integer  "read_by",             default: [], null: false, array: true
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "read_by",                 default: [],    null: false, array: true
     t.boolean  "hide"
     t.string   "name"
     t.string   "tagline"
@@ -271,6 +271,7 @@ ActiveRecord::Schema.define(version: 20170927233814) do
     t.string   "realtor_id"
     t.string   "tripadvisor_id"
     t.string   "houzz_id"
+    t.boolean  "business_record_creator", default: false
   end
 
   create_table "company_list_categories", force: :cascade do |t|

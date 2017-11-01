@@ -2,7 +2,7 @@
       = errors_for company
       - tooltip = 'This data is part of the public Local Graph. Private data is only available within your account.'
       = form.fields_for :business do |business|
-        - if !disabled && @company.business.logo.blank?
+        - if !disabled
           = react_component 'ImagePlacement',
             imagesPath: business_images_path(form.object),
             inputPrefix: 'company[business_attributes][logo_placement_attributes]',
@@ -13,38 +13,38 @@
             showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
         .form-group
           = business.label :name, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-          .col-lg-10 = business.text_field :name, class: 'form-control', value: company.business.name, disabled: (disabled || !company.business.name.blank?)
+          .col-lg-10 = business.text_field :name, class: 'form-control', value: company.business.name, disabled: (disabled)
         .form-group
           = business.label :description, "Description (Public)", class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-          .col-lg-10 = business.text_area :description, class: 'form-control', value: company.business.description, disabled: (disabled || !company.business.description.blank?) 
+          .col-lg-10 = business.text_area :description, class: 'form-control', value: company.business.description, disabled: (disabled) 
         .form-group
           = business.label :website_url, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-          .col-lg-10 = business.text_field :website_url, class: 'form-control', value: company.business.website_url, disabled: (disabled || (!company.business.website_url.blank? && company.business.website_url != "http://"))
+          .col-lg-10 = business.text_field :website_url, class: 'form-control', value: company.business.website_url, disabled: (disabled)
         = business.fields_for :location do |location|
           .form-group
             = location.label :name, "Location Name", class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.text_field :name, class: 'form-control', value: company.business.location.name, disabled: (disabled || !company.business.location.name.blank?)
+            .col-lg-10 = location.text_field :name, class: 'form-control', value: company.business.location.name, disabled: (disabled)
           .form-group
             = location.label :email, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.email_field :email, class: 'form-control', value: company.business.location.email, disabled: (disabled || !company.business.location.email.blank?)
+            .col-lg-10 = location.email_field :email, class: 'form-control', value: company.business.location.email, disabled: (disabled)
           .form-group
             = location.label :street1, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.text_field :street1, class: 'form-control', value: company.business.location.street1, disabled: (disabled || !company.business.location.street1.blank?)
+            .col-lg-10 = location.text_field :street1, class: 'form-control', value: company.business.location.street1, disabled: (disabled)
           .form-group
             = location.label :street2, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.text_field :street2, class: 'form-control', value: company.business.location.street2, disabled: (disabled || !company.business.location.street2.blank?)
+            .col-lg-10 = location.text_field :street2, class: 'form-control', value: company.business.location.street2, disabled: (disabled)
           .form-group
             = location.label :city, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.text_field :city, class: 'form-control', value: company.business.location.city, disabled: (disabled || !company.business.location.city.blank?)
+            .col-lg-10 = location.text_field :city, class: 'form-control', value: company.business.location.city, disabled: (disabled)
           .form-group
             = location.label :state, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.select :state, options_for_select(UsStates.to_a, company.business.location.state), { include_blank: true, prompt: '– Select State –' }, class: 'form-control', disabled: (disabled || !company.business.location.state.blank?)
+            .col-lg-10 = location.select :state, options_for_select(UsStates.to_a, company.business.location.state), { include_blank: true, prompt: '– Select State –' }, class: 'form-control', disabled: (disabled)
           .form-group
             = location.label :zip_code, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.text_field :zip_code, class: 'form-control', value: company.business.location.zip_code, disabled: (disabled || !company.business.location.zip_code.blank?)
+            .col-lg-10 = location.text_field :zip_code, class: 'form-control', value: company.business.location.zip_code, disabled: (disabled)
           .form-group
             = location.label :phone_number, class: 'col-lg-2 control-label public', 'data-toggle' => 'tooltip', 'title' => tooltip
-            .col-lg-10 = location.phone_field :phone_number, class: 'form-control', value: company.business.location.phone_number, disabled: (disabled || !company.business.location.phone_number.blank?)
+            .col-lg-10 = location.phone_field :phone_number, class: 'form-control', value: company.business.location.phone_number, disabled: (disabled)
           - if !disabled
             = form.button 'Save Public Changes', class: 'btn btn-primary btn-block'
               / = form.button 'Save Changes', class: 'btn btn-primary'

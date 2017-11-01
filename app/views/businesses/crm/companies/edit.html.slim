@@ -36,7 +36,9 @@
               i.fa.fa-chevron-down>
               i.fa.fa-chevron-up>
         #company-more-collapse.collapse.in aria-expanded="true"
-          = render partial: 'business_form', :locals => {:disabled  => @company.business.in_impact, :business => @business, :company => @company}
+          = render partial: 'business_form', :locals => {:disabled  => @company.not_editable?(@business), :business => @business, :company => @company}
+
+          // PRIVATE DETAILS BELOW!
           
           = form_for @company, url: [@business, :crm, @company], html: { class: "company-form form-horizontal"} do |form|
             .ibox.float-e-margins
