@@ -1,10 +1,7 @@
 div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
   div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-    span style="float: right;"
-    - if @mission_instance&.business&.logo.present?
-      = image_tag @mission_instance.business.logo.attachment_url(:logo_medium), alt: @mission_instance.business.name
-    - else
-      strong = @mission_instance&.business&.name
+    strong style="color: #555;"
+      = @business.name
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
   div style="padding: 2em 1em; background-color: #448ccb;"
     h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" A Marketing Mission is now due

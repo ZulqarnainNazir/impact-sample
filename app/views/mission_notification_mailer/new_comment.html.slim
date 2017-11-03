@@ -1,20 +1,19 @@
 div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
   div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-    span style="float: right;"
-    - if @business.logo.present?
-      = image_tag @business.logo.attachment_url(:logo_medium), alt: @business.name
-    - else
-      strong = @business.name
+    strong style="color: #555;"
+      = @business.name
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-  div style="padding: 2em 1em; background-color: #448ccb;"
-    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" Comment made on marketing mission
-    p style="font-size: 14px; margin: 1em 0 0; color: #fff" These updates are meant to keep you in the loop and your project moving forward.
-  h2 style="margin: 1em 0; font-size: 1.5em; color: #036;"
+  div style="padding: 2em 1em; background-color: #56b495;"
+    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" Comment made on marketing a mission
+    p style="font-size: 14px; margin: 1em 0 0; color: #fff" These updates are meant to keep you in the loop and your marketing moving forward.
+  h3 style="margin: 1em 0; color: #036;"
     = raw @comment.content.html_safe
     br
     br
     - if @mission_instance && @mission_instance.mission
-      = link_to 'View it now', business_missions_url(@business.id, @mission_instance.mission.id), style: 'color: #448ccb;'
+      = link_to 'View it now', business_missions_url(@business.id, @mission_instance.mission.id), style: 'color: #56b495;'
+      br
+      p style="font-size: 11px;" Please do not reply to this email!
 
   p style="margin: 1em 0 2em; padding-top: 0.5em; border-top: dotted 1px #ccc"
-    = link_to content_tag(:small, 'Change notification settings'), edit_business_mission_notifications_url(@business.id), style: 'color: #448ccb;'
+    = link_to content_tag(:small, 'Change notification settings'), edit_business_mission_notifications_url(@business.id), style: 'color: #56b495;'
