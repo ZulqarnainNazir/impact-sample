@@ -9,7 +9,7 @@
       - posts = content_feed_widget_base_search(@content_feed_widget, @content_feed_widget.business, params[:blog_search], content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
       div searching
     - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
-      - posts = events_organized_desc(@content_feed_widget.business, page: params[:page], limit: @content_feed_widget.max_items)
+      - posts = events_organized_desc(@content_feed_widget, @content_feed_widget.business, page: params[:page], limit: @content_feed_widget.max_items)
       div events
     - else
       - posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)

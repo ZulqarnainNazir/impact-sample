@@ -46,7 +46,7 @@ module SearchHelper
       per(limit)
   end
 
-  def events_organized_desc(business, content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+  def events_organized_desc(blog_feed_block, business, content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
 
     #this method is used to display events on a consumer-facing feed
     #on the client's website. 
@@ -56,11 +56,24 @@ module SearchHelper
     #otherwise, it shows all events.
     #keep in mind that "all events" means those that will occur in the future.
     #past events are not included here, ever.
+    @blog_feed_block = blog_feed_block
+    @business = business
+    @business_ids = []
+    if @blog_feed_block != nil
+      @business_ids = @blog_feed_block.get_business_ids #returns array of Business ids, or empty array
+      unless @blog_feed_block.show_our_content == false
+        @business_ids << @business.id #includes parent business' content
+      end
+    else
+      @business_ids << @business.id
+    end
+
+
 
     @events = []
-    business.events.
-      where('occurs_on >= ?', Time.zone.now).
-      order(occurs_on: :desc).each do |x|
+    Event.where({business_id: @business_ids}).
+    where('occurs_on >= ?', Time.zone.now).
+    order(occurs_on: :desc).each do |x|
         tag_ids = x.content_tag_ids
         category_ids = x.content_category_ids
 
