@@ -370,6 +370,16 @@ body.fullscreen-ibox-mode {
  }
 }
 
+.feed_before_after {
+ .blog-show-image {
+   img {
+    object-fit: cover;
+     width: 100%;
+     height: 350px;
+   }
+  }
+}
+
 /* Add custom class styling here */
 .center-blog-items {
  margin: 0 auto;
@@ -383,6 +393,14 @@ body.fullscreen-ibox-mode {
    height: 100%;
    padding-bottom: 15px;
  }
+}
+.post-show {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.blog-content {
+ background: #fff; 
 }
 
 .event-details {

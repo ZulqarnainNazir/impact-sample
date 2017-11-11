@@ -10,7 +10,7 @@ heroHelpers = {
     $('#hero_settings_block_uuid').val block.uuid
     $('#hero_settings_custom_class').val block.custom_class
     $('#hero_settings_custom_anchor_id').val block.custom_anchor_id
-    $('#hero_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'light'
+    $('#hero_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'transparent'
     $('#hero_settings_modal').modal('show')
 
   updateHeroSettings: (component) ->
@@ -25,7 +25,7 @@ heroHelpers = {
     $('#hero_settings_background_color').val('').minicolors('destroy')
     $('#hero_settings_foreground_color').val('').minicolors('destroy')
     $('#hero_settings_custom_class').val ''
-    $('#hero_settings_well_style').val 'light'
+    $('#hero_settings_well_style').val 'transparent'
 
   expandHero: (component, event) ->
     event.preventDefault()

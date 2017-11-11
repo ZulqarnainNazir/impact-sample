@@ -13,7 +13,7 @@
 = webpage_container do
   .row
     div class='col-sm-12'
-      .feed_before_after
+      .feed_before_after.post-show
         - if (before_after.published_status == false && !@preview)
           p This post has not been published by the business owner yet. Check back later!
         - else
@@ -28,15 +28,16 @@
                   '  ,
             hr
             - if before_after.before_image || before_after.after_image
-              .row style="margin-top: 20px"
-                .col-sm-6
-                  - if before_after.before_image
-                    h3.h4 Before
-                    div.blog-show-image = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title
-                .col-sm-6
-                  - if before_after.after_image
-                    h3.h4 After
-                    div.blog-show-image = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.before_image.title
+              .row
+                .col-xs-12
+                  .col-sm-6.no-padding
+                    - if before_after.before_image
+                      h3.h4 Before
+                      div.blog-show-image = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title
+                  .col-sm-6.no-padding
+                    - if before_after.after_image
+                      h3.h4 After
+                      div.blog-show-image = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.before_image.title
           
           p.m-t-md = sanitize_html before_after.description
     / - if @website.content_blog_sidebar? || @website.events_sidebar?

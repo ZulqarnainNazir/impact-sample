@@ -1,18 +1,19 @@
 - title 'Events'
 - canonical_url website_events_url
 
-= webpage_container do
-    ol.breadcrumb
-	    li = link_to icon('home'), :website_root
-	    li.active Events
-	div.page-header
-	  	div
-		    h1 Browse Events
-			= page_entries_info @events, entry_name: 'events'
-		br
-    div 
-      div 
-        .grid
-    	    = render @events
-        .text-center
-          = paginate @events
+.container.blog-content
+    .row.p-md
+	    ol.breadcrumb
+		    li = link_to icon('home'), :website_root
+		    li.active Events
+		div.page-header
+			div
+			    h1 Browse Events
+				= page_entries_info @events, entry_name: 'events'
+			br
+	    div 
+	      div 
+		.grid
+		    = render @events
+		.text-center
+		  = paginate @events

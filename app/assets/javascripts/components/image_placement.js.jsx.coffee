@@ -103,7 +103,7 @@ ImagePlacement = React.createClass
           <input type="hidden" name={this.name('image_attachment_content_type')} value={this.state.imageAttachmentContentType} />
           <input type="hidden" name={this.name('image_attachment_file_name')} value={this.state.imageAttachmentFileName} />
           <input type="hidden" name={this.name('image_attachment_file_size')} value={this.state.imageAttachmentFileSize} />
-          <div className="thumbnail" onMouseEnter={this.mouseHoverEnter} onMouseLeave={this.mouseHoverLeave}>
+          <div onMouseEnter={this.mouseHoverEnter} onMouseLeave={this.mouseHoverLeave}>
             <img style={{width: '100%'}} src={this.imageURL()} alt={this.state.imageAlt} title={this.state.imageTitle} />
             {this.renderUploadButtons()}
             {this.renderButtonRemove()}
@@ -263,8 +263,8 @@ ImagePlacement = React.createClass
     this.state.libraryImages.map this.renderLibraryImage
 
   renderLibraryImage: (image) ->
-    `<div key={image.id} className="col-xs-4 col-sm-3">
-      <img onClick={this.selectImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} className="thumbnail" style={{maxWidth: '100%', cursor: 'pointer'}} data-dismiss="modal" />
+    `<div key={image.id} className="col-xs-4 col-sm-3 p-h-xs">
+      <img onClick={this.selectImage.bind(null, image)} src={image.attachment_thumbnail_url} alt={image.alt} title={image.title} style={{maxWidth: '100%', cursor: 'pointer'}} data-dismiss="modal" />
     </div>`
 
   renderLibraryMoreButton: ->

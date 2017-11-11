@@ -1,5 +1,10 @@
 /* This is a duplication of base.scss from the back end for helper classes use on the front end */
 
+.body {
+ line-height: 1.618; 
+ font-family: system-ui;
+}
+
 .block {
   display: block;
 }
@@ -25,7 +30,7 @@ a:hover, a:focus {
   font-weight: 600;
 }
 
-.font-noraml {
+.font-normal {
   font-weight: 400;
 }
 
@@ -35,6 +40,16 @@ a:hover, a:focus {
 
 .font-italic {
   font-style: italic;
+}
+
+.text-shadow-dark {
+  text-shadow: 1px 1px 2px black, 0 0 1em black, 0 0 0.2em black;
+  .btn {text-shadow: 1px 1px 1px black, 0 0 .1em black, 0 0 0.2em black;}
+}
+
+.text-shadow-light {
+  text-shadow: 1px 1px 2px white, 0 0 1em white, 0 0 0.2em white;
+  .btn {text-shadow: 1px 1px 1px white, 0 0 .1em white, 0 0 0.2em white;}
 }
 
 .b-r {
@@ -90,6 +105,15 @@ video {
 .note-editor.panel {
   margin-bottom: 0;
 }
+
+/* Adding before filters */
+p, li, .lead, h1, h2, h3, h4, h5, h6, .btn, a, img {
+ &:before, &:after {
+   content: ""; 
+   
+ }
+}
+
 
 /* MODAL */
 .modal-content {
@@ -242,7 +266,21 @@ body.body-small .footer.fixed {
   margin-left: 0;
 }
 
+/* Button Updates */
+.btn {
+ white-space: normal;
+}
+
 /* PANELS */
+
+.panel {
+  border: none;
+  box-shadow: none;
+}
+
+.panel-default {
+  border-color: transparent;
+}
 
 .page-heading {
   border-top: 0;
@@ -442,7 +480,7 @@ img.circle-border {
 }
 
 .breadcrumb {
-  background-color: #ffffff;
+  background-color: transparent;
   padding: 0;
   margin-bottom: 0;
 }
@@ -743,7 +781,7 @@ table.table-mail tr td {
 }
 
 .jumbotron {
-  border-radius: 6px;
+  border-radius: 0;
   padding: 40px;
 }
 

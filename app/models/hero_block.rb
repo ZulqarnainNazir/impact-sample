@@ -3,7 +3,7 @@ class HeroBlock < Block
 
   before_validation do
     self.theme = 'left' unless theme?
-    self.style = 'light' unless style?
+    self.style = 'transparent' unless style?
     self.layout = 'default' unless layout?
   end
 end

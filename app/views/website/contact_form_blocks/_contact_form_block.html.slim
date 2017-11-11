@@ -3,4 +3,5 @@
 - @contact_form = ContactForm.find_by(id: contact_form_block.contact_form_widget_id)
 
 - if @contact_form
-  = render partial: 'website/contact_form_blocks/iframed_form', locals: { contact_form: @contact_form }
+  .col-xs-12.no-padding
+    = render partial: 'website/contact_form_blocks/iframed_form', locals: { contact_form: @contact_form }

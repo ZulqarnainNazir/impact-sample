@@ -105,7 +105,7 @@ const GroupContainer = React.createClass({
   groupRowClass(type) {
     switch (type) {
       case 'CallToActionGroup':
-        return 'webpage-group-horizontal-container row';
+        return 'webpage-group-horizontal-container p-h-xl row';
       case 'SidebarGroup':
         return 'webpage-group-vertical-container';
     }

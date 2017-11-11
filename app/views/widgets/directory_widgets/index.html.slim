@@ -1,9 +1,9 @@
-.row
-  - if @directory.public_label
+- if @directory.public_label
+  .row
     .col-md-12
       h1 = @directory.public_label
-.row
-  - if @directory.enable_search
+- if @directory.enable_search
+  .row
     .col-md-12.m-b-5px
       = form_tag nil, :method => "get", :class => "form-inline"
         .form-group

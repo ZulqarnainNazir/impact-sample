@@ -1,13 +1,30 @@
 - blocks = group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks
 - sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
 - content = capture do
-  div class=('row' if group.is_a?(CallToActionGroup))
-    - if group.is_a?(HeroGroup) && group.blocks.length > 1
-      .slick-carousel
-        = render blocks, carousel: true
-      end
+  - if group.is_a?(HeroGroup)
+    - if group.kind == "container"
+      .container.webpage-container-wrapper.webpage-container.hero-container
+        - if group.is_a?(HeroGroup) && group.blocks.length > 1
+          .slick-carousel
+            = render blocks, carousel: true
+        - elsif group.is_a?(HeroGroup) && group.blocks.length == 1 
+          = render blocks
     - else
-      = render blocks
+      - if group.is_a?(HeroGroup) && group.blocks.length > 1
+        .slick-carousel
+          = render blocks, carousel: true
+      - elsif group.is_a?(HeroGroup) && group.blocks.length == 1 
+        = render blocks
+  - else
+    - if @website.wrap_container == 'true'
+      .container.webpage-container-wrapper.webpage-container
+        div class='container p-sm'
+          div class='row p-w-sm p-h-xl'
+            = render blocks
+    - else
+      div class='container p-sm'
+        div class='row p-h-xl'
+          = render blocks
 - if group.is_a?(SidebarGroup)
   .webpage-group.webpage-group-sidebar class="webpage-group-sidebar-#{sidebar_position} #{group.custom_class} sidebar-grid"
     = content

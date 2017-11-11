@@ -1,19 +1,18 @@
 - title "Category – #{@content_category.name}"
 - canonical_url website_content_category_url(@content_category)
 
-= webpage_container do
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li.active
-      ' Category
-      strong “#{@content_category.name}”
-  .m-t-lg
-  / div class=(@website.content_blog_sidebar? ? 'search-container' : 'col-sm-12 m-t-lg')
-  div.search-container.mt-lg
-    .grid
-      = render posts(@business, content_category_ids: [@content_category.id], page: params[:page], limit: 12)
-  / - if @website.content_blog_sidebar?
-  /   .search-sidebar
-  /     .show-sidebar-grid
-  /       = render posts(@business), small: true
-  = paginate posts(@business, content_category_ids: [@content_category.id], page: params[:page], limit: 12)
+ol.breadcrumb
+  li = link_to icon('home'), :website_root
+  li.active
+    ' Category
+    strong “#{@content_category.name}”
+.m-t-lg
+/ div class=(@website.content_blog_sidebar? ? 'search-container' : 'col-sm-12 m-t-lg')
+div.search-container.mt-lg
+  .grid
+    = render posts(@business, content_category_ids: [@content_category.id], page: params[:page], limit: 12)
+/ - if @website.content_blog_sidebar?
+/   .search-sidebar
+/     .show-sidebar-grid
+/       = render posts(@business), small: true
+= paginate posts(@business, content_category_ids: [@content_category.id], page: params[:page], limit: 12)

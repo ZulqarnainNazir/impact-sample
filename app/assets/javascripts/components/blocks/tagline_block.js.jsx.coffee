@@ -3,7 +3,7 @@ TaglineBlock = React.createClass
     `<div className="webpage-tagline">
       <div className={this.wellClass()} style={{textAlign: this.props.theme}}>
         <div className="lead">
-          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} inline={true} update={this.props.updateText} />
+          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
         </div>
         <BlockLinkButton {...this.props} />
       </div>
@@ -11,11 +11,11 @@ TaglineBlock = React.createClass
 
   wellClass: ->
     switch this.props.well_style
-      when 'transparent'
-        'well well-transparent'
+      when 'light'
+        'well well-light'
       when 'dark'
         'well well-dark'
       else
-        'well well-light'
+        'well well-transparent'
 
 window.TaglineBlock = TaglineBlock

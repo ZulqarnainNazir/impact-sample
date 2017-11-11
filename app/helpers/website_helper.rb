@@ -7,11 +7,11 @@ module WebsiteHelper
     end
   end
 
-  def webpage_container(&block)
-    content_tag :div, class: 'webpage-wrapper' do
-      content_tag :div, class: 'container' do
-        content_tag :div, class: ['webpage-container', @website.try(:wrap_container) == 'true' ? 'webpage-container-wrapper' : nil].reject(&:nil?).join(' '), &block
-      end
-    end
-  end
+  #def webpage_container(&block)
+   # content_tag :div, class: 'webpage-wrapper' do
+    #  content_tag :div, class: 'container' do
+     #   content_tag :div, class: ['webpage-container', @website.try(:wrap_container) == 'true' ? 'webpage-container-wrapper' : nil].reject(&:nil?).join(' '), &block
+     # end
+   # end
+  #end
 end

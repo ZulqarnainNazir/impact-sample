@@ -19,11 +19,15 @@
       width: 49.5%;
     }
   }
+  &:before, &:after {
+   content: ""; 
+   position: absolute;
+  }
 }
 
-.webpage-group + .webpage-group {
+/*.webpage-group + .webpage-group {
   margin-top: 30px;
-}
+}*/
 
 .webpage-group-sidebar {
   margin-top: 30px;

@@ -1,5 +1,5 @@
 - cache about_block do
-  .webpage-block class=about_block.custom_class 
+  .col-sm-12 class=about_block.custom_class 
     a id=about_block.custom_anchor_id
     .webpage-about
       article
@@ -15,14 +15,14 @@
             section.col-sm-8
               .page-header
                 h2 = sanitize_html about_block.heading
-                = sanitize_html about_block.subheading
-              = sanitize_html about_block.text
+                h4 = sanitize_html about_block.subheading
+              p = sanitize_html about_block.text
         - else
           - if about_block.block_background_placement.try(:embeds?)
             = about_block.block_background_placement.embed.html_safe
           - elsif about_block.block_background
-            = image_tag about_block.block_background.attachment_url, alt: about_block.block_background.alt, class: 'img-responsive', style: 'width: 100%'
+            = image_tag about_block.block_background.attachment_url(:jumbo), alt: about_block.block_background.alt, class: 'img-responsive', style: 'width: 100%'
           .page-header
             h2 = sanitize_html about_block.heading
-            = sanitize_html about_block.subheading
-          = sanitize_html about_block.text
+            h4 = sanitize_html about_block.subheading
+          p = sanitize_html about_block.text

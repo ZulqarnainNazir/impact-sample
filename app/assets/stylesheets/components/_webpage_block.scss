@@ -5,6 +5,7 @@
   .panel,
   .well {
     margin: 0;
+    border-radius: 0;
   }
   .thumbnail {
     max-width: 100% !important;
@@ -14,6 +15,7 @@
   .jumbotron {
     background-size: cover;
     background-position: 50% 50%;
+    border-radius: 0;
     @media (max-width: 767px) {
       height: auto !important;
     }
@@ -27,19 +29,14 @@
     @extend .h2;
     margin-top: 0;
   }
-  .panel {
-    color: #000;
-  }
   .well-transparent {
     background: transparent;
     border: none;
-    padding: 0;
     box-shadow: none;
   }
   .well-light {
     background-color: rgba(255,255,255,0.85);
     border: solid 1px rgba(255,255,255,0.95);
-    color: #111;
     text-shadow: 0 0 1px #fff;
   }
   .well-dark {
@@ -47,6 +44,26 @@
     border: solid 1px rgba(0,0,0,0.95);
     color: #f9f9f9;
     text-shadow: 0 0 1px #000;
+  }
+  &:before, &:after {
+   content: ""; 
+   position: absolute;
+  }
+  .col-xs-12, .col-xs-9, .col-xs-8, .col-xs-6, .col-xs-4, .col-xs-2, .col-sm-12, .col-sm-9, .col-sm-8, .col-sm-6, .col-sm-4, .col-sm-2 {
+   &:before, &:after {
+   content: ""; 
+   position: absolute;
+  } 
+  }
+}
+
+.webpage-hero, .jumbotron, .lead, hr {
+  &:before {
+   content: ""; 
+  } 
+  &:after {
+   content: ""; 
+   position: absolute;
   }
 }
 
@@ -76,4 +93,9 @@
   position: relative;
   z-index: 1;
   text-align: center;
+}
+
+.sepia-hover img:hover {
+  -webkit-filter: sepia(80%); 
+  filter: sepia(80%);
 }

@@ -48,3 +48,7 @@
 .navbar-toggle{
   margin-top: 12px !important;
 }
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+  border: none;   
+}

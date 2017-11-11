@@ -17,13 +17,13 @@
         - if post_section.post_section_image_placement.try(:embeds?)
           = post_section.post_section_image_placement.embed.html_safe
         - elsif post_section.post_section_image
-          = image_tag post_section.post_section_image.attachment_medium_url, alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive thumbnail'
+          = image_tag post_section.post_section_image.attachment_medium_url, alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive'
   - elsif post_section.full_text?
     = sanitize_html post_section.content
   - elsif post_section.full_image?
     - if post_section.post_section_image_placement.try(:embeds?)
       = post_section.post_section_image_placement.embed.html_safe
     - elsif post_section.post_section_image
-      = image_tag post_section.post_section_image.attachment_url(:large_fixed), alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive thumbnail'
+      = image_tag post_section.post_section_image.attachment_url(:large_fixed), alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive'
 
 = render partial: 'website/post_sections/post_section', collection: post_section.cached_children, locals: { level: level + 1 }

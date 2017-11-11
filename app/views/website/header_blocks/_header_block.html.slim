@@ -95,9 +95,10 @@
                 i.fa.fa-phone>
                 span.tel = link_to number_to_phone(@location.phone_number), "tel:#{@location.phone_number.gsub(/[^0-9]/, '')}"
             - if @location.email? && !@location.hide_email?
-              li = link_to "mailto:#{@location.email}" do
-                i.fa.fa-envelope>
-                span.email = @location.email
+              li: p.navbar-text
+                = link_to "mailto:#{@location.email}" do
+                  i.fa.fa-envelope>
+                  span.email = @location.email
       - elsif header_block.contact_position == 'left' || header_block.contact_position == 'right'
         - if header_block.social_enabled == 'show' && header_block.contact_position == 'left'
           .vcard.navbar-vcard.pull-right.text-right

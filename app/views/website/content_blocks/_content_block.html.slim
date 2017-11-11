@@ -1,50 +1,51 @@
 - cache content_block do
-  .webpage-block class=content_block.custom_class 
+  .webpage-block.col-xs-12.p-sm class=content_block.custom_class 
     a id=content_block.custom_anchor_id
-    .webpage-content
-      - if content_block.heading? && content_block.heading != '<br>'
-        .lead.text-center = sanitize_html content_block.heading
-        hr
-      - if content_block.theme == 'text'
-        = sanitize_html content_block.text
-      - elsif content_block.theme == 'image'
-        - if content_block.block_image_placement.try(:embeds?)
-          = content_block.block_image_placement.embed.html_safe
-        - elsif content_block.block_image
-          = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :jumbo_fixed : :jumbo), class: 'center-block img-responsive thumbnail'
-      - elsif content_block.theme == 'left'
-        .row
-          .col-sm-8
-            = sanitize_html content_block.text
-          .col-sm-4
-            - if content_block.block_image_placement.try(:embeds?)
-              = content_block.block_image_placement.embed.html_safe
-            - elsif content_block.block_image
-              = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
-      - elsif content_block.theme == 'right'
-        .row
-          .col-sm-4
-            - if content_block.block_image_placement.try(:embeds?)
-              = content_block.block_image_placement.embed.html_safe
-            - elsif content_block.block_image
-              = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive thumbnail'
-          .col-sm-8
-            = sanitize_html content_block.text
-      - elsif content_block.theme == 'left_half'
-        .row
-          .col-sm-6
-            = sanitize_html content_block.text
-          .col-sm-6
-            - if content_block.block_image_placement.try(:embeds?)
-              = content_block.block_image_placement.embed.html_safe
-            - elsif content_block.block_image
-              = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive thumbnail'
-      - elsif content_block.theme == 'right_half'
-        .row
-          .col-sm-6
-            - if content_block.block_image_placement.try(:embeds?)
-              = content_block.block_image_placement.embed.html_safe
-            - elsif content_block.block_image
-              = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive thumbnail'
-          .col-sm-6
-            = sanitize_html content_block.text
+    .row
+      div.col-xs-12.m-b-xs
+        - if content_block.heading? && content_block.heading != '<br>'
+          .lead.text-center = sanitize_html content_block.heading
+          hr
+        - if content_block.theme == 'text'
+          p = sanitize_html content_block.text
+        - elsif content_block.theme == 'image'
+          - if content_block.block_image_placement.try(:embeds?)
+            = content_block.block_image_placement.embed.html_safe
+          - elsif content_block.block_image
+            = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :jumbo_fixed : :jumbo), class: 'center-block img-responsive'
+        - elsif content_block.theme == 'left'
+          .row
+            .col-sm-8
+              p = sanitize_html content_block.text
+            .col-sm-4
+              - if content_block.block_image_placement.try(:embeds?)
+                = content_block.block_image_placement.embed.html_safe
+              - elsif content_block.block_image
+                = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive'
+        - elsif content_block.theme == 'right'
+          .row
+            .col-sm-4
+              - if content_block.block_image_placement.try(:embeds?)
+                = content_block.block_image_placement.embed.html_safe
+              - elsif content_block.block_image
+                = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive'
+            .col-sm-8
+              p = sanitize_html content_block.text
+        - elsif content_block.theme == 'left_half'
+          .row
+            .col-sm-6
+              p = sanitize_html content_block.text
+            .col-sm-6
+              - if content_block.block_image_placement.try(:embeds?)
+                = content_block.block_image_placement.embed.html_safe
+              - elsif content_block.block_image
+                = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive'
+        - elsif content_block.theme == 'right_half'
+          .row
+            .col-sm-6
+              - if content_block.block_image_placement.try(:embeds?)
+                = content_block.block_image_placement.embed.html_safe
+              - elsif content_block.block_image
+                = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive'
+            .col-sm-6
+              p = sanitize_html content_block.text

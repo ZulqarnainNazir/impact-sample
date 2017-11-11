@@ -1,8 +1,16 @@
 - cache tagline_block do
-  .webpage-block class=tagline_block.custom_class 
+  .webpage-block.col-xs-12 class=tagline_block.custom_class 
     a id=tagline_block.custom_anchor_id
     .webpage-tagline
-      .well class=(tagline_block.well_style == 'transparent' ? 'well-transparent' : (tagline_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="text-align: #{tagline_block.theme}"
-        .lead = sanitize_html tagline_block.text
-        - if tagline_block.link?
-          p = link_to tagline_block.link_label, tagline_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (tagline_block.link_target_blank ? :_blank : nil), rel: (tagline_block.link_no_follow ? 'no-follow' : nil)
+      .well.row class=(tagline_block.well_style == 'transparent' ? 'well-transparent' : (tagline_block.well_style == 'dark' ? 'well-dark' : 'well-light'))
+        - if tagline_block.theme == 'right'
+          .lead.col-sm-9.p-h-xs = sanitize_html tagline_block.text
+          - if tagline_block.link?
+            p.col-sm-3.text-center.no-padding.no-margins = link_to tagline_block.link_label, tagline_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (tagline_block.link_target_blank ? :_blank : nil), rel: (tagline_block.link_no_follow ? 'no-follow' : nil)
+        - else
+          .lead.col-sm-12 style="text-align: #{tagline_block.theme}" 
+            = sanitize_html tagline_block.text
+          - if tagline_block.link?
+            p.p-w-md style="text-align: #{tagline_block.theme}; width: 100%;"
+              = link_to tagline_block.link_label, tagline_block.link_location, class: 'btn btn-primary btn-lg m-t-sm', role: 'button', target: (tagline_block.link_target_blank ? :_blank : nil), rel: (tagline_block.link_no_follow ? 'no-follow' : nil)
+

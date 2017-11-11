@@ -45,10 +45,14 @@ HeroBlock = React.createClass
           </div>
         </div>`
       else
-        `<div className={this.wellClass()} style={{color: this.props.foreground_color}}>
-          <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
-          <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
-          <BlockLinkButton {...this.props} />
+        `<div className="row">
+          <div key="content" className="col-sm-12">
+            <div className={this.wellClass()} style={{color: this.props.foreground_color}}>
+              <h1><RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.heading} inline={true} update={this.props.updateHeading} /></h1>
+              <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />
+              <BlockLinkButton {...this.props} />
+            </div>
+          </div>
         </div>`
 
   containerClass: ->
@@ -59,11 +63,11 @@ HeroBlock = React.createClass
 
   wellClass: ->
     switch this.props.well_style
-      when 'transparent'
-        'well well-transparent'
+      when 'light'
+        'well well-light'
       when 'dark'
         'well well-dark'
       else
-        'well well-light'
+        'well well-transparent'
 
 window.HeroBlock = HeroBlock

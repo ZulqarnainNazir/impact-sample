@@ -696,8 +696,12 @@ table.table-mail tr td {
   border-color: $navy;
 }
 
+.panel-default {
+  border: 1px solid #ddd; 
+}
+
 .panel-success {
-  border-color: $blue;
+  border: 1px solid $blue;
 }
 
 .panel-success > .panel-heading {

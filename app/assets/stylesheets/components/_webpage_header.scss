@@ -16,6 +16,9 @@
   }
   .navbar {
     margin-bottom: 0;
+    li a {
+      white-space: normal; 
+    }
   }
   .navbar-default-top {
     margin-bottom: 1em;
@@ -88,7 +91,7 @@
         margin: 5px 15px !important;
       }
       a {
-        padding: 5px 15px !important;
+
       }
     }
     ul.header-social {

@@ -79,7 +79,7 @@ feedHelpers = {
     $('#feed_settings_show_our_content').prop 'checked', false
     $('#feed_settings_content_tag_ids').val null
     $('#feed_settings_custom_class').val ''
-    $('#feed_settings_items_limit').val 4
+    $('#feed_settings_items_limit').val 3
     $('#feed_settings_link_id').val ''
     $('#feed_settings_link_external_url').val 'http://'
     $('#feed_settings_link_label').val 'View More'

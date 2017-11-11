@@ -4,5 +4,4 @@
 - canonical_url website_root_url
 
 = render partial: 'website/groups/group', collection: @page.groups.full_width, locals: { sidebar_position: @page.sidebar_position }
-= webpage_container do
-  = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
+= render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }

@@ -16,10 +16,10 @@ HeroSettingsModal = React.createClass
             <div className="form-group">
               <label htmlFor="hero_settings_well_style" className="control-label">Background Shade</label>
               <div>
-                <select ref="selectpicker" id="hero_settings_well_style" className="form-control" defaultValue="light">
+                <select ref="selectpicker" id="hero_settings_well_style" className="form-control" defaultValue="transparent">
+                  <option key="transparent" value="transparent">Transparent</option>
                   <option key="light" value="light">Light</option>
                   <option key="dark" value="dark">Dark</option>
-                  <option key="transparent" value="transparent">Transparent</option>
                 </select>
               </div>
             </div>

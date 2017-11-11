@@ -3,7 +3,7 @@ BlockImagePlacement = React.createClass
     if this.props.kind is 'embeds'
       `<div key="imageEmbed" style={{marginBottom: 15, overflow: 'hidden'}} dangerouslySetInnerHTML={{__html: this.props.embed}} />`
     else if this.imageURL().length > 0
-      `<img className="center-block img-responsive thumbnail" src={this.imageURL()} alt={this.props.image_alt} title={this.props.image_title} style={{marginBottom: 15, maxWidth: '100%'}}/>`
+      `<img className="center-block img-responsive" src={this.imageURL()} alt={this.props.image_alt} title={this.props.image_title} style={{marginBottom: 15, maxWidth: '100%'}}/>`
     else if this.props.editing
       `<div style={{marginBottom: 15}}>
         <ImageEmpty copy={this.props.copy} />

@@ -1,7 +1,7 @@
 - title "Review – #{@review.title}"
 - canonical_url website_review_url(@review)
 
-= webpage_container do
+.container.blog-content
   ol.breadcrumb
     li = link_to icon('home'), :website_root
     li = link_to 'Customer Reviews', :website_reviews
