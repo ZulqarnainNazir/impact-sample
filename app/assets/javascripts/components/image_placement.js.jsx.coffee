@@ -80,7 +80,7 @@ ImagePlacement = React.createClass
       <input type="hidden" name={this.name('image_id')} value={this.state.imageID} />
       <div className="row">
         <div className="col-sm-12">
-          {this.renderThumbnail()}
+          {this.renderThumbnail(this.state.imageID)}
         </div>
         <div className="col-sm-12">
           {this.renderProgress()}
@@ -88,14 +88,14 @@ ImagePlacement = React.createClass
         </div>
       </div>
       {this.renderLibrary()}
-      {this.renderImageAttributes()}
+      {this.renderImageAttributes(this.state.imageID)}
     </div>`
 
   renderLabel: ->
     unless this.props.allowEmbed
       `<label className="control-label">{this.props.label}</label>`
 
-  renderThumbnail: ->
+  renderThumbnail: (id) ->
     if this.state.placementDestroy != '1' and this.imageURL()
       `<div id={this.id('dropzone')}>
         <div className="small">
@@ -106,7 +106,7 @@ ImagePlacement = React.createClass
           <div onMouseEnter={this.mouseHoverEnter} onMouseLeave={this.mouseHoverLeave}>
             <img style={{width: '100%'}} src={this.imageURL()} alt={this.state.imageAlt} title={this.state.imageTitle} />
             {this.renderUploadButtons()}
-            {this.renderButtonRemove()}
+            {this.renderButtonRemove(id)}
           </div>
           <div style={{overflow: 'hidden', whiteSpace: 'nowrap'}}><strong>{this.state.imageAttachmentFileName}</strong></div>
           <div>{this.state.imageAttachmentContentType} – {this.state.imageAttachmentFileSize / 1000}KB</div>
@@ -188,10 +188,10 @@ ImagePlacement = React.createClass
        </span>`
 
 
-  renderButtonRemove: ->
+  renderButtonRemove: (id) ->
     if this.props.buttonRemove and (this.state.uploadState is 'failed' or this.state.uploadState is 'attached') and this.state.hover
       `<span style={{position: 'absolute', bottom: 55, left: 20}}>
-        <span className="btn btn-default" style={{marginRight: 10}} data-toggle="modal" data-target={'#image-attributes'} >
+        <span className="btn btn-default" style={{marginRight: 10}} data-toggle="modal" data-target={'#image-attributes-' + id} >
          <i className="fa fa-cog" />
         </span>
         <span onClick={this.removeImage} className="btn btn-sm btn-danger">
@@ -199,8 +199,8 @@ ImagePlacement = React.createClass
         </span>
       </span>`
 
-  renderImageAttributes: ->
-    `<div id="image-attributes" className="modal fade">
+  renderImageAttributes: (id) ->
+    `<div id={"image-attributes-" + id} className="modal fade">
         <div className="modal-dialog">
             <div className="modal-content">
                 <div className="modal-header">
