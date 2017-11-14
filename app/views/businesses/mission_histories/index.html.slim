@@ -1,0 +1,23 @@
+- title 'Recent Mission Activity'
+
+= render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Marketing Missions', fp: :reminders, an: 'Recent Mission Activity'}
+
+.ibox
+  .ibox-title
+    h5 Recent Mission Activity
+  .ibox-content
+    table.table.table-hover.datatable
+      thead
+        th Mission Title
+        th Description
+        th Actor
+        th Note
+        th Happened At
+      tbody
+        - @histories.each do |history|
+          tr
+            td = link_to history.mission_instance.title, business_mission_path(@business.id, history.mission_instance.mission_id)
+            td = link_to history.description, business_mission_path(@business.id, history.mission_instance.mission_id)
+            td = history.actor_name
+            td = history.note&.note&.html_safe
+            td = history.happened_at.strftime('%m/%d/%Y %l:%M%p')

@@ -25,10 +25,12 @@
       .form-group
         = f.label :difficulty, class: 'control-label'
         = f.select :difficulty, options_for_select(Mission::DIFFICULTY_OPTIONS.map{ |o| [o.capitalize, o] }, f.object.difficulty), {include_blank: ''}, class: 'form-control'
-
       .form-group
         = f.label :pillars, class: 'control-label'
         = f.select :pillars, options_for_select(Mission::PILLARS_OPTIONS.map{ |o| [o.capitalize, o] }, f.object.pillars), {}, class: 'form-control', multiple: true
+      .form-group
+        = f.label :category_ids, class: 'control-label'
+        = f.select :category_ids, @categories.collect {|x| [x.name, x.id]}, {}, class: 'form-control', multiple: true
       .form-group
         = f.label 'ToDoList (optional)', class: 'control-label'
         = f.collection_select :to_do_list_id, ToDoList.all, :id, :name, { include_blank: '' }, class: 'form-control'

@@ -20,6 +20,9 @@ class Mission < ActiveRecord::Base
     end
   end
 
+  has_many :categorizations, as: :categorizable, dependent: :destroy
+  has_many :categories, through: :categorizations
+
   accepts_nested_attributes_for :mission_instances
 
   belongs_to :assigned_user, class_name: 'User'
@@ -44,6 +47,10 @@ class Mission < ActiveRecord::Base
         s.add_recurrence_rule RecurringSelect.dirty_hash_to_rule(repetition)
       end
     end
+  end
+
+  def buzz_created?
+    business_id.blank?
   end
 
   def next_due_at

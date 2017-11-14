@@ -351,6 +351,7 @@ Rails.application.routes.draw do
           get :custom, on: :collection
           resources :mission_assignments, only: :create
         end
+        resources :mission_histories, only: :index
         resources :mission_instances, only: %i[edit update create new] do
           collection do
             post :complete

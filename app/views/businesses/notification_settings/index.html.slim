@@ -30,7 +30,7 @@
                   li.list-group-item
                     ' When a ToDo <strong>is accepted</strong> notify me
                     = f.check_box :accepted, class: 'pull-right'
-              
+
                 .panel-body
                   = link_to 'Cancel', :back, class: 'pull-left'
                   = submit_tag 'Update Preferences', class: 'btn btn-primary pull-right'

@@ -2,7 +2,7 @@ class ToDoNotificationSetting < ActiveRecord::Base
   belongs_to :user
   belongs_to :business
 
-  enum overdue_reminder_interval: [:weekly, :daily]
+  enum overdue_reminder_interval: [:weekly, :daily, :never]
 
   def notify(message, notifiable, to_do)
     if send(notifiable) # notiable represents a boolean field on this model
@@ -17,7 +17,7 @@ class ToDoNotificationSetting < ActiveRecord::Base
   end
 
   def send_notification(message, to_do)
-    return unless user && user.email.present?
+    return unless user && user.email.present? && !never?
 
     ToDoNotificationMailer.notify(message: message,
                                   user: user,

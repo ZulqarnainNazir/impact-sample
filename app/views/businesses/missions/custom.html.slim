@@ -19,6 +19,7 @@
       tbody
         - @missions.each do |mission|
           - instance = @mission_instances[mission.id]&.first
+          = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
 
           - if instance && instance&.active?
             tr
@@ -50,7 +51,7 @@
               td = render partial: 'businesses/reminders/completion_rate', locals: { mission: mission }
               td N/A
               td
-                = link_to activate_business_mission_instances_path(@business, mission_id: mission.id), method: :post, class: 'btn btn-primary btn-sm' do
+                = link_to '#', class: 'btn btn-primary btn-sm', data: { toggle: 'modal', target: "#mission-activation-modal-#{@mission.id}" } do
                   i.fa.fa-check.m-r-5px
                   | Activate
 

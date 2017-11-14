@@ -16,6 +16,7 @@ class Super::MissionsController < SuperController
   end
 
   def new
+    @categories = Category.alphabetical
     @mission = Mission.new
   end
 
@@ -30,6 +31,7 @@ class Super::MissionsController < SuperController
   end
 
   def edit
+    @categories = Category.alphabetical
     @mission = Mission.find(params[:id])
   end
 
@@ -65,7 +67,8 @@ class Super::MissionsController < SuperController
       :group,
       :repetition,
       :globally_recommended,
-      pillars: []
+      pillars: [],
+      category_ids: []
     )
   end
 end

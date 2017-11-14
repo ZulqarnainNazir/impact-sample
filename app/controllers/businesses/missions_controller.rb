@@ -1,14 +1,15 @@
 class Businesses::MissionsController < Businesses::BaseController
   def index
     @missions = Mission.reminders_for_business(@business)
+                       .includes(:categories)
                        .admin_created
                        .joins("LEFT JOIN mission_instances mi ON mi.mission_id = missions.id AND mi.business_id = #{@business.id}")
                        .order('mi.last_status ASC')
-                       .page(params[:page])
 
-    @mission_instances = @business.mission_instances
-                                  .where(mission_id: @missions.map(&:id))
-                                  .group_by(&:mission_id)
+    instances = @business.mission_instances.where(mission_id: @missions.map(&:id))
+
+    @mission_instances = instances.group_by(&:mission_id)
+    @industry_options = ['All'] + @missions.order('categories.name ASC').pluck('categories.name').uniq.compact
   end
 
   def custom

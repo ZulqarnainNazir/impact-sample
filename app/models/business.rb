@@ -16,7 +16,7 @@ class Business < ActiveRecord::Base
   with_options dependent: :destroy do
     has_many :authorizations
     has_many :before_afters
-    has_many :categorizations
+    has_many :categorizations, as: :categorizable
     has_many :contact_messages
     has_many :content_categories
     has_many :content_tags

@@ -7,6 +7,8 @@ class MissionHistory < ActiveRecord::Base
 
   scope :newest, -> { order('created_at DESC') }
   scope :mission_historical, -> { where(action: ['completed', 'skipped', 'activated']) }
+  scope :for_business, -> (business) { where(mission_instance_id: business.mission_instances.map(&:id)) }
+  scope :activations, -> { where action: 'activated' }
 
   validates :action, :mission_instance, presence: true
 
@@ -16,5 +18,9 @@ class MissionHistory < ActiveRecord::Base
 
   def skipped?
     action == 'skipped'
+  end
+
+  def actor_name
+    actor_id? ? actor.name : 'System'
   end
 end

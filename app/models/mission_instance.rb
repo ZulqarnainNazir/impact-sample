@@ -42,6 +42,8 @@ class MissionInstance < ActiveRecord::Base
   after_create :ensure_correct_status
   after_save :ensure_events_cleanup
 
+  delegate :title, to: :mission
+
   attr_accessor :start
 
   def start_date=(*args)
@@ -53,7 +55,11 @@ class MissionInstance < ActiveRecord::Base
   end
 
   def active?
-    ['created', 'active', 'completed', 'skipped'].include?(last_status)
+    if scheduled?
+      ['created', 'active', 'completed', 'skipped'].include?(last_status)
+    else
+      ['created', 'active', 'skipped'].include?(last_status)
+    end
   end
 
   def activated?
@@ -62,6 +68,16 @@ class MissionInstance < ActiveRecord::Base
 
   def recurring?
     repetition.present?
+  end
+
+  def activated_by_name
+    case last_status
+    when 'active'
+      event = mission_histories.activations.order('created_at DESC').first
+      event&.actor&.name
+    when 'created'
+      creating_user&.name
+    end
   end
 
   def save_with_mission(mission)
@@ -94,7 +110,7 @@ class MissionInstance < ActiveRecord::Base
 
   def mark_skipped
     update(last_completed_at: Time.zone.now,
-           last_status: 'completed',
+           last_status: 'skipped',
            total_times: (total_times + 1),
            incompletion_times: (incompletion_times + 1))
   end
@@ -124,6 +140,10 @@ class MissionInstance < ActiveRecord::Base
 
   def scheduled?
     repetition? && end_date?
+  end
+
+  def one_time?
+    !scheduled?
   end
 
   def next_due_at

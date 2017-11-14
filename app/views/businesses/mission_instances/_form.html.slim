@@ -14,7 +14,10 @@
 
     .form-group
       = f.label :assigned_user, class: 'control-label'
-      = f.select :assigned_user_id, options_for_select(@business.users.map{ |u| [u.name.capitalize, u.id] }, f.object.assigned_user), {include_blank: ''}, class: 'form-control'
+      - if @business.users.size == 1
+        = f.select :assigned_user_id, options_for_select(@business.users.map{ |u| [u.name.capitalize, u.id] }, f.object.assigned_user), {}, class: 'form-control', disabled: true
+      - else
+        = f.select :assigned_user_id, options_for_select(@business.users.map{ |u| [u.name.capitalize, u.id] }, f.object.assigned_user), {include_blank: ''}, class: 'form-control'
     .form-group
       = f.label :start_date, 'Start date*', class: 'control-label'
       = f.text_field :start_date, value: f.object.start_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }

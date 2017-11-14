@@ -4,7 +4,7 @@
 
 .ibox
   .ibox-content
-    - if @mission_instance&.id
+    - if @mission_instance&.id && !@mission_instance&.completed?
       = link_to 'Edit Mission', edit_business_mission_instance_path(@business, @mission_instance), class: 'btn btn-default btn-xs pull-right'
     h2 = @mission.title
 
@@ -22,47 +22,67 @@
             | Deactivate
       - else
         .col-sm-6
-          = link_to activate_business_mission_instances_path(@business, mission_id: @mission.id), method: :post, class: 'btn btn-primary btn-block' do
+          = render partial: 'businesses/mission_instances/activation_modal', locals: {mission: @mission, mission_instance: @mission_instance}
+          = link_to '#', class: 'btn btn-primary btn-block', data: { toggle: 'modal', target: "#mission-activation-modal-#{@mission.id}" } do
             i.fa.fa-check.m-r-5px
-            | Activate
+            - if @mission_instance&.deactivated?
+              | Reactivate
+            - else
+              | Activate
 
     .row.m-t-2
       .col-sm-6
         dl.dl-horizontal.m-t-1
-          dt Schedule:
-          dd
-            = render 'schedule_modal'
-
-          dt Next Due:
-          - if @mission_instance&.next_due_at
+          - if @mission_instance&.active?
+            dt Schedule:
             dd
-              = @mission_instance.next_due_at.strftime('%m/%d/%Y')
-              - unless @mission_instance&.deactivated? || !@mission_instance&.recurring?
-                = render 'skip_modal'
+              - if @mission_instance&.completed? && @mission_instance&.one_time?
+                .text-navy One Time
+              - else
+                = render 'schedule_modal'
+
+            - if !@mission_instance&.completed?
+              dt Next Due:
+              - if @mission_instance&.next_due_at
+                dd
+                  = @mission_instance.next_due_at.strftime('%m/%d/%Y')
+                  - unless @mission_instance&.deactivated? || !@mission_instance&.recurring?
+                    = render 'skip_modal'
+              - else
+                dd Not Set
+
 
       .col-sm-6#cluster_info
         dl.dl-horizontal.m-t-1
           dt Status:
           dd
-            - if @mission_instance&.active?
-              span.label.label-primary Active
-            - else
-              span.label.label-default Inactive
+            = render partial: 'businesses/mission_instances/status', locals: { mission_instance: @mission_instance }
 
-          dt Assigned to:
-          dd
-            = render 'assignment_modal'
+          - if @mission_instance&.completed?
+            - if @mission_instance&.assigned_user
+              dt Assigned to:
+              dd
+                .text-navy = @mission_instance&.assigned_user&.name
+          - else
+            dt Assigned to:
+            dd
+              - if @mission_instance&.active?
+                = render 'assignment_modal'
+              - else
+                .text-navy = @mission_instance&.assigned_user&.name
+
     .row
       .col-lg-12
         dl.dl-horizontal.m-t-1
           dt Description:
           dd
             p = @mission.description.html_safe
-          dt Benefits:
-          dd
-            p = @mission.benefits
+          - if @mission&.benefits.present?
+            dt Benefits:
+            dd
+              p = @mission.benefits
 
-      - if @mission.success_tips.present?
+      - if @mission.success_tips.present? && @mission_instance&.active?
         .col-lg-12
           dl.dl-horizontal.well.m-t-1
             dt Success Tip:
@@ -72,8 +92,9 @@
     .row
       .col-sm-5
         dl.dl-horizontal.m-t-1
-          dt Created by:
-          dd = @mission_instance&.creating_user&.name
+          - if @mission_instance&.active?
+            dt Created by:
+            dd = @mission.buzz_created? ? 'Recommended by Buzz' : @mission_instance&.creating_user&.name
           dt Time to Complete
           dd = @mission.time_to_complete
           dt To-Do List
@@ -84,10 +105,13 @@
             = render partial: 'to_do_list_modal'
 
       .col-sm-7
-        dl.dl-horizontal.m-t-1
-          - if @mission_instance
-            dt Last Completed:
-            dd = @mission_instance.last_completed_at&.strftime("%m/%d/%Y %l:%M:%S%p")
-          dt Activated:
-          dd = @mission_instance.activated_at&.strftime("%m/%d/%Y %l:%M:%S%p")
-    = render 'comments_and_history'
+        - if @mission_instance&.active?
+          dl.dl-horizontal.m-t-1
+            - if @mission_instance
+              dt Last Completed:
+              dd = @mission_instance.last_completed_at&.strftime("%m/%d/%Y %l:%M:%S%p")
+            - if @mission_instance.activated_by_name
+              dt Activated:
+              dd = @mission_instance.activated_by_name
+    - if @mission_instance&.active?
+      = render 'comments_and_history'

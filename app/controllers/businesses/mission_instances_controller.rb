@@ -107,13 +107,26 @@ class Businesses::MissionInstancesController < Businesses::BaseController
   end
 
   def activate
-    mission = Mission.find(params[:mission_id])
-    service = MissionActioner.new(mission, @business, current_user)
+    mission_instance = @business.mission_instances.find_or_create_by(mission_id: params[:mission_id])
+    mission = mission_instance.mission
 
-    if service.activate
-      redirect_to [@business, mission], notice: 'Mission activated'
+    if mission_params[:mission]
+      mission.assign_attributes(mission_params[:mission])
+    end
+
+    mission_instance.assign_attributes(mission_instance_params.merge(business: @business))
+
+    if mission_instance.save && mission.save
+      mission = Mission.find(params[:mission_id])
+      service = MissionActioner.new(mission, @business, current_user)
+
+      if service.activate
+        redirect_to [@business, mission], notice: 'Mission activated'
+      else
+        redirect_to :back, error: 'Failed to activate mission'
+      end
     else
-      redirect_to :back, error: 'Failed to activate mission'
+      redirect_to :back, error: 'Failed to update mission'
     end
   end
 

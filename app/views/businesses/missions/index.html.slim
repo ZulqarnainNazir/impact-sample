@@ -4,72 +4,99 @@
 
 .ibox
   .ibox-title
-    h5 Browse Missions
-    .ibox-tools
-      a.user-dropdown-toggle[data-toggle="dropdown"]
-        span
-           small.text-muted
-             i.fa.fa-edit
-             |  Manage Missions
-             span.caret.pull-right
-      ul.dropdown-menu
-        li
-          = link_to 'Create New Mission', new_business_mission_instance_path(@business)
-        li
-          = link_to "View Active Missions", [@business, :reminders]
-        li
-          = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
+    .row
+      .col-sm-2
+        h5 Browse Missions
+      .col-sm-3
+        = select_tag 'industry', options_for_select(@industry_options), id: 'industry_select', class: 'form-control m-l-1'
+      .col-sm-7
+        .ibox-tools
+          a.user-dropdown-toggle[data-toggle="dropdown"]
+            span
+               small.text-muted
+                 i.fa.fa-edit
+                 |  Manage Missions
+                 span.caret.pull-right
+          ul.dropdown-menu
+            li
+              = link_to 'Create New Mission', new_business_mission_instance_path(@business)
+            li
+              = link_to "View Active Missions", [@business, :reminders]
+            li
+              = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
+
   .ibox-content
-    table.table.table-hover
+    table.table.table-hover.missiondatatable
       thead
-        th Status
-        th Title
-        th Schedule
-        th Completion
-        th Assigned
+        th.all Status
+        th.all Title
+        th Industry
+        th Recommended Schedule
         th Actions
       tbody
         - @missions.each do |mission|
           - instance = @mission_instances[mission.id]&.first
+          = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
 
-          - if instance && instance&.active?
-            tr
-              td
-                span.label.label-primary Active
-              td
-                strong = link_to mission.title, business_mission_path(@business, mission)
-                - if mission.globally_recommended
-                  span.label.label-primary.m-l-1 Recommendation
+          tr
+            td
+              = render partial: 'businesses/mission_instances/status', locals: { mission_instance: instance }
+            td
+              strong = link_to mission.title, business_mission_path(@business, mission)
+              - if mission.globally_recommended
+                span.label.label-primary.m-l-1 Recommendation
+              - if instance && instance&.active?
                 .small = "Added #{instance&.created_at&.strftime('%m/%d/%y')}"
-              td
+              - else
+                .small Not yet added
+            td
+              = mission.categories.map(&:name).join(', ')
+            td
+              - if instance && instance&.active?
                 - if instance && instance.scheduled?
                   a = instance.schedule.to_s
                   .small = "Next due: #{instance&.next_due_at&.strftime('%m/%d/%y')}"
                 - else
                   a One time
                   .small = "Due: #{instance&.start_date&.strftime('%m/%d/%y')}"
-              td = render partial: 'businesses/reminders/completion_rate', locals: { mission: mission }
-              td = instance&.assigned_user&.name
-              td = render partial: 'businesses/reminders/mission_actions', locals: { mission: mission }
-          - else
-            tr
-              td
-                span.label.label-default Inactive
-              td
-                strong = link_to mission.title, business_mission_path(@business, mission)
-                - if mission.globally_recommended
-                  span.label.label-primary.m-l-1 Recommendation
-                .small Not yet added
-              td
+              - else
                 a = mission.schedule ? mission.schedule.to_s : 'One time'
                 .small Next due: N/A
-              td = render partial: 'businesses/reminders/completion_rate', locals: { mission: mission }
-              td N/A
-              td
-                = link_to activate_business_mission_instances_path(@business, mission_id: mission.id), method: :post, class: 'btn btn-primary btn-sm' do
-                  i.fa.fa-check.m-r-5px
-                  | Activate
+            td
+              = render partial: 'businesses/reminders/mission_actions', locals: { mission: mission }
 
-    = paginate @missions
+javascript:
+  $(document).ready(function(){
+    if (!$.fn.dataTable.isDataTable('table.missiondatatable')) {
+      var table = $('table.missiondatatable').DataTable({
+        autoWidth: false,
+        aaSorting: [],
+        pageLength: 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+          {extend: 'copy'},
+          {extend: 'csv'},
+          {extend: 'excel', title: 'Export'},
+          {extend: 'pdf', title: 'Export'},
+          {extend: 'print', customize: function (win) {
+            $(win.document.body).addClass('white-bg');
+            $(win.document.body).css('font-size', '10px');
+            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+            }
+          }
+        ],
+        columnDefs: [{ targets: [2], visible: false }]
+      });
+    };
 
-
+    $('#industry_select').change(function () {
+      if (this.value == 'All') {
+        table.columns(2).search('').draw();
+      } else {
+        table.columns(2).search(this.value).draw();
+      }
+    });
+  });

@@ -1,10 +1,10 @@
 - instance = @mission_instances[mission.id]&.first
 
-- if instance
-  - if instance&.deactivated?
-    = link_to activate_business_mission_mission_instances_path(@business, mission_id: mission.id), method: :post, class: 'btn btn-primary btn-sm m-r-5px' do
+- if instance && instance.active?
+  - if instance.deactivated? || instance.completed?
+    = link_to '#', class: 'btn btn-primary btn-sm m-r-5px', data: { toggle: 'modal', target: "#mission-activation-modal-#{@mission.id}" } do
       i.fa.fa-check.m-r-5px
-      | Activate
+      | Reactivate
   - else
     = render partial: 'businesses/reminders/complete_modal', locals: { mission: mission }
     - if instance.recurring?
@@ -12,3 +12,7 @@
       /   i.fa.fa-clock-o.m-r-5px
       /   | Snooze
       = render partial: 'businesses/reminders/skip_modal', locals: { mission: mission }
+- else
+  = link_to '#', class: 'btn btn-primary btn-sm', data: { toggle: 'modal', target: "#mission-activation-modal-#{@mission.id}" } do
+    i.fa.fa-check.m-r-5px
+    | Activate

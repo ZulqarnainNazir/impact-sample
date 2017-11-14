@@ -1,0 +1,38 @@
+.ibox
+  .ibox-title
+    h5 Completed or Deactivated Missions
+    .ibox-tools
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             i.fa.fa-edit
+             |  Manage Missions
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to "Browse Missions", [@business, :missions]
+        li
+          = link_to 'Create New Mission', new_business_mission_instance_path(@business)
+        li
+          = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
+  .ibox-content
+    table.table.table-hover.datatable
+      thead
+        th Status
+        th.all Title
+        th Completion
+        th Actions
+      tbody
+        - @completed_reminders.each do |mission|
+          - instance = @mission_instances[mission.id]&.first
+          = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
+
+          - if instance
+            tr
+              td
+                = render partial: 'businesses/mission_instances/status', locals: { mission_instance: instance }
+              td
+                strong = link_to mission.title, business_mission_path(@business, mission)
+                .small = "Added #{mission.created_at.strftime('%m/%d/%y')}"
+              td = render partial: 'completion_rate', locals: { mission: mission }
+              td = render partial: 'mission_actions', locals: { mission: mission }

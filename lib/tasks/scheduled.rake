@@ -129,7 +129,7 @@ namespace :scheduled do
             user: user,
             mission_instances: my_missions
           ).deliver_now
-        else
+        elsif user.mission_notification_setting&.all_daily?
           next unless missions.any? { |mi| mi.mission.present? }
 
           MissionNotificationMailer.missions_due_today(
@@ -171,7 +171,7 @@ namespace :scheduled do
               prompts: prompts,
               mission_instances: my_missions
             ).deliver_now
-          else
+          elsif user.mission_notification_setting&.all_weekly?
             next if missions.empty? && prompts.empty?
             next unless missions.any? { |mi| mi.mission.present? }
 

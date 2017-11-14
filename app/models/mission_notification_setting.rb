@@ -2,8 +2,10 @@ class MissionNotificationSetting < ActiveRecord::Base
   belongs_to :business
   belongs_to :user
 
-  enum daily_due_notification_preference: [:all_daily, :mine_daily]
-  enum weekly_due_notification_preference: [:all_weekly, :mine_weekly]
+  enum daily_due_notification_preference: [:all_daily, :mine_daily, :none_daily]
+  enum weekly_due_notification_preference: [:all_weekly, :mine_weekly, :none_weekly]
+
+  after_initialize :check_schedule_presence
 
   def summary_schedule
     return unless summary_frequency?
@@ -33,5 +35,12 @@ class MissionNotificationSetting < ActiveRecord::Base
 
   def first_three_recommendations
     MissionInstance.dashboard_prompts(business, 3)
+  end
+
+  private
+
+  def check_schedule_presence
+    self.suggestions_notification = false unless suggestions_frequency.present?
+    self.summary_notification = false unless summary_frequency.present?
   end
 end

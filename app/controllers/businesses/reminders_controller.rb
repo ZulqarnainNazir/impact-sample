@@ -1,14 +1,55 @@
 class Businesses::RemindersController < Businesses::BaseController
   def index
-    @reminders = Mission
+    @active_reminders = active_missions + completed_scheduled_missions
+    @completed_reminders = completed_one_time_missions + deactivated_missions
+
+    instances = @business.mission_instances.includes(:mission_histories).where(
+      mission_id: (
+        @active_reminders.map(&:id) +
+        @completed_reminders.map(&:id)
+      )
+    )
+
+    @mission_instances = instances.group_by(&:mission_id)
+    @histories = MissionHistory.for_business(@business).order('happened_at DESC').first(5)
+  end
+
+  private
+
+  def statuses
+    @statuses ||= MissionInstance.last_statuses
+  end
+
+  def active_missions
+    Mission
       .reminders_for_business(@business)
       .joins(:mission_instances)
-      .where(mission_instances: { last_status: [0, 1, 2] })
+      .where(mission_instances: { business_id: @business.id, last_status: [statuses[:created], statuses[:active], statuses[:skipped]] })
       .distinct
-      .page(params[:page])
+  end
 
-    @mission_instances = @business.mission_instances
-                                  .where(mission_id: @reminders.map(&:id))
-                                  .group_by(&:mission_id)
+  def completed_scheduled_missions
+    Mission
+      .reminders_for_business(@business)
+      .joins(:mission_instances)
+      .where(mission_instances: { business_id: @business.id, last_status: statuses[:completed] })
+      .where.not(mission_instances: { repetition: nil})
+      .distinct
+  end
+
+  def completed_one_time_missions
+    Mission
+      .reminders_for_business(@business)
+      .joins(:mission_instances)
+      .where(mission_instances: { business_id: @business.id, last_status: statuses[:completed], repetition: nil })
+      .distinct
+  end
+
+  def deactivated_missions
+    Mission
+      .reminders_for_business(@business)
+      .joins(:mission_instances)
+      .where(mission_instances: { business_id: @business.id, last_status: statuses[:deactivated] })
+      .distinct
   end
 end
