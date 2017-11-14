@@ -9,7 +9,7 @@
     - image_width = image_og_width(offer.image_size[0]) 
     - image_height = image_og_height(offer.image_size[1])
 
-= webpage_container do
+.container
   - if (offer.published_status == false && !@preview)
     p This post has not been published by the business owner yet. Check back later!
   - else

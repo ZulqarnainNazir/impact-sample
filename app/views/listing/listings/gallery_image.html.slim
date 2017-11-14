@@ -1,6 +1,6 @@
 - title [@gallery_image.title, @gallery.title].reject(&:blank?).join(' – ')
 
-= webpage_container do
+.container
   - if !@content_feed_widget
     ol.breadcrumb
       / li = link_to icon('home'), :website_root
