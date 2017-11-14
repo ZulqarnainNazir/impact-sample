@@ -199,10 +199,14 @@
       .modal-body
         .form-group
           = form.label :price, class: 'control-label'
-          = form.text_field :price, class: 'form-control simple-input'
+          = form.text_field :price, class: 'form-control simple-input', placeholder: 'Add optional price info here'
         .form-group
           = form.label :url, class: 'control-label'
           = form.text_field :url, class: 'form-control simple-input', placeholder: 'http://'
+        .form-group
+          = form.label :embed, class: 'control-label'
+          = form.text_area :embed, rows: 2, class: 'form-control'
+          p.help-block Embed sponsors or other content under map
         = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
         = render partial: 'businesses/content/classification', locals: {form: form}
 

@@ -123,6 +123,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
       :end_date,
       :end_time,
       :meta_description,
+      :embed,
       :price,
       :repetition,
       :start_date,

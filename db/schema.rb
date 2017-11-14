@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171104110428) do
+ActiveRecord::Schema.define(version: 20171114175612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,10 +221,10 @@ ActiveRecord::Schema.define(version: 20171104110428) do
 
   create_table "categorizations", force: :cascade do |t|
     t.integer  "categorizable_id",   null: false
-    t.integer  "category_id", null: false
+    t.integer  "category_id",        null: false
     t.json     "settings"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "categorizable_type"
   end
 
@@ -555,6 +555,7 @@ ActiveRecord::Schema.define(version: 20171104110428) do
     t.boolean  "virtual_event",     default: false
     t.boolean  "rsvp_required",     default: false
     t.integer  "kind",              default: 0,     null: false
+    t.text     "embed"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
