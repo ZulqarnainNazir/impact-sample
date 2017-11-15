@@ -59,6 +59,10 @@
           i.fa.fa-calendar>
           span
             | Event
+        li = link_to [:new, @business, :content_job] do
+          i.fa.fa-briefcase>
+          span
+            | Job
         li = link_to [:new, @business, :content_offer] do
           i.fa.fa-ticket>
           span

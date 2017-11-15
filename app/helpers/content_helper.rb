@@ -38,7 +38,7 @@ module ContentHelper
     def canonize_obj(post_vars = {})
         # get the url from @post.generic_param , without railsy query string for resources
         url = post_vars[:url]
-        ind = url.index('/posts/') || url.index('/offers/') || url.index('/events/') || url.index('/quick_posts') || url.index('/galleries')
+        ind = url.index('/posts/') || url.index('/offers/') || url.index('/events/') || url.index('/quick_posts') || url.index('/galleries') || url.index('/jobs')
         base = post_vars[:url][0..ind]
         content_for :canonical_url, base + "#{post_vars[:params][:year]}/#{post_vars[:params][:month]}/#{post_vars[:params][:day]}/#{post_vars[:params][:id]}/#{post_vars[:params][:slug]}"
     end

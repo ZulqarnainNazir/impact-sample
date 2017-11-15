@@ -22,6 +22,7 @@ class Business < ActiveRecord::Base
     has_many :content_tags
     has_many :contacts
     has_many :event_definitions
+    has_many :jobs
     has_many :feedbacks
     has_many :galleries
     has_many :lines
@@ -341,7 +342,7 @@ class Business < ActiveRecord::Base
   end
 
   def feed_items_count
-    before_afters.count + event_definitions.count + galleries.count + offers.count + posts.count + quick_posts.count
+    before_afters.count + event_definitions.count + galleries.count + offers.count + posts.count + quick_posts.count + jobs.count
   end
 
   def website_url=(value)

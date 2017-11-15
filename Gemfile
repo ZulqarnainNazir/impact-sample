@@ -94,6 +94,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'active_record_query_trace'
   gem 'bullet'
+  gem 'byebug'
 end
 
 group :test do

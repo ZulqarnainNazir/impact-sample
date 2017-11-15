@@ -166,7 +166,9 @@ module SearchHelper
 
   def render_content_type_partial(object, engage)
     if engage == false
-      if object.class.name == "Post"
+      if object.class.name == "Job"
+        render 'website/jobs/job', job: object
+      elsif object.class.name == "Post"
         render 'website/posts/post', post: object
       elsif object.class.name == "Offer"
         render 'website/offers/offer', offer: object
@@ -182,6 +184,8 @@ module SearchHelper
         render 'website/quick_posts/quick_post', quick_post: object
       end
     elsif engage == true
+      # if object.class.name == "Job"
+      #   render 'listing/listings/job', job: object
       if object.class.name == "Post"
         render 'listing/listings/post', post: object
       elsif object.class.name == "Offer"
@@ -208,7 +212,7 @@ module SearchHelper
         @content_types_all = page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types
       end
       if @content_types_all.nil? || @content_types_all.empty? # ||....<=checks to see if "", empty string, is in db, signifying "show all content types"
-        @content_types_all = "Event Gallery BeforeAfter Offer Post"
+        @content_types_all = "Event Gallery BeforeAfter Offer Post Job"
       end
       if @content_types_all.present?
         @content_types_all = @content_types_all.split
@@ -243,6 +247,9 @@ module SearchHelper
     end
     if @business.posts.empty?
       content_types_all.delete("CustomPost")
+    end
+    if @business.jobs.empty?
+      content_types_all.delete("Job")
     end
 
     #ElasticSearch will search for 'CustomPost' and 'QuickPost' via just 'Post'

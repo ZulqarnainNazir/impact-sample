@@ -157,7 +157,7 @@ class ContentFeedSearch
 
     #all content types submitted, or all types
     if !@content_types.present?
-      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post]
+      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
     elsif @content_types.present?
       formatted = @content_types.classify.constantize
       if formatted == Event
@@ -165,7 +165,7 @@ class ContentFeedSearch
       end
       content_classes = [formatted]
     else
-      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post]
+      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
     end
 
     #determining which query above to use depending on request

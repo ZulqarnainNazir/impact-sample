@@ -1,0 +1,5 @@
+- title 'Edit Business Job'
+
+= errors_for @job
+= form_for @job, url: [@business, :content, @job], html: { class: 'save-once' } do |form|
+  = render form

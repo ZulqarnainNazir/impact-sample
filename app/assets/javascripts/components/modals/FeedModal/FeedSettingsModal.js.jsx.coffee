@@ -107,6 +107,8 @@ FeedSettingsModal = React.createClass
                   <label><input className="feed_settings_content_type" id="feed_settings_content_type_event" type="checkbox" data-type="Event" defaultChecked="true" /> Events</label>
                 </div>
               </div>
+
+
               <div className="col-xs-4">
                 <div className="checkbox" style={{ margin: 0 }}>
                   <label><input className="feed_settings_content_type" id="feed_settings_content_type_gallery" type="checkbox" data-type="Gallery" defaultChecked="true" /> Galleries</label>
@@ -127,6 +129,11 @@ FeedSettingsModal = React.createClass
               <div className="col-xs-4">
                 <div className="checkbox" style={{ margin: 0 }}>
                   <label><input className="feed_settings_content_type" id="feed_settings_content_type_post" type="checkbox" data-type="CustomPost" defaultChecked="true" /> Custom Posts</label>
+                </div>
+              </div>
+              <div className="col-xs-4">
+                <div className="checkbox" style={{ margin: 0 }}>
+                  <label><input className="feed_settings_content_type" id="feed_settings_content_type_job" type="checkbox" data-type="Job" defaultChecked="true" /> Jobs</label>
                 </div>
               </div>
             </div>

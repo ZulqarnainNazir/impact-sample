@@ -1,0 +1,234 @@
+.wrapper.wrapper-content
+  .row
+    .col-md-8.col-md-offset-1.no-padding
+      .ibox.float-e-margins
+        .ibox-content
+          .text-center
+            .center-block
+              .btn-group.js-business-kind
+                => form.label :job, class: 'btn btn-default', id: 'kind-paid' do
+                  => form.radio_button :kind, 0, id: 'kind-paid-radio', style: 'margin-right: 5px'
+                  | Paid
+                => form.label :volunteer, class: 'btn btn-default', id: 'kind-volunteer' do
+                  => form.radio_button :kind, 1, id: 'kind-volunteer-radio', style: 'margin-right: 5px'
+                  | Volunteer
+          javascript:
+
+            $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+            $('.js-business-kind input[type="radio"]').change(function() {
+              $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+              $('.js-business-kind input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default');
+            });
+
+            $('#kind-paid').on("click", function(job){
+                $('#kind-paid-radio').prop('checked', true);
+                $('#kind-paid').removeClass('btn-default').addClass('btn-primary');
+                $('#kind-volunteer').removeClass('btn-primary').addClass('btn-default');
+                $('.paid-job-option').show();
+                $('#compensation-type').show();
+                $('#compensation-range').show();
+            });
+            $('#kind-volunteer').on("click", function(job){
+                $('#kind-volunteer-radio').prop('checked', true);
+                $('#kind-volunteer').removeClass('btn-default').addClass('btn-primary');
+                $('#kind-paid').removeClass('btn-primary').addClass('btn-default');
+                $('.paid-job-option').hide();
+                $('#compensation-type').hide();
+                $('#compensation-range').hide();
+            });
+          hr
+          .form-group
+            = form.label "Title *", class: 'control-label'
+            = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a brief 4-10 word title for your job.'
+          .form-group
+            = form.label :subtitle, class: 'control-label'
+            = form.text_field :subtitle, class: 'form-control simple-input', placeholder: 'Add a brief 4-10 word subtitle for your job.'
+            br>
+            - if form.object.persisted?
+              - if @job.published_status == false
+                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @job.id], class: 'btn btn-block btn-default', :target => "_blank"
+          = react_component 'ImagePlacement',
+            imagesPath: business_images_path(form.object.business),
+            inputPrefix: 'job[job_image_placement_attributes]',
+            label: 'job Image',
+            placement: form.object.job_image_placement_json,
+            presignedPost: s3_presigned_post_hash,
+            bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+            allowEmbed: true,
+            showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+          .form-group
+            = form.label "Description *", class: 'control-label'
+            = form.text_area :description, rows: 6, class: 'form-control wysihtml-editor', placeholder: 'Describe what the job is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the job is about.'
+
+          .col-sm-12
+            = form.label :schedule_type, class: 'control-label'
+            .input-group
+              = form.select :schedule_type, options_for_select(form.object.schedule_types, form.object.schedule_type), {}, { class: 'form-control' }
+          .form-group.col-sx-6
+          .form-group.col-xs-6 id="compensation-type"
+            = form.label :compensation_type, class: 'control-label'
+            .input-group
+              = form.select :compensation_type, options_for_select(form.object.compensation_types, form.object.compensation_type), {}, { class: 'form-control' }
+          .form-group.col-xs-6 id="compensation-range"
+            = form.label :compensation_range, class: 'control-label'
+            .input-group
+              = form.text_field :compensation_range, :value => (form.object.compensation_range.present? ? form.object.compensation_range : ''), class: 'form-control', placeholder: "$ 10-15"
+
+          .form-group.col-xs-6
+            = form.label "Start Date *", class: 'control-label'
+            .input-group
+              = form.text_field :start_date, value: form.object.start_date&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%b %d %Y"), class: 'form-control', data: {provide: 'datepicker'}
+              span.input-group-addon: i.fa.fa-calendar
+
+          .form-group.col-xs-6
+            = form.label :end_date, class: 'control-label'
+            .input-group
+              = form.text_field :end_date, value: form.object.end_date&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%b %d %Y"), class: 'form-control', data: {provide: 'datepicker'}
+              span.input-group-addon: i.fa.fa-calendar
+
+          hr
+          .js-event-location.row
+            .col-sm-6
+              = form.fields_for :job_location, form.object.job_location || form.object.build_job_location do |f|
+                - business_location = form.object.business.location
+                - custom_location = f.object.location
+                - virtual_event_uncheck_business_radio = form.object.virtual_event ? false : true
+                - is_this_virtual_event = form.object.virtual_event ? true : false
+                - custom_location = nil if !!custom_location && !!business_location && custom_location == business_location
+                - if form.object.errors[:job_location].any?
+                  = form.label :job_location, 'Business Location', class: 'control-label'
+                - else
+                  = f.label :location, 'Business Location', class: 'control-label'
+                = f.hidden_field :location_id, value: is_this_virtual_event ? nil : ( (custom_location || (business_location.try(:full_address).present? ? business_location : nil)).try(:id) )
+                - if business_location && business_location.full_address.present?
+                  .radio data-type="business" data-id=business_location.id data-latitude=business_location.latitude data-longitude=business_location.longitude data-name=business_location.name
+                    = label_tag :location_type_business do
+                      => radio_button_tag :location_type, :business, virtual_event_uncheck_business_radio ? ((!custom_location && !!business_location) || (business_location == custom_location)) : virtual_event_uncheck_business_radio, id: 'physical-job-button'
+                      strong> Business Location
+                      br>
+                      span.text-muted = business_location.full_address
+                .radio style="margin-top:1em" data-type="custom" data-id=custom_location.try(:id) data-latitude=custom_location.try(:latitude) data-longitude=custom_location.try(:longitude) data-name=custom_location.try(:name) class=('hide' if !custom_location)
+                  = label_tag :location_type_custom do
+                    => radio_button_tag :location_type, :custom, virtual_event_uncheck_business_radio ? ((!business_location && !!custom_location) || (!!custom_location && custom_location != business_location)) : virtual_event_uncheck_business_radio, id: 'alternate-location-button'
+                    strong> Alternate Location
+                    br>
+                    span.text-muted = custom_location.try(:full_address)
+                .form-group
+                  - placeholder = business_location && business_location.full_address.present? ? 'Or Enter Another Business Name' : 'Enter Business Name'
+                  = text_field_tag :location_search, nil, placeholder: placeholder, class: 'form-control'
+                .form-group
+                  = form.label :hide_full_address, class: 'control-label' do
+                    => form.check_box :hide_full_address, class: '', id: 'hide-full-addy'
+                    | Hide Full Addresss
+
+                  = form.label :show_city_only, class: 'control-label', style: 'margin-left: 5px;' do
+                    => form.check_box :show_city_only, class: '', id: 'show-city-only'
+                    | Show City Only
+            .col-sm-6
+              br>
+              br>
+              p.text-right.js-event-location-new
+                span> Can't find what you’re looking for?
+                br>
+                = link_to 'Add a new Venue', :new_location, data: { toggle: 'modal', target: '#js-event-location-new-modal' }
+
+              .radio style="margin-top:1em"
+                = form.label :virtual_event do
+                  => form.radio_button :virtual_event, :true, class: '', id: 'virtual-event-button'
+                  strong> Virtual job (no physical location)
+              hr
+              .js-event-location-map id="event-location-map" style="width:100%; height:130px; background:#eee; border:0"
+.webpage-save
+  = hidden_field_tag 'draft', nil, :id => "draftField"
+  .row
+    - if (form.object.persisted? && form.object.published_status == false)
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Publish Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#advanced-modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+    - elsif form.object.persisted?
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Update Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#advanced-modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+    - else
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', type: "button", name: "publish"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#advanced-modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+.modal.fade#advanced-modal tabindex="-1" data-focus-on="input:first"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h1 Advanced
+      .modal-body
+        .form-group
+          = form.label :url, class: 'control-label'
+          = form.text_field :url, class: 'form-control simple-input', placeholder: 'http://'
+        = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
+        = render partial: 'businesses/content/classification', locals: {form: form}
+
+- content_for :javascript do
+  #js-event-location-new-modal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .text-center style="margin:2em"
+            i.fa.fa-spinner.fa-spin.fa-4x
+  javascript:
+    $('.js-event-location').eventLocation();
+    $('#virtual-event-button').on("click", function(job){
+        $('#physical-job-button').prop('checked', false);
+        $('#alternate-location-button').prop('checked', false);
+        $("#hide-full-addy").attr("disabled", true);
+        $("#show-city-only").attr("disabled", true);
+        $( "#event-location-map" ).hide();
+    });
+    $('#physical-job-button').on("click", function(job){
+        $('#virtual-event-button').prop('checked', false);
+        $("#hide-full-addy").removeAttr("disabled");
+        $("#show-city-only").removeAttr("disabled");
+        $( "#event-location-map" ).show();
+    });
+    $('#alternate-location-button').on("click", function(job){
+        $('#virtual-event-button').prop('checked', false);
+        $("#hide-full-addy").removeAttr("disabled");
+        $("#show-city-only").removeAttr("disabled");
+        $( "#event-location-map" ).show();
+    });
+    $('button[name="draft"]').click(function () {
+      $('#draftField').val(1);
+      $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+    });
+
+    $('button[name="publish"]').click(function () {
+      $(".save-once").submit();
+      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+    });
+
+    function checkJobType() {
+      if ($('#kind-volunteer-radio').is(':checked')) {
+        $('.paid-job-option').hide();
+        $('#compensation-type').hide();
+        $('#compensation-range').hide();
+      }
+    };
+    $(document).ready(checkJobType);

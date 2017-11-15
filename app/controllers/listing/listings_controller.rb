@@ -32,6 +32,8 @@ class Listing::ListingsController < ApplicationController
       @post = @business.posts.find_by(slug: params[:content_type])
     elsif params[:content] == 'quick_post'
       @post = @business.quick_posts.find_by(slug: params[:content_type])
+    elsif params[:content] == 'job'
+      @post = @business.jobs.find_by(slug: params[:content_type])
     end
   end
 
@@ -50,7 +52,7 @@ class Listing::ListingsController < ApplicationController
   	@masonry = true #tells content partials to use masonry format
 
   	#code below is overriding code found in search_helper
-  	@content_types_all = "Event Gallery BeforeAfter Offer Post".split
+  	@content_types_all = "Event Gallery BeforeAfter Offer Post Job".split
     if !params[:content_types].present? && !@content_types_all.nil?
       params[:content_types] = @content_types_all
     elsif params[:content_types].present?

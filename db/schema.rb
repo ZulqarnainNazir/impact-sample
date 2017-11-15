@@ -697,6 +697,48 @@ ActiveRecord::Schema.define(version: 20171114175612) do
     t.boolean  "skip_company",     default: false
   end
 
+  create_table "job_locations", force: :cascade do |t|
+    t.integer  "job_id",      null: false
+    t.integer  "location_id", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "job_locations", ["job_id"], name: "index_job_locations_on_job_id", using: :btree
+  add_index "job_locations", ["location_id"], name: "index_job_locations_on_location_id", using: :btree
+
+  create_table "jobs", force: :cascade do |t|
+    t.integer  "business_id",                        null: false
+    t.text     "title",                              null: false
+    t.text     "subtitle"
+    t.text     "description"
+    t.text     "url"
+    t.text     "phone"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.text     "external_type"
+    t.text     "external_id"
+    t.text     "meta_description"
+    t.text     "facebook_id"
+    t.text     "slug"
+    t.boolean  "published_status"
+    t.boolean  "hide_full_address",  default: false
+    t.boolean  "show_city_only",     default: false
+    t.boolean  "private",            default: false
+    t.boolean  "virtual_event",      default: false
+    t.integer  "kind",               default: 0,     null: false
+    t.integer  "compensation_type",  default: 0
+    t.text     "compensation_range"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "schedule_type",      default: 0,     null: false
+  end
+
+  add_index "jobs", ["business_id"], name: "index_jobs_on_business_id", using: :btree
+  add_index "jobs", ["id", "slug"], name: "index_jobs_on_id_and_slug", unique: true, using: :btree
+
   create_table "line_images", force: :cascade do |t|
     t.integer  "line_id",                null: false
     t.integer  "position",   default: 0

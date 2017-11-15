@@ -194,6 +194,12 @@ Rails.application.routes.draw do
             post :import_all, on: :collection
             post :import, on: :member
           end
+          # TODO Add jobs here
+          resources :jobs, only: %i[new create edit update destroy] do
+            resources :shares, only: %i[new create]
+            get :sharing_insights
+            get :clone, on: :member
+          end
           resources :galleries, only: %i[new create edit update destroy] do
             resources :shares, only: %i[new create]
             get :sharing_insights
@@ -396,6 +402,7 @@ Rails.application.routes.draw do
     resources :content_categories, only: %i[show], path: 'categories'
     resources :content_tags, only: %i[show], path: 'tags'
     resources :events, only: %i[index show]
+    resources :jobs, only: %i[index show]
     resources :galleries, only: %i[index show] do
       resources :gallery_images, only: %i[show]
     end

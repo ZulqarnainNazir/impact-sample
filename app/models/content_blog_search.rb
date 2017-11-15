@@ -253,7 +253,7 @@ class ContentBlogSearch
       content_classes = []
 
       @content_types.each do |type|
-        if %w[QuickPost Event Gallery BeforeAfter Offer Post].include?(type)
+        if %w[QuickPost Event Gallery BeforeAfter Offer Post Job].include?(type)
           content_classes << type.constantize
         end
         content_classes << QuickPost if type == 'Post'
@@ -265,7 +265,7 @@ class ContentBlogSearch
         content_classes << EventDefinition
       end
     else
-      content_classes = [QuickPost, EventDefinition, Event, Gallery, BeforeAfter, Offer, Post]
+      content_classes = [QuickPost, EventDefinition, Event, Gallery, BeforeAfter, Offer, Post, Job]
     end
 
     #without post
@@ -273,7 +273,7 @@ class ContentBlogSearch
       content_classes_without_post = []
 
       @content_types.each do |type|
-        if %w[QuickPost Event Gallery BeforeAfter Offer Post].include?(type)
+        if %w[QuickPost Event Gallery BeforeAfter Offer Post Job].include?(type)
           content_classes_without_post << type.constantize
         end
         content_classes_without_post << QuickPost if type == 'Post'
@@ -287,7 +287,7 @@ class ContentBlogSearch
         content_classes_without_post.delete(Post)
       end
     else
-      content_classes_without_post = [QuickPost, Event, EventDefinition, Gallery, BeforeAfter, Offer]
+      content_classes_without_post = [QuickPost, Event, EventDefinition, Gallery, BeforeAfter, Offer, Job]
     end
 
     #just post

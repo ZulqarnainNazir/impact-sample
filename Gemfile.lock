@@ -98,6 +98,7 @@ GEM
     bullet (5.5.1)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.10.0)
+    byebug (9.1.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     choice (0.1.7)
@@ -453,6 +454,7 @@ DEPENDENCIES
   bootstrap3-datetimepicker-rails (~> 4.14.30)
   browser-timezone-rails
   bullet
+  byebug
   coffee-rails
   conformist
   country_select (~> 1.1.1)
@@ -523,4 +525,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.14.6
+   1.15.4

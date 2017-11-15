@@ -1,0 +1,5 @@
+- title 'New Job/Volunteer Opening'
+
+= errors_for @job
+= form_for @job, url: [@business, :content_jobs], html: { class: 'save-once' } do |form|
+  = render form

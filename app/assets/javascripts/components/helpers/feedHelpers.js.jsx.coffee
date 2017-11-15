@@ -10,6 +10,7 @@ feedHelpers = {
     $('#feed_settings_content_type_before_after').prop 'checked', (block.content_types || '').indexOf('BeforeAfter') >= 0
     $('#feed_settings_content_type_offer').prop 'checked', (block.content_types || '').indexOf('Offer') >= 0
     $('#feed_settings_content_type_post').prop 'checked', (block.content_types || '').indexOf('CustomPost') >= 0
+    $('#feed_settings_content_type_job').prop 'checked', (block.content_types || '').indexOf('Job') >= 0
     $('.feed_settings_content_type').prop('checked', true) if $('.feed_settings_content_type:checked').length == 0
     $('#feed_settings_content_category_ids').val (block.content_category_ids || '').split(' ')
     $('#feed_settings_company_list_ids').val (block.company_list_ids || '').split(' ')

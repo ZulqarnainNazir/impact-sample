@@ -1,0 +1,19 @@
+- title 'Jobs'
+- canonical_url website_jobs_url
+
+.container.blog-content
+    .row.p-md
+	    ol.breadcrumb
+		    li = link_to icon('home'), :website_root
+		    li.active Jobs
+		div.page-header
+			div
+			    h1 Browse Jobs
+				= page_entries_info @jobs, entry_name: 'jobs'
+			br
+	    div 
+	      div 
+		.grid
+		    = render @jobs
+		.text-center
+		  = paginate @jobs
