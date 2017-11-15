@@ -7,17 +7,25 @@
         - cache post do
           div.product-imitation.p-a-0
             = link_to [:website, post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
-              - placement = post.sections_placement
-              - if placement.try(:embeds?)
-                = placement.embed.html_safe
-              - elsif placement.try(:image)
-                = image_tag placement.image.attachment_url(:small)
+              - if post.main_image 
+                = image_tag post.main_image.attachment_url(:small)
               - else
-                = image_tag "impact_gs.jpg", alt: "image", title: "image"
+                - placement = post.sections_placement
+                - if placement
+                  - cache placement do
+                    - if placement.try(:embeds?)
+                      = placement.embed.html_safe
+                    - elsif placement.try(:image)
+                      = image_tag placement.image.attachment_url(:small)
+                    - else
+                      = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
             = link_to [:website, post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(post.title.titleize), length: 60, omission: '... '
-            small.m-t-xs = truncate sanitize(post.sections_content), length: 90, omission: '... '
+            - if post.meta_description
+              small.m-t-xs = truncate sanitize(post.meta_description), length: 90, omission: '... '             
+            - else
+              small.m-t-xs = truncate sanitize(post.sections_content), length: 90, omission: '... '
             div.mt-text.rt
               = link_to [:website, post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
                 |Read More

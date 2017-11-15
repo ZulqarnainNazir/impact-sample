@@ -7,16 +7,21 @@
           div.product-imitation.p-a-0
             = link_to [:website, quick_post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
               - placement = quick_post.quick_post_image_placement
-              - if placement.try(:embeds?)
-                = placement.embed.html_safe
-              - elsif placement.try(:image).try(:attachment_medium_url)
-                = image_tag placement.image.attachment_url(:small)
-              - else
-                = image_tag "impact_gs.jpg", alt: "image", title: "image"
+              - if placement
+                - cache placement
+                  - if placement.try(:embeds?)
+                    = placement.embed.html_safe
+                  - elsif placement.try(:image).try(:attachment_medium_url)
+                    = image_tag placement.image.attachment_url(:small)
+                  - else
+                    = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
             = link_to [:website, quick_post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(quick_post.title), length: 60, omission: '... '
-            small.m-t-xs = truncate sanitize(quick_post.description), length: 80, omission: '... '
+            - if quick_post.meta_description
+              small.m-t-xs = truncate sanitize(quick_post.meta_description), length: 90, omission: '... '             
+            - else
+              small.m-t-xs = truncate sanitize(quick_post.description), length: 80, omission: '... '
             div.mt-text.rt
               = link_to [:website, quick_post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
                 |Read More

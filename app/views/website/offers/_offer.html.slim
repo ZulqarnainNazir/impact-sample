@@ -7,12 +7,15 @@
           div.product-imitation
             .offer-border
               = link_to [:website, offer, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
-                - if offer.try(:offer_image)
-                  - image = offer.offer_image
-                  - if image && !image.nil?
-                    = image_tag image.attachment_url(:small)
+                - if offer.main_image
+                  = image_tag offer.main_image.attachment_url(:small)
                 - else
-                  = image_tag "impact_gs.jpg", alt: "image", title: "image"
+                  - if offer.try(:offer_image)
+                    - image = offer.offer_image
+                    - if image && !image.nil?
+                      = image_tag image.attachment_url(:small)
+                  - else
+                    = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
             = link_to [:website, offer, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(offer.title), length: 75, omission: '...'

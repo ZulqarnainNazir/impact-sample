@@ -34,6 +34,11 @@
               div.grid-feed-title  = truncate sanitize(gallery.title), length: 75, omission: '... '
               / p.slider-text.slider-text-sub
             small.m-t-xs #{pluralize(gallery.gallery_images.count, 'photo').upcase}
+            div
+              - if gallery.meta_description
+                small.m-t-xs = truncate sanitize(gallery.meta_description), length: 90, omission: '... '             
+              - else
+                small.m-t-xs = truncate sanitize(gallery.description), length: 90, omission: '... '
             div.mt-text.rt
               = link_to [:website, gallery, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
                 |Read More

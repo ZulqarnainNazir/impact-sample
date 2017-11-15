@@ -26,6 +26,11 @@
               = truncate sanitize(before_after.title.titleize), length: 50, omission: '... '
             small.m-t-xs
               i BEFORE & AFTER
+            div
+              - if before_after.meta_description
+                small.m-t-xs = truncate sanitize(before_after.meta_description), length: 90, omission: '... '             
+              - else
+                small.m-t-xs = truncate sanitize(before_after.description), length: 90, omission: '... '
             div.mt-text.rt
               = link_to [:website, before_after, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
                 |Read More
