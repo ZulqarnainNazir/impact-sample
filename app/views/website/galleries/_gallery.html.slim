@@ -35,7 +35,7 @@
               / p.slider-text.slider-text-sub
             small.m-t-xs #{pluralize(gallery.gallery_images.count, 'photo').upcase}
             div
-              - if gallery.meta_description
+              - if gallery.meta_description.present?
                 small.m-t-xs = truncate sanitize(gallery.meta_description), length: 90, omission: '... '             
               - else
                 small.m-t-xs = truncate sanitize(gallery.description), length: 90, omission: '... '

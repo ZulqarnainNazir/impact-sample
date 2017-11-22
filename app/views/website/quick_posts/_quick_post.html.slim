@@ -18,7 +18,7 @@
           div.product-desc
             = link_to [:website, quick_post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(quick_post.title), length: 60, omission: '... '
-            - if quick_post.meta_description
+            - if quick_post.meta_description.present?
               small.m-t-xs = truncate sanitize(quick_post.meta_description), length: 90, omission: '... '             
             - else
               small.m-t-xs = truncate sanitize(quick_post.description), length: 80, omission: '... '

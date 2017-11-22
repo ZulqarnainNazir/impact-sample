@@ -44,7 +44,7 @@
                   = truncate sanitize(event.event_definition.location.state.upcase) + ", "
                 = truncate sanitize(event.event_definition.location.zip_code)
             div
-              - if event.event_definition.meta_description
+              - if event.event_definition.meta_description.present?
                 small.m-t-xs = truncate sanitize(event.event_definition.meta_description), length: 90, omission: '... '             
               - else
                 small.m-t-xs = truncate sanitize(event.event_definition.description), length: 90, omission: '... '
