@@ -119,7 +119,7 @@ const GroupContainer = React.createClass({
       } else { return `webpage-group webpage-group-basic webpage-group-basic-right ${custom_class}`; }
     } else if (this.props.group.type === 'SidebarGroup') {
       return `webpage-group webpage-group-sidebar webpage-group-sidebar-right ${custom_class}`;
-    } else { return `webpage-group webpage-group-basic webpage-group-basic-left ${custom_class}`; }
+    } else { return `webpage-group webpage-group-basic webpage-group-basic-left p-h-xl ${custom_class}`; }
   },
 
   // inputName: (name) ->

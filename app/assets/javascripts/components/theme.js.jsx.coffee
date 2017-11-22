@@ -310,7 +310,7 @@ Theme = React.createClass
                     <div className="webpage-wrapper">
                         <div className="container">
                             <div className={this.webpageContainerClass()}>
-                                <div className="webpage-group webpage-group-basic webpage-group-basic-left">
+                                <div className="webpage-group webpage-group-basic webpage-group-basic-left p-h-xl">
                                     <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
                                         <span style={{fontSize: 30}}>Main Content – <a href="#">Example Link</a></span>
                                     </div>
@@ -320,7 +320,7 @@ Theme = React.createClass
                                         <span style={{fontSize: 20}}>Sidebar Content</span>
                                     </div>
                                 </div>
-                                <div className="webpage-group webpage-group-basic webpage-group-basic-left">
+                                <div className="webpage-group webpage-group-basic webpage-group-basic-left p-h-xl">
                                     <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '6em 2em'}}>
                                         <span style={{fontSize: 20}}>Main Content – <a href="#">Example Link</a></span>
                                     </div>
@@ -328,7 +328,7 @@ Theme = React.createClass
                             </div>
                         </div>
                     </div>
-                    <div className="webpage-group webpage-group-basic-left">
+                    <div className="webpage-group webpage-group-basic-left p-h-xl">
                         <div className="container">
                             <div className="row">
                                 <div className="col-sm-12">
