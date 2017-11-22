@@ -29,14 +29,14 @@ class CompanySchema
   end
 
   def self.remap(csv, mapping)
-    [].tap do |result|
+    CSV.generate do |result|
       csv.each_with_index do |row, index|
         [].tap do |new_row|
           valid_mapping = mapping.reject{ |k, v| v.blank? }
           valid_mapping.each do |csv_order, schema_order|
             new_row[schema_order.to_i] = row[csv_order.to_i]
           end
-          result << new_row.join(',')
+          result << new_row
         end
       end
     end

@@ -6,10 +6,7 @@ class S3Service
   def self.download(key, destination)
     File.open(destination, 'w') do |file|
       body = bucket.objects[formatted_key(key)].read
-      body.encode!('utf-8', invalid: :replace, undef: :replace, replace: '_')
-      body.gsub!("\r\n", "\n")
-
-      file.puts body
+      file.puts body.force_encoding('UTF-8')
     end
   end
 
