@@ -1,6 +1,9 @@
 - title 'Browse Missions'
 
 = render partial: 'dashbreadcrumb', locals: { lnk: :businesses, fn: 'Marketing Missions', fp: :reminders, an: 'Browse Missions'}
+- @missions.each do |mission|
+  - instance = @mission_instances[mission.id]&.first
+  = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
 
 .ibox
   .ibox-title
@@ -36,7 +39,6 @@
       tbody
         - @missions.each do |mission|
           - instance = @mission_instances[mission.id]&.first
-          = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
 
           tr
             td

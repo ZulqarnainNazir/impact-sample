@@ -2,6 +2,10 @@
 
 = render partial: 'dashbreadcrumb', locals: { lnk: :businesses, an: 'Custom Missions list'}
 
+- @missions.each do |mission|
+  - instance = @mission_instances[mission.id]&.first
+  = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
+
 .ibox
   .ibox-title
     h5 All Missions
@@ -19,7 +23,6 @@
       tbody
         - @missions.each do |mission|
           - instance = @mission_instances[mission.id]&.first
-          = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
 
           - if instance && instance&.active?
             tr

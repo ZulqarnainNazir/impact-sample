@@ -1,3 +1,7 @@
+- @completed_reminders.each do |mission|
+  - instance = @mission_instances[mission.id]&.first
+  = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
+
 .ibox
   .ibox-title
     h5 Completed or Deactivated Missions
@@ -25,8 +29,6 @@
       tbody
         - @completed_reminders.each do |mission|
           - instance = @mission_instances[mission.id]&.first
-          = render partial: 'businesses/mission_instances/activation_modal', locals: { mission: mission, mission_instance: instance }
-
           - if instance
             tr
               td

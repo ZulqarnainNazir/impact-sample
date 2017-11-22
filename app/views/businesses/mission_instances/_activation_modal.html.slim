@@ -1,5 +1,5 @@
 - @mission = mission if local_assigns[:mission]
-- @mission_instance = mission_instance if local_assigns[:mission_instance]
+- @mission_instance = local_assigns[:mission_instance] ? mission_instance : MissionInstance.new
 
 .modal.inmodal.fade id="mission-activation-modal-#{@mission.id}" tabindex="-1" role="dialog" aria-hidden="true"
   .modal-dialog.modal-lg
@@ -11,7 +11,7 @@
         h4.modal-title Activate Mission
 
       .modal-body
-        = form_for (@mission_instance || MissionInstance.new), url: activate_business_mission_instances_path(@business, mission_id: @mission.id), method: :post do |f|
+        = form_for @mission_instance, url: activate_business_mission_instances_path(@business, mission_id: @mission.id), method: :post do |f|
           .form-group
             = f.label :start_date, 'Start date*', class: 'control-label'
             = f.text_field :start_date, value: f.object.start_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
