@@ -3,7 +3,7 @@
   - reviews = business.reviews.published.order(reviewed_at: :desc).limit(6)
   - if reviews.length > 0
     - if reviews_block.style == 'columns'
-      .reviews.reviews-columns
+      .reviews.reviews-columns.b-p-h-xl
         #carousel-reviews-widget-columns-md.carousel.slide data-ride="carousel"
           .carousel-inner
             - reviews.in_groups_of(3).each_with_index do |reviews_group, i|
@@ -17,7 +17,7 @@
             = link_to '#carousel-reviews-widget-columns-md', class: 'carousel-control right', role: 'button', data: { slide: 'next' } do
               span.glyphicon.glyphicon-chevron-right
     - else
-      .reviews.reviews-full-width.col-xs-12
+      .reviews.reviews-full-width.col-xs-12.b-p-h-xl
         .row
           .col-md-8.col-md-offset-2
             #carousel-reviews-widget.carousel.slide data-ride="carousel"

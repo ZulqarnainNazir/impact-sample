@@ -1013,7 +1013,45 @@ a.close-canvas-menu:hover {
   padding: 50px 0;
 
 }
+/* Custom Helpers without defining 0 */
+.b-p-h-sm {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.b-p-h-md {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.b-p-h-lg {
+  padding-top: 35px;
+  padding-bottom: 35px;
+}
+.b-p-h-xl {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
 
+.b-p-h-xxl {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.b-p-w-sm {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.b-p-w-md {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+.b-p-w-lg {
+  padding-left: 35px;
+  padding-right: 35px;
+}
+.b-p-w-xl {
+  padding-left: 50px;
+  padding-right: 50px;
+}
 
 .m-xxs {
   margin: 2px 4px;

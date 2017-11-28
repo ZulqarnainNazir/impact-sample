@@ -2,23 +2,24 @@
 - canonical_url website_reviews_url
 
 .container.blog-content
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li.active Customer Reviews
-  = render 'application/alerts'
-  .page-header
-    h1.h2
-      ' Browse Customer Reviews
-      - if @locable_business
-        = link_to @locable_business.locable_url + '/reviews/new', class: 'btn btn-default pull-right', target: :_blank do
-          span.fa.fa-plus-circle>
-          | Leave us a Review
-  .row
-    div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
-      = page_entries_info @reviews, entry_name: 'reviews'
-      = render partial: 'review', collection: @reviews, locals: { link_title: true }
-      = paginate @reviews
-    - if @website.content_blog_sidebar_on_reviews?
-      .col-sm-4
-        .show-sidebar-grid
-          = render posts(nil, @business), small: true
+  .row.p-md
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li.active Customer Reviews
+    = render 'application/alerts'
+    .page-header
+      h1.h2
+        ' Browse Customer Reviews
+        - if @locable_business
+          = link_to @locable_business.locable_url + '/reviews/new', class: 'btn btn-default pull-right', target: :_blank do
+            span.fa.fa-plus-circle>
+            | Leave us a Review
+    .row
+      div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
+        = page_entries_info @reviews, entry_name: 'reviews'
+        = render partial: 'review', collection: @reviews, locals: { link_title: true }
+        = paginate @reviews
+      - if @website.content_blog_sidebar_on_reviews?
+        .col-sm-4
+          .show-sidebar-grid
+            = render posts(nil, @business), small: true
