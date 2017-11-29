@@ -1,7 +1,9 @@
 - if local_assigns[:mission_instance]
-  - if mission_instance.completed? && mission_instance.one_time?
+  - if mission_instance.activated_at.blank?
+    span.label.label-default Inactive
+  - elsif mission_instance.completed? && mission_instance.one_time?
     span.label.label-success Completed
-  - elsif mission_instance.deactivated?
+  - elsif mission_instance.deactivated? && mission_instance.activated_at.present?
     span.label.label-warning Deactivated
   - elsif mission_instance.active?
     span.label.label-primary Active
