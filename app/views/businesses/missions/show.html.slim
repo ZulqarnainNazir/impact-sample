@@ -63,7 +63,7 @@
               dt Assigned to:
               dd
                 .text-navy = @mission_instance&.assigned_user&.name
-          - else
+          - elsif @mission_instance&.active?
             dt Assigned to:
             dd
               - if @mission_instance&.active?
