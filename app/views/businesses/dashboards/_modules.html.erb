@@ -1,0 +1,327 @@
+<div class="row">
+
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Marketing%20Missions.png">
+
+                </div>
+                <div class="product-desc">
+
+                    <% if @business.module_active?(0) %>
+                        <span class="product-price">
+                            Active
+                        </span>
+                    <% else %>
+                        <span class="inactive-module-dashboard">
+                            Inactive
+                        </span>
+                    <% end %>
+                    <small class="text-muted">Included</small>
+                    <a href="#" class="product-name"> Marketing Missions</a>
+
+
+
+                    <div class="small m-t-xs">
+                        Find fast and fun marketing activities, promote and grow your business painlessly.
+                    </div>
+                    <a href="javascript:Appcues.show('-L----lFAMGhL9959ob5')" class="pull-left text-muted" style="margin-top: 17px;"><small>Learn More </small></a>
+                    <div class="m-t text-right">
+                        <% if !@business.module_active?(0) %>
+                            <%= form_tag business_account_modules_path(:kind => 0, :active => true) do %>
+                                <%= button_tag( type: 'submit',
+                                :class => "btn btn-xs btn-outline btn-primary") do %>
+                                    Activate <i class="fa fa-plus-circle"></i>
+                                <% end %>
+                            <% end %>
+                        <% else %>
+                            <%= link_to( "Configure", timeline_business_activity_calendar_index_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
+                            
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png">
+
+                </div>
+                <div class="product-desc">
+                    <% if @business.module_active?(2) %>
+                        <span class="product-price">
+                            Active
+                        </span>
+                    <% else %>
+                        <span class="inactive-module-dashboard">
+                            Inactive
+                        </span>
+                    <% end %>
+                    <small class="text-muted">Included</small>
+                    <a href="#" class="product-name"> Local Connections</a>
+
+
+
+                    <div class="small m-t-xs">
+                        Publicize your Local Connections, add community content to your website.
+                    </div>
+                    <a href="javascript:Appcues.show('-KzzrtZpGHk_2Hql2JD0')" class="pull-left text-muted" style="margin-top: 17px;"><small>Learn More </small></a>
+
+                    <div class="m-t text-right">
+
+                        <% if !@business.module_active?(2) %>
+                            <%= form_tag business_account_modules_path(:kind => 2, :active => true) do %>
+                                <%= button_tag( type: 'submit',
+                                :class => "btn btn-xs btn-outline btn-primary") do %>
+                                    Activate <i class="fa fa-plus-circle"></i>
+                                <% end %>
+                            <% end %>
+                        <% else %>
+                            <%= link_to( "Configure", business_crm_company_lists_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Content%20blog%20marketing%20posts.png">
+
+                </div>
+                <div class="product-desc">
+                    <% if @business.module_active?(1) %>
+                        <span class="product-price">
+                            Active
+                        </span>
+                    <% else %>
+                        <span class="inactive-module-dashboard">
+                            Inactive
+                        </span>
+                    <% end %>
+                    <small class="text-muted">Included w/ Optional Upgrades</small>
+                    <a href="#" class="product-name"> Blog & Content</a>
+
+
+
+                    <div class="small m-t-xs">
+                        More than a blog, standing out from the crowd and growing your reach is a snap.
+                        <!--Quickly & easily post Marketing Messages with our robust Content Engine.
+                            More than a blog, create & distribute marketing content the easy way to reach more people.
+                        -->
+                    </div>
+                    <a href="javascript:Appcues.show('-Kzzz69kgC_JTZFAPT4P')" class="pull-left text-muted" style="margin-top: 17px;"><small>Learn More </small></a>
+                    <div class="m-t text-right">
+
+                        <% if !@business.module_active?(1) %>
+                            <%= form_tag business_account_modules_path(:kind => 1, :active => true) do %>
+                                <%= button_tag( type: 'submit',
+                                :class => "btn btn-xs btn-outline btn-primary") do %>
+                                    Activate <i class="fa fa-plus-circle"></i>
+                                <% end %>
+                            <% end %>
+                        <% else %>
+                            <%= link_to( "Configure", edit_business_account_module_path(@business, @business.get_account_module(1).id), :class => "btn btn-xs btn-outline btn-primary" ) %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Customer%20reviews.png">
+
+                </div>
+                <div class="product-desc">
+                    <% if @business.module_active?(3) %>
+                        <span class="product-price">
+                            Active
+                        </span>
+                    <% else %>
+                        <span class="inactive-module-dashboard">
+                            Inactive
+                        </span>
+                    <% end %>
+                    <small class="text-muted">Included w/ Optional Upgrades</small>
+                    <a href="#" class="product-name"> Customer Reviews</a>
+
+
+
+                    <div class="small m-t-xs">
+                        Collect, Share and Promote Customer Reviews on your website to increase credibility.
+                    </div>
+                    <a href="javascript:Appcues.show('-KzzzN485O46A0Q8VmHU')" class="pull-left text-muted" style="margin-top: 17px;"><small>Learn More </small></a>
+                    <div class="m-t text-right">
+                        <% if !@business.module_active?(3) %>
+                            <%= form_tag business_account_modules_path(:kind => 3, :active => true) do %>
+                                <%= button_tag( type: 'submit',
+                                :class => "btn btn-xs btn-outline btn-primary") do %>
+                                    Activate <i class="fa fa-plus-circle"></i>
+                                <% end %>
+                            <% end %>
+                        <% else %>
+                            <%= link_to( "Configure", [@business, :crm_reviews], :class => "btn btn-xs btn-outline btn-primary" ) %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Form%20Builder.png">
+
+                </div>
+                <div class="product-desc">
+
+                    <% if @business.module_active?(4) %>
+                        <span class="product-price">
+                            Active
+                        </span>
+                    <% else %>
+                        <span class="inactive-module-dashboard">
+                            Inactive
+                        </span>
+                    <% end %>
+                    <small class="text-muted">Included w/ Optional Upgrades</small>
+                    <a href="#" class="product-name"> Web Forms</a>
+
+
+
+                    <div class="small m-t-xs">
+                        Add an Instant Contact Page™ and simple forms to your site, track submissions in the cloud.
+                    </div>
+                    <a href="javascript:Appcues.show('-L-bqYqWpwL99FN5DUmI')" class="pull-left text-muted" style="margin-top: 17px;"><small>Learn More </small></a>
+                    <div class="m-t text-right">
+
+                        <% if !@business.module_active?(4) %>
+                            <%= form_tag business_account_modules_path(:kind => 4, :active => true) do %>
+                                <%= button_tag( type: 'submit',
+                                :class => "btn btn-xs btn-outline btn-primary") do %>
+                                    Activate <i class="fa fa-plus-circle"></i>
+                                <% end %>
+                            <% end %>
+                        <% else %>
+                            <%= link_to( "Configure", business_crm_contact_forms_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Create%20and%20manage%20a%20website.png">
+
+                </div>
+                <div class="product-desc">
+                    <% if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) %>
+                        <span class="inactive-module-dashboard">
+                            Inactive
+                        </span>
+                    <% else %>
+                        <span class="inactive-module-dashboard">
+                            Active
+                        </span>
+                    <% end %>
+                    <small class="text-muted">Upgrade Required</small>
+                    <a href="#" class="product-name"> Add a Website</a>
+
+
+
+                    <div class="small m-t-xs">
+                        Your website is the foundation for all marketing online, if your foundation needs an improvement we can help.
+                    </div>
+                    <a href="javascript:Appcues.show('-L-cI85rR1Q_niaExGbZ')" class="pull-left text-muted" style="margin-top: 17px;"><small>Learn More </small></a>
+                    <div class="m-t text-right">
+                        <% if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user? %>
+
+                            <%= form_tag new_website_business_website_add_website_path, method: :get do %>
+                                <%= button_tag( type: 'submit',
+                                :class => "btn btn-xs btn-outline btn-primary") do %>
+                                    Activate <i class="fa fa-plus-circle"></i>
+                                <% end %>
+                            <% end %>
+
+                        <% else %>
+                            <%= link_to( "Configure", table_business_website_webpages_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Marketing%20Plan%20and%20Audit.png">
+
+                </div>
+                <div class="product-desc">
+
+                    <small class="text-muted">One-Time Fee</small>
+                    <a href="#" class="product-name"> Marketing Plan & Audit</a>
+
+
+
+                    <div class="small m-t-xs">
+                        Avoid common mistakes, get professional help to create a plan you can follow to reach your goals.
+                    </div>
+                    <div class="m-t text-right">
+
+                        <a href="javascript:Appcues.show('-L-cSdsL8GwmngpQsfRj')" class="btn btn-xs btn-outline btn-primary">Learn More <i class="fa fa-eye"></i> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="ibox">
+            <div class="ibox-content product-box">
+
+                <div class="bg-muted">
+                    <img class="img-responsive center-block" style="max-height: 125px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Advertising.png">
+
+                </div>
+                <div class="product-desc">
+
+                    <small class="text-muted">Varies</small>
+                    <a href="#" class="product-name"> Advertising</a>
+
+
+
+                    <div class="small m-t-xs">
+                        Ready to actively promote your business to locals? Find out how Locable can help.
+                    </div>
+                    <div class="m-t text-right">
+
+                        <a href="javascript:Appcues.show('-L-csGhkcml3wILP6Ysh')" class="btn btn-xs btn-outline btn-primary">Learn More <i class="fa fa-eye"></i> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

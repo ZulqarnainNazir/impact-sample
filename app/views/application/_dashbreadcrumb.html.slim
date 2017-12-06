@@ -18,16 +18,3 @@
     - unless an.nil?
       li.active
         = an
-
-  hr
-  - if @business.website && !@business.is_on_engage_plan?
-    p style="margin-top:0; display: inline-block;" Preview Your Website:
-    = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
-      span => website_root_url(host: website_host(@business.website), protocol: :http)
-      i.fa.fa-external-link style="margin-left:5px"
-  - elsif @business.is_on_engage_plan?
-    p style="margin-top:0; display: inline-block;" Preview Your Listing:
-    = link_to listing_path_url(@business), target: :_blank do
-      span => listing_path_url(@business)
-      i.fa.fa-external-link style="margin-left:5px"
-

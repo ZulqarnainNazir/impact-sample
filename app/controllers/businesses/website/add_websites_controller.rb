@@ -37,6 +37,7 @@ class Businesses::Website::AddWebsitesController < Businesses::Website::BaseCont
         if result
           if @subscription_plan.setup_amount > 0
             if StripeChargeNowJob.perform_now(@subscription.id) == true
+              activate_web_module
               flash[:notice] = "Congratulations! Your subscription is now
               upgraded, and your billing information has been added."
               redirect_to subscription_dashboard_business_subscriptions_path and return
@@ -45,6 +46,7 @@ class Businesses::Website::AddWebsitesController < Businesses::Website::BaseCont
             end
           elsif @subscription.setup_amount == 0
             if StripeChargeNowJobTwo.perform_now(@subscription.id)
+              activate_web_module
               flash[:notice] = "Congratulations! Your subscription is now
               upgraded, and your billing information has been added."
               redirect_to subscription_dashboard_business_subscriptions_path and return
@@ -65,6 +67,14 @@ class Businesses::Website::AddWebsitesController < Businesses::Website::BaseCont
   end
 
   protected
+
+    def activate_web_module
+      if @business.module_present?(5)
+        @business.get_account_module(5).update(active: true)
+      else
+        AccountModule.create(kind: 5, active: true, business_id: @business.id )
+      end
+    end
 
     def load_billing
       #if you're getting weird errors related to this method, or I18n::InvalidLocaleData,

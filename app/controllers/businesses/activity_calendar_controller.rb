@@ -1,4 +1,5 @@
 class Businesses::ActivityCalendarController < Businesses::BaseController
+  before_action -> { confirm_module_activated(0) }
   def index
     @events = service.calendar_events
   end

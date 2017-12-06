@@ -14,6 +14,7 @@ class Business < ActiveRecord::Base
   enum plan: { free: 0, web: 1, primary: 2, }
 
   with_options dependent: :destroy do
+    has_many :account_modules
     has_many :authorizations
     has_many :before_afters
     has_many :categorizations, as: :categorizable
@@ -98,6 +99,80 @@ class Business < ActiveRecord::Base
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
   before_save :generate_slug, unless: :slug?
+
+  def enabled_content_types
+    enabled_types = []
+    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+      self.account_modules.where({kind: 1}).first.settings.each do |key, value|
+        if value == true
+          enabled_types << key
+        end
+      end
+    end
+    enabled_types
+  end
+
+  def modules_unactivated
+    6 - self.account_modules.where({active: true}).count
+  end
+
+  def any_content_type_active?
+    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+      self.account_modules.where({kind: 1}).first.settings.each do |key, value|
+        if value == true
+          return true
+        end
+      end
+    end
+    return false
+  end
+
+  def content_type_active?(content_type)
+    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+      self.account_modules.where({kind: 1}).first.content_active?(content_type)
+    else
+      false
+    end
+  end
+
+  def content_type_enabled?(content_type)
+    #used for HTML where an attribute should be "true" when enabled would be false or nil
+    #e.g., a link where disabled: true, when enabled == false
+    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+      return self.account_modules.where({kind: 1}).first.content_enabled(content_type)
+    else
+      true
+    end
+  end
+
+  def module_active?(module_kind_number)
+    # marketing_missions: 0, 
+    # content_engine: 1,
+    # local_connections: 2,
+    # customer_reviews: 3,
+    # form_builder: 4,
+    # website: 5
+    if self.account_modules.where({kind: module_kind_number, active: true}).present?
+      true
+    else
+      false
+    end
+  end
+
+  def module_present?(module_kind_number)
+    if self.account_modules.where({kind: module_kind_number}).present?
+      true
+    else
+      false
+    end
+  end
+
+  def get_account_module(module_kind_number)
+    m = self.account_modules.where({kind: module_kind_number}).first
+    if !m.nil?
+      m
+    end
+  end
 
   def create_default_directories
     case self[:kind]

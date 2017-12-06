@@ -1,4 +1,5 @@
 class Businesses::Crm::ReviewsController < Businesses::BaseController
+  before_action -> { confirm_module_activated(3) }
   before_action only: member_actions do
     @review = @business.reviews.find(params[:id])
     @review.update_column :read_by, @review.read_by + [current_user.id] unless @review.read_by.include?(current_user.id)

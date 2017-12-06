@@ -1,4 +1,5 @@
 class Businesses::Crm::FormSubmissionsController < Businesses::BaseController
+  before_action -> { confirm_module_activated(3) }
   before_action only: member_actions do
     @form_submission = @business.form_submissions.find(params[:id])
     @form_submission.update_column :read_by, @form_submission.read_by + [current_user.id] unless @form_submission.read_by.include?(current_user.id)

@@ -30,57 +30,137 @@
               |  Sign out
             - if user_masquerade?
               li = link_to "Reverse masquerade", back_masquerade_path(current_user)
-  .col-md-12
-    .fluid-nav
-      ul.nav.navbar-top-links
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt>
-          span
-            | Quick Post
-        - if !@business.is_on_engage_plan? || current_user.super_user?
-          li = link_to [:new, @business, :content_before_after] do
-            i.fa.fa-columns>
-            span
-              | Before &amp; After
-          li = link_to [:new, @business, :content_gallery] do
-            i.fa.fa-photo>
-            span
-              | Gallery
-        - else
-          li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
-            i.fa.fa-columns>
-            span
-              | Before &amp; After
-          li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
-            i.fa.fa-photo>
-            span
-              | Gallery
-        li = link_to [:new, @business, :content_event_definition] do
-          i.fa.fa-calendar>
-          span
-            | Event
-        li = link_to [:new, @business, :content_job] do
-          i.fa.fa-briefcase>
-          span
-            | Job
-        li = link_to [:new, @business, :content_offer] do
-          i.fa.fa-ticket>
-          span
-            | Offer
-        li.list-divider = link_to [@business, :crm_reviews] do
-          i.fa.fa-star>
-          span
-            | Collect Customer Reviews
-        - if !@business.is_on_engage_plan? || current_user.super_user?
-          li = link_to [:new, @business, :content_post] do
-            i.fa.fa-edit>
-            span
-              | Custom Post
-        - elsif @business.is_on_engage_plan?
-          li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
-            i.fa.fa-edit>
-            span
-              | Custom Post
+  - if @business.module_active?(1) || @business.module_active?(3)
+    .col-md-12
+      .fluid-nav
+        ul.nav.navbar-top-links
+          - if @business.module_active?(1)
+            - if @business.content_type_active?("quick_post")
+              li = link_to_if [:new, @business, :content_quick_post] do
+                i.fa.fa-bolt>
+                span
+                  | Quick Post
+            - else
+              li class="disabled"
+                = link_to "#" do
+                  i.fa.fa-bolt.disabled-nav-content>
+                  span.disabled-nav-content
+                    | Quick Post
+            - if !@business.is_on_engage_plan? || current_user.super_user?
+              -if @business.content_type_active?("before_after")
+                li = link_to [:new, @business, :content_before_after] do
+                  i.fa.fa-columns>
+                  span
+                    | Before &amp; After
+              - else
+                li class='disabled'
+                  = link_to "#" do
+                    i.fa.fa-columns.disabled-nav-content>
+                    span.disabled-nav-content
+                      | Before &amp; After        
+              -if @business.content_type_active?("gallery")
+                li = link_to [:new, @business, :content_gallery] do
+                  i.fa.fa-photo>
+                  span
+                    | Gallery
+              - else
+                li class='disabled'
+                  = link_to "#" do
+                    i.fa.fa-photo.disabled-nav-content>
+                    span.disabled-nav-content
+                      | Gallery          
+            - else
+              - if @business.content_type_active?("before_after")         
+                li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
+                  i.fa.fa-columns>
+                  span
+                    | Before &amp; After
+              - else
+                li class='disabled'
+                  = link_to "#" do
+                    i.fa.fa-columns.disabled-nav-content>
+                    span.disabled-nav-content
+                      | Before &amp; After  
+              - if @business.content_type_active?("gallery")
+                li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
+                  i.fa.fa-photo>
+                  span
+                    | Gallery
+              - else
+                li class='disabled'
+                  = link_to "#" do
+                    i.fa.fa-photo.disabled-nav-content>
+                    span.disabled-nav-content
+                      | Gallery
+
+            - if @business.content_type_active?("event")
+              li = link_to [:new, @business, :content_event_definition] do
+                i.fa.fa-calendar>
+                span
+                  | Event
+            - else
+              li class='disabled'
+                = link_to "#" do
+                  i.fa.fa-calendar.disabled-nav-content>
+                  span.disabled-nav-content
+                    | Event
+
+            - if @business.content_type_active?("job")
+              li = link_to [:new, @business, :content_job] do
+                i.fa.fa-briefcase>
+                span
+                  | Job
+            - else
+              li class='disabled'
+                = link_to "#" do
+                  i.fa.fa-briefcase.disabled-nav-content>
+                  span.disabled-nav-content
+                    | Job
+
+            - if @business.content_type_active?("offer")
+              li = link_to [:new, @business, :content_offer] do
+                i.fa.fa-ticket>
+                span
+                  | Offer
+            - else
+              li class='disabled'
+                = link_to "#" do
+                  i.fa.fa-ticket.disabled-nav-content>
+                  span.disabled-nav-content
+                    | Offer   
+          - if @business.module_active?(3)
+            li.list-divider = link_to [@business, :crm_reviews] do
+              i.fa.fa-star>
+              span
+                | Collect Customer Reviews
+
+          - if !@business.is_on_engage_plan? || current_user.super_user?
+            - if @business.module_active?(1)
+              - if @business.content_type_active?("post")
+                li = link_to [:new, @business, :content_post] do
+                  i.fa.fa-edit>
+                  span
+                    | Custom Post
+              - else
+                li class='disabled'
+                  = link_to "#" do
+                    i.fa.fa-edit.disabled-nav-content>
+                    span.disabled-nav-content
+                      | Custom Post   
+
+          - elsif @business.is_on_engage_plan?
+            - if @business.content_type_active?("post")
+              li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
+                i.fa.fa-edit>
+                span
+                  | Custom Post
+            - else
+              li class='disabled'
+                = link_to "#" do
+                  i.fa.fa-edit.disabled-nav-content>
+                  span.disabled-nav-content
+                    | Custom Post 
+
   a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-inline-block href="#{new_business_crm_invite_url}"
     i.fa.fa-user-plus.fa-2 aria-hidden="true"
     |  Invite Friend

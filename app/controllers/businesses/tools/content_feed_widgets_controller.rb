@@ -1,4 +1,5 @@
 class Businesses::Tools::ContentFeedWidgetsController < Businesses::BaseController
+  before_action -> { confirm_module_activated(1) }
   before_action only: new_actions do
     @content_feed_widget = @business.content_feed_widgets.new
   end

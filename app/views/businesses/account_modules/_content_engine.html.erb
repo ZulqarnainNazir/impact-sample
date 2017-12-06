@@ -1,0 +1,101 @@
+<div class="row">
+	<div class = "col-xs-1">
+		<div class="switch">
+			<div class = "onoffswitch" >
+				<%= check_box_tag "enable", @module.content_enabled('post'), @module.content_enabled_checked('post'), data: { remote: true, url: business_account_module_path(content: "post"), method: "PUT"}, class: "onoffswitch-checkbox", id: "post-#{@module.id}" %>
+				<label class="onoffswitch-label" for=<%="post-#{@module.id}"%> >
+		            <span class="onoffswitch-inner"></span>
+		            <span class="onoffswitch-switch"></span>
+		        </label>
+			</div>
+		</div>
+	</div>
+	<div class = "col-xs-4">
+		Posts
+	</div>
+</div>
+
+<div class="row">
+	<div class = "col-xs-1">
+		<div class="switch">
+			<div class = "onoffswitch" >
+				<%= check_box_tag "enable", @module.content_enabled('before_after'), @module.content_enabled_checked('before_after'), data: { remote: true, url: business_account_module_path(content: "before_after"), method: "PUT"}, class: "onoffswitch-checkbox", id: "before_after-#{@module.id}" %>
+				<label class="onoffswitch-label" for=<%="before_after-#{@module.id}"%> >
+		            <span class="onoffswitch-inner"></span>
+		            <span class="onoffswitch-switch"></span>
+		        </label>
+			</div>
+		</div>
+	</div>
+	<div class = "col-xs-4">
+		Before & Afters
+ 	</div>
+</div>
+
+<div class="row">
+	<div class = "col-xs-1">
+		<div class="switch">
+			<div class = "onoffswitch" >
+				<%= check_box_tag "enable", @module.content_enabled('event'), @module.content_enabled_checked('event'), data: { remote: true, url: business_account_module_path(content: "event"), method: "PUT"}, class: "onoffswitch-checkbox", id: "event-#{@module.id}" %>
+				<label class="onoffswitch-label" for=<%="event-#{@module.id}"%> >
+		            <span class="onoffswitch-inner"></span>
+		            <span class="onoffswitch-switch"></span>
+		        </label>
+			</div>
+		</div>
+	</div>
+	<div class = "col-xs-4">
+		Events
+ 	</div>
+</div>
+
+<div class="row">
+	<div class = "col-xs-1">
+		<div class="switch">
+			<div class = "onoffswitch" >
+				<%= check_box_tag "enable", @module.content_enabled('offer'), @module.content_enabled_checked('offer'), data: { remote: true, url: business_account_module_path(content: "offer"), method: "PUT"}, class: "onoffswitch-checkbox", id: "offer-#{@module.id}" %>
+				<label class="onoffswitch-label" for=<%="offer-#{@module.id}"%> >
+		            <span class="onoffswitch-inner"></span>
+		            <span class="onoffswitch-switch"></span>
+		        </label>
+			</div>
+		</div>
+	</div>
+	<div class = "col-xs-4">
+		Offers
+ 	</div>
+</div>
+
+<div class="row">
+	<div class = "col-xs-1">
+		<div class="switch">
+			<div class = "onoffswitch" >
+				<%= check_box_tag "enable", @module.content_enabled('job'), @module.content_enabled_checked('job'), data: { remote: true, url: business_account_module_path(content: "job"), method: "PUT"}, class: "onoffswitch-checkbox", id: "job-#{@module.id}" %>
+				<label class="onoffswitch-label" for=<%="job-#{@module.id}"%> >
+		            <span class="onoffswitch-inner"></span>
+		            <span class="onoffswitch-switch"></span>
+		        </label>
+			</div>
+		</div>
+	</div>
+	<div class = "col-xs-4">
+		Jobs
+ 	</div>
+</div>
+
+<div class="row">
+	<div class = "col-xs-1">
+		<div class="switch">
+			<div class = "onoffswitch" >
+				<%= check_box_tag "enable", @module.content_enabled('gallery'), @module.content_enabled_checked('gallery'), data: { remote: true, url: business_account_module_path(content: "gallery"), method: "PUT"}, class: "onoffswitch-checkbox", id: "gallery-#{@module.id}" %>
+				<label class="onoffswitch-label" for=<%="gallery-#{@module.id}"%> >
+		            <span class="onoffswitch-inner"></span>
+		            <span class="onoffswitch-switch"></span>
+		        </label>
+			</div>
+		</div>
+	</div>
+	<div class = "col-xs-4">
+		Galleries
+ 	</div>
+</div>

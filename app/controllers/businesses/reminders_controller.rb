@@ -1,4 +1,5 @@
 class Businesses::RemindersController < Businesses::BaseController
+  before_action -> { confirm_module_activated(0) }
   def index
     @active_reminders = active_missions + completed_scheduled_missions
     @completed_reminders = completed_one_time_missions + deactivated_missions

@@ -1,4 +1,5 @@
 class Businesses::Tools::ReviewWidgetsController < Businesses::BaseController
+  before_action -> { confirm_module_activated(3) }
   before_action only: new_actions do
     @review_widget = @business.review_widgets.new
   end

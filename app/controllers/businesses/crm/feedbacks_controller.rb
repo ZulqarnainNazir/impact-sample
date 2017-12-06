@@ -1,4 +1,5 @@
 class Businesses::Crm::FeedbacksController < Businesses::BaseController
+  before_action -> { confirm_module_activated(3) }
   before_action only: new_actions do
     @contact = @business.contacts.find(params[:contact_id])
     @feedback = @contact.feedbacks.new(business: @business)

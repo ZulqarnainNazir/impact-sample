@@ -21,7 +21,7 @@ wrapper.wrapper-content
             = form.label :form_field_ids, "Form Fields (Select the fields you want included in this form)", class: 'control-label'
             = form.select :form_field_ids, options_from_collection_for_select(@form_fields, 'id', 'label', @contact_form.form_field_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control'}
           .form-group
-            = form.label :layout, "Form Fields (Select the fields you want included in this form)", class: 'control-label'
+            = form.label :layout, "Form Layout (Choose simple form or from Instant Contact Page options)", class: 'control-label'
             = form.select :layout, options_for_select(@layout_options.map { |obj| [obj[:name], obj[:id]] }, @contact_form.layout), {}, {:class => 'form-control'}
           .form-group
             = form.label :public_description, "Publicly Visible Description (depends on layout above)", class: 'control-label'
@@ -63,7 +63,7 @@ wrapper.wrapper-content
     = form_for @contact_form, url: [@business, :crm, @contact_form] do |form|
       .ibox.float-e-margins
         .ibox-title
-          h5 Reorder the Form Fields & Create Custom Labels
+          h5 Reorder Form Fields & Create Custom Labels
         .ibox-content
           ol.contact-form-form-fields-associations.visible style="margin: 20px 20px 20px 20px;"
             - form.object.contact_form_form_fields.build

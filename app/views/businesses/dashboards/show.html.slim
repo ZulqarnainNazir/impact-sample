@@ -1,3 +1,4 @@
+
 - title 'Locable Marketing Platform'
 - if @business.to_dos_enabled
   = render partial: 'businesses/dashboards/to_dos', locals: { business: @business }
@@ -10,130 +11,31 @@
           .ibox.float-e-margins
             .ibox-title
               h2
-                | What do you want to do?
+                | Manage Active Features on Your Account
+                <a class="btn btn-primary btn-sm pull-right" href="javascript:Appcues.show('-L-ZPRcW34uZb8tf2YYW')">What's managing features about &#x27a4;</a>
+              .ibox-tools
+                a class="collapse-link"
+                  i.fa.fa-chevron-up Collapse Section
             .ibox-content
-              .row
-                .col-xs-6.col-lg-3
-                  = link_to [@business, :crm_contact_forms] do
-                    .panel.panel-success
-                      .panel-body
-                        .row
-                          .col-xs-3
-                            i.fa.fa-check-square-o.fa-4x
-                          .col-xs-9.text-right
-                            div style="font-size: 36px" = @business.contact_forms.count
-                            - if @business.contact_forms.count == 1
-                              | Form
-                            - else
-                              | Forms
-                      .panel-footer.text-right
-                        span.pull-left> Manage Forms
-                        i.fa.fa-arrow-circle-right
-                .col-xs-6.col-lg-3
-                  = link_to [@business, :crm_reviews] do
-                    .panel.panel-success
-                      .panel-body
-                        .row
-                          .col-xs-3
-                            i.fa.fa-star.fa-4x
-                          .col-xs-9.text-right
-                            div style="font-size: 36px" = @business.reviews.count
-                            - if @business.reviews.count == 1
-                              | Review
-                            - else
-                              | Reviews
-                      .panel-footer.text-right
-                        span.pull-left> Manage Reviews
-                        i.fa.fa-arrow-circle-right
-                .col-xs-6.col-lg-3
-                  = link_to [@business, :content_root] do
-                    .panel.panel-success
-                      .panel-body
-                        .row
-                          .col-xs-3
-                            i.fa.fa-bullhorn.fa-4x
-                          .col-xs-9.text-right
-                            div style="font-size: 36px" = @business.feed_items_count
-                            - if @business.feed_items_count == 1
-                              | Post
-                            - else
-                              | Posts
-                      .panel-footer.text-right
-                        span.pull-left> Manage Content
-                        i.fa.fa-arrow-circle-right
-                .col-xs-6.col-lg-3
-                  = link_to [@business, :crm_company_lists] do
-                    .panel.panel-success
-                      .panel-body
-                        .row
-                          .col-xs-3
-                            i.fa.fa-group.fa-4x
-                          .col-xs-9.text-right
-                            div style="font-size: 36px" = @business.company_lists.inject(0) {|acc, list| acc + list.companies.size}
-                            | In Networks
-                            br
-                      .panel-footer.text-right
-                        span.pull-left> Local Networks
-                        i.fa.fa-arrow-circle-right
-                .col-xs-6.col-lg-3
-                  = link_to [:custom, @business, :missions] do
-                    .panel.panel-success
-                      .panel-body
-                        .row
-                          .col-xs-3
-                            i.fa.fa-flag.fa-4x
-                          .col-xs-9.text-right
-                            div style="font-size: 36px" = (@event_count rescue 0)
-                            - if (@event_count rescue 0) == 1
-                              | Mission
-                            - else
-                              | Missions
-                      .panel-footer.text-right
-                        span.pull-left> Custom Marketing Missions
-                        i.fa.fa-arrow-circle-right
-                .col-xs-6.col-lg-3
-                  = link_to [@business, :website_root] do
-                    .panel.panel-success
-                      .panel-body
-                        .row
-                          .col-xs-3
-                            i.fa.fa-desktop.fa-4x
-                          .col-xs-9.text-right
-                            div style="font-size: 36px" = (@business.website.webpages.count rescue 0)
-                            - if (@business.website.webpages.count rescue 0) == 1
-                              | Page
-                            - else
-                              | Pages
-                      .panel-footer.text-right
-                        span.pull-left> Manage Website
-                        i.fa.fa-arrow-circle-right
-                .col-xs-6.col-lg-3
-                  = link_to [@business, :data_root] do
-                    .panel.panel-success
-                      .panel-body style="min-height: 101px;"
-                        .row
-                          .col-xs-3
-                            i.fa.fa-map-marker.fa-4x
-                          .col-xs-9.text-right
-                            | My <br> Business Data
-                      .panel-footer.text-right
-                        span.pull-left> Manage Business Data
-                        i.fa.fa-arrow-circle-right
+                = render "modules"
       .row
-        .col-lg-4
-          = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
-        .col-lg-4.col-md-6
-          = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
-        .col-lg-4.col-md-6
-          = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
-      .row
-        .col-md-6
-          = render 'mission_prompts'
-          
-        .col-md-6 
-          = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
-
-= render partial: 'businesses/dashboards/overview', locals: { business: @business }
+        - if @business.module_active?(0)
+          .col-lg-4.col-md-6
+            = render 'mission_prompts'
+        - if @business.module_active?(4)
+          .col-lg-4.col-md-6
+            = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
+        - if @business.module_active?(3)
+          .col-lg-4.col-md-6
+            = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
+        - if @business.module_active?(0)
+          .col-lg-4.col-md-6 
+            = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
+        - if @business.module_active?(2)
+          .col-lg-4.col-md-6
+              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
+          .col-lg-4.col-md-6
+              = render partial: 'businesses/dashboards/overview', locals: { business: @business }
 
   
 p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your relevant Local Networks, the Locable Publisher Network, and any linked social accounts.
