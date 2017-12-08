@@ -1,5 +1,5 @@
 - if local_assigns[:mission_instance]
-  - if mission_instance.activated_at.blank? && !mission_instance.active?
+  - if mission_instance.activated_at.blank? && !mission_instance.active? && mission_instance.one_time?
     span.label.label-default Inactive
   - elsif mission_instance.completed? && mission_instance.one_time?
     span.label.label-success Completed
