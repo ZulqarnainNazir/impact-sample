@@ -230,7 +230,7 @@ WebpageContainer = React.createClass
                 index: block_uuid
                 id: block.id
               ]
-            current_block:
+            currentBlock:
               $set: current_block
     else
       changes =

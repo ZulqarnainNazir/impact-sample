@@ -4,8 +4,10 @@ heroHelpers = {
     minicolorOptions =
       control: 'wheel'
       theme: 'block'
-    $('#hero_settings_background_color').minicolors $.extend(minicolorOptions, defaultValue: block.background_color or '')
-    $('#hero_settings_foreground_color').minicolors $.extend(minicolorOptions, defaultValue: block.foreground_color or '')
+    $('#hero_settings_background_color').prop('value', block.background_color)
+    $('#hero_settings_foreground_color').prop('value', block.foreground_color)
+    $('#hero_settings_background_color').minicolors minicolorOptions
+    $('#hero_settings_foreground_color').minicolors minicolorOptions
     $('#hero_settings_group_uuid').val groupId
     $('#hero_settings_block_uuid').val block.uuid
     $('#hero_settings_custom_class').val block.custom_class
