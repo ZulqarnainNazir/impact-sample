@@ -1,6 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
   before_action :set_affiliate_cookie, :only => [:new]
-  layout 'landing'
+  # layout 'landing'
 
   respond_to :json
 

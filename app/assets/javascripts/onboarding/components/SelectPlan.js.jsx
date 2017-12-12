@@ -74,7 +74,7 @@ class SelectPlan extends React.Component {
                   <div className="navy-line"></div>
                   <h1>Pick a plan that's right for you</h1>
                   <div className="col-sm-8 col-sm-offset-2">
-                    <h3>Locable's Marketing Suite empowers your marketing with a built-in local marketing assistant that guides your efforts, tools specially built for local, unlimited users and content, and more from a smartphone or PC.</h3>
+                    <h3>Locable's Marketing Platform offers great free local marketing tools with powerful upgrades to take your marketing further.</h3>
                   </div>
                   <div className="col-xs-12 text-center">
                     <label
@@ -104,7 +104,7 @@ class SelectPlan extends React.Component {
                 Engage
               </li>
               <li className="no-borders">
-                Local Marketing Assistant provides recommendations and reminders while built-in tools make marketing fast, easy and even fun
+                All the tools you need to engage locals and harness the power of your network
               </li>
               <li className="no-borders">
                 <span className="h2" style={{ color: '#1ab394' }}>Free - Seriously!</span>
@@ -116,22 +116,22 @@ class SelectPlan extends React.Component {
               </div>
               <div id="engage-collapse" className="panel-collapse in" aria-expanded="true">
                 <li>
-                  Virtual Local Marketing Assistant
+                  Marketing Missions™
                 </li>
                 <li>
                   Customer Reviews Generation <br /><small>Up to 5 Requests / mo</small>
                 </li>
                 <li>
-                  Simple Content Engine <br /><small>Events, Offers, Reviews, Quick Posts</small>
+                  Simple Content Engine <br /><small>Events & Classes, Jobs & Volunteer Opportunities, Offers, Reviews, Quick Posts</small>
                 </li>
                 <li>
-                  Contacts Database <br /><small>Unlimited Companies, Up to 100 People</small>
+                  Local Connections™ Contact Database <br /><small>Unlimited Companies, Up to 100 People</small>
                 </li>
                 <li>
-                  Distribution <br /><small>Facebook, Local Publisher Network</small>
+                  Distribution <br /><small>Facebook, Local Publisher Network, Local Connections™ Network</small>
                 </li>
                 <li>
-                  Embeddable Tools & Basic Form Builder <span className="badge">coming soon</span>
+                  Embeddable Tools & Basic Form Builder <br /><small>Forms & Instant Contact Page™, Calendars, Job Boards, News Feeds & More.</small>
                 </li>
               </div>
 
@@ -179,7 +179,7 @@ class SelectPlan extends React.Component {
                   </li>
                   <li>
                       Expanded Contacts Database<br />
-                        <small>Organize Unlimited Companies and Up to 500 People with Lists & Segments and Assignable To-Do's with Reminders</small>
+                        <small>Organize Unlimited Companies and Up to 500 People. Lists & Segments and Assignable To-Do's with Reminders coming soon.</small>
                   </li>
 
                   <li>
@@ -203,7 +203,7 @@ class SelectPlan extends React.Component {
         </div>
         <div className="row m-t-lg">
             <div className="col-lg-8 col-lg-offset-2 text-center m-t-lg">
-                <p>Upgrade, downgrade or cancel at any time. Add an always-modern, mobile, search and social media optimized website starting at just $375 for guided setup - only available with paid Build plan.</p>
+                <p>Upgrade, downgrade or cancel at any time. Add an always-modern, mobile, search and social media optimized website starting at just $375 for guided setup - upgrade available after completing registration.</p>
             </div>
         </div>
       </div>

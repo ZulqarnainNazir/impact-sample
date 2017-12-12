@@ -1,17 +1,23 @@
 - title 'Resend Unlock Instructions'
 
 = errors_for resource, message: 'There was a problem resending unlock instructions.'
-.panel.panel-default
-  .panel-heading
-    h1.h3.panel-title Resend Unlock Instructions
+.panel.panel-form-header
+  = image_tag("locable-square-small.png")
+.panel.panel-default.p-h-lg
   .panel-body
-    = form_for resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post } do |form|
-      .form-group
-        => form.label :email, class: 'control-label'
-        = form.email_field :email, autofocus: true, class: 'form-control'
-      hr
-      .row
-        .col-sm-8.col-sm-offset-2
-          = form.button 'Resend Unlock Instructions', class: 'btn btn-primary btn-block'
-  .panel-footer
-    = render 'devise/shared/links'
+    .form-inputs
+      h2.text-center Resend Unlock Instructions
+      p.text-center Email addresses must be confirmed before accessing your account
+      = form_for resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post } do |form|
+        .group
+          => form.label :email, class: 'control-label'
+          = form.email_field :email, autofocus: true, class: 'form-control'
+          span.bar
+          span.highlight
+        br
+        .row
+          .col-sm-8.col-sm-offset-2
+            = form.button 'Resend Unlock Instructions', class: 'btn btn-primary btn-block'
+        br
+        div style="text-align: center;"
+          = render 'devise/shared/links'

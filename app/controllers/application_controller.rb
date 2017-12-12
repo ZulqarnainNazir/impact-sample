@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
     if user.authorized_businesses.any?
       :businesses
     else
-      :new_onboard_website_business
+      new_onboard_user_url(anchor: "/wizard/lookup") #:new_onboard_website_business
     end
   end
 

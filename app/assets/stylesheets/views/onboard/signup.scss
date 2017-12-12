@@ -1,0 +1,83 @@
+.onboarding-signup {
+  // input {
+  //   border: none;
+  //   border-bottom: 1px solid #e5e6e7;
+  // }
+  h1 {
+    margin-bottom: 30px;
+  }
+  .group {
+    position: relative;
+    margin-top: 25px;
+    input 				{
+      font-size:18px;
+      display:block;
+      border:none;
+      border-bottom:1px solid #e5e6e7;
+      box-shadow: none;
+    }
+    label 				 {
+      color:#999;
+      font-weight:normal;
+    }
+
+    .bar 	{ position:relative; display:block; width:100%; }
+    .bar:before, .bar:after 	{
+      content:'';
+      height:2px;
+      width:0;
+      bottom:1px;
+      position:absolute;
+      background:#1ab394;
+      transition:0.2s ease all;
+      -moz-transition:0.2s ease all;
+      -webkit-transition:0.2s ease all;
+    }
+    .bar:before {
+      left:50%;
+    }
+    .bar:after {
+      right:50%;
+    }
+
+    /* active state */
+    input:focus ~ .bar:before,
+    input:focus ~ .bar:after,
+    .has-error:active ~ .bar:before,
+    .has-error:active ~ .bar:after {
+      width:50%;
+    }
+    /* HIGHLIGHTER ================================== */
+    .highlight {
+      position:absolute;
+      height:50%;
+      width:100px;
+      top:30%;
+      left:0;
+      pointer-events:none;
+      opacity:0.5;
+    }
+
+    /* active state */
+    input:focus ~ .highlight,
+    .has-error:active ~ .highlight {
+      -webkit-animation:inputHighlighter 0.3s ease;
+      -moz-animation:inputHighlighter 0.3s ease;
+      animation:inputHighlighter 0.3s ease;
+    }
+
+    /* ANIMATIONS ================ */
+    @-webkit-keyframes inputHighlighter {
+    	from { background:#1ab394; }
+      to 	{ width:0; background:transparent; }
+    }
+    @-moz-keyframes inputHighlighter {
+    	from { background:#1ab394; }
+      to 	{ width:0; background:transparent; }
+    }
+    @keyframes inputHighlighter {
+    	from { background:#1ab394; }
+      to 	{ width:0; background:transparent; }
+    }
+  } 
+}

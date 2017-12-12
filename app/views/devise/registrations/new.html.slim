@@ -1,30 +1,61 @@
 - title "Sign Up for Locable's Marketing Platform"
 
 = errors_for resource, message: 'There was a problem completing your registration.'
-.panel.panel-default
-  .panel-heading
-    h1.h3.panel-title Sign Up for Locable
-  .panel-body
-    = form_for resource, as: resource_name, url: registration_path(resource_name) do |form|
-      .form-group
-        => form.label :first_name, class: 'control-label'
-        = form.text_field :first_name, autofocus: true, class: 'form-control'
-      .form-group
-        => form.label :last_name, class: 'control-label'
-        = form.text_field :last_name, class: 'form-control'
-      .form-group
-        => form.label :email, class: 'control-label'
-        = form.email_field :email, class: 'form-control'
-      .form-group
-        => form.label :password, class: 'control-label'
-        = form.password_field :password, autocomplete: 'off', class: 'form-control'
-        p.help-block Must be at least eight (8) characters.
-      .form-group
-        => form.label :password_confirmation, class: 'control-label'
-        = form.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
-      hr
-      .row
-        .col-sm-8.col-sm-offset-2
-          = form.button 'Sign Up', class: 'btn btn-primary btn-block'
-  .panel-footer
-    = render 'devise/shared/links'
+.panel.panel-form-header
+  = image_tag("locable-square-small.png")
+.panel.panel-default.p-h-lg
+  .panel-body.p-w-lg
+    .form-inputs.p-w-xl
+      h2.p-h-sm.text-center style="font-weight: 400;" Simplify & Improve Your Local Marketing <span class="text-info">for free</span>
+      .panel-value-prop.p-xs
+        .row
+          .col-sm-4.p-xxs
+            i.fa.fa-check-square-o.text-info style="font-size: 1.1em;"
+            span.text-muted  Marketing Missions™ Guide Your Marketing Efforts
+          .col-sm-4.p-xxs
+            i.fa.fa-check-square-o.text-info style="font-size: 1.1em;"
+            span.text-muted  Fast & Easy-to-Use Local Marketing Tools
+          .col-sm-4.p-xxs
+            i.fa.fa-check-square-o.text-info style="font-size: 1.1em;"
+            span.text-muted  Unleash Your Network with Local Connections™
+      = form_for resource, as: resource_name, url: registration_path(resource_name) do |form|
+        .group
+          => form.label :first_name, class: 'control-label'
+          = form.text_field :first_name, autofocus: true, class: 'form-control'
+          span.bar
+          span.highlight
+        .group
+          => form.label :last_name, class: 'control-label'
+          = form.text_field :last_name, class: 'form-control'
+          span.bar
+          span.highlight
+        .group
+          => form.label :email, class: 'control-label'
+          = form.email_field :email, class: 'form-control'
+          span.bar
+          span.highlight
+        .group
+          => form.label :password, class: 'control-label'
+          = form.password_field :password, autocomplete: 'off', class: 'form-control'
+          span.bar
+          span.highlight
+          p.help-block.small.text-warning Must be at least eight (8) characters.
+        .group
+          => form.label :password_confirmation, class: 'control-label'
+          = form.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+          span.bar
+          span.highlight
+        br
+        .row
+          .col-sm-8.col-sm-offset-2
+            = form.button 'Sign Up', class: 'btn btn-primary btn-block'
+        br
+        div.text-center
+          p
+            | By Signing up you agree to the 
+            = link_to("Terms of Service", "http://www.locable.com/terms-of-service")
+            |  and 
+            = link_to("Privacy Policy", "http://www.locable.com/privacy-policy")
+          p.m-t-lg
+            | Already have an account? 
+            = link_to("Sign In Here", :new_user_session)

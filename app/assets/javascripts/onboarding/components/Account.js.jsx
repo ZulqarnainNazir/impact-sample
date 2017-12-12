@@ -115,7 +115,7 @@ class Account extends React.Component {
       return (
         <div className="row">
           <div className="col-md-12">
-            <h2>Succesffully Created Your Account!</h2>
+            <h2>Successfully Created Your Account!</h2>
             <p>Proceed to the next step to finish signing up.</p>
           </div>
           <div className='btn-group pull-right m-t-5px'>

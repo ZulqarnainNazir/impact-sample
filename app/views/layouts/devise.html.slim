@@ -1,10 +1,10 @@
 doctype html
 html lang="en"
   = render 'head'
-  body style="background: url('https://assets.locable.com/_originals/f6f38624-e77f-4634-8016-18ea45c09709/locable-blur.png')"
-    .container style="padding-top: 40px"
+  body.devise-background
+    .container
       .row
-        .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3.m-t-xl
+        .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-8.col-lg-offset-2.m-b-md
           = render 'alerts'
           = yield
     = yield :javascript

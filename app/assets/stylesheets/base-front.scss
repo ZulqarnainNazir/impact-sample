@@ -729,6 +729,27 @@ table.table-mail tr td {
   color: #ffffff;
 }
 
+.panel-form-header {
+  background-color: transparent;
+  position: relative;
+  margin-bottom: -10px;
+  text-align: center;
+  border-radius: 0;
+}
+
+.panel-form-header > img {
+  background-color: white;
+  border-radius: 50%;
+  position: relative;
+  bottom: -55px;
+  padding: 10px;
+}
+
+.panel-form-header > div {
+  background-color: white;
+  padding: 20px;
+}
+
 .panel-danger {
   border-color: $red;
 }
@@ -1456,3 +1477,4 @@ body.mini-navbar.fixed-sidebar .logo-element {
 .fullscreen-video .animated {
   animation: none;
 }
+

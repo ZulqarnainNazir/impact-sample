@@ -77,45 +77,17 @@ class OnboardingContainer extends React.Component {
 
   render() {
     return (
-      <div className="ibox float-e-margins">
+      <div className="ibox float-e-margins col-md-8 col-md-offset-2">
         <div className="ibox-title">
-          <h2 className="text-center">Grow Your Business with Locable's Marketing Platform
+          <h2 className="text-center">Simplify Local Marketing for Your Business, Cause or Organization
 </h2>
-          <h4 className="text-center">A simple, step-wise approach for authentic local businesses who want to grow their business and support their community!</h4>
         </div>
         <div className="ibox-content">
           <div className="row">
-            <div className="col-md-6">
-              <img className="center-block img-responsive thumbnail" src="https://assets.locable.com/r/medium/420b6dee-e528-4629-825a-162c6ef46035/Buzz%20Face%20Welcome.png" alt="Suggestions" />
-              <p className="lead"><b>Join in under 60-seconds...</b> free & low-cost local marketing for busy business owners!</p>
-              <ul className="list-unstyled benefits hidden-xs hidden-sm" style={{lineHeight: 2}}>
-                <li>
-                  <i className="fa fa-star fa-fw" aria-hidden="true"></i> Drive more word-of-mouth referrals grow your reputation &amp; leverage your local network
-                </li>
-                <li className="m-t-sm">
-                  <span className="fa fa-heart fa-fw"></span><i> #SupportLocal causes, charities &amp; organizations you care about </i>
-                </li>
-                <li className="m-t-sm">
-                  <i className="fa fa-address-card fa-fw"></i> Organize, track &amp; manage your contacts, relationships &amp; notes
-                </li>
-
-                <li className="m-t-sm">
-                  <i className="fa fa-check-square-o fa-fw"></i> Guided marketing missions and marketing support to keep you moving forward
-                </li>
-                <li className="m-t-sm">
-                  <i className="fa fa-bullhorn fa-fw"></i> Quickly and easily create marketing messages to improve SEO (Search Engine Optimization) &amp; Social Media with more consistent data across sites like Google, Facebook etc.
-                </li>
-                <li className="m-t-sm">
-                  <i className="fa fa-random fa-fw"></i> Collaborate &amp; cross-promote with other local businesses you support, endorse or recommend
-                </li>
-
-              </ul>
-              <hr/>
-              <p className="features hidden-xs hidden-sm">
-                <b>Key Features:</b> Track contacts, create simple forms and an Instant Contact Page™, collect &amp; promote customer reviews with the Main Street CRM™. Complete simple marketing missions suggested by Buzz, our virtual marketing assistant, using built in content and distribution tools.
-              </p>
+            <div className="col-md-12">
+              <p className="lead"><b>It's free to set up...</b> Start improving your marketing and harness the power of your Local Connections™.</p>
             </div>
-            <div className="onboarding-wizard col-md-6">
+            <div className="onboarding-wizard col-md-12">
               <div className="row steps">
                 <div className="col-sm-3">
                   <Link className={`btn btn-default btn-block ${store.get('lookupComplete') ? 'completed' : ''}`} activeClassName="current-step" to="wizard/lookup">
