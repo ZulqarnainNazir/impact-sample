@@ -2,7 +2,7 @@ class Businesses::RemindersController < Businesses::BaseController
   before_action -> { confirm_module_activated(0) }
   def index
     @active_reminders = active_missions + completed_scheduled_missions
-    @completed_reminders = completed_one_time_missions + deactivated_missions
+    @completed_reminders = completed_one_time_missions + deactivated_scheduled_missions
 
     instances = @business.mission_instances.includes(:mission_histories).where(
       mission_id: (
@@ -46,11 +46,12 @@ class Businesses::RemindersController < Businesses::BaseController
       .distinct
   end
 
-  def deactivated_missions
+  def deactivated_scheduled_missions
     Mission
       .reminders_for_business(@business)
       .joins(:mission_instances)
       .where(mission_instances: { business_id: @business.id, last_status: statuses[:deactivated] })
+      .where.not(mission_instances: { repetition: nil})
       .distinct
   end
 end
