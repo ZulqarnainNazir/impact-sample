@@ -62,6 +62,28 @@ var ContentFeedWidget = new function () {
     setTimeout(function() {iFrameResize({log: false, checkOrigin: false}, '#impact-content-feed-'+uuid); }, 1000);
   }
 }
+var CalendarWidget = new function () {
+  this.load = function (uuid, site) {
+    window.addEventListener('message', receiveCalendarMessage, false);
+    var head = document.getElementsByTagName('head')[0],
+        script = document.createElement('script'),
+        widgetDiv = document.getElementById("calendar-widget-"+uuid),
+        iframe = document.createElement('iframe');
+
+    script.src = site+'javascripts/iframeResizer.min.js';
+    if(typeof iFrameResize === "undefined") {
+      head.appendChild(script);
+    }
+
+    iframe.width = '100%';
+    iframe.height = '400px';
+    iframe.frameBorder = '0';
+    iframe.id = 'impact-calendar-'+uuid;
+    iframe.src = site+'widgets/calendar_widgets/'+uuid
+    widgetDiv.appendChild(iframe);
+    setTimeout(function() {iFrameResize({log: false, checkOrigin: false}, '#impact-calendar-'+uuid); }, 1000);
+  }
+}
 var DirectoryWidget = new function () {
   this.load = function (uuid, site) {
     window.addEventListener('message', receiveDirectoryMessage, false);
@@ -114,6 +136,13 @@ function receiveContentFeedMessage(evt)
   }
 }
 
+function receiveCalendarMessage(evt)
+{
+  if (evt.data.indexOf('scrollup') !== -1)
+  {
+    window.scrollTo(0, findPos(document.getElementById(evt.data.replace('scrollup', 'impact-calendar'))));
+  }
+}
 
 function findPos(obj) {
     var curtop = 0;

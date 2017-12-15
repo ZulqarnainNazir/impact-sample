@@ -1,0 +1,427 @@
+@import 'variables';
+
+.collapse-sm {
+    display: none;
+}
+
+.collapse-sm.collapsing {
+    display: block;
+}
+
+.webpage-group .calendar-widget {
+
+    .col-xs-6 {
+        width: 50%;
+    }
+
+    .row > :not(:first-child) {
+        margin-top: 0;
+
+        &.m-t-md {
+            margin-top: 20px;
+        }
+
+        &.m-b-md {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+
+    .webpage-group .calendar-widget {
+
+        .col-sm-3  {
+            width: 25%;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+
+    .webpage-group .calendar-widget {
+
+        .col-md-3 {
+            width: 25%;
+        }
+
+        .col-md-4 {
+            width: 33.33333333%;
+        }
+
+        .col-md-2 {
+            width: 16.66666667%;
+        }
+
+        .col-md-12 {
+            width: 100%;
+        }
+    }
+
+    .collapse-sm {
+        display: block;
+        height: auto !important;
+    }
+}
+
+/* Calendar Widget */
+
+/* Search bar */
+
+.search-events .panel {
+    overflow: hidden;
+}
+
+.search-toggle, .view-toggle {
+    text-transform: uppercase;
+    width: 100%;
+}
+
+#search-input-group .btn {
+    margin-top: 23px;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+#search-event-views {
+
+    clear: both;
+    text-align: center;
+
+    .btn {
+
+        color: $search-link-blue;
+        margin: 15px 5px 0 5px;
+    }
+}
+
+/* All panels have a border */
+.grid, .agenda, .list {
+
+    &.panel {
+        border: 1px solid #ddd;
+    }
+}
+
+/* Event count header */
+.event-count {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+/* Agenda Tabs */
+.agenda {
+
+    text-align: center;
+
+    .tabs-title {
+
+        font-size: 24px;
+        font-weight: 100;
+        line-height: 40px;
+    }
+
+    .week-prev, .week-next {
+
+        color: $navy;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .week-prev {
+        text-align: left;
+    }
+
+    .week-next {
+        text-align: right;
+    }
+
+    .tabs-container {
+
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    ol.tabs {
+
+        width: 875px;
+        list-style: none;
+        margin: 0 auto 20px auto;
+        overflow: hidden;
+        padding: 0;
+
+        li {
+
+            display: inline-block;
+            float: left;
+            padding: 10px 0;
+            width: 125px;
+
+            a {
+                color: #A7B1C2;
+            }
+
+            &.active, &:hover a {
+                color: #555555;
+            }
+
+            &.active {
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                border: 1px solid #ddd;
+                border-bottom: none;
+            }
+        }
+
+        .wday {
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .date {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .count {
+            display: none;
+        }
+    }
+
+    ol.tabs.with-counts .count {
+        display: block;
+    }
+
+}
+
+/* Calendar Grid Item (and narrow Agenda Item)*/
+
+.grid {
+
+    text-align: center;
+}
+
+.event-block.card {
+
+    border: 1px solid #ddd;
+    display: inline-block;
+    max-width: 410px;
+    width: 100%;
+    padding: 15px;
+    transition: 0.5s background-color,
+        1s box-shadow;
+
+    &:hover {
+        background: #f6f6f6;
+        box-shadow: 0 3px 7px 0 #a8a8a8;
+    }
+
+    .product-imitation {
+        height: 215px;
+        margin: auto;
+        width: 90%;
+        max-width: 275px;
+        border-radius: 3px;
+    }
+
+    .product-desc {
+
+        height: 140px;
+        line-height: 25px;
+        text-align: center;
+        width: 90%;
+        max-width: 275px;
+        margin: auto;
+    }
+
+    .time {
+
+        background: $event-block-primary;
+        color: $event-block-secondary;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+        padding: 6px 12px;
+        position: absolute;
+        top: -52px;
+        right: 0;
+        text-align: right;
+    }
+
+    .location {
+
+        font-size: 12px;
+        height: 50px;
+    }
+}
+
+.event-block.list-item {
+
+    border-color: #ddd;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+    overflow: hidden;
+    padding: 20px;
+    transition: 0.5s background-color;
+
+    &:hover {
+        background: #f6f6f6;
+    }
+
+    .product-imitation {
+
+        height: 130px;
+        width: 175px;
+        float: left;
+        vertical-align: top;
+    }
+
+    .product-desc {
+
+        float: left;
+        vertical-align: top;
+        padding: 0 10px 10px 20px;
+        width: 60%;
+    }
+
+    .title {
+
+        font-size: 24px;
+        line-height: 1.2em;
+        font-weight: 100;
+    }
+
+    .time {
+
+        .start-datetime {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-top: 10px;
+        }
+    }
+
+    .location {
+
+        .city-state {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-top: 10px;
+        }
+    }
+
+    .description {
+
+        font-size: 13px;
+        line-height: 1.4em;
+        margin: 10px 0;
+    }
+}
+
+/* Agenda View */
+
+.event-block.agenda-item {
+
+    @extend .event-block.card;
+    max-width: none;
+
+    .time-range, .description {
+
+        display: none;
+    }
+}
+
+@media screen and (min-width: 992px) {
+
+    /* On large screens, agenda items look more like list items */
+
+    .event-block.agenda-item {
+
+        display: block;
+        text-align: left;
+        width: 100%;
+        border: none;
+
+        .time-range {
+
+            display: inline-block;
+            font-size: 13px;
+            margin: 20px auto;
+            text-align: center;
+            vertical-align: top;
+            width: 16%;
+        }
+
+        .product-imitation {
+
+            display: inline-block;
+            height: 105px;
+            margin: 0 10px 0 0;
+            width: 140px;
+        }
+
+        .product-desc {
+            display: inline-block;
+            height: 100px;
+            padding: 0;
+            text-align: left;
+            vertical-align: top;
+            width: 50%;
+        }
+
+        .time, .location {
+
+            display: none;
+        }
+
+        .description {
+            display: block;
+            font-size: 13px;
+            line-height: 18px;
+            height: 40px;
+        }
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+    .event-block.agenda-item .product-imitation {
+        margin-right: 60px;
+    }
+}
+
+/* Generic view styles */
+
+.event-block {
+
+    background: white;
+
+    .title {
+
+        display: block;
+        color: $gray;
+        font-weight: bold;
+
+        &:hover, &:focus {
+            color: $event-block-primary;
+        }
+    }
+
+    .read-more {
+        color: $event-block-primary;
+        font-weight: bold;
+    }
+
+}
+
+
+@media (max-width: 568px) {
+
+    .event-block.list-item .product-desc {
+        padding: 5px 0 10px 0;
+        width: 100%;
+    }
+}

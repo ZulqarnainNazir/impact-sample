@@ -1,0 +1,6 @@
+tr
+  td = link_to calendar_widget.name, [:edit, @business, :tools, calendar_widget]
+  td
+    = link_to [@business, :tools, calendar_widget], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+      => icon 'times-circle'
+      | Delete

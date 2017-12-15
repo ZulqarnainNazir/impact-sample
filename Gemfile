@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 source 'https://railskits.com/gems/afb4e249-4524-b8b4-65a9-709f18a725df'
 
-ruby '2.3.0'
+ruby '2.3.5'
 
 # Must be loaded before "elasticsearch-model"
 gem 'kaminari'

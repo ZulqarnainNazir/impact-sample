@@ -1,0 +1,12 @@
+en:
+  businesses:
+    tools:
+      calendar_widgets:
+        create:
+          notice: Your new Calendar Embed was added successfully.
+          alert: There was a problem creating your Calendar Embed.
+        update:
+          notice: The Calendar Embed was updated successfully.
+          alert: There was a problem updating the Calendar Embed.
+        destroy:
+          notice: The Calendar Embed has been removed from your site.

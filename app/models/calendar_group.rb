@@ -1,0 +1,2 @@
+class CalendarGroup < Group
+end

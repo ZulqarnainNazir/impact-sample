@@ -7,7 +7,8 @@ FeedContentModal = React.createClass
       'reviews': { group: 'ReviewsGroup', block: 'ReviewsBlock', editFunc: reviewHelpers.editReviewsSettings },
       'content-feed': { group: 'BlogFeedGroup', block: 'BlogFeedBlock', editFunc: feedHelpers.editFeedSettings },
       'local-network': { group: 'SupportLocalGroup', block: 'SupportLocalBlock', editFunc: supportLocalHelpers.editSupportLocalSettings },
-      'contact-form': { group: 'ContactFormGroup', block: 'ContactFormBlock', editFunc: contactFormHelpers.editContactFormSettings }
+      'contact-form': { group: 'ContactFormGroup', block: 'ContactFormBlock', editFunc: contactFormHelpers.editContactFormSettings },
+      'calendar': { group: 'CalendarGroup', block: 'CalendarBlock', editFunc: calendarHelpers.editCalendarSettings }
     }
 
   chooseReviews: (e) ->
@@ -25,6 +26,10 @@ FeedContentModal = React.createClass
   chooseContactForm: (e) ->
     e.preventDefault()
     this.updateChoice('contact-form')
+
+  chooseCalendar: (e) ->
+    e.preventDefault()
+    this.updateChoice('calendar')
 
   choiceColor: (choice) ->
     if this.state.selected == choice
@@ -59,9 +64,9 @@ FeedContentModal = React.createClass
             <span className="close" data-dismiss="modal">&times;</span>
             <p className="h4 modal-title">Choose The Feed Type You'd Like to Use</p>
           </div>
-          <div className="modal-body" style={{height: '225px;'}}>
+          <div className="modal-body" style={{height: '325px;'}}>
             <h2 className="m-b-lg">Pick the type of content then you can configure it</h2>
-            <div className="col-sm-3">
+            <div className="col-sm-4 m-b-sm">
                 <a href="#" onClick={this.chooseReviews} style={{color: this.choiceColor('reviews')}}>
                   <div className="review-stars text-center">
                       <div className="text-center">
@@ -77,7 +82,7 @@ FeedContentModal = React.createClass
                   </div>
                 </a>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4 m-b-sm">
               <a href="#" onClick={this.chooseContentFeed} style={{color: this.choiceColor('content-feed')}}>
                 <div className="review-stars text-center">
                   <i className="fa fa-bullhorn fa-4x"></i>
@@ -85,7 +90,7 @@ FeedContentModal = React.createClass
                 </div>
               </a>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4 m-b-sm">
               <a href="#" onClick={this.chooseLocalNetwork} style={{color: this.choiceColor('local-network')}}>
                 <div className="review-stars text-center">
                   <i className="fa fa-group fa-4x"></i>
@@ -93,11 +98,19 @@ FeedContentModal = React.createClass
                 </div>
               </a>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4 m-b-sm">
               <a href="#" onClick={this.chooseContactForm} style={{color: this.choiceColor('contact-form')}}>
                 <div className="review-stars text-center">
                   <i className="fa fa-address-card fa-4x"></i>
                   <h3>Contact Form</h3>
+                </div>
+              </a>
+            </div>
+            <div className="col-sm-4 m-b-sm">
+              <a href="#" onClick={this.chooseCalendar} style={{color: this.choiceColor('calendar')}}>
+                <div className="review-stars text-center">
+                  <i className="fa fa-calendar fa-4x"></i>
+                  <h3>Calendar</h3>
                 </div>
               </a>
             </div>

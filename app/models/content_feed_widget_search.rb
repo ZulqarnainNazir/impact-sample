@@ -2,7 +2,7 @@
 #the code works, why it was set-up the way it was as of 3.19.17, and for info RE associated
 #rake tasks.
 class ContentFeedWidgetSearch
-  def initialize(widget, business, query = '', content_types: [], content_category_ids: [], content_tag_ids: [])
+  def initialize(widget, business, query = '', content_types: [], content_category_ids: [], content_tag_ids: [], include_past: false)
     @widget = widget
     @business = business
     @business_ids = @widget.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
@@ -13,6 +13,7 @@ class ContentFeedWidgetSearch
     @content_types = content_types
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
+    @include_past = include_past
   end
 
   def search
@@ -39,22 +40,6 @@ class ContentFeedWidgetSearch
           #         published_status: true,
           #     },
           # },
-          {
-            or: [
-              {
-                missing: {
-                  field: :occurs_on,
-                },
-              },
-              {
-                range: {
-                  occurs_on: {
-                    gte: Time.zone.now,
-                  },
-                },
-              },
-            ],
-          },
           {
             or: [
               {
@@ -90,6 +75,25 @@ class ContentFeedWidgetSearch
         ],
       },
     }
+
+    if !@include_past
+      dsl1[:filter][:and] << {
+        or: [
+          {
+            missing: {
+              field: :occurs_on,
+            },
+          },
+          {
+            range: {
+              occurs_on: {
+                gte: Time.zone.now,
+              },
+            },
+          },
+        ],
+      }
+    end
 
     if @content_category_ids.any?
       dsl1[:filter][:and] << {

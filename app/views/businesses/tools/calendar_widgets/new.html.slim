@@ -1,0 +1,75 @@
+- title 'Add Calendar Embed'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'SupportLocal', :sp => :tools_directory_widgets, :an => 'Add Calendar Embed'}
+
+wrapper.wrapper-content
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @calendar_widget, url: [@business, :tools_calendar_widgets] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          <!-- TODO - Add Show-Me-How instructions -->
+          <a class="btn btn-primary pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Show Me How</a>
+          h3 Create a Calendar Embed
+
+        .ibox-content
+          = errors_for @calendar_widget
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+          .form-group
+            = form.label :default_view, "Choose Default View", class: 'control-label'
+            br
+            label.radio-inline
+              = form.radio_button :default_view, 'agenda', :required => true, :checked => true
+              | Week View
+            label.radio-inline
+              = form.radio_button :default_view, 'grid', :required => true
+              | Card View
+            label.radio-inline
+              = form.radio_button :default_view, 'list', :required => true
+              | List View
+          .form-group
+            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
+            = form.text_field :max_items, class: 'form-control', :value => 12, :required => true
+          .form-group
+            label Enable Embed Search
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
+          / hr
+          .form-group
+            = form.label "Show content from:"
+            .form-group
+              = form.label :show_our_content, class: 'i-checks' do
+                = form.check_box :show_our_content, {checked: true}
+                i
+                |  Our Content
+              br
+              | - And / Or -
+              .form-group
+                = form.label :company_list_ids, "Companies in These Lists", class: 'control-label'
+                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @calendar_widget.company_list_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+                = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
+                  => icon 'plus-circle'
+                  | Add New Company List
+
+        .ibox-content
+          = form.button 'Create Embed', class: 'btn btn-primary'
+
+- content_for :javascript do
+  javascript:
+    // Select all content types by default
+    var contentTypes = $('input[name="calendar_widget[content_types][]"]')
+        contentTypes.prop('checked', 'checked');
+
+    $(function() {
+      $("select").chosen();
+    });

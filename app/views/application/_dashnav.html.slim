@@ -118,8 +118,16 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
             li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
               = link_to "Import Events", [@business, :content_event_imports]
-      
-      li title="Local Connections" class=('active' if controller_path.match(/\Abusinesses\/crm/) && !controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/))
+
+      / Nested menu logic got too complex for one line
+      - crm_active = (\
+          controller_path.match(/\Abusinesses\/crm/) &&\
+          !controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/))
+      - embeds_active = (\
+          controller_path.match(/\Abusinesses\/tools\/directory_widgets/) ||\
+          controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
+
+      li title="Local Connections" class=('active' if crm_active || embeds_active)
         = link_to "#"
           i.fa.fa-users
           span.nav-label[data-i18n="nav.contacts"]
@@ -135,7 +143,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
             = link_to "CSV Import", [@business, :crm_imports]
           - if @business.module_active?(2)
-            li title="Community Embeds" class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
+            li title="Community Embeds" class=('active' if embeds_active)
               = link_to "#"
                 i.fa.fa-heartbeat
                 span.nav-label[data-i18n="nav.support_local"]
@@ -144,11 +152,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               ul.nav.nav-third-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
                 li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
                   = link_to "Directories & Sponsors", [@business, :tools_directory_widgets]
-                li class='disabled'
-                  = link_to "#" do
-                    span.badge 
-                      = "Coming Soon"
-                    |  Calendar
+                li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
+                  = link_to "Calendar", [@business, :tools_calendar_widgets]
                 li class='disabled'
                   = link_to "#" do
                     span.badge 

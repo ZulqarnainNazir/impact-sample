@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128182003) do
+ActiveRecord::Schema.define(version: 20171202022020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,6 +217,22 @@ ActiveRecord::Schema.define(version: 20171128182003) do
     t.boolean  "membership_org",                 default: false
     t.text     "slug"
   end
+
+  create_table "calendar_widgets", force: :cascade do |t|
+    t.string   "name"
+    t.string   "public_label"
+    t.string   "uuid"
+    t.integer  "business_id"
+    t.integer  "max_items"
+    t.boolean  "enable_search"
+    t.text     "company_list_ids", default: [],              array: true
+    t.boolean  "show_our_content"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "default_view"
+  end
+
+  add_index "calendar_widgets", ["business_id"], name: "index_calendar_widgets_on_business_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false

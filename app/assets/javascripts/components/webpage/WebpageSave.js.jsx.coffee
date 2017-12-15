@@ -33,6 +33,10 @@ WebpageSave = React.createClass
     unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1
       `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'BlogFeedGroup', 'BlogFeedBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a content feed" data-content="Keep your site fresh with a large content feed (content posted separately).">Content Feed</span>`
 
+  renderInsertCalendarGroup: ->
+    unless this.props.groupTypes.indexOf('CalendarGroup') is -1
+      `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'CalendarGroup', 'CalendarBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a calendar" data-content="Keep your site fresh with a large calendar event feed (content posted separately).">Calendar</span>`
+
   renderInsertReviewsGroup: ->
     unless this.props.groupTypes.indexOf('ReviewsGroup') is -1 or _.find(this.props.groups, (group) -> group and group.type is 'ReviewsGroup')
       `<span className="btn btn-sm btn-default" onClick={this.insertGroup.bind(null, 'ReviewsGroup', 'ReviewsBlock')} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Add a reviews widget" data-content="Keep your site fresh with a rotating reviews widget (content posted separately).">Reviews</span>`
@@ -53,7 +57,8 @@ WebpageSave = React.createClass
     unless this.props.groupTypes.indexOf('BlogFeedGroup') is -1 ||
            this.props.groupTypes.indexOf('ReviewsGroup') is -1 ||
            this.props.groupTypes.indexOf('SupportLocalGroup') is -1 ||
-           this.props.groupTypes.indexOf('ContactFormGroup') is -1
+           this.props.groupTypes.indexOf('ContactFormGroup') is -1 ||
+           this.props.groupTypes.indexOf('CalendarGroup') is -1
 
       `<span className="btn btn-sm btn-default" onClick={this.props.showFeedContentModal} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Choose and configure dynamic content" data-content="Incorporate content feeds, forms, reviews, and your SupportLocal Network.">
         Feed Content

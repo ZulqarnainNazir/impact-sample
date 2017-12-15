@@ -1,3 +1,4 @@
+# coding: utf-8
 class Business < ActiveRecord::Base
   include PlacedImageConcern
 
@@ -39,6 +40,7 @@ class Business < ActiveRecord::Base
     has_many :to_do_notification_settings
     has_many :review_widgets
     has_many :directory_widgets
+    has_many :calendar_widgets
     has_many :contact_form_widgets
     has_many :content_feed_widgets
     has_many :company_lists

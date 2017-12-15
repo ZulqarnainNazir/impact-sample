@@ -1,6 +1,7 @@
 .env*
 .powenv
 ~*
+*~
 /log
 /tmp
 *pid*

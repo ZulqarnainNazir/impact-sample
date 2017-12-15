@@ -75,6 +75,10 @@ const GroupContainer = React.createClass({
     supportLocalHelpers.editSupportLocalSettings(this.props.group.uuid, block);
   },
 
+  editCalendarSettings(block) {
+    calendarHelpers.editCalendarSettings(this.props.group.uuid, block);
+  },
+
   editContactFormSettings(block) {
     contactFormHelpers.editContactFormSettings(this.props.group.uuid, block);
   },
@@ -153,6 +157,7 @@ const GroupContainer = React.createClass({
       editDefaultSettings: this.editDefaultSettings, // .bind(this),
       editFeedSettings: this.editFeedSettings, // .bind(this),
       editSupportLocalSettings: this.editSupportLocalSettings, // .bind(this),
+      editCalendarSettings: this.editCalendarSettings, // .bind(this),
       editContactFormSettings: this.editContactFormSettings, // .bind(this),
       editReviewsSettings: this.editReviewsSettings, // .bind(this),
     });

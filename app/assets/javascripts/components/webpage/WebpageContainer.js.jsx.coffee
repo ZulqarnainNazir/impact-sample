@@ -4,6 +4,7 @@ WebpageContainer = React.createClass
   getInitialState: () ->
     return {
       directoryWidgets: this.props.directoryWidgets,
+      calendarWidgets: this.props.calendarWidgets,
       contactForms: this.props.contactForms,
       companyLists: this.props.companyLists,
       teamMembers: this.props.teamMembers,
@@ -24,9 +25,11 @@ WebpageContainer = React.createClass
       contentsPath: this.props.contentsPath,
       contactFormsPath: this.props.contactFormsPath,
       companyListsPath: this.props.companyListsPath,
+      calendarWidgetsPath: this.props.calendarWidgetsPath,
       imagesPath: this.props.imagesPath,
       reviewsPath: this.props.reviewsPath,
       newSupportLocalPath: this.props.newSupportLocalPath,
+      newCalendarPath: this.props.newCalendarPath,
       newContactFormPath: this.props.newContactFormPath,
 
       contentCategories: this.props.contentCategories,
@@ -308,6 +311,10 @@ WebpageContainer = React.createClass
     event.preventDefault()
     supportLocalHelpers.updateSupportLocalSettings this
 
+  updateCalendarSettings: (event) ->
+    event.preventDefault()
+    calendarHelpers.updateCalendarSettings this
+
   updateContactFormSettings: (event) ->
     event.preventDefault()
     contactFormHelpers.updateContactFormSettings this
@@ -324,7 +331,7 @@ WebpageContainer = React.createClass
     event.preventDefault()
     mediaHelpers.removeMediaImage(this)
 
-  showFeedContentModal: () ->
+  showFeedContentModal: (event) ->
     event.preventDefault()
     $('#feed_content_modal').modal('show');
 
@@ -362,6 +369,7 @@ WebpageContainer = React.createClass
       updateDefaultSettings: this.updateDefaultSettings,
       updateFeedSettings: this.updateFeedSettings,
       updateSupportLocalSettings: this.updateSupportLocalSettings,
+      updateCalendarSettings: this.updateCalendarSettings,
       updateContactFormSettings: this.updateContactFormSettings,
       updateCustomGroup: this.updateCustomGroup,
       updateBlock: this.updateBlock,
@@ -396,6 +404,7 @@ WebpageContainer.propTypes = {
   contentsPath: React.PropTypes.string,
   contactFormsPath: React.PropTypes.string,
   companyListsPath: React.PropTypes.string,
+  calendarWidgetsPath: React.PropTypes.string,
   imagesPath: React.PropTypes.string,
   reviewsPath: React.PropTypes.string,
 

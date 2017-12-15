@@ -1,0 +1,90 @@
+- cache event do
+
+  /
+  / Logic for rendering local variables
+  /
+  - business = event.business
+
+  - product_image = link_to [:website,
+      event,
+      only_path: false,
+      host: website_host(business.website),
+      protocol: :http], target: :_blank do
+    - if event.event_definition.main_image
+      = image_tag event.event_definition.main_image.attachment_url(:small)
+    - else
+      - placement = event.event_definition.event_image_placement
+      - if placement
+        - cache placement
+          - if placement.try(:embeds?)
+            = placement.embed.html_safe
+          - elsif placement.try(:image)
+            - if placement.image.present?
+              = image_tag placement.image.attachment_url(:small)
+      - else
+        = image_tag "impact_gs.jpg", alt: "image", title: "image"
+
+  - title = link_to [:website,
+      event,
+      only_path: false,
+      host: website_host(business.website),
+      protocol: :http], target: :_blank, class: 'title'
+    = truncate sanitize(event.event_definition.title.titleize),
+        length: 60,
+        omission: '... '
+
+  - time_range = capture do
+    = event.event_definition.start_time.strftime('%l:%M %P')
+    - if event.event_definition.end_time.present?
+      = event.event_definition.end_time.strftime(' - %l:%M %P')
+
+  - date_time = capture do
+    .date
+      i.fa.fa-calendar.m-r-xs
+      = event.occurs_on.strftime('%b %d, %Y')
+    .start-time
+      i.fa.fa-clock-o.m-r-xs
+      = event.event_definition.start_time.strftime('%I:%M %p')
+
+  - location = capture do
+    - if event.event_definition.location.present?
+      .street1
+        i.fa.fa-map-marker.m-r-xs
+        = truncate sanitize(event.event_definition.location.street1.titleize)
+      .city-state-zip
+        i.icon-block.m-r-xs
+        = truncate sanitize(event.event_definition.location.city.titleize) + ', '
+        = truncate sanitize(event.event_definition.location.state.upcase) + ' '
+        = truncate sanitize(event.event_definition.location.zip_code)
+
+  - description = truncate sanitize(event.event_definition.description),
+      length: 140,
+      omission: '... '
+
+  /
+  / Generic grid block layout
+  /
+  .col-xs-12.col-sm-6.col-md-12
+
+    .event-block.agenda-item.m-t
+
+      .time-range
+        = time_range
+
+      .product-imitation
+        = product_image
+
+      .product-desc
+        = title
+
+        .time
+          = date_time
+        .location
+          = location
+
+        .description
+          = description
+
+        = link_to [:website, event, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank , class: 'read-more'
+          |Read More&nbsp;
+          i.pad-lt-3.fa.fa-long-arrow-right

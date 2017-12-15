@@ -125,6 +125,8 @@ Rails.application.routes.draw do
       get '/directory_widgets/:uuid/:business_id', to: 'directory_widgets#show'
       get '/content_feed_widgets/:uuid', to: 'content_feed_widgets#index'
       get '/content_feed_widgets/:uuid/:content_id', to: 'content_feed_widgets#show'
+      get '/calendar_widgets/:uuid', to: 'calendar_widgets#index'
+      get '/calendar_widgets/:uuid/:content_id', to: 'calendar_widgets#show'
       get '/contact_form_widgets/:uuid', to: 'contact_form_widgets#index'
       post '/contact_form_widgets/:uuid', to: 'contact_form_widgets#submit', as: :contact_form_submit
     end
@@ -291,6 +293,7 @@ Rails.application.routes.draw do
           resources :review_widgets, only: %i[index new create edit update destroy]
           resources :directory_widgets, only: %i[index new create edit update destroy]
           resources :content_feed_widgets, only: %i[index new create edit update destroy]
+          resources :calendar_widgets, only: %i[index new create edit update destroy]
         end
 
         namespace :website do

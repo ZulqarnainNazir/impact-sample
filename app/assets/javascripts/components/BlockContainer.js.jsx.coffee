@@ -72,6 +72,10 @@ BlockContainer = React.createClass
     event.preventDefault()
     this.props.editSupportLocalSettings(this.props.block)
 
+  editCalendarSettings: (event) ->
+    event.preventDefault()
+    this.props.editCalendarSettings(this.props.block)
+
   editContactFormSettings: (event) ->
     event.preventDefault()
     this.props.editContactFormSettings(this.props.block)
@@ -225,6 +229,8 @@ BlockContainer = React.createClass
         return { editCustom: this.editSupportLocalSettings }
       when 'ContactFormBlock'
         return { editCustom: this.editContactFormSettings }
+      when 'CalendarBlock'
+        return { editCustom: this.editCalendarSettings }
       # default:
       #   return {}
 

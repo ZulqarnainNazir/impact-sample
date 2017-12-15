@@ -1,0 +1,57 @@
+- feedname = "search-events"
+
+- start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
+
+- has_clear_search = params[:blog_search].present? || params[:start_date].present?
+
+= form_tag request_url + '#' + feedname, method: :get, class: "search-events col-xs-12", name: "feedname" do
+
+  = hidden_field_tag :view, params[:view]
+
+  .panel.panel-default.p-sm.p-b-0
+
+    .row.visible-xs-block.visible-sm-block.m-b
+
+      .col-xs-6
+        a.btn.btn-primary.search-toggle aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-input-group"
+          i.fa.fa-search.m-r-sm
+          'Add Search Critera
+
+      .col-xs-6
+        a.btn.btn-primary.view-toggle aria-expanded="false" data-toggle="collapse" type="button" aria-haspopup="true" style="cursor: pointer;" data-target="#search-event-views"
+          i.fa.fa-calendar.m-r-sm
+          'Change View
+
+    #search-input-group.collapse-sm.input-group.row.m-b class=('collapse in' if has_clear_search)
+
+      label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
+        'Start Date
+        = text_field_tag :start_date, start_date_parsed&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%m/%d/%Y"), class: 'form-control', data: {provide: 'datepicker'}, placeholder: Date.today.strftime('%b %d %Y')
+      label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
+        'Search
+        = text_field_tag :blog_search, params[:blog_search], placeholder: 'Keyword', class: 'form-control'
+
+      - if has_clear_search
+        .col-xs-6.col-md-2
+          = link_to request_url + '#' + feedname, class: "btn btn-default btn-clear-search", role: :button do
+            'Clear Search
+      div.col-xs-6.col-md-3
+        = button_tag class: 'btn btn-primary btn-find-events' do
+          i.fa.fa-search.m-r-sm
+          'Find Events
+      div.col-md-3.hidden-xs.hidden-sm
+        a.view-toggle-inner.btn.btn-primary aria-expanded="false" data-toggle="collapse" type="button" aria-haspopup="true" style="cursor: pointer;" data-target="#search-event-views"
+          i.fa.fa-calendar.m-r-sm
+          'Change View
+
+    #search-event-views.collapse.row.m-b
+
+      button.btn.btn-default.btn-sm name="view" value="grid"
+        i.fa.fa-th.m-r-sm
+        'Card View
+      button.btn.btn-default.btn-sm name="view" value="list"
+        i.fa.fa-list.m-r-sm
+        'List View
+      button.btn.btn-default.btn-sm name="view" value="agenda"
+        i.fa.fa-list-alt.m-r-sm
+        'Agenda View

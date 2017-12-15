@@ -1,5 +1,34 @@
-- if group.blocks.any?(&:cache_withdraw)
-	= render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }
+- blocks = group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks
+- sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
+- content = capture do
+  - if group.is_a?(HeroGroup)
+    .webpage-group.webpage-group-basic class="#{group.custom_class}"
+      - if group.kind == "container"
+        .container.webpage-container-wrapper.webpage-container.hero-container
+          - if group.is_a?(HeroGroup) && group.blocks.length > 1
+            .slick-carousel
+              = render blocks, carousel: true
+          - elsif group.is_a?(HeroGroup) && group.blocks.length == 1 
+            = render blocks
+      - else
+        - if group.is_a?(HeroGroup) && group.blocks.length > 1
+          .slick-carousel
+            = render blocks, carousel: true
+        - elsif group.is_a?(HeroGroup) && group.blocks.length == 1 
+          = render blocks
+  - else
+    .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position} #{group.custom_class}"
+      - if @website.wrap_container == 'true'
+        .container.webpage-container-wrapper.webpage-container
+          div class='container p-sm'
+            div class='row p-w-sm '
+              = render blocks
+      - else
+        div class='container'
+          div class='row'
+            = render blocks
+- if group.is_a?(SidebarGroup)
+  .webpage-group.webpage-group-sidebar.p-h-xl class="webpage-group-sidebar-#{sidebar_position} #{group.custom_class} sidebar-grid"
+    = content
 - else
-	- cache_unless params[:blog_search].present? || params[:content_types].present?, [group, sidebar_position, *group.blocks.map { |b| b.cache_sensitive_key(params) }.reject(&:blank?)] do
-		= render partial: 'website/groups/group_content', locals: { group: group, sidebar_position: sidebar_position }
+  = content

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  public_label: MyString
+  uuid: MyString
+  business_id: 1
+  max_items: 1
+  enable_search: false
+  company_list_ids: MyText
+  show_our_content: false
+
+two:
+  name: MyString
+  public_label: MyString
+  uuid: MyString
+  business_id: 1
+  max_items: 1
+  enable_search: false
+  company_list_ids: MyText
+  show_our_content: false

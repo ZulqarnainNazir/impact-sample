@@ -1,9 +1,6 @@
 .webpage-group {
   position: relative;
   .row > * {
-    display: inline-block;
-    float: none;
-    vertical-align: top;
     @media (max-width: 767px) {
       width: 100%;
       &:not(:first-child) {
