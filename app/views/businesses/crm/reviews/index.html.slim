@@ -28,7 +28,7 @@
                     p
                       => link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
                       = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
-              
+
               <a class="btn btn-primary btn-sm btn-outline" href="javascript:Appcues.show('-KjPyGESE-SPVyXne4Qn')">Show hints ➤</a>
               .pull-right
                 - if @reviews.any?
@@ -37,10 +37,10 @@
                   = link_to [:edit, @business, :crm_review_notifications], class: 'btn btn-sm btn-primary btn-outline' do
                     => icon 'check-square-o'
                     | Set Notifications
-                  = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-primary' do
+                  = link_to [:new, @business, :crm_feedback], class: 'btn btn-sm btn-primary' do
                     => icon 'plus-circle'
                     | Request Review
-              
+
               - if @reviews.empty?
                 p style="margin:2em 0"
                   em No reviews found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an invitation to review your business.

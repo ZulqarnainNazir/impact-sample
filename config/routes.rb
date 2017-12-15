@@ -277,7 +277,7 @@ Rails.application.routes.draw do
             resources :business, only: %i[new create edit update]
             resources :crm_notes, only: %i[new create edit update destroy]
           end
-          resources :feedbacks, only: %i[index show destroy] do
+          resources :feedbacks, only: %i[index new create show destroy] do
             resource :review_invitation, only: %i[create]
           end
           resources :reviews, only: %i[index show destroy] do

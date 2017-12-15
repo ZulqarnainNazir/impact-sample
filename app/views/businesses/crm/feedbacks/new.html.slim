@@ -1,6 +1,6 @@
 - title 'Prompt for Feedback'
 
-ol.breadcrumb
+/ ol.breadcrumb
   li = link_to icon('home'), :root
   li = link_to @business.name, [@business, :dashboard]
   li = link_to 'CRM', [@business, :crm_root]
@@ -8,24 +8,78 @@ ol.breadcrumb
   li = link_to @contact.name, [@business, :crm, @contact]
   li.active Prompt for Feedback
 
-= form_for @feedback, url: [@business, :crm, @contact, :feedbacks] do |form|
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => 'Feedback'}
+
+= form_for @feedback, url: @url, html: { class: 'new-feedback-form form form-inline' } do |form|
   .row
     .col-sm-8
-      .panel.panel-default
-        .panel-heading
-          h1.h4.panel-title Prompt for Feedback
-        .panel-body
-          = errors_for @feedback
-          .row
-            .col-sm-8.col-md-6
-              .form-group
-                = form.label :serviced_at, class: 'control-label'
-                .input-group
-                  = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
-                  span.input-group-addon: i.fa.fa-calendar
-              - if !Company.select_collection(@business.id, @contact.id).blank?
-                .form-group
-                  = form.label :company_id, class: 'control-label'
-                  = form.select :company_id, options_from_collection_for_select(Company.select_collection(@business.id, @contact.id), 'id', 'name'), {:include_blank => "- Not A Business Review -"}, {:class => 'form-control'}
-        .panel-footer
-          = form.button 'Submit', class: 'btn btn-primary'
+      .wrapper.wrapper-content
+        .row
+          .col-sm-10.col-sm-offset-1
+            .ibox.float-e-margins
+              .ibox-title
+                h4 Prompt for Feedback
+              .ibox-content.p-md
+                = errors_for @feedback
+                - if @contact.new_record?
+                  .group
+                    = form.select :contact_id, {}, { :include_blank => true }, { :class => 'form-control js-contact-select', style: "width: 100%;" } do
+                      - @business.contacts.sort_by(&:name).each do |contact|
+                        - unless contact.opted_out?
+                          = content_tag(:option, "#{contact.name} - #{contact.email}", value: contact.id, selected: @feedback.contact_id == contact.id, data: { email: contact.email, firstname: contact.first_name, lastname: contact.last_name } )
+                        end
+                      end
+                    end
+                    span.bar
+                    span.highlight
+                    label.control-label Select from contacts
+                end
+                br
+                = form.fields_for :contact do |contact|
+                  .row
+                    .form-group.col-sm-6.m-t-md
+                      .group.m-t-0
+                        = contact.text_field :first_name, value: @feedback.contact.try(:first_name), class: 'form-control', 'js-name' => 'first_name', required: true, style: "width: 100%"
+                        span.bar
+                        span.highlight
+                        label.control-label First Name
+                    .form-group.col-sm-6.m-t-md
+                      .group.m-t-0
+                        = contact.text_field :last_name, value: @feedback.contact.try(:last_name), class: 'form-control', 'js-name' => 'last_name', required: true, style: "width: 100%"
+                        span.bar
+                        span.highlight
+                        label.control-label Last Name
+                    .form-group.col-sm-12.m-t-md
+                      .group
+                        = contact.email_field :email, value: @feedback.contact.try(:email), class: 'form-control', 'js-name' => 'email', style: "width: 100%;", required: true
+                        span.bar
+                        span.highlight
+                        label.control-label Email
+                / .group
+                  = form.label :serviced_at, class: 'control-label'
+                    .input-group
+                      = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
+                      span.input-group-addon: i.fa.fa-calendar
+                - if !Company.select_collection(@business.id, @contact.id).blank?
+                  .form-group
+                    = form.label :company_id, class: 'control-label'
+                    = form.select :company_id, options_from_collection_for_select(Company.select_collection(@business.id, @contact.id), 'id', 'name'), {:include_blank => "- Not A Business Review -"}, {:class => 'form-control'}
+              .ibox-footer.text-center
+                = form.button 'Send Request', class: 'btn btn-primary w-200'
+
+
+javascript:
+  $( document ).ready(function() {
+    $('button[type=submit]').on('click', function(event) {
+      $('#feedback_contact_first_name').prop('required', false);
+      $('#feedback_contact_last_name').prop('required', false);
+    });
+    $('.js-contact-select').change(function(event) {
+      if (event.target.value) {
+        var optionSelected = $("option:selected", this);
+        $('#feedback_contact_first_name').val(optionSelected.data('firstname'))
+        $('#feedback_contact_last_name').val(optionSelected.data('lastname'))
+        $('#feedback_contact_email').val(optionSelected.data('email'))
+      }
+    });
+  });

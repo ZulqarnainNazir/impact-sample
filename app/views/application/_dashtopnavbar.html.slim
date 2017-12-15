@@ -57,7 +57,7 @@
                   = link_to "#" do
                     i.fa.fa-columns.disabled-nav-content>
                     span.disabled-nav-content
-                      | Before &amp; After        
+                      | Before &amp; After
               -if @business.content_type_active?("gallery")
                 li = link_to [:new, @business, :content_gallery] do
                   i.fa.fa-photo>
@@ -68,9 +68,9 @@
                   = link_to "#" do
                     i.fa.fa-photo.disabled-nav-content>
                     span.disabled-nav-content
-                      | Gallery          
+                      | Gallery
             - else
-              - if @business.content_type_active?("before_after")         
+              - if @business.content_type_active?("before_after")
                 li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
                   i.fa.fa-columns>
                   span
@@ -80,7 +80,7 @@
                   = link_to "#" do
                     i.fa.fa-columns.disabled-nav-content>
                     span.disabled-nav-content
-                      | Before &amp; After  
+                      | Before &amp; After
               - if @business.content_type_active?("gallery")
                 li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
                   i.fa.fa-photo>
@@ -127,9 +127,9 @@
                 = link_to "#" do
                   i.fa.fa-ticket.disabled-nav-content>
                   span.disabled-nav-content
-                    | Offer   
+                    | Offer
           - if @business.module_active?(3)
-            li.list-divider = link_to [@business, :crm_reviews] do
+            li.list-divider = link_to [:new, @business, :crm_feedback] do
               i.fa.fa-star>
               span
                 | Collect Customer Reviews
@@ -146,7 +146,7 @@
                   = link_to "#" do
                     i.fa.fa-edit.disabled-nav-content>
                     span.disabled-nav-content
-                      | Custom Post   
+                      | Custom Post
 
           - elsif @business.is_on_engage_plan?
             - if @business.content_type_active?("post")
@@ -159,7 +159,7 @@
                 = link_to "#" do
                   i.fa.fa-edit.disabled-nav-content>
                   span.disabled-nav-content
-                    | Custom Post 
+                    | Custom Post
 
   a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-inline-block href="#{new_business_crm_invite_url}"
     i.fa.fa-user-plus.fa-2 aria-hidden="true"
