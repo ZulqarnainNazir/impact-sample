@@ -24,11 +24,11 @@
                     buttonSize: 'small',
                     allowEmbed: true,
                     showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-            = form.label :title, class: 'control-label'
+            = form.label "Title *", class: 'control-label'
             = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re posting.'
             br>
             .form-group
-              = form.label :content, class: 'control-label'
+              = form.label "Content *", class: 'control-label'
               = form.text_area :content, rows: 8, class: 'form-control wysihtml-editor'
             br>
             br>

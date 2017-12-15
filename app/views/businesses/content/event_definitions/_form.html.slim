@@ -43,7 +43,7 @@
             });
           hr
           .form-group
-            = form.label :title, class: 'control-label'
+            = form.label "Title *", class: 'control-label'
             = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a brief 4-10 word title for your event.'
           .form-group
             = form.label :subtitle, class: 'control-label'
@@ -62,7 +62,7 @@
             allowEmbed: true,
             showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
           .form-group
-            = form.label :description, class: 'control-label'
+            = form.label "Description *", class: 'control-label'
             = form.text_area :description, rows: 6, class: 'form-control wysihtml-editor', placeholder: 'Describe what the event is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the event is about.'
           .form-group.col-xs-6
             = form.label :start_date, class: 'control-label'

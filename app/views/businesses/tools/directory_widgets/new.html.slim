@@ -1,6 +1,6 @@
-- title 'Add SupportLocal Embed'
+- title 'Add Directory Embed'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'SupportLocal', :sp => :tools_directory_widgets, :an => 'Add SupportLocal Embed'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :tools_root, :sn => 'Directory Embed', :sp => :tools_directory_widgets, :an => 'Add New'}
 
 wrapper.wrapper-content
 .row.animated.fadeInRight
@@ -9,7 +9,7 @@ wrapper.wrapper-content
       .ibox.float-e-margins
         .ibox-title
           <a class="btn btn-primary pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Show Me How</a>
-          h3 Create a SupportLocal Embed
+          h3 Create a Directory Embed
         .ibox-content
           = errors_for @directory_widget
           .form-group
@@ -28,13 +28,13 @@ wrapper.wrapper-content
               = form.radio_button :enable_search, false
               | No
           .form-group
-            = form.label :company_list_id, "Company List", class: 'control-label'
+            = form.label :company_list_id, "Local Network", class: 'control-label'
             = form.select :company_list_id, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @directory_widget.company_list_id), {:include_blank => true}, {:class => 'form-control'}
           = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
             => icon 'plus-circle'
-            | Add New Company List
+            | Add New Local Network
 
         .ibox-content
-          = form.button 'Create Embed', class: 'btn btn-primary'
+          = form.button 'Create Directory Embed', class: 'btn btn-primary'
 
 

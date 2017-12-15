@@ -3,40 +3,26 @@
     .navbar-header[style="width: 100%; text-align: center;"]
       a.navbar-minimalize.minimalize-styl-2.btn.btn-primary[href="#"]
         i.fa.fa-bars
-      = link_to image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive '), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand', style: 'padding: 10px 15px;'
+      = link_to image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive '), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand', style: 'padding: 6px 15px;'
       / = link_to image_tag('impact-dark-s.png', alt: 'IMPACT', class: 'img-responsive'), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand hidden-sm hidden-md hidden-lg', style: 'padding: 11px 15px;'
       ul.nav.navbar-top-links.navbar-right
         li
-          a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
+          a.btn.btn-primary.invite-btn.hidden-xs.m-t-sm href="#{new_business_crm_invite_url}"
             i.fa.fa-user-plus.fa-2 aria-hidden="true"
             |  Invite Friend
         / li
         /   a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-block href="#{new_business_crm_invite_url}"
         /     i.fa.fa-user-plus.fa-2 aria-hidden="true"
         /     |  Invite Friend
-        li.dropdown
-          a.dropdown-toggle.count-info[data-toggle="dropdown" href="#"]
-            i.fa.fa-tasks
-          ul.dropdown-menu.dropdown-messages
-            li = link_to 'http://help.locable.com/', target: :_blank do
-              i.fa.fa-life-ring>
-              | Support
-            - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-              li = link_to connect_locable_path, target: :_blank do
-                i.fa.fa-external-link>
-                | Go to Locable
-            li = link_to :destroy_user_session, method: :delete do
-              i.fa.fa-sign-out
-              |  Sign out
-            - if user_masquerade?
-              li = link_to "Reverse masquerade", back_masquerade_path(current_user)
   - if @business.module_active?(1) || @business.module_active?(3)
     .col-md-12
       .fluid-nav
         ul.nav.navbar-top-links
           - if @business.module_active?(1)
             - if @business.content_type_active?("quick_post")
-              li = link_to_if [:new, @business, :content_quick_post] do
+
+              li = link_to [:new, @business, :content_quick_post] do
+
                 i.fa.fa-bolt>
                 span
                   | Quick Post

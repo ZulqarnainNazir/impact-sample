@@ -1,6 +1,6 @@
-- title 'Add a Company List'
+- title 'Add a Local Network'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :crm_root, :sn => 'Company Lists', :sp => :crm_company_lists, :an => 'Add a Company List'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :sn => 'Local Networks', :sp => :crm_company_lists, :an => 'Add a Local Network'}
 
 wrapper.wrapper-content
 .row.animated.fadeInRight
@@ -9,7 +9,7 @@ wrapper.wrapper-content
       .ibox.float-e-margins
         .ibox-title
           <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
-          h3 Create a Company List
+          h3 Create a Local Network
         .ibox-content
           = errors_for @company_list
           .form-group
@@ -32,7 +32,7 @@ wrapper.wrapper-content
           ol.company-list-categories-associations style="margin: 20px 20px 20px 20px;"
             = render partial: 'company_list_category', collection: @company_list.company_list_categories, locals: { company_list: @company_list, list_form: form, disabled: true }
         .ibox-content
-          = form.button 'Add List', class: 'btn btn-primary'
+          = form.button 'Add Local Network', class: 'btn btn-primary'
 
 - content_for :javascript do
   javascript:

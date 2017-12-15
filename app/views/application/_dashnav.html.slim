@@ -41,12 +41,18 @@ nav.navbar-default.navbar-static-side[role="navigation"]
         div.m-t-sm.profile-element
           strong.text-muted Quick Links
           ul.unstyled.p-w-xs
-              - if (@business.build_plan_no_setup_fee == false)
-                li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
-                  = link_to "Manage Web Pages", [@business, :website_webpages]
+          
+              - unless @business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true
+                - if (@business.build_plan_no_setup_fee == false)
+                  li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
+                    = link_to "Manage Web Pages", [@business, :website_webpages]
+
               - if @business.to_dos_enabled
                 li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
                   = link_to "Website Tasks", [@business, :to_dos]
+              
+              li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
+                = link_to "Manage Images", business_content_images_path
 
               - if @business.module_active?(1)                  
                 li class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
@@ -178,7 +184,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             span.fa.arrow
           ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/form_submissions/) || controller_path.match(/\Abusinesses\/crm\/contact_forms/)) 
             li class=('active' if controller_path.match(/\Abusinesses\/crm\/form_submissions/))
-              = link_to "Form Submissions", [@business, :crm_form_submissions]
+              = link_to "Submissions", [@business, :crm_form_submissions]
             li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
               = link_to "Manage Web Forms", [@business, :crm_contact_forms]
       li title="Manage Website" class=('active' if controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/))
@@ -262,3 +268,19 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             i.fa.fa-cogs>
             span.nav-label[data-i18n="nav.super_settings"]
               | Super Admin
+      hr
+      li = link_to 'http://help.locable.com/', target: :_blank do
+        i.fa.fa-life-ring>
+        span.nav-label[data-i18n="nav.support"]
+          | Support
+      - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
+        li = link_to connect_locable_path, target: :_blank do
+        i.fa.fa-external-link>
+        span.nav-label[data-i18n="nav.cce"]
+          | Go to Locable
+      li = link_to :destroy_user_session, method: :delete do
+        i.fa.fa-sign-out
+        span.nav-label[data-i18n="nav.signout"]
+          | Sign out
+      - if user_masquerade?
+        li = link_to "Reverse masquerade", back_masquerade_path(current_user)

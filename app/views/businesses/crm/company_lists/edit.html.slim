@@ -1,6 +1,6 @@
-- title 'Edit Company List'
+- title 'Edit Local Network'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Company Lists', :sp => :crm_company_lists, :an => 'Edit Company List'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :sn => 'Local Network', :sp => :crm_company_lists, :an => 'Edit Local Network'}
 
 wrapper.wrapper-content
 .row.animated.fadeInRight
@@ -9,7 +9,7 @@ wrapper.wrapper-content
       .ibox.float-e-margins
         .ibox-title
           <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">See list hints</a>
-          h3 Edit Company List
+          h3 Edit Local Network
         .ibox-content
           = errors_for @company_list
           .form-group
@@ -41,7 +41,7 @@ wrapper.wrapper-content
               = render partial: 'company_list_category', collection: form.object.company_list_categories, locals: { company_list: @company_list, list_form: form, disabled: false }
         .ibox-content
           .btn-group
-            = form.button 'Save List', class: 'btn btn-primary'
+            = form.button 'Save Local Network', class: 'btn btn-primary'
             = link_to [@business, :crm, @company_list], class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
               => icon 'times-circle'
               | Delete

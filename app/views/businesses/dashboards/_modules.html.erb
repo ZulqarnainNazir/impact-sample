@@ -239,7 +239,7 @@
                             Inactive
                         </span>
                     <% else %>
-                        <span class="inactive-module-dashboard">
+                        <span class="product-price">
                             Active
                         </span>
                     <% end %>
@@ -253,7 +253,7 @@
                     </div>
                     <a href="javascript:Appcues.show('-L-cI85rR1Q_niaExGbZ')" class="pull-left text-muted" style="margin-top: 17px;"><small>Learn More </small></a>
                     <div class="m-t text-right">
-                        <% if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user? %>
+                        <% if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) %>
 
                             <%= form_tag new_website_business_website_add_website_path, method: :get do %>
                                 <%= button_tag( type: 'submit',

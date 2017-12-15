@@ -1,12 +1,12 @@
 - title 'Add Company'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'All Companies', :sp => :crm_companies, :an => ' Add Company'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :sn => 'All Companies', :sp => :crm_companies, :an => ' Add Company'}
 
 
 
 .ibox.float-e-margins
   .ibox-title
-    h1.h4 Add a new Company
+    h1.h4 Add a New Company
   .ibox-content
     = errors_for @company
     = form_tag [@business, :crm_companies], method: :post

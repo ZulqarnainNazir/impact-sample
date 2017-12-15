@@ -4,7 +4,7 @@
       .ibox.float-e-margins
         .ibox-content
           .form-group
-            = form.label :title, class: 'control-label'
+            = form.label "Title *", class: 'control-label'
             = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a descriptive 5-12 word title for your post'
             br>
             - if @post.persisted?

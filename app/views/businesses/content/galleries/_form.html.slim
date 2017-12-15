@@ -4,7 +4,7 @@
       .ibox.float-e-margins
         .ibox-content
           .form-group
-            = form.label :title, class: 'control-label'
+            = form.label "Title *", class: 'control-label'
             = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a brief 4-10 word label for your gallery.'
             br>
             - if @gallery.persisted?
@@ -16,7 +16,7 @@
                 - elsif !@business.webhost_primary? && @business.has_plan?
                   = link_to "View Post", listing_path_content_url(@business, @gallery.slug, 'gallery'), class: 'btn btn-block btn-default', :target => "_blank"
           .form-group
-            = form.label :description, class: 'control-label'
+            = form.label "Description *", class: 'control-label'
             = form.text_area :description, rows: 3, class: 'form-control wysihtml-editor', placeholder: 'Describe what the gallery is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the gallery is about.'
           .gallery-images-associations.col-xs-12
             - form.object.gallery_images.build

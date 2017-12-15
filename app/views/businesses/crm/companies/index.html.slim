@@ -1,6 +1,6 @@
 - title 'All Companies'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => 'All companies'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :an => 'All Companies & Causes'}
 
 .wrapper.wrapper-content.animated.fadeInRight
   .row
@@ -24,7 +24,7 @@
           
           - if @companies.empty?
             p style="margin:2em 0"
-              em No companies found.
+              em No companies found. Add some...
           - else
             / p style="margin:2em 0" = page_entries_info @companies
             table.footable.table.table-stripped.datatable

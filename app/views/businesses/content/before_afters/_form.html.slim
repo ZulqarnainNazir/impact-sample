@@ -17,7 +17,7 @@
                 = react_component 'ImagePlacement',
                   imagesPath: business_images_path(form.object.business),
                   inputPrefix: 'before_after[before_image_placement_attributes]',
-                  label: 'Before Image',
+                  label: 'Before Image *',
                   placement: form.object.before_image_placement_json,
                   presignedPost: s3_presigned_post_hash,
                   bulkUploadPath: new_business_content_images_upload_path(form.object.business),
@@ -27,17 +27,17 @@
                 = react_component 'ImagePlacement',
                   imagesPath: business_images_path(form.object.business),
                   inputPrefix: 'before_after[after_image_placement_attributes]',
-                  label: 'After Image',
+                  label: 'After Image *',
                   placement: form.object.after_image_placement_json,
                   presignedPost: s3_presigned_post_hash,
                   bulkUploadPath: new_business_content_images_upload_path(form.object.business),
                   buttonSize: 'small',
                   showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-            = form.label :title, class: 'control-label'
+            = form.label "Title *", class: 'control-label'
             = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re comparing in your post.'
             br>
             .form-group
-              = form.label :description, class: 'control-label'
+              = form.label "Description *", class: 'control-label'
               = form.text_area :description, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Describe how you achieved what’s in the comparison above, the benefits and how the client feels about it.'
             br>
             br>

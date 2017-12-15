@@ -1,6 +1,6 @@
 - title 'Edit Company'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :sn => 'Companies', :sp => :crm_companies, :an => 'Edit Company'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :sn => 'Companies', :sp => :crm_companies, :an => 'Edit Company'}
 
 .wrapper.wrapper-content
 .row.animated.fadeInRight
@@ -164,15 +164,15 @@
                         .col-lg-10 = location.phone_field :phone_number, class: 'form-control', value: @company.company_location.phone_number ? @company.company_location.phone_number : @company.business.location.phone_number
                 .ibox.float-e-margins
                   .ibox-title
-                    h4 Company Lists
+                    h4 Local Networks
                   .ibox-content#company_list
                     .row
                       .col-xs-12
-                        h3 Currently included in the following lists:
+                        h3 Currently included in the following Local Networks:
                         - @company.company_lists.each do |company_list|
                           ul
                             li = link_to company_list.name, [:edit, @business, :crm, company_list]
-                        h3 Add to the following lists
+                        h3 Add to the following Local Networks
                         = form.select :company_list_ids, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @company.company_list_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_list_ids'}  
                         .clearfix
                 
