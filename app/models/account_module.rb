@@ -19,8 +19,21 @@ class AccountModule < ActiveRecord::Base
 
   validates :business_id, presence: true
   validates :kind, presence: true
+  before_save :auto_activate_quick_posts, if: :is_new_content_engine?
   validates_inclusion_of :active, :in => [true, false]
   validates_uniqueness_of :business_id, scope: [:kind]
+
+  def auto_activate_quick_posts
+    self.quick_post = true
+  end
+
+  def is_new_content_engine?
+    if self.kind == "content_engine" && self.new_record?
+      true
+    else
+      false
+    end
+  end
 
   def content_active?(content)
     enabled = eval("self." + content)

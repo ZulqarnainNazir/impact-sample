@@ -60,7 +60,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               
               li class=('active' if controller_path.match(/\Abusinesses\/account_module/))
                   = link_to "Activate Features", business_account_modules_path
-                  - if @business.modules_unactivated < 6
+                  - if @business.modules_unactivated <= 6 || @business.modules_unactivated > 0
                     <span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
 
               - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)

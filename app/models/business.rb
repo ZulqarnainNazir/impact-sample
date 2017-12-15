@@ -115,7 +115,11 @@ class Business < ActiveRecord::Base
   end
 
   def modules_unactivated
-    6 - self.account_modules.where({active: true}).count
+    if self.account_modules
+      6 - self.account_modules.where({active: true}).count
+    else
+      6
+    end
   end
 
   def any_content_type_active?
