@@ -14,7 +14,7 @@ SupportLocalSettingsModal = React.createClass
         <div className="modal-content">
           <div className="modal-header">
             <span className="close" data-dismiss="modal">&times;</span>
-            <p className="h4 modal-title">Select SupportLocal Embed or Add New</p>
+            <p className="h4 modal-title">Select Local Connections™ Embed or Add New</p>
           </div>
           <div className="modal-body">
             <div className="form-group">

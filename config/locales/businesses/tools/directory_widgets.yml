@@ -3,10 +3,10 @@ en:
     tools:
       directory_widgets:
         create:
-          notice: Your new SupportLocal Embed was added successfully.
-          alert: There was a problem creating your SupportLocal Embed.
+          notice: Your new Local Connections™ Embed was added successfully.
+          alert: There was a problem creating your Local Connections™ Embed.
         update:
-          notice: The SupportLocal Embed was updated successfully.
-          alert: There was a problem updating the SupportLocal Embed.
+          notice: The Local Connections™ Embed was updated successfully.
+          alert: There was a problem updating the Local Connections™ Embed.
         destroy:
-          notice: The SupportLocal Embed has been removed from your site.
+          notice: The Local Connections™ Embed has been removed from your site.
