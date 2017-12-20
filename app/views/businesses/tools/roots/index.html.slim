@@ -10,88 +10,163 @@
           .ibox.float-e-margins
             .ibox-title
               h2
-                | All Embeddable Website Tools
+                | All Embeddable Website Tools <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-L0lROmK-BI7UdOd5DB4')">What are Embeddable Tools?</a>
             .ibox-content
               .row
                 .col-sm-6.col-lg-4
-                  = link_to [@business, :tools_review_widgets] do
-                    .panel.panel-primary
+                  - if !@business.module_active?(3)
+                    .panel.panel-muted
                       .panel-heading
                         .row
                           .col-xs-3
                             i.fa.fa-star.fa-5x
                           .col-xs-9.text-right
-                            div style="font-size: 40px" = @business.review_widgets.count
-                            - if @business.review_widgets.count == 1
-                              | Reviews Embed
-                            - else
-                              | Reviews Embeds
+                            div style="font-size: 40px" Inactive
+                            h4 Customer Reviews Embeds
                       .panel-footer.text-right
-                        span.pull-left> Manage Reviews Embeds
-                        i.fa.fa-arrow-circle-right
+                        = form_tag business_account_modules_path(:kind => 3, :active => true) do
+                          = button_tag( type: 'submit', :class => "btn btn-xs btn-primary") do
+                              span.pull-left.m-r-sm> Activate Customer Reviews Embeds
+                              i.fa.fa-plus-circle
+                  - else
+                    = link_to [@business, :tools_review_widgets] do
+                      .panel.panel-primary
+                        .panel-heading
+                          .row
+                            .col-xs-3
+                              i.fa.fa-star.fa-5x
+                            .col-xs-9.text-right
+                              div style="font-size: 40px" = @business.review_widgets.count
+                              - if @business.review_widgets.count == 1
+                                | Reviews Embed
+                              - else
+                                | Reviews Embeds
+                        .panel-footer.text-right
+                          span.pull-left> Manage Reviews Embeds
+                          i.fa.fa-arrow-circle-right
                 .col-sm-6.col-lg-4
-                  = link_to [@business, :tools_content_feed_widgets] do
-                    .panel.panel-info
+                  - if !@business.module_active?(1)
+                    .panel.panel-muted
                       .panel-heading
                         .row
                           .col-xs-3
                             i.fa.fa-bullhorn.fa-5x
                           .col-xs-9.text-right
-                            div style="font-size: 40px" = @business.content_feed_widgets.count
-                            - if @business.content_feed_widgets.count == 1
-                              | Content Feed Embed
-                            - else
-                              | Content Feed Embeds
+                            div style="font-size: 40px" Inactive
+                            h4 Content Feeds
                       .panel-footer.text-right
-                        span.pull-left> Manage Content Embeds
-                        i.fa.fa-arrow-circle-right
+                        = form_tag business_account_modules_path(:kind => 1, :active => true) do
+                          = button_tag( type: 'submit', :class => "btn btn-xs btn-primary") do
+                              span.pull-left.m-r-sm> Activate Content Feed Embeds
+                              i.fa.fa-plus-circle
+                  - else
+                    = link_to [@business, :tools_content_feed_widgets] do
+                      .panel.panel-info
+                        .panel-heading
+                          .row
+                            .col-xs-3
+                              i.fa.fa-bullhorn.fa-5x
+                            .col-xs-9.text-right
+                              div style="font-size: 40px" = @business.content_feed_widgets.count
+                              - if @business.content_feed_widgets.count == 1
+                                | Content Feed Embed
+                              - else
+                                | Content Feed Embeds
+                        .panel-footer.text-right
+                          span.pull-left> Manage Content Embeds
+                          i.fa.fa-arrow-circle-right
                 .col-sm-6.col-lg-4
-                  = link_to [@business, :tools_calendar_widgets] do
-                    .panel.panel-info
+                  - if !@business.module_active?(2)
+                    .panel.panel-muted
                       .panel-heading
                         .row
                           .col-xs-3
                             i.fa.fa-calendar-plus-o.fa-5x
                           .col-xs-9.text-right
-                            div style="font-size: 40px" = @business.calendar_widgets.count
-                            - if @business.calendar_widgets.count == 1
-                              | Calendar Embed
-                            - else
-                              | Calendar Embeds
+                            div style="font-size: 40px" Inactive
+                            h4 Calendar Embeds
                       .panel-footer.text-right
-                        span.pull-left> Manage Calendar Embeds
-                        i.fa.fa-arrow-circle-right
+                        = form_tag business_account_modules_path(:kind => 2, :active => true) do
+                          = button_tag( type: 'submit', :class => "btn btn-xs btn-primary") do
+                              span.pull-left.m-r-sm> Activate Calendar Embeds
+                              i.fa.fa-plus-circle
+                  - else
+                    = link_to [@business, :tools_calendar_widgets] do
+                      .panel.panel-info
+                        .panel-heading
+                          .row
+                            .col-xs-3
+                              i.fa.fa-calendar-plus-o.fa-5x
+                            .col-xs-9.text-right
+                              div style="font-size: 40px" = @business.calendar_widgets.count
+                              - if @business.calendar_widgets.count == 1
+                                | Calendar Embed
+                              - else
+                                | Calendar Embeds
+                        .panel-footer.text-right
+                          span.pull-left> Manage Calendar Embeds
+                          i.fa.fa-arrow-circle-right
               .row
                 .col-sm-6.col-lg-4
-                  = link_to [@business, :tools_directory_widgets] do
-                    .panel.panel-warning
+                  - if !@business.module_active?(2)
+                    .panel.panel-muted
                       .panel-heading
                         .row
                           .col-xs-3
                             i.fa.fa-address-book-o.fa-5x
                           .col-xs-9.text-right
-                            div style="font-size: 40px" = @business.directory_widgets.count
-                            - if @business.directory_widgets.count == 1
-                              | Directory Embed
-                            - else
-                              | Directory Embeds
+                            div style="font-size: 40px" Inactive
+                            h4 Directory Embeds
                       .panel-footer.text-right
-                        span.pull-left> Manage Directory Embeds
-                        i.fa.fa-arrow-circle-right
+                        = form_tag business_account_modules_path(:kind => 2, :active => true) do
+                          = button_tag( type: 'submit', :class => "btn btn-xs btn-primary") do
+                              span.pull-left.m-r-sm> Activate Directory Embeds
+                              i.fa.fa-plus-circle
+                  - else
+                    = link_to [@business, :tools_directory_widgets] do
+                      .panel.panel-warning
+                        .panel-heading
+                          .row
+                            .col-xs-3
+                              i.fa.fa-address-book-o.fa-5x
+                            .col-xs-9.text-right
+                              div style="font-size: 40px" = @business.directory_widgets.count
+                              - if @business.directory_widgets.count == 1
+                                | Directory Embed
+                              - else
+                                | Directory Embeds
+                        .panel-footer.text-right
+                          span.pull-left> Manage Directory Embeds
+                          i.fa.fa-arrow-circle-right
                 .col-sm-6.col-lg-4
-                  = link_to [@business, :crm_contact_forms] do
-                    .panel.panel-primary
+                  - if !@business.module_active?(4)
+                    .panel.panel-muted
                       .panel-heading
                         .row
                           .col-xs-3
                             i.fa.fa-check-square-o.fa-5x
                           .col-xs-9.text-right
-                            div style="font-size: 40px" = @business.contact_forms.count
-                            - if @business.contact_forms.count == 1
-                              | Web Form Embed
-                            - else
-                              | Web Form Embeds
+                            div style="font-size: 40px" Inactive
+                            h4 Web Forms
                       .panel-footer.text-right
-                        span.pull-left> Manage Form Embeds
-                        i.fa.fa-arrow-circle-right
-                h3 Please note: #{link_to 'Manage Active Features', business_account_modules_path} to enable features required to use each embed above.
+                        = form_tag business_account_modules_path(:kind => 4, :active => true) do
+                            = button_tag( type: 'submit', :class => "btn btn-xs btn-primary") do
+                                span.pull-left.m-r-sm> Activate Web Forms
+                                i.fa.fa-plus-circle
+                  - else
+                    = link_to [@business, :crm_contact_forms] do
+                      .panel.panel-primary
+                        .panel-heading
+                          .row
+                            .col-xs-3
+                              i.fa.fa-check-square-o.fa-5x
+                            .col-xs-9.text-right
+                              div style="font-size: 40px" = @business.contact_forms.count
+                              - if @business.contact_forms.count == 1
+                                | Web Form Embed
+                              - else
+                                | Web Form Embeds
+                        .panel-footer.text-right
+                          span.pull-left> Manage Form Embeds
+                          i.fa.fa-arrow-circle-right
+                h3 Use these tools to improve your website and cross-promote other local organizations.
