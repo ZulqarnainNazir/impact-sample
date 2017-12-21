@@ -10,7 +10,7 @@
           li.hidden-xs.hidden-sm
               = link_to business_account_modules_path
                 i.fa.fa-plus-square-o
-                span.nav-label
+                span
                   | Activate Features
                 /<span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
 
@@ -18,14 +18,14 @@
           li.hidden-xs.hidden-sm title=" Preview Website"
             = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
               i.fa.fa-external-link
-              span.nav-label[data-i18n="nav.website"]  
+              span [data-i18n="nav.website"]  
                 | Preview Website
 
         - elsif @business.is_on_engage_plan?
           li.hidden-xs.hidden-sm title=" Preview Listing"
             = link_to listing_path_url(@business), target: :_blank do
               i.fa.fa-external-link
-              span.nav-label[data-i18n="nav.listing"]
+              span [data-i18n="nav.listing"]
                 | Preview Listing
         a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
           i.fa.fa-user-plus.fa-2 aria-hidden="true"
@@ -55,7 +55,7 @@
               li.hidden-md.hidden-lg 
                 = link_to business_account_modules_path
                   i.fa.fa-plus-square-o
-                  span.nav-label
+                  span
                     |  Activate Features
                   /<span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
 
@@ -63,14 +63,14 @@
               li.hidden-md.hidden-lg title="Preview Website"
                 = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
                   i.fa.fa-external-link
-                  span.nav-label[data-i18n="nav.website"]  
+                  span [data-i18n="nav.website"]  
                     |  Preview Website
 
             - elsif @business.is_on_engage_plan?
               li.hidden-md.hidden-lg title="Preview Listing"
                 = link_to listing_path_url(@business), target: :_blank do
                   i.fa.fa-external-link
-                  span.nav-label[data-i18n="nav.listing"]
+                  span [data-i18n="nav.listing"]
                     |  Preview Listing
             hr
             li = link_to 'http://help.locable.com/', target: :_blank do
@@ -87,7 +87,7 @@
           li.hidden-xs.hidden-sm
               = link_to business_account_modules_path
                 i.fa.fa-plus-square-o
-                span.nav-label
+                span
                   | Activate Features
                 /<span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
 
@@ -95,14 +95,14 @@
           li.hidden-xs.hidden-sm title=" Preview Website"
             = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
               i.fa.fa-external-link
-              span.nav-label[data-i18n="nav.website"]  
+              span [data-i18n="nav.website"]  
                 |  Preview Website
 
         - elsif @business.is_on_engage_plan?
           li.hidden-xs.hidden-sm title=" Preview Listing"
             = link_to listing_path_url(@business), target: :_blank do
               i.fa.fa-external-link
-              span.nav-label[data-i18n="nav.listing"]
+              span [data-i18n="nav.listing"]
                 |  Preview Listing
         a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
           i.fa.fa-user-plus.fa-2 aria-hidden="true"
@@ -132,7 +132,7 @@
               li.hidden-md.hidden-lg 
                   = link_to business_account_modules_path
                     i.fa.fa-plus-square-o
-                    span.nav-label
+                    span
                       |  Activate Features
                     /<span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
 
@@ -140,14 +140,14 @@
               li.hidden-md.hidden-lg title="Preview Website"
                 = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
                   i.fa.fa-external-link
-                  span.nav-label[data-i18n="nav.website"]  
+                  span [data-i18n="nav.website"]  
                     |  Preview Website
 
             - elsif @business.is_on_engage_plan?
               li.hidden-md.hidden-lg title="Preview Listing"
                 = link_to listing_path_url(@business), target: :_blank do
                   i.fa.fa-external-link
-                  span.nav-label[data-i18n="nav.listing"]
+                  span [data-i18n="nav.listing"]
                     |  Preview Listing
             hr
             li = link_to 'http://help.locable.com/', target: :_blank do
