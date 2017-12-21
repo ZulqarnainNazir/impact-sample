@@ -1,12 +1,11 @@
 - cache business do
-  .col-sm-4
+  .col-sm-3
     .contact-box.center-version id="business-#{business.id}"
       a.business-card data-business-id=business.id href="#"
         - if business.logo
           = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto;'
         h3.m-b-xs: strong=business.name
           / a href="tel:#{business.business.location.phone_number}"
-        div= truncate(business.website_url, length: 35)
         - if !business.location.street1.blank?
           address.m-t-sm
             p.m-b-none = business.location.street1
@@ -14,9 +13,7 @@
             p.m-b-none = business.location.city && business.location.state ? "#{business.location.city}, #{business.location.state} #{business.location.zip_code}" : ""
             - if !business.location.phone_number.blank?
               abbr title="Phone"
-                | P:
               = " #{business.location.phone_number}"
-            p.m-b-none= business.location.email
 
       - if !business.reviews.blank?
         p.text-center

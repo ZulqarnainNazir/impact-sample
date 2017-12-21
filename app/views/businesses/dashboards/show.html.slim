@@ -6,19 +6,11 @@
 .row
   .col-lg-12
     .wrapper.wrapper-content
-      .row
-        .col-lg-12
-          .ibox.float-e-margins
-            .ibox-title
-              h2
-                | Manage Active Features on Your Account
-                <a class="btn btn-primary btn-sm pull-right" href="javascript:Appcues.show('-L-ZPRcW34uZb8tf2YYW')">What's managing features about &#x27a4;</a>
-              .ibox-tools
-                a class="collapse-link"
-                  i.fa.fa-chevron-up Collapse Section
-            .ibox-content
-                = render "modules"
-
+      - if !@business.module_active?(0) && !@business.module_active?(1) && !@business.module_active?(2) && !@business.module_active?(3) && !@business.module_active?(4)
+          div.alert.alert-warning.alert-dismissable.m-t-sm
+              <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+              p Looks like you haven't activated any features yet, #{link_to "let's fix that!", [@business, :account_modules]} If you're not sure where to start, try #{link_to " Marketing Missions™", [@business, :account_modules]} to find easy marketing activities. 
+                            
       .grid
         - if @business.module_active?(0)
           .grid-item
@@ -33,9 +25,9 @@
           .grid-item
             = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
         .grid-item
-              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
-        .grid-item
               = render partial: 'businesses/dashboards/overview', locals: { business: @business }
+        .grid-item
+              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
         .grid-item
           .ibox.float-e-margins
             .ibox-title
@@ -78,8 +70,19 @@
                       = @business.contact_forms.count
                       |  Form Embeds
                   
-
-p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your relevant Local Networks, the Locable Publisher Network, and any linked social accounts.
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h2
+                | Manage Active Features on Your Account
+                <a class="btn btn-primary btn-sm pull-right" href="javascript:Appcues.show('-L-ZPRcW34uZb8tf2YYW')">What's managing features about &#x27a4;</a>
+            /.ibox-tools
+                a class="collapse-link"
+                  i.fa.fa-chevron-up Collapse Section
+            .ibox-content
+                = render "modules"
+      / p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your relevant Local Networks, the Locable Publisher Network, and any linked social accounts.
 
 javascript:
 

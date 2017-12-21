@@ -38,44 +38,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
             - else
               i.fa.fa-photo.fa-2x
-        div.m-t-sm.profile-element
-          strong.text-muted Quick Links
-          ul.unstyled.p-w-xs
-          
-              - unless @business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true
-                - if (@business.build_plan_no_setup_fee == false)
-                  li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
-                    = link_to "Manage Web Pages", [@business, :website_webpages]
-
-              - if @business.to_dos_enabled
-                li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
-                  = link_to "Website Tasks", [@business, :to_dos]
-              
-              li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
-                = link_to "Manage Images", business_content_images_path
-
-              - if @business.module_active?(1)                  
-                li class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
-                  = link_to "View Blog Content", [@business, :content_root]
-              
-              li class=('active' if controller_path.match(/\Abusinesses\/account_module/))
-                  = link_to "Activate Features", business_account_modules_path
-                  - if @business.modules_unactivated <= 6 || @business.modules_unactivated > 0
-                    <span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
-
-              - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
-                li title=" Preview Website"
-                  = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
-                    i.fa.fa-external-link
-                    span.nav-label[data-i18n="nav.website"]  
-                      |  Preview Website
-
-              - elsif @business.is_on_engage_plan?
-                li title=" Preview Listing"
-                  = link_to listing_path_url(@business), target: :_blank do
-                    i.fa.fa-external-link
-                    span.nav-label[data-i18n="nav.listing"]
-                      |  Preview Listing
                   
       li title="Dashboard" class=('active' if controller_path.match(/\Abusinesses\/dashboard/))
         = link_to [@business, :dashboard] do
