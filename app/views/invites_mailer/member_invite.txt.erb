@@ -6,7 +6,7 @@ We’re using free marketing tools from Locable to promote our website as well a
 
 It takes less than 5-minutes to join and will ensure your information is correct.
 
-<%= link_to "ACCEPT NOW", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
+<%= link_to "ACCEPT NOW", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
 
 The Forever Free Plan makes it so EVERY local business can participate!
 
@@ -22,4 +22,4 @@ It’s simple:
 
 Getting started only takes a few minutes (we’ll even do it for you if you want – just reply to this email).
 
-<%= link_to "JOIN US TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
+<%= link_to "JOIN US TODAY", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>

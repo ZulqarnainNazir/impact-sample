@@ -12,6 +12,7 @@
       .form-inputs
         h2.text-center Log In to your <b>Locable Account</b>
         = form_for resource, as: resource_name, url: session_path(resource_name) do |form|
+          = form.text_field :honey, style: 'margin-left: -10000px; float: left;'
           .group
             => form.label :email_address, :class => 'control-label control-label-dark'
             = form.email_field :email, autofocus: true, class: 'form-control', :placeholder => "Email address"
@@ -38,5 +39,5 @@
           div style="text-align: center"
             = render 'devise/shared/links'
           p.m-t-lg.text-center
-            | Don't have an account? 
-            = link_to("Sign Up", :new_user_registration)
+            | Don't have an account?
+            = link_to(" Sign Up Here", :new_user_registration)

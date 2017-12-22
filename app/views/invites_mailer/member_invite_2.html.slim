@@ -10,7 +10,7 @@
       | It takes less than 5-minutes to join.
   tr
     td.content-block.aligncenter
-      = link_to "ACCEPT NOW", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn btn-primary'
+      = link_to "ACCEPT NOW", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn btn-primary'
   tr
     td.content-block
       | The Forever Free Plan makes it so EVERY local business can participate!
@@ -33,4 +33,4 @@
     td Getting it set up will only take a few minutes (we’ll even do it for you if you want – just reply to this email).
   tr
     td.content-block.aligncenter
-      = link_to "JOIN TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https'), class: 'btn-primary'
+      = link_to "JOIN TODAY", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, :protocol => 'https'), class: 'btn-primary'

@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   mailkick_user #determines (and sets status as) if a user has requested "unsubscribe" from emails
-  
+
   Mailkick.user_method = -> (email) { User.find_by(email: email) }
 
   store_accessor :settings, :custom_domains, :viewed_dashboard_tour
@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
     foreign_key: :inviter_id
 
   devise *%i[confirmable database_authenticatable lockable registerable recoverable rememberable trackable validatable masqueradable]
+
+  attr_accessor :honey
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -147,5 +149,9 @@ class User < ActiveRecord::Base
   # Send Devise mailers later via ActiveJob.
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later(wait: 2.seconds)
+  end
+
+  def save(*args)
+    honey.present? ? true : super
   end
 end

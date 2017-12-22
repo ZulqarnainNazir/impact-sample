@@ -25,10 +25,10 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
 
     #has an invite already been sent? if so, alert the user and redirect and return
     @invitee_contact = current_user.find_invite_by_invitee_id(params[:invite][:invitee][:email], @business, params[:invite][:invitee_id])
-    if !@invitee_contact.nil?  
+    if !@invitee_contact.nil?
       flash[:notice] = "You already sent an invite to this email address.
       #{view_context.link_to('View this contact', edit_business_crm_contact_path(
-        @business.id, @invitee_contact.id))} to see when 
+        @business.id, @invitee_contact.id))} to see when
       the next invite is scheduled to send."
       redirect_to new_business_crm_invite_path and return #and return is necessary to stop all other tasks within the action
     elsif current_user.invite_sent_email?(params[:invite][:invitee][:email]) == true
@@ -36,7 +36,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
         @new_contact = Contact.new(invitee_params)
         @new_contact.business_id = params[:business_id]
         @new_contact.save
-        flash[:notice] = "You already sent an invite to this email address. However, it does not look like 
+        flash[:notice] = "You already sent an invite to this email address. However, it does not look like
         this email is in your contact list.
         We've taken care of that for you
         #{view_context.link_to('here', edit_business_crm_contact_path(
@@ -46,8 +46,8 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
         flash[:notice] = "It looks like you already sent an invite to this email address. View the contact
         #{view_context.link_to('here', edit_business_crm_contact_path(
           @business.id, @contact.id))}."
-      end        
-      redirect_to new_business_crm_invite_path and return #and return is necessary to stop all other tasks within the action   
+      end
+      redirect_to new_business_crm_invite_path and return #and return is necessary to stop all other tasks within the action
     end
 
     @invite = Invite.new(invite_params)
@@ -63,7 +63,7 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       @invite.invitee = @invitee
       @invitee.save!
     elsif Contact.find(params[:invite][:invitee_id]).present?
-      @contact = Contact.find(params[:invite][:invitee_id]).present?
+      @contact = Contact.find(params[:invite][:invitee_id])
       @invite.invitee = @contact
     end
     # unless @invite.skip_company || (!params[:invite][:company_id].blank? && Company.find(params[:invite][:company_id]).present?)

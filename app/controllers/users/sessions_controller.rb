@@ -59,6 +59,7 @@ class Users::SessionsController < Devise::SessionsController
       :email,
       :password,
       :remember_me,
+      :honey,
     )
   end
 end

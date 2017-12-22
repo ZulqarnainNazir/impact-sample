@@ -9,6 +9,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   def new
+    query = params[:query].to_s.strip
+    if query.present?
+      @businesses = Business.where("name ILIKE ?", "%#{query}%").limit(6)
+    else
+      @businesses = Business.all.limit(6)
+    end
+    @categories = Category.alphabetical
+    if params[:contact_id]
+      @invited_user = Contact.find(params[:contact_id])
+    end
+    if params[:company_id]
+      @invited_company = Company.find(params[:company_id]) #.try(:business)
+      # raise StandardError, @invited_business.to_json
+    end
+    @quick_invite = params[:quick_invite]
+    @build_plan_id = SubscriptionPlan.find_by(name: "Build").id
   	super
   end
 
@@ -57,11 +73,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
 
-   def set_affiliate_cookie
+  def set_affiliate_cookie
     @affiliate_token = SubscriptionAffiliate.find_by(token: params[:r]).token rescue nil
     unless @affiliate_token.nil?
       cookies[:affiliate_token] = { value: @affiliate_token, expires: 1.month.from_now }
     end
+  end
+
+  def sign_up_params
+    params.require(:user).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :password,
+      :password_confirmation,
+      :honey,
+    )
   end
 
 end

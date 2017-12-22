@@ -12,7 +12,7 @@ tbody
   br
   tr
     td.content-block.aligncenter
-      = link_to "ACCEPT NOW", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
+      = link_to "ACCEPT NOW", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
   tr
     td.content-block
       | The Forever Free Plan makes it so EVERY local business can participate!
@@ -32,4 +32,4 @@ tbody
   br
   tr
     td.content-block.aligncenter
-      = link_to "JOIN US TODAY", new_onboard_user_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
+      = link_to "JOIN US TODAY", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
