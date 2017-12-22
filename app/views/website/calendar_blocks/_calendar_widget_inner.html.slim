@@ -29,12 +29,24 @@
   - start_date = start_date_parsed.strftime('%F') rescue ''
   - end_date = ''
 
+/ Are we filtering any event kinds?
+- if @calendar_widget.filter_kinds.compact.present?
+  - event_kinds = @calendar_widget.filter_kinds.compact
+- else
+  - event_kinds = [0, 1, 2]
+
+- if params[:filter_kinds].present?
+  - filter_kinds = params[:filter_kinds].map { |s| s.to_i }.select { |e| event_kinds.include?(e) }
+- else
+  - filter_kinds = event_kinds
+
 / Find the events to display
 - events = calendar_widget_search(@calendar_widget,
     @calendar_widget.business,
     params[:blog_search],
     start_date,
     end_date,
+    filter_kinds: filter_kinds,
     page: params[:page],
     limit: @calendar_widget.max_items)
 
@@ -67,7 +79,7 @@
       h1 = @calendar_widget.public_label
 
   - if @calendar_widget.enable_search == true
-    = render partial: 'website/calendar_blocks/calendar_search', locals: {request_url: request_url}
+    = render partial: 'website/calendar_blocks/calendar_search', locals: {request_url: request_url, event_kinds: event_kinds}
 
   .col-xs-12
     .panel.p-sm class=container_view

@@ -165,7 +165,7 @@ module SearchHelper
       ).page(page).per(limit)
   end
 
-  def calendar_widget_search(widget, business, search_string, start_date, end_date, page: 1, limit: 4)
+  def calendar_widget_search(widget, business, search_string, start_date, end_date, filter_kinds: [], page: 1, limit: 4)
 
     # Find this first, because if we are looking for one date, we may need old events
     date_to_filter = Date.parse start_date rescue nil
@@ -199,16 +199,20 @@ module SearchHelper
         limit: 800)
     end
 
+    if filter_kinds.present?
+      events = events.select { |e|
+        filter_kinds.include?(e.event_definition.kind)
+      }
+    end
+
     if date_to_filter.present?
-      filtered_events = events.select { |e|
+      events = events.select { |e|
         (e.occurs_on >= date_to_filter) &&
         (end_date_to_filter.blank? || e.occurs_on <= end_date_to_filter)
       }
-    else
-      filtered_events = events
     end
 
-    sorted_events = filtered_events.sort { |a,b|
+    sorted_events = events.sort { |a,b|
       if a.occurs_on == b.occurs_on
         a.event_definition.start_time - b.event_definition.start_time
       else

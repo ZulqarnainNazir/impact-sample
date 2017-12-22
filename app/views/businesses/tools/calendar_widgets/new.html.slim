@@ -32,6 +32,13 @@ wrapper.wrapper-content
             label.radio-inline
               = form.radio_button :default_view, 'list', :required => true
               | List View
+          .form-group.filter-kind-checkboxes
+            = form.label :filter_kinds, "What Kinds of Events Do You Want to Include?", class: 'control-label'
+            br
+            = form.collection_check_boxes(:filter_kinds, CalendarWidget.filter_kinds, :first, :last) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
+
           .form-group
             = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
             = form.text_field :max_items, class: 'form-control', :value => 12, :required => true
@@ -67,7 +74,7 @@ wrapper.wrapper-content
 - content_for :javascript do
   javascript:
     // Select all content types by default
-    var contentTypes = $('input[name="calendar_widget[content_types][]"]')
+    var contentTypes = $('input[name="calendar_widget[filter_kinds][]"]')
         contentTypes.prop('checked', 'checked');
 
     $(function() {

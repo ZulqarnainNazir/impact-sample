@@ -41,7 +41,7 @@ class Businesses::Tools::CalendarWidgetsController < Businesses::BaseController
   private
 
   def calendar_widget_params
-    params.require(:calendar_widget).permit(:name, :public_label, :default_view, :max_items, :enable_search, :show_our_content, :company_list_ids => [])
+    params.require(:calendar_widget).permit(:name, :public_label, :default_view, :max_items, :enable_search, :show_our_content, :company_list_ids => [], :filter_kinds => [])
   end
 
 end

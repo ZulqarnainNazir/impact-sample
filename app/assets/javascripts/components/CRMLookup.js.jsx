@@ -100,7 +100,7 @@ class CRMLookup extends React.Component {
 
     return (
       <div>
-        <h1> WHat is the Business or Organization name? </h1>
+        <h1> What is the Business or Organization name? </h1>
         <div className='form-horizontal' action={`${window.location.href.slice(0, -4)}?force=true&name=N&search_add=true`}>
           <div className="group">
             <input

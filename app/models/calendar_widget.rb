@@ -10,6 +10,12 @@ class CalendarWidget < ActiveRecord::Base
     [params[:page], Time.at((Time.now.to_f / 5.minutes).floor * 5.minutes).to_i].reject(&:blank?).join('-').parameterize
   end
 
+  def self.filter_kinds
+    [[0, "Events"],
+     [1, "Classes"],
+     [2, "Deadlines"]]
+  end
+
   def get_business_ids
     business_ids = []
     company_list = []

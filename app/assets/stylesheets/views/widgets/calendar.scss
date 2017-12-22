@@ -10,12 +10,24 @@
 
 .webpage-group .calendar-widget {
 
+    .col-xs-4 {
+        width: 33.33333333%;
+    }
+
     .col-xs-6 {
         width: 50%;
     }
 
+    .col-xs-8 {
+        width: 66.66666667%;
+    }
+
     .row > :not(:first-child) {
         margin-top: 0;
+
+        &.m-t-xs {
+            margin-top: 5px;
+        }
 
         &.m-t-md {
             margin-top: 20px;
@@ -77,6 +89,17 @@
     width: 100%;
 }
 
+.search-toggle {
+
+    &[aria-expanded="true"] i.fa.fa-chevron-down {
+        display: none;
+    }
+
+    &[aria-expanded="false"] i.fa.fa-chevron-up {
+        display: none;
+    }
+}
+
 #search-input-group .btn {
     margin-top: 23px;
     text-transform: uppercase;
@@ -92,6 +115,23 @@
 
         color: $search-link-blue;
         margin: 15px 5px 0 5px;
+    }
+}
+
+.filter-toggle {
+    font-size: 12px;
+    font-weight: bold;
+    color: #676a6c;
+
+    &:hover, &:focus {
+        color: #676a6c;
+    }
+
+    &[aria-expanded="true"] i.fa.fa-chevron-down {
+        display: none;
+    }
+    &[aria-expanded="false"] i.fa.fa-chevron-up {
+        display: none;
     }
 }
 

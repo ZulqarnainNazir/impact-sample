@@ -14,8 +14,10 @@
 
       .col-xs-6
         a.btn.btn-primary.search-toggle aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-input-group"
-          i.fa.fa-search.m-r-sm
+          i.fa.fa-chevron-down.m-r-sm
+          i.fa.fa-chevron-up.m-r-sm
           'Add Search Criteria
+
 
       .col-xs-6
         a.btn.btn-primary.view-toggle aria-expanded="false" data-toggle="collapse" type="button" aria-haspopup="true" style="cursor: pointer;" data-target="#search-event-views"
@@ -55,3 +57,35 @@
       button.btn.btn-default.btn-sm name="view" value="agenda"
         i.fa.fa-list-alt.m-r-sm
         'Agenda View
+
+  - if event_kinds.size != 1
+
+    .panel.panel-default.p-sm.p-t-0.p-b-0
+
+      .row
+
+        a.filter-toggle.col-xs-12.m-t-xs.m-b-xs aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-event-filter"
+          'Filter Results
+          i.fa.fa-chevron-down.m-l-xs
+          i.fa.fa-chevron-up.m-l-xs
+
+        #search-event-filter.collapse.col-xs-12 class=("in" unless params[:filter_kinds].blank?)
+
+          .row
+
+            - kind_names = ['events', 'classes', 'deadlines']
+
+            - kind_names.each_index do |i|
+
+              - if event_kinds.include?(i)
+
+                - n = kind_names[i]
+                - val = params[:filter_kinds]&.include?(i.to_s)
+
+                label.col-xs-8.col-sm-3.m-t-xs
+                  = n.titlecase
+                  = check_box_tag "filter_kinds[]", "#{i}", val, class: '', style: 'margin-left: 10px; vertical-align: text-top'
+
+            .col-xs-4.col-sm-3
+              button.btn.btn-primary.m-b-sm style="float: right"
+                | Submit

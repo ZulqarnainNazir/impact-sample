@@ -108,8 +108,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             li title="Community Embeds" class=('active' if embeds_active)
               = link_to "#"
                 i.fa.fa-heartbeat
-                span.nav-label[data-i18n="nav.support_local"]
-                  | Community Embeds
+                span.nav-label
+                    | Community Embeds
                 span.fa.arrow
               ul.nav.nav-third-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
                 li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
@@ -120,12 +120,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
                   = link_to "#" do
                     span.badge 
                       = "Coming Soon"
-                    |  Job Board
-                li class='disabled'
-                  = link_to "#" do
-                    span.badge 
-                      = "Coming Soon"
-                    |  Volunteer Board
+                    |  Job & Volunteer Board
 
       - if @business.module_active?(3)
         li title="Customer Reviews" class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/) || controller_path.match(/\Abusinesses\/crm\/feedbacks/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
