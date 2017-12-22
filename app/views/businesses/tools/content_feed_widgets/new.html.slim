@@ -2,7 +2,7 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Content', :sp => :tools_content_feed_widgets, :an => 'Add Content Embed'}
 
-wrapper.wrapper-content
+wrapper.wrapper-content.new-content-embed
 .row.animated.fadeInRight
   .col-md-6
     = form_for @content_feed_widget, url: [@business, :tools_content_feed_widgets] do |form|
@@ -74,5 +74,5 @@ wrapper.wrapper-content
         contentTypes.prop('checked', 'checked');
 
     $(function() {
-      $("select").chosen();
+      $(".new-content-embed select").chosen();
     });

@@ -64,7 +64,7 @@ FeedContentModal = React.createClass
             <span className="close" data-dismiss="modal">&times;</span>
             <p className="h4 modal-title">Choose The Feed Type You'd Like to Use</p>
           </div>
-          <div className="modal-body" style={{height: '325px;'}}>
+          <div className="modal-body" style={{height: '325px'}}>
             <h2 className="m-b-lg">Pick the type of content then you can configure it</h2>
             <div className="col-sm-4 m-b-sm">
                 <a href="#" onClick={this.chooseReviews} style={{color: this.choiceColor('reviews')}}>

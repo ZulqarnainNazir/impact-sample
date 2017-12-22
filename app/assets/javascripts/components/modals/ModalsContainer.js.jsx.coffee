@@ -13,7 +13,10 @@ ModalsContainer = React.createClass
       <ReviewSettingsModal {...this.props.webpageState} />
       <FeedContentModal {...this.props.webpageState} {...this.props.callbacks} />
       <SupportLocalSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateSupportLocalSettings={this.props.updateSupportLocalSettings} />
-      <CalendarSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateCalendarSettings={this.props.updateCalendarSettings} />
+      <CalendarSettingsModal
+        calendarWidgets={this.props.calendarWidgets}
+        newCalendarPath={this.props.newCalendarPath}
+        updateCalendarSettings={this.props.updateCalendarSettings} />
       <ContactFormSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateContactFormSettings={this.props.updateContactFormSettings} />
       <MediaModal
         bulkUploadPath={this.props.bulkUploadPath}

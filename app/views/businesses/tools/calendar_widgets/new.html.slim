@@ -2,7 +2,7 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :tools_root, :sn => 'SupportLocal', :sp => :tools_directory_widgets, :an => 'Add Calendar Embed'}
 
-wrapper.wrapper-content
+wrapper.wrapper-content.new-calendar-embed
 .row.animated.fadeInRight
   .col-md-6
     = form_for @calendar_widget, url: [@business, :tools_calendar_widgets] do |form|
@@ -78,5 +78,5 @@ wrapper.wrapper-content
         contentTypes.prop('checked', 'checked');
 
     $(function() {
-      $("select").chosen();
+      $(".new-calendar-embed select").chosen();
     });

@@ -2,7 +2,7 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Content', :sp => :tools_content_feed_widgets, :an => 'Edit Content Embed'}
 
-wrapper.wrapper-content
+wrapper.wrapper-content.edit-content-embed
 .row.animated.fadeInRight
   .col-md-6
     = form_for @content_feed_widget, url: [@business, :tools, @content_feed_widget] do |form|
@@ -135,7 +135,7 @@ wrapper.wrapper-content
     };
 
     $(function() {
-      $("select").chosen();
+      $(".edit-content-embed select").chosen();
       new Clipboard('.btn');
       $('#btn-script').click(function(){
           swal({

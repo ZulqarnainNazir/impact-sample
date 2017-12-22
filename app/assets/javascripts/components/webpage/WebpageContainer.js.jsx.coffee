@@ -171,8 +171,13 @@ WebpageContainer = React.createClass
       block_uuid = Math.floor(Math.random() * Math.pow(10, 10))
       blocks =
         "#{block_uuid}": { uuid: block_uuid, type: block_type, position: 0 }
+
+    if group_type is 'CalendarGroup' || group_type is 'SupportLocalGroup'
+      message = null;
+    else
+      message = 'Success, block appended to page'
     changes =
-      "#{messageKey}": 'Success, block appended to page.'
+      "#{messageKey}": message
       groups:
         "#{group_uuid}":
           type: group_type
@@ -208,7 +213,9 @@ WebpageContainer = React.createClass
     sortHelpers.enableSortables(this)
     if _.isFunction(callback)
       callback()
-    setTimeout this.clearSuccessMessage.bind(null, messageKey), 1500
+
+    if (this.state[messageKey])
+      setTimeout this.clearSuccessMessage.bind(null, messageKey), 1500
 
   clearSuccessMessage: (messageKey) ->
     this.setState "#{messageKey}": null

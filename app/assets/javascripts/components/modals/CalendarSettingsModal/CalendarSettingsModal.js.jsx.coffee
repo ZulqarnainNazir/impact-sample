@@ -1,4 +1,14 @@
 CalendarSettingsModal = React.createClass
+
+  componentWillMount: ->
+
+    firstEmbed = this.props.calendarWidgets[0]
+
+    this.state = { value: firstEmbed && firstEmbed.id }
+
+  handleChange: (event) ->
+    this.setState({ value: event.target.value });
+
   renderOptions: ->
     if !this.props.calendarWidgets
       return
@@ -20,7 +30,7 @@ CalendarSettingsModal = React.createClass
             <div className="form-group">
               <label htmlFor="calendar_embed_id" className="control-label">Embed</label>
               <div>
-                <select id="calendar_embed_id" className="form-control" defaultValue="default">
+                <select id="calendar_embed_id" className="form-control" value={this.state.value} onChange={this.handleChange}>
                   {this.renderOptions()}
                 </select>
               </div>

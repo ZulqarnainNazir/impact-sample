@@ -2,7 +2,7 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Calendar Embed', :sp => :tools_calendar_widgets, :an => 'Edit Calendar Embed'}
 
-wrapper.wrapper-content
+wrapper.wrapper-content.edit-calendar-embed
 .row.animated.fadeInRight
   .col-md-6
     = form_for @calendar_widget, url: [@business, :tools, @calendar_widget] do |form|
@@ -138,7 +138,7 @@ wrapper.wrapper-content
     };
 
     $(function() {
-      $("select").chosen();
+      $(".edit-calendar-embed select").chosen();
       new Clipboard('.btn');
       $('#btn-script').click(function(){
           swal({
