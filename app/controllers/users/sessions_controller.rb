@@ -12,7 +12,13 @@ class Users::SessionsController < Devise::SessionsController
     user = User.where(email: user_params[:email]).first
 
     if user && user.encrypted_password?
-      super
+      # if the issue is the honey pot we don't want to let the user/bot know that it failed.
+      if !user_params[:honey].blank?
+        flash.now.alert = 'Successfully Logged In'
+        render :new
+      else
+        super
+      end
     else
       locable_user = LocableUser.find_by_email(user_params[:email])
 

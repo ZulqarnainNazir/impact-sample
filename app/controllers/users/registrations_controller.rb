@@ -34,6 +34,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if params[:confirm].present? && params[:confirm] == 'false'
       resource.skip_confirmation!
     end
+    # if the issue is the honey pot we don't want to let the user/bot know that it failed.
+    if !sign_up_params[:honey].blank?
+      redirect_to "/users/sign_up", :flash => { :notice => :signed_up }
+      return
+    end
     resource.save
     yield resource if block_given?
     if resource.persisted?
