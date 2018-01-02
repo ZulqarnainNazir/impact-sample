@@ -2,6 +2,10 @@ CalendarSettingsModal = React.createClass
 
   componentWillMount: ->
 
+    if !this.props.calendarWidgets
+      this.state = { value: null }
+      return;
+
     firstEmbed = this.props.calendarWidgets[0]
 
     this.state = { value: firstEmbed && firstEmbed.id }
