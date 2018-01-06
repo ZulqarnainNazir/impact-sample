@@ -9,10 +9,10 @@
         <div class="col-lg-4 wow zoomIn">
             <ul class="pricing-plan list-unstyled">
                 <li class="pricing-title">
-                    <%= @plans.first.name %> (Annual)
+                    Professional Assistance (Annual)
                 </li>
                 <li class="pricing-desc">
-                    Do-It-Yourself with the helping hand of a professional. We'll provide design implementation and strategy assistance plus a dedicated project manager to keep you on task during the setup phase.
+                    Do-It-Yourself with the helping hand of a professional. Includes design implementation; recommendations for site structure and calls-to-action; and assistance setting up your unique "Local Connections embeds" installed plus a dedicated project manager to keep you on task during the setup phase.
                 </li>
                 <li class="pricing-price">
                     <span>$375</span> one-time
@@ -21,16 +21,16 @@
                     Basic Design Implementation
                 </li>
                 <li>
-                	Up to 8 Implemented Pages
+                    Up to 8 Implemented Pages
+                </li>
+		<li>
+                    Local Connections Import & Setup
                 </li>
                 <li>
-                    Project Management
+                    Dedicated Project Manager
                 </li>
                 <li>
-                    Dedicated Onboarding Team
-                </li>
-                <li>
-                    <%= button_to 'Select', {action: 'upgrade_to_new_plan'}, :method => :get, params: {'subscription[subscription_plan_id]' => @plans.first.id, 'subscription[annual]' => 'true'}, initial_billing_setup: 'true', data: {disable_with: 'loading...' }, 
+                    <%= button_to 'Select', {action: 'upgrade_to_new_plan'}, :method => :get, params: {'subscription[subscription_plan_id]' => @plans.first.id}, initial_billing_setup: 'true', data: {disable_with: 'loading...' }, 
                         class: "btn btn-primary btn-xs", id: 'subscription-sign-up-1' %>
                 </li>
             </ul>
@@ -41,25 +41,28 @@
         <div class="col-lg-4 wow zoomIn">
             <ul class="pricing-plan list-unstyled selected">
                 <li class="pricing-title">
-                    <%= @plans.second.name %> (Annual)
+                    Professional Setup (Annual)
                 </li>
                 <li class="pricing-desc">
-                    For the business who who wants a little more help. A good fit for those rebuilding an existing website or from existing marketing materials, for those who want minimal involvement in the process.
+                    For the business who wants a little more help, adds light copy editing for your core pages and content migration from an existing website. A good fit for those rebuilding an existing website, building a presence from existing marketing materials and/or those who want less involvement in the process.
                 </li>
                 <li class="pricing-price">
                     <span>$1250</span> one-time
                 </li>
                 <li class="font-italic">
-                    Everything in Guided plus...
+                    Everything in Professional Assistance plus...
                 </li>
                 <li>
                     Expanded Design Implementation
                 </li>
                 <li>
-                    Up to 25 Implemented Pages*
+                    Up to 20 Implemented Pages*
                 </li>
                 <li>
-                    Content Migration & Suggestions
+                    Content Migration & Light Editing
+                </li>
+		<li>
+                    Optional Content Phone Interview
                 </li>
                 <li>
                     15 Customer Review Requests
@@ -69,7 +72,7 @@
                 </li>
         
                 <li>
-                    <%= button_to 'Select', {action: 'upgrade_to_new_plan'}, :method => :get, params: {'subscription[subscription_plan_id]' => @plans.second.id, 'subscription[annual]' => 'true'}, initial_billing_setup: 'true', data: {disable_with: 'loading...' }, 
+                    <%= button_to 'Select', {action: 'upgrade_to_new_plan'}, :method => :get, params: {'subscription[subscription_plan_id]' => @plans.first.id}, initial_billing_setup: 'true', data: {disable_with: 'loading...' }, 
                         class: "btn btn-primary btn-xs", id: 'subscription-sign-up-2' %>
                 </li>
                 <li>
@@ -82,16 +85,16 @@
         <div class="col-lg-4 wow zoomIn">
             <ul class="pricing-plan list-unstyled">
                 <li class="pricing-title">
-                    <%= @plans.third.name %> (Annual)
+                    Turnkey + (Annual)
                 </li>
                 <li class="pricing-desc">
-					Add a layer of market research and content creation to build a solid foundation for SEO (search engine optimization), for the business owner who’d prefer to pay to have it completed primarily without their involvement.
+		 Adds a layer of market research and content creation that builds a solid foundation for SEO (search engine optimization). For the business owner who’d prefer to pay to have it completed without their involvement.
                 </li>
                 <li class="pricing-price">
                     <span>$2,500</span> one-time
                 </li>
                 <li class="font-italic">
-                    Everything in Professional plus...
+                    Everything in Professional Setup plus...
                 </li>
                 <li>
                     10 Pages of Custom Content**
@@ -105,8 +108,11 @@
                 <li>
                     Basic Keyword Research & Coaching
                 </li>
+		<li>
+                    3 Initial Blog Posts and Shares
+                </li>
                 <li>
-                    <%= button_to 'Select', {action: 'upgrade_to_new_plan'}, :method => :get, params: {'subscription[subscription_plan_id]' => @plans.third.id, 'subscription[annual]' => 'true'}, initial_billing_setup: 'true', data: {disable_with: 'loading...' }, 
+                    <%= button_to 'Select', {action: 'upgrade_to_new_plan'}, :method => :get, params: {'subscription[subscription_plan_id]' => @plans.first.id}, initial_billing_setup: 'true', data: {disable_with: 'loading...' }, 
                         class: "btn btn-primary btn-xs", id: 'subscription-sign-up-3' %>
                 </li>
                 <li>
@@ -121,10 +127,10 @@
 <div class="row m-t-lg">
     <div class="col-lg-8 col-lg-offset-2 m-t-lg">
         <h3>By continuing you understand that:</h3>
-        <p>IMPACT’s web-builder enables designs that are highly configurable and mobile, search, and social media optimized; quick to change; and inline with modern design paradigms. IMPACT also includes a powerful content creation and distribution engine to make your marketing content faster to produce and more impactful. <span class="navy">Website hosting & performance monitoring, maintenance & security,</span> are completely handled by us so you never have to think about them again.</p>
-    	<p>The Website Setup Success Plan and first month’s fees will be payable on the next page at which point you’ll be matched to your project coordinator who will be your personal guide through the setup experience. Sites can be created quickly and efficiently when you provide the necessary graphics and content as well as ongoing feedback in a timely manner. It is expected that you will utilize the integrated project management tools and provide the necessary materials in bulk.
-        Accounts can be upgraded or downgraded by you at any time via when managing your account, changes will take effect the next billing cycle.</p>
-    	<p><b>Please note:</b> the creation of custom graphics, icons, logos, photography or other 'graphic design' services are not part of the Website Setup Success Plans. If you're in need of additional creative services, copywriting or photography not mentioned above please ask how we can help. Moreover, IMPACT is powerful in part because it’s meant to be run by or with the business owner’s involvement in ongoing marketing activities. As such, we provide support in implementing marketing strategies as well as making changes post-launch.
-        You will continue to own and manage your domain name (URL) and email service or if this is a new domain you will need to acquire one from a registrar such as GoDaddy.com or Register.com.</p>
+        <p>Locable’s website technology enables designs that are highly configurable and mobile, search, and social media optimized; quick to change; and inline with modern design paradigms. Locable also includes a powerful content creation and distribution engine to make your marketing content faster to produce and more impactful. <span class="navy">Website hosting & performance monitoring, maintenance & security,</span> are completely handled by us so you never have to think about them again.</p>
+    	<p>The Website Setup Success Plan and first month’s fees will be payable on the next page at which point you’ll be matched to your project manager who will be your personal guide through the setup experience. Sites can be created quickly and efficiently when you provide the necessary graphics and content as well as ongoing feedback in a timely manner. It is expected that you will utilize the integrated project management tools and provide the necessary materials in bulk.
+        Accounts can be upgraded or downgraded by you at any time when managing your account, changes will take effect the next billing cycle.</p>
+    	<p><b>Please note:</b> the creation of custom graphics, icons, logos, photography or other 'graphic design' services are not part of the Website Setup Success Plans. If you're in need of additional creative services, copywriting or photography not mentioned above please ask how we can help. Moreover, Locable is powerful in part because it’s meant to be run by or with the business owner’s involvement in ongoing marketing activities. As such, we provide support in implementing marketing strategies as well as making changes post-launch.
+        If you don't want to be involved in the process or have concerns please share them with your project manager to ensure youre on the right plan. You will continue to own and manage your domain name (URL) and email service or if this is a new domain you will need to acquire one from a registrar such as GoDaddy.com or Register.com.</p>
     </div>
 </div>
