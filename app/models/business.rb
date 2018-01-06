@@ -102,6 +102,31 @@ class Business < ActiveRecord::Base
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
   before_save :generate_slug, unless: :slug?
 
+  def create_and_enable_all_modules
+    count = [0, 1, 2, 3, 4, 5]
+    content_type = [:post, :before_after, :event, :quick_post, :job, :offer, :gallery]
+    count.each do |kind|
+      @module = AccountModule.new(kind: kind, active: true)
+      @module.business = self
+      if kind == 1
+        content_type.each do |content_type|
+          @module.send("#{content_type}=", true)
+        end
+      end
+      @module.save
+    end
+  end
+
+  def create_and_enable_content_engine
+    content_type = [:post, :before_after, :event, :quick_post, :job, :offer, :gallery]
+    @module = AccountModule.new(kind: 1, active: true)
+    @module.business = biz
+    content_type.each do |content_type|
+      @module.send("#{content_type}=", true)
+    end
+    @module.save
+  end
+
   def enabled_content_types
     enabled_types = []
     if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
