@@ -8,7 +8,7 @@ class MissionNotificationMailer < ApplicationMailer
     @mission_instance = args[:mission_instance]
     @business = args[:business]
 
-    mail to: @user.email, subject: 'Your Marketing Mission is due'
+    mail to: @user.email, from: "Buzz at Locable <#{Rails.application.secrets.buzz_email}>", subject: 'Your Marketing Mission is due'
   end
 
   def missions_due_today(args)
@@ -16,7 +16,7 @@ class MissionNotificationMailer < ApplicationMailer
     @mission_instances = args[:mission_instances]
     @business = args[:business]
 
-    mail to: @user.email, subject: 'You have missions due today'
+    mail to: @user.email, from: "Buzz at Locable <#{Rails.application.secrets.buzz_email}>", subject: 'You have missions due today'
   end
 
   def missions_due_this_week(args)
@@ -25,7 +25,7 @@ class MissionNotificationMailer < ApplicationMailer
     @prompts = args[:prompts]
     @business = args[:business]
 
-    mail to: @user.email, subject: 'You have missions due this week'
+    mail to: @user.email, from: "Buzz at Locable <#{Rails.application.secrets.buzz_email}>", subject: 'You have missions due this week'
   end
 
   def summary_email(args)
@@ -35,7 +35,7 @@ class MissionNotificationMailer < ApplicationMailer
     @completed = args[:completed]
     @prompts = args[:prompts]
 
-    mail to: @user.email, subject: 'Marketing Mission Summary'
+    mail to: @user.email, from: "Buzz at Locable <#{Rails.application.secrets.buzz_email}>", subject: 'Marketing Mission Summary'
   end
 
   def suggestions_email(args)
@@ -43,7 +43,7 @@ class MissionNotificationMailer < ApplicationMailer
     @business = args[:business]
     @prompts = args[:prompts]
 
-    mail to: @user.email, subject: 'Marketing Suggestions'
+    mail to: @user.email, from: "Buzz at Locable <#{Rails.application.secrets.buzz_email}>", subject: 'Marketing Suggestions'
   end
 
   def new_comment(args)
@@ -52,6 +52,6 @@ class MissionNotificationMailer < ApplicationMailer
     @mission_instance = args[:mission_instance]
     @comment = args[:comment]
 
-    mail to: @user.email, subject: 'New comment on mission'
+    mail to: @user.email, from: "Buzz at Locable <#{Rails.application.secrets.buzz_email}>", subject: 'New comment on mission'
   end
 end

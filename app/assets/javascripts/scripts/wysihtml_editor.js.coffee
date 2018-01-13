@@ -6,7 +6,7 @@ $.fn.wysihtmlEditor = ->
   editor.summernote
     height: 100
     toolbar: [
-      ['cleaner',['cleaner']],
+      ['cleaner', ['cleaner']],
       ['display', ['style']],
       ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
       ['insert', ['link']],

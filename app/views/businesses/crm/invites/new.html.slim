@@ -1,9 +1,9 @@
 - title 'Invite'
-- basic_subject = "Subject: #{@invite.invitee.try(:first_name) || '[Their Name Here]'}, #{@business.name} wants you to join them in supporting local!"
-- member_subject = "Subject: #{@invite.invitee.try(:first_name) || '[Their Name Here]'}, your free account for #{@invite.company.try(:name)} on #{@business.website_url} is ready for you!"
-- member_subject_2 = "Subject: Confirm #{@invite.company.try(:name) || "your"} membership with #{@business.name}"
+- basic_subject = "Subject: Recommended by #{@business.name} in #{@business.location.city_and_state}"
+- member_subject = "Subject: [Their name], equip us to promote [their company]!"
+- member_subject_2 = "Subject: Free marketing for [their company] in and around [your city, state]"
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => 'Invite'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :an => 'Invite'}
 = form_for @invite, url: [@business, :crm_invites], html: { class: 'new-invite-form form form-inline' } do |form|
   .row
     .col-lg-12
@@ -12,7 +12,7 @@
           .col-sm-10.col-sm-offset-1
             .ibox.float-e-margins
               .ibox-title
-                h1.h4 Invite business owners you know, respect, and endorse to enroll their business and begin collaborating & cross promoting. It's free for them to participate.
+                h2 Tap into the power of your Local Connections, invite businesses and nonprofits. It's completely free.
               .ibox-content
                 = errors_for @invite
                 input id="business-name" type="hidden" value="#{@business.name}"
@@ -31,7 +31,7 @@
                   - invitee = @invite.invitee
                   .small.hideable.text-center.m-t-10px - or -
                   .invitee-info
-                    h1.h4.center-text Enter their information
+                    h4.text-center.m-b-md Add their information manually if they're not in your contacts above
                     .hideable
                       .row
                         .form-group.col-sm-6
@@ -52,37 +52,40 @@
                       span.bar
                       span.highlight
                       label.control-label Their Email (required)
-                .group
-                  = form.select :company_id, {}, { :include_blank => true }, { :class => 'form-control', style: "width: 100%;" } do
-                    / - raise StandardError, @business.owned_companies.sort_by(&:name)
-                    - unless @business.owned_companies.empty?
-                      - @business.owned_companies.sort_by(&:name).each do |comp|
-                        = content_tag(:option, "#{comp.name} - #{comp.location.full_address}", value: comp.id, selected: comp.id == @invite.company_id)
-                  span.bar
-                  span.highlight
-                  label.control-label Select their company
-                = form.fields_for :company do |company|
-                  .small.text-center.m-t-10px - or -
-                  / .form-group
-                  /   .group.m-t-30px
-                  /     = company.text_field :name, class: 'form-control', required: true
-                  /     span.bar
-                  /     span.highlight
-                  /     label.control-label Company Name
-                  .form-group
-                    / div style="margin: auto"
-                    = form.label :skip_company, class: 'checkbox-inline i-checks' do
-                      = form.check_box :skip_company
-                      i
-                      |  Skip Company
-                  
+                .company-info.p-h-xl
+                  h4.text-center Include their company or organization
+                  .group
+                    = form.select :company_id, {}, { :include_blank => true }, { :class => 'form-control', style: "width: 100%;" } do
+                      / - raise StandardError, @business.owned_companies.sort_by(&:name)
+                      - unless @business.owned_companies.empty?
+                        - @business.owned_companies.sort_by(&:name).each do |comp|
+                          = content_tag(:option, "#{comp.name} - #{comp.location.full_address}", value: comp.id, selected: comp.id == @invite.company_id)
+                    span.bar
+                    span.highlight
+                    label.control-label Select their company
+                  = form.fields_for :company do |company|
+                    .small.text-center.m-t-10px - or -
+                    / .form-group
+                    /   .group.m-t-30px
+                    /     = company.text_field :name, class: 'form-control', required: true
+                    /     span.bar
+                    /     span.highlight
+                    /     label.control-label Company Name
+                    .form-group
+                      / div style="margin: auto"
+                      = form.label :skip_company, class: 'checkbox-inline i-checks' do
+                        = form.check_box :skip_company
+                        i
+                        |  Skip Company
+                hr  
                 - if @business.membership_org
                   .m-t.text-center.js-membership-toggle
+                    h4 Which invite would you like to send?
                     / .i-checks
                     = form.label :type_of_membership_1, class: 'checkbox-inline i-checks' do
                       = form.radio_button :type_of, :membership_1
                       i
-                      |  Invite as Member
+                      |  Invite as Member Option #1
                     = form.label :type_of_membership_2, class: 'checkbox-inline i-checks' do
                       = form.radio_button :type_of, :membership_2
                       i
@@ -91,7 +94,6 @@
                       = form.radio_button :type_of, :basic
                       i
                       |  Non-Member Invite
-                hr
                 .group
                   = form.text_area :message, class: 'form-control', style: "width: 100%; margin-bottom: 10px", required: true
                   span.bar
@@ -106,7 +108,7 @@
                     h2 Invite Preview
                   .mail-box-header
                     .mail-tools
-                      span.font-normal.email-subject = @invite.invite_as_member ? member_subject : basic_subject
+                      span.font-normal.email-subject = @invite.invite_as_member ? member_subject : member_subject
                   .mail-box
                     - if @invite.type_of == 'membership_1'
                       = render partial: 'membership_invite'

@@ -1,35 +1,13 @@
 <%= @personal_message %>
 
-<%= @business.name %> in <%= @business.location.city_and_state %> is using Locable's Marketing Platform to simplify their local marketing and thought you'd want to checkout us out. The link below leads to your forever-free account.
+<%= @business.name %> in <%= @business.location.city_and_state %> wanted to share with you that they're using Locable's Marketing Platform to simplify local marketing and tap into the power of their Local Connections - hey, maybe that's you? 
+  
+Take advantage of our easy-to-use tools for your business or organization.
 
-<%= link_to "CLAIM FREE ACCOUNT", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
+<%= link_to "CLAIM YOUR FREE ACCOUNT", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
 
-Do you care about your community?
+At a minimum, claiming your account ensures information about your business or organization is accurate when people want to promote you.
 
-SupportLocal Network™ features enable you to create an online referral network from your real-world relationships. Plus, you can highlight your community involvement including the local causes and charities you support which is good for everyone. 
+Learn more about Locable and our mission at www.locable.com
 
-Participating is fast, easy & free. 
-
-Join Now to drive more referrals and word-of-mouth, plus use the included local marketing tools to promote your business online.
-
-<%= link_to "ACCEPT THEIR INVITATION", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
-
-<%= @business.name %> is using free marketing tools in Locable’s Marketing Platform to promote their business as well as those businesses and organizations/local causes they support and endorse.
-
-The Forever Free Plan makes it so EVERY local business can participate!
-
-It’s simple:
-
-  1. Accept the invitation and add your business information (name, address, phone number, description, hours of operation, etc.)
-
-  2. Install the SupportLocal Embed Tool™ on your site and choose who you want to support – This can be other businesses or organizations, nonprofits, sports teams, groups or clubs. Anyone really.
-
-  3. Our Virtual Marketing Assistant (Nicknamed “Buzz”) will periodically make recommendations and remind you to do things you need to grow your business including sharing photos, events, special offers, and announcements for those in your network as well as collecting & promoting customer reviews – never be left wondering what to do again!
-
-  4. Your content gets automatically featured on sites within your network. The more people you have in your network, the more people you reach. Collaboration = more impressions = more followers = more customers = more $$$ = more moon pies (Buzz’s favorite food). Getting it set up will only take a few minutes (we’ll even do it for you if you want – just reply to this email).
-
-<%= link_to "JOIN #{@business.name} TODAY", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
-
-Note: This invite expires in 24 hours. If you don’t accept our invite, that would make Buzz very sad indeed. Please don’t make Buzz sad.
-
-TOGETHER WE WORK SMARTER, BETTER, FASTER, STRONGER
+If the button above is not clickable, please copy and paste this link into your browser - https://impact.locable.com/users/sign_up/

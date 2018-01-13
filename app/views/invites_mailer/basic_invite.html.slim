@@ -6,54 +6,22 @@ tbody
       = @business.name
       |  in  
       = @business.location.city_and_state 
-      |  is using Locable's Marketing Platform to simplify their local marketing and thought you'd want to checkout us out. The link below leads to your forever-free account.
+      |  wanted to share with you that they're using Locable to <strong>simplify local marketing</strong> and <strong>tap into the power of their Local Connections</strong> - <em>hey, maybe that's you?</em>
+  tr
+    td.content-block Take advantage of our <strong>easy-to-use tools</strong> for your business or organization.
+
 
   tr
     td.content-block.aligncenter
-      = link_to "CLAIM FREE ACCOUNT", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
+      = link_to "CLAIM YOUR FREE ACCOUNT", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
  
   tr
-    td.content-block.h3 Do you care about your community?
+    td.content-block At a minimum, claiming your account ensures information about your business or organization is accurate when people want to promote you.
+
   tr
-    td.content-block
-      | SupportLocal Network™ features enable you to create an online referral network from your real-world relationships. Plus, you can highlight your community involvement including the local causes and charities you support which is good for everyone. 
+    td.content-block Learn more about Locable and our mission at <a href="https://www.locable.com">www.locable.com</a>
+  
   tr
-    td.content-block    
-      | Participating is fast, easy & free. 
- 
-  tr
-    td Join now to drive more referrals and word-of-mouth, plus use the included free local marketing tools to promote your business online.
-  br
-  tr
-    td.content-block.aligncenter
-      = link_to "ACCEPT THEIR INVITATION", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
-  tr
-    td.content-block
-      = @business.name 
-      |  is using the free marketing tools in Locable’s Marketing Platform to promote their business as well as those businesses, organizations, and local causes they support and endorse.
-  tr
-    td.content-block
-      | The Forever Free Plan makes it so EVERY local business can participate!
-  tr
-    td.content-block
-      | It's Simple:
-  tr
-    td.content-block
-      div style="padding-left: 20px;"
-        ol
-          li.content-block Accept their invitation and add your business information (name, address, phone number, description, hours of operation, etc.)
-          li.content-block Recommended: Install the SupportLocal Embed Tool™ on your site and choose who you want to support – This can be other businesses or organizations, nonprofits, sports teams, groups or clubs. Anyone really.
-          li.content-block Our Virtual Marketing Assistant (Nicknamed “Buzz”) will periodically make recommendations and remind you to do things you need to grow your business including sharing photos, events, special offers, and announcements for those in your network as well as collecting & promoting customer reviews – never be left wondering what to do again!
-          li Your content gets automatically featured on local sites within your network. The more people you have in your network, the more people you reach. Collaboration = more impressions = more followers = more customers = more $$$ = more moon pies (Buzz’s favorite food). 
-  tr
-    td Getting started only takes a few minutes (we’ll even do it for you if you want – just reply to this email).
-  br
-  tr
-    td.content-block.aligncenter
-      = link_to "JOIN #{@business.name} TODAY", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
-  tr
-    td.content-block
-      | Note: This invite expires in 24 hours. If you don’t accept our invite, that would make Buzz very sad indeed. Please don’t make Buzz sad.
-  tr
-    td.content-block
-      | TOGETHER WE WORK SMARTER, BETTER, FASTER, STRONGER
+    td.contentblock If the button above is not clickable, please copy and paste this link into your browser - https://impact.locable.com/users/sign_up/
+
+    

@@ -10,7 +10,7 @@ HeroSettingsModal = React.createClass
         <div className="modal-content">
           <div className="modal-header">
             <span className="close" data-dismiss="modal">&times;</span>
-            <p className="h4 modal-title">Change Hero Layout and Settings</p>
+            <p className="h4 modal-title">Change Slide Layout and Settings</p>
           </div>
           <div className="modal-body">
             <div className="form-group">

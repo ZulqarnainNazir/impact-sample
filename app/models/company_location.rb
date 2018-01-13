@@ -8,6 +8,10 @@ class CompanyLocation < ActiveRecord::Base
   geocoded_by :full_address
 
 
+  def city_and_state
+    [[city, state].reject(&:blank?).join(', ')].reject(&:blank?).join(' ')
+  end
+
   def address_line_one
     [street1, street2].reject(&:blank?).join(', ')
   end

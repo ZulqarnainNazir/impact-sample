@@ -8,6 +8,6 @@ class ToDoNotificationMailer < ApplicationMailer
 
     @business = args[:business]
 
-    mail to: @user.email, subject: truncate(@message, length: 100, escape: false)
+    mail to: @user.email, from: "Buzz at Locable <#{Rails.application.secrets.buzz_email}>", subject: truncate(@message, length: 100, escape: false)
   end
 end
