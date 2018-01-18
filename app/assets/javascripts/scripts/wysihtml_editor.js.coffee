@@ -25,9 +25,12 @@ $.fn.wysihtmlEditor = ->
       $('.note-toolbar').fadeIn(500)
       $('.note-editable').height(200)
     cleaner: {
-          notTime:2400,
           action:'both',
-          newline:'<br>',
-          notStyle:'position:absolute;bottom:0;left:2px',
-          icon:'<i class="note-icon">[Your Button]</i>'
+          keepHtml: true,
+          keepOnlyTags: ['<p>', '<br>', '<ul>', '<li>', '<b>', '<strong>','<i>', '<a>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>'],
+          keepClasses: false,
+          badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'html'],
+          badAttributes: ['style', 'start', 'table', 'tbody', 'tr', 'td'],
+          notStyle:'position:absolute;bottom:0;left:2px;',
+          icon:'<i class="note-icon">CL</i>'
         }

@@ -1,3 +1,13 @@
 const LoremFull = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 const LoremTitle = 'Lorem Ipsum';
-const LoremHeading = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+const LoremHeading = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
+const HeroTitle = 'A welcoming values statement';
+const HeroHeading = 'A supporting comment or rhetorical question about being ready or prepared to benefit from the value';
+const SimpleHeading = 'Post a call-to-action with button, a standalone statement, value proposition, idea or quote.';
+const ColumnTitle = 'Product, Service or Benefit Title';
+const ColumnHeading = 'Include a brief description, often you will add a button to link out for more info';
+const ContentHeading = 'Optional header for this section';
+const ContentFull = 'This is where you post meatier, longer written content. Provide information that will help people better understand the details of what you do and the benefits to them. You can adjust the layout or even use no text with just an image or video. Add links as you see fit.';
+const AboutFull = 'Tell us about you. Share some of your background, what makes you tick as a company. If you have a favorite compliment you have received you can share it. Highlight your values and any community involvement. Do not be afraid to get personal.';
+const AboutTitle = 'Company Name - You may include a short values statement';
+const AboutHeading = 'Optionally add a more detailed tagline or mission statement';

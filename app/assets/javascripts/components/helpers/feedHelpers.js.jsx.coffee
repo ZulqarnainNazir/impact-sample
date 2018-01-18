@@ -2,7 +2,7 @@ feedHelpers = {
   editFeedSettings: (groupId, block) ->
     $('#feed_settings_group_uuid').val groupId
     $('#feed_settings_block_uuid').val block.uuid
-    $('#feed_settings_items_limit').val if parseInt(block.items_limit) > 0 then parseInt(block.items_limit) else 4
+    $('#feed_settings_items_limit').val if parseInt(block.items_limit) > 0 then parseInt(block.items_limit) else 3
     $('.feed_settings_content_type').prop 'checked', false
     $('#feed_settings_content_type_quick_post').prop 'checked', (block.content_types || '').indexOf('QuickPost') >= 0
     $('#feed_settings_content_type_event').prop 'checked', (block.content_types || '').indexOf('Event') >= 0
