@@ -36,6 +36,6 @@ module Impact
     # React
     config.react.addons = true
     # Dashboard CSS
-    config.assets.precompile += %w( dash.css widgets.scss )
+    config.assets.precompile += %w( dash.css widgets.scss widget.css )
   end
 end

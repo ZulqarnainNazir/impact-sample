@@ -26,6 +26,7 @@
   - :title: "Explore navigation and page options"
     :description: "Not every page on your site needs to be in your navigation menu or footer and you may find using a dropdown in your navbar is helpful. <a href='/businesses/<%= @business.id %>/website/menus/edit' target='_blank'>Configure your navigation</a> and explore <a href='http://help.locable.com/website-builder/menu-and-navigation/managing-the-sites-navigation-header-footer-menus' target='_blank'>Managing Your Navigation</a> in our knowledge base.
     :group: "preparing_to_launch"
+    
   - :title: "Set Page Meta Data"
     :description: "Once you have your pages set you can add meta data like a Description and Image for social sharing and search engines. This is set on each page, you can learn more in our <a href='http://help.locable.com/website-builder/pages/understanding-the-toggle-advanced-settings-options' target='_blank'>knowledge base</a>"
     :group: "preparing_to_launch"

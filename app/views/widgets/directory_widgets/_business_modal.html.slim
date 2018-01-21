@@ -149,20 +149,19 @@
           - galleries = Kaminari.paginate_array(business.galleries.sort_by(&:published_at).reverse).page(params[:gallery_page]).per(8)
           = render partial: 'website/galleries/gallery', collection: galleries, locals: { business: business }
           = paginate galleries, param_name: :gallery_page
-
-  javascript:
-    var ready = function() {
+javascript:
+  var ready = function() {
+    $(".full-description-#{business.id}").hide();
+    $('.js-view-less').click(function(e) {
+      e.preventDefault();
       $(".full-description-#{business.id}").hide();
-      $('.js-view-less').click(function(e) {
-        e.preventDefault();
-        $(".full-description-#{business.id}").hide();
-        $(".short-description-#{business.id}").show();
-      });
-      $('.js-read-more').click(function(e) {
-        e.preventDefault();
-        $(".full-description-#{business.id}").show();
-        $(".short-description-#{business.id}").hide();
-      });
-    }
-    $(document).on('page:load', ready)
-    $(document).on('ready', ready)
+      $(".short-description-#{business.id}").show();
+    });
+    $('.js-read-more').click(function(e) {
+      e.preventDefault();
+      $(".full-description-#{business.id}").show();
+      $(".short-description-#{business.id}").hide();
+    });
+  }
+  $(document).on('page:load', ready)
+  $(document).on('ready', ready)

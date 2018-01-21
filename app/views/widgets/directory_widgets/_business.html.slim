@@ -11,9 +11,9 @@
             p.m-b-none = business.location.street1
             p.m-b-none = business.location.street2
             p.m-b-none = business.location.city && business.location.state ? "#{business.location.city}, #{business.location.state} #{business.location.zip_code}" : ""
-            - if !business.location.phone_number.blank?
-              abbr title="Phone"
-              = " #{business.location.phone_number}"
+        - if !business.location.phone_number.blank?
+          abbr title="Phone"
+          = " #{business.location.phone_number}"
 
       - if !business.reviews.blank?
         p.text-center
@@ -80,4 +80,11 @@
           }
           element.css("transform", "translateY("+target+"px)");
         }, 3000);
+
+        var link = $("#business-#{business.id} a[data-toggle='modal']"),
+            url = link.data('url');
+
+        link.click(function(params) {
+          window.initDirectoryModalHandler("#{business.id}",url);
+        });
       });

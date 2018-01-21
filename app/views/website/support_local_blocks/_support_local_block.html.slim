@@ -25,7 +25,7 @@
             = form_tag nil, :method => "get", :class => "form-inline"
               .form-group
                 label.sr-only for="query" Search Query
-                = text_field_tag :query, params[:query], :placeholder => "Search Query", class: "form-control"
+                = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
               .form-group.m-l-5px
                 label.sr-only for="category" Category
                 / .col-md-12
@@ -40,7 +40,7 @@
           - @businesses.sort_by { |c| c.name }.each do |company|
             = render partial: "website/support_local_blocks/business", locals: { business: company.business, columns: false, directory: @directory }
             - i += 1
-            - if (i%3 == 0)
+            - if (i%4 == 0)
               .clearfix
         - else
           - @categories_search.each do |category|
@@ -52,20 +52,30 @@
                 - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |company|
                   = render partial: "website/support_local_blocks/business", locals: { business: company.business, columns: false, directory: @directory }
                   - i += 1
-                  - if (i%3 == 0)
+                  - if (i%4 == 0)
                     .clearfix
               - else
                 - category.companies.sort_by { |c| c.name }.each do |company|
                   = render partial: "website/support_local_blocks/business", locals: { business: company.business, columns: false, directory: @directory }
                   - i += 1
-                  - if (i%3 == 0)
+                  - if (i%4 == 0)
                     .clearfix
 
     javascript:
       $(document).ready(function() {
-        var slug = window.location.hash.match(/\#(.*)/)[1]
-        var modal = $('.business-modal[data-slug="' + slug + '"]')
-            modal.modal('show');;
+        if (window.location.hash.match(/\#(.*)/)) {
+          var slug = window.location.hash.match(/\#(.*)/)[1];
+          var modal = $('.business-modal[data-slug="' + slug + '"]');
+            modal.modal('show');
+
+          var url = modal.parent().find("a[data-toggle='modal']").data('url');
+
+          $(".modal-body").html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+
+          $.get(url, function(response) {
+            $(".modal-body").html(response)
+          });
+        }
       });
 
       $('.business-card').click(function(event) {

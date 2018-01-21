@@ -8,7 +8,7 @@
       = form_tag nil, :method => "get", :class => "form-inline"
         .form-group
           label.sr-only for="query" Search Query
-          = text_field_tag :query, params[:query], :placeholder => "Search Query", class: "form-control"
+          = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
         .form-group.m-l-5px
           label.sr-only for="category" Category
           / .col-md-12
@@ -23,7 +23,7 @@
     - @businesses.sort_by { |c| c.name }.each do |company|
       = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
       - i += 1
-      - if (i%3 == 0)
+      - if (i%4 == 0)
         .clearfix
 - else
   - @categories_search.each do |category|
@@ -35,13 +35,13 @@
         - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |company|
           = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
           - i += 1
-          - if (i%3 == 0)
+          - if (i%4 == 0)
             .clearfix
       - else
         - category.companies.sort_by { |c| c.name }.each do |company|
           = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
           - i += 1
-          - if (i%3 == 0)
+          - if (i%4 == 0)
             .clearfix
     
 - if @business_id

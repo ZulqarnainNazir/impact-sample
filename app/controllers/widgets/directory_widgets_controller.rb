@@ -18,12 +18,15 @@ class Widgets::DirectoryWidgetsController < Widgets::BaseController
       @widget.layout = params[:widget_layout]
     end
   end
+
   def show
+    # For asychronously loading widget content via ajax
+    headers['Access-Control-Allow-Origin'] = '*'
+
     @directory = DirectoryWidget.where(:uuid => params[:uuid]).first
     if @directory.blank?
       return false
     end
     @business = @directory.business.owned_companies.find_by(company_business_id: params[:business_id]).business
-
   end
 end

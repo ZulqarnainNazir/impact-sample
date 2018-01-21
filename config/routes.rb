@@ -122,7 +122,7 @@ Rails.application.routes.draw do
     namespace :widgets do
       get '/review_widgets/:uuid', to: 'review_widgets#index'
       get '/directory_widgets/:uuid', to: 'directory_widgets#index'
-      get '/directory_widgets/:uuid/:business_id', to: 'directory_widgets#show'
+      get '/directory_widgets/:uuid/:business_id', to: 'directory_widgets#show', as: :directory_widget
       get '/content_feed_widgets/:uuid', to: 'content_feed_widgets#index'
       get '/content_feed_widgets/:uuid/:content_id', to: 'content_feed_widgets#show'
       get '/calendar_widgets/:uuid', to: 'calendar_widgets#index'
