@@ -175,8 +175,8 @@
 
       .row
         - if events.present? && !events.empty?
-          - events.each do |events|
-            = render :partial => "website/events/event_#{container_view}_item", object: events, as: :event
+          - events.each_with_index do |event, index|
+            = render :partial => "website/events/event_#{container_view}_item", object: event, as: :event, locals: {prev: index <= 0 ? nil : events[index-1]}
         - else
           div.col-xs-12.col-sm-8.col-sm-push-2
             h2 Nothing matched your search or there is no content here yet...

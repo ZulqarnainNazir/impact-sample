@@ -37,6 +37,10 @@
             margin-bottom: 20px;
         }
     }
+    
+    .event-details {
+        margin-top: 20px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -297,6 +301,23 @@
     }
 }
 
+.month-header {
+    position: relative;
+    top: -0.8em;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    height: 0;
+    overflow: visible;
+    z-index: 10;
+
+    .month-header-inner {
+        background: white;
+        padding: 0 1em;
+    }
+}
+
 .event-block.list-item {
 
     border-color: #ddd;
@@ -305,6 +326,9 @@
     overflow: hidden;
     padding: 20px;
     transition: 0.5s background-color;
+    position: relative;
+    top: 0;
+    left: 0;
 
     &:hover {
         background: #f6f6f6;
