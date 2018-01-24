@@ -51,15 +51,17 @@
                 .block
                   i.fa.fa-map-marker
                   = location.city_and_state
-            .block
-              i.fa.fa-calendar
-              = @event.occurs_on.strftime('%b %d, %Y')
-            .block
-              i.fa.fa-clock-o
-              = @event.event_definition.start_time.strftime('%I:%M %p')
-              - if @event.event_definition.end_time.present?
-                | &nbsp;to  
-                = @event.event_definition.end_time.strftime('%I:%M %p')
+            - if @event.occurs_on.present?
+              .block
+                i.fa.fa-calendar
+                = @event.occurs_on.strftime('%b %d, %Y')
+            - if @event.event_definition.start_time.present?
+              .block
+                i.fa.fa-clock-o
+                = @event.event_definition.start_time.strftime('%I:%M %p')
+                - if @event.event_definition.end_time.present?
+                  | &nbsp;to  
+                  = @event.event_definition.end_time.strftime('%I:%M %p')
             - if @event.event_definition.price?
               .block 
                 i.fa.fa-money
