@@ -68,12 +68,12 @@
           = navbar_interior
 
   - if header_block.social_enabled == 'show' && header_block.contact_position == 'none' && header_block.logo_vertical_position != 'above'
-    .container
+    .container.vcard-social
       .vcard.navbar-vcard.pull-right.text-right
         ul.list-inline.header-social
           = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
   - if header_block.logo_vertical_position == 'above' || (@location && %w[left right full].include?(header_block.contact_position))
-    .container
+    .container.vcard-social
       - if header_block.social_enabled == 'show' && header_block.contact_position == 'none' && header_block.logo_vertical_position == 'above'
         .vcard.navbar-vcard.pull-right.text-right
           ul.list-inline.header-social
@@ -85,28 +85,28 @@
               ul.list-inline.header-social
                 = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
             - if !@location.hide_address?
-              li: p.navbar-text
+              li: p.navbar-text.vcard-address
                 i.fa.fa-map-marker>
                 span.adr
                   span.street-address => @location.address_line_one
                   span.locality = @location.address_line_two
             - if @location.phone_number? && !@location.hide_phone?
-              li: p.navbar-text
+              li: p.navbar-text.vcard-phone
                 i.fa.fa-phone>
                 span.tel = link_to number_to_phone(@location.phone_number), "tel:#{@location.phone_number.gsub(/[^0-9]/, '')}"
             - if @location.email? && !@location.hide_email?
-              li: p.navbar-text
+              li: p.navbar-text.vcard-email
                 = link_to "mailto:#{@location.email}" do
                   i.fa.fa-envelope>
                   span.email = @location.email
       - elsif header_block.contact_position == 'left' || header_block.contact_position == 'right'
         - if header_block.social_enabled == 'show' && header_block.contact_position == 'left'
-          .vcard.navbar-vcard.pull-right.text-right
+          .vcard.navbar-vcard.pull-right.text-right.vcard-social
             ul.list-inline.header-social
               = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
         .vcard.navbar-vcard class=(header_block.contact_position == 'left' ? 'pull-left text-left' : 'pull-right text-right')
           - if header_block.social_enabled == 'show' && header_block.contact_position == 'right'
-            ul.list-inline.header-social
+            ul.list-inline.header-social.vcard-social
               = render partial: 'website/nav_links/social', locals: {business: business, location: @location}
           - if @location.phone_number? && !@location.hide_phone?
             p.h4.tel = link_to number_to_phone(@location.phone_number), "tel:#{@location.phone_number.gsub(/[^0-9]/, '')}"

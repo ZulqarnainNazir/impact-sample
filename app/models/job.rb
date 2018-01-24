@@ -46,6 +46,16 @@ class Job < ActiveRecord::Base
     }
   end
 
+  def to_generic_param_two
+    [
+      occurs_on.strftime('%Y').to_s,
+      occurs_on.strftime('%m').to_s,
+      occurs_on.strftime('%d').to_s,
+      "#{id}",
+      slug.to_s
+    ]
+  end
+
   def share_callback_url
     if self.business.webhost_primary? && !self.business.is_on_engage_plan?
       url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
