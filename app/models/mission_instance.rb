@@ -193,9 +193,18 @@ class MissionInstance < ActiveRecord::Base
     scheduled? ? schedule.to_s : 'One time'
   end
 
-  def self.dashboard_prompts(business, return_count = 3)
-    one_time_missions = one_time_missions_for_today(business)
-    recurring_missions = recurring_missions_for_today(business)
+  def self.dashboard_prompts(business, return_count = 3, created_or_active = false)
+    one_time_missions = if created_or_active
+      one_time_missions_for_today(business).created_or_active
+    else
+      one_time_missions_for_today(business)
+    end
+
+    recurring_missions = if created_or_active
+      recurring_missions_for_today(business, [0, 1])
+    else
+      recurring_missions_for_today(business)
+    end
 
     missions_for_today = one_time_missions.concat(recurring_missions).uniq(&:id)
     return missions_for_today.first(return_count) if missions_for_today.size > return_count
@@ -254,11 +263,11 @@ class MissionInstance < ActiveRecord::Base
                    .one_time
   end
 
-  def self.recurring_missions_for_today(business)
+  def self.recurring_missions_for_today(business, statuses = nil)
     MissionInstanceEvent.joins(mission_instance: :mission)
                         .where(business: business)
                         .for_today
-                        .where(mission_instances: { last_status: ACTIVE_STATUS_INDEXES })
+                        .where(mission_instances: { last_status: (statuses || ACTIVE_STATUS_INDEXES) })
                         .map(&:mission_instance)
   end
 

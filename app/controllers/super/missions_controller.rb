@@ -21,6 +21,7 @@ class Super::MissionsController < SuperController
   end
 
   def create
+    @categories = Category.alphabetical
     @mission = Mission.new(mission_params)
 
     if @mission.save
@@ -36,6 +37,7 @@ class Super::MissionsController < SuperController
   end
 
   def update
+    @categories = Category.alphabetical
     @mission = Mission.find(params[:id])
 
     if @mission.update(mission_params)

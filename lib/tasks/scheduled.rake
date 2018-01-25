@@ -41,6 +41,7 @@ namespace :scheduled do
 
     overdue_to_dos = ToDo.includes(:to_do_notification_settings).active.overdue
     overdue_to_dos.each do |to_do|
+      next unless to_do.business.to_dos_enabled
       business_users = to_do.business.users.where.not(id: admin_ids)
 
       to_do.notify_authorized_business_users(
@@ -52,6 +53,7 @@ namespace :scheduled do
 
     due_to_dos = ToDo.includes(:to_do_notification_settings).active.due_now
     due_to_dos.each do |to_do|
+      next unless to_do.business.to_dos_enabled
       business_users = to_do.business.users.where.not(id: admin_ids)
 
       to_do.notify_authorized_business_users(
@@ -69,6 +71,7 @@ namespace :scheduled do
     # Notify about due scheduled mission instances
     scheduled_missions = MissionInstance.includes(business: :users)
                                         .scheduled
+                                        .created_or_active
                                         .joins(:mission_instance_events)
                                         .where(mission_instance_events: { occurs_on: Date.today })
     scheduled_missions.each do |sm|
@@ -87,6 +90,7 @@ namespace :scheduled do
     # Notify about due one time mission instances
 
     one_time_missions = MissionInstance.includes(business: :users)
+                                       .created_or_active
                                        .one_time
                                        .where(start_date: Date.today)
     one_time_missions.each do |otm|
@@ -108,7 +112,7 @@ namespace :scheduled do
     admin_ids = User.where(super_user: true).pluck(:id)
 
     Business.all.each do |business|
-      missions = MissionInstance.missions_due_today(business)
+      missions = MissionInstance.missions_due_today(business).created_or_active
 
       next unless missions.any?
 
@@ -120,6 +124,7 @@ namespace :scheduled do
         if user.mission_notification_setting&.mine_daily?
           # In this case we have to do special logic to pull only assigned
           my_missions = MissionInstance.missions_due_today(business)
+                                       .created_or_active
                                        .where(assigned_user: user)
 
           next unless my_missions.any? { |mi| mi.mission.present? }
@@ -148,8 +153,8 @@ namespace :scheduled do
       admin_ids = User.where(super_user: true).pluck(:id)
 
       Business.all.each do |business|
-        missions = MissionInstance.missions_due_this_week(business)
-        prompts = MissionInstance.dashboard_prompts(business, 3)
+        missions = MissionInstance.missions_due_this_week(business).created_or_active
+        prompts = MissionInstance.dashboard_prompts(business, 3, true)
 
         next if missions.empty? && prompts.empty?
 
@@ -160,7 +165,9 @@ namespace :scheduled do
 
           if user.mission_notification_setting&.mine_weekly?
             # In this case we have to do special logic to pull only assigned
-            my_missions = MissionInstance.missions_due_this_week(business).where(assigned_user: user)
+            my_missions = MissionInstance.missions_due_this_week(business)
+                                         .created_or_active
+                                         .where(assigned_user: user)
 
             next if my_missions.empty? && prompts.empty?
             next unless my_missions.any? { |mi| mi.mission.present? }
@@ -192,7 +199,7 @@ namespace :scheduled do
     admin_ids = User.where(super_user: true).pluck(:id)
 
     Business.all.each do |business|
-      prompts = MissionInstance.dashboard_prompts(business, 3)
+      prompts = MissionInstance.dashboard_prompts(business, 3, true)
 
       business_users = business.users.reject { |user| admin_ids.include?(user.id) }
       business_users.each do |user|
@@ -207,7 +214,7 @@ namespace :scheduled do
 
         # In this case we have to do special logic to pull only assigned
         completed = MissionInstance.completed_between(since, to).where(business: business)
-        due = MissionInstance.due_between(since, to).where(business: business)
+        due = MissionInstance.due_between(since, to).where(business: business).created_or_active
 
         next if completed.empty? && due.empty?
 
@@ -227,7 +234,7 @@ namespace :scheduled do
     admin_ids = User.where(super_user: true).pluck(:id)
 
     Business.all.each do |business|
-      prompts = MissionInstance.dashboard_prompts(business, 3)
+      prompts = MissionInstance.dashboard_prompts(business, 3, true)
 
       business_users = business.users.reject { |user| admin_ids.include?(user.id) }
       business_users.each do |user|
