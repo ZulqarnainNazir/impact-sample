@@ -11,64 +11,66 @@
               <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
               p Looks like you haven't activated any features yet, #{link_to "let's fix that!", [@business, :account_modules]} If you're not sure where to start, try #{link_to " Marketing Missions™", [@business, :account_modules]} to find easy marketing activities. 
                             
-      .grid
-        - if @business.module_active?(0)
-          .grid-item
-            = render 'mission_prompts'
-        - if @business.module_active?(4)
-          .grid-item
-            = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
-        - if @business.module_active?(3)
-          .grid-item
-            = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
-        - if @business.module_active?(0)
-          .grid-item
-            = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
-        .grid-item
-              = render partial: 'businesses/dashboards/overview', locals: { business: @business }
-        .grid-item
-              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
-        .grid-item
-          .ibox.float-e-margins
-            .ibox-title
-              h5 Your Current Embed Tools
-              .ibox-content
-                .feed-activity-list
-                  .feed-element
-                    i.fa.fa-star
-                    strong 
-                      = link_to " Customer Reviews Embeds", [@business, :tools_review_widgets]
-                    div
-                      = @business.review_widgets.count
-                      |  Review Embeds
-                  .feed-element
-                    i.fa.fa-bullhorn
-                    strong 
-                      = link_to " Content Feed Embeds", [@business, :tools_content_feed_widgets]
-                    div
-                      = @business.content_feed_widgets.count
-                      |  Content Embeds
-                  .feed-element
-                    i.fa.fa-calendar-plus-o
-                    strong 
-                      = link_to " Calendar Embeds", [@business, :tools_calendar_widgets]
-                    div
-                      = @business.calendar_widgets.count
-                      |  Calendar Embeds
-                  .feed-element
-                    i.fa.fa-address-book-o
-                    strong 
-                      = link_to " Directory Embeds", [@business, :tools_directory_widgets]
-                    div
-                      = @business.directory_widgets.count
-                      |  Directory Embeds
-                  .feed-element
-                    i.fa.fa-check-square-o
-                    strong 
-                      = link_to " Web Forms", [@business, :crm_contact_forms]
-                    div
-                      = @business.contact_forms.count
-                      |  Form Embeds
+      .row
+        .col-lg-12
+          .grid
+            - if @business.module_active?(0)
+              .grid-item
+                = render 'mission_prompts'
+            - if @business.module_active?(4)
+              .grid-item
+                = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
+            - if @business.module_active?(3)
+              .grid-item
+                = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
+            - if @business.module_active?(0)
+              .grid-item
+                = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
+            .grid-item
+                  = render partial: 'businesses/dashboards/overview', locals: { business: @business }
+            .grid-item
+                  = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
+            .grid-item
+              .ibox.float-e-margins
+                .ibox-title
+                  h5 Your Current Embed Tools
+                  .ibox-content
+                    .feed-activity-list
+                      .feed-element
+                        i.fa.fa-star
+                        strong 
+                          = link_to " Customer Reviews Embeds", [@business, :tools_review_widgets]
+                        div
+                          = @business.review_widgets.count
+                          |  Review Embeds
+                      .feed-element
+                        i.fa.fa-bullhorn
+                        strong 
+                          = link_to " Content Feed Embeds", [@business, :tools_content_feed_widgets]
+                        div
+                          = @business.content_feed_widgets.count
+                          |  Content Embeds
+                      .feed-element
+                        i.fa.fa-calendar-plus-o
+                        strong 
+                          = link_to " Calendar Embeds", [@business, :tools_calendar_widgets]
+                        div
+                          = @business.calendar_widgets.count
+                          |  Calendar Embeds
+                      .feed-element
+                        i.fa.fa-address-book-o
+                        strong 
+                          = link_to " Directory Embeds", [@business, :tools_directory_widgets]
+                        div
+                          = @business.directory_widgets.count
+                          |  Directory Embeds
+                      .feed-element
+                        i.fa.fa-check-square-o
+                        strong 
+                          = link_to " Web Forms", [@business, :crm_contact_forms]
+                        div
+                          = @business.contact_forms.count
+                          |  Form Embeds
                   
       .row
         .col-lg-12
