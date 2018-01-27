@@ -2,6 +2,7 @@
 / Logic for rendering local variables
 /
 - business = event.business
+- stacked = local_assigns[:stack].present? ? stack : false
 
 - product_image = link_to [:website,
     event,
@@ -54,7 +55,7 @@
 /
 / Generic grid block layout
 /
-.col-xs-12.col-sm-6.col-md-4
+div class=(stacked ?  'col-xs-12' : 'col-xs-12 col-sm-6 col-md-4')
 
   .event-block.card.m-b
 

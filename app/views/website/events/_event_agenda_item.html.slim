@@ -40,9 +40,10 @@
   .date
     i.fa.fa-calendar.m-r-xs
     = event.occurs_on.strftime('%b %d, %Y')
-  .start-time
-    i.fa.fa-clock-o.m-r-xs
-    = event.event_definition.start_time.strftime('%I:%M %p')
+  - if event.event_definition.start_time.present?
+      .start-time
+        i.fa.fa-clock-o.m-r-xs
+        = event.event_definition.start_time.strftime('%I:%M %p')
 
 - location = capture do
   - if event.event_definition.location.present?

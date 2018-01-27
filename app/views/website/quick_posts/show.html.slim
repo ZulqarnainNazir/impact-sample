@@ -37,9 +37,10 @@
               br
           = sanitize_html @quick_post.description
     - if @website.content_blog_sidebar? || @website.events_sidebar?
-      .col-sm-4.m-t-lg 
+      .col-sm-4.m-t-lg
         .show-sidebar-grid
           - if @website.content_blog_sidebar?
             = render posts(nil, @business), small: true
           - if @website.events_sidebar?
-            = render events(@business), small: true
+            .row
+              = render events(@business), small: true, stack: true

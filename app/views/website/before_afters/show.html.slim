@@ -46,4 +46,5 @@
           - if @website.content_blog_sidebar?
             = render posts(nil, @business), small: true
           - if @website.events_sidebar?
-            = render events(@business), small: true
+            .row
+              = render events(@business), small: true, stack: true
