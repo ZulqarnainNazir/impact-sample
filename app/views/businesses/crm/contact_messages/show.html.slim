@@ -21,3 +21,6 @@
                 dd = localize @contact_message.created_at, format: :long
               hr
               blockquote = simple_format @contact_message.message
+              = link_to [@business, :crm, @contact_message], class: 'btn btn-xs btn-danger', style: 'color:white;', method: :delete, data: { confirm: 'Are you sure you want to delete this message?' } do
+                => icon 'times-circle'
+                | Delete
