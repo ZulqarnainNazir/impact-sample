@@ -67,6 +67,7 @@ en:
         value_rating: Value
         quality_rating: Quality
         overall_rating: Overall Rating
+        description: Description
       user:
         first_name: First Name
         last_name: Last Name

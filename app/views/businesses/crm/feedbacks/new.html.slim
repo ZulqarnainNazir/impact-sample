@@ -18,12 +18,12 @@
           .col-sm-10.col-sm-offset-1
             .ibox.float-e-margins
               .ibox-title
-                h4 Prompt for Feedback
+                h4 Request Feedback & Review
               .ibox-content.p-md
                 = errors_for @feedback
                 - if @contact.new_record?
                   .group
-                    = form.select :contact_id, {}, { :include_blank => true }, { :class => 'form-control js-contact-select', style: "width: 100%;" } do
+                    = form.select :contact_id, {}, { :include_blank => "- Leave blank if to add new contact -" }, { :class => 'form-control js-contact-select', style: "width: 100%;" } do
                       - @business.contacts.sort_by(&:name).each do |contact|
                         - unless contact.opted_out?
                           = content_tag(:option, "#{contact.name} - #{contact.email}", value: contact.id, selected: @feedback.contact_id == contact.id, data: { email: contact.email, firstname: contact.first_name, lastname: contact.last_name } )
@@ -32,9 +32,9 @@
                     end
                     span.bar
                     span.highlight
-                    label.control-label Select from contacts
+                    label.control-label Select from existing contacts
                 end
-                br
+                .text-center.m-t-md - or - 
                 = form.fields_for :contact do |contact|
                   .row
                     .form-group.col-sm-6.m-t-md
@@ -49,7 +49,7 @@
                         span.bar
                         span.highlight
                         label.control-label Last Name
-                    .form-group.col-sm-12.m-t-md
+                    .form-group.col-sm-12
                       .group
                         = contact.email_field :email, value: @feedback.contact.try(:email), class: 'form-control', 'js-name' => 'email', style: "width: 100%;", required: true
                         span.bar
@@ -61,9 +61,9 @@
                       = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
                       span.input-group-addon: i.fa.fa-calendar
                 - if !Company.select_collection(@business.id, @contact.id).blank?
-                  .form-group
+                  .form-group.m-t-md
                     = form.label :company_id, class: 'control-label'
-                    = form.select :company_id, options_from_collection_for_select(Company.select_collection(@business.id, @contact.id), 'id', 'name'), {:include_blank => "- Not A Business Review -"}, {:class => 'form-control'}
+                    = form.select :company_id, options_from_collection_for_select(Company.select_collection(@business.id, @contact.id), 'id', 'name'), {:include_blank => "- Leave blank if not a business review -"}, {:class => 'form-control block'}
               .ibox-footer.text-center
                 = form.button 'Send Request', class: 'btn btn-primary w-200'
 

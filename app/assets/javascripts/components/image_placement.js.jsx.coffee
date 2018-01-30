@@ -190,7 +190,7 @@ ImagePlacement = React.createClass
 
   renderButtonRemove: (id) ->
     if this.props.buttonRemove and (this.state.uploadState is 'failed' or this.state.uploadState is 'attached') and this.state.hover
-      `<span style={{position: 'absolute', bottom: 55, left: 20}}>
+      `<span style={{position: 'absolute', bottom: 30, left: 20}}>
         <span className="btn btn-default" style={{marginRight: 10}} data-toggle="modal" data-target={'#image-attributes-' + id} >
          <i className="fa fa-cog" />
         </span>

@@ -12,11 +12,7 @@ class Review < ActiveRecord::Base
   validates :customer_name, presence: true
   validates :description, presence: true
   validates :overall_rating, presence: true, numericality: { in: 1..5 }
-  validates :quality_rating, presence: true, numericality: { in: 1..5 }
   validates :reviewed_at, presence: true
-  validates :service_rating, presence: true, numericality: { in: 1..5 }
-  validates :title, presence: true
-  validates :value_rating, presence: true, numericality: { in: 1..5 }
 
   before_validation do
     self.reviewed_at = Time.now unless reviewed_at?

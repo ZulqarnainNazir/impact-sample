@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171220173433) do
+ActiveRecord::Schema.define(version: 20180110183642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1117,7 +1117,7 @@ ActiveRecord::Schema.define(version: 20171220173433) do
     t.text     "external_name"
     t.text     "external_type"
     t.text     "external_url"
-    t.text     "title",                                                  null: false
+    t.text     "title"
     t.text     "description",                                            null: false
     t.decimal  "overall_rating", precision: 2, scale: 1,                 null: false
     t.datetime "reviewed_at",                                            null: false

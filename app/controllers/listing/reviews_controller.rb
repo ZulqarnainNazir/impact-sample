@@ -41,11 +41,7 @@ class Listing::ReviewsController < ApplicationController
         customer_email: @feedback.contact.email,
         serviced_at: @feedback.serviced_at,
         feedback_score: @feedback.score,
-        quality_rating: @feedback.review.quality_rating,
-        service_rating: @feedback.review.service_rating,
-        value_rating: @feedback.review.value_rating,
         overall_rating: @feedback.review.overall_rating,
-        review_title: @feedback.review.title,
       }
 
       if @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
@@ -75,10 +71,6 @@ class Listing::ReviewsController < ApplicationController
       review_attributes: [
         :description,
         :overall_rating,
-        :quality_rating,
-        :service_rating,
-        :title,
-        :value_rating,
         :company_id,
       ],
     ).tap do |safe_params|

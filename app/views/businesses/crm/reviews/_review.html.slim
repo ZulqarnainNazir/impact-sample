@@ -1,27 +1,29 @@
-tr class=('unread' unless review.read_by.include?(current_user.id))
-  td = link_to review.contact.name, [:edit, review.business, :crm, review.contact]
-  td = review.reviewed_at.strftime('%D')
-  td = review.serviced_at.try(:strftime, '%D') || '--'
-  td.text-warning
-    span.fa class=(review.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o')
-    span.fa class=(review.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o')
-    span.fa class=(review.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o')
-    span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
-    span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
-  td = review.title
-  td = link_to truncate(review.description, length: 140), [review.business, :crm, review]
-  td
-    - if review.published?
-      strong.text-success> Yes
-      = link_to 'Hide', [review.business, :crm, review, :review_publication, page: 1], method: :delete, class: 'btn btn-xs btn-default' 
-    - else
-      strong.text-muted> No
-      = link_to 'Publish', [review.business, :crm, review, :review_publication, page: 1], method: :post, class: 'btn btn-xs btn-primary' 
-  td
-    .btn-group
-      = link_to [review.business, :crm, review], class: 'btn btn-xs btn-default' do
-        => icon 'eye'
-        | Read
-      = link_to [review.business, :crm, review], method: :delete, class: 'btn btn-xs btn-default', data: { confirm: 'Are you sure you want to hide this review from your site?' } do
-        => icon 'minus-circle'
-        | Hide
+- if review
+  tr class=('unread' unless review.read_by.include?(current_user.id))
+    - if review.contact
+      td = link_to review.contact.name, [:edit, review.business, :crm, review.contact]
+    td = review.reviewed_at.strftime('%D')
+    td = review.serviced_at.try(:strftime, '%D') || '--'
+    td.text-warning
+      span.fa class=(review.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o')
+      span.fa class=(review.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o')
+      span.fa class=(review.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o')
+      span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
+      span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
+    td = review.title
+    td = link_to truncate(review.description, length: 140), [review.business, :crm, review]
+    td
+      - if review.published?
+        strong.text-success> Yes
+        = link_to 'Hide', [review.business, :crm, review, :review_publication, page: 1], method: :delete, class: 'btn btn-xs btn-default' 
+      - else
+        strong.text-muted> No
+        = link_to 'Publish', [review.business, :crm, review, :review_publication, page: 1], method: :post, class: 'btn btn-xs btn-primary' 
+    td
+      .btn-group
+        = link_to [review.business, :crm, review], class: 'btn btn-xs btn-default' do
+          => icon 'eye'
+          | Read
+        = link_to [review.business, :crm, review], method: :delete, class: 'btn btn-xs btn-default', data: { confirm: 'Are you sure you want to hide this review from your site?' } do
+          => icon 'minus-circle'
+          | Hide

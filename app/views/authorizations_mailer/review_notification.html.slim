@@ -9,17 +9,9 @@ div style="max-width: 600px; margin-left: auto; margin-right: auto;"
     dd = @review.customer_phone
   hr
   dl
-    dt Quality Rating
-    dd = @review.quality_rating
-    dt Value Rating
-    dd = @review.value_rating
-    dt Service Rating
-    dd = @review.service_rating
-    dt Overall Rating
+    dt Customer Rating
     dd = @review.overall_rating
-    dt Review Title
-    dd = @review.title
-    dt Review Description
+    dt Review Details
     dd = @review.description
   - if @review.feedback
     hr

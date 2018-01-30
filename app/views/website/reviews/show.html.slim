@@ -1,4 +1,7 @@
-- title "Review – #{@review.title}"
+- if @review.title
+  - title "Review – #{@review.title}"
+- else
+  - title "Review"
 - canonical_url website_review_url(@review)
 
 .container.blog-content

@@ -1,5 +1,6 @@
 tr class=('unread' unless feedback.read_by.include?(current_user.id))
-  td = link_to feedback.contact.name, [:edit, feedback.business, :crm, feedback.contact]
+  - if feedback.contact
+    td = link_to feedback.contact.name, [:edit, feedback.business, :crm, feedback.contact]
   td = feedback.serviced_at.try(:strftime, '%D') || '--'
   td = feedback.score || '--'
   td = feedback.description? ? link_to(truncate(feedback.description, length: 140), [feedback.business, :crm, feedback]) : '--'

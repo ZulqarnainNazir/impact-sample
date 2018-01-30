@@ -1,43 +1,51 @@
-blockquote.review.col-sm-4
-  .review-rating
-    - if review.overall_rating >= 1.0
-      span.fa.fa-star
-    - else
-      span.fa.fa-star-o
-    - if review.overall_rating >= 2.0
-      span.fa.fa-star
-    - else
-      span.fa.fa-star-o
-    - if review.overall_rating >= 3.0
-      span.fa.fa-star
-    - else
-      span.fa.fa-star-o
-    - if review.overall_rating >= 4.0
-      span.fa.fa-star
-    - else
-      span.fa.fa-star-o
-    - if review.overall_rating == 5.0
-      span.fa.fa-star
-    - else
-      span.fa.fa-star-o
-  .review-text
-    - if defined?(new_window)
-      h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
-    - else
-      h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), [:website, review]
-    p.review-quote = truncate review.description, length: 300
-  p.reviewer
-    span.reviewer-name => review.contact.name
-    - if review.contact.business_client? && (review.contact.business_name? || review.contact.business_url?)
-      span.text-muted> from
-      - if review.contact.business_name? && review.contact.business_url?
-        = link_to review.contact.business_name, review.contact.business_url, target: :_blank, class: 'text-muted'
-      - elsif review.contact.business_url?
-        = link_to review.contact.business_url, review.contact.business_url, target: :_blank, class: 'text-muted'
-      - elsif review.contact.business_name?
-        span.text-muted = review.contact.business_name
-    - if review.external_type == 'locable'
-      span.text-muted> – via
-      = link_to review.external_url, target: :_blank do
-        => review.external_name
-        = image_tag 'locable.png', alt: ''
+- if review
+  blockquote.review.col-sm-4
+    .review-rating
+      - if review.overall_rating >= 1.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.overall_rating >= 2.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.overall_rating >= 3.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.overall_rating >= 4.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+      - if review.overall_rating == 5.0
+        span.fa.fa-star
+      - else
+        span.fa.fa-star-o
+    .review-text
+      - if review.title
+        - if defined?(new_window)
+          h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+        - else
+          h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), [:website, review]
+      p.review-quote = truncate review.description, length: 300
+    p.reviewer
+      - if review.contact
+        span.reviewer-name => review.contact.name
+        - if review.contact.business_client? && (review.contact.business_name? || review.contact.business_url?)
+          span.text-muted> from
+          - if review.contact.business_name? && review.contact.business_url?
+            = link_to review.contact.business_name, review.contact.business_url, target: :_blank, class: 'text-muted'
+          - elsif review.contact.business_url?
+            = link_to review.contact.business_url, review.contact.business_url, target: :_blank, class: 'text-muted'
+          - elsif review.contact.business_name?
+            span.text-muted = review.contact.business_name
+
+      - if review.external_type == 'locable'
+        span.text-muted> – via
+        = link_to review.external_url, target: :_blank do
+          => review.external_name
+          = image_tag 'locable.png', alt: ''
+          
+    - if review.title.blank?
+      p.reviewer
+        => link_to "Read More", website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank

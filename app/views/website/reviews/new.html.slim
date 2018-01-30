@@ -6,7 +6,10 @@
     .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
       p.lead.text-center Thanks for taking the time to leave us a review and some feedback. This should only take a minute.
       br
-      = errors_for @feedback
+      / - if @feedback.errors
+      /   .panel.panel-warning
+      /     .panel-heading
+      /       strong Oops! Looks like you've missed filling in a required field.
       = form_for @feedback, url: :website_reviews, method: :post do |form|
         = hidden_field_tag :feedback_token, params[:feedback_token]
         .form-group

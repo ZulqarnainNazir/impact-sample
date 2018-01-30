@@ -1,47 +1,53 @@
-blockquote.review itemprop="review" itemscope="true" itemtype="http://schema.org/Review"
-  h2.h4 itemprop="name"
-    => link_to review.title, listing_path_review_url(@business, review)
-    meta itemprop="worstRating=" content="1"
-    meta itemprop="bestRating=" content="5"
-    meta itemprop="ratingValue=" content=review.overall_rating
-    p
-      span.review-rating
-        - if review.overall_rating >= 1.0
-          span.fa.fa-star
-        - else
-          span.fa.fa-star-o
-        - if review.overall_rating >= 2.0
-          span.fa.fa-star
-        - else
-          span.fa.fa-star-o
-        - if review.overall_rating >= 3.0
-          span.fa.fa-star
-        - else
-          span.fa.fa-star-o
-        - if review.overall_rating >= 4.0
-          span.fa.fa-star
-        - else
-          span.fa.fa-star-o
-        - if review.overall_rating == 5.0
-          span.fa.fa-star
-        - else
-          span.fa.fa-star-o
-  p.review-text.review-quote itemprop="description" = review.description
-  p.reviewer
-    span.reviewer-name itemprop="author" => review.contact.name
-    - if review.company
-      span> from
-      - if review.company.business.name? && review.company.business.website_url?
-        = link_to review.company.business.name, review.company.business.website_url, target: :_blank
-      - elsif review.company.business.website_url?
-        = link_to review.company.business.website_url, review.company.business.website_url, target: :_blank
-      - elsif review.company.business.name?
-        = review.company.business.name
-    - if review.external_type == 'locable'
-      span.text-muted> – via
-      => link_to review.external_url, target: :_blank do
-        => review.external_name
-        = image_tag 'locable.png', alt: ''
-      meta itemprop="datePublished" content=review.reviewed_at.strftime('%F')
-      span.text-muted #{time_ago_in_words review.reviewed_at} ago
-hr
+- if review
+  blockquote.review itemprop="review" itemscope="true" itemtype="http://schema.org/Review"
+    h2.h4 itemprop="name"
+      - if review.title
+        => link_to review.title, listing_path_review_url(@business, review)
+      meta itemprop="worstRating=" content="1"
+      meta itemprop="bestRating=" content="5"
+      meta itemprop="ratingValue=" content=review.overall_rating
+      p
+        span.review-rating
+          - if review.overall_rating >= 1.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if review.overall_rating >= 2.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if review.overall_rating >= 3.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if review.overall_rating >= 4.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+          - if review.overall_rating == 5.0
+            span.fa.fa-star
+          - else
+            span.fa.fa-star-o
+    p.review-text.review-quote itemprop="description" = review.description
+    p.reviewer
+      - if review.contact && review.contact.name
+        span.reviewer-name itemprop="author" => review.contact.name
+      - if review.company
+        span> from
+        - if review.company.business.name? && review.company.business.website_url?
+          = link_to review.company.business.name, review.company.business.website_url, target: :_blank
+        - elsif review.company.business.website_url?
+          = link_to review.company.business.website_url, review.company.business.website_url, target: :_blank
+        - elsif review.company.business.name?
+          = review.company.business.name
+      - if review.external_type == 'locable'
+        span.text-muted> – via
+        => link_to listing_path_review_url(@business, review), target: :_blank do
+          => review.external_name
+          = image_tag 'locable.png', alt: ''
+        meta itemprop="datePublished" content=review.reviewed_at.strftime('%F')
+        span.text-muted #{time_ago_in_words review.reviewed_at} ago
+    - if review.title.blank?
+      p.reviewer
+        => link_to "Read More", listing_path_review_url(@business, review)
+  hr
