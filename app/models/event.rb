@@ -16,6 +16,10 @@ class Event < ActiveRecord::Base
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end
 
+  def published_status
+    event_definition.published_status
+  end
+
   def title
     #leveraged in as_indexed_json below for ElasticSearch
     event_definition.title
@@ -40,7 +44,7 @@ class Event < ActiveRecord::Base
     #values for content_category_ids, or title, or description, etc.
     #e.g., if title has value 'foo', and is the first event to have
     #a title, then title is then added to mapping, where before it was not present.
-    as_json(methods: %i[content_category_ids content_tag_ids sorting_date title description subtitle])
+    as_json(methods: %i[content_category_ids content_tag_ids sorting_date title description subtitle published_status])
   end
 
   def content_category_ids
