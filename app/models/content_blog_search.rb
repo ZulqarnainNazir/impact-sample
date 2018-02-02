@@ -26,11 +26,11 @@ class ContentBlogSearch
     #nested content. dsl2 does that.
     dsl1 = {
       size: 800,
-      query: {
-          term: {
-            published_status: true
-          }
-      },
+      # query: {
+      #     term: {
+      #       published_status: true
+      #     }
+      # },
 
       filter: {
         and: [
@@ -93,6 +93,12 @@ class ContentBlogSearch
             ],
           },
         ],
+      },
+    }
+
+    dsl1[:filter][:and] << {
+      term: {
+        published_status: !false,
       },
     }
 
