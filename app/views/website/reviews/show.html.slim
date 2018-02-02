@@ -5,19 +5,20 @@
 - canonical_url website_review_url(@review)
 
 .container.blog-content
-  ol.breadcrumb
-    li = link_to icon('home'), :website_root
-    li = link_to 'Customer Reviews', :website_reviews
-    li.active Review Details
-  .row
-    div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
-      = render partial: 'review', object: @review
-      div
-        - if @business.cce_id? && @business.cce_url?
-          = link_to @business.cce_url + '/reviews/new', class: 'btn btn-default', target: :_blank do
-            span.fa.fa-plus-circle>
-            | Leave us a Review
-    - if @website.content_blog_sidebar_on_reviews?
-      .col-sm-4.m-t-lg
-        .show-sidebar-grid
-          = render posts(nil, @business), small: true
+  .row.p-md
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li = link_to 'Customer Reviews', :website_reviews
+      li.active Review Details
+    .row
+      div class=(@website.content_blog_sidebar_on_reviews? ? 'col-sm-8' : 'col-sm-12')
+        = render partial: 'review', object: @review
+        div
+          - if @business.cce_id? && @business.cce_url?
+            = link_to @business.cce_url + '/reviews/new', class: 'btn btn-default', target: :_blank do
+              span.fa.fa-plus-circle>
+              | Leave us a Review
+      - if @website.content_blog_sidebar_on_reviews?
+        .col-sm-4.m-t-lg
+          .show-sidebar-grid
+            = render posts(nil, @business), small: true
