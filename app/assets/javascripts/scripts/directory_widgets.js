@@ -20,7 +20,7 @@ window.initDirectoryModalHandler = function(businessID, url) {
   $.get(url, function(response) {
     var body = $('<div/>').append(response).find('.row')[0];
 
-    $(".modal-body").html(body);
+    $("#business-modal-" + businessID + " .modal-body").html(body);
 
     toggleDescriptionText(businessID);
   });

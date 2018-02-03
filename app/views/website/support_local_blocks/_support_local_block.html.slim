@@ -66,14 +66,14 @@
         if (window.location.hash.match(/\#(.*)/)) {
           var slug = window.location.hash.match(/\#(.*)/)[1];
           var modal = $('.business-modal[data-slug="' + slug + '"]');
-            modal.modal('show');
+              modal.modal('show');
 
           var url = modal.parent().find("a[data-toggle='modal']").data('url');
 
-          $(".modal-body").html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+          modal.find(".modal-body").html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
 
           $.get(url, function(response) {
-            $(".modal-body").html(response)
+            modal.find(".modal-body").html(response)
           });
         }
       });
