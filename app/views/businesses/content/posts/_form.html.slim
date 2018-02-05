@@ -73,14 +73,16 @@ javascript:
     $('#datetimepicker').datetimepicker({
         format: 'MMM D YYYY h:mm A ZZ'
     });
+    $('button[name="draft"]').off('click');
     $('button[name="draft"]').click(function () {
       $('#draftField').val(1);
+      $(this).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
       $(".save-once").submit();
-      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });
 
+    $('button[name="publish"]').off('click');
     $('button[name="publish"]').click(function () {
+      $(this).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
       $(".save-once").submit();
-      $(':submit', event.target).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
     });
   });

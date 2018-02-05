@@ -8,20 +8,34 @@ dependencies:
 * PostgreSQL
 * AWS S3
 * Redis
-* Elasticsearch
+* Elasticsearch 2.4.x (requires Java 7+)
+* NodeJS (or another execjs environment)
 
 ## Development
 
 **Configuring Your Hosts File**
 
+NOTE: IMPACT previously used the .dev TLD (i.e., impact.dev). Since that TLD now requires HTTPS in Chromium browsers, we switched to .test, a reserved domain for development and testing purposes.
+
 IMPACT uses subdomains, which means you will need to configure your etc/hosts file (on OSX) for the app to run. You can also use Pow if you're familiar with it - it is much easier in general and it is highly recommended that you use it **if** you know how. Otherwise, open your finder on your Mac, then click 'go' in the top toolbar, then paste etc/hosts into "go to folder" and proceed from there. IMPACT listens at port 5000, which means you should add this to the file:
 
-`0.0.0.0     impact.dev  #for IMPACT's homepage`
+`0.0.0.0     impact.test  #for IMPACT's homepage`
 
-`0.0.0.0     test-01.impact.dev  #for your own site`
+`0.0.0.0     test-01.impact.test  #for your own site`
 
-What does "#for your own site" mean? Keep in mind that when you create a user and sign-in, you'll need to create a business to start using IMPACT. That business will get its own subdomain, and this will need to be reflected in your hosts file. The nomenclature for your etc/hosts file should match the name of your business. Therefore, the second entry above could just as easily be "test0001.impact.dev" or "foo.impact.dev" if the business created was "test0001" or "foo". Your hosts file just needs to know what the subdomain is.
+What does "#for your own site" mean? Keep in mind that when you create a user and sign-in, you'll need to create a business to start using IMPACT. That business will get its own subdomain, and this will need to be reflected in your hosts file. The nomenclature for your etc/hosts file should match the name of your business. Therefore, the second entry above could just as easily be "test0001.impact.test" or "foo.impact.test" if the business created was "test0001" or "foo". Your hosts file just needs to know what the subdomain is.
 
+**Setting Up the Databse**
+
+Create the database and load the schema and seeds
+
+```
+  rake db:create
+  rake db:schema:load
+  rake db:seed
+```
+
+Note running `rake db:migrate` before loading the schema will return an error.
 **Setting Up Your Environment Variables**
 
 Make sure to set the following ENV variables in a `.env` file:
@@ -50,17 +64,17 @@ To refresh the indices at a later time, run:
 
 `rake environment elasticsearch:import:all`
 
-**Settig Up the Databse**
+**First Time Login**
 
-Create the database and load the schema and seeds
+Before first logging in, run the following tasks:
 
-```
-  rake db:create
-  rake db:schema:load
-  rake db:seed
-```
+`rake create_subscriptions`
 
-Note running `rake db:migrate` before loading the schema will return an error.
+`rake create_legacy_subscription`
+
+You can also edit the user in the database with an email confirmation time, like so:
+
+`impact_development=# update users set confirmed_at=now() update users set confirmed_at=now();`
 
 **What You Need Running in Terminal**
 
@@ -84,7 +98,7 @@ Foreman does not print server logs automatically like rails -s will. Here is the
 
 `tail -f log/development.log`
 
-Provided you have completed all the steps mentioned up to this point in the documentation (including setting up AWS), you should be able to point your browser to http://impact.dev:5000/ and have the homepage properly rendered. Don't forget to create a database, run migrations, and all the other fundamentals of installing a Rails app locally. Once you get all this set-up you'll also need to get a super admin set-up via terminal as well. Do this, then log in and proceed to create a business.
+Provided you have completed all the steps mentioned up to this point in the documentation (including setting up AWS), you should be able to point your browser to http://impact.test:5000/ and have the homepage properly rendered. Don't forget to create a database, run migrations, and all the other fundamentals of installing a Rails app locally. Once you get all this set-up you'll also need to get a super admin set-up via terminal as well. Do this, then log in and proceed to create a business.
 
 ## Test
 
