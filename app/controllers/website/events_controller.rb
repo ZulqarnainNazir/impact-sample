@@ -1,7 +1,7 @@
 class Website::EventsController < Website::BaseController
   def index
     @events = @business.events.
-      where('occurs_on >= ?', Time.zone.now).
+      where('occurs_on >= ?', Time.zone.now).joins(:event_definition).where(:event_definitions => {published_status: true}).
       order(occurs_on: :asc).
       page(params[:page]).
       per(20)
