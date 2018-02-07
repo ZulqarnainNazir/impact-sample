@@ -161,7 +161,8 @@ class Subscription < ActiveRecord::Base
   end
 
   def amount_in_pennies
-    (self.plan.amount * 100).to_i
+    (self.plan.amount * 100).to_i #note that this only pulls the amount (i.e., the monthly amount) from the Plan record;
+    #it does not pull the amount_annual.
   end
 
   def current_amount_in_pennies
