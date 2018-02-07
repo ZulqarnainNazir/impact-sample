@@ -164,6 +164,10 @@ class Subscription < ActiveRecord::Base
     (self.plan.amount * 100).to_i
   end
 
+  def current_amount_in_pennies
+    (self.amount * 100).to_i
+  end
+
   def plan_amount_in_pennies
     if !self.upgrade_to.nil? && !self.flagged_for_annual?
       (SubscriptionPlan.find(self.upgrade_to).amount * 100).to_i
@@ -228,7 +232,7 @@ class Subscription < ActiveRecord::Base
   # set forward when the charge is successful.
 
   def charge
-    if amount == 0 || (@response = gateway.purchase(amount_in_pennies, billing_id)).success?
+    if amount == 0 || (@response = gateway.purchase(current_amount_in_pennies, billing_id)).success?
       if self.annual == false
         update_attributes(:next_renewal_at => self.next_renewal_at.advance(:months => self.renewal_period), :state => 'active')
         subscription_payments.create(:monthly => true, :subscriber => subscriber, :amount => amount, :transaction_id => @response.authorization) unless amount == 0
