@@ -25,7 +25,7 @@ class Website::GenericPostsController < Website::BaseController
         where('occurs_on >= ?', Time.zone.now).
         order(occurs_on: :asc).
         page(1).
-        per(4)
+        per(3)
       render 'website/events/show'
       return
     end

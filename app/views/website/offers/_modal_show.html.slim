@@ -1,0 +1,72 @@
+- if (@offer.published_status == false || @preview)
+  - title "This post is not yet published"
+  - description "This post is not yet published"
+- else
+  - title @offer.title
+  - description @offer.meta_description
+  - image @offer.main_image.try(:attachment_url, :jumbo) || @offer.offer_image.try(:attachment_url, :jumbo)
+  - unless @offer.image_size.nil?
+    - image_width = image_og_width(@offer.image_size[0]) 
+    - image_height = image_og_height(@offer.image_size[1])
+  - canonize_obj({url: website_offer_url, params: @offer.to_generic_param})
+
+.blog-content
+  - if (@offer.published_status == false && !@preview)
+    p This post has not been published by the business owner yet. Check back later!
+  - else
+    .row.p-md
+      button class="close" type="button" data-dismiss="modal"
+        span
+          << Back
+      div class='col-sm-12'
+        - cache @offer do
+          .offer-border-gray.post-show
+            .offer-row class=(@offer.kind || 'image_left')
+              .row
+                .col-sm-5.offer-col-image
+                  - image = @offer.offer_image
+                  - if image
+                    div.blog-show-image = image_tag image.attachment_url(:medium), alt: image.alt, title: image.title
+                .col-sm-7
+                  h2.m-t-none.m-b-none.p-h-xs = @offer.title
+                  - if @offer.content_categories.any? || @offer.content_tags.any?
+                    span.text-muted> Filed Under: 
+                    - (@offer.content_categories + @offer.content_tags).each_with_index do |classification, i|
+                      = link_to classification.name, [:website, classification]
+                      - if i < @offer.content_categories.count + @offer.content_tags.count - 1
+                        strong.remove-comma' ,
+                  p.m-t-sm = sanitize_html @offer.offer
+              - if @offer.offer_code? || @offer.valid_until?
+                .well.m-b-none.m-t-none.m-t-sm.m-l-sm.m-r-sm
+                  .table
+                    .col-md-6 
+                      - if @offer.offer_code?
+                        ' Offer Code
+                        strong = @offer.offer_code
+                    .col-md-6
+                      - if @offer.valid_until?
+                        - if @offer.valid_until? && @offer.valid_until < Time.zone.now
+                          p.text-danger OFFER EXPIRED
+                        - else 
+                          ' Offer Valid Until
+                          strong = @offer.valid_until.strftime('%B %e, %Y')    
+              .row
+                .col-md-12
+                  p.m-sm = sanitize_html @offer.description.html_safe
+              .row.p-xs 
+                .col-sm-12.p-w-sm
+                  strong> Terms and Conditions: 
+                  .small-xs.p-h-sm = sanitize_html @offer.terms.html_safe
+                .col-sm-4 
+                  = link_to "javascript:window.print()"
+                    .btn.btn-primary.full-width      
+                      i.fa.fa-print.m-r-xs
+                      | Print Offer
+
+      - if @website.content_blog_sidebar? || @website.events_sidebar?
+        .col-sm-4
+          .show-sidebar-grid
+            - if @website.content_blog_sidebar?
+              = render posts(nil, @business), small: true
+            - if @website.events_sidebar?
+              = render events(@business), small: true

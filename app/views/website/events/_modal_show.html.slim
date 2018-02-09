@@ -1,0 +1,111 @@
+- if (event.event_definition.published_status == false || @preview)
+  - title "This post is not yet published"
+  - description "This post is not yet published"
+- else
+  - upcoming_events = event.event_definition.events.where.not(id: event.id).where('occurs_on >= ?', Time.zone.now).order(occurs_on: :asc).page(1).per(4)
+  - title event.event_definition.title.titleize
+  - description event.event_definition.meta_description
+  -image event.event_definition.main_image.try(:attachment_url) || event.event_definition.try(:event_image_placement).try(:attachment_url)
+  - unless event.image_size.nil?
+    - image_width = image_og_width(event.image_size[0])
+    - image_height = image_og_height(event.image_size[1])
+  / -canonize_obj({url: website_event_url, params: event.to_generic_param})
+  
+.blog-content  
+  div.row
+    .page-header.m-t-0
+      h1.no-margins
+        => event.event_definition.title
+      - if (event.event_definition.published_status == false && !@preview)
+        p This post has not been published by the business owner yet. Check back later!
+    .row
+      .col-sm-6
+        - placement = event.event_definition.event_image_placement
+        - if placement.try(:embeds?)
+          .responsive-post-image = placement.embed.html_safe
+          .m-b-md
+        - elsif placement.try(:image)
+          div.blog-show-image = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title
+          .m-b-md
+        - if event.event_definition.description?
+          .h4 Description
+          p.m-t-sm = sanitize_html event.event_definition.description
+      .col-sm-6
+        - location = event.event_definition.try(:location)
+        .well.well-transparent
+          .event-details.m-t-0
+            - if location 
+                span.font-bold.mg-l-md = location.name
+                small (Location)
+
+            - unless event.event_definition.hide_full_address? || event.event_definition.virtual_event?
+              - if !event.event_definition.hide_full_address? && !event.event_definition.show_city_only?
+                .block
+                  i.fa.fa-map-marker
+                  = location.full_address
+              - if event.event_definition.show_city_only?
+                .block
+                  i.fa.fa-map-marker
+                  = location.city_and_state
+            .block
+              i.fa.fa-calendar
+              = event.occurs_on.strftime('%b %d, %Y')
+            .block
+              i.fa.fa-clock-o
+              = event.event_definition.start_time.strftime('%I:%M %p')
+              - if event.event_definition.end_time.present?
+                | &nbsp;to  
+                = event.event_definition.end_time.strftime('%I:%M %p')
+            - if event.event_definition.price?
+              .block 
+                i.fa.fa-money
+                = event.event_definition.price
+            - if !event.event_definition.private?
+                .block 
+                  strong.m-r-xs Private: 
+                  |No
+            - elsif event.event_definition.private?
+                .block 
+                  strong.m-r-xs Private: 
+                  |Yes
+
+            - if !event.event_definition.rsvp_required?
+                .block
+                  strong.m-r-xs RSVP Required: 
+                  |No
+            - elsif event.event_definition.rsvp_required?
+                .block
+                  strong.m-r-xs RSVP Required: 
+                  |Yes
+
+            - if event.event_definition.url?
+                .block
+                  strong.m-r-xs More info:
+                  = link_to event.event_definition.url, "http://#{event.event_definition.url}"
+
+            - if event.business != @business
+                .block
+                  |Posted by 
+                  strong.m-r-xs
+                    =event.business.name
+                  
+
+        - if !event.event_definition.virtual_event?
+          - if location && !event.event_definition.hide_full_address? && !event.event_definition.show_city_only?
+            - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298', q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), zoom: 15}.to_param
+            iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+          - elsif location && event.event_definition.show_city_only?
+            - map_params = { key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298', q: location.city_and_state, zoom: 10}.to_param
+            iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+        - elsif event.event_definition.virtual_event?
+            div style="": strong Virtual Event
+            p Please note that this is a virtual event and has no physical location.
+
+        - if event.event_definition.embed?
+          = event.event_definition.embed.html_safe
+
+      - if upcoming_events.any?
+        .col-sm-12
+          h4 Other Upcoming Instances
+          .grid 
+            = render partial: 'website/events/event', collection: upcoming_events, locals: { small: true }

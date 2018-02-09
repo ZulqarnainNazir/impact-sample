@@ -1,2 +1,38 @@
 .container
   = render 'website/calendar_blocks/calendar_widget_inner'
+
+
+javascript:
+		$(document).ready(function() {
+		  if (window.location.hash.match(/\#(.*)/)) {
+		    var slug = window.location.hash.match(/\#(.*)/)[1];
+		    var modal = $('.calendar-modal[data-slug="' + slug + '"]');
+		      modal.modal('show');
+
+		    var url = modal.parent().find("a[data-toggle='modal']").data('url');
+
+		    $(".modal-body").html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+
+		    $.get(url, function(response) {
+		      $(".modal-body").html(response)
+		    });
+		  }
+		});
+
+		$('.calendar-card').click(function(event) {
+		  event.preventDefault();
+		  var target = $(event.target);
+		  var card = target.parents('.calendar-card');
+
+		  var slug = target.data('slug');
+		  if (!slug) { slug = card.data('slug'); }
+
+		  window.location.hash = slug;
+		});
+
+		$('.calendar-modal').on('click', function(event) {
+		  if ($(event.target).data('dismiss') === 'modal') {
+		    event.preventDefault();
+		    window.location.hash = "";
+		  }
+		});

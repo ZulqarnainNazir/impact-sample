@@ -1,0 +1,107 @@
+- business = offer.business
+- if @masonry.present? && @masonry == true
+  - cache offer do
+    div.grid-item
+      div.ibox-blog
+        div.ibox-content.product-box
+          div.product-imitation
+            .offer-border
+              = link_to "#", id: "offer-#{offer.id}-1", "data-toggle" => "modal", 'data-target' => "#offer-modal-#{offer.id}", class: "offer-card", 'data-slug'=>"#{offer.slug}" do
+                - if offer.main_image
+                  = image_tag offer.main_image.attachment_url(:small)
+                - else
+                  - if offer.try(:offer_image)
+                    - image = offer.offer_image
+                    - if image && !image.nil?
+                      = image_tag image.attachment_url(:small)
+                  - else
+                    = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            = link_to "#", id: "offer-#{offer.id}-2", "data-toggle" => "modal", 'data-target' => "#offer-modal-#{offer.id}", class: "offer-card grid-feed-title", 'data-slug'=>"#{offer.slug}" do
+              = truncate sanitize(offer.title), length: 75, omission: '...'
+            small.m-t-xs = truncate sanitize(offer.offer), length: 90, omission: '... '
+            div.mt-text.rt
+              = link_to "#", id: "offer-#{offer.id}", "data-toggle" => "modal", 'data-target' => "#offer-modal-#{offer.id}", class: "offer-card btn-feed-block", 'data-slug'=>"#{offer.slug}"
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
+- else
+  .feed-item.feed-offer
+    .feed-item-meta
+      => icon 'ticket'
+      strong> Offer
+      span.pull-right
+        span.text-muted> Posted #{time_ago_in_words offer.published_at} ago
+        - if offer.content_categories.any? || offer.content_tags.any?
+          span.text-muted> in
+          - (offer.content_categories + offer.content_tags).each_with_index do |classification, i|
+            = link_to classification.name, [:website, classification]
+            - if i < offer.content_categories.count + offer.content_tags.count - 1
+              ' ,
+    - cache offer do
+      h2 = link_to offer.title, website_generic_post_path(offer.to_generic_param)
+      - if defined?(small)
+        - if offer.try(:offer_image)
+          - image = offer.offer_image
+          - if image && !image.nil?
+            = image_tag image.attachment_medium_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+        - else
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: 'img-responsive thumbnail'
+        div style="margin:10px 0"
+          = truncate sanitize(offer.offer), length: 250
+        - if offer.valid_until?
+          p.lead
+            ' Offer Valid Until
+            strong = offer.valid_until.strftime('%B %e, %Y')
+        div style="margin:10px 0"
+          = truncate sanitize(offer.description), length: 250
+        p.text-right
+          = link_to website_generic_post_path(offer.to_generic_param), class: 'btn btn-primary' do
+            ' Learn More
+            i.fa.fa-angle-right
+        div
+          = offer.terms
+      - else
+        .offer-row class=(offer.kind || 'image_left')
+          .row
+            .col-sm-6.offer-col-image
+              - if offer.try(:offer_image)
+                - image = offer.offer_image
+                - if image && !image.nil?
+                  = image_tag image.attachment_medium_url, alt: image.alt, title: image.title, class: 'img-responsive thumbnail'
+              - else
+                = image_tag "impact_gs.jpg", alt: "image", title: "image", class: 'img-responsive thumbnail'
+            .col-sm-6
+              div style="margin:10px 0"
+                = truncate sanitize(offer.offer), length: 250
+              - if offer.valid_until?
+                p.lead
+                  ' Offer Valid Until
+                  strong = offer.valid_until.strftime('%B %e, %Y')
+              div style="margin:10px 0"
+                = truncate sanitize(offer.description), length: 250
+              p.text-right
+                = link_to "#", id: "offer-#{offer.id}", "data-toggle" => "modal", 'data-target' => "#offer-modal-#{offer.id}", class: 'btn btn-primary', 'data-slug'=>"#{offer.slug}" do
+                  ' Learn More
+                  i.fa.fa-angle-right
+
+
+div class="modal fade content-modal" id="offer-modal-#{offer.id}" role="dialog" data-slug="#{offer.slug}"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button class="close" type="button" data-dismiss="modal"
+          span
+            | &times;
+          br
+      .modal-body
+        = render partial: 'website/offers/modal_show', locals: {offer: offer}
+
+
+javascript:
+  $("offer-modal-#{offer.id}").on('shown.bs.modal', function () {
+    window.location.hash = '#{offer.slug}';
+  })
+
+  $("offer-modal-#{offer.id}").on('hidden.bs.modal', function (e) {
+    window.location.hash = '';
+  })

@@ -1,0 +1,98 @@
+- business = job.business
+- if @masonry.present? && @masonry == true
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache job do
+          div.product-imitation
+            = link_to "#", id: "job-#{job.id}-1", "data-toggle" => "modal", 'data-target' => "#job-modal-#{job.id}", class: "job-card", 'data-slug'=>"#{job.slug}" do
+              - placement = job.job_image_placement
+              - if placement.try(:embeds?)
+                = placement.embed.html_safe
+              - elsif placement.try(:image)
+                - if placement.image.present?
+                  = image_tag placement.image.attachment_url(:small)
+              - else
+                = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            div.event-time-banner.block
+              span.event-tags
+                i.fa.fa-calendar.m-r-xs
+                = job.start_date.strftime('%b %d, %Y ')
+            = link_to "#", id: "job-#{job.id}-2", "data-toggle" => "modal", 'data-target' => "#job-modal-#{job.id}", class: "job-card grid-feed-title", 'data-slug'=>"#{job.slug}" do
+               = truncate sanitize(job.title.titleize), length: 60, omission: '... '
+
+            - if !job.paid?
+              small.m-t-xs.block
+                = job.readable_kind
+            small.m-t-xs.block
+              = job.readable_schedule_type
+            - if job.paid?
+              small.m-t-xs.block
+                = job.readable_compensation_type
+            - if job.paid?
+              small.m-t-xs.block
+                = ("$ " + job.compensation_range)
+
+            - if @show_location && job.try(:location)
+              - if job.location.street1?
+                small.m-t-xs.block
+                  i.fa.fa-map-marker.m-r-xs
+                  = truncate sanitize(job.location.street1.titleize)
+                  - if job.location.street2?
+                    = truncate sanitize(job.location.street2.titleize)
+              small.m-t-xs.block.m-lt-8
+                i.icon-block.m-r-xs
+                - if job.location.city?
+                  = truncate sanitize(job.location.city.titleize) + " "
+                - if job.location.state?
+                  = truncate sanitize(job.location.state.upcase) + ", "
+                = truncate sanitize(job.location.zip_code)
+            div.mt-text.rt
+              = link_to "#", id: "job-#{job.id}-3", "data-toggle" => "modal", 'data-target' => "#job-modal-#{job.id}", class: "job-card btn-feed-block", 'data-slug'=>"#{job.slug}"
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
+
+- else
+  .feed-item.feed-event
+    .feed-item-meta
+      => icon 'calendar'
+      strong> Job
+      span.pull-right
+        span.text-muted> Starts in #{time_ago_in_words job.start_date}
+    - cache job do
+      .event-widget
+        .event
+          time.event-datetime datetime=job.start_date
+            span.day = job.occurs_on.day
+            span.month = job.occurs_on.strftime('%b')
+            span.year = job.occurs_on.year
+          - placement = job.job_image_placement
+          - if placement.try(:embeds?)
+            .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+          - elsif placement.try(:image).try(:attachment_url)
+            = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
+          .event-info
+            h2.event-title = link_to job.title, website_generic_post_path(job.to_generic_param)
+            .event-desc.truncate = truncate sanitize(job.description), length: 250, omission: '... ' do
+              = link_to "Read More", "#", id: "job-#{job.id}", "data-toggle" => "modal", 'data-target' => "#job-modal-#{job.id}", class: "job-card", 'data-slug'=>"#{job.slug}"
+
+div class="modal fade content-modal" id="job-modal-#{job.id}" role="dialog" data-slug="#{job.slug}"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button class="close" type="button" data-dismiss="modal"
+          span
+            | &times;
+          br
+      .modal-body
+        = render partial: 'website/jobs/modal_show', locals: {job: job}
+
+javascript:
+  $("job-modal-#{job.id}").on('shown.bs.modal', function () {
+    window.location.hash = '#{job.slug}';
+  })
+
+  $("job-modal-#{job.id}").on('hidden.bs.modal', function (e) {
+    window.location.hash = '';
+  })

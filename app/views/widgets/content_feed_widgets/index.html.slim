@@ -23,7 +23,10 @@
       - if posts.present? && !posts.empty?
         / h1 =@content_feed_widget.content_types.to_s.split(' ')
         - order_the_events(posts.to_a).each do |posts|
-          = render :partial => "website/#{posts.to_partial_path}", :object => posts
+          - if @content_feed_widget.business == posts.business
+            = render :partial => "website/#{posts.to_partial_path}", :object => posts
+          - else
+            = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
       - elsif !posts.present? || posts.empty?
         div.col-xs-9
         h2 Nothing matched your search or there is no content here yet...

@@ -125,7 +125,7 @@ html lang="en"
         .webpage-footer
           = render @website.footer_block
           .text-center.locable-footer style="margin: 1em 0"
-            = link_to 'http://www.locable.com', target: :_blank do
+            = link_to 'https://www.locable.com', target: :_blank do
               = image_tag 'Locable_Dark_Logo.png', alt: 'Locable&#39;s Marketing Platform for Local Businesses'
             = @website.footer_injection.try(:html_safe)
           = yield :javascript

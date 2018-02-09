@@ -1,0 +1,97 @@
+- business = post.business
+- if @masonry.present? && @masonry == true
+  /.col-xs-4.slider-content.single-blog
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache post do
+          div.product-imitation.p-a-0
+            = link_to "#", id: "post-#{post.id}-1", "data-toggle" => "modal", 'data-target' => "#post-modal-#{post.id}", class: "post-card", 'data-slug'=>"#{post.slug}" do
+              - if post.main_image 
+                = image_tag post.main_image.attachment_url(:small)
+              - else
+                - placement = post.sections_placement
+                - if placement
+                  - cache placement do
+                    - if placement.try(:embeds?)
+                      = placement.embed.html_safe
+                    - elsif placement.try(:image)
+                      = image_tag placement.image.attachment_url(:small)
+                    - else
+                      = image_tag "impact_gs.jpg", alt: "image", title: "image"
+                - else
+                  = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            = link_to "#", id: "post-#{post.id}-2", "data-toggle" => "modal", 'data-target' => "#post-modal-#{post.id}", class: "post-card grid-feed-title", 'data-slug'=>"#{post.slug}" do
+              = truncate sanitize(post.title.titleize), length: 60, omission: '... '
+            - if post.meta_description.present?
+              small.m-t-xs = truncate sanitize(post.meta_description), length: 90, omission: '... '             
+            - else
+              small.m-t-xs = truncate sanitize(post.sections_content), length: 90, omission: '... '
+            div.mt-text.rt
+              = link_to "#", id: "post-#{post.id}", "data-toggle" => "modal", 'data-target' => "#post-modal-#{post.id}", class: "post-card btn-feed-block", 'data-slug'=>"#{post.slug}" do
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
+  / .col-xs-4.slider-content.single-blog
+    = link_to website_generic_post_path(post.to_generic_param) do
+      - cache post do
+        - placement = post.sections_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        - elsif placement.try(:image).try(:attachment_medium_url)
+          div.post-blog-image style="background-image: url('#{placement.image.attachment_medium_url}');"
+        - else
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+          / div.post-blog-image.content-no-photo
+        h3.slider-text = truncate sanitize(post.title), length: 75, omission: '... '
+        p.slider-p = truncate(post.meta_description && post.meta_description.length > 0 ? post.meta_description : sanitize(post.sections_content), length: 90, omission: '... ')
+        / button.btn.btn-primary.btn-sm.pull-left Read More
+- else
+  .feed-item.feed-post
+    .feed-item-meta
+      => icon 'edit'
+      strong> Post
+      span.pull-right
+        span.text-muted> Posted #{time_ago_in_words post.published_at} ago
+        - if post.content_categories.any? || post.content_tags.any?
+          span.text-muted> in
+          - (post.content_categories + post.content_tags).each_with_index do |classification, i|
+            = link_to classification.name, [:website, classification]
+            - if i < post.content_categories.count + post.content_tags.count - 1
+              ' ,
+    - cache post do
+      h2 = link_to post.title, website_generic_post_path(post.to_generic_param)
+      .clearfix
+        - placement = post.sections_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        - elsif placement.try(:image).try(:attachment_url)
+          - if defined?(small)
+            = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
+          - else
+            = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
+            
+          - if post.meta_description && post.meta_description.length > 0
+            = truncate post.meta_description, length: 250
+          - else
+            = truncate sanitize(post.sections_content), length: 250
+            
+div class="modal fade content-modal" id="post-modal-#{post.id}" role="dialog" data-slug="#{post.slug}"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button class="close" type="button" data-dismiss="modal"
+          span
+            | &times;
+          br
+      .modal-body
+        = render partial: 'website/posts/modal_show', locals: {post: post}
+
+javascript:
+  $("post-modal-#{post.id}").on('shown.bs.modal', function () {
+    window.location.hash = '#{post.slug}';
+  })
+
+  $("post-modal-#{post.id}").on('hidden.bs.modal', function (e) {
+    window.location.hash = '';
+  })

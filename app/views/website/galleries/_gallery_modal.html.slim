@@ -7,7 +7,7 @@
     .ibox-blog  
       div.ibox-content.product-box    
         - cache gallery do  
-          div.product-imitation = link_to [:website, gallery, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
+          div.product-imitation = link_to "#", id: "gallery-#{gallery.id}-1", "data-toggle" => "modal", 'data-target' => "#gallery-modal-#{gallery.id}", class: "gallery-card", 'data-slug'=>"#{gallery.slug}" do
             - if gallery_count > 0 && gallery_count <= 2
               - gallery.gallery_images.limit(2).each_with_index do |gallery_image, index|
                   - image = gallery_image.gallery_image
@@ -30,7 +30,7 @@
             -elsif gallery_count == 0
               = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to [:website, gallery, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
+            = link_to "#", id: "gallery-#{gallery.id}-2", "data-toggle" => "modal", 'data-target' => "#gallery-modal-#{gallery.id}", class: "gallery-card", 'data-slug'=>"#{gallery.slug}" do
               div.grid-feed-title  = truncate sanitize(gallery.title), length: 75, omission: '... '
               / p.slider-text.slider-text-sub
             small.m-t-xs #{pluralize(gallery.gallery_images.count, 'photo').upcase}
@@ -38,9 +38,10 @@
               - if gallery.meta_description.present?
                 small.m-t-xs = truncate sanitize(gallery.meta_description), length: 90, omission: '... '             
               - else
-                small.m-t-xs = truncate sanitize(gallery.description), length: 85, omission: '... '
+                small.m-t-xs = truncate sanitize(gallery.description), length: 90, omission: '... '
             div.mt-text.rt
-              = link_to [:website, gallery, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
+              = link_to "#", id: "gallery-#{gallery.id}-3", "data-toggle" => "modal", 'data-target' => "#gallery-modal-#{gallery.id}", class: "gallery-card btn-feed-block", 'data-slug'=>"#{gallery.slug}"
+
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
           
@@ -74,3 +75,25 @@
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
+
+
+div class="modal fade content-modal" id="gallery-modal-#{gallery.id}" role="dialog" data-slug="#{gallery.slug}"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button class="close" type="button" data-dismiss="modal"
+          span
+            | &times;
+          br
+      .modal-body
+        = render partial: 'website/galleries/modal_show', locals: {gallery: gallery}
+
+
+javascript:
+  $("gallery-modal-#{gallery.id}").on('shown.bs.modal', function () {
+    window.location.hash = '#{gallery.slug}';
+  })
+
+  $("gallery-modal-#{gallery.id}").on('hidden.bs.modal', function (e) {
+    window.location.hash = '';
+  })

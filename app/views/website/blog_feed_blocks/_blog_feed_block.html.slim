@@ -19,10 +19,19 @@
         - if posts.present? && !posts.empty?
           - if params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
             - posts.to_a.each do |posts|
-              = render posts
+
+              - if blog_feed_block.business == posts.business
+                = render posts
+              - else
+                = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
           - else
             - order_the_events(posts.to_a).each do |posts|
-              = render posts
+
+              - if blog_feed_block.business == posts.business
+                = render posts
+              - else
+                = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
+                
         - elsif !posts.present? || posts.empty?
           div.col-xs-9
           h2 Nothing matched your search or there is no content here yet...
