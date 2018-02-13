@@ -7,11 +7,11 @@
       ul.dropdown-menu
         = render partial: 'website/nav_links/nav_link', collection: nav_link.cached_children, locals: { style: '' }
   - elsif nav_link.internal?
-    - if nav_link.webpath? && nav_link.webpath == 'galleries'
+    - if nav_link.webpath? && nav_link.webpath == 'Galleries'
       li = link_to nav_link.label, :website_galleries, style: style
-    - elsif nav_link.webpath? && nav_link.webpath == 'events'
+    - elsif nav_link.webpath? && nav_link.webpath == 'Events'
       li = link_to nav_link.label, :website_events, style: style
-    - elsif nav_link.webpath? && nav_link.webpath == 'reviews'
+    - elsif nav_link.webpath? && nav_link.webpath == 'Reviews'
       li = link_to nav_link.label, :website_reviews, style: style
     - elsif nav_link.webpage && nav_link.webpage.is_a?(HomePage)
       li = link_to nav_link.label, website_root_path, style: style
