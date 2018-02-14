@@ -4,141 +4,124 @@ RichTextEditor = React.createClass
     html: React.PropTypes.string
     inline: React.PropTypes.bool
     update: React.PropTypes.func
+    name: React.PropTypes.string
+    placeholder: React.PropTypes.string
+    rows: React.PropTypes.number
 
   getInitialState: ->
     content: this.props.html
 
-
   getDefaultProps: ->
     inline: false
     enabled: true
+    placeholder: ''
 
   componentDidMount: ->
-    # this.$node = $(ReactDOM.findDOMNode(this))
-    if this.props.enabled
-      this.enableRichText()
+    onfocus = this.handleFocus.bind(this)
+    onblur = this.handleBlur.bind(this)
 
-  componentWillUpdate: (nextProps) ->
+    this.editor = $(React.findDOMNode(this))
 
-    # if this.selectionRange
-    # console.log this.selectionRange
-    # console.log this.selectionRange.getStartPoint(), this.selectionRange.getEndPoint()
-    # range = document.createRange()
-    # start = this.selectionRange.getStartPoint()
-    # range.setStart(start.node, start.offset)
-    # end = this.selectionRange.getEndPoint()
-    # range.setEnd(end.node, end.offset)
-    # sel = window.getSelection()
-    # sel.removeAllRanges()
-    # sel.addRange(range)
+    # Enable Summernote
+    this.editor.find('.raw').summernote this.summernoteOptions()
+    this.editor.find('.note-editor').find('.btn-group').addClass('exclude-custom-css')
 
-    # console.log "updating", ReactDOM.findDOMNode(this)
-    # if this.$node
-    #   this.$node.summernote('restoreRange')
+    # Add focusin and focusout events (they bubble from children)
+    this.editor[0].addEventListener('focusin', onfocus)
+    this.editor[0].addEventListener('focusout', onblur)
 
-    # if !this.props.enabled and nextProps.enabled
-    #   this.enableRichText()
-    # else if this.props.enabled and !nextProps.enabled
-    #   this.disableRichText()
-
-  componentWillUnmount: ->
-    if this.props.enabled
-      this.disableRichText()
-
-  enableRichText: ->
-    $(ReactDOM.findDOMNode(this)).summernote this.summernoteOptions()
-    $(ReactDOM.findDOMNode(this)).siblings('.note-editor').find('.btn-group').addClass('exclude-custom-css')
-    $(".note-air-popover a").on('click', (e) -> e.preventDefault())
-
-  disableRichText: ->
-    # $(ReactDOM.findDOMNode(this)).destroy()
-    # $(ReactDOM.findDOMNode(this)).summernote('disable')
+    # Hide the editor at first. Await focus.
+    this.editor.find('.note-toolbar').hide()
 
   _onChange: (content, context) ->
     this.setState
       content: content
-    # console.log $(context).summernote('createRange')
-    # # console.log context
-    # # console.log
-    # # this.$node = $(context)
-    # # if this.$node
-    # # this.$node.summernote('saveRange')
-    # this.selectionRange = $(context).summernote('createRange')
-    # this.props.update(content)
 
   summernoteOptions: ->
     defaults =
-      placeholder: 'placeholder'
-      # focus: true
-      airMode: true
-      # toolbar: this.summernoteToolbar()
-      airPopover: this.summernoteToolbar()
+      placeholder: this.props.placeholder
+      toolbar: this._toolbarOptions()
       onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
-      cleaner: {
-            action:'both',
-            keepHtml: true,
-            keepOnlyTags: ['<p>', '<br>', '<ul>', '<li>', '<b>', '<strong>','<i>', '<a>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>'],
-            keepClasses: false,
-            badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'html'],
-            badAttributes: ['style', 'start', 'table', 'tbody', 'tr', 'td'],
-            notStyle:'position:absolute;bottom:0;left:2px;',
-            icon:'<i class="note-icon">CL</i>'
-          }
+      cleaner: this._cleanerOptions(),
+
+    if this.props.rows
+      defaults = $.extend {}, defaults, height: this.props.rows * 12.5
+
     if this.props.update
-      $.extend {}, defaults, onChange: this._onChange
+      $.extend {}, defaults, callbacks: onChange: this._onChange
 
     else defaults
 
-  mouseEnter: (event) ->
+  handleBlur: (event) ->
+    # Blurring the editor. Begin hiding the toolbar
+    this.editor.find('.note-toolbar').stop(true).slideUp()
+    this.editor.toggleClass('focus', false)
+    this.editor.toggleClass('empty', this.editor.find('.raw').summernote('isEmpty'));
 
-  handleClick: (event) ->
-    $(".note-air-popover").hide()
-
-  handleBlur: (event, c) ->
-    console.log "blurring"
-    console.log event
-    # console.log this.$node.id
-    # $(event.target).summernote('disable')
-    # this.$node.destroy()
-    # this.disableRichText()
-    # reg = /note-editor-(\d+)/
-    # console.log $(event.target).attr('id').match(reg)
-    # id = $(event.target).attr('id').match(reg)[1]
-    # $("#note-popover-#{id} .note-air-popover").hide()
     if this.props.update
       this.props.update(this.state.content)
 
-  summernoteToolbar: ->
+  handleFocus: (event) ->
+    # Focusing somewhere in the area.
+    # Stop hiding toolbar, in case there was just a blur event (changing focus within editor)
+    # Then show the toolbar
+    this.editor.find('.note-toolbar').stop(true).slideDown()
+    this.editor.toggleClass('focus', true)
+    this.editor.toggleClass('empty', this.editor.find('.raw').summernote('isEmpty'));
+
+  _toolbarOptions: ->
     if this.props.inline
       [
-        # ['cleaner', ['cleaner']],
         ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
         ['align', ['paragraph']],
-        ['clear', ['clear']],
-        # ['misc', ['codeview']],
+        ['clear', ['clear', 'cleaner', 'codeview']],
       ]
     else
       [
-        # ['cleaner', ['cleaner']],
         ['display', ['style']],
         ['style', ['bold', 'italic', 'underline', 'superscript', 'strikethrough']],
         ['insert', ['link']],
         ['lists', ['ul', 'ol']],
         ['align', ['paragraph']],
         ['blocks', ['hr', 'table']],
-        ['clear', ['clear']],
-        # ['misc', ['codeview']],
+        ['clear', ['clear', 'cleaner', 'codeview']],
       ]
+  _cleanerOptions: ->
+
+    $.extend {}, $.summernote.options.cleaner,
+      {
+        action: 'both',
+        keepHtml: true,
+        keepOnlyTags: [
+          '<p>',
+          '<br>',
+          '<ul>', '<ol>', '<li>',
+          '<b>', '<strong>', '<i>', '<em>',
+          '<a>',
+          '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>'
+        ],
+        keepClasses: false,
+        badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'],
+        badAttributes: ['style', 'start', 'class'],
+        limitChars: 0,
+        limitDisplay: 'none',
+      }
 
   render: ->
-    # if this.props.html == "<br>"
-    #   `<i className="fa fa-plus-circle" aria-hidden="true" style={{ color: '#1ab394', padding: '5px' }} onClick={() => this.props.update(' ')}></i>`
     html = if this.props.html == "<br>" or this.props.html == "<p><br></p>" then '' else this.props.html
-    `<div
-      dangerouslySetInnerHTML={{__html: html}}
-      onMouseEnter={this.mouseEnter}
-      onBlur={this.handleBlur}
-      onClick={this.handleClick}
-    />`
+
+    # tabindex is important here to catch 'focuses' that are within editor but not in the text
+    # area nor a toolbar button. e.g., blank space within editor area.
+
+    if (this.props.name)
+      `<div className="summernote-editor" tabIndex="0">
+        <i className="fa fa-plus-circle empty-plus"></i>
+        <textarea className="raw" name={this.props.name} defaultValue={html}></textarea>
+      </div>`
+    else
+      `<div className="summernote-editor" tabIndex="0">
+        <i className="fa fa-plus-circle empty-plus"></i>
+        <div className="raw" dangerouslySetInnerHTML={{__html: html}} />
+      </div>`
 
 window.RichTextEditor = RichTextEditor

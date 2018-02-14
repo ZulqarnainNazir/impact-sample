@@ -38,7 +38,10 @@
             br>
             .form-group
               = form.label "Description *", class: 'control-label'
-              = form.text_area :description, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Describe how you achieved what’s in the comparison above, the benefits and how the client feels about it.'
+              = react_component 'RichTextEditor',
+                  name: 'before_after[description]',
+                  html: @before_after.description,
+                  rows: 5
             br>
             br>
             br>

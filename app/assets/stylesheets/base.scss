@@ -65,3 +65,16 @@ html, body {
     top: -32px;
     right: 0;
 }
+
+.summernote-editor .note-status-output {
+    display: none !important;
+}
+.summernote-editor .empty-plus {
+    display: none;
+}
+
+.summernote-editor #libre-paintbrush {
+    position: relative;
+    top: 3px;
+    left: 0;
+}

@@ -33,7 +33,10 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
               .col-sm-7
                 .form-group
                   = form.label :content, class: 'control-label sr-only'
-                  = form.text_area :content, rows: 6, class: 'form-control', placeholder: 'Add your section content here - try a short paragraph or two.'
+                  = react_component 'RichTextEditor',
+                      name: "post[post_sections_attributes][#{form.options[:child_index]}][content]",
+                      html: post_section.content,
+                      rows: 12
           .post-section-fields-warning.text-muted: em This Section will be removed upon Save
         .panel-footer.text-right
           .post-section-fields-content.pull-left style="margin:4px"

@@ -19,11 +19,11 @@
 //= require jquery-fileupload/basic
 //= require jquery.minicolors
 //= require recurring_select
-//= require summernote
 //= require moment
 //= require bootstrap-datetimepicker
 //= require twitter/typeahead.min
 //= require dashboard/inspinia.js
+//= require ./plugins/summernote-lite
 //= require_tree ./plugins
 //= require_tree ./scripts
 //= require_tree .

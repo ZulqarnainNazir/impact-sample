@@ -29,7 +29,10 @@
             br>
             .form-group
               = form.label "Content *", class: 'control-label'
-              = form.text_area :content, rows: 8, class: 'form-control wysihtml-editor'
+              = react_component 'RichTextEditor',
+                  name: 'quick_post[content]',
+                  html: @quick_post.content,
+                  rows: 8
             br>
             br>
             br>

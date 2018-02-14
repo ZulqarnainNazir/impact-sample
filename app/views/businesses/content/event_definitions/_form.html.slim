@@ -63,7 +63,10 @@
             showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
           .form-group
             = form.label "Description *", class: 'control-label'
-            = form.text_area :description, rows: 6, class: 'form-control wysihtml-editor', placeholder: 'Describe what the event is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the event is about.'
+            = react_component 'RichTextEditor',
+                name: 'event_definition[description]',
+                html: @event_definition.description,
+                rows: 12
           .form-group.col-xs-6
             = form.label :start_date, class: 'control-label'
             .input-group

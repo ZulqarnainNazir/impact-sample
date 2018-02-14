@@ -58,7 +58,10 @@
             showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
           .form-group
             = form.label "Description *", class: 'control-label'
-            = form.text_area :description, rows: 6, class: 'form-control wysihtml-editor', placeholder: 'Describe what the job is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the job is about.'
+            = react_component 'RichTextEditor',
+                name: 'job[description]',
+                html: @job.description,
+                rows: 12
 
           .col-sm-12
             = form.label :schedule_type, class: 'control-label'

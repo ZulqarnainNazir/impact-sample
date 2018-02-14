@@ -17,7 +17,10 @@
                   = link_to "View Post", listing_path_content_url(@business, @gallery.slug, 'gallery'), class: 'btn btn-block btn-default', :target => "_blank"
           .form-group
             = form.label "Description *", class: 'control-label'
-            = form.text_area :description, rows: 3, class: 'form-control wysihtml-editor', placeholder: 'Describe what the gallery is about in more detail, this can be a short description or a more lengthy post. Make sure you add enough so a visitor will know what the gallery is about.'
+            = react_component 'RichTextEditor',
+                name: 'gallery[description]',
+                html: @gallery.description,
+                rows: 6
           .gallery-images-associations.col-xs-12
             - form.object.gallery_images.build
             = render partial: 'businesses/content/gallery_images/form', collection: form.object.gallery_images, as: :gallery_image, locals: { gallery_form: form }

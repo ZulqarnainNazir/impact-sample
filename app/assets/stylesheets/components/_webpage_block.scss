@@ -114,3 +114,51 @@
 .hide-button .btn-p {
     display: none;
 }
+
+/* Summernote overrides */
+.webpage-block .summernote-editor .note-editor .note-statusbar {
+    display: none;
+}
+
+.webpage-block .summernote-editor {
+
+    position: relative;
+    top: 0;
+    left: 0;
+
+    .note-editable {
+        border: 1px solid transparent;
+        background: transparent;
+        transition: background-color 0.25s ease-in;
+    }
+
+    .empty-plus {
+        display: none;
+        font-size: 20px;
+    }
+
+    &.focus {
+
+        .note-editable {
+            border: 1px solid rgba(204, 204, 204, 0.6);
+            background: rgba(255, 255, 255, 0.3);
+        }
+    }
+
+    &:not(.focus):hover {
+
+        &.empty .empty-plus {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -0.5em;
+            margin-top: -0.5em;
+            color: $navy;
+        }
+
+        .note-editable {
+            border: 1px solid $navy;
+        }
+    }
+}

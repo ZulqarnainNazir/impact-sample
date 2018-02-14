@@ -39,10 +39,16 @@
               .col-sm-6
                 .form-group
                   = form.label :offer, 'Offer Details *', class: 'control-label'
-                  = form.text_area :offer, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Add more details about the offer. Remember, you’re selling what makes this OFFER great.'
+                  = react_component 'RichTextEditor',
+                      name: 'offer[offer]',
+                      html: @offer.offer,
+                      rows: 8
                 .form-group
                   = form.label :description, 'Include any additional benefits to the offer', class: 'control-label'
-                  = form.text_area :description, rows: 8, class: 'form-control wysihtml-editor', placeholder: 'Here you should describe what’s include and why your product or service is great. Highlight a benefit or two.'
+                  = react_component 'RichTextEditor',
+                      name: 'offer[description]',
+                      html: @offer.description,
+                      rows: 8
           .row
             .col-sm-6
               .form-group
@@ -59,7 +65,10 @@
             .col-sm-10.col-sm-offset-1
               .form-group
                 = form.label :terms, 'Terms and Conditions – The Fine Print and Limitations *', class: 'control-label'
-                = form.text_area :terms, rows: 4, class: 'form-control wysihtml-editor', placeholder: 'Describe any limitations such as may not be combined with other offers, only valid on certain products etc.'
+                = react_component 'RichTextEditor',
+                    name: 'offer[terms]',
+                    html: @offer.terms,
+                    rows: 8
               br
               .form-group
                 = form.label :coupon, 'Have a printable coupon you‘d like to use when redeeming?'
