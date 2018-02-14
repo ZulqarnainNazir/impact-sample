@@ -10,7 +10,7 @@ ModalsContainer = React.createClass
       <HeroSettingsModal {...this.props.callbacks} />
       <TaglineSettingsModal updateTaglineSettings={this.props.updateTaglineSettings} />
       <FeedSettingsModal {...this.props.webpageState} updateFeedSettings={this.props.updateFeedSettings} />
-      <ReviewSettingsModal {...this.props.webpageState} />
+      <ReviewSettingsModal {...this.props.webpageState} updateReviewsSettings={this.props.updateReviewsSettings}/>
       <FeedContentModal {...this.props.webpageState} {...this.props.callbacks} />
       <SupportLocalSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateSupportLocalSettings={this.props.updateSupportLocalSettings} />
       <CalendarSettingsModal

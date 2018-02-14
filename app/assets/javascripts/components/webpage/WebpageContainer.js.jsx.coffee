@@ -375,6 +375,7 @@ WebpageContainer = React.createClass
       updateTaglineSettings: this.updateTaglineSettings,
       updateDefaultSettings: this.updateDefaultSettings,
       updateFeedSettings: this.updateFeedSettings,
+      updateReviewsSettings: this.updateReviewsSettings,
       updateSupportLocalSettings: this.updateSupportLocalSettings,
       updateCalendarSettings: this.updateCalendarSettings,
       updateContactFormSettings: this.updateContactFormSettings,
