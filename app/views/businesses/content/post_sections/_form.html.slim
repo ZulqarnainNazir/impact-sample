@@ -33,7 +33,7 @@ li.post-section-fields class=[appended ? 'is-appended' : nil, post_section.kind 
               .col-sm-7
                 .form-group
                   = form.label :content, class: 'control-label sr-only'
-                  = react_component 'RichTextEditor',
+                  = react_unmounted_component 'RichTextEditor',
                       name: "post[post_sections_attributes][#{form.options[:child_index]}][content]",
                       html: post_section.content,
                       rows: 12

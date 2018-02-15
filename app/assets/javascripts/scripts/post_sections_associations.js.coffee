@@ -44,9 +44,12 @@ $.fn.postSectionsAssociations = ->
         postSectionImage = $(appendedPostSection.clone()[0].outerHTML.replace(/98765432101/g, postSectionImageKey))
         postSectionImage.attr 'id', postSectionImageID
         associations.append postSectionImage
-        postSectionImage.find('textarea').wysihtmlEditor()
+
         unmountedReactComponents = postSectionImage.find('[data-react-unmounted-class]')
-        unmountedReactComponents.attr 'data-react-class', unmountedReactComponents.data().reactUnmountedClass
+        unmountedReactComponents.each (i) -> # Note single arrow, this-binding is important
+          component = $(this)
+          component.attr 'data-react-class', component.data().reactUnmountedClass
+
         window.ReactRailsUJS.mountComponents "##{postSectionImageID}"
         updateAssociations()
 
@@ -59,13 +62,13 @@ $.fn.postSectionsAssociations = ->
       if associations.find('.post-section-fields').length is 0
         appendPostSection()
 
-    # Enable the WYSIHTML Editor on all existing post sections.
-    associations.find('.post-section-fields:not(.is-appended) textarea').wysihtmlEditor()
-
     # Mount all existing post sections.
     unmountedExistingReactComponents = associations.find('.post-section-fields:not(.is-appended) [data-react-unmounted-class]')
     if unmountedExistingReactComponents.length > 0
-      unmountedExistingReactComponents.attr 'data-react-class', unmountedExistingReactComponents.data().reactUnmountedClass
+
+      unmountedExistingReactComponents.each (i) -> # Note single arrow, this-binding is important
+          component = $(this)
+          component.attr 'data-react-class', component.data().reactUnmountedClass
       window.ReactRailsUJS.mountComponents '.post-section-fields:not(.is-appended)'
 
 

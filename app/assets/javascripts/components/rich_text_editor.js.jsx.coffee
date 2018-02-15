@@ -43,6 +43,7 @@ RichTextEditor = React.createClass
       toolbar: this._toolbarOptions()
       onCreateLink: (link) -> if link.indexOf('/') != 0 and link.indexOf('://') == -1 then 'http://' + link else link
       cleaner: this._cleanerOptions(),
+      styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 
     if this.props.rows
       defaults = $.extend {}, defaults, height: this.props.rows * 12.5

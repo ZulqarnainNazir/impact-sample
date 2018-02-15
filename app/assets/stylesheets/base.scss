@@ -66,15 +66,23 @@ html, body {
     right: 0;
 }
 
-.summernote-editor .note-status-output {
-    display: none !important;
-}
-.summernote-editor .empty-plus {
-    display: none;
-}
+.summernote-editor {
 
-.summernote-editor #libre-paintbrush {
-    position: relative;
-    top: 3px;
-    left: 0;
+    a.note-dropdown-item {
+        padding: 3px 0;
+    }
+
+    .note-status-output {
+        display: none !important;
+    }
+    .empty-plus {
+        display: none;
+    }
+
+    #libre-paintbrush {
+        position: relative;
+        top: 3px;
+        left: 0;
+    }
+
 }
