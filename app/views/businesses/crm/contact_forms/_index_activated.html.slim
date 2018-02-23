@@ -1,0 +1,77 @@
+- title 'Contact Forms'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'CRM', :fp => :crm_root, :an => 'Contact Forms'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .pull-right
+            / = form_tag [@business, :crm_contact_forms], method: :get, style: 'float:left; margin-right:0.5em' do
+            /   .form-group
+            /     = label_tag :query, 'Query', class: 'sr-only'
+            /     .input-group
+            /       = text_field_tag :query, params[:query], class: 'form-control'
+            /       span.input-group-btn
+            /         = button_tag icon('search'), class: 'btn btn-default'
+            = link_to [:new, @business, :crm_contact_form], class: 'btn btn-sm btn-default' do
+              => icon 'plus-circle'
+              | Add a Contact Form
+          
+          - if @contact_forms.empty?
+            .p-a-3.text-center
+              h2 No Contact Forms Found
+              h4
+                = link_to 'Create a New Contact Form', [:new, @business, :crm_contact_form], class: 'text-navy'
+          - else
+            p style="margin:2em 0" = page_entries_info @contact_forms
+            table.footable.table.table-stripped.datatable
+              thead
+                tr
+                  th
+                    | Name
+                  th # of Submissions
+                  th Last Submission
+                  th
+              tbody
+                = render @contact_forms
+          = paginate @contact_forms
+
+- content_for :javascript do
+  javascript:
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This action cannot be reversed.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };
+    
+    $(function() {
+      $('.footable').footable();
+    });

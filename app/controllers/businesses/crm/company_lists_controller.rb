@@ -1,4 +1,5 @@
 class Businesses::Crm::CompanyListsController < Businesses::BaseController
+  before_action -> { confirm_module_activated(2) }, except: :index
 
   before_action only: member_actions do
     @company_list = @business.company_lists.find(params[:id])

@@ -1,5 +1,5 @@
 class Businesses::Crm::ContactFormsController < Businesses::BaseController
-  before_action -> { confirm_module_activated(4) }
+  before_action -> { confirm_module_activated(4) }, except: :index
   before_action only: member_actions do
     @contact_form = @business.contact_forms.where(archived: false).find(params[:id])
     @form_fields = FormField.all
