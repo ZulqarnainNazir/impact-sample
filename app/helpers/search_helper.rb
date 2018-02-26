@@ -110,6 +110,7 @@ module SearchHelper
   end
 
   def posts(blog_feed_block, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+    #this method is being used not only for /blog pages, but also for directory modals as of 2.21.18 - Taylor Barnette
     Kaminari.paginate_array(
         ContentBlogSearch.new(
           blog_feed_block,

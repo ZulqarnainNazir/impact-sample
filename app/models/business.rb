@@ -102,6 +102,14 @@ class Business < ActiveRecord::Base
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
   before_save :generate_slug, unless: :slug?
 
+  def has_active_content?
+    if self.offers.where(published_status:true) || self.event_definitions.where(published_status:true) || self.posts.where(published_status:true) || self.quick_posts.where(published_status:true) || self.galleries.where(published_status:true) || self.jobs.where(published_status: true)
+      true
+    else
+      false
+    end
+  end
+
   def create_and_enable_all_modules
     count = [0, 1, 2, 3, 4, 5]
     content_type = [:post, :before_after, :event, :quick_post, :job, :offer, :gallery]

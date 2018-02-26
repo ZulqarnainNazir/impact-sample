@@ -36,7 +36,7 @@
     :description: "Once you’re ready, you can add your custom URL to your site’s <href='/businesses/<%= @business.id %>/website/details/edit'>Basic Details</a> and update your DNS to go live. See our knowledge base for details on <href='http://help.locable.com/website-builder/domain-settings/taking-your-site-live'>DNS settings</a>. Some people would prefer help updating their DNS settings, let us know if you’d like a hand."
     :group: "preparing_to_launch"
   - :title: "Get to know Buzz, your Virtual Marketing Assistant"
-    :description: "We've added a number of marketing recommendations to ensure you've got a solid foundation and an ongoing marketing plan. Explore, activate and assign Missions or create your own. Checkout <a href='/businesses/<%= @business.id %>/missions' target='_blank'>recommended Marketing Missions</a>."
+    :description: "We've added a number of Marketing Missions to ensure you've got a solid foundation and an ongoing marketing plan. Explore, activate and assign Missions or create your own. Checkout <a href='/businesses/<%= @business.id %>/missions' target='_blank'>recommended Marketing Missions</a>."
     :group: "after_launch"
   - :title: "Add content feeds to pages"
     :description: "Once you’ve begun <a href='http://help.locable.com/marketing-tools/content-types/understanding-the-role-of-marketing-messages' target='_blank'>posting marketing content</a> you may want to include certain content on certain relevant pages. You can learn more about adding feeds to pages in our <href='http://help.locable.com/marketing-tools/marketing-messages-and-content-types/the-content-feed-component'>knowledge base</a>."
