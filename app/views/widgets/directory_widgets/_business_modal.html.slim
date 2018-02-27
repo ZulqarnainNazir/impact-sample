@@ -116,53 +116,53 @@
       /       | Jobs 
       /       i.fa.fa-photo
       /       span.label.label-primary=business.jobs.size
-    - if business.has_active_content?
-      h2 Recent Content
-      .tab-content
-        .tab-pane.active id="tab-All-#{business.id}"
-          / - raise StandardError, business.offers.merge(business.event_definitions).to_json
-          - content = Kaminari.paginate_array((business.offers.where(published_status:true) + business.event_definitions.where(published_status:true) + business.posts.where(published_status:true) + business.quick_posts.where(published_status:true) + business.galleries.where(published_status:true) + business.jobs.where(published_status: true)).sort_by(&:published_at).reverse).page(params[:page]).per(8)
-          / - content = posts(nil, business, content_types: %w[QuickPost Event Gallery BeforeAfter Offer Post Job], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 8)
-          - 
-          - content.each do |thing|
-            / - case thing.class
-            - if thing.class == Offer
-              = render partial: 'website/offers/offer', locals: { business: business, offer: thing }
-            - elsif thing.class == EventDefinition
-              = render partial: 'website/event_definitions/event_definition', locals: { business: business, event_definition: thing }
-            - elsif thing.class == QuickPost
-              = render partial: 'website/quick_posts/quick_post', locals: { quick_post: thing, business: business }
-            - elsif thing.class == Post
-              = render partial: 'website/posts/post', locals: { post: thing, business: business }
-            - elsif thing.class == Gallery
-              = render partial: 'website/galleries/gallery', locals: { business: business, gallery: thing }
-            - elsif thing.class == Job
-              = render partial: 'website/jobs/job', locals: { business: business, job: thing }
-          = paginate content
-        .tab-pane id="tab-Offers-#{business.id}"
-          - offers = Kaminari.paginate_array(business.offers.where(published_status: true).sort_by(&:published_at).reverse).page(params[:offer_page]).per(8)
-          = render partial: 'website/offers/offer', collection: offers, locals: { business: business }
-          = paginate offers, param_name: :offer_page
-        .tab-pane id="tab-Events-#{business.id}"
-          - events = Kaminari.paginate_array(business.event_definitions.where(published_status: true).sort_by(&:published_at).reverse).page(params[:event_page]).per(8)
-          = render partial: 'website/event_definitions/event_definition', collection: events, locals: { business: business }
-          = paginate events, param_name: :event_page
-        .tab-pane id="tab-Posts-#{business.id}"
-          - posts = Kaminari.paginate_array((business.posts.where(published_status: true) + business.quick_posts.where(published_status: true)).sort_by(&:published_at).reverse).page(params[:post_page]).per(8)
-          - posts.each do |post|
-            - if post.class == QuickPost
-              = render partial: 'website/quick_posts/quick_post', locals: { quick_post: post, business: business }
-            - else
-              = render partial: 'website/posts/post', locals: { post: post, business: business }
-          = paginate posts, param_name: :post_page
-        .tab-pane id="tab-Galleries-#{business.id}"
-          - galleries = Kaminari.paginate_array(business.galleries.where(published_status: true).sort_by(&:published_at).reverse).page(params[:gallery_page]).per(8)
-          = render partial: 'website/galleries/gallery', collection: galleries, locals: { business: business }
-          = paginate galleries, param_name: :gallery_page
-        .tab-pane id="tab-Jobs-#{business.id}"
-          - jobs = Kaminari.paginate_array(business.jobs.where(published_status: true).sort_by(&:published_at).reverse).page(params[:job_page]).per(8)
-          = render partial: 'website/jobs/job', collection: jobs, locals: { business: business }
-          = paginate jobs, param_name: :job_page
+      - if business.has_active_content?
+        h2 Recent Content
+        .tab-content
+          .tab-pane.active id="tab-All-#{business.id}"
+            / - raise StandardError, business.offers.merge(business.event_definitions).to_json
+            - content = Kaminari.paginate_array((business.offers.where(published_status:true) + business.event_definitions.where(published_status:true) + business.posts.where(published_status:true) + business.quick_posts.where(published_status:true) + business.galleries.where(published_status:true) + business.jobs.where(published_status: true)).sort_by(&:published_at).reverse).page(params[:page]).per(8)
+            / - content = posts(nil, business, content_types: %w[QuickPost Event Gallery BeforeAfter Offer Post Job], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 8)
+            - 
+            - content.each do |thing|
+              / - case thing.class
+              - if thing.class == Offer
+                = render partial: 'website/offers/offer', locals: { business: business, offer: thing }
+              - elsif thing.class == EventDefinition
+                = render partial: 'website/event_definitions/event_definition', locals: { business: business, event_definition: thing }
+              - elsif thing.class == QuickPost
+                = render partial: 'website/quick_posts/quick_post', locals: { quick_post: thing, business: business }
+              - elsif thing.class == Post
+                = render partial: 'website/posts/post', locals: { post: thing, business: business }
+              - elsif thing.class == Gallery
+                = render partial: 'website/galleries/gallery', locals: { business: business, gallery: thing }
+              - elsif thing.class == Job
+                = render partial: 'website/jobs/job', locals: { business: business, job: thing }
+            = paginate content
+          .tab-pane id="tab-Offers-#{business.id}"
+            - offers = Kaminari.paginate_array(business.offers.where(published_status: true).sort_by(&:published_at).reverse).page(params[:offer_page]).per(8)
+            = render partial: 'website/offers/offer', collection: offers, locals: { business: business }
+            = paginate offers, param_name: :offer_page
+          .tab-pane id="tab-Events-#{business.id}"
+            - events = Kaminari.paginate_array(business.event_definitions.where(published_status: true).sort_by(&:published_at).reverse).page(params[:event_page]).per(8)
+            = render partial: 'website/event_definitions/event_definition', collection: events, locals: { business: business }
+            = paginate events, param_name: :event_page
+          .tab-pane id="tab-Posts-#{business.id}"
+            - posts = Kaminari.paginate_array((business.posts.where(published_status: true) + business.quick_posts.where(published_status: true)).sort_by(&:published_at).reverse).page(params[:post_page]).per(8)
+            - posts.each do |post|
+              - if post.class == QuickPost
+                = render partial: 'website/quick_posts/quick_post', locals: { quick_post: post, business: business }
+              - else
+                = render partial: 'website/posts/post', locals: { post: post, business: business }
+            = paginate posts, param_name: :post_page
+          .tab-pane id="tab-Galleries-#{business.id}"
+            - galleries = Kaminari.paginate_array(business.galleries.where(published_status: true).sort_by(&:published_at).reverse).page(params[:gallery_page]).per(8)
+            = render partial: 'website/galleries/gallery', collection: galleries, locals: { business: business }
+            = paginate galleries, param_name: :gallery_page
+          .tab-pane id="tab-Jobs-#{business.id}"
+            - jobs = Kaminari.paginate_array(business.jobs.where(published_status: true).sort_by(&:published_at).reverse).page(params[:job_page]).per(8)
+            = render partial: 'website/jobs/job', collection: jobs, locals: { business: business }
+            = paginate jobs, param_name: :job_page
 javascript:
   var ready = function() {
     $(".full-description-#{business.id}").hide();

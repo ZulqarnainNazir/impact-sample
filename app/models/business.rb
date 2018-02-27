@@ -103,7 +103,7 @@ class Business < ActiveRecord::Base
   before_save :generate_slug, unless: :slug?
 
   def has_active_content?
-    if self.offers.where(published_status:true) || self.event_definitions.where(published_status:true) || self.posts.where(published_status:true) || self.quick_posts.where(published_status:true) || self.galleries.where(published_status:true) || self.jobs.where(published_status: true)
+    if self.offers.where(published_status:true).exists? || self.event_definitions.where(published_status:true).exists? || self.posts.where(published_status:true).exists? || self.quick_posts.where(published_status:true).exists? || self.galleries.where(published_status:true).exists? || self.jobs.where(published_status: true).exists?
       true
     else
       false
