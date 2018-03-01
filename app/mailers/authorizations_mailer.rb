@@ -1,4 +1,5 @@
 class AuthorizationsMailer < ApplicationMailer
+
   def owner_welcome(authorization)
     @authorization = authorization
     mail to: @authorization.user.email
@@ -18,12 +19,12 @@ class AuthorizationsMailer < ApplicationMailer
   def review_notification(authorization, review)
     @authorization = authorization
     @review = review
-    mail to: @authorization.user.email
+    mail to: @authorization.user.email, layout: 'mailer_theme_three'
   end
 
   def contact_form_submission_notification(authorization, form_submission)
     @authorization = authorization
     @form_submission = form_submission
-    mail to: @authorization.user.email
+    mail to: @authorization.user.email, layout: 'mailer_theme_three'
   end
 end

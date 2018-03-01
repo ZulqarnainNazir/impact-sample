@@ -1,0 +1,71 @@
+tr
+  td
+    /! ::::::: LOGO :::::::
+    table bgcolor="#F4F5F7" border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:30px 0;"
+          = email_image_tag 'mailers/three/logo.jpg', alt: 'Locable', width: "180", style: "display:block;width:100%;max-width:180px;"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+      tr
+        td align="center" style="padding:0 16px 6px 16px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          - name = @user.name
+          | Welcome,&nbsp;
+          = name.length > 0 ? name : @email
+          | !
+      tr
+        td align="center" style="padding:0 16px 6px 16px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:20px;"
+          - unless @user.authorizations.empty?
+            - authorization = @user.authorizations.first
+            | You are now an authorized&nbsp;
+            = authorization.role
+            | &nbsp;of
+      tr
+        td align="center" style="padding:0 16px 18px 16px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:20px;"
+          /! -- REFACTOR -- SEE ISSUE #427
+          /! -- this email gets sent out before a business gets created, so it fails on the first try
+          /! -- should be changed so that doesn't rely on business, or send after business is created
+          - unless @user.authorizations.empty?
+            = authorization.business.name
+            | &nbsp;account.
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#333333;"
+          = authorization.invite_message
+          br &nbsp;
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          | You can confirm your account email through the link below:
+          br &nbsp;
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:18px;line-height:20px;color:#5D5D5D;"
+          = link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token)
+          br &nbsp;
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#5D5D5D;"
+          | If the link above isn't active, copy and paste this into your browser:
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#555;"
+          = confirmation_url(@resource, confirmation_token: @token)
+          br &nbsp;
+          br &nbsp;
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:18px;line-height:20px;color:#5D5D5D;"
+          | Tap into the Power of Your Local Connections™ and Simplfy Local Marketing with Free and Low-Cost Tools
+
+tr
+  td
+    table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+      tr
+        td style="padding:20px;"
+          table border="0" cellpadding="0" cellspacing="0" style="background-color:#F0F3F9;" width="100%"
+            tr
+              td style="padding:12px;font-family:'Helvetica Neue', Helvetica,Arail,sans-seif;font-size:13px;color:#A2A6AF;text-align:left;"
+                span style="font-weight:bold;"  Address
+                br/
+                br/
+                => authorization.business.location.try(:address_line_one)
+                br/
+                => authorization.business.location.try(:address_line_two)

@@ -1,5 +1,6 @@
 class ToDoNotificationMailer < ApplicationMailer
   include ActionView::Helpers::TextHelper
+  layout 'mailer_theme_one'
 
   def notify(args)
     @message = args[:message]

@@ -1,22 +1,66 @@
-div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-  p A new review has been posted to Locable&#39;s Main Street CRM at #{link_to @authorization.business.name, [@authorization.business, :crm_reviews]}.
-  dl
-    dt Name
-    dd = @review.customer_name
-    dt Email
-    dd = @review.customer_email
-    dt Phone
-    dd = @review.customer_phone
-  hr
-  dl
-    dt Customer Rating
-    dd = @review.overall_rating
-    dt Review Details
-    dd = @review.description
-  - if @review.feedback
-    hr
-    dl
-      dt Feedback Score
-      dd = @review.feedback.score
-      dt Feedback Description
-      dd = @review.feedback.description
+tr
+  td
+    /! ::::::: LOGO :::::::
+    table bgcolor="#F4F5F7" border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:30px 0;"
+          - if (@authorization.business.logo.attachment_cache_url? rescue nil)
+            = email_image_tag @authorization.business.logo.attachment_url(:logo_jumbo), alt: @authorization.business.logo.alt, title: @authorization.business.logo.title, width: "180", style: "display:block;width:100%;max-width:180px;"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+      tr
+        td align="center" style="padding:0 16px 36px 16px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          | A new review has been posted to Locable&#39;s Main Street CRM at #{link_to @authorization.business.name, [@authorization.business, :crm_reviews]}.
+      tr
+        td.intro-txt style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          dl
+            dt style="font-weight:bold"
+              | Name
+            dd = @review.customer_name
+            dt style="font-weight:bold"
+              | Email
+            dd = @review.customer_email
+            dt style="font-weight:bold"
+              | Phone
+            dd = @review.customer_phone
+      tr
+        td style="border-top:1px solid #E0E0E0;line-height:10px;"  &nbsp;
+      tr
+        td.intro-txt style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          dl
+            dt style="font-weight:bold"
+              | Customer Rating
+            dd = @review.overall_rating
+            dt style="font-weight:bold"
+              | Review Details
+            dd = @review.description
+      - if @review.feedback
+        tr
+          td.intro-txt style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+            dl
+              dt style="font-weight:bold"
+                | Feedback Score
+              dd = @review.feedback.score
+              dt style="font-weight:bold"
+                | Feedback Description
+              dd = @review.feedback.description
+
+
+
+tr
+  td
+    table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+      tr
+        td style="padding:20px;"
+          table border="0" cellpadding="0" cellspacing="0" style="background-color:#F0F3F9;" width="100%"
+            tr
+              td style="padding:12px;font-family:'Helvetica Neue', Helvetica,Arail,sans-seif;font-size:13px;color:#A2A6AF;text-align:left;"
+                span style="font-weight:bold;"  Address
+                br/
+                br/
+                => @authorization.business.location.try(:address_line_one)
+                br/
+                => @authorization.business.location.try(:address_line_two)

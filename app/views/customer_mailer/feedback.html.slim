@@ -1,81 +1,112 @@
-div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
-  div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-    span style="float: right;" Feedback on your recent experience
-    strong style="color: #555;"
-      = @business.name
-div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-  div style="padding: 2em 1em; background-color: #448ccb;"
-    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" Thanks for allowing us to serve you!
-    p style="margin: 1em 0 0; color: #fff" We’d love your feedback on your recent experience with us.
-  h2 style="margin: 1em 0; font-size: 1.5em; color: #036;" How likely are you to recommend us to a friend?
-  table style="width:100%; text-align:center" cellspacing="0" cellpadding="0"
-    tr
-      - cell_style = 'display: inline-block; padding: 0.5em 1em; background-color: #eee; text-decoration: none; font-weight: bold; color: #036;'
-      - if 1 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '1', listing_path_new_review_url(@business, 1, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '1', listing_path_new_review_url(@business, 1, @feedback.token), style: cell_style
-
-      - if 2 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '2', listing_path_new_review_url(@business, 2, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '2', listing_path_new_review_url(@business, 2, @feedback.token), style: cell_style
-      - if 3 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '3', listing_path_new_review_url(@business, 3, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '3', listing_path_new_review_url(@business, 3, @feedback.token), style: cell_style
-
-      - if 4 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '4', listing_path_new_review_url(@business, 4, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '4', listing_path_new_review_url(@business, 4, @feedback.token), style: cell_style
-
-      - if 5 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '5', listing_path_new_review_url(@business, 5, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '5', listing_path_new_review_url(@business, 5, @feedback.token), style: cell_style
-
-      - if 6 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '6', listing_path_new_review_url(@business, 6, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '6', listing_path_new_review_url(@business, 6, @feedback.token), style: cell_style
-
-      - if 7 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '7', listing_path_new_review_url(@business, 7, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '7', listing_path_new_review_url(@business, 7, @feedback.token), style: cell_style
-
-      - if 8 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '8', listing_path_new_review_url(@business, 8, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '8', listing_path_new_review_url(@business, 8, @feedback.token), style: cell_style
-
-      - if 9 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '9', listing_path_new_review_url(@business, 9, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '9', listing_path_new_review_url(@business, 9, @feedback.token), style: cell_style
-
-      - if 10 >= @business.automated_feedbacks_publishing
-        td style="width:10%" = link_to '10', listing_path_new_review_url(@business, 10, @feedback.token), style: cell_style
-      - else
-        td style="width:10%" = link_to '10', listing_path_new_review_url(@business, 10, @feedback.token), style: cell_style
-
-  table style="width:100%; margin-top:1em; margin-bottom:2em" cellspacing="0" cellpadding="0"
-    tr
-      td style="width:33.33%; text-align:left"
-        small Not at all likely
-      td style="width:33.33%; text-align:center"
-        small Neutral
-      td style="width:33.33%; text-align:right"
-        small Extremely Likely
-  p style="margin: 1em 0 2em; padding-top: 0.5em; border-top: dotted 1px #ccc"
-    = link_to content_tag(:small, 'No Feedback from me, thanks'), listing_path_new_review_url(@business, nil, @feedback.token), style: 'color: #448ccb;'
-  div style="margin: 1em 0; padding: 1em; background-color: #eee"
-    h3 style="margin: 0; font-size: 1.1em" Address:
-    p style="margin: 0.5em 0 0; font-size: 0.9em"
-      => @business.location.try(:address_line_one)
-      br>
-      => @business.location.try(:address_line_two)
-      br>
-      - if @business.website_url?
-        => link_to listing_path_url(@business), listing_path_url(@business), target: :_blank
+tr
+  td
+    /! ::::::: LOGO :::::::
+    table bgcolor="#F4F5F7" border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:30px 0;"
+          - if (@business.logo.attachment_cache_url? rescue nil)
+            = email_image_tag @business.logo.attachment_url(:logo_jumbo), alt: @business.logo.alt, title: @business.logo.title, width: "180", style: "display:block;width:100%;max-width:180px;"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+      tr
+        td align="center" style="padding:0 16px 36px 16px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          = @business.name
+          |,
+          br/
+          | Thanks for allowing us to serve you
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          | How likely are you to recommend us to a friend?
+tr
+  td.stars style="padding:70px 0 9px 0;"
+    div style="display:table; vertical-align:top; width:75%; min-width:120px; max-width:75%; width:-webkit-calc(230400px - 48000%); min-width:-webkit-calc(75%); width:calc(230400px - 48000%); min-width:calc(75%);margin:0 auto;"
+      /![if mso]
+        | <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center"
+        | <tr
+        | <td
+      .rate-c style="display:table-cell;"
+        table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+          tr
+            td
+              = link_to listing_path_new_review_url(@business, 1, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/1.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 2, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/2.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 3, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/3.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 4, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/4.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 5, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/5.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+      /![if mso]
+        | </td
+        | <td width="8"
+      .rate-ce style="line-height:22px;display:table-cell;width:8px;"  &nbsp;
+      /![if mso]
+        | </td
+        | <td
+      .rate-c style="display:table-cell;"
+        table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+          tr
+            td
+              = link_to listing_path_new_review_url(@business, 6, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/6.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 7, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/7.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 8, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/8.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 9, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/9.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+            td width="8"
+            td
+              = link_to listing_path_new_review_url(@business, 10, @feedback.token), target: "_blank"
+                = email_image_tag("mailers/three/10.jpg", alt: "", style: "display:block;width:100%;max-width:32px;", width: "32")
+      /![if mso]
+        | </td
+        | </tr
+        | </table
+tr
+  td
+    .stars-txt style="display:table!important;vertical-align:top!important;width:80%!important;min-width:120!important;max-width:80%!important;width:-webkit-calc(230400px - 48000%)!important;min-width:-webkit-calc(80%)!important;width:calc(230400px - 48000%)!important;min-width:calc(80%)!important;margin:0 auto!important;"
+      table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+        tr
+          td style="font-family:'Helvetica Neue', Helvetica,Arail,sans-seif;font-size:10px;color:#8F9299;letter-spacing:0.05em;font-weight:bold;text-align:left;" width="33%"
+            | NOT LIKELY
+          td align="center" style="font-family:'Helvetica Neue', Helvetica,Arail,sans-seif;font-size:10px;color:#8F9299;letter-spacing:0.05em;font-weight:bold;" width="34%"
+            | NEUTRAL
+          td style="font-family:'Helvetica Neue', Helvetica,Arail,sans-seif;font-size:10px;color:#8F9299;letter-spacing:0.05em;font-weight:bold;text-align:right;" width="33%"
+            | EXTREMELY LIKELY
+    div
+      table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+        tr
+          td.thxbn align="center" style="font-family:'Helvetica Neue',Helvetica,Arail,sans-seif;font-size:13px;color:#5E7CB6;padding:70px 0 50px 0;"
+            = link_to content_tag(:medium, 'No Feedback from me, thanks'), listing_path_new_review_url(@business, nil, @feedback.token), style: "color:#5E7CB6;text-decoration:underline!important;"
+    table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+      tr
+        td style="padding:20px;"
+          table border="0" cellpadding="0" cellspacing="0" style="background-color:#F0F3F9;" width="100%"
+            tr
+              td style="padding:12px;font-family:'Helvetica Neue', Helvetica,Arail,sans-seif;font-size:13px;color:#A2A6AF;text-align:left;"
+                span style="font-weight:bold;"  Address
+                br/
+                br/
+                => @business.location.try(:address_line_one)
+                br/
+                => @business.location.try(:address_line_two)

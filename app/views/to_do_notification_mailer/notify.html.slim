@@ -1,21 +1,48 @@
-div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
-  div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-    strong style="color: #555;"
-      = @business.name
-div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-  div style="padding: 2em 1em; background-color: #56b495;"
-    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" Update on your website project
-    p style="font-size: 14px; margin: 1em 0 0; color: #fff" These updates are meant to keep you in the loop and your project moving forward.
-  h3 style="margin: 1em 0;"
-    - if @message =~ /comment/
-      p style="margin-top: 7px;"
-        = raw @message.html_safe
-      br
-      = link_to 'View it now', business_to_do_url(@business, @to_do), style: 'color: #56b495;'
-      p style="font-size: 11px;" Please do not reply to this email!
-    - else
-      = "#{@message} - "
-      = link_to 'View it now', business_to_do_url(@business, @to_do), style: 'color: #56b495;'
-      p style="font-size: 11px;" Please do not reply to this email!
-  p style="margin: 1em 0 2em; padding-top: 0.5em; border-top: dotted 1px #ccc"
-    = link_to content_tag(:small, 'Change notification settings'), business_notification_settings_url(@business), style: 'color: #56b495;'
+= render partial: "mission_notification_mailer/mission_header"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:0 0 6px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          = @business.name
+      tr
+        td align="center" style="padding:0 0 36px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          | Update on your website project
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          | These updates are meant to keep you in the loop and your project moving forward.
+
+tr
+  td.missions style="padding: 44px 0;"
+    /! ::::::: COMMENT :::::::
+    table bgcolor="#F5F8FC" border="0" cellpadding="0" cellspacing="0" width=""
+      tr
+        td.mission-inner style="padding:20px 12px;"
+          table border="0" cellpadding="0" cellspacing="0" width="100%"
+            tr
+              td width="60%"
+                table border="0" cellpadding="0" cellspacing="0" width="100%"
+                  tr
+                    td style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:16px;font-weight:bold;text-align:left;"
+                      - if @message =~ /comment/
+                        = raw @message.html_safe
+                      - else
+                        = "#{@message}"
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      br
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              td width="40%"
+                table align="right" border="0" cellpadding="0" cellspacing="0" style="border:1px solid #0C75B8;"
+                  tr
+                    td style="padding:10px 12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#0C75B8;font-size:11px;font-weight:bold;"
+                      = link_to 'VIEW IT NOW', business_to_do_url(@business, @to_do), style: 'color:#0C75B8;', target: '_blank'

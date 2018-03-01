@@ -1,27 +1,40 @@
-tbody
-  tr
-    td.content-block = @personal_message
-  tr
-    td.content-block
-      = @business.name
-      |  in  
-      = @business.location.city_and_state 
-      |  wanted to share with you that they're using Locable to <strong>simplify local marketing</strong> and <strong>tap into the power of their Local Connections</strong> - <em>hey, maybe that's you?</em>
-  tr
-    td.content-block Take advantage of our <strong>easy-to-use tools</strong> for your business or organization.
-
-
-  tr
-    td.content-block.aligncenter
-      = link_to "CLAIM YOUR FREE ACCOUNT", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn-primary'
- 
-  tr
-    td.content-block At a minimum, claiming your account ensures information about your business or organization is accurate when people want to promote you.
+= render partial: "invite_header"
+tr
+  td style="padding:0 20px;"
+    table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+      tr
+        td align="center" style="padding:50px 16px 12px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:28px;color:#000000;"
+          | &nbsp;
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          = @personal_message
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          br
+          = @business.name
+          |  in&nbsp;
+          = @business.location.city_and_state
+          |  wanted to share with you that they're using Locable to <strong>simplify local marketing</strong> and <strong>tap into the power of their Local Connections</strong> - <em>hey, maybe that's you?</em>
 
   tr
-    td.content-block Learn more about Locable and our mission at <a href="https://www.locable.com">www.locable.com</a>
-  
-  tr
-    td.contentblock If the button above is not clickable, please copy and paste this link into your browser - https://impact.locable.com/users/sign_up/
+    td align="center" style="padding:40px 0;"
+      table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
+        tr
+          td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
+            = link_to "Claim Your Free Account", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
 
-    
+  tr
+    td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+      | If the button isn't working, copy and paste this url into your browser:
+  tr
+    td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#20BEEC;line-height:22px;letter-spacing:0.03em;"
+      | https://impact.locable.com/users/sign_up/
+      br &nbsp;
+  tr
+    td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+      | At a minimum, claiming your account ensures information about your business or organization is accurate when people want to promote you.
+      br &nbsp;
+  tr
+    td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+      | Learn more about Locable and our mission at <a href="https://www.locable.com">www.locable.com</a>
+      br &nbsp;

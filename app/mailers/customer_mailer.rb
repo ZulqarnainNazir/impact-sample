@@ -2,6 +2,7 @@ class CustomerMailer < ApplicationMailer
   include WebsiteHelper
   include ApplicationHelper
   add_template_helper(ApplicationHelper)
+  layout 'mailer_theme_three'
 
   def feedback(feedback)
     unless feedback.contact.opted_out?

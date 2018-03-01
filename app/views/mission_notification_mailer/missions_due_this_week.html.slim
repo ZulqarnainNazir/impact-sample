@@ -1,49 +1,78 @@
-div style="background-color: #eee; margin-bottom: 1em; padding: 1em;"
-  div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-    strong style="color: #555;"
-      = @business.name
-div style="max-width: 600px; margin-left: auto; margin-right: auto;"
-  div style="padding: 2em 1em; background-color: #448ccb;"
-    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" You have marketing missions due this week
-    p style="font-size: 14px; margin: 1em 0 0; color: #fff" Marketing Missions help your business take action toward important marketing goals.
-  table
-    thead
+= render partial: "mission_header"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
       tr
-        td
-        td
-        td
-    tbody
-      - @mission_instances.each do |mi|
-        - next unless mi.mission
+        td align="center" style="padding:0 0 6px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          = @business.name
+      tr
+        td align="center" style="padding:0 0 36px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          | You have marketing missions due this week
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          | Marketing missions help your business take action towards important marketing goals.
+tr
+  td.missions style="padding: 44px 0;"
+    - @mission_instances.each do |mi|
+      - next unless mi.mission
+      /! ::::::: MISSION :::::::
+      table bgcolor="#F5F8FC" border="0" cellpadding="0" cellspacing="0" width=""
         tr
-          td style="padding: 10px 0;"
-            strong= mi&.mission&.title
-          td style="padding: 10px 10px;"
-            - if mi.scheduled?
-              | This marketing mission happens every #{mi.schedule.to_s} and is due #{mi.next_due_at&.strftime('%m/%d/%Y')}
-            - else
-              | This is a one time marketing mission that is scheduled for #{mi&.start_date&.strftime('%m/%d/%Y')}.
-          td style="padding: 10px 0;"
-            - if mi && mi.mission
-              = link_to 'View Mission', business_mission_url(mi.business.id, mi.mission.id), style: 'color: #448ccb;'
+          td.mission-inner style="padding:20px 12px;"
+            table border="0" cellpadding="0" cellspacing="0" width="100%"
+              tr
+                td width="60%"
+                  table border="0" cellpadding="0" cellspacing="0" width="100%"
+                    tr
+                      td style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:16px;font-weight:bold;text-align:left;"
+                        = mi&.mission&.title
+                    tr
+                      td style="padding:8px 0 0 0;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:14px;color:#4f4f50;line-height:18px;font-weight:300;text-align:left;"
+                        - if mi.scheduled?
+                          | This marketing mission happens every #{mi.schedule.to_s} and is due #{mi.next_due_at&.strftime('%m/%d/%Y')}
+                        - else
+                          | This is a one time marketing mission that is scheduled for #{mi.start_date&.strftime('%m/%d/%Y')}.
+                td width="40%"
+                  table align="right" border="0" cellpadding="0" cellspacing="0" style="border:1px solid #0C75B8;"
+                    tr
+                      td style="padding:10px 12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#0C75B8;font-size:11px;font-weight:bold;"
+                        - if mi && mi.mission
+                          = link_to 'VIEW MISSION', business_mission_url(mi.business.id, mi.mission.id), style: 'color:#0C75B8;', target: '_blank'
 
-  div style="padding: 2em 1em; background-color: #448ccb;"
-    h1 style="margin: 0; font-size: 1.5em; font-weight: normal; color: #fff" Recommended Marketing Missions
-    p style="font-size: 14px; margin: 1em 0 0; color: #fff"
-  table
-    thead
+tr
+  td style="padding:0px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
       tr
-        td
-        td
-        td
-    tbody
-      - @prompts.each do |mi|
-        - next unless mi.mission
+        td align="center" style="padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          | Recommended Marketing Missions
+tr
+  td.missions style="padding: 44px 0;"
+    - @prompts.each do |mi|
+      - next unless mi.mission
+      /! ::::::: MISSION :::::::
+      table bgcolor="#F5F8FC" border="0" cellpadding="0" cellspacing="0" width=""
         tr
-          td style="padding: 10px 0;"
-            strong= mi.mission.title
-          td style="padding: 10px 10px;"
-            = mi.mission.time_to_complete
-          td style="padding: 10px 0;"
-            - if mi && mi.mission
-              = link_to 'View Mission', business_mission_url(mi.business.id, mi.mission.id), style: 'color: #448ccb;'
+          td.mission-inner style="padding:20px 12px;"
+            table border="0" cellpadding="0" cellspacing="0" width="100%"
+              tr
+                td width="60%"
+                  table border="0" cellpadding="0" cellspacing="0" width="100%"
+                    tr
+                      td style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:16px;font-weight:bold;text-align:left;"
+                        = mi&.mission&.title
+                    tr
+                      td style="padding:8px 0 0 0;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:14px;color:#4f4f50;line-height:18px;font-weight:300;text-align:left;"
+                        | Time to complete:
+                        = "#{mi.mission.time_to_complete}"
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                td width="40%"
+                  table align="right" border="0" cellpadding="0" cellspacing="0" style="border:1px solid #0C75B8;"
+                    tr
+                      td style="padding:10px 12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#0C75B8;font-size:11px;font-weight:bold;"
+                        - if mi && mi.mission
+                          = link_to 'VIEW MISSION', business_mission_url(mi.business.id, mi.mission.id), style: 'color:#0C75B8;', target: '_blank'

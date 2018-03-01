@@ -1,20 +1,37 @@
-.tbody
-  tr
-    td.content-block = @personal_message
-  tr
-    td.content-block
-      h3 Here's a new, free way to grow your business and support the community!
-  tr
-    td.content-block
-      | Locable simplifies local marketing and enables you to tap into the power of your Local Connections to grow. We're using Locable to promote the organizations we work with, automatically!
-  tr
-    td.content-block It takes less than 5-minutes to join and you'll be included.
-  tr
-    td.content-block.aligncenter
-      = link_to "Join Now - It's Free", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https'), class: 'btn btn-primary'
-  tr
-    td.content-block
-      | Locable's easy-to-use tools are great for you and also help you painlessly cross-promote other businesses and organizations you care about.
+= render partial: "invite_header"
+tr
+  td style="padding:0 20px;"
+    table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+      tr
+        td align="center" style="padding:50px 16px 12px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:28px;color:#000000;"
+          | Here's a new, free way to grow your business and support the community!
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          = @personal_message
+          br &nbsp;
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | Locable simplifies local marketing and enables you to tap into the power of your Local Connections to grow. We're using Locable to promote the organizations we work with, automatically!
+          br &nbsp;
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | It takes less than 5-minutes to join and you'll be included.
+          br &nbsp;
 
-  tr
-    td.contentblock If the button above is not clickable, please copy and paste this link into your browser - https://impact.locable.com/users/sign_up/
+      tr
+        td align="center" style="padding:40px 0;"
+          table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
+            tr
+              td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
+                = link_to "Join Now - It's Free", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | If the button isn't working, copy and paste this url into your browser:
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#20BEEC;line-height:22px;letter-spacing:0.03em;"
+          | https://impact.locable.com/users/sign_up/
+          br &nbsp;
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | Locable's easy-to-use tools are great for you and also help you painlessly cross-promote other businesses and organizations you care about.
+          br &nbsp;

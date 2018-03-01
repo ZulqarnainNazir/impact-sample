@@ -1,7 +1,6 @@
 class MissionNotificationMailer < ApplicationMailer
   include ActionView::Helpers::TextHelper
-
-  layout 'mission_notification_mailer'
+  layout 'mailer_theme_one'
 
   def mission_due(args)
     @user = args[:user]

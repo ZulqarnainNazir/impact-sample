@@ -1,4 +1,6 @@
 class InvitesMailer < ApplicationMailer
+  layout 'mailer_theme_two'
+
   def quick_invite(invite, sender)
     unless invite.invitee.opted_out?
       @personal_message = invite.message
@@ -48,7 +50,7 @@ class InvitesMailer < ApplicationMailer
           subject = "#{@invitee.first_name}, equip us to promote #{@invite_company.name}!"
         elsif @invitee.first_name.blank? && !@invite_company.nil? && !@invite_company.name.blank?
           subject = "Equip us to promote #{@invite_company.name}!"
-        else 
+        else
           subject = "Equip us to promote you"
         end
 

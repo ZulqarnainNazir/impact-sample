@@ -154,6 +154,8 @@ GEM
     erubis (2.7.0)
     excon (0.45.3)
     execjs (2.6.0)
+    faker (1.8.7)
+      i18n (>= 0.7)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     fastimage (2.1.0)
@@ -464,6 +466,7 @@ DEPENDENCIES
   elasticsearch-model
   elasticsearch-rails
   erd
+  faker
   fastimage
   fog-aws
   font-awesome-sass
@@ -522,4 +525,4 @@ RUBY VERSION
    ruby 2.3.5
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

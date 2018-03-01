@@ -89,6 +89,7 @@ gem 'saas-kit'
 group :development, :test do
   gem 'dotenv-rails'
   gem 'erd'
+  gem 'faker'
   gem 'spring'
   gem 'pry-rails'
   gem 'active_record_query_trace'

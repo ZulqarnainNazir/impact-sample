@@ -1,62 +1,85 @@
-tbody
-  tr
-    td.content-block = @personal_message
-  tr
-    td.content-block
-      = @business.name
-      |  in  
-      = @business.location.city_and_state 
-      |  is using Locable's Marketing Platform to simplify their local marketing and thought you'd want to checkout us out. The link below leads to your forever-free account.
+= render partial: "invite_header"
+tr
+  td style="padding:0 20px;"
+    table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+      tr
+        td align="center" style="padding:50px 16px 12px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:28px;color:#000000;"
+          | You've been Invited!
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          = @personal_message
+          br &nbsp;
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          = @business.name
+          |  in&nbsp;
+          = @business.location.city_and_state
+          |  is using Locable's Marketing Platform to simplify their local marketing and thought you'd want to checkout us out. The link below leads to your forever-free account.
 
-  tr
-    td.content-block.aligncenter
-      = link_to "CLAIM FREE ACCOUNT", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), class: 'btn-primary'
- 
-  tr
-    td.content-block.h3 Do you care about your community?
-  tr
-    td.content-block
-      | SupportLocal Network™ features enable you to create an online referral network from your real-world relationships. Plus, you can highlight your community involvement including the local causes and charities you support which is good for everyone. 
-  tr
-    td.content-block 
-      | Participating is fast, easy & free. 
-
-  tr
-    td Join now to drive more referrals and word-of-mouth, plus use the included free local marketing tools to promote your business online.
-  br
-  tr
-    td.content-block.aligncenter
-      = link_to "ACCEPT THEIR INVITATION", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), class: 'btn-primary'
-  tr
-    td.content-block
-      = @business.name 
-      |  is using the free marketing tools in Locable’s Marketing Platform to promote their business as well as those businesses, organizations, and local causes they support and endorse.
-  tr
-    td.content-block
-      | The Forever Free Plan makes it so EVERY local business can participate!
-  tr
-    td.content-block
-      | It's Simple:
-  tr
-    td.content-block
-      div style="padding-left: 20px;"
-        ol
-          li.content-block Accept their invitation and add your business information (name, address, phone number, description, hours of operation, etc.)
-          li.content-block Recommended: Install the SupportLocal Embed Tool™ on your site and choose who you want to support – This can be other businesses or organizations, nonprofits, sports teams, groups or clubs. Anyone really.
-          li.content-block Our Virtual Marketing Assistant (Nicknamed “Buzz”) will periodically make recommendations and remind you to do things you need to grow your business including sharing photos, events, special offers, and announcements for those in your network as well as collecting & promoting customer reviews – never be left wondering what to do again!
-          li Your content gets automatically featured on local sites within your network. The more people you have in your network, the more people you reach. Collaboration = more impressions = more followers = more customers = more $$$ = more moon pies (Buzz’s favorite food). 
-  tr
-    td Getting started only takes a few minutes (we’ll even do it for you if you want – just reply to this email).
-  br
-  tr
-    td.content-block.aligncenter
-      = link_to "JOIN #{@business.name} TODAY", new_user_registration_url(:contact_id => @invitee_id, quick_invite: true, :protocol => 'https'), class: 'btn-primary'
-  tr
-    td.content-block
-      | Note: This invite expires in 24 hours. If you don’t accept our invite, that would make Buzz very sad indeed. Please don’t make Buzz sad.
-  tr
-    td.content-block
-      | TOGETHER WE WORK SMARTER, BETTER, FASTER, STRONGER
-
-  tr
-    td.contentblock If the button above is not clickable, please copy and paste this link into your browser - https://impact.locable.com/users/sign_up/
+      tr
+        td align="center" style="padding:40px 0;"
+          table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
+            tr
+              td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
+                = link_to "Claim Free Account", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | If the button isn't working, copy and paste this url into your browser:
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#20BEEC;line-height:22px;letter-spacing:0.03em;"
+          | https://impact.locable.com/users/sign_up/
+          br &nbsp;
+      tr
+        td style="border-top:1px solid #E0E0E0;line-height:10px;"  &nbsp;
+      tr
+        td.h-p style="padding:30px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:20px;color:#000000;text-align:left;"
+          | Do you care about your community?
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;text-align:left;"
+          | SupportLocal Network™ features enable you to create an online referral network from your real-world relationships. Plus, you can highlight your community involvement including the local causes and charities you support which is good for everyone.
+      tr
+        td.h-p style="padding:30px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:20px;color:#000000;text-align:left;"
+          | Participating is fast easy &amp; free
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;text-align:left;"
+          | Join now to drive more referrals and word-of-mouth, plus use the included free local marketing tools to promote your business online.
+      tr
+        td align="center" style="padding:40px 0;"
+          table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
+            tr
+              td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
+                = link_to "Accept Their Invitation", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;text-align:left;"
+          = @business.name
+          |  is using the free marketing tools in Locable’s Marketing Platform to promote their business as well as those businesses, organizations, and local causes they support and endorse.
+      tr
+        td.h-p style="padding:30px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:20px;color:#000000;text-align:left;"
+          | Getting started is simple
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;text-align:left;"
+          ol
+            li Accept their invitation and add your business information (name, address, phone number, description, hours of operation, etc.)
+            br /
+            li Recommended: Install the SupportLocal Embed Tool™ on your site and choose who you want to support – This can be other businesses or organizations, nonprofits, sports teams, groups or clubs. Anyone really.
+            br /
+            li Our Virtual Marketing Assistant (Nicknamed “Buzz”) will periodically make recommendations and remind you to do things you need to grow your business including sharing photos, events, special offers, and announcements for those in your network as well as collecting & promoting customer reviews – never be left wondering what to do again!
+            br /
+            li Your content gets automatically featured on local sites within your network. The more people you have in your network, the more people you reach. Collaboration = more impressions = more followers = more customers = more $$$ = more moon pies (Buzz’s favorite food).
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;text-align:left;"
+          | Getting started only takes a few minutes (we’ll even do it for you if you want – just reply to this email).
+      tr
+        td align="center" style="padding:40px 0;"
+          table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
+            tr
+              td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
+                = link_to "Join #{@business.name} Today", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
+      tr
+        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;text-align:left;"
+          | Note: This invite expires in 24 hours. If you don’t accept our invite, that would make Buzz very sad indeed. Please don’t make Buzz sad.
+      tr
+        td style="border-bottom:1px solid #E0E0E0;line-height:40px;"  &nbsp;
+      tr
+        td align="center" style="padding:50px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style:italic;font-size:20px;color:#839BA6;"
+          | Together we work smarter, better, faster, stronger
