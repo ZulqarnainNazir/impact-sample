@@ -85,7 +85,7 @@
             = form.text_field :published_on, :value => (@quick_post.published_at.present? ? @quick_post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %Z %z") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %p")), :class => "form-control"
             span.input-group-addon
               span.fa.fa-calendar
-        = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: false}
+        = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
         = render partial: 'businesses/content/classification', locals: {form: form}
 javascript:
   $(function () {

@@ -100,8 +100,10 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
       content_category_ids: [],
       content_tag_ids: [],
       quick_post_image_placement_attributes: placement_attributes,
+      main_image_placement_attributes: placement_attributes,
     ).tap do |safe_params|
       merge_placement_image_attributes safe_params, :quick_post_image_placement_attributes
+      merge_placement_image_attributes safe_params, :main_image_placement_attributes
       safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
       safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
     end

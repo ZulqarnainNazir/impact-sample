@@ -4,7 +4,7 @@
     = form.label :meta_description, class: 'control-label'
     = form.text_area :meta_description, rows: 2, class: 'form-control'
     p.help-block Helpful for SEO &amp; Social
-  - if main_image
+  - if !defined?(main_image).nil? #if evaluates to false (is not nil), proceed
     = react_component 'ImagePlacement',
       imagesPath: business_images_path(form.object.business),
       inputPrefix: "#{form.object.class.name.underscore}[main_image_placement_attributes]",

@@ -16,6 +16,7 @@ class QuickPost < ActiveRecord::Base
   has_many :content_tags, through: :content_taggings
   has_many :shares, as: :shareable, dependent: :destroy
   has_placed_image :quick_post_image
+  has_placed_image :main_image
 
   validates_presence_of :published_on, if: :not_draft?
   validates_presence_of :title
