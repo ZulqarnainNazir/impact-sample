@@ -1,0 +1,30 @@
+.row#company_list_partial
+  .col-md-6
+    = form_for company_list, url: [@business, :crm_company_lists] do |form|
+      = errors_for company_list
+      = hidden_field_tag :json, true
+      .form-group
+        = form.label :name, class: 'control-label'
+        = form.text_field :name, class: 'form-control'
+      .form-group
+        = form.radio_button :sort_by, 0, class: 'sort_by', checked: 'checked'
+        = form.label :sort_by, "Show Alphabetically", class: 'control-label'
+      div.sort-by-divider -- or --
+      .form-group
+        = form.radio_button :sort_by, 1, class: 'sort_by'
+        = form.label :sort_by, "Organize by Category (Label)", class: 'control-label'
+      .form-group.just-companies
+        = form.label :company_ids, "Companies", class: 'control-label'
+        = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', company_list.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids'}
+      .form-group.just-companies
+        a.text-center data-toggle="modal" data-target="#js-company-new-modal"
+          => icon 'plus-circle'
+          span.advanced-button Add New Company
+
+      ol.company-list-categories-associations style="margin: 20px 20px 20px 20px;"
+        | It's best to add or import Companies in bulk if you haven't yet.
+        = render partial: 'businesses/crm/company_lists/company_list_category', collection: company_list.company_list_categories << CompanyListCategory.new, locals: { company_list: company_list, list_form: form, disabled: true }
+
+      .ibox.float-e-margins
+        .ibox-content
+          = form.button 'Add Local Network', class: 'btn btn-primary'

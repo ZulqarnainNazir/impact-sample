@@ -2,6 +2,8 @@ class CalendarWidget < ActiveRecord::Base
   after_initialize :init
   belongs_to :business
 
+  validates :name, presence: true
+
   def init
     self.uuid ||= SecureRandom.uuid
   end

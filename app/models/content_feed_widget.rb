@@ -6,6 +6,8 @@ class ContentFeedWidget < ActiveRecord::Base
   has_many :content_categories, :through => :content_feed_widget_content_categories
   has_many :content_tags, :through => :content_feed_widget_content_tags
 
+  validates :name, presence: true
+  
   def init
     self.uuid ||= SecureRandom.uuid
   end

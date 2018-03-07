@@ -1,5 +1,6 @@
 tr
   td = link_to directory_widget.name, [:edit, @business, :tools, directory_widget]
+  td = directory_widget.company_list.name
   td
     = link_to [@business, :tools, directory_widget], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
       => icon 'times-circle'

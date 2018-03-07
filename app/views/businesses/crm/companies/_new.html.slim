@@ -1,0 +1,95 @@
+
+#js-new-company-container
+  = errors_for company
+  = form_tag [@business, :crm_companies], method: :post, id: 'js-company-new'
+    = hidden_field_tag :json , true
+    = hidden_field_tag :force , true
+    = hidden_field_tag :search_add , true
+    = react_component "CRMLookup", business_id: @business.id, json: true, url: business_crm_companies_url(@business)
+
+#js-edit-company-container
+
+- content_for :javascript do
+  javascript:
+    var editId = 0;
+    $('#js-company-new-modal button[class="close"]').click(function () {
+      $('#js-company-new-modal').modal('hide');
+    });
+    $('#js-company-new-modal').on('hide.bs.modal', function(event) {
+      $('#js-new-company-container').show();
+      $('#js-edit-company-container').html("");
+    });
+    $("#js-new-company-container").on('click', 'a[data-method="post"]', function(event) {
+      event.preventDefault()
+      event.stopPropagation();
+      jqxhr = $.ajax({
+        type: 'POST',
+        url: event.target.href,
+        beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+        cache: false,
+        data: $(this).serialize(),
+        dataType: 'html',
+      });
+      jqxhr.done(function(rawdata) {
+        var data = JSON.parse(rawdata);
+        editId = data.id
+        let vals = $('#company_list_company_ids').val() || []
+        $('#js-company-new')[0].reset();
+        $('#js-company-new-modal').modal('hide');
+        // checking if the select element already contains the value
+        if( $('#company_list_company_ids option').filter((i, el) => el.value === `${data.id}`).length === 0 ) {
+          $('#company_list_company_ids').append(
+            $('<option value="'+data.id+'">'+data.name+'</option>')
+          );
+        }
+        vals.push(`${data.id}`)
+        let unique = vals.filter((v, i, a) => a.indexOf(v) === i);
+        $('#company_list_company_ids').val(unique);
+        $(".company_ids:enabled").trigger("chosen:updated");
+      });
+    });
+    $('#js-company-new').on('submit', function(event) {
+      event.preventDefault()
+      jqxhr = $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+        cache: false,
+        data: $(this).serialize(),
+        dataType: 'html',
+      });
+      jqxhr.done(function(rawdata) {
+        var data = JSON.parse(rawdata);
+        editId = data.object.id
+        let vals = $('#company_list_company_ids').val() || []
+        $('#js-company-new')[0].reset();
+        $('#js-new-company-container').hide();
+        $('#js-edit-company-container').html(data.partial);
+        $('#edit_company_'+editId).append("#{escape_javascript(hidden_field_tag :json, true)}");
+        $('#edit_company_'+editId).on('submit', function(e) {
+          e.preventDefault()
+          jqxhr = $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+            cache: false,
+            data: $(this).serialize(),
+            dataType: 'html',
+          });
+          jqxhr.done(function(rawdata) {
+            $('#js-company-new-modal').modal('hide');
+          });
+        });
+
+        // checking if the select element already contains the value
+        if(vals.indexOf(`${data.id}`) === -1) {
+          $('#company_list_company_ids').append(
+            $('<option value="'+data.object.id+'">'+data.object.name+'</option>')
+          );
+          vals.push(`${data.object.id}`)
+          let unique = vals.filter((v, i, a) => a.indexOf(v) === i);
+          $('#company_list_company_ids').val(unique);
+          $(".company_ids:enabled").trigger("chosen:updated");
+        }
+      });
+    });

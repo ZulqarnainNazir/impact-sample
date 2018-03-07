@@ -28,11 +28,11 @@ wrapper.wrapper-content.new-content-embed
               br
               | - And / Or -
               .form-group
-                = form.label :company_list_ids, "Companies in These Lists", class: 'control-label'
-                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @content_feed_widget.company_list_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
-                = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
-                  => icon 'plus-circle'
-                  | Add New Company List
+                = form.label :company_list_ids, "Companies in These Local Networks i.e. Lists", class: 'control-label'
+                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @content_feed_widget.company_list_ids), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control', :multiple => true}
+                a.text-center data-toggle="modal" data-target="#modal"
+                  => icon 'cog'
+                  span.advanced-button Manage Businesses
           / hr
           .form-group
             = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
@@ -55,8 +55,8 @@ wrapper.wrapper-content.new-content-embed
             = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last) do |b|
               = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
             br style="clear:both;"
-            
-          
+
+
           .form-group
             = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
             = form.select :content_category_ids, options_from_collection_for_select(@business.content_categories.all, 'id', 'name', @content_feed_widget.content_category_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
@@ -67,8 +67,34 @@ wrapper.wrapper-content.new-content-embed
         .ibox-content
           = form.button 'Create Embed', class: 'btn btn-primary'
 
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        h3 Create a Local Network
+      .modal-body
+        = render partial: 'businesses/crm/company_lists/new', locals: { company_list: @business.company_lists.new}
+
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'content_feed_widget_company_list_ids'}
+
 - content_for :javascript do
   javascript:
+    new MutationObserver(function () {
+      $(".company_ids:enabled").chosen({width: "100%"});
+    }).observe($('#modal')[0], { attributes: true, childList: true });
+    $(".modal-dialog").css({"height":"90%"});
+
+    $('#content_feed_widget_company_list_ids').change(function() {
+      var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
+      clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
+      $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
+        $('#company_list_partial').html($(data)[0])
+      });
+    });
+
     // Select all content types by default
     var contentTypes = $('input[name="content_feed_widget[content_types][]"]')
         contentTypes.prop('checked', 'checked');

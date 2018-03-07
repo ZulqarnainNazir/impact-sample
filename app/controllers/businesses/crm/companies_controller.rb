@@ -19,6 +19,10 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
     @companies = scope.order(companies_order) #.page(params[:page]).per(20)
   end
 
+  def new
+    render template: 'businesses/crm/companies/_new', layout: false if params['query'] == 'modal'
+  end
+
   def create
     if params[:search_add] == 'true'
       @companies = Business.where("name ILIKE ?", "%#{params[:name]}%")
@@ -29,7 +33,21 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
             intercom_event 'added-company'
           end
         end
-        redirect_to [:edit, @business, :crm, company, company.business]
+        if params[:json] == 'true'
+          data = {}
+          data[:object] = company
+          data[:partial] = render_to_string(
+            partial: 'businesses/crm/companies/business_form',
+            locals: {
+              disabled: company.not_editable?(@business),
+              company: company,
+              business: @business
+            }
+          )
+          render json: data.to_json, layout: false
+        else
+          redirect_to [:edit, @business, :crm, company, company.business]
+        end
       end
     elsif params[:add] == 'true'
       company = Company.where(:user_business_id => @business.id, :company_business_id => params[:new_business_id]).first
@@ -39,9 +57,13 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
                              :company_location_attributes => {:name => new_business.name})
         company.save
       end
-      flash[:appcues_event] = "Appcues.track('added company')"
-      intercom_event 'added-company'
-      redirect_to [:edit, @business, :crm, company]
+      if params[:json] == 'true'
+        render json: company.to_json, layout: false
+      else
+        flash[:appcues_event] = "Appcues.track('added company')"
+        intercom_event 'added-company'
+        redirect_to [:edit, @business, :crm, company]
+      end
     end
   end
 
@@ -50,14 +72,22 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
     if !params[:company][:business_attributes].nil? && !company.business.in_impact
       if company.update_attributes(company_business_params)
         #redirect_to [@business, :crm_companies]
-        redirect_to [:edit, @business, :crm, company], :notice => "Successfully Saved Company"
+        if params[:json] == 'true'
+          render json: company.to_json, layout: false
+        else
+          redirect_to [:edit, @business, :crm, company], :notice => "Successfully Saved Company"
+        end
       else
         Rails.logger.info(company.errors.messages.inspect)
         redirect_to [:edit, @business, :crm, company], :notice => "Failed To Save Company"
       end
     else
       if company.update_attributes(company_params)
-        redirect_to [:edit, @business, :crm, company], :notice => "Successfully Saved Company"
+        if params[:json] == 'true'
+          render json: company.to_json, layout: false
+        else
+          redirect_to [:edit, @business, :crm, company], :notice => "Successfully Saved Company"
+        end
       else
         render 'edit'
       end

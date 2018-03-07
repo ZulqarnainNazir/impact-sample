@@ -1,0 +1,102 @@
+.modal.fade#js-company-new-modal tabindex="-1" aria-hidden="true" role="dialog" style="overflow-y: initial !important;"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" aria-label="Close"
+          span aria-hidden="true" &times;
+        h3 Add a New Company
+      .modal-body style="overflow-y: scroll; max-height: 650px;"
+          = render partial: 'businesses/crm/companies/new', locals: {company: @business.owned_companies.new}
+
+- content_for :javascript do
+  javascript:
+    $(function() {
+      $(".company_ids:enabled").chosen({width: "100%"});
+      $("input.sort_by").click(function() {
+        if($(this).val() == 0) {
+          $(".just-companies").slideDown(300);
+          $(".just-companies select").prop('disabled', false);
+          $(".company-list-categories-associations, .btn.add-category").slideUp(300);
+          $(".company-list-categories-associations input, .company-list-categories-associations select").prop('disabled', true);
+        } else {
+          $(".company-list-categories-associations, .btn.add-category").slideDown(300);
+          $(".just-companies select").prop('disabled', true);
+          $(".just-companies").slideUp(300);
+          $(".company-list-categories-associations input, .company-list-categories-associations select").prop('disabled', false);
+        }
+        $(".company_ids:enabled").chosen();
+      });
+    });
+
+    var selctr = "#{j = local_assigns[:widget_selector]}"
+
+    $('#company_list_partial').on('submit', '#new_company_list', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      jqxhr = $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+        cache: false,
+        data: $(this).serialize(),
+        dataType: 'html',
+      });
+      jqxhr.done(function(rawdata) {
+        var data = JSON.parse(rawdata);
+        $('#modal').modal('hide');
+        $("#"+selctr).append(
+          $('<option value="'+data.id+'">'+data.name+'</option>')
+        );
+        $("#"+selctr).val(data.id).trigger("change");
+      });
+      jqxhr.fail(function(rawdata) {
+        var errors = JSON.parse(rawdata.responseText);
+        $('#company_list_partial [id^="edit_company_list_"] .alert').remove()
+        $('#company_list_partial #new_company_list').prepend(
+          $('<div class="alert alert-danger"></div>')
+        )
+        $.each(errors, function(key, messsages) {
+          $.each(errors, function(index, msg) {
+            $('#company_list_partial #new_company_list .alert').prepend(
+              $('<li>'+ `${key} ${msg}` +'</li>')
+            )
+          });
+        });
+      });
+    });
+
+    $('#company_list_partial').on('submit',
+      '[id^="edit_company_list_"]', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      jqxhr = $.ajax({
+        type: 'PATCH',
+        url: $(this).attr('action'),
+        beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+        cache: false,
+        data: $(this).serialize(),
+        dataType: 'html',
+      });
+      jqxhr.done(function(rawdata) {
+        var data = JSON.parse(rawdata);
+        $('#modal').modal('hide');
+        $("#"+selctr).val(data.id)
+        var selEl = $("#"+selctr)[0]
+        selEl.options[selEl.selectedIndex].innerHTML = data.name
+        $("#"+selctr).trigger("change")
+      });
+      jqxhr.fail(function(rawdata) {
+        var errors = JSON.parse(rawdata.responseText);
+        $('#company_list_partial [id^="edit_company_list_"] .alert').remove()
+        $('#company_list_partial [id^="edit_company_list_"]').prepend(
+          $('<div class="alert alert-danger"></div>')
+        )
+        $.each(errors, function(key, messsages) {
+          $.each(errors, function(index, msg) {
+            $('#company_list_partial [id^="edit_company_list_"] .alert').prepend(
+              $('<li>'+ `${key} ${msg}` +'</li>')
+            )
+          });
+        });
+      });
+    });

@@ -39,7 +39,7 @@ wrapper.wrapper-content.edit-content-embed
             = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last) do |b|
               = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
             br style="clear:both;"
-          
+
           .form-group
             = form.label "Show content from:"
             .form-group
@@ -50,11 +50,11 @@ wrapper.wrapper-content.edit-content-embed
               br
               | - And / Or -
               .form-group
-                = form.label :company_list_ids, "Companies in These Lists", class: 'control-label'
-                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @content_feed_widget.company_list_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
-                = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
-                  => icon 'plus-circle'
-                  | Add New Company List
+                = form.label :company_list_ids, "Companies in These Local Networks i.e. Lists", class: 'control-label'
+                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @content_feed_widget.company_list_ids), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control', :multiple => true}
+                a.text-center data-toggle="modal" data-target="#modal"
+                  => icon 'cog'
+                  span.advanced-button Manage Businesses
           hr
           .form-group
             = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
@@ -79,15 +79,15 @@ wrapper.wrapper-content.edit-content-embed
         .panel-group#accordian
           .panel.panel-default
             .panel-heading
-              h2.h4.panel-title 
+              h2.h4.panel-title
                 a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" Script Embed Tag (Preferred Method)
             .panel-body.panel-collapse.collapse.in#collapseOne
-              button.btn.btn-primary#btn-script data-clipboard-target="#copy-script" Copy 
+              button.btn.btn-primary#btn-script data-clipboard-target="#copy-script" Copy
               pre#copy-script
                 = h "<div id=\"content-feed-widget-#{@content_feed_widget.uuid}\"></div>\n\
                   <script src=\"#{website_root_url()}javascripts/website_embed.js\"></script>\n\
                   <script async=\"true\">\n  \
-                    ContentFeedWidget.load(\"#{@content_feed_widget.uuid}\", \"#{website_root_url()}\");\n\ 
+                    ContentFeedWidget.load(\"#{@content_feed_widget.uuid}\", \"#{website_root_url()}\");\n\
                   </script>"
           .panel.panel-default
             .panel-heading
@@ -96,12 +96,39 @@ wrapper.wrapper-content.edit-content-embed
             .panel-body.panel-collapse.collapse#collapseTwo
               p If your crm/webmaster doesn't allow you to include script tags you can use this iframe tag. You may need to manually adjust to height and width for this method to appear correctly in your website
               p
-                button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy 
+                button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy
               pre#copy-iframe
                 = h "<iframe width=\"100%\" height=\"400px\" frameBorder=\"0\" height src=\"#{website_root_url()}widgets/content_feed_widgets/#{@content_feed_widget.uuid}\"></iframe>"
 
+
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        h3 Create a Local Network
+      .modal-body
+        = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: @content_feed_widget.company_list}
+
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'content_feed_widget_company_list_ids'}
+
 - content_for :javascript do
   javascript:
+    new MutationObserver(function () {
+      $(".company_ids:enabled").chosen({width: "100%"});
+    }).observe($('#modal')[0], { attributes: true, childList: true });
+    $(".modal-dialog").css({"height":"90%"});
+
+    $('#content_feed_widget_company_list_ids').change(function() {
+      var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
+      clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
+      $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
+        $('#company_list_partial').html($(data)[0])
+      });
+    });
+
     //Override the default confirm dialog by rails
     $.rails.allowAction = function(link){
       if (link.data("confirm") == undefined){

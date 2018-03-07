@@ -29,10 +29,10 @@ wrapper.wrapper-content
               | No
           .form-group
             = form.label :company_list_id, "Local Network", class: 'control-label'
-            = form.select :company_list_id, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @directory_widget.company_list_id), {:include_blank => true}, {:class => 'form-control'}
-          = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
-            => icon 'plus-circle'
-            | Add New Local Network
+            = form.select :company_list_id, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @directory_widget.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
+          a.text-center data-toggle="modal" data-target="#modal"
+            => icon 'cog'
+            span.advanced-button Manage Businesses
 
         .ibox-content
           .btn-group
@@ -50,15 +50,15 @@ wrapper.wrapper-content
         .panel-group#accordian
           .panel.panel-default
             .panel-heading
-              h2.h4.panel-title 
+              h2.h4.panel-title
                 a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" Script Embed Tag (Preferred Method)
             .panel-body.panel-collapse.collapse.in#collapseOne
-              button.btn.btn-primary#btn-script data-clipboard-target="#copy-script" Copy 
+              button.btn.btn-primary#btn-script data-clipboard-target="#copy-script" Copy
               pre#copy-script
                 = h "<div id=\"directory-widget-#{@directory_widget.uuid}\"></div>\n\
                   <script src=\"#{website_root_url()}javascripts/website_embed.js\"></script>\n\
                   <script async=\"true\">\n  \
-                    DirectoryWidget.load(\"#{@directory_widget.uuid}\", \"#{website_root_url()}\");\n\ 
+                    DirectoryWidget.load(\"#{@directory_widget.uuid}\", \"#{website_root_url()}\");\n\
                   </script>"
           .panel.panel-default
             .panel-heading
@@ -67,12 +67,39 @@ wrapper.wrapper-content
             .panel-body.panel-collapse.collapse#collapseTwo
               p If your crm/webmaster doesn't allow you to include script tags you can use this iframe tag. You may need to manually adjust to height and width for this method to appear correctly in your website
               p
-                button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy 
+                button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy
               pre#copy-iframe
                 = h "<iframe width=\"100%\" height=\"400px\" frameBorder=\"0\" height src=\"#{website_root_url()}widgets/directory_widgets/#{@directory_widget.uuid}\"></iframe>"
 
+
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        h3 Create a Local Network
+      .modal-body
+        = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: @directory_widget.company_list}
+
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'directory_widget_company_list_id'}
+
 - content_for :javascript do
   javascript:
+    new MutationObserver(function () {
+      $(".company_ids:enabled").chosen({width: "100%"});
+    }).observe($('#modal')[0], { attributes: true, childList: true });
+    $(".modal-dialog").css({"height":"90%"});
+
+    $('#directory_widget_company_list_id').change(function() {
+      var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
+      clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
+      $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
+        $('#company_list_partial').html($(data)[0])
+      });
+    });
+
     //Override the default confirm dialog by rails
     $.rails.allowAction = function(link){
       if (link.data("confirm") == undefined){
@@ -106,7 +133,7 @@ wrapper.wrapper-content
     };
 
     $(function() {
-      new Clipboard('.btn');
+      new Clipboard('.panel .btn');
       $('#btn-script').click(function(){
           swal({
               title: "Success",

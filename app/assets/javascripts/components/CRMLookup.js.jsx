@@ -55,6 +55,7 @@ class CRMLookup extends React.Component {
   }
 
   renderMatches() {
+    const { url, json, business_id } = this.props
     const search = this.state.search;
 
     if (this.state.loading) {
@@ -66,13 +67,13 @@ class CRMLookup extends React.Component {
     if (this.state.matches) {
       let businesses = [];
       this.state.matches.forEach((bus, i) => {
-        let disabled = bus.company && bus.company.user_business_id === this.props.business_id
+        let disabled = bus.company && bus.company.user_business_id === business_id
         // console.log(disabled);
-        let href;
+        let href = url || window.location.href.slice(0, -4);
         if (disabled) {
-          href = `${window.location.href.slice(0, -4)}${bus.company.id}/edit`
+          href = `${href}${bus.company.id}/edit`
         } else {
-          href = `${window.location.href.slice(0, -4)}?add=true&new_business_id=${bus.id}`
+          href = `${href}?add=true&new_business_id=${bus.id}`+(json ? "&json=true" : "")
         }
         businesses.push(
           <CRMBusiness
@@ -97,11 +98,12 @@ class CRMLookup extends React.Component {
   }
 
   render() {
-
+    const { url, json } = this.props
+    let href = url || window.location.href.slice(0, -4);
     return (
       <div>
         <h1> What is the Business or Organization name? </h1>
-        <div className='form-horizontal' action={`${window.location.href.slice(0, -4)}?force=true&name=N&search_add=true`}>
+        <div className='form-horizontal' action={`${href}?force=true&name=N&search_add=true`+(json ? "&json=true":"")}>
           <div className="group">
             <input
               ref={(input) => { this.searchInput = input; }}

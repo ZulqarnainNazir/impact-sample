@@ -25,17 +25,30 @@ wrapper.wrapper-content
           .form-group.just-companies
             = form.label :company_ids, "Companies", class: 'control-label'
             = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @company_list.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids'}
-          = link_to [:new, @business, :crm_company], :target => "_blank"  do
-            => icon 'plus-circle'
-            | Add New Company
+          .form-group.just-companies
+            a.text-center data-toggle="modal" data-target="#js-company-new-modal"
+              => icon 'plus-circle'
+              span.advanced-button Add New Company
 
           ol.company-list-categories-associations style="margin: 20px 20px 20px 20px;"
+            | It's best to add or import Companies in bulk if you haven't yet.
             = render partial: 'company_list_category', collection: @company_list.company_list_categories, locals: { company_list: @company_list, list_form: form, disabled: true }
         .ibox-content
           = form.button 'Add Local Network', class: 'btn btn-primary'
 
+
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'company_list_company_ids'}
+
 - content_for :javascript do
   javascript:
+    $('#company_list_company_ids').change(function() {
+      var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
+      clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
+      $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
+        $('#company_list_partial').html($(data)[0])
+      });
+    });
+
     $(function() {
       $(".company_ids:enabled").chosen();
       $("input.sort_by").click(function() {
@@ -53,5 +66,3 @@ wrapper.wrapper-content
         $(".company_ids:enabled").chosen();
       });
     });
-
-

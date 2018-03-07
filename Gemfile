@@ -91,6 +91,7 @@ group :development, :test do
   gem 'erd'
   gem 'faker'
   gem 'spring'
+  gem 'faker'
   gem 'pry-rails'
   gem 'active_record_query_trace'
   gem 'bullet'

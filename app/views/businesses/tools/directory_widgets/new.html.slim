@@ -29,12 +29,38 @@ wrapper.wrapper-content
               | No
           .form-group
             = form.label :company_list_id, "Local Network", class: 'control-label'
-            = form.select :company_list_id, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @directory_widget.company_list_id), {:include_blank => true}, {:class => 'form-control'}
-          = link_to [:new, @business, :crm_company_list], :target => "_blank"  do
-            => icon 'plus-circle'
-            | Add New Local Network
+            = form.select :company_list_id, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @directory_widget.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
+          a.text-center data-toggle="modal" data-target="#modal"
+            => icon 'cog'
+            span.advanced-button Manage Businesses
 
         .ibox-content
           = form.button 'Create Directory Embed', class: 'btn btn-primary'
 
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        h3 Create a Local Network
+      .modal-body
+        = render partial: 'businesses/crm/company_lists/new', locals: {company_list: @business.company_lists.new({name: "Local Network #{@business.company_lists.size}"})}
 
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'directory_widget_company_list_id'}
+
+- content_for :javascript do
+  javascript:
+    new MutationObserver(function () {
+      $(".company_ids:enabled").chosen({width: "100%"});
+    }).observe($('#modal')[0], { attributes: true, childList: true });
+    $(".modal-dialog").css({"height":"90%"});
+
+    $('#directory_widget_company_list_id').change(function() {
+      var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
+      clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
+      $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
+        $('#company_list_partial').html($(data)[0])
+      });
+    });

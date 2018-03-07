@@ -22,13 +22,15 @@ wrapper.wrapper-content
           .form-group
             = form.radio_button :sort_by, 1, class: 'sort_by'
             = form.label :sort_by, "Organize by Category (Label)", class: 'control-label'
-          - if @company_list.sort_by == 0 
+          - if @company_list.sort_by == 0
             .form-group.just-companies.visible
               = form.label :company_ids, "Companies", class: 'control-label'
               = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @company_list.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids'}
-            = link_to [:new, @business, :crm_company], :target => "_blank"  do
+
+            a.text-center data-toggle="modal" data-target="#js-company-new-modal"
               => icon 'plus-circle'
-              | Add New Company
+              span.advanced-button Add New Company
+
             ol.company-list-categories-associations.hidden style="margin: 20px 20px 20px 20px;"
               - form.object.company_list_categories.build
               = render partial: 'company_list_category', collection: form.object.company_list_categories, locals: { company_list: @company_list, list_form: form, disabled: true }
@@ -38,14 +40,50 @@ wrapper.wrapper-content
               = form.select :company_ids, options_from_collection_for_select(Company.select_collection(@business.id), 'id', 'name', @company_list.company_ids), {:include_blank => true}, {:multiple => true, :class => 'form-control company_ids', :disabled => true}
             ol.company-list-categories-associations.visible style="margin: 20px 20px 20px 20px;"
               - form.object.company_list_categories.build
+              | It's best to add or import Companies in bulk if you haven't yet.
               = render partial: 'company_list_category', collection: form.object.company_list_categories, locals: { company_list: @company_list, list_form: form, disabled: false }
         .ibox-content
           .btn-group
             = form.button 'Save Local Network', class: 'btn btn-primary'
-            = link_to [@business, :crm, @company_list], class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
-              => icon 'times-circle'
-              | Delete
+            - if @company_list.directory_widgets.empty?
+              = link_to [@business, :crm, @company_list], class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+                => icon 'times-circle'
+                | Delete
+            - else
+              button.btn.disabled
+                => icon 'ban'
+                | Remove From Embeds To Delete
 
+  .col-md-6
+    .ibox.float-e-margins
+      .ibox-title
+        h5 Used In
+      .ibox-content
+        - if @company_list.directory_widgets.empty?
+          .p-a-3.text-center
+            h2 Not Currently Used
+        - else
+          table.footable.table.table-stripped
+            thead
+              tr
+                th
+                  | Embed Type
+                th
+                  | Embed Name
+                th
+            tbody
+              - @company_list.directory_widgets.each do |widget|
+                = render partial: "businesses/crm/company_lists/widget", locals: {widget: widget}
+
+.modal.fade#js-company-new-modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button type="button" class="close" aria-label="Close"
+          span aria-hidden="true" &times;
+        h3 Add a New Company
+      .modal-body
+        = render partial: 'businesses/crm/companies/new', locals: {company: @business.owned_companies.new}
 
 - content_for :javascript do
   javascript:
@@ -69,6 +107,27 @@ wrapper.wrapper-content
         $(".company_ids:enabled").chosen();
       });
     });
+    var companyList = "#{@company_list.id}"
+    $('#edit_company_list_'+companyList).on('submit', function(event) {
+      event.preventDefault()
+      jqxhr = $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); },
+        cache: false,
+        data: $(this).serialize(),
+        dataType: 'html',
+      });
+      jqxhr.done(function(rawdata) {
+        var data = JSON.parse(rawdata);
+        $('#modal').modal('hide');
+        $('#directory_widget_company_list_id').append(
+          $('<option value="'+data.id+'">'+data.name+'</option>')
+        );
+        $('#directory_widget_company_list_id').val(data.id);
+      });
+    });
+
     //Override the default confirm dialog by rails
     $.rails.allowAction = function(link){
       if (link.data("confirm") == undefined){
