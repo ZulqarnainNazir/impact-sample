@@ -113,7 +113,10 @@ wrapper.wrapper-content.edit-calendar-embed
         <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
         h3 Create a Local Network
       .modal-body
-        = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: @calendar_widget.company_list}
+        - if @calendar_widget.company_list_ids.second.nil?
+          = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: CompanyList.new }
+        - else
+          = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: CompanyList.find(@calendar_widget.company_list_ids.second)}
 
 = render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'calendar_widget_company_list_ids'}
 
