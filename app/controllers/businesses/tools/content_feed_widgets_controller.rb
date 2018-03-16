@@ -33,15 +33,15 @@ class Businesses::Tools::ContentFeedWidgetsController < Businesses::BaseControll
   end
 
   def destroy
-    Widget.destroy(@content_feed_widget.id)
+    ContentFeedWidget.destroy(@content_feed_widget.id)
     redirect_to [@business, :tools_content_feed_widgets]
   end
 
   private
 
   def content_feed_widget_params
-    params.require(:content_feed_widget).permit(:name, :public_label, :max_items, :link_version, :link_id, 
-                                          :link_label, :link_target_blank, :link_nofollow, :enable_search, :show_our_content, :company_list_ids => [], 
+    params.require(:content_feed_widget).permit(:name, :public_label, :max_items, :link_version, :link_id,
+                                          :link_label, :link_target_blank, :link_nofollow, :enable_search, :show_our_content, :company_list_ids => [],
                                           :content_types => [], :content_category_ids => [], :content_tag_ids => [])
   end
 
