@@ -18,9 +18,9 @@
             = link_to [:edit, business, :crm, review.contact], class: "pull-left" do
               / img.img-circle src=""
               i.fa.fa-user-circle-o.fa-3x
-            .media-body
+            div
               small.pull-right = "#{time_ago_in_words(review.reviewed_at)} ago"
-              div.pull-left
+              div.text-left
                 strong 
                   = link_to review.customer_name, [:edit, business, :crm, review.contact]
                 |  rated 
