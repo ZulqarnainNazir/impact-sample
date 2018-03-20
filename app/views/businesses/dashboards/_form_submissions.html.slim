@@ -18,13 +18,14 @@
           .feed-element
             div
               small.pull-right = "#{time_ago_in_words(submission.created_at)} ago"
-              strong
-                - if submission.try(:contact)
-                  = link_to submission.try(:contact).try(:name), [:edit, business, :crm, submission.try(:contact)]
-              = link_to [business, :crm, submission] do
-                p
-                  - if submission.class == FormSubmission
-                    = truncate(submission.form_submission_values.joins(:form_field).find_by(form_fields: {name: 'message'}).try(:value), length: 90)
-                  - else
-                    = truncate(submission.message, length: 90)
+              div.text-left
+                strong
+                  - if submission.try(:contact)
+                    = link_to submission.try(:contact).try(:name), [:edit, business, :crm, submission.try(:contact)]
+                = link_to [business, :crm, submission] do
+                  p
+                    - if submission.class == FormSubmission
+                      = truncate(submission.form_submission_values.joins(:form_field).find_by(form_fields: {name: 'message'}).try(:value), length: 90)
+                    - else
+                      = truncate(submission.message, length: 90)
       = link_to 'View All', [business, :crm_form_submissions], class: 'btn btn-primary btn-block m-t'
