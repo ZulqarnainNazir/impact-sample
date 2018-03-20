@@ -1,16 +1,16 @@
 .ibox.float-e-margins
-  .ibox-title
-    h5 Recent Customer Reviews
-    = link_to [business, :crm_contacts], class: 'pull-right btn btn-xs btn-primary btn-outline' do
-      i.fa.fa-plus-circle
-      |  Collect More
   - if business.reviews.empty?
     .ibox-content
       .p-a-3.text-center
         h2 No Customer Reviews
         h4
-          = link_to "Click to Begin Requesting & Collecting Reviews Now", [@business, :crm_contacts], class: "text-navy"
+          = link_to "Click to Begin Requesting & Collecting Reviews Now", [@business, :account_modules, :kind => 3, :active => true], class: "text-navy"
   - else
+    .ibox-title
+      h5 Recent Customer Reviews
+      = link_to [:new, @business, :crm_feedback], class: 'pull-right btn btn-xs btn-primary btn-outline' do
+        i.fa.fa-plus-circle
+        |  Collect More
     .ibox-content
       .feed-activity-list
         - business.reviews.order(reviewed_at: :desc).limit(3).each do |review|
@@ -20,22 +20,23 @@
               i.fa.fa-user-circle-o.fa-3x
             .media-body
               small.pull-right = "#{time_ago_in_words(review.reviewed_at)} ago"
-              strong 
-                = link_to review.customer_name, [:edit, business, :crm, review.contact]
-              |  rated 
-              span.text-warning style="display: inline-block"
-                span.fa class=(review.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o')
-                span.fa class=(review.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o')
-                span.fa class=(review.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o')
-                span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
-                span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
-              div = truncate(review.description, length: 90)
-            .text-center
-              - if review.published?
-                strong.text-success> Published
-                = link_to 'Hide', [business, :crm, review, :review_publication, dashboard: true], method: :delete, class: 'btn btn-xs btn-default' 
-              - else
-                strong.text-muted> Hidden
-                = link_to 'Publish', [business, :crm, review, :review_publication, dashboard: true], method: :post, class: 'btn btn-xs btn-primary' 
+              div.pull-left
+                strong 
+                  = link_to review.customer_name, [:edit, business, :crm, review.contact]
+                |  rated 
+                span.text-warning style="display: inline-block"
+                  span.fa class=(review.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o')
+                  span.fa class=(review.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o')
+                  span.fa class=(review.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o')
+                  span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
+                  span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
+                div = truncate(review.description, length: 90)
+              .pull-right
+                - if review.published?
+                  strong.text-success> Published
+                  = link_to 'Hide', [business, :crm, review, :review_publication, dashboard: true], method: :delete, class: 'btn btn-xs btn-default' 
+                - else
+                  strong.text-muted> Hidden
+                  = link_to 'Publish', [business, :crm, review, :review_publication, dashboard: true], method: :post, class: 'btn btn-xs btn-primary' 
           
       = link_to 'View All', [business, :crm_reviews], class: 'btn btn-primary btn-block m-t'

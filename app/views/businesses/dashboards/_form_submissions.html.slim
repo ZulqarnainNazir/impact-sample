@@ -1,17 +1,17 @@
 .ibox.float-e-margins
-  .ibox-title
-    h5 Recent Form Submissions
-    small.pull-right.text-muted
-      = link_to [business, :crm_contact_forms] do
-        i.fa.fa-edit
-        |  Manage Forms
   - if business.form_submissions.empty? && business.contact_messages.where(hide: false).empty?
     .ibox-content
       .p-a-3.text-center
         h2 No Form Submissions
         h4
-          = link_to "Click to Quickly Create Forms & Contact Pages Now", [:new, business, :crm_contact_form], class: "text-navy"
+          = link_to "Click to Quickly Create Forms & Contact Pages Now", [@business, :account_modules, :kind => 4, :active => true], class: "text-navy"
   - else
+    .ibox-title
+      h5 Recent Form Submissions
+      small.pull-right.text-muted
+        = link_to [business, :crm_contact_forms] do
+          i.fa.fa-edit
+          |  Manage Forms
     .ibox-content
       .feed-activity-list
         - (business.contact_messages.includes(:contact).where(hide: false).order(created_at: :desc).limit(3) + business.form_submissions.includes(:contact).order(created_at: :desc).limit(3) ).sort_by(&:created_at).reverse[0, 3].each do |submission|
