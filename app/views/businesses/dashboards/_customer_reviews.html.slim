@@ -4,7 +4,7 @@
       .p-a-3.text-center
         h2 No Customer Reviews
         h4
-          = link_to "Click to Begin Requesting & Collecting Reviews Now", [@business, :account_modules, :kind => 3, :active => true], class: "text-navy"
+          = link_to "Click to Begin Requesting & Collecting Reviews Now", [:new, @business, :crm_feedback], class: "text-navy"
   - else
     .ibox-title
       h5 Recent Customer Reviews
