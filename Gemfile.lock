@@ -430,6 +430,9 @@ GEM
     unf_ext (0.0.7.2)
     uniform_notifier (1.10.0)
     url_safe_base64 (0.2.2)
+    valid_email2 (2.2.2)
+      activemodel (>= 3.2)
+      mail (~> 2.5)
     warden (1.2.3)
       rack (>= 1.0)
     whenever (0.9.7)
@@ -519,6 +522,7 @@ DEPENDENCIES
   turbolinks
   twitter-typeahead-rails
   uglifier
+  valid_email2
   whenever
 
 RUBY VERSION

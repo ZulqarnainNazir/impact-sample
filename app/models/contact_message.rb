@@ -37,6 +37,11 @@ class ContactMessage < ActiveRecord::Base
 
 
   def save(*args)
-    honey.present? ? true : super
+    m = ValidEmail2::Address.new(customer_email)
+    if !honey.present? && m.valid? && m.valid_mx? && !m.disposable? && !m.blacklisted?
+      super
+    else
+      true
+    end
   end
 end

@@ -1,5 +1,5 @@
 = form_for @contact_message, url:  website_contact_page_path do |form|
-  = form.text_field :honey, style: 'margin-left: -10000px; float: left;'
+  = form.text_field :honey, autocomplete: 'foobar', style: 'margin-left: -10000px; float: left;'
   .form-group
     = form.label :customer_first_name, class: 'control-label sr-only'
     = form.text_field :customer_first_name, placeholder: 'First Name', class: 'form-control'
