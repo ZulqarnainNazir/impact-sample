@@ -13,4 +13,17 @@ namespace :data_migrations do
       end
     end
   end
+
+  desc 'Reset completion rate for all one time missions'
+  task reset_one_time_mission_completion_rates: :environment do
+    MissionInstance.one_time.each do |mission_instance|
+      if mission_instance.completed?
+        mission_instance.mark_complete
+      elsif mission_instance.skipped?
+        mission_instance.mark_skipped
+      elsif mission_instance.snoozed?
+        mission_instance.mark_snoozed
+      end
+    end
+  end
 end

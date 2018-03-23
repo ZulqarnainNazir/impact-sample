@@ -1,7 +1,7 @@
 - instance = @mission_instances[mission.id]&.first
 
 - if instance && instance.active?
-  - if instance.deactivated? || instance.completed?
+  - if instance.deactivated? || (instance.completed? && instance.one_time?)
     = link_to '#', class: 'btn btn-primary btn-sm m-r-5px', data: { toggle: 'modal', target: "#mission-activation-modal-#{@mission.id}" } do
       i.fa.fa-check.m-r-5px
       | Reactivate

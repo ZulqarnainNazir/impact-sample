@@ -104,22 +104,22 @@ class MissionInstance < ActiveRecord::Base
   def mark_complete
     update(last_completed_at: Time.zone.now,
            last_status: 'completed',
-           total_times: (total_times + 1),
-           completion_times: (completion_times + 1))
+           total_times: incremented_total_times,
+           completion_times: (scheduled? ? (completion_times + 1) : 1))
   end
 
   def mark_skipped
     update(last_completed_at: Time.zone.now,
            last_status: 'skipped',
-           total_times: (total_times + 1),
-           incompletion_times: (incompletion_times + 1))
+           total_times: incremented_total_times,
+           incompletion_times: incremented_incompletion_times)
   end
 
   def mark_snoozed
     update(last_snoozed_at: Time.zone.now,
            last_status: 'snoozed',
-           total_times: (total_times + 1),
-           incompletion_times: (incompletion_times + 1))
+           total_times: incremented_total_times,
+           incompletion_times: incremented_incompletion_times)
   end
 
   def deactivate
@@ -128,6 +128,14 @@ class MissionInstance < ActiveRecord::Base
 
   def activate
     update(last_status: 'active', activated_at: Time.zone.now)
+  end
+
+  def incremented_total_times
+    scheduled? ? total_times + 1 : 1
+  end
+
+  def incremented_incompletion_times
+    scheduled? ? incompletion_times + 1 : 0
   end
 
   def schedule
