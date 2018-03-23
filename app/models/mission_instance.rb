@@ -34,15 +34,14 @@ class MissionInstance < ActiveRecord::Base
   validates :business, presence: true
   validates :mission, presence: true
   validates :start_date, presence: true, on: :update
-  validates :end_date, presence: true, if: :repetition?, on: :update
+  validates :end_date, presence: true, if: :repetition?
 
-  before_validation :ensure_end_date
   before_save :sanitize_repetition
 
   after_create :ensure_correct_status
   after_save :ensure_events_cleanup
 
-  delegate :title, to: :mission
+  delegate :title, to: :mission, allow_nil: true
 
   attr_accessor :start
 
@@ -328,12 +327,6 @@ class MissionInstance < ActiveRecord::Base
 
   def ensure_events_cleanup
     mission_instance_events.destroy_all if repetition.blank?
-  end
-
-  def ensure_end_date
-    if self.repetition?
-      self.end_date = Time.now + DEFAULT_END_DAYS.days
-    end
   end
 
   def sanitize_repetition

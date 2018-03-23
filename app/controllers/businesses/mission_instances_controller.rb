@@ -116,17 +116,22 @@ class Businesses::MissionInstancesController < Businesses::BaseController
 
     mission_instance.assign_attributes(mission_instance_params.merge(business: @business))
 
-    if mission_instance.save && mission.save
-      mission = Mission.find(params[:mission_id])
-      service = MissionActioner.new(mission, @business, current_user)
+    respond_to do |format|
+      if mission_instance.save && mission.save
+        mission = Mission.find(params[:mission_id])
+        service = MissionActioner.new(mission, @business, current_user)
 
-      if service.activate
-        redirect_to [@business, mission], notice: 'Mission activated'
+        if service.activate
+          format.html { redirect_to [@business, mission], notice: 'Mission activated' }
+          format.json { render json: mission_instance }
+        else
+          format.html { redirect_to :back, error: 'Failed to activate mission' }
+          format.json { render json: mission_instance.errors, status: :unprocessable_entity }
+        end
       else
-        redirect_to :back, error: 'Failed to activate mission'
+        format.html { redirect_to :back, error: 'Failed to update mission' }
+        format.json { render json: mission_instance.errors, status: :unprocessable_entity }
       end
-    else
-      redirect_to :back, error: 'Failed to update mission'
     end
   end
 

@@ -11,7 +11,7 @@
         h4.modal-title Activate Mission
 
       .modal-body
-        = form_for @mission_instance, url: activate_business_mission_instances_path(@business, mission_id: @mission.id), method: :post do |f|
+        = form_for @mission_instance, url: activate_business_mission_instances_path(@business, mission_id: @mission.id, format: :json), method: :post, remote: true, html: { class: 'remote-form' } do |f|
           .form-group
             = f.label :start_date, 'Start date*', class: 'control-label'
             = f.text_field :start_date, value: f.object.start_date.try(:strftime, '%m/%d/%Y'), class: 'form-control', data: { provide: 'datepicker' }
@@ -30,5 +30,15 @@
               javascript:
                 $('.repetition_select option[value*="validation"]').prop('selected', true)
           .m-y-3
-            = link_to 'Cancel', :back, class: 'btn btn-default m-r-1'
+            = link_to 'Cancel', :back, class: 'btn btn-default m-r-1', data: { dismiss: 'modal' }
             = f.submit 'Submit', class: 'btn btn-primary'
+javascript:
+  $(document).ready(function(){
+    var form = $("#mission-activation-modal-#{@mission.id}");
+
+    $(form).on("ajax:success", function(e, data, status, xhr) {
+      window.location.reload()
+    }).on("ajax:error", function(e, data, status, xhr) {
+      $(form).render_form_errors('mission_instance', data.responseJSON)
+    })
+  })

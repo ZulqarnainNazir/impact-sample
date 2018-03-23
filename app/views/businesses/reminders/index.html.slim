@@ -24,7 +24,6 @@
               .text-muted
                 small
                   = "about #{time_ago_in_words(history.created_at)} ago"
-                  - if history&.actor == current_user
 
         = link_to 'View All', business_mission_histories_path(@business.id), class: 'btn btn-primary full-width m-t-2 p-a-1'
 .row

@@ -4,7 +4,7 @@ class Businesses::RemindersController < Businesses::BaseController
     @active_reminders = active_missions + completed_scheduled_missions
     @completed_reminders = completed_one_time_missions + deactivated_scheduled_missions
 
-    instances = @business.mission_instances.includes(:mission_histories).where(
+    instances = @business.mission_instances.includes(:assigned_user).where(
       mission_id: (
         @active_reminders.map(&:id) +
         @completed_reminders.map(&:id)
@@ -12,7 +12,11 @@ class Businesses::RemindersController < Businesses::BaseController
     )
 
     @mission_instances = instances.group_by(&:mission_id)
-    @histories = MissionHistory.for_business(@business).order('happened_at DESC').first(5)
+    @histories = MissionHistory
+      .includes(:note, mission_instance: [:mission])
+      .for_business(@business)
+      .order('happened_at DESC')
+      .first(5)
   end
 
   private
