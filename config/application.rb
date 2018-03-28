@@ -17,6 +17,8 @@ module Impact
     config.session_store :cookie_store, key: '_impact_session'
     config.time_zone = "Pacific Time (US & Canada)"
 
+    config.middleware.use Rack::Attack
+
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
     # Paperclip

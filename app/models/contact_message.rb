@@ -37,10 +37,14 @@ class ContactMessage < ActiveRecord::Base
 
 
   def save(*args)
+    badchar = /(\p{Cyrillic}|\p{Han}|\p{Georgian})/i
     m = ValidEmail2::Address.new(customer_email)
-    if !honey.present? && m.valid? && m.valid_mx? && !m.disposable? && !m.blacklisted?
+    if !honey.present? && m.valid? && m.valid_mx? &&
+       !m.disposable? && !m.blacklisted? && !message.match(badchar) &&
+       !customer_first_name.match(badchar) && !customer_last_name.match(badchar)
       super
     else
+      puts "not evaluated"
       true
     end
   end
