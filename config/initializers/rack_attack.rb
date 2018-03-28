@@ -78,17 +78,17 @@ class Rack::Attack
   #    ['']] # body
   # end
 
-  Rack::Attack.blocklist('block_local_network') do |req|
-    # Requests are blocked if the return value is truthy
-    blockvalue = false
-    blocklist_file = "vendor/ip_blacklist.yml"
-    blocklist ||= File.exists?(blocklist_file) ? YAML.load_file(File.expand_path(blocklist_file)) : []
-    blocklist.each do |bladdr|
-      if IPAddr.new(bladdr).include? IPAddr.new(req.ip)
-        blockvalue = true
-      end
-    end
-    blockvalue
-  end
+  # Rack::Attack.blocklist('block_local_network') do |req|
+  #  # Requests are blocked if the return value is truthy
+  #  blockvalue = false
+  #  blocklist_file = "vendor/ip_blacklist.yml"
+  #  blocklist ||= File.exists?(blocklist_file) ? YAML.load_file(File.expand_path(blocklist_file)) : []
+  #  blocklist.each do |bladdr|
+  #    if IPAddr.new(bladdr).include? IPAddr.new(req.ip)
+  #      blockvalue = true
+  #    end
+  #  end
+  #  blockvalue
+  #end
 
 end
