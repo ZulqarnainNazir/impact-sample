@@ -25,8 +25,8 @@ html lang="en"
     link rel="icon" href="/favicon.png"
     - if content_for?(:canonical_url)
       link rel="canonical" href=content_for(:canonical_url)
-    = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: true }
-    = javascript_include_tag 'application', data: { turbolinks_track: true }
+    = stylesheet_link_tag 'application', media: 'all', protocol: :https, data: { turbolinks_track: true }
+    = javascript_include_tag 'application', protocol: :https, data: { turbolinks_track: true }
     - cache @website do
       = @website.head_injection.try(:html_safe)
     - cache @page do
@@ -126,7 +126,7 @@ html lang="en"
           = render @website.footer_block
           .text-center.locable-footer style="margin: 1em 0"
             = link_to 'https://www.locable.com', target: :_blank do
-              = image_tag 'Locable_Dark_Logo.png', alt: 'Locable&#39;s Marketing Platform for Local Businesses'
+              = image_tag 'Locable_Dark_Logo.png', protocol: :https, alt: 'Locable&#39;s Marketing Platform for Local Businesses'
             = @website.footer_injection.try(:html_safe)
     = yield :javascript
     = intercom_tag
