@@ -9,7 +9,7 @@
       - if !@business.module_active?(0) && !@business.module_active?(1) && !@business.module_active?(2) && !@business.module_active?(3) && !@business.module_active?(4)
           div.alert.alert-warning.alert-dismissable.m-t-sm
               <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-              p Looks like you haven't activated any features yet, #{link_to "let's fix that!", [@business, :account_modules]} If you're not sure where to start, try #{link_to " Marketing Missions™", [@business, :account_modules]} to find easy marketing activities. 
+              p Looks like you haven't activated any features yet, #{link_to "let's fix that!", [@business, :account_modules]} If you're not sure where to start, try #{link_to " Marketing Missions™", business_account_modules_path(:kind => 4, :active => true)} to find easy marketing activities. 
                             
       .row
         .col-lg-12

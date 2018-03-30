@@ -1,0 +1,33 @@
+<div class="col-lg-6 col-lg-offset-3">
+  <div class="ibox">
+      <div class="ibox-content product-box">
+
+          <div class="bg-muted">
+              <img class="img-responsive center-block" style="max-height: 220px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png">
+          </div>
+          <div class="p-md">
+              <small class="text-muted">Always Included at No Charge</small>
+              <a href="#" class="product-name"> Organize Companies and Causes into Networks</a>
+
+              <div class="m-t-xs">
+                  <p>Local Networks help you organize your Local Connections</p>
+                  <p>Combine with our embeddable tools to #SupportLocal.</p>
+              </div>
+              <a href="javascript:Appcues.show('-KzzrtZpGHk_2Hql2JD0')" class="pull-left text-warning" style="margin-top: 10px;">Learn More </a>
+              <div class="m-t text-right">
+
+                  <% if !@business.module_active?(4) %>
+                      <%= form_tag business_account_modules_path(:kind => 2, :active => true) do %>
+                          <%= button_tag( type: 'submit',
+                          :class => "btn btn-outline btn-primary") do %>
+                              Activate Local Networks <i class="fa fa-plus-circle"></i>
+                          <% end %>
+                      <% end %>
+                  <% else %>
+                      <%= link_to( "Configure", business_crm_company_lists_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
+                  <% end %>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>

@@ -21,10 +21,15 @@
             <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kji_9AqPYjaqSE1WIvD')">What is this?</a>  
           
           - if @company_lists.empty?
-            .p-a-3.text-center
-              h2 No Local Networks Found
-              h4
-                = link_to 'Create a New Local Network', [:new, @business, :crm_company_list], class: 'text-navy'
+            .row
+              .col-lg-4.col-lg-offset-4
+                .p-a-3.text-center
+                  = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 220px', class: 'img-responsive center-block')
+                  h2 No Local Networks Found
+                  h4
+                    = link_to 'Create a New Local Network', [:new, @business, :crm_company_list], class: 'text-navy'
+                  p.text-left.m-t-md.strong Local Networks help you organize your Local Connections
+                  p.text-left Combine with our embeddable tools to #SupportLocal.
           - else
             p style="margin:2em 0" = page_entries_info @company_lists
             table.footable.table.table-stripped

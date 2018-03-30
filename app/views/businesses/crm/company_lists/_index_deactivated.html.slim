@@ -1,0 +1,19 @@
+- title 'Local Networks'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :an => 'Local Networks'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            = render partial: 'networks_cta'
+          
+
+            /<%= form_tag business_account_modules_path(:kind => 2, :active => true) do %>
+            /    <%= button_tag( type: 'submit',
+            /    :class => "btn btn-lg btn-outline btn-primary") do %>
+            /        Activate <i class="fa fa-plus-circle"></i>
+            /    <% end %>
+            /<% end %>

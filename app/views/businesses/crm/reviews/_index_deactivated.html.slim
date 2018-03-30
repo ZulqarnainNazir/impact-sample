@@ -1,0 +1,18 @@
+- title 'Customer Reviews Automation'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Reviews & Forms', :fp => :crm_root, :an => 'Customer Reviews'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            = render partial: 'reviews_cta'
+
+            /<%= form_tag business_account_modules_path(:kind => 3, :active => true) do %>
+            /    <%= button_tag( type: 'submit',
+            /    :class => "btn btn-lg btn-outline btn-primary") do %>
+            /        Activate <i class="fa fa-plus-circle"></i>
+            /    <% end %>
+            /<% end %>

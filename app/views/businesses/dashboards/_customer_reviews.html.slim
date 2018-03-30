@@ -2,9 +2,14 @@
   - if business.reviews.empty?
     .ibox-content
       .p-a-3.text-center
-        h2 No Customer Reviews
-        h4
-          = link_to "Click to Begin Requesting & Collecting Reviews Now", [:new, @business, :crm_feedback], class: "text-navy"
+        h2.m-b-xs No Customer Reviews
+        - if !@business.module_active?(3)
+          = form_tag business_account_modules_path(:kind => 3, :active => true) do
+            = button_tag( type: 'submit', :class => "btn btn-link") do
+              h4.text-navy.m-t-0.m-b-0 Begin Requesting & Collecting Reviews Now
+        - else
+          h4
+            = link_to "Begin Requesting & Collecting Reviews Now", [:new, @business, :crm_feedback], class: "text-navy"
   - else
     .ibox-title
       h5 Recent Customer Reviews

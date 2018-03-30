@@ -1,0 +1,33 @@
+<div class="col-lg-6 col-lg-offset-3">
+  <div class="ibox">
+      <div class="ibox-content product-box">
+
+          <div class="bg-muted">
+              <img class="img-responsive center-block" style="max-height: 220px;" src="https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Customer%20reviews.png">
+          </div>
+          <div class="p-md">
+              <small class="text-muted">Included at No Charge w/ Optional Paid Upgrades</small>
+              <a href="#" class="product-name"> Customer Reviews Automation</a>
+
+              <div class="m-t-xs">
+                  <p>All you need is a customer's email address and we do the rest. As you collect reviews, you can easily share and promote them on your website to increase credibility.</p>
+                  <p>Everyting is search engine optimized and our approach can help you grow reviews on 3rd-party sites like Yelp, Facebook and Google.</p>
+              </div>
+              <a href="javascript:Appcues.show('-KzzzN485O46A0Q8VmHU')" class="pull-left text-warning" style="margin-top: 10px;">Learn More </a>
+              <div class="m-t text-right">
+
+                  <% if !@business.module_active?(3) %>
+                      <%= form_tag business_account_modules_path(:kind => 3, :active => true) do %>
+                          <%= button_tag( type: 'submit',
+                          :class => "btn btn-outline btn-primary") do %>
+                              Activate Customer Reviews <i class="fa fa-plus-circle"></i>
+                          <% end %>
+                      <% end %>
+                  <% else %>
+                      <%= link_to( "Configure", @business, :crm_reviews, :class => "btn btn-xs btn-outline btn-primary" ) %>
+                  <% end %>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>

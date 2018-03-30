@@ -2,9 +2,14 @@
   - if business.form_submissions.empty? && business.contact_messages.where(hide: false).empty?
     .ibox-content
       .p-a-3.text-center
-        h2 No Form Submissions
-        h4
-          = link_to "Click to Quickly Create Forms & Contact Pages Now", [@business, :account_modules, :kind => 4, :active => true], class: "text-navy"
+        h2.m-b-xs No Form Submissions
+        - if !@business.module_active?(4)
+          = form_tag business_account_modules_path(:kind => 4, :active => true) do
+            = button_tag( type: 'submit', :class => "btn btn-link") do
+              h4.text-navy.m-t-0.m-b-0 Quickly Create Forms & Contact Pages Now
+        - else
+          h4
+            = link_to "Quickly Create Forms & Contact Pages Now", [@business, :crm_contact_forms], class: "text-navy"
   - else
     .ibox-title
       h5 Recent Form Submissions

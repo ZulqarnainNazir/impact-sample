@@ -1,6 +1,6 @@
 - title 'Reviews Widgets'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :an => 'Reviews Widgets'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :an => 'Reviews Embeds'}
 
 .wrapper.wrapper-content.animated.fadeInRight
   .row
@@ -17,11 +17,18 @@
                     = button_tag icon('search'), class: 'btn btn-default'
             = link_to [:new, @business, :tools_review_widget], class: 'btn btn-sm btn-default' do
               => icon 'plus-circle'
-              | Add Reviews Widget
+              | Add Reviews Embed
           
           - if @review_widgets.empty?
-            p style="margin:2em 0"
-              em No widgets found.
+            .row
+              .col-lg-4.col-lg-offset-4
+                .p-a-3.text-center
+                  = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Customer%20reviews.png', style: 'max-height: 220px', class: 'img-responsive center-block')
+                  h2 No Customer Review Embeds
+                  h4
+                    = link_to 'Create a Customer Reviews Embed', [:new, @business, :tools_review_widget], class: 'text-navy'
+                  p.text-left.m-t-md.strong Add Reviews to Your Website 
+                  p.text-left Promote the Customer Reviews you collect on your website with 3 different ways show them off.
           - else
             p style="margin:2em 0" = page_entries_info @review_widgets
             table.footable.table.table-stripped
