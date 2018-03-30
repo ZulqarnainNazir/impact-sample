@@ -22,7 +22,10 @@ javascript:
     Appcues.identify("#{current_user.id}", { // Unique identifier for current user
         first_name: "#{current_user.first_name}",
         last_name: "#{current_user.last_name}",
+        full_name: "#{current_user.name}",
         email: "#{current_user.email}",
+        website: "#{current_business.website_url}",
+
         created_at: "#{current_user.created_at}", // Unix timestamp of user signup date
         sent_invite: "#{current_user.invites.any?}",
         sent_member_invite: "#{current_user.invites.where(invite_as_member: true).any?}",
@@ -50,6 +53,59 @@ javascript:
         account_id: "#{settings[:account_id]}",
         form_count: "#{settings[:form_count]}",
         form_submissions_count: "#{settings[:form_submissions_count]}",
+
+        // new attribtues added March 25th, based off of attribtues sent to intercom in 
+        // #update_intercom_company in business.rb, which is run in rake task
+        // #task export_biz_data_and_associated_users_to_intercom
+         plan_change_date: "#{current_business.date_plan_changed}",
+         hours_of_operation: "#{current_business.biz_hours}",
+
+         has_logo: "#{current_business.logo_placement.present?}",
+         
+         description: "#{current_business.description.present? ? current_business.description.truncate(200) : 'N/A'}", //truncated due to Intercom limit of 255 characters;
+         membership_org: "#{current_business.membership_org}",
+         account_create_date: "#{current_business.created_at}",
+         account_claim_date: "#{current_business.created_at}",
+
+         to_dos_enabled: "#{current_business.to_dos_enabled}",
+         activated_mission_count: "#{current_business.missions.where(status: 'active').count}",
+         marketing_missions_module: "#{current_business.module_active?(0)}", 
+         content_engine_module: "#{current_business.module_active?(1)}", 
+         local_connections_module: "#{current_business.module_active?(2)}",
+         customer_reviews_module: "#{current_business.module_active?(3)}",
+         form_builder_module: "#{current_business.module_active?(4)}",
+         website_module: "#{current_business.module_active?(5)}",
+
+
+         landing_page_count: "#{current_business.count_landing_pages}",
+         contact_form_count: "#{current_business.contact_forms.count}",
+         forms_submissions_count: "#{current_business.count_contact_forms_submissions}",
+         company_lists_count: "#{current_business.company_lists.count}", //number of networks
+         companies_in_crm_count: "#{current_business.owned_companies.count}", //number of companies in networks
+         contacts_in_crm_count: "#{current_business.contacts.count}", //number of people in networks
+         directory_count: "#{current_business.directory_widgets.count}", //number of directories
+         calendar_count: "#{current_business.calendar_widgets.count}", //number of calendars
+         reviews_requested_total: "#{current_business.feedbacks.count}", //number of feedback reviews requested
+         reviews_received_total: "#{current_business.reviews.count}",
+         // ADD: reviews_per_billing_cycle
+         //invited_by
+
+         //social media stuff
+         facebook_id: "#{current_business.facebook_id}",
+         google_plus_id: "#{current_business.google_plus_id}",
+         linkedin_id: "#{current_business.linkedin_id}",
+         twitter_id: "#{current_business.twitter_id}",
+         youtube_id: "#{current_business.youtube_id}",
+         instagram_id: "#{current_business.instagram_id}",
+         pinterest_id: "#{current_business.pinterest_id}",
+         yelp_id: "#{current_business.yelp_id}",
+         cce_id: "#{current_business.cce_id}",
+         zillow_id: "#{current_business.zillow_id}",
+         opentable_id: "#{current_business.opentable_id}",
+         trulia_id: "#{current_business.trulia_id}",
+         realtor_id: "#{current_business.realtor_id}",
+         tripadvisor_id: "#{current_business.tripadvisor_id}",
+         houzz_id: "#{current_business.houzz_id}",
 
         // Additional user properties.
         // is_trial: "<%= current_user.is_trial %>",
