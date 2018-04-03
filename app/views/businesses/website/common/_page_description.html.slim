@@ -1,0 +1,8 @@
+.form-group
+  = form.label :description, class: 'control-label'
+  = form.text_area :description, placeholder: 'Customize the description shown to people on search engines and social media. Should be catchy and just 1-3 sentences.', rows: 2, class: 'form-control'
+  p.help-block Helpful for SEO &amp; Social
+  = form.label :page_head_injection, class: 'control-label'
+  = form.text_area :page_head_injection, placeholder: 'Add custom css, javascript, etc. Be sure to include opening and closing tags.', rows: 2, class: 'form-control'
+  p.help-block i.e.
+    <code>&lt;script&gt;, &lt;style&gt;, etc.</code>

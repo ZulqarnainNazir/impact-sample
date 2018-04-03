@@ -1,0 +1,10 @@
+= react_component 'ImagePlacement',
+  imagesPath: business_images_path(@business),
+  inputPrefix: prefix + '[main_image_placement_attributes]',
+  label: 'Custom OG:Image',
+  placement: form.object.main_image_placement_json,
+  presignedPost: s3_presigned_post_hash,
+  bulkUploadPath: new_business_content_images_upload_path(@business),
+  allowEmbed: false,
+  buttonSize: 'small',
+  showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?

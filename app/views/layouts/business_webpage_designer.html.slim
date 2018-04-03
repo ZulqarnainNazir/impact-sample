@@ -10,7 +10,7 @@ html lang="en"
   / - raise StandardError, @website.custom_css
   css:
     #{@custom_css.html_safe}
-    
+
   body style="margin-bottom:4em" class="#{body_class}"
     = render 'appcues'
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"

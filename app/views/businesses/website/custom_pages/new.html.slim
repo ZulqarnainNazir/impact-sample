@@ -1,116 +1,91 @@
 - title 'New Custom Page'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :sn => 'Webpages', :sp => :website_webpages, :an => ' New Custom Page'}
+- webpage = @custom_page
+- url = [@business, :website, @custom_page]
+- prefix = webpage.class.model_name.param_key
 
-.webpage-designer data-input-prefix="custom_page"
-  = form_for @custom_page, url: [@business, :website_custom_pages] do |form|
-    = errors_for @custom_page
-    .row
-      .col-md-6.col-lg-7
-        .form-horizontal
+.webpage-designer-minimal data-input-prefix=prefix
+  = form_for webpage, url: url, method: :post do |form|
+    = errors_for webpage
+
+    = render "businesses/website/common/topbar",
+      webpage: webpage,
+      default_title: '',
+      prefix: prefix,
+      form: form,
+      form_url: (url_for url)
+
+    #advanced-settings.well.well-sm.white-bg.m-y-md.container-mock style="display:none"
+      .row
+        .col-xs-12
+          .checkbox
+            = form.label :hide_navigation do
+              => form.check_box :hide_navigation
+              strong> Hide Navigation?
+              small Acts like a landing page.
+          .checkbox
+            = form.label :no_index do
+              => form.check_box :no_index
+              strong> Hide Page from Search Engines?
+              small If checked, this page will be hidden from search engines
+          hr
+        .col-xs-12.col-md-6
           .form-group
-            = form.label :title, class: 'col-md-2 control-label'
-            .col-md-10
-              = form.text_field :title, class: 'form-control js-title-input', data: { affects_pathname: form.object.pathname.blank?, affects_name: form.object.name.blank? }, required: true
-            .col-md-10.col-md-offset-2
-              p.help-block Important for SEO
-          / .form-group
-          /   = form.label :pathname, class: 'col-md-2 control-label'
-          /   .col-md-10
-          /     = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input', required: true
-          /   .col-md-10.col-md-offset-2
-          /     p.help-block
-          /       = website_host(form.object.website)
-          /       | /
-          /       strong.text-info.js-pathname-label = form.object.pathname
-          / .form-group
-          /   = form.label :name, class: 'col-md-2 control-label'
-          /   .col-md-10
-          /     = form.text_field :name, class: 'form-control js-name-input', required: true
-          /     p.help-block Used on headers and footers.
-        - if @custom_page.persisted?
-          .row
-            .col-md-offset-2
-              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_custom_page_url(@custom_page.pathname, host: website_host(@business.website), protocol: :http), target: :_blank do
-                ' Preview Saved Webpage
-                i.fa.fa-external-link style="margin-left:2px"
-      .col-md-6.col-lg-5
-        .webpage-settings
-          #advanced-settings.well.well-sm style="display:none"
-            .checkbox
-              = form.label :hide_navigation do
-                => form.check_box :hide_navigation
-                strong> Hide Navigation?
-                small Acts like a landing page.
-            .checkbox
-              = form.label :no_index do
-                => form.check_box :no_index
-                strong> Hide Page from Spiders?
-                small If checked, this page is hidden from search engines
-            hr
-            .form-group
-              = form.label :pathname, class: 'col-md-2 control-label'
-              .col-md-10
-                = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input', required: true
-              .col-md-10.col-md-offset-2
-                p.help-block
-                  = website_host(form.object.website)
-                  | /
-                  strong.text-info.js-pathname-label = form.object.pathname
-            .form-group
-              = form.label :name, class: 'col-md-2 control-label'
-              .col-md-10
-                = form.text_field :name, class: 'form-control js-name-input', required: true
-                p.help-block Used on headers and footers.
-            .form-group
-              = form.label :description, class: 'control-label'
-              = form.text_area :description, rows: 2, class: 'form-control'
-              p.help-block Helpful for SEO &amp; Social
-            hr
-            = react_component 'ImagePlacement',
-              imagesPath: business_images_path(@business),
-              inputPrefix: 'custom_page[main_image_placement_attributes]',
-              label: 'Custom OG:Image',
-              placement: form.object.main_image_placement_json,
-              presignedPost: s3_presigned_post_hash,
-              bulkUploadPath: new_business_content_images_upload_path(@business),
-              allowEmbed: false,
-              buttonSize: 'small',
-              showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-          p.text-right.text-muted.small style="margin:0.8em 0 2em"
-            span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
-              ' Toggle Advanced Settings
-              span.fa
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control js-name-input'
+            p.help-block Used on headers and footers.
+          = render "businesses/website/common/page_description", form: form
+
+        .col-xs-12.col-md-6
+          .form-group
+            = form.label :pathname, class: 'control-label'
+            = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input', required: true
+            p.help-block
+              = website_host(form.object.website)
+              | /
+              strong.text-info.js-pathname-label = form.object.pathname
+          = render "businesses/website/common/og_image", form: form, prefix: prefix
+
     javascript:
-      var setPathname = function(inputVal) {
-        var pathnameVal = inputVal.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-        $('.js-pathname-input').val(pathnameVal);
-        $('.js-pathname-label').text(pathnameVal);
-      }
-      var setName = function(inputVal) {
-        $('.js-name-input').val(inputVal);
-      }
-      $(document).on('input', '.js-title-input', function(e) {
-        if ($(this).data().affectsPathname == true) {
+
+      ;(function () {
+        var affectsPathname = affectsName = true;
+
+        var pathnameInput = $('.js-pathname-input');
+        var pathnameLabel = $('.js-pathname-label');
+        var nameInput = $('.js-name-input');
+        var titleInput = $('.js-title-input');
+
+        var setPathname = function(inputVal) {
+          var pathnameVal = inputVal.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+          pathnameInput.val(pathnameVal);
+          pathnameLabel.text(pathnameVal);
+        }
+        var setName = function(inputVal) {
+          nameInput.val(inputVal);
+        }
+        $(document).on('input', '.js-title-input', function(e) {
+          if (affectsPathname == true) {
+            setPathname(e.target.value);
+          }
+          if (affectsName == true) {
+            setName(e.target.value);
+          }
+        });
+        $(document).on('input', '.js-pathname-input', function(e) {
           setPathname(e.target.value);
-        }
-        if ($(this).data().affectsName == true) {
-          setName(e.target.value);
-        }
-      });
-      $(document).on('input', '.js-pathname-input', function(e) {
-        setPathname(e.target.value);
-      });
-      $(document).on('keyup', '.js-pathname-input', function(e) {
-        $('.js-title-input').data().affectsPathname = e.target.value.length == 0;
-      });
-      $(document).on('keyup', '.js-name-input', function(e) {
-        $('.js-title-input').data().affectsName = e.target.value.length == 0;
-      });
+        });
+        $(document).on('keyup', '.js-pathname-input', function(e) {
+          affectsPathname = e.target.value.length == 0;
+        });
+        $(document).on('keyup', '.js-name-input', function(e) {
+          affectsName = e.target.value.length == 0;
+        });
+      })();
     = react_component 'WebpageContainer',
       newPage: 'CustomPage',
       backgroundColor: form.object.website.background_color,
-      browserButtonsSrc: image_path('browser-buttons.png'),
+      browserButtonsSrc: nil,
       bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
       foregroundColor: form.object.website.foreground_color,
       groups: form.object.groups.as_json(include: { blocks: { include: { block_image_placement: { methods: %i[full_width image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_small_fixed_url image_attachment_medium_url image_attachment_medium_fixed_url image_attachment_large_url image_attachment_large_fixed_url image_attachment_jumbo_url image_attachment_jumbo_fixed_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }, block_background_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type show_our_content company_list_ids image_attachment_file_name image_attachment_file_size] }}, methods: %i[type height items_limit well_style background_color foreground_color custom_class custom_anchor_id content_types content_category_ids content_tag_ids contact_form_widget_id widget_id] }}, methods: %i[type custom_class height]),

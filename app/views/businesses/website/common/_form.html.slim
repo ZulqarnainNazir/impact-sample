@@ -1,0 +1,14 @@
+- prefix = webpage.class.model_name.param_key
+
+.webpage-designer-minimal data-input-prefix=prefix
+  = form_for webpage, url: url, method: :patch do |form|
+    = errors_for webpage
+
+    = render "businesses/website/common/topbar",
+      webpage: webpage,
+      default_title: default_title,
+      prefix: prefix,
+      form: form,
+      form_url: (url_for url)
+
+    = yield(form, prefix)

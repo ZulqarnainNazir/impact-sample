@@ -1,9 +1,4 @@
 .webpage-designer {
-  margin: 3em 15px 5em;
-  @media (min-width: 1230px) {
-    margin-left: -15px;
-    margin-right: -15px;
-  }
   i {
     // color: black !important;
   }
@@ -13,4 +8,33 @@
   .webpage-options i {
     color: white !important;
   }
+
+}
+
+@media (max-width: 768px) {
+  .webpage-designer-minimal {
+
+    .page-title-field {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+
+  }
+}
+
+.webpage-designer-minimal {
+
+    .webpage-designer-topbar {
+
+      box-shadow: 0px 0px 10px rgba(0,0,0,.8);
+      background: white;
+
+      li > a:not(.btn):hover, li > a:not(.btn):focus {
+        background: none;
+      }
+
+      .dropdown-menu {
+        z-index: 1002;
+      }
+    }
 }

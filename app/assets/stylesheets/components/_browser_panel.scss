@@ -1,5 +1,11 @@
 .browser-panel {
   margin-left: -1;
   margin-right: -1;
+  margin-top: 20px;
   box-shadow: 0 0 1em rgba(0,0,0,0.1), 0 0 0.2em rgba(0,0,0,0.2)
+}
+
+.browser-panel.no-heading {
+    border: none;
+    border-radius: 0;
 }

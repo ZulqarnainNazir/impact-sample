@@ -1,0 +1,42 @@
+@keyframes rotation {
+		from {
+				-webkit-transform: rotate(0deg);
+		}
+		to {
+				-webkit-transform: rotate(359deg);
+		}
+}
+
+.smart-text-field {
+
+  position: relative;
+  top: 0;
+  left: 0;
+
+  input.smart-text-field--input {
+		box-sizing: border-box;
+    width: 100%;
+
+		&:not(:focus) {
+			border-style: dotted;
+			border-color: $text-color;
+			text-decoration: dotted underline;
+			text-overflow: ellipsis;
+		}
+  }
+
+  i.smart-text-field--icon {
+
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    height: 12px;
+		margin-top: -5px;
+    width: 12px;
+    font-size: 12px;
+
+    &.fa-spinner {
+		    animation: rotation 0.75s infinite linear;
+    }
+  }
+}

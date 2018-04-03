@@ -44,7 +44,7 @@ var ready = function() {
   //$('.save-once').saveOnce();
   $('.selectpicker').selectpicker();
   $('.webhosts-associations').webhostsAssociations();
-  $('.webpage-designer').webpageDesigner();
+  $('.webpage-designer, .webpage-designer-minimal').webpageDesigner();
   $('.wysihtml-editor').wysihtmlEditor();
   $('[data-show-when-checked]').showWhenChecked();
   $('[data-show-when-clicked]').showWhenClicked();

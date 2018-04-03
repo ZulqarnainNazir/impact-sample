@@ -1,0 +1,43 @@
+body.fixed-nav {
+
+  #wrapper .navbar-static-side,
+  #wrapper #page-wrapper {
+    margin-top: 60px;
+  }
+
+  &.top-navigation #wrapper #page-wrapper {
+    margin-top: 0;
+  }
+
+  &.fixed-nav-basic {
+
+    .navbar-fixed-top {
+      left: 220px;
+    }
+
+    &.mini-navbar .navbar-fixed-top {
+      left: 70px;
+    }
+
+    &.fixed-sidebar.mini-navbar .navbar-fixed-top {
+      left: 0;
+    }
+
+    #wrapper .navbar-static-side {
+      margin-top: 0;
+    }
+
+    &.body-small .navbar-fixed-top {
+      left: 0;
+    }
+
+    &.fixed-sidebar.mini-navbar.body-small .navbar-fixed-top {
+      left: 220px;
+    }
+  }
+
+  .minimalize-styl-2 {
+    margin: 14px 5px 5px 15px;
+  }
+
+}

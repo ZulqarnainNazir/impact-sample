@@ -1,0 +1,71 @@
+/ This template renders the minimalist webpage designer topbar.
+/ Required local variables:
+/ webpage - The webpage to edit (e.g. a custom_page or about_page)
+/ prefix - The form input prefix to use (i.e., webpage.class.model_name.param_key)
+/ form - The form to render within
+
+.webpage-designer-topbar.navbar.navbar-static-top.container
+
+  = link_to image_tag('locable-icon.png', alt: 'Locable Marketing Platform'), business_dashboard_path(@business), class: 'logo-center'
+
+  ul.nav.navbar-nav.navbar-no-collapse
+    li.hidden-xs
+      h2.m-sm
+        = link_to [@business, :website_webpages], class: 'text-muted', title: 'Back to Manage Pages' do
+          i.fa.fa-caret-left
+          |  Pages
+
+    li
+      .nav-form-group.form-horizontal title="Click to edit the page's title" data-content="Name your page descriptively" data-toggle="popover"
+        label.control-label.hidden-xs.hidden-sm for="#{prefix}[title]"
+          | Page Title:&nbsp;
+        = react_component 'SmartTextField', {\
+          name: prefix + '[title]',
+          className: 'form-control js-title-input',
+          initialValue: webpage.title.present? ? webpage.title : default_title,
+          api: form_url,
+          authenticityToken: form_authenticity_token,
+          required: true,
+          placeholder: "Page Title Update",
+          autosubmit: webpage.persisted? }, {\
+          class: 'nav-text-input' }
+
+    - if webpage.persisted?
+      li
+        - webpage_url = webpage.pathname? ? website_custom_page_url(webpage.pathname, host: website_host(@business.website), protocol: :http) : website_root_url(host: website_host(@business.website), protocol: :http)
+        = link_to webpage_url, target: :_blank, class: 'btn btn-primary', title: 'Preview Live Webpage' do
+          span.hidden-xs Preview&nbsp;
+          i.fa.fa-external-link style='margin-right: 0;'
+
+  ul.nav.navbar-nav.navbar-right.navbar-no-collapse
+
+    li
+      = render "jumpto"
+
+    li
+      button#advanced-settings-toggle.btn-link.navbar-link data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown" type="button" title="Toggle advanced options"
+        span.hidden-xs Advanced&nbsp;
+        span.hidden-sm.hidden-md.hidden-lg Adv&nbsp;
+        span.fa.fa-toggle-down
+
+    - if webpage.pathname?
+      li
+        = link_to edit_business_website_menus_path, target: :_blank,
+          class: (form.object.in_navbar? ? 'text-success' : 'text-warning'),
+          title: 'This page is ' + (form.object.in_navbar? ? 'included' : 'not included') + " in the site's navigation",
+          'data-content': 'Click to edit navigation settings',
+          'data-toggle': 'popover' do
+          span.hidden-xs
+            = form.object.in_navbar? ? 'In Navbar ' : 'Not in Navbar '
+          span.fa.fa-power-off
+
+  javascript:
+    $('.webpage-designer-topbar [data-toggle="popover"]').popover({
+      container: 'body',
+      placement: 'bottom',
+      trigger: 'hover',
+      delay: {
+        show: 500,
+        hide: 0
+      }
+    })

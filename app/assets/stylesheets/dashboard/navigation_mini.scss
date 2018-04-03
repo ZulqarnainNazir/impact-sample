@@ -1,0 +1,32 @@
+body.mini-navbar {
+
+  .navbar-static-side {
+    width: 70px;
+  }
+
+  .profile-element, body.mini-navbar .nav-label, body.mini-navbar .navbar-default .nav li a span {
+    display: none;
+  }
+
+
+  &:not(.fixed-sidebar):not(.canvas-menu) .nav-second-level {
+    display: none;
+  }
+
+  .navbar-default .nav > li > a {
+    font-size: 16px;
+  }
+
+  .logo-element {
+    display: block;
+  }
+
+  .nav-header {
+    padding: 0;
+    background-color: $navy;
+  }
+
+  #page-wrapper {
+    margin: 0 0 0 70px;
+  }
+}

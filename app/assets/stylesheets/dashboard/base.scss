@@ -52,6 +52,7 @@ a {
 }
 
 a:hover, a:focus {
+  color: $navy;
   text-decoration: none;
 }
 
@@ -700,7 +701,7 @@ table.table-mail tr td {
 }
 
 .panel-default {
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
 }
 
 .panel-success {
@@ -804,7 +805,7 @@ table.table-mail tr td {
 }
 
 .text-success {
-  color: $blue;
+  color: $navy;
 }
 
 .text-info {
@@ -820,7 +821,7 @@ table.table-mail tr td {
 }
 
 .text-muted {
-  color: #888888;
+  font-weight: normal;
 }
 
 .text-white {
@@ -1053,6 +1054,10 @@ a.close-canvas-menu:hover {
 
 .m-l-none {
   margin-left: 0;
+}
+
+.m-l-xxs {
+  margin-left: 1px;
 }
 
 .m-l-xs {
@@ -1302,7 +1307,6 @@ a.close-canvas-menu:hover {
 .space-30 {
   margin: 30px 0;
 }
-
 
 // IMAGES SIZE
 

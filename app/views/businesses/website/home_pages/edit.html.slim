@@ -1,77 +1,39 @@
 - title 'Edit Website Homepage'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :sn => 'Webpages', :sp => :website_webpages, :an => ' Homepage'}
-
-.webpage-designer data-input-prefix="home_page"
-  = form_for @home_page, url: [@business, :website_home_page], method: :patch do |form|
-    = errors_for @home_page
+= render layout: "businesses/website/common/form",
+  locals: { webpage: @home_page, url: [@business, :website_home_page], default_title: @business.name } do |form, prefix|
+  #advanced-settings.well.well-sm.white-bg.m-y-md.container-mock style="display:none"
     .row
-      .col-md-6.col-lg-7
-        .form-horizontal
-          .form-group
-            = form.label :title, class: 'col-md-2 control-label'
-            .col-md-10
-              = form.text_field :title, value: form.object.title.present? ? form.object.title : @business.name, class: 'form-control', required: true
-              p.help-block Important for SEO
-        - if @home_page.persisted?
-          .row
-            .col-md-offset-2
-              p style="margin-left: 15px; margin-bottom: 25px;" = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
-                ' Preview Saved Webpage
-                i.fa.fa-external-link style="margin-left:2px"
-      .col-md-6.col-lg-5
-        .webpage-settings
-          #advanced-settings.well.well-sm style="display:none"
-            .form-group
-              = form.label :description, class: 'control-label'
-              = form.text_area :description, rows: 2, class: 'form-control'
-              p.help-block Helpful for SEO &amp; Social
-              = form.label :page_head_injection, class: 'control-label'
-              = form.text_area :page_head_injection, rows: 2, class: 'form-control'
-              p.help-block i.e.
-              code
-                | &lt;script&gt;, &lt;style&gt;, etc.
-            hr
-            = react_component 'ImagePlacement',
-              imagesPath: business_images_path(@business),
-              inputPrefix: 'home_page[main_image_placement_attributes]',
-              label: 'Custom OG:Image',
-              placement: form.object.main_image_placement_json,
-              presignedPost: s3_presigned_post_hash,
-              bulkUploadPath: new_business_content_images_upload_path(@business),
-              allowEmbed: false,
-              buttonSize: 'small',
-              showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-          p.text-right.text-muted.small style="margin: 0.8em 0 2em"
-            span#advanced-settings-toggle data-show-when-clicked="#advanced-settings" data-toggle-class-when-clicked="advanced-settings-shown"
-              ' Toggle Advanced Settings
-              span.fa
-    = react_component 'WebpageContainer',
-      backgroundColor: form.object.website.background_color,
-      browserButtonsSrc: image_path('browser-buttons.png'),
-      bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
-      foregroundColor: form.object.website.foreground_color,
-      groups: form.object.groups.as_json(include: { blocks: { include: { block_image_placement: { methods: %i[full_width image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_small_fixed_url image_attachment_medium_url image_attachment_medium_fixed_url image_attachment_large_url image_attachment_large_fixed_url image_attachment_jumbo_url image_attachment_jumbo_fixed_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }, block_background_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }}, methods: %i[type height items_limit well_style background_color foreground_color custom_class custom_anchor_id content_types show_our_content company_list_ids content_category_ids content_tag_ids contact_form_widget_id widget_id] }}, methods: %i[type custom_class height hero_position aspect_ratio custom_anchor_id]),
-      groupTypes: %w[HeroGroup TaglineGroup CallToActionGroup ContentGroup BlogFeedGroup ReviewsGroup SidebarContentGroup SidebarBlogFeedGroup SidebarEventsFeedGroup SidebarReviewsGroup SupportLocalGroup ContactFormGroup CalendarGroup],
-      hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
-      imagesPath: business_images_path(form.object.website.business),
-      contentsPath: business_content_root_path(form.object.website.business),
-      contactFormsPath: business_crm_contact_forms_path(form.object.website.business),
-      companyListsPath: business_crm_company_lists_path(form.object.website.business),
-      calendarWidgetsPath: business_tools_calendar_widgets_path(form.object.website.business),
-      reviewsPath: business_crm_reviews_path(form.object.website.business),
-      newSupportLocalPath: new_business_tools_directory_widget_path(form.object.website.business),
-      newCalendarPath: new_business_tools_calendar_widget_path(form.object.website.business),
-      newContactFormPath: new_business_crm_contact_form_path(form.object.website.business),
-      internalWebpages: form.object.website.webpages.select(:id, :name),
-      contentCategories: form.object.website.business.content_categories.as_json,
-      contentTags: form.object.website.business.content_tags.as_json,
-      linkColor: form.object.website.link_color,
-      presignedPost: s3_presigned_post_hash,
-      showOnlyLocalMediaLibraryOption: current_user.businesses.count > 1 || current_user.super_user?,
-      sidebarPosition: form.object.sidebar_position,
-      wrapContainer: form.object.website.wrap_container,
-      directoryWidgets: form.object.website.business.directory_widgets,
-      calendarWidgets: form.object.website.business.calendar_widgets,
-      contactForms: form.object.website.business.contact_forms,
-      companyLists: form.object.website.business.company_lists
+      .col-xs-12.col-md-6
+        = render "businesses/website/common/page_description", form: form
+      .col-xs-12.col-md-6
+        = render "businesses/website/common/og_image", form: form, prefix: prefix
+  = react_component 'WebpageContainer',
+    backgroundColor: form.object.website.background_color,
+    browserButtonsSrc: nil,
+    bulkUploadPath: new_business_content_images_upload_path(form.object.website.business),
+    foregroundColor: form.object.website.foreground_color,
+    groups: form.object.groups.as_json(include: { blocks: { include: { block_image_placement: { methods: %i[full_width image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_small_fixed_url image_attachment_medium_url image_attachment_medium_fixed_url image_attachment_large_url image_attachment_large_fixed_url image_attachment_jumbo_url image_attachment_jumbo_fixed_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }, block_background_placement: { methods: %i[image_alt image_title image_attachment_url image_attachment_thumbnail_url image_attachment_small_url image_attachment_medium_url image_attachment_large_url image_attachment_jumbo_url image_attachment_content_type image_attachment_file_name image_attachment_file_size] }}, methods: %i[type height items_limit well_style background_color foreground_color custom_class custom_anchor_id content_types show_our_content company_list_ids content_category_ids content_tag_ids contact_form_widget_id widget_id] }}, methods: %i[type custom_class height hero_position aspect_ratio custom_anchor_id]),
+    groupTypes: %w[HeroGroup TaglineGroup CallToActionGroup ContentGroup BlogFeedGroup ReviewsGroup SidebarContentGroup SidebarBlogFeedGroup SidebarEventsFeedGroup SidebarReviewsGroup SupportLocalGroup ContactFormGroup CalendarGroup],
+    hasMultipleBusinesses: current_user.super_user? || current_user.businesses.count > 1,
+    imagesPath: business_images_path(form.object.website.business),
+    contentsPath: business_content_root_path(form.object.website.business),
+    contactFormsPath: business_crm_contact_forms_path(form.object.website.business),
+    companyListsPath: business_crm_company_lists_path(form.object.website.business),
+    calendarWidgetsPath: business_tools_calendar_widgets_path(form.object.website.business),
+    reviewsPath: business_crm_reviews_path(form.object.website.business),
+    newSupportLocalPath: new_business_tools_directory_widget_path(form.object.website.business),
+    newCalendarPath: new_business_tools_calendar_widget_path(form.object.website.business),
+    newContactFormPath: new_business_crm_contact_form_path(form.object.website.business),
+    internalWebpages: form.object.website.webpages.select(:id, :name),
+    contentCategories: form.object.website.business.content_categories.as_json,
+    contentTags: form.object.website.business.content_tags.as_json,
+    linkColor: form.object.website.link_color,
+    presignedPost: s3_presigned_post_hash,
+    showOnlyLocalMediaLibraryOption: current_user.businesses.count > 1 || current_user.super_user?,
+    sidebarPosition: form.object.sidebar_position,
+    wrapContainer: form.object.website.wrap_container,
+    directoryWidgets: form.object.website.business.directory_widgets,
+    calendarWidgets: form.object.website.business.calendar_widgets,
+    contactForms: form.object.website.business.contact_forms,
+    companyLists: form.object.website.business.company_lists

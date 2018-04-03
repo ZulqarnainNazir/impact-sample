@@ -3,7 +3,7 @@ class Businesses::Website::AboutPagesController < Businesses::Website::BaseContr
   include PlacementAttributesConcern
   include RequiresWebPlanConcern
 
-  layout 'business_webpage_designer'
+  layout 'business_webpage_designer_minimal'
 
   before_action do
     @about_page = @website.about_page || @website.build_about_page(active: true)
