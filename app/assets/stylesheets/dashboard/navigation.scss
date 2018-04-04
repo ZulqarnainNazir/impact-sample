@@ -392,6 +392,7 @@ body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-seco
   border-radius: 0 2px 2px 0;
   min-width: 140px;
   height: auto;
+  z-index: 50;
 }
 
 body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {

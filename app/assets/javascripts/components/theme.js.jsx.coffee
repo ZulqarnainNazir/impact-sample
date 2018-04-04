@@ -289,7 +289,7 @@ Theme = React.createClass
                 <div style={{position: 'relative', backgroundColor: this.state.background_color, color: this.state.foreground_color}}>
 
                     <div className="webpage-group webpage-group-basic-left">
-                        <div className="container">
+                        <div className="p-w-sm">
                             <div className="row">
                                 <div className="col-sm-12">
                                     <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '1em 0.5em'}}>
@@ -329,7 +329,7 @@ Theme = React.createClass
                         </div>
                     </div>
                     <div className="webpage-group webpage-group-basic-left p-h-xl">
-                        <div className="container">
+                        <div className="p-w-sm">
                             <div className="row">
                                 <div className="col-sm-12">
                                     <div className="webpage-block text-center" style={{backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 5, padding: '1em 0.5em'}}>

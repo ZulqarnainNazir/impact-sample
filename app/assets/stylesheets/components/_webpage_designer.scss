@@ -38,3 +38,9 @@
       }
     }
 }
+
+.webpage-designer, .webpage-designer-minimal {
+  .webpage-header .navbar {
+    z-index: 500;
+  }
+}

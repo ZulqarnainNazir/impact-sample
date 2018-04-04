@@ -72,14 +72,14 @@ HeaderBlock = React.createClass
 
     navbar =
       if ['static', 'fixed'].indexOf(this.props.navbar_location) is -1
-        `<div className="container">
+        `<div>
           <nav className={navbarClassName} role="navigation">
             {navinterior}
           </nav>
         </div>`
       else
         `<nav className={navbarClassName} role="navigation">
-          <div className="container">
+          <div>
             {navinterior}
           </div>
         </nav>`
