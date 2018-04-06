@@ -14,7 +14,12 @@ class AccountMailerPreview < ActionMailer::Preview
 
   def reset_password_instructions
     setup_preview
-    AccountMailer.reset_password_instructions(User.first, '1f28a396b9451f722fbeb96396bac0804e')
+    AccountMailer.reset_password_instructions(@user, '1f28a396b9451f722fbeb96396bac0804e')
+  end
+
+  def unlock_instructions
+    setup_preview
+    AccountMailer.unlock_instructions(@user, '1f28a396b9451f722fbeb96396bac0804e')
   end
 
 end

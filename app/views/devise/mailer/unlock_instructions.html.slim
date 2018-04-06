@@ -1,0 +1,35 @@
+tr
+  td
+    /! ::::::: LOGO :::::::
+    table bgcolor="#F4F5F7" border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:30px 0;"
+          = email_image_tag 'mailers/three/logo.jpg', alt: 'Locable', width: "180", style: "display:block;width:100%;max-width:180px;"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+      tr
+        td align="center" style="padding:0 16px 6px 16px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:20px;"
+          | Hello&nbsp;
+          = @resource.email
+      tr
+        td align="center" style="padding:0 16px 6px 16px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:20px;"
+          | Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          | Click the link below to unlock your account:
+          br &nbsp;
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:18px;line-height:20px;color:#5D5D5D;"
+          = link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token)
+          br &nbsp;
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#5D5D5D;"
+          | If the link above isn't active, copy and paste this into your browser:
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#555;"
+          = unlock_url(@resource, unlock_token: @token)
+          br &nbsp;
+          br &nbsp;
