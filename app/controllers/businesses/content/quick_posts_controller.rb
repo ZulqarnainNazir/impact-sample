@@ -21,7 +21,11 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
   end
 
   def create
-    @quick_post = QuickPost.new(quick_post_params)
+    modified_quick_post_params = quick_post_params
+    time_published_on = Time.parse(quick_post_params["published_on"])
+    modified_quick_post_params["published_on"] = DateTime.parse(time_published_on.utc.to_s).strftime("%b %d %Y %I:%M %p %z")
+
+    @quick_post = QuickPost.new(modified_quick_post_params)
     @quick_post.business = @business
 
     if params[:draft].present?
