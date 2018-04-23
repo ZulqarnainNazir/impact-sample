@@ -101,9 +101,9 @@ class Business < ActiveRecord::Base
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
   before_save :generate_slug, unless: :slug?
-  after_create :generate_intercom_company
+  # after_create :generate_intercom_company
 
-  def associate_users_with_intercom_company(options = {})
+  # def associate_users_with_intercom_company(options = {})
     #associates users with company.
     #IMPORTANT: company will NOT appear in Intercom's UI unless it is associated with a user.
     #however, the company will still be saved in Intercom's db.
@@ -111,18 +111,18 @@ class Business < ActiveRecord::Base
     #(the only 2 attributes by which a user on Intercom can be looked-up),
     #then the code below will not overwrite that user, or add a second such user; it will only
     #update this pre-existing user.
-    self.users.each do |user|
-      Intercom::Client.new(
-        app_id: ENV['INTERCOM_ID'],
-        api_key: ENV['INTERCOM_API_KEY']
-       ).users.create(
-       :email => user.email,
-       :user_id => user.id,
-       :name => user.name,
-       :companies => [{:company_id=> self.id}]
-      )
-    end
-  end
+  #  self.users.each do |user|
+  #    Intercom::Client.new(
+  #      app_id: ENV['INTERCOM_ID'],
+  #      api_key: ENV['INTERCOM_API_KEY']
+  #     ).users.create(
+  #     :email => user.email,
+  #     :user_id => user.id,
+  #     :name => user.name,
+  #     :companies => [{:company_id=> self.id}]
+  #    )
+  #  end
+  #end
 
   def date_plan_changed
     plan_name = "none"
@@ -142,7 +142,7 @@ class Business < ActiveRecord::Base
     return hours
   end
 
-  def update_intercom_company(options = {})
+  # def update_intercom_company(options = {})
     #FROM: https://developers.intercom.com/reference#create-or-update-company
       # The custom_attributes object allows you to send any information you wish about a company with the following restrictions -
       # Field names must not contain Periods (.) or Dollar ($) characters
@@ -150,95 +150,95 @@ class Business < ActiveRecord::Base
       # Field values must be JSON Strings, Numbers or Booleans - Objects and Arrays will be rejected.
       # String field values must be no longer than 255 characters.
       # Maximum of 100 fields.
-    plan_name = "none"
-    plan_change_date = "none"
-    if self.has_plan?
-      plan_name = self.subscription.plan.name
-      plan_change_date = self.subscription.plan.updated_at
-    end
-    hours = "N/A"
-    if self.location.present? && self.location.openings.present?
-      hours = self.location.openings.first.hours
-    end
-    Intercom::Client.new(
-      app_id: ENV['INTERCOM_ID'],
-      api_key: ENV['INTERCOM_API_KEY']
-     ).companies.create(
-        :company_id => self.id,
-        :name => self.name,
-        :plan => plan_name,
-        :website => self.website_url,
-        :custom_attributes => {
-          :plan_change_date => plan_change_date,
-          #business attributes
-          :has_logo => self.logo_placement.present?,
-          :hours_of_operation => hours,
-          :description => self.description.present? ? self.description.truncate(200) : "N/A", #truncated due to Intercom limit of 255 characters;
-          :membership_org => self.membership_org,
-          :account_create_date => self.created_at,
-          :account_claim_date => self.created_at,
+  # plan_name = "none"
+  #  plan_change_date = "none"
+  #  if self.has_plan?
+  #    plan_name = self.subscription.plan.name
+  #    plan_change_date = self.subscription.plan.updated_at
+  #  end
+  #  hours = "N/A"
+  #  if self.location.present? && self.location.openings.present?
+  #    hours = self.location.openings.first.hours
+  #  end
+  #  Intercom::Client.new(
+  #    app_id: ENV['INTERCOM_ID'],
+  #    api_key: ENV['INTERCOM_API_KEY']
+  #   ).companies.create(
+  #      :company_id => self.id,
+  #      :name => self.name,
+  #      :plan => plan_name,
+  #      :website => self.website_url,
+  #      :custom_attributes => {
+  #        :plan_change_date => plan_change_date,
+  #        #business attributes
+  #        :has_logo => self.logo_placement.present?,
+  #        :hours_of_operation => hours,
+  #        :description => self.description.present? ? self.description.truncate(200) : "N/A", #truncated due to Intercom limit of 255 characters;
+  #        :membership_org => self.membership_org,
+  #        :account_create_date => self.created_at,
+  #        :account_claim_date => self.created_at,
           #todos
-          :to_dos_enabled => self.to_dos_enabled,
+  #        :to_dos_enabled => self.to_dos_enabled,
 
           #modules
-          :activated_mission_count => self.missions.where(status: "active").count,
-          :marketing_missions_module => self.module_active?(0), 
-          :content_engine_module => self.module_active?(1), 
-          :local_connections_module => self.module_active?(2),
-          :customer_reviews_module => self.module_active?(3),
-          :form_builder_module => self.module_active?(4),
-          :website_module => self.module_active?(5),
+  #        :activated_mission_count => self.missions.where(status: "active").count,
+  #        :marketing_missions_module => self.module_active?(0), 
+  #        :content_engine_module => self.module_active?(1), 
+  #        :local_connections_module => self.module_active?(2),
+  #        :customer_reviews_module => self.module_active?(3),
+  #        :form_builder_module => self.module_active?(4),
+  #        :website_module => self.module_active?(5),
 
           #CRM stuff
-          :landing_page_count => self.count_landing_pages,
-          :contact_form_count => self.contact_forms.count,
-          :forms_submissions_count => self.count_contact_forms_submissions,
-          :company_lists_count => self.company_lists.count, #number of networks
-          :companies_in_crm_count => self.owned_companies.count, #number of companies in networks
-          :contacts_in_crm_count => self.contacts.count, #number of people in networks
-          :directory_count => self.directory_widgets.count, #number of directories
-          :calendar_count => self.calendar_widgets.count, #number of calendars
-          :reviews_requested_total => self.feedbacks.count, #number of feedback reviews requested
-          :reviews_received_total => self.reviews.count,
+  #        :landing_page_count => self.count_landing_pages,
+  #        :contact_form_count => self.contact_forms.count,
+  #        :forms_submissions_count => self.count_contact_forms_submissions,
+  #        :company_lists_count => self.company_lists.count, #number of networks
+  #        :companies_in_crm_count => self.owned_companies.count, #number of companies in networks
+  #        :contacts_in_crm_count => self.contacts.count, #number of people in networks
+  #        :directory_count => self.directory_widgets.count, #number of directories
+  #        :calendar_count => self.calendar_widgets.count, #number of calendars
+  #        :reviews_requested_total => self.feedbacks.count, #number of feedback reviews requested
+  #        :reviews_received_total => self.reviews.count,
           # ADD: reviews_per_billing_cycle
           #invited_by
 
           #social media stuff
-          :facebook_id => self.facebook_id,
-          :google_plus_id => self.google_plus_id,
-          :linkedin_id => self.linkedin_id,
-          :twitter_id => self.twitter_id,
-          :youtube_id => self.youtube_id,
-          :instagram_id => self.instagram_id,
-          :pinterest_id => self.pinterest_id,
-          :yelp_id => self.yelp_id,
-          :cce_id => self.cce_id,
-          :zillow_id => self.zillow_id,
-          :opentable_id => self.opentable_id,
-          :trulia_id => self.trulia_id,
-          :realtor_id => self.realtor_id,
-          :tripadvisor_id => self.tripadvisor_id,
-          :houzz_id => self.houzz_id,
-        }
-      )
-  end
+  #        :facebook_id => self.facebook_id,
+  #        :google_plus_id => self.google_plus_id,
+  #        :linkedin_id => self.linkedin_id,
+  #        :twitter_id => self.twitter_id,
+  #        :youtube_id => self.youtube_id,
+  #        :instagram_id => self.instagram_id,
+  #        :pinterest_id => self.pinterest_id,
+  #        :yelp_id => self.yelp_id,
+  #        :cce_id => self.cce_id,
+  #        :zillow_id => self.zillow_id,
+  #        :opentable_id => self.opentable_id,
+  #        :trulia_id => self.trulia_id,
+  #        :realtor_id => self.realtor_id,
+  #        :tripadvisor_id => self.tripadvisor_id,
+  #        :houzz_id => self.houzz_id,
+  #      }
+  #    )
+  #end
 
 
-  def generate_intercom_company
-    plan = "none"
-    if self.has_plan?
-      plan = self.subscription.plan.name
-    end
-     Intercom::Client.new(
-       app_id: ENV['INTERCOM_ID'],
-       api_key: ENV['INTERCOM_API_KEY']
-     ).companies.create(
-     :company_id => self.id,
-     :name => self.name,
-     :plan => plan,
-     :custom_attributes => { :account_create_date => self.created_at }
-     )
-  end
+  #def generate_intercom_company
+  #  plan = "none"
+  #  if self.has_plan?
+  #    plan = self.subscription.plan.name
+  #  end
+  #   Intercom::Client.new(
+  #     app_id: ENV['INTERCOM_ID'],
+  #     api_key: ENV['INTERCOM_API_KEY']
+  #   ).companies.create(
+  #   :company_id => self.id,
+  #   :name => self.name,
+  #   :plan => plan,
+  #   :custom_attributes => { :account_create_date => self.created_at }
+  #   )
+  #end
 
   def count_contact_forms_submissions
     submissions_array = []
