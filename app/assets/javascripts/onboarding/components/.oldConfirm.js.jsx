@@ -56,16 +56,9 @@ class Confirm extends React.Component {
         },
       });
     } else if (location) {
-      if (store.get('completeRedirect')) {
-        store.clear();
-        console.log(location);
-        window.location.href = location;
-      } else {
-        hashHistory.push("wizard/details");
-      }
-    } else {
       store.clear();
-      window.location.href = "/"
+      console.log(location);
+      window.location.href = location;
     }
   }
 

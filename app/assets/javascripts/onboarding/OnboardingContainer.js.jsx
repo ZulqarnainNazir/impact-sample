@@ -96,12 +96,12 @@ class OnboardingContainer extends React.Component {
                 </div>
                 <div className="col-sm-3">
                   <Link className={`btn btn-default btn-block ${store.get('busInfoComplete') ? 'completed' : ''}`} to="wizard/businfo" activeClassName="current-step">
-                    2. Details
+                    2. Contact Info
                   </Link>
                 </div>
                 <div className="col-sm-3">
                   <Link className={`btn btn-default btn-block ${store.get('accountComplete') ? 'completed' : ''}`} to="wizard/account" activeClassName="current-step">
-                    3. Account
+                    3. Details
                   </Link>
                 </div>
                 {/*<div className="col-sm-3">

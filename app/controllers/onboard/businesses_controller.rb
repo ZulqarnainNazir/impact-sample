@@ -11,9 +11,9 @@ class Onboard::BusinessesController < ApplicationController
   before_action only: member_actions do
     params[:business][:category_ids] = category_ids
     @business = Business.find(params[:business][:id])
-    if @business.owners.length > 0
+    if @business.owners.length > 0 && @business.owners.first != current_user
       render json: { errors: "Forbidden: Business already has an owner", status: 403}
-    else
+    elsif @business.owners.length == 0
       @business.authorizations.build(role: 0, user: current_user)
     end
   end

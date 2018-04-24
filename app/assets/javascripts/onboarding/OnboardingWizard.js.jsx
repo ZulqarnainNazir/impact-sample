@@ -6,7 +6,7 @@
 // import Basics from './components/Basics';
 // import BusInfo from './components/BusInfo';
 // import Extended from './components/Extended';
-// import Account from './components/Account';
+// import DetailInfo from './components/DetailInfo';
 // import Confirm from './components/Confirm';
 // import SelectPlan from './components/SelectPlan';
 // import Success from './components/Success';
@@ -40,6 +40,8 @@ const OnboardingWizard = (props) => {
     store.set('plan', { name: 'engage' });
     hashHistory.push('wizard/lookup')
   }
+  store.set('imageSetup', props.image_setup);
+
   return (
     <Router history={hashHistory}>
       <Route path="/" component={SelectPlan}/>
@@ -47,11 +49,7 @@ const OnboardingWizard = (props) => {
         <IndexRoute component={Lookup} />
         <Route path="lookup" component={Lookup} />
         <Route path="businfo" component={BusInfo} />
-        <Route path="account" >
-          <IndexRoute component={Account} />
-          <Route path="registration" component={Account} />
-          <Route path="login" component={Login} />
-        </Route>
+        <Route path="details" component={DetailInfo} />
         {/*<Route path="extended" component={Extended} />*/}
         <Route path="billing" component={Billing} />
         <Route path="confirm" component={Confirm} />

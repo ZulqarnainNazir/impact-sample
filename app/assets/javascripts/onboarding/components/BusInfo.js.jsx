@@ -43,7 +43,7 @@ class BusInfo extends React.Component {
       store.get('business').location.state
     ) {
       store.set('busInfoComplete', true);
-      hashHistory.push("wizard/account");
+      hashHistory.push("wizard/confirm");
     } else {
       swal('Incomplete Form', 'Please fill out all of the required fields', 'error')
     }

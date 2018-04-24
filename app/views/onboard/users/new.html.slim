@@ -9,4 +9,15 @@ div
       left: auto;
     }
   = csrf_meta_tag
-  = react_component "OnboardingWizard", businesses: @businesses.as_json(include: [:categories, :location, :owners]), categories: @categories, current_user: current_user, invited_user: @invited_user, invited_company: @invited_company.try(:business).try(:as_json, include: [:categories, :location, :owners]), build_plan_id: @build_plan_id, quick_invite: @quick_invite
+  = react_component "OnboardingWizard",
+    businesses: @businesses.as_json(include: [:categories, :location, :owners]),
+    categories: @categories,
+    current_user: current_user,
+    invited_user: @invited_user,
+    invited_company: @invited_company.try(:business).try(:as_json, include: [:categories, :location, :owners]),
+    build_plan_id: @build_plan_id,
+    quick_invite: @quick_invite,
+    image_setup: { inputPrefix: 'business[logo_placement_attributes]',
+      label: 'Logo Image',
+      presignedPost: s3_logo_presigned_post_hash,
+      showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user? }

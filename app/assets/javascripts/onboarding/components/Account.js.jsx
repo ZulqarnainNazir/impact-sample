@@ -133,7 +133,7 @@ class Account extends React.Component {
         <div className="row">
           <div className="col-md-12">
             <h1>Create Your Login</h1>
-            <span className="alert alert-warning">Already have an Account? <Link to="wizard/account/login">Log in here</Link> instead.</span>
+            <span className="alert alert-warning">Already have an Account? <Link to="wizard/details/login">Log in here</Link> instead.</span>
           </div>
 
           <form className="form col-md-12" ref={(input) => this.questions = input}>
