@@ -38,7 +38,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
             - else
               i.fa.fa-photo.fa-2x
-                  
+
       li title="Dashboard" class=('active' if controller_path.match(/\Abusinesses\/dashboard/))
         = link_to [@business, :dashboard] do
           i.fa.fa-tachometer
@@ -58,7 +58,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             li class=('active' if controller_path.match(/activity_calendar/))
               = link_to "Mission Calendar", [:timeline, @business, :activity_calendar, :index]
             li class=('active' if controller_path.match(/\Abusinesses\/reminders/))
-              = link_to "Active Missions", [@business, :reminders] 
+              = link_to "Active Missions", [@business, :reminders]
             / li class=('active' if action_name == 'custom' && controller_path.match(/\Abusinesses\/missions/))
               = link_to "Custom Missions", [:custom, @business, :missions]
             / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant/))
@@ -91,7 +91,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           controller_path.match(/\Abusinesses\/tools\/directory_widgets/) ||\
           controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
 
-      li title="Local Connections" class=('active' if crm_active || embeds_active)
+      li title="Local Connections" class=('active' if crm_active)
         = link_to "#"
           i.fa.fa-users
           span.nav-label[data-i18n="nav.contacts"]
@@ -107,9 +107,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
             = link_to "People", [@business, :crm_contacts]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
-            = link_to "Import Contacts", [@business, :crm_imports]        
+            = link_to "Import Contacts", [@business, :crm_imports]
 
-      li title="Reviews & Forms" class=('active' if controller_path.match(/\Abusinesses\/crm\/form_submissions/) || controller_path.match(/\Abusinesses\/crm\/contact_forms/))
+      li title="Reviews & Forms" class=('active' if controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
           = link_to "#"
             i.fa.fa-check-square-o
             span.nav-label[data-i18n="nav.contacts"]
@@ -117,7 +117,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               br
               small.font-normal.font-italic Collect, Promote & Grow
             span.fa.arrow
-          ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/form_submissions/) || controller_path.match(/\Abusinesses\/crm\/contact_forms/)) 
+          ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
             li class=('active' if controller_path.match(/\Abusinesses\/crm\/form_submissions/))
               - if !@business.module_active?(4)
                 = link_to "Form Submissions", [@business, :crm_contact_forms]
@@ -131,8 +131,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Private Feedback", [@business, :crm_feedbacks]
             li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
               = link_to "Embed Reviews", [@business, :tools_review_widgets]
-      
-      li title="Website & Embeds" class=('active' if controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/))
+
+      li title="Website & Embeds" class=('active' if controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/) || embeds_active)
         = link_to "#"
           i.fa.fa-desktop
           span.nav-label[data-i18n="nav.manage_website"]
@@ -140,7 +140,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             br
             small.font-normal.font-italic Manage & Enhance Your Website
           span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/))
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/) || embeds_active)
           - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user?
 
             li class=('active' if controller_path.match(/\Aonboard\/users\/new/))
@@ -179,7 +179,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li title="Website Embed Tools" class=('active' if embeds_active)
             li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
               = link_to [@business, :tools_directory_widgets] do
-                  | Directories 
+                  | Directories
                   br
                   small.font-normal.font-italic Self-Updating Directories
             li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
@@ -189,7 +189,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
                   small.font-normal.font-italic Community Calendar & Your Events
             li class='disabled'
               = link_to "#" do
-                span.badge 
+                span.badge
                   = "Coming Soon"
                 |  Job & Volunteer Board
             li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
@@ -207,7 +207,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
                   | Embed Forms
                   br
                   small.font-normal.font-italic Forms & Instant Contact Page
-              
+
       li title="Business Data" class=('active' if controller_path.match(/\Abusinesses\/data/) || controller_path.match(/\Abusinesses\/accounts\/root/))
         = link_to "#"
           i.fa.fa-map-marker
@@ -238,7 +238,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Customer Information", [:edit, @business, :data_customers]
           / li class=('active' if controller_path.match(/\Abusinesses\/data\/values/))
             = link_to "Community & Values", [:edit, @business, :data_values]
-     
+
       hr
       li title="Account Details" class=('active' if controller_path.match(/\Abusinesses\/authorizations/) || controller_path.match(/\Abusinesses\/subscriptions/))
         = link_to "#"
@@ -249,12 +249,13 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             small.font-normal.font-italic Manage Users, Subscription & More
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Aaccount\/details/))
-          li = link_to "Manage Active Features", business_account_modules_path
+          li = link_to 'Manage Active Features', business_account_modules_path
 
           li class=('active' if controller_path.match(/\Abusinesses\/authorizations/))
             = link_to 'Manage Users', [@business, :authorizations]
             - if current_user.authorized_business_owner?(@business) || current_user.super_user?
-          li = link_to 'Billing and Subscriptions', subscription_dashboard_business_subscriptions_path(@business)
+          li class=('active' if controller_path.match(/\Abusinesses\/subscriptions/))
+            = link_to 'Billing and Subscriptions', subscription_dashboard_business_subscriptions_path(@business)
       - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
       - if current_user.super_user?
         li class=('active' if controller_path.match(/\Abusinesses\/super_settings/))

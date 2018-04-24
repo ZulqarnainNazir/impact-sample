@@ -25,7 +25,14 @@
 
 .nav > li > a {
   font-weight: 600;
-  padding: 14px 20px 14px 25px;
+  padding: 14px 12px 14px 17px;
+}
+
+.mini-navbar {
+  .nav > li > a {
+    font-weight: 600;
+    padding: 14px 20px 14px 25px;
+  }
 }
 
 .nav.navbar-right > li > a, .navbar-link {
@@ -206,6 +213,9 @@
   .nav.nav-second-level > li.active {
     border-left: 4px solid darken($navy, 2%);
     background: darken($nav-bg, 3%);
+    a {
+      color: #fff;
+    }
   }
 
   .nav.nav-second-level > li.active {
