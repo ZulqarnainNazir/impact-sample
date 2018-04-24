@@ -31,6 +31,7 @@ class Location < ActiveRecord::Base
   after_validation :geocode, if: :requires_geocode?
 
   after_commit do
+    self.__elasticsearch__.index_document
     event_definitions.each(&:touch)
   end
 

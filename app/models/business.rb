@@ -182,8 +182,8 @@ class Business < ActiveRecord::Base
 
           #modules
   #        :activated_mission_count => self.missions.where(status: "active").count,
-  #        :marketing_missions_module => self.module_active?(0), 
-  #        :content_engine_module => self.module_active?(1), 
+  #        :marketing_missions_module => self.module_active?(0),
+  #        :content_engine_module => self.module_active?(1),
   #        :local_connections_module => self.module_active?(2),
   #        :customer_reviews_module => self.module_active?(3),
   #        :form_builder_module => self.module_active?(4),
@@ -338,7 +338,7 @@ class Business < ActiveRecord::Base
   end
 
   def module_active?(module_kind_number)
-    # marketing_missions: 0, 
+    # marketing_missions: 0,
     # content_engine: 1,
     # local_connections: 2,
     # customer_reviews: 3,
