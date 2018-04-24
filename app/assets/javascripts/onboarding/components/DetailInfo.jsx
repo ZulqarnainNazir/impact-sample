@@ -100,6 +100,7 @@ class DetailInfo extends React.Component {
               autoComplete='off'
               ref={(input) => this.facebookId = input}
               className='form-control js-facebook-input'
+              placeholder={'Add page ID - everything after facebook.com/ i.e. locable'}
             />
           </div>
 
@@ -115,6 +116,7 @@ class DetailInfo extends React.Component {
               autoComplete='off'
               ref={(input) => this.twitterId = input}
               className='form-control js-twitter-input'
+              placeholder={'Add account ID - everything after twitter.com/ i.e. getlocable'}
             />
           </div>
 
