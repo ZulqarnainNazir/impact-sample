@@ -39,7 +39,7 @@ namespace :scheduled do
   task trigger_summary_todo_notifications: :environment do
     admin_ids = User.where(super_user: true).map(&:id)
 
-    overdue_to_dos = ToDo.includes(:to_do_notification_settings).active.overdue
+    overdue_to_dos = ToDo.includes(:to_do_notification_settings).active.overdue.pending
     overdue_to_dos.each do |to_do|
       next unless to_do.business.to_dos_enabled
       business_users = to_do.business.users.where.not(id: admin_ids)
@@ -51,7 +51,7 @@ namespace :scheduled do
       )
     end
 
-    due_to_dos = ToDo.includes(:to_do_notification_settings).active.due_now
+    due_to_dos = ToDo.includes(:to_do_notification_settings).active.due_now.pending
     due_to_dos.each do |to_do|
       next unless to_do.business.to_dos_enabled
       business_users = to_do.business.users.where.not(id: admin_ids)
