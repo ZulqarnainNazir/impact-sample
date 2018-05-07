@@ -12,7 +12,7 @@ heroHelpers = {
     $('#hero_settings_block_uuid').val block.uuid
     $('#hero_settings_custom_class').val block.custom_class
     $('#hero_settings_custom_anchor_id').val block.custom_anchor_id
-    $('#hero_settings_well_style').val if ['light', 'dark', 'transparent'].indexOf(block.well_style) > 0 then block.well_style else 'transparent'
+    $('#hero_settings_well_style').val if ['transparent', 'dark', 'light'].indexOf(block.well_style) > 0 then block.well_style else 'transparent'
     $('#hero_settings_modal').modal('show')
 
   updateHeroSettings: (component) ->

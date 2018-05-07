@@ -8,6 +8,9 @@ Group = React.createClass
     `<BlockList
       aspect_ratio={this.props.aspect_ratio}
       kind={this.props.kind}
+      group_background_placement={this.props.group_background_placement}
+      background_color={this.props.background_color}
+      foreground_color={this.props.foreground_color}
       blocks={this.props.blocks}
       maxBlocks={this.props.maxBlocks}
       currentBlock={this.props.currentBlock}

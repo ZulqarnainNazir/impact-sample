@@ -157,6 +157,18 @@ const CustomGroupModal = React.createClass({
     }
   },
 
+  renderBackgroundColor() {
+    return(
+      <div>
+        <input id="custom_group_fake_to_receive_focus" type="text" className="hide" />
+        <div className="form-group">
+          <label htmlFor="custom_group_background_color" className="control-label">Custom Background Color</label>
+          <input id="custom_group_background_color" type="text" className="form-control" />
+        </div>
+      </div>
+    )
+  },
+
   render() {
     return (
       <div id="custom_group_modal" className="modal fade">
@@ -168,6 +180,7 @@ const CustomGroupModal = React.createClass({
               <p className="h4 modal-title">Custom Group Settings</p>
             </div>
             <div className="modal-body">
+              {this.renderBackgroundColor()}
               <div className="form-group">
                 <label htmlFor="custom_group_custom_class" className="control-label">
                   Set a Custom Class

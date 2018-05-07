@@ -29,6 +29,8 @@ class Businesses::Website::ContactPagesController < Businesses::Website::BaseCon
         image_user: current_user,
         image_business: @business,
       },
-    )
+    ).tap do |safe_params|
+      merge_group_blocks_required_placement_attributes(safe_params[:groups_attributes])
+    end
   end
 end

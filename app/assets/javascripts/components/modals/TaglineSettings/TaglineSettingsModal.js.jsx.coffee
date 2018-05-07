@@ -22,6 +22,11 @@ TaglineSettingsModal = React.createClass
                 </select>
               </div>
             </div>
+            <input id="tagline_settings_fake_to_receive_focus" type="text" className="hide" />
+            <div className="form-group">
+              <label htmlFor="tagline_settings_foreground_color" className="control-label">Custom Font Color</label>
+              <input id="tagline_settings_foreground_color" type="text" className="form-control" />
+            </div>
             <hr />
             <div className="form-group">
               <label htmlFor="tagline_settings_custom_class" className="control-label">

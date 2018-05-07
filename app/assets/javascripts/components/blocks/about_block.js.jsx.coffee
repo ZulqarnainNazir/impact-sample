@@ -1,8 +1,17 @@
 AboutBlock = React.createClass
+  wellClass: ->
+    switch this.props.well_style
+      when 'light'
+        'well well-light'
+      when 'dark'
+        'well well-dark'
+      else
+        'well well-transparent'
+
   render: ->
-    `<div className="webpage-about">
+    `<div className={this.wellClass() + ' webpage-about'} style={{backgroundColor: this.props.background_color}} >
       <article>
-        <header className="page-header">
+        <header className="page-header" style={{color: this.props.foreground_color}}>
           <h1>About</h1>
         </header>
       </article>
@@ -17,7 +26,7 @@ AboutBlock = React.createClass
         this.renderBanner()
 
   renderLeft: ->
-    `<div className="row">
+    `<div className="row" style={{color: this.props.foreground_color}}>
       <section className="col-sm-4" style={{marginTop: 40}}>
         <BlockImagePlacement {...this.props.block_image_placement} editing={this.props.editing} version="medium" />
       </section>
@@ -33,7 +42,7 @@ AboutBlock = React.createClass
     </div>`
 
   renderBanner: ->
-    `<div>
+    `<div style={{color: this.props.foreground_color}}>
       {this.renderBackgroundImage()}
       <div className="page-header">
         <h2>

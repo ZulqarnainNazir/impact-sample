@@ -13,10 +13,17 @@ BlockList = React.createClass
       blocks = _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined).slice(0, this.props.maxBlocks), 'position')
     else
       blocks = _.sortBy(_.reject(this.props.blocks, (block) -> block is undefined), 'position')
-
-
+    style =
+      backgroundColor: this.props.background_color
+      backgroundPosition: 'center center'
+      backgroundRepeat: 'no-repeat'
+      backgroundSize: 'cover'
+    if this.props.group_background_placement and this.props.group_background_placement.image_attachment_jumbo_url and this.props.group_background_placement.image_attachment_jumbo_url.length > 0
+      style['backgroundImage'] = "url(\"#{this.props.group_background_placement.image_attachment_jumbo_url}\")"
+    else if this.props.group_background_placement and this.props.group_background_placement.image_attachment_url and this.props.group_background_placement.image_attachment_url.length > 0
+      style['backgroundImage'] = "url(\"#{this.props.group_background_placement.image_attachment_url}\")"
     return (
-      `<div className={this.props.groupRowClass}>
+      `<div className={this.props.groupRowClass} style={style}>
         {blocks.map(block => (
           <BlockContainer
             key={block.uuid}

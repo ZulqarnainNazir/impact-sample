@@ -59,6 +59,7 @@ class Placement < ActiveRecord::Base
     Hash.new([]).merge(
       block_image: %i[small small_fixed medium medium_fixed jumbo jumbo_fixed],
       block_background: %i[jumbo],
+      group_background: %i[jumbo],
       after_image: %i[medium],
       before_image: %i[medium],
       event_image: %i[thumbnail medium],

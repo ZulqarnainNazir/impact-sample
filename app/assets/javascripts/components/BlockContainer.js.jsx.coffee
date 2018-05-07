@@ -16,9 +16,9 @@ BlockContainer = React.createClass
     event.preventDefault()
     this.props.editLink(this.props.block)
 
-  editDefaultSettings: (event) ->
+  editDefaultSettings: (isCallToAction, event) ->
     event.preventDefault()
-    this.props.editDefaultSettings(this.props.block)
+    this.props.editDefaultSettings(this.props.block, isCallToAction)
 
   editHeroSettings: (event) ->
     event.preventDefault()
@@ -118,6 +118,7 @@ BlockContainer = React.createClass
       when 'TaglineBlock'
         return {
           # editText: this.editText #.bind(null),
+          # editBackground: this.editMedia.bind(null, 'background'),
           editLink: this.editLink #.bind(null),
           editCustom: this.editTaglineSettings #.bind(null),
           prevTheme: this.prevTheme.bind(null, ['left', 'center', 'right']),
@@ -130,12 +131,14 @@ BlockContainer = React.createClass
         }
       when 'CallToActionBlock'
         return {
+          # editBackground: this.editMedia.bind(null, 'background'),
           # editText: this.editText #.bind(null),
           editImage: this.editMedia.bind(null, 'image'),
           editLink: this.editLink #.bind(null),
-          editCustom: this.editDefaultSettings #.bind(null),
+          editCustom: this.editDefaultSettings.bind(null, true),
           heading: ColumnTitle,
           text: ColumnHeading,
+          well_style: 'transparent',
           sort: (e) -> e.preventDefault(),
           updateHeading: this.updateHeading #.bind(null),
           updateText: this.updateText #.bind(null),
@@ -143,14 +146,18 @@ BlockContainer = React.createClass
       when 'ContentBlock'
         return {
           # editText: this.editText #.bind(null),
+          # editBackground: this.editMedia.bind(null, 'background'),
           editImage: this.editMedia.bind(null, 'image'),
-          editCustom: this.editDefaultSettings #.bind(null),
+          editCustom: this.editDefaultSettings.bind(null, false),
           prevTheme: this.prevTheme.bind(null, ['left', 'left_half', 'right_half', 'right', 'text', 'image']),
           nextTheme: this.nextTheme.bind(null, ['left', 'left_half', 'right_half', 'right', 'text', 'image']),
+          # compress: this.compressHero #.bind(null),
+          # expand: this.expandHero #.bind(null),
           heading: ContentHeading,
           text: ContentFull,
           theme: 'left',
           themes: ['left', 'left_half', 'right_half', 'right', 'text', 'image'],
+          well_style: 'transparent',
           updateHeading: this.updateHeading #.bind(null),
           updateText: this.updateText #.bind(null),
         }
@@ -170,7 +177,7 @@ BlockContainer = React.createClass
           # editText: this.editText #.bind(null),
           editImage: this.editMedia.bind(null, 'image'),
           editLink: this.editLink #.bind(null),
-          editCustom: this.editDefaultSettings #.bind(null),
+          editCustom: this.editDefaultSettings.bind(null, false),
           heading: LoremTitle,
           text: LoremHeading,
           sort: (e) -> e.preventDefault(),
@@ -192,8 +199,9 @@ BlockContainer = React.createClass
       when 'AboutBlock'
         return {
           # editText: this.editText #.bind(null),
-          editBackground: this.editMedia.bind(null, 'background'),
+          # editBackground: this.editMedia.bind(null, 'background'),
           editImage: this.editMedia.bind(null, 'image'),
+          editCustom: this.editDefaultSettings.bind(null, false),
           prevTheme: this.prevTheme.bind(null, ['banner', 'left']),
           nextTheme: this.nextTheme.bind(null, ['banner', 'left']),
           heading: AboutTitle,
@@ -202,6 +210,7 @@ BlockContainer = React.createClass
           theme: 'banner',
           themes: ['banner', 'left'],
           updateHeading: this.updateHeading #.bind(null),
+          well_style: 'transparent',
           updateSubheading: this.updateSubheading #.bind(null),
           updateText: this.updateText #.bind(null),
         }
@@ -222,6 +231,7 @@ BlockContainer = React.createClass
           theme: 'right',
           themes: ['right', 'banner', 'inline', 'content'],
           updateText: this.updateText #.bind(null),
+
           location: this.props.location,
           openings: this.props.openings,
         }

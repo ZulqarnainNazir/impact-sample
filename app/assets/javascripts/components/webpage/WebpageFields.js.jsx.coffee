@@ -7,7 +7,7 @@ WebpageFields = React.createClass
 
   render: ->
     return (
-      `<div className="webpage-fields">
+      `<div>
         { Object.keys(this.props.fields).map(name => (
           <input
             key={name}

@@ -1,6 +1,11 @@
 ContentBlock = React.createClass
   render: ->
-    `<div className="webpage-content">
+    style =
+      backgroundColor: this.props.background_color
+      color: this.props.foreground_color
+    if this.props.block_background_placement and this.props.block_background_placement.image_attachment_url and this.props.block_background_placement.image_attachment_url.length > 0
+      style['backgroundImage'] = "url(\"#{this.props.block_background_placement.image_attachment_url}\")"
+    `<div className="webpage-content" style={style}>
       {this.renderHeading()}
       {this.renderInterior()}
     </div>`
@@ -13,7 +18,6 @@ ContentBlock = React.createClass
         </div>
         <hr />
       </div>`
-
 
   renderInterior: ->
     switch this.props.theme

@@ -7,8 +7,8 @@
   div class=className 
     .webpage-block.b-p-h-xl class=call_to_action_block.custom_class
       a id=call_to_action_block.custom_anchor_id
-      .webpage-call-to-action
-        .panel.panel-default
+      .webpage-call-to-action style="background-color: #{call_to_action_block.background_color};"
+        .panel.panel-default class=(call_to_action_block.well_style == 'transparent' ? 'well-transparent' : (call_to_action_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{call_to_action_block.foreground_color};"
           h4.text-center.title-h4.no-margins.p-h-xs = sanitize_html call_to_action_block.heading
           - if call_to_action_block.block_image_placement.try(:embeds?)
             = call_to_action_block.block_image_placement.embed.html_safe

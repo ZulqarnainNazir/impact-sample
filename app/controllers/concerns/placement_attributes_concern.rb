@@ -41,6 +41,12 @@ module PlacementAttributesConcern
           end
         end
       end
+      if group_attributes[:group_background_placement_attributes]
+        group_attributes[:group_background_placement_attributes].merge!(
+          image_business: @business,
+          image_user: current_user,
+          )
+      end
     end
   end
 

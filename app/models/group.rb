@@ -1,9 +1,13 @@
 class Group < ActiveRecord::Base
+  include PlacedImageConcern
+
   default_scope { includes(:blocks) }
 
   enum kind: { container: 0, full_width: 1 }
 
-  store_accessor :settings, :custom_class, :height, :hero_position, :aspect_ratio, :custom_anchor_id
+  store_accessor :settings, :custom_class, :height, :hero_position, :aspect_ratio, :custom_anchor_id, :background_color, :foreground_color
+
+  has_placed_image :group_background
 
   belongs_to :webpage
 

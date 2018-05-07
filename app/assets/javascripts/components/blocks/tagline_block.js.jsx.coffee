@@ -1,6 +1,9 @@
 TaglineBlock = React.createClass
   render: ->
-    `<div className="webpage-tagline">
+    style =
+      backgroundColor: this.props.background_color
+      color: this.props.foreground_color
+    `<div className="webpage-tagline" style={style}>
       <div className={this.wellClass()} style={{textAlign: this.props.theme}}>
         <div className="lead">
           <RichTextEditor enabled={this.props.editing && this.props.richText} html={this.props.text} update={this.props.updateText} />

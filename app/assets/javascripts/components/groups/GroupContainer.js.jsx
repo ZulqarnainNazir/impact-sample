@@ -63,8 +63,8 @@ const GroupContainer = React.createClass({
     taglineHelpers.editTaglineSettings(this.props.group.uuid, block);
   },
 
-  editDefaultSettings(block) {
-    defaultSettingsHelpers.editDefaultSettings(this.props.group.uuid, block);
+  editDefaultSettings(block, isCallToAction) {
+    defaultSettingsHelpers.editDefaultSettings(this.props.group.uuid, block, isCallToAction);
   },
 
   editFeedSettings(block) {
@@ -99,6 +99,8 @@ const GroupContainer = React.createClass({
       height: this.props.group.height,
       max_blocks: this.props.group.maxBlocks,
       position: this.props.group.position,
+      background_color: this.props.group.background_color,
+      foreground_color: this.props.group.foreground_color,
       hero_position: this.props.group.hero_position,
       custom_class: this.props.group.custom_class,
       'aspect_ratio][height': this.props.group.aspect_ratio ? this.props.group.aspect_ratio.height : '',
@@ -144,6 +146,31 @@ const GroupContainer = React.createClass({
     });
   },
 
+  groupBackgroundInputName(name) {
+    return `groups_attributes[${this.props.group.uuid}][group_background_placement_attributes][${name}]`
+  },
+
+  renderGroupBackgroundPlacementInputs() {
+    const placement = this.props.group.group_background_placement;
+    if (placement) {
+      return(
+        <div>
+          <input type="hidden" name={this.groupBackgroundInputName('_destroy')} value={placement.destroy} key={'_destroy'} />
+          <input type="hidden" name={this.groupBackgroundInputName('id')} value={placement.id} key={'id'} />
+          <input type="hidden" name={this.groupBackgroundInputName('kind')} value={placement.kind} key={'kind'} />
+          <input type="hidden" name={this.groupBackgroundInputName('embed')} value={placement.embed} key={'embed'} />
+          <input type="hidden" name={this.groupBackgroundInputName('image_id')} value={placement.image_id} key={'image_id'} />
+          <input type="hidden" name={this.groupBackgroundInputName('image_alt')} value={placement.image_alt} key={'image_alt'} />
+          <input type="hidden" name={this.groupBackgroundInputName('image_title')} value={placement.image_title} key={'image_title'} />
+          <input type="hidden" name={this.groupBackgroundInputName('image_attachment_cache_url')} value={placement.image_attachment_cache_url} key={'image_attachment_cache_url'} />
+          <input type="hidden" name={this.groupBackgroundInputName('image_attachment_content_type')} value={placement.image_attachment_content_type} key={'image_attachment_content_type'} />
+          <input type="hidden" name={this.groupBackgroundInputName('image_attachment_file_name')} value={placement.image_attachment_file_name} key={'image_attachment_file_name'} />
+          <input type="hidden" name={this.groupBackgroundInputName('image_attachment_file_size')} value={placement.image_attachment_file_size} key={'image_attachment_file_size'} />
+        </div>
+      )
+    }
+  },
+
   render() {
     const callbacks = Object.assign({}, this.props.callbacks, {
       updateBlock: this.updateBlock,
@@ -164,10 +191,13 @@ const GroupContainer = React.createClass({
     let { group } = this.props;
     return (
       <div className={`${this.groupClass()} ${group.kind}-group`} data-uuid={group.uuid}>
-        <WebpageFields uuid={group.uuid} inputPrefix="groups_attributes" fields={this.getFields()} removedBlocks={this.renderRemovedBlocksInputs()}/>
-
+        <div className="webpage-fields">
+          <WebpageFields uuid={group.uuid} inputPrefix="groups_attributes" fields={this.getFields()} removedBlocks={this.renderRemovedBlocksInputs()}/>
+          {this.renderGroupBackgroundPlacementInputs()}
+        </div>
         {this.renderMoveHandle()}
         {this.renderCustomHandle()}
+        {this.renderBackgroundHandle()}
         {this.renderSidebarSwitcher()}
         {this.renderCallToActionSizeChanger()}
         {this.renderHeroToggles()}
@@ -194,6 +224,12 @@ const GroupContainer = React.createClass({
   renderCustomHandle() {
     if (this.props.editing) {
       return <span onClick={groupHelpers.editCustomGroup.bind(null, this.props.group)} className="fa fa-cog webpage-group-custom-handle" style={{ color: 'black' }}/>;
+    }
+  },
+
+  renderBackgroundHandle() {
+    if (this.props.editing && (this.props.group.type !== 'HeroGroup')) {
+      return <span onClick={() => this.editMedia('group_background', null)} className="fa fa-area-chart webpage-group-background-handle" style={{ color: 'black' }}/>;
     }
   },
 

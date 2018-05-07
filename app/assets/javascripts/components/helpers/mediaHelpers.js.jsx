@@ -2,16 +2,28 @@ const mediaHelpers = {
   editMedia(component, type, block, group) {
     $('#media_type').val(type);
     $('#media_group_uuid').val(group.uuid);
-    $('#media_block_uuid').val(block.uuid);
     let placement = {};
-    if (type === 'image' &&
-        block.block_image_placement &&
-        block.block_image_placement.destroy !== '1') {
-      placement = block.block_image_placement;
-    } else if (type === 'background' &&
-               block.block_background_placement &&
-               block.block_background_placement !== '1') {
-      placement = block.block_background_placement;
+    if (block) {
+      $('#media_block_uuid').val(block.uuid);
+      if (type === 'image' &&
+          block.block_image_placement &&
+          block.block_image_placement.destroy !== '1') {
+        placement = block.block_image_placement;
+      } else if (type === 'background' &&
+        block.block_background_placement &&
+        block.block_background_placement !== '1') {
+        placement = block.block_background_placement;
+      }
+    } else {
+      if (type === 'group_image' &&
+        group.group_image_placement &&
+        group.group_image_placement.destroy !== '1') {
+        placement = group.group_image_placement;
+      } else if (type === 'group_background' &&
+        group.group_background_placement &&
+        group.group_background_placement !== '1') {
+        placement = group.group_background_placement;
+      }
     }
     const stateChanges = {
       mediaID: placement.id,
@@ -172,7 +184,6 @@ const mediaHelpers = {
   },
 
   selectMediaLibraryImage(component, image) {
-    console.log(image);
     const changes = {
       mediaImageAttachmentCacheURL: (
         component.state.localImages.indexOf(image) !== -1 ?
@@ -195,7 +206,6 @@ const mediaHelpers = {
       mediaImageID: image.id,
       mediaImageStatus: 'attached',
     };
-    console.log(changes);
     component.setState(changes, mediaHelpers.hideMediaLibrary, () => {
       $('#media_image_alt').val(image.alt);
       $('#media_image_title').val(image.title);
@@ -236,7 +246,7 @@ const mediaHelpers = {
   },
 
   updateMedia(component /* , blockToUpdate */) {
-    const placement_type = $('#media_type').val() === 'image' ? 'block_image_placement' : 'block_background_placement';
+    const placement_type = $('#media_type').val() === 'image' ? 'block_image_placement' : $('#media_type').val() === 'background' ? 'block_background_placement' : 'group_background_placement';
     const changes = {
       [placement_type]: {
         id: component.state.mediaID,
@@ -264,33 +274,58 @@ const mediaHelpers = {
       },
     };
     // mediaHelpers.updateLocalImages(component);
-    console.log(changes);
-    component.updateBlock(
-      $('#media_group_uuid').val(),
-      $('#media_block_uuid').val(),
-      { [placement_type]: null },
-      () => {
-        if (component.state.mediaDestroy) {
-          component.updateBlock(
-            $('#media_group_uuid').val(),
-            $('#media_block_uuid').val(),
-            {
-              [placement_type]: {
-                id: component.state.mediaID,
-                image_id: component.state.mediaImageID,
-                destroy: component.state.mediaDestroy,
+    if (placement_type === 'group_background_placement') {
+      component.updateGroup(
+        $('#media_group_uuid').val(),
+        { [placement_type]: null },
+        () => {
+          if (component.state.mediaDestroy) {
+            component.updateGroup(
+              $('#media_group_uuid').val(),
+              {
+                [placement_type]: {
+                  id: component.state.mediaID,
+                  image_id: component.state.mediaImageID,
+                  destroy: component.state.mediaDestroy,
+                },
               },
-            },
-          );
-        } else {
-          component.updateBlock(
-            $('#media_group_uuid').val(),
-            $('#media_block_uuid').val(),
-            changes,
-          );
-        }
-      },
-    );
+            );
+          } else {
+            component.updateGroup(
+              $('#media_group_uuid').val(),
+              changes,
+            );
+          }
+        },
+      );
+    } else {
+      component.updateBlock(
+        $('#media_group_uuid').val(),
+        $('#media_block_uuid').val(),
+        { [placement_type]: null },
+        () => {
+          if (component.state.mediaDestroy) {
+            component.updateBlock(
+              $('#media_group_uuid').val(),
+              $('#media_block_uuid').val(),
+              {
+                [placement_type]: {
+                  id: component.state.mediaID,
+                  image_id: component.state.mediaImageID,
+                  destroy: component.state.mediaDestroy,
+                },
+              },
+            );
+          } else {
+            component.updateBlock(
+              $('#media_group_uuid').val(),
+              $('#media_block_uuid').val(),
+              changes,
+            );
+          }
+        },
+      );
+    }
   },
   removeMediaImage(component) {
     component.setState({

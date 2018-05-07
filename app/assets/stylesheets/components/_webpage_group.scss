@@ -56,6 +56,7 @@
 
 .webpage-group-basic-left {
   .webpage-group-sort-handle,
+  .webpage-group-background-handle,
   .webpage-group-custom-handle {
     left: -30px;
   }
@@ -68,6 +69,7 @@
 }
 .webpage-group-basic-left.full_width-group {
   .webpage-group-sort-handle,
+  .webpage-group-background-handle,
   .webpage-group-custom-handle {
     left: 15px;
   }
@@ -82,6 +84,7 @@
 }
 .webpage-group-basic-right.full_width-group {
   .webpage-group-sort-handle,
+  .webpage-group-background-handle,
   .webpage-group-custom-handle {
     left: 15px;
   }
@@ -95,6 +98,7 @@
   }
 }
 .webpage-group-basic-right {
+  .webpage-group-background-handle,
   .webpage-group-sort-handle,
   .webpage-group-custom-handle {
     right: -30px;
@@ -108,6 +112,7 @@
 }
 .webpage-group-sidebar-left {
   .webpage-group-sort-handle,
+  .webpage-group-background-handle,
   .webpage-group-custom-handle,
   .webpage-group-hero-handles,
   .webpage-group-sidebar-handle {
@@ -119,6 +124,7 @@
 }
 .webpage-group-sidebar-right {
   .webpage-group-sort-handle,
+  .webpage-group-background-handle,
   .webpage-group-custom-handle,
   .webpage-group-hero-handles,
   .webpage-group-sidebar-handle {
@@ -132,6 +138,7 @@
 .webpage-container-wrapper {
   .webpage-group-basic-left {
     .webpage-group-sort-handle,
+    .webpage-group-background-handle,
     .webpage-group-custom-handle,
     .webpage-group-hero-handles {
       left: -52px;
@@ -145,6 +152,7 @@
   }
   .webpage-group-basic-right {
     .webpage-group-sort-handle,
+    .webpage-group-background-handle,
     .webpage-group-custom-handle,
     .webpage-group-hero-handles {
       right: -52px;
@@ -158,6 +166,7 @@
   }
   .webpage-group-sidebar-left {
     .webpage-group-sort-handle,
+    .webpage-group-background-handle,
     .webpage-group-custom-handle,
     .webpage-group-hero-handles,
     .webpage-group-sidebar-handle {
@@ -169,6 +178,7 @@
   }
   .webpage-group-sidebar-right {
     .webpage-group-sort-handle,
+    .webpage-group-background-handle,
     .webpage-group-custom-handle,
     .webpage-group-hero-handles,
     .webpage-group-sidebar-handle {
@@ -193,6 +203,12 @@
   cursor: move;
 }
 
+.webpage-group-background-handle {
+  position: absolute;
+  top: 3em;
+  cursor: pointer;
+}
+
 .webpage-group-custom-handle {
   position: absolute;
   top: 1.5em;
@@ -201,19 +217,19 @@
 
 .webpage-group-call-to-action-size-handle {
   position: absolute;
-  top: 3em;
+  top: 4.5em;
   cursor: pointer;
 }
 
 .webpage-group-sidebar-handle {
   position: absolute;
-  top: 3em;
+  top: 4.5em;
   cursor: pointer;
 }
 
 .webpage-group-hero-handles {
   position: absolute;
-  top: 3em;
+  top: 4.5em;
   padding: 0.2em;
   box-sizing: border-box;
   background: rgba(0,0,0,0.03);
