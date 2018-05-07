@@ -43,7 +43,7 @@
             });
           hr
           .form-group
-            = form.label "Title *", class: 'control-label'
+            = form.label :title, "Title *", class: 'control-label'
             = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a brief 4-10 word title for your event.'
           .form-group
             = form.label :subtitle, class: 'control-label'
@@ -67,35 +67,52 @@
                 name: 'event_definition[description]',
                 html: @event_definition.description,
                 rows: 12
-          .form-group.col-xs-6
-            = form.label :start_date, class: 'control-label'
-            .input-group
-              = form.text_field :start_date, :value => (form.object.start_date.present? ? form.object.start_date.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y")), class: 'form-control', data: {provide: 'datepicker'}
-              span.input-group-addon: i.fa.fa-calendar
-          .form-group.col-xs-6
-            = form.label :start_time, class: 'control-label'
-            div class="input-group clockpicker" data-align="top" data-autoclose="true"
-              = form.text_field :start_time, :value => (form.object.start_time.present? ? form.object.start_time.try(:strftime, '%I:%M%p') : Time.now.in_time_zone("Pacific Time (US & Canada)").strftime("%I:%M%p")), class: 'form-control'
-              span class="input-group-addon"
-                span class="glyphicon glyphicon-time"
-          .form-group.col-xs-6
-            = form.label :end_date, class: 'control-label'
-            .input-group
-              = form.text_field :end_date, value: form.object.end_date&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%b %d %Y"), class: 'form-control', data: {provide: 'datepicker'}
-              span.input-group-addon: i.fa.fa-calendar
-          .form-group.col-xs-6
-            = form.label :end_time, class: 'control-label'
-            div class="input-group clockpicker" data-align="top" data-autoclose="true"
-              = form.text_field :end_time, value: form.object.end_time.try(:strftime, '%I:%M%p'), class: 'form-control'
-              span class="input-group-addon"
-                span class="glyphicon glyphicon-time"
+          .row
+            .form-group.col-xs-6
+              = form.label :start_date, class: 'control-label'
+              .input-group
+                = form.text_field :start_date, :value => (form.object.start_date.present? ? form.object.start_date.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y")), class: 'form-control', data: {provide: 'datepicker'}
+                span.input-group-addon: i.fa.fa-calendar
+            .form-group.col-xs-6
+              = form.label :start_time, class: 'control-label'
+              div class="input-group clockpicker" data-align="top" data-autoclose="true"
+                = form.text_field :start_time, :value => (form.object.start_time.present? ? form.object.start_time.try(:strftime, '%I:%M%p') : Time.now.in_time_zone("Pacific Time (US & Canada)").strftime("%I:%M%p")), class: 'form-control'
+                span class="input-group-addon"
+                  span class="glyphicon glyphicon-time"
+            .form-group.col-xs-6.col-xs-push-6
+              = form.label :end_time, class: 'control-label'
+              div class="input-group clockpicker" data-align="top" data-autoclose="true"
+                = form.text_field :end_time, value: form.object.end_time.try(:strftime, '%I:%M%p'), class: 'form-control'
+                span class="input-group-addon"
+                  span class="glyphicon glyphicon-time"
           hr
+
           .form-group
             = form.label :repetition, class: 'control-label'
             = form.select_recurring :repetition, nil, { allow_blank: true }, class: 'form-control'
+          .row
+            .form-group.col-xs-6.end-date-group
+              = form.label :end_date, "End Date *", class: 'control-label'
+              .input-group
+                = form.text_field :end_date, value: form.object.end_date&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%b %d %Y"), class: 'form-control', data: {provide: 'datepicker'}
+                span.input-group-addon: i.fa.fa-calendar
           - content_for :javascript do
             javascript:
+              var endDateGroup = $('.end-date-group');
+              var endDateInput = $('.end-date-group input');
+              var repetitionSelect = $('#event_definition_repetition')
               $('#event_definition_repetition option[value*="validation"]').prop('selected', true);
+              repetitionSelect.change(function (event) {
+                if (event.target.value === "null") {
+                  endDateGroup.slideUp();
+                  endDateInput.val('')
+                } else {
+                  endDateGroup.slideDown();
+                }
+              });
+              if (repetitionSelect.val() === "null") {
+                endDateGroup.hide()
+              }
               $('.clockpicker').clockpicker({ twelvehour: true });
           hr
           .form-group
@@ -219,7 +236,7 @@
       .modal-content
         .modal-body
           .text-center style="margin:2em"
-            i.fa.fa-spinner.fa-spin.fa-4x 
+            i.fa.fa-spinner.fa-spin.fa-4x
   javascript:
     $('.js-event-location').eventLocation();
     $('#virtual-event-button').on("click", function(event){
