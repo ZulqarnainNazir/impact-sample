@@ -2,5 +2,5 @@ en:
   website:
     contact_pages:
       create:
-        notice: Thanks! You‘re message was received successfully.
+        notice: Thanks! Your message was received successfully.
         alert: There was a problem submitting your message.
