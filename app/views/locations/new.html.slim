@@ -1,6 +1,7 @@
 = form_for @location do |form|
   .modal-header
-    span.close &times;
+    button.close aria-label="Close" data-dismiss="modal" type="button"
+      span aria-hidden="true" &times;
     p.h4.modal-title Add a new Venue
   .modal-body
     = errors_for @location
@@ -30,5 +31,5 @@
         = f.label :category_ids, class: 'control-label'
         = f.select :category_ids, options_from_collection_for_select(Category.alphabetical, 'id', 'name', f.object.categories.map(&:id)), {}, multiple: true, class: 'form-control', style: 'height:12em'
   .modal-footer
-    span.btn.btn-default Close
+    button.btn.btn-default data-dismiss="modal" type="button" Close
     = form.button 'Save Venue', class: 'btn btn-primary'

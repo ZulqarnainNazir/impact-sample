@@ -89,7 +89,9 @@ $.fn.eventLocation = ->
 
   container.on 'click', '.js-event-location-new a', (e) ->
     $('#js-event-location-new-modal .modal-content').load $(this).attr('href'), ->
-      $('#js-event-location-new-modal').on 'submit', 'form', (e) ->
+      modal = $('#js-event-location-new-modal')
+      modal.off 'submit'
+      modal.on 'submit', 'form', (e) ->
         e.preventDefault()
         jqxhr = $.ajax
           type: 'POST'
