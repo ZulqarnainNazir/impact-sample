@@ -1,7 +1,7 @@
 - cache about_block do
   .col-sm-12.b-p-h-xl class=about_block.custom_class
     a id=about_block.custom_anchor_id
-    .webpage-about class=(about_block.well_style == 'transparent' ? 'well-transparent' : (about_block.well_style == 'dark' ? 'well-dark' : 'well-light'))
+    .webpage-about class=(about_block.well_style == 'light' ? 'well-light' : (about_block.well_style == 'dark' ? 'well-dark' : 'well-transparent'))
       article style="color: #{about_block.foreground_color};"
         header.page-header
           h1 About

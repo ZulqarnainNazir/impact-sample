@@ -15,7 +15,7 @@
             - if hero_block.theme == 'right'
               .row
                 .col-sm-6
-                  .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{hero_block.foreground_color};"
+                  .well class=(hero_block.well_style == 'light' ? 'well-light' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-transparent')) style="color: #{hero_block.foreground_color};"
                     h1 = sanitize_html hero_block.heading
                     = sanitize_html hero_block.text
                     - if hero_block.link?
@@ -42,7 +42,7 @@
                   .col-sm-6 class="hidden-xs"
                   - missing_image = true
                 .col-sm-6 style="#{missing_image ? 'margin-top: 0' : ''}"
-                  .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{hero_block.foreground_color};"
+                  .well class=(hero_block.well_style == 'light' ? 'well-light' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-transparent')) style="color: #{hero_block.foreground_color};"
                     h1 = sanitize_html hero_block.heading
                     = sanitize_html hero_block.text
                     - if hero_block.link?
@@ -50,7 +50,7 @@
             - else
               .row
                 .col-sm-12
-                  .well class=(hero_block.well_style == 'transparent' ? 'well-transparent' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{hero_block.foreground_color};"
+                  .well class=(hero_block.well_style == 'light' ? 'well-light' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-transparent')) style="color: #{hero_block.foreground_color};"
                     h1 = sanitize_html hero_block.heading
                     = sanitize_html hero_block.text
                     - if hero_block.link?

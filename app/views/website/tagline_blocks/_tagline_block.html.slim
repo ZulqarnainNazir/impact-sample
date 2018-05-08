@@ -2,7 +2,7 @@
   .webpage-block.col-xs-12.b-p-h-xl class=tagline_block.custom_class 
     a id=tagline_block.custom_anchor_id
     .webpage-tagline
-      .well.row class=(tagline_block.well_style == 'transparent' ? 'well-transparent' : (tagline_block.well_style == 'dark' ? 'well-dark' : 'well-light')) style="color: #{tagline_block.foreground_color};"
+      .well.row class=(tagline_block.well_style == 'light' ? 'well-light' : (tagline_block.well_style == 'dark' ? 'well-dark' : 'well-transparent')) style="color: #{tagline_block.foreground_color};"
         - if tagline_block.theme == 'right'
           .lead.col-sm-9.p-h-xs = sanitize_html tagline_block.text
           - if tagline_block.link?
