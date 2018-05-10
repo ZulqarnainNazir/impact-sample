@@ -20,7 +20,7 @@ class Businesses::Crm::ContactFormsController < Businesses::BaseController
     if query.present?
       scope = scope.where('name ILIKE ?', "%#{query}%")
     end
-
+    @contact_messages = @business.contact_messages.includes(:contact).where(hide: false)
     @contact_forms = scope.page(params[:page]).per(20)
   end
 

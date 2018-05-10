@@ -107,6 +107,15 @@ wrapper.wrapper-content
         $(".company_ids:enabled").chosen();
       });
     });
+    
+    /*
+    I think this code was originally developed for creating/editing company_lists
+    inside of content embeds. (See _edit.html.slim and _shared.html.slim)
+    This might have been placed here by accident while that was being developed.
+    I'm not removing it in case there are unintended side effects.
+    If this comment has been here longer than a month, this is probably safe to delete.
+    May 9th, 2018
+
     var companyList = "#{@company_list.id}"
     $('#edit_company_list_'+companyList).on('submit', function(event) {
       event.preventDefault()
@@ -127,6 +136,8 @@ wrapper.wrapper-content
         $('#directory_widget_company_list_id').val(data.id);
       });
     });
+
+    */
 
     //Override the default confirm dialog by rails
     $.rails.allowAction = function(link){

@@ -18,7 +18,7 @@
           /         = select_tag :contact_form_id, content_tag(:option,'Contact Us Page',:value=>"legacy")+options_from_collection_for_select(@business.contact_forms, "id", "name", params[:contact_form_id]), :prompt => "Select a Form", class: 'form-control'
           /         span.input-group-btn
           /           = button_tag icon('search'), class: 'btn btn-default'
-          / 
+          /
           / - if params[:contact_form_id].blank? && false
           /   .p-a-3.text-center
           /     h2 Please Select a Form From Above
@@ -45,10 +45,11 @@
                   /     = field.label
 
               tbody
-                - @contact_messages.each do |contact_message|
-                  = render partial: 'businesses/crm/form_submissions/contact_message', locals: { contact_message: contact_message }
-                - @form_submissions.each do |form_submission|
-                  = render form_submission
+                - @all_submissions.each do |submission|
+                  - if submission.is_a?(FormSubmission)
+                    = render submission
+                  - else
+                    = render partial: 'businesses/crm/form_submissions/contact_message', locals: { contact_message: submission }
                 / tr
                 /   td Contact Us Page
                 /   td = @contact_messages.size
@@ -67,7 +68,7 @@
                   /       th Phone
                   /       th Date Received
                   /       th Message
-                  /       th 
+                  /       th
                   /   tbody
                   /     - @contact_messages.each do |message|
                   /       = render message

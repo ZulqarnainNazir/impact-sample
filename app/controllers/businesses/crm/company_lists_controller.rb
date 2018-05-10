@@ -60,7 +60,7 @@ class Businesses::Crm::CompanyListsController < Businesses::BaseController
       end
     else
       if @company_list.update_attributes(company_list_params)
-        redirect_to [:edit, @business, :crm, @company_list], :flash => { :notice => "List Saved Successfully" }
+        redirect_to [:edit, @business, :crm, @company_list], :flash => { :notice => "Local Network Saved Successfully" }
       else
         render 'edit'
       end

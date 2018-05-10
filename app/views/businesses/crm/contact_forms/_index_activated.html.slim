@@ -18,7 +18,7 @@
             = link_to [:new, @business, :crm_contact_form], class: 'btn btn-sm btn-default' do
               => icon 'plus-circle'
               | Add a Contact Form
-          
+
           - if @contact_forms.empty?
             .row
               .col-lg-4.col-lg-offset-4
@@ -27,7 +27,7 @@
                   h2 No Contact Forms Found
                   h4
                     = link_to 'Create a New Contact Form', [:new, @business, :crm_contact_form], class: 'text-navy'
-                  p.text-left.m-t-md.strong Add forms to your website and with landing pages. 
+                  p.text-left.m-t-md.strong Add forms to your website and with landing pages.
                   p.text-left You and your team will be notified when there's a submission and the information is added to your Local Connections database.
           - else
             p style="margin:2em 0" = page_entries_info @contact_forms
@@ -41,6 +41,11 @@
                   th
               tbody
                 = render @contact_forms
+                tr
+                  td Default Contact Us
+                  td = link_to @contact_messages.size, [@business, :crm_form_submissions]
+                  td = @contact_messages.order(created_at: :desc).first.try(:created_at).try(:strftime, '%m/%d/%Y %l:%M %p')
+
           = paginate @contact_forms
 
 - content_for :javascript do
@@ -76,7 +81,7 @@
         }
       });
     };
-    
+
     $(function() {
       $('.footable').footable();
     });

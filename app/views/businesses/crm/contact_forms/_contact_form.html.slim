@@ -4,7 +4,7 @@
 tr
   td = link_to contact_form.name, [:edit, @business, :crm, contact_form]
   td = link_to contact_form.form_submissions.size, [@business, :crm_form_submissions]
-  td = contact_form.form_submissions.order(created_at: :desc).first.try(:created_at).try(:to_formatted_s, :long) 
+  td = contact_form.form_submissions.order(created_at: :desc).first.try(:created_at).try(:strftime, '%m/%d/%Y %l:%M %p')
   td
     .btn-group
       = link_to [:edit, @business, :crm, contact_form], class: 'btn btn-xs btn-default' do
@@ -13,10 +13,10 @@ tr
       = link_to [@business, :crm, contact_form], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
         => icon 'times-circle'
         | Delete
-      
+
   / td
     .table-responsive
-      table.table 
+      table.table
         thead
           tr
             - contact_form.contact_form_form_fields.first(6).each do |field|
@@ -25,4 +25,4 @@ tr
         tbody
           - contact_form.form_submissions.order(created_at: :desc).each do |form_submission|
             = render partial: 'businesses/crm/form_submissions/form_submission', locals: {form_submission: form_submission, contact_form: contact_form}
-          / - contact_form.form_submissions.each do 
+          / - contact_form.form_submissions.each do
