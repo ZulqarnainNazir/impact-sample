@@ -49,7 +49,7 @@
         br
         .row
           .col-sm-8.col-sm-offset-2
-            = form.button 'Sign Up', class: 'btn btn-primary btn-block'
+            = form.button 'Sign Up', class: 'btn btn-primary btn-block disabled', id: 'sign-up-button'
         br
         div.text-center
           p
@@ -60,3 +60,28 @@
           p.m-t-lg
             | Already have an account?
             = link_to(" Sign In Here", :new_user_session)
+
+javascript:
+  $(document).ready(function() {
+    $("#new_user").keyup(validatePassword);
+  });
+
+  function validatePassword() {
+    var password = $("#user_password").val();
+    var password_confirmation = $("#user_password_confirmation").val();
+
+    if(!password || !password_confirmation) {
+      $("#sign-up-button").addClass('disabled');
+      $("p.help-block.small.text-warning").css('color', '');
+      $("p.help-block.small.text-warning").text("Must be at least eight (8) characters.");
+    }
+    else if(password == password_confirmation) {
+      $("#sign-up-button").removeClass('disabled');
+      $("p.help-block.small.text-warning").css('color', 'green');
+      $("p.help-block.small.text-warning").text("Passwords match");
+    } else {
+      $("#sign-up-button").addClass('disabled');
+      $("p.help-block.small.text-warning").css('color', 'red');
+      $("p.help-block.small.text-warning").text("Passwords do not match");
+    }
+  };

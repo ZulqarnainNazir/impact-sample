@@ -19,15 +19,18 @@
                     .btn-group.js-business-kind
                       => form.label :kind_traditional_business, class: 'btn btn-default' do
                         => form.radio_button :kind, :traditional_business, style: 'margin-right: 5px'
-                        | Business or Non-Profit
+                        | Business
+                      => form.label :kind_nonprofit_business, class: 'btn btn-default' do
+                        => form.radio_button :kind, :nonprofit_business, style: 'margin-right: 5px'
+                        | Nonprofit
                       = form.label :kind_group_or_cause, class: 'btn btn-default' do
                         => form.radio_button :kind, :group_or_cause, style: 'margin-right: 5px'
-                        | Cause, Group, Artist or Band
+                        | Other
                     .i-checks.m-t-10px
                       => form.label :membership_org do
                         => form.check_box :membership_org, class: 'js-checkbox'
                         i
-                        | We're a membership organization (we have members)
+                        | We're a membership organization (Chamber, Association, etc.)
                 javascript:
                   $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
                   $('.js-business-kind input[type="radio"]').change(function() {

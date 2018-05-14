@@ -43,7 +43,7 @@ class BusInfo extends React.Component {
       store.get('business').location.state
     ) {
       store.set('busInfoComplete', true);
-      hashHistory.push("wizard/confirm");
+      hashHistory.push("confirm");
     } else {
       swal('Incomplete Form', 'Please fill out all of the required fields', 'error')
     }
@@ -144,7 +144,14 @@ class BusInfo extends React.Component {
             <input className="form-control" type="text" ref={(input) => this.website = input} defaultValue={ store.get('business').website_url } />
             <span className="bar"></span>
             <span className="highlight"></span>
-            <label className="control-label">Website URL <small>(optional. only include if you already have one)</small></label>
+            <label className="control-label" style={{paddingBottom: 10}}>
+              <span>Website URL </span>
+              <span><small>(optional</small></span>
+              <span className="hidden-xs">
+                <small>. only include if you already have one</small>
+              </span>
+              <span><small>)</small></span>
+            </label>
           </div>
 
           <div className="group">

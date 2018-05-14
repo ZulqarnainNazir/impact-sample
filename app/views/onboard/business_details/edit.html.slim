@@ -1,0 +1,72 @@
+- title 'Setup Business Details'
+
+div
+  = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
+  css:
+    .navbar-inverse {
+      background-color: #222;
+      border-color: #090909;
+    }
+    .dropdown-menu-right {
+      left: auto;
+    }
+  div.ibox.float-e-margins.col-md-8.col-md-offset-2
+    div.ibox-title
+      h2.text-center
+        | Let's add a few details
+    div.ibox-content
+      .row
+        .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2.col-lg-8.col-lg-offset-2
+          = errors_for @business
+          = form_for @business, url: onboard_business_details_path do |form|
+            .text-center
+              .btn-group.js-business-kind
+                => form.label :kind_traditional_business, class: 'btn btn-default' do
+                  => form.radio_button :kind, :traditional_business, style: 'margin-right: 5px'
+                  | Business
+                => form.label :kind_nonprofit_business, class: 'btn btn-default' do
+                  => form.radio_button :kind, :nonprofit_business, style: 'margin-right: 5px'
+                  | Nonprofit
+                = form.label :kind_group_or_cause, class: 'btn btn-default' do
+                  => form.radio_button :kind, :group_or_cause, style: 'margin-right: 5px'
+                  | Other
+              .i-checks.m-t-10px
+                => form.label :membership_org do
+                  => form.check_box :membership_org, class: 'js-checkbox'
+                  i
+                  | We're a membership organization (Chamber, Association etc.)
+            hr
+            = react_component 'ImagePlacement',
+              imagesPath: business_images_path(form.object),
+              inputPrefix: 'business[logo_placement_attributes]',
+              label: 'Logo Image',
+              placement: form.object.logo_placement_json,
+              presignedPost: s3_logo_presigned_post_hash,
+              showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+            hr
+            .form-group
+              = form.label :description, class: 'control-label'
+              = react_component 'RichTextEditor',
+                  name: 'business[description]',
+                  html: @business.description,
+                  rows: 6
+            hr
+            = render partial: 'businesses/data/social_profiles/form', object: form
+            hr
+            .webpage-save.webpage-save-visible
+              .row
+                .col-sm-4.col-sm-offset-3.col-xs-6
+                   = form.button 'Continue', class: 'btn btn-block btn-primary', name: 'publish'
+                .col-sm-2.col-xs-1
+                .col-sm-4.col-xs-4
+                  .form-group
+                    = link_to [@business, :dashboard]
+                      button.btn.btn-default type="button" Skip
+
+javascript:
+
+  $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+  $('.js-business-kind input[type="radio"]').change(function() {
+    $('.js-business-kind input[type="radio"]:checked').closest('label').removeClass('btn-default').addClass('btn-primary');
+    $('.js-business-kind input[type="radio"]:not(:checked)').closest('label').removeClass('btn-primary').addClass('btn-default');
+  });

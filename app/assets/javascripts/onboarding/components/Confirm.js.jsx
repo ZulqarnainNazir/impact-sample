@@ -56,16 +56,12 @@ class Confirm extends React.Component {
         },
       });
     } else if (location) {
-      if (store.get('completeRedirect')) {
-        store.clear();
-        console.log(location);
-        window.location.href = location;
-      } else {
-        hashHistory.push("wizard/details");
-      }
-    } else {
+      const id = store.get('business').id
       store.clear();
-      window.location.href = "/"
+      console.log(location);
+      window.location.href = `/onboard/businesses/${id}/details`;
+    } else {
+      window.location.href = "/";
     }
   }
 
@@ -91,12 +87,25 @@ class Confirm extends React.Component {
     }
 
     return (
-      <div className="ibox float-e-margins">
-        <div className="ibox-header">
-          <h2>Submitting your information</h2>
+      <div className="ibox float-e-margins col-md-8 col-md-offset-2">
+        <div className="ibox-title">
+          <h2 className="text-center">Almost There</h2>
         </div>
-        <div className="ibox-content text-center">
-          <i className="fa fa-spinner fa-spin fa-5x" />
+        <div className="ibox-content">
+          <div className="row">
+            <div className="onboarding-wizard col-md-12">
+              <div className="content ibox-content no-padding">
+                <div className="ibox float-e-margins">
+                  <div className="ibox-header">
+                    <h2>Submitting your information</h2>
+                  </div>
+                  <div className="ibox-content text-center">
+                    <i className="fa fa-spinner fa-spin fa-5x" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )

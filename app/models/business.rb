@@ -11,7 +11,7 @@ class Business < ActiveRecord::Base
     :automated_feedbacks_publishing,
     :automated_reviews_publishing
 
-  enum kind: { traditional_business: 0, group_or_cause: 1, }
+  enum kind: { traditional_business: 0, group_or_cause: 1, nonprofit_business: 2 }
   enum plan: { free: 0, web: 1, primary: 2, }
 
   with_options dependent: :destroy do

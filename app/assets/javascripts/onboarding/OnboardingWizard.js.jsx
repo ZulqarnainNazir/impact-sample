@@ -6,7 +6,6 @@
 // import Basics from './components/Basics';
 // import BusInfo from './components/BusInfo';
 // import Extended from './components/Extended';
-// import DetailInfo from './components/DetailInfo';
 // import Confirm from './components/Confirm';
 // import SelectPlan from './components/SelectPlan';
 // import Success from './components/Success';
@@ -49,11 +48,10 @@ const OnboardingWizard = (props) => {
         <IndexRoute component={Lookup} />
         <Route path="lookup" component={Lookup} />
         <Route path="businfo" component={BusInfo} />
-        <Route path="details" component={DetailInfo} />
         {/*<Route path="extended" component={Extended} />*/}
         <Route path="billing" component={Billing} />
-        <Route path="confirm" component={Confirm} />
       </Route>
+      <Route path="/confirm" component={Confirm} />
     </Router>
   );
 }

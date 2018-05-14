@@ -3,7 +3,7 @@ class OnboardingContainer extends React.Component {
   constructor() {
     super();
     console.log(store.get('plan'));
-    const steps = ["wizard/lookup", "wizard/businfo", "wizard/account", "wizard/extended", "wizard/confirm"]
+    const steps = ["wizard/lookup", "wizard/businfo", "wizard/account", "wizard/extended", "confirm"]
     // this.goToCurrentStep();
     this.state = {
       currentStep: steps.indexOf(window.location.hash.slice(2)),

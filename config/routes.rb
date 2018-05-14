@@ -133,7 +133,9 @@ Rails.application.routes.draw do
 
     namespace :onboard do
       resources :users, only: %i[new create]
-      resources :businesses, only: %i[create update], format: :json
+      resources :businesses, only: %i[create edit update], format: :json
+      get '/businesses/:id/details', to: 'business_details#edit', as: :business_details
+      patch '/businesses/:id/details', to: 'business_details#update', as: :business_details_update
       namespace :website do
         resources :businesses, only: %i[new create edit update destroy] do
           post :import_cce, on: :collection
