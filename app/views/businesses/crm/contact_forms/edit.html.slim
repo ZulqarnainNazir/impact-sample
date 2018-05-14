@@ -25,7 +25,10 @@ wrapper.wrapper-content
             = form.select :layout, options_for_select(@layout_options.map { |obj| [obj[:name], obj[:id]] }, @contact_form.layout), {}, {:class => 'form-control'}
           .form-group
             = form.label :public_description, "Publicly Visible Description (depends on layout above)", class: 'control-label'
-            = form.text_area :public_description, class: 'form-control', :rows => 5
+            = react_component 'RichTextEditor',
+                name: 'contact_form[public_description]',
+                html: @contact_form.public_description,
+                rows: 12
         .ibox-content
           .btn-group
             = form.button 'Update Form Fields', class: 'btn btn-primary'

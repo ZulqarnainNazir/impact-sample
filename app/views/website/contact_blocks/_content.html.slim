@@ -83,10 +83,10 @@
   .col-sm-8
     - if !@contact_form.blank? 
       - cache @contact_form do
-        = @contact_form.public_description
+        = sanitize_html @contact_form.public_description
     - elsif !contact_form.blank?
       - cache contact_form do
-        = contact_form.public_description
+        = sanitize_html contact_form.public_description
     - else
       - cache block do
         = sanitize_html block.text

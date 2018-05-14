@@ -26,6 +26,19 @@ RichTextEditor = React.createClass
     this.editor.find('.raw').summernote this.summernoteOptions()
     this.editor.find('.note-editor').find('.btn-group').addClass('exclude-custom-css')
 
+    # Highlight the active style in the style dropdown
+    dropdownItems = this.editor.find('.note-display .note-dropdown-item')
+    this.editor.find('.note-display button').click(() =>
+      currentStyle = this.editor.find('.raw').summernote 'editor.currentStyle'
+      ancestors = currentStyle.ancestors.map((e) => (e.tagName || '').toLowerCase())
+      dropdownItems.removeClass('active')
+      ancestors
+        .filter((tag) => !['p', 'blockquote', 'pre'].includes(tag))
+        .forEach((ancestor) =>
+          this.editor.find('.note-display .note-dropdown-item[data-value=' + ancestor + ']').addClass('active')
+      )
+    )
+
     # Add focusin and focusout events (they bubble from children)
     this.editor[0].addEventListener('focusin', onfocus)
     this.editor[0].addEventListener('focusout', onblur)
@@ -87,20 +100,27 @@ RichTextEditor = React.createClass
         ['blocks', ['hr', 'table']],
         ['clear', ['clear', 'cleaner', 'codeview']],
       ]
+
+  _keepTags: ->
+    if this.props.inline
+      ['<a>']
+    else
+      [
+        '<p>',
+        '<br>',
+        '<ul>', '<ol>', '<li>',
+        '<b>', '<strong>', '<i>', '<em>',
+        '<a>',
+        '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>'
+      ]
+
   _cleanerOptions: ->
 
     $.extend {}, $.summernote.options.cleaner,
       {
         action: 'both',
         keepHtml: true,
-        keepOnlyTags: [
-          '<p>',
-          '<br>',
-          '<ul>', '<ol>', '<li>',
-          '<b>', '<strong>', '<i>', '<em>',
-          '<a>',
-          '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>'
-        ],
+        keepOnlyTags: this._keepTags(),
         keepClasses: false,
         badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'],
         badAttributes: ['style', 'start', 'class'],

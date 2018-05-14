@@ -23,7 +23,9 @@
             li.list-group-item
               = form_tag business_mission_instance_comments_path(@business, mission_id: @mission.id) do
                 .form-group
-                  = text_area_tag 'comment[content]', nil, class: 'form-control wysihtml-editor'
+                  = react_component 'RichTextEditor',
+                    name: 'comment[content]',
+                    rows: 8
                 = submit_tag 'Add Comment', class: 'btn btn-primary'
       .tab-pane#history
         ul.list-group

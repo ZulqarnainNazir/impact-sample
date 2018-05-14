@@ -42,7 +42,7 @@ input[type="checkbox"] {
 html, body {
   width: auto !important;
   overflow-x: hidden !important;
-  line-height: 1.618; 
+  line-height: 1.618;
   font-family: system-ui;
   word-wrap: break-word;
 }
@@ -70,6 +70,12 @@ html, body {
 
     a.note-dropdown-item {
         padding: 3px 0;
+
+        &.active {
+          background-color: #ebebeb;
+          color: $navy;
+          text-decoration: none;
+        }
     }
 
     .note-status-output {
