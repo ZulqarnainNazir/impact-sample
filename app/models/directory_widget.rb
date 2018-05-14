@@ -4,6 +4,7 @@ class DirectoryWidget < ActiveRecord::Base
   belongs_to :company_list
 
   validates :name, presence: true
+  validates :company_list, presence: true
 
   def init
     self.uuid ||= SecureRandom.uuid

@@ -9,6 +9,15 @@ class Businesses::Tools::DirectoryWidgetsController < Businesses::BaseController
   end
 
   def index
+    fix_widgets = @business.directory_widgets.where( company_list_id: nil )
+    if fix_widgets.any?
+      @business.company_lists.create(name: "Company List 1") if @business.company_lists.empty?
+      fix_widgets.each do |widget|
+        widget.company_list = @business.company_lists.first
+        widget.save
+      end
+    end
+
     scope = @business.directory_widgets
     query = params[:query].to_s.strip
 
