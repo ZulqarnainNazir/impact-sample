@@ -2851,6 +2851,9 @@ var WrappedRange = /** @class */ (function () {
         if (dom.isInline(rng.sc)) {
             var ancestors = dom.listAncestor(rng.sc, func.not(dom.isInline));
             topAncestor = lists.last(ancestors);
+            if (topAncestor instanceof Text) {
+              return rng;
+            }
             if (!dom.isInline(topAncestor)) {
                 topAncestor = ancestors[ancestors.length - 2] || rng.sc.childNodes[rng.so];
             }
@@ -2891,7 +2894,7 @@ var WrappedRange = /** @class */ (function () {
     WrappedRange.prototype.pasteHTML = function (markup) {
         var contentsContainer = $$1('<div></div>').html(markup)[0];
         var childNodes = lists.from(contentsContainer.childNodes);
-        var rng = this.wrapBodyInlineWithPara().deleteContents();
+        var rng = this.deleteContents();
         return childNodes.reverse().map(function (childNode) {
             return rng.insertNode(childNode);
         }).reverse();

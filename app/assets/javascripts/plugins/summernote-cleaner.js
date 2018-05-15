@@ -164,6 +164,7 @@
               var text = htmlText || e.originalEvent.clipboardData.getData('text/plain')
             }
             function pasteOrCode(t) {
+                $note.summernote('createRange').deleteContents();
                 if ($note.summernote('isEmpty')) {
                     $note.summernote('code', t);
                 } else {
