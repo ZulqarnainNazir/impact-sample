@@ -7,7 +7,7 @@ class Businesses::AccountModulesController < Businesses::BaseController
   end
 
   def remote_create
-    # intercom_message = ""
+    intercom_message = ""
     appcues_message = ""
 
     if params[:active] == "true"
@@ -16,20 +16,20 @@ class Businesses::AccountModulesController < Businesses::BaseController
         @module.active = true
 
         appcues_message = appcues_create_message("reactivated", params[:kind])
-        #intercom_message = intercom_create_message("reactivated", params[:kind])
+        intercom_message = intercom_create_message("reactivated", params[:kind])
       else
         @module = AccountModule.new(new_account_module_params)
         @module.business = @business
 
         appcues_message = appcues_create_message("activated", params[:kind])
-        #intercom_message = intercom_create_message("activated", params[:kind])
+        intercom_message = intercom_create_message("activated", params[:kind])
       end
     elsif params[:active] == "false"
       @module = @business.account_modules.where(kind: params[:kind]).first
       @module.active = false
 
       appcues_message = appcues_create_message("deactivated", params[:kind])
-      #intercom_message = intercom_create_message("deactivated", params[:kind])
+      intercom_message = intercom_create_message("deactivated", params[:kind])
     end
 
     if params[:enable] && params[:enable] == "true" && params[:content]
@@ -38,7 +38,7 @@ class Businesses::AccountModulesController < Businesses::BaseController
 
     if @module.save
       flash[:appcues_event] = appcues_message
-      #intercom_event intercom_message
+      intercom_event intercom_message
     end
 
     if params[:active] == "true"
@@ -68,8 +68,8 @@ class Businesses::AccountModulesController < Businesses::BaseController
         flash[:notice] = "Success, you've activated your #{message.humanize.downcase} now let's put it to work!"
         redirect_to business_crm_contact_forms_path(@business)
       elsif kind_number == 5
-        # message = "website"
-        # flash[:notice] = "Success, you've activated your #{message.humanize.downcase} now let's put it to work!"
+        message = "website"
+        flash[:notice] = "Success, you've activated your #{message.humanize.downcase} now let's put it to work!"
         redirect_to table_business_website_webpages_path(@business)
       else
         redirect_to business_account_modules_path
@@ -80,7 +80,7 @@ class Businesses::AccountModulesController < Businesses::BaseController
   end
 
   def create
-    #intercom_message = ""
+    intercom_message = ""
     appcues_message = ""
 
     if params[:active] == "true"
@@ -89,24 +89,24 @@ class Businesses::AccountModulesController < Businesses::BaseController
         @module.active = true
 
         appcues_message = appcues_create_message("reactivated", params[:kind])
-        #intercom_message = intercom_create_message("reactivated", params[:kind])
+        intercom_message = intercom_create_message("reactivated", params[:kind])
       else
         @module = AccountModule.new(new_account_module_params)
         @module.business = @business
 
         appcues_message = appcues_create_message("activated", params[:kind])
-        #intercom_message = intercom_create_message("activated", params[:kind])
+        intercom_message = intercom_create_message("activated", params[:kind])
       end
     elsif params[:active] == "false"
       @module = @business.account_modules.where(kind: params[:kind]).first
       @module.active = false
 
       appcues_message = appcues_create_message("deactivated", params[:kind])
-      #intercom_message = intercom_create_message("deactivated", params[:kind])
+      intercom_message = intercom_create_message("deactivated", params[:kind])
     end
     if @module.save
       flash[:appcues_event] = appcues_message
-      #intercom_event intercom_message
+      intercom_event intercom_message
     end
 
     if params[:active] == "true"
@@ -132,8 +132,8 @@ class Businesses::AccountModulesController < Businesses::BaseController
         flash[:notice] = "Success, you've activated your #{message.humanize.downcase} now let's put it to work!"
         redirect_to business_crm_contact_forms_path(@business)
       elsif kind_number == 5
-        # message = "website"
-        # flash[:notice] = "Success, you've activated your #{message.humanize.downcase} now let's put it to work!"
+        message = "website"
+        flash[:notice] = "Success, you've activated your #{message.humanize.downcase} now let's put it to work!"
         redirect_to table_business_website_webpages_path(@business)
       else
         redirect_to business_account_modules_path
@@ -160,9 +160,9 @@ class Businesses::AccountModulesController < Businesses::BaseController
     else
       AccountModule.update(params[:id].to_i, params[:content].to_sym => false)
     end
-    # respond_to do |format|
-    #   format.js {render layout: false}
-    # end
+    respond_to do |format|
+      format.js {render layout: false}
+    end
   end
 
   def delete
@@ -196,28 +196,28 @@ class Businesses::AccountModulesController < Businesses::BaseController
     "Appcues.track('module #{event}: #{message} ')"
   end
 
- # def intercom_create_message(event, kind_number)
-    #activated
-    #deactivated
-    #reactivated
- #   kind_number = kind_number.to_i
- #   message = "" 
- #   if kind_number == 0
- #     message = "marketing-missions"
- #   elsif kind_number == 1
- #     message = "content-engine"
- #   elsif kind_number == 2
- #     message = "local-connections"
- #   elsif kind_number == 3
- #     message = "customer-reviews"
- #   elsif kind_number == 4
- #     message = "form-builder"
- #   elsif kind_number == 5
- #     message = "website"
- #   end
-#
-#    "#{message}-#{event}"
-#  end
+ def intercom_create_message(event, kind_number)
+    # activated
+    # deactivated
+    # reactivated
+   kind_number = kind_number.to_i
+   message = "" 
+   if kind_number == 0
+     message = "marketing-missions"
+   elsif kind_number == 1
+     message = "content-engine"
+   elsif kind_number == 2
+     message = "local-connections"
+   elsif kind_number == 3
+     message = "customer-reviews"
+   elsif kind_number == 4
+     message = "form-builder"
+   elsif kind_number == 5
+     message = "website"
+   end
+
+   "#{message}-#{event}"
+ end
 
   def load_module
     @module = AccountModule.find(params[:id])
