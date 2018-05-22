@@ -51,3 +51,4 @@
 					    	= link_to edit_business_crm_company_path(n.business_that_has_this_record_as_contact, n) do
 						    	.dd-handle
 							    	= n.business_that_has_this_record_as_contact.name
+		= render partial: 'businesses/dashboards/followers', locals: { business: @business }

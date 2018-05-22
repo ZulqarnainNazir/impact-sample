@@ -67,6 +67,7 @@ class Business < ActiveRecord::Base
 
   has_many :owned_companies, :class_name => "Company", :foreign_key => "user_business_id"
   has_many :owned_by_business, :class_name => "Company", :foreign_key => "company_business_id"
+  has_many :listed_by_business, :class_name => "CompanyListCompany", :through => :owned_by_business, :source => :company_list_companies
   has_one :company, :class_name => "Company", :foreign_key => "company_business_id"
   has_one :subscription_affiliate
 

@@ -16,6 +16,14 @@ class CompanyList < ActiveRecord::Base
     )
   }
 
+  def calendar_widgets
+    CalendarWidget.where('(?) = ANY (company_list_ids)', self.id.to_s)
+  end
+
+  def content_feed_widgets
+    ContentFeedWidget.where('(?) = ANY (company_list_ids)', self.id.to_s)
+  end
+
   def self.select_collection(business_id)
     select("company_lists.id, company_lists.name").where(:business_id => business_id)
   end

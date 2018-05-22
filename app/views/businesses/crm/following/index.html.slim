@@ -1,0 +1,33 @@
+- title = 'Following Companies & Causes'
+
+= render :partial => 'dashbreadcrumb',
+  :locals => { :fn => 'Local Connections', :fp => :crm_root,
+    :sn => 'Local Networks', :sp => :crm_company_lists,
+    :an => 'Following Companies & Causes'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          - if @listings.empty?
+            .row
+              .col-lg-4.col-lg-offset-4
+                .p-a-3.text-center
+                  = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 220px', class: 'img-responsive center-block')
+                  h2 No Companies or Causes Found
+                  p.text-left.m-t-md.strong No companies or causes have added you to their Local Network.
+          - else
+            table.footable.table.table-stripped.datatable
+              thead
+                tr
+                  th
+                    | Name
+                  th
+                    | Status
+                  th
+                    | Types
+                  th
+                    | # in Network
+              tbody
+                = render @listings

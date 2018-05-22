@@ -1,0 +1,21 @@
+- company_list = company_list_company.company_list
+
+- is_in_crm = @business.owned_companies.any? { |company| company.company_business_id == company_list.business_id }
+- is_following = @business.company_lists.any? { |list| list.companies.any? { |c| c.company_business_id == company_list.business_id}}
+
+- params = { :referred_from => "following", :business => company_list.business_id, :business_name => company_list.business.name }
+- add_to_network_link = link_to "Add to Network", [@business, :crm_companies, params]
+- follow_back_link = link_to "Follow Back", [@business, :crm_company_lists, params]
+
+- calendar = company_list.calendar_widgets.empty? ? nil : 'Calendar'
+- directory = company_list.directory_widgets.empty? ? nil : 'Directory'
+- content_feed = company_list.content_feed_widgets.empty? ? nil : 'Content Embed'
+- types = [calendar, directory, content_feed].select { |x| x.present? }
+- explicit_types = types.length > 3 ? types[0..1].join(', ') : types[0..2].join(', ')
+- more_types = types.length > 3 ? " +#{types.length - 2} More" : ""
+
+tr
+  td = company_list.business.name
+  td = is_following ? 'Following' : (is_in_crm ? follow_back_link : add_to_network_link)
+  td = explicit_types + more_types
+  td = company_list.companies.length

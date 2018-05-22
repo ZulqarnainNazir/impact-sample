@@ -122,7 +122,7 @@ RichTextEditor = React.createClass
         keepHtml: true,
         keepOnlyTags: this._keepTags(),
         keepClasses: false,
-        badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'],
+        badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'id'],
         badAttributes: ['style', 'start', 'class'],
         limitChars: 0,
         limitDisplay: 'none',

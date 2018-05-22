@@ -1,0 +1,20 @@
+- listings = business.listed_by_business
+
+- last_sign_in_at = current_user.last_sign_in_at
+
+- recent_listings = listings.select { |listing| last_sign_in_at - listing.created_at <= 0 }
+
+.ibox.inverted
+  = link_to [@business, :crm, 'company_lists', 'following'] do
+    .ibox-content.p-h-lg
+      .text-center
+        div style="font-size: 3em; line-height: 1"
+          i.fa.fa-heart-o
+        small = @business.name + " is followed by"
+        div style="font-size: 1.5em"
+          strong
+            = listings.length.to_s + " Total "
+          - if recent_listings.length > 0
+            em
+              = '﹢' + recent_listings.length.to_s + " New"
+        div Companies & Causes

@@ -1,7 +1,7 @@
 /* This is a duplication of base.scss from the back end for helper classes use on the front end */
 
 .body {
- line-height: 1.618; 
+ line-height: 1.618;
  font-family: system-ui;
 }
 
@@ -109,8 +109,8 @@ video {
 /* Adding before filters */
 p, li, .lead, h1, h2, h3, h4, h5, h6, .btn, a, img {
  &:before, &:after {
-   content: ""; 
-   
+   content: "";
+
  }
 }
 
@@ -525,6 +525,10 @@ code {
   content: "\f077";
 }
 
+.ibox.inverted {
+  color: white;
+}
+
 .ibox:after, .ibox:before {
   display: table;
 }
@@ -557,6 +561,12 @@ code {
   // border-style: solid solid none;
   // commented out due to custom-front issues with product-box border.
   // border-width: 1px 0;
+}
+
+.ibox.inverted .ibox-content {
+  background-color: $lazur;
+  border-radius: 6px;
+  color: white;
 }
 
 .ibox-footer {
@@ -1481,4 +1491,3 @@ body.mini-navbar.fixed-sidebar .logo-element {
 .fullscreen-video .animated {
   animation: none;
 }
-

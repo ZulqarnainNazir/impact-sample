@@ -277,6 +277,7 @@ Rails.application.routes.draw do
             end
           end
           resources :company_lists, only: %i[index new create edit update destroy]
+          get 'company_lists/following', to: 'following#index'
           resources :contact_forms, only: %i[index new create edit update destroy]
           resources :form_submissions, only: %i[index show destroy]
           resources :companies, only: %i[index new create edit update destroy] do
