@@ -6,7 +6,7 @@ task export_biz_data_to_intercom: [:environment] do
 	     plan_change_date = "none"
 	     if biz.has_plan?
 	       plan_name = biz.subscription.plan.name
-	       plan_change_date = biz.subscription.plan.updated_at
+	       plan_change_date = biz.subscription.updated_at
 	     end
 	     hours = "N/A"
 	     if biz.location.present? && biz.location.openings.present?
