@@ -154,7 +154,7 @@ class Business < ActiveRecord::Base
      plan_change_date = "none"
      if self.has_plan?
        plan_name = self.subscription.plan.name
-       plan_change_date = self.subscription.plan.updated_at
+       plan_change_date = self.subscription.updated_at
      end
      hours = "N/A"
      if self.location.present? && self.location.openings.present?
