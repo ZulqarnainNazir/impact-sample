@@ -4,6 +4,13 @@ task export_biz_data_to_intercom: [:environment] do
 	Business.all.each do |biz|
 	     plan_name = "none"
 	     plan_change_date = "none"
+	     landing_page = false
+	     biz_company = "none"
+	     sent_member_invite = "none"
+	     if biz.website
+            landing_page = biz.website.try(:webpages)
+            landing_page = landing_page ? !landing_page.empty? : false
+         end
 	     if biz.has_plan?
 	       plan_name = biz.subscription.plan.name
 	       plan_change_date = biz.subscription.updated_at
@@ -12,7 +19,11 @@ task export_biz_data_to_intercom: [:environment] do
 	     if biz.location.present? && biz.location.openings.present?
 	       hours = biz.location.openings.first.hours
 	     end
+         if biz.company.present?
+           sent_member_invite = Invite.where(company_id: biz.company.id, invite_as_member: true).present?
+	     end
 	    intercom.companies.create(
+	    	 # :account_id => biz.id,
 	         :company_id => biz.id,
 	         :name => biz.name,
 	         :plan => plan_name,
@@ -28,6 +39,7 @@ task export_biz_data_to_intercom: [:environment] do
 	           :account_claim_date => biz.created_at,
 	            # todos
 	           :to_dos_enabled => biz.to_dos_enabled,
+	           :has_to_dos_enabled => biz.to_dos_enabled,
 
 	           #modules
 	           :activated_mission_count => biz.missions.where(status: "active").count,
@@ -49,6 +61,26 @@ task export_biz_data_to_intercom: [:environment] do
 	           :calendar_count => biz.calendar_widgets.count, #number of calendars
 	           :reviews_requested_total => biz.feedbacks.count, #number of feedback reviews requested
 	           :reviews_received_total => biz.reviews.count,
+	           :form_count => biz.contact_forms.size,
+	           :form_submissions_count => biz.form_submissions.size,
+	           :company_contacts_count => biz.owned_companies.size,
+	           :people_contacts_count => biz.contacts.size,
+	           :company_list_count => biz.company_lists.size,
+	           :membership_org => biz.membership_org,
+
+	           #website stuff
+	           :created_landing_page => landing_page,
+	           :is_affiliate => biz.is_affiliate?,
+	           :created_directory_widget => biz.directory_widgets.empty?,
+	           :created_reviews_widget => biz.review_widgets.empty?,
+	           :custom_primary_domain_in_use => (biz.website && biz.website.webhosts.any?),
+
+	           #invites
+		       :sent_member_invite => sent_member_invite,
+
+	           #marketing missions
+	           :assigned_marketing_mission => MissionInstance.where(business_id: biz.id).any?,
+
 
 	            #social media stuff
 	           :facebook_id => biz.facebook_id,

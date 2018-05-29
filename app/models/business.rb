@@ -199,6 +199,8 @@ class Business < ActiveRecord::Base
            :calendar_count => self.calendar_widgets.count, #number of calendars
            :reviews_requested_total => self.feedbacks.count, #number of feedback reviews requested
            :reviews_received_total => self.reviews.count,
+           :form_count => self.contact_forms.size,
+           :form_submissions_count => self.form_submissions.size,
 
             #social media stuff
            :facebook_id => self.facebook_id,
@@ -227,8 +229,7 @@ class Business < ActiveRecord::Base
   #    plan = self.subscription.plan.name
   #  end
   #   Intercom::Client.new(
-  #     app_id: ENV['INTERCOM_ID'],
-  #     api_key: ENV['INTERCOM_API_KEY']
+  #      token: ENV['intercom_access_token']
   #   ).companies.create(
   #   :company_id => self.id,
   #   :name => self.name,
