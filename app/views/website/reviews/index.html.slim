@@ -22,4 +22,4 @@
       - if @website.content_blog_sidebar_on_reviews?
         .col-sm-4
           .show-sidebar-grid
-            /= render posts(nil, @business), small: true
+            = render posts(nil, @business), small: true
