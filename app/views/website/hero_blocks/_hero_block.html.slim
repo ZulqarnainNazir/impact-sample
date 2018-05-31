@@ -16,7 +16,7 @@
               .row
                 .col-sm-6
                   .well class=(hero_block.well_style == 'light' ? 'well-light' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-transparent')) style="color: #{hero_block.foreground_color};"
-                    h1 = sanitize_html hero_block.heading
+                    h1 style="color: #{hero_block.foreground_color};" = sanitize_html hero_block.heading
                     = sanitize_html hero_block.text
                     - if hero_block.link?
                       p = link_to hero_block.link_label, hero_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (hero_block.link_target_blank ? :_blank : nil), rel: (hero_block.link_no_follow ? 'no-follow' : nil)
@@ -43,7 +43,7 @@
                   - missing_image = true
                 .col-sm-6 style="#{missing_image ? 'margin-top: 0' : ''}"
                   .well class=(hero_block.well_style == 'light' ? 'well-light' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-transparent')) style="color: #{hero_block.foreground_color};"
-                    h1 = sanitize_html hero_block.heading
+                    h1 style="color: #{hero_block.foreground_color};" = sanitize_html hero_block.heading
                     = sanitize_html hero_block.text
                     - if hero_block.link?
                       p = link_to hero_block.link_label, hero_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (hero_block.link_target_blank ? :_blank : nil), rel: (hero_block.link_no_follow ? 'no-follow' : nil)
@@ -51,7 +51,7 @@
               .row
                 .col-sm-12
                   .well class=(hero_block.well_style == 'light' ? 'well-light' : (hero_block.well_style == 'dark' ? 'well-dark' : 'well-transparent')) style="color: #{hero_block.foreground_color};"
-                    h1 = sanitize_html hero_block.heading
+                    h1 style="color: #{hero_block.foreground_color};" = sanitize_html hero_block.heading
                     = sanitize_html hero_block.text
                     - if hero_block.link?
                       p = link_to hero_block.link_label, hero_block.link_location, class: 'btn btn-primary btn-lg', role: 'button', target: (hero_block.link_target_blank ? :_blank : nil), rel: (hero_block.link_no_follow ? 'no-follow' : nil)

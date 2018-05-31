@@ -1,0 +1,78 @@
+.table-responsive
+  table.table.table-striped style="margin-bottom:0; padding:0 0;"
+    thead
+      tr
+        th Font Settings
+        th Font Family
+        th Color
+        th Desktop Font Size (px)
+        th Mobile Font Size (px)
+    tbody
+      tr
+        td
+          h1 H1
+        td = form.text_field :h1_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :h1_font_color, class: 'form-control color-wheel'
+        td = form.select :h1_font_desk_size, options_for_select([*8..84], @website.h1_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :h1_font_mobile_size, options_for_select([*8..84], @website.h1_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td
+          h2 H2
+        td = form.text_field :h2_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :h2_font_color, class: 'form-control color-wheel'
+        td = form.select :h2_font_desk_size, options_for_select([*8..84], @website.h2_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :h2_font_mobile_size, options_for_select([*8..84], @website.h2_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td
+          h3 H3
+        td = form.text_field :h3_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :h3_font_color, class: 'form-control color-wheel'
+        td = form.select :h3_font_desk_size, options_for_select([*8..84], @website.h3_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :h3_font_mobile_size, options_for_select([*8..84], @website.h3_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td
+          h4 H4
+        td = form.text_field :h4_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :h4_font_color, class: 'form-control color-wheel'
+        td = form.select :h4_font_desk_size, options_for_select([*8..84], @website.h4_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :h4_font_mobile_size, options_for_select([*8..84], @website.h4_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td
+          h5 H5
+        td = form.text_field :h5_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :h5_font_color, class: 'form-control color-wheel'
+        td = form.select :h5_font_desk_size, options_for_select([*8..84], @website.h5_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :h5_font_mobile_size, options_for_select([*8..84], @website.h5_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td
+          h6 H6
+        td = form.text_field :h6_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :h6_font_color, class: 'form-control color-wheel'
+        td = form.select :h6_font_desk_size, options_for_select([*8..84], @website.h6_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :h6_font_mobile_size, options_for_select([*8..84], @website.h6_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td Paragraph Text
+        td = form.text_field :paragraph_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :paragraph_font_color, class: 'form-control color-wheel'
+        td = form.select :paragraph_font_desk_size, options_for_select([*8..84], @website.paragraph_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :paragraph_font_mobile_size, options_for_select([*8..84], @website.paragraph_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td Blockquote
+        td = form.text_field :blockquote_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :blockquote_font_color, class: 'form-control color-wheel'
+        td = form.select :blockquote_font_desk_size, options_for_select([*8..84], @website.blockquote_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :blockquote_font_mobile_size, options_for_select([*8..84], @website.blockquote_font_mobile_size_value), { }, class: 'form-control'
+      tr
+        td Lead
+        td = form.text_field :lead_font_family, placeholder: 'e.g. Raleway', class: 'form-control'
+        td = form.text_field :lead_font_color, class: 'form-control color-wheel'
+        td = form.select :lead_font_desk_size, options_for_select([*8..84], @website.lead_font_desk_size_value), { }, class: 'form-control'
+        td = form.select :lead_font_mobile_size, options_for_select([*8..84], @website.lead_font_mobile_size_value), { }, class: 'form-control'
+
+javascript:
+  $('document').ready(function() {
+    $('.color-wheel').minicolors({
+      control: 'wheel',
+      theme: 'block'
+    })
+  });

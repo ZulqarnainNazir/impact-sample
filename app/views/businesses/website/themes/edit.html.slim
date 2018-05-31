@@ -2,10 +2,13 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Theme & Design'}
 
-p.text-right = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
+= link_to manage_fonts_business_website_theme_path, class: 'button btn btn-primary' do
+  ' Manage Fonts
+= link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank, class: 'arrow' do
   ' Preview Saved Website Design
   i.fa.fa-external-link style="margin-left:2px"
-
+br
+br
 .webpage-designer data-input-prefix="website"
   = form_for @website, url: [@business, :website_theme], method: :patch do |form|
     = errors_for @website
@@ -28,16 +31,14 @@ p.text-right = link_to website_root_url(host: website_host(@business.website), p
       => form.label :custom_css, 'For Advanced Users Only – Add Custom CSS to Apply Sitewide', class: 'control-label'
       = form.text_area :custom_css, rows: 8, class: 'form-control'
 
-    <div class="modal fade" id="footer-embed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="myModalLabel">Add text to your Footer Embed block</h4>
-          </div>
-          <div class="modal-body">
+    .modal.fade#footer-embed-modal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+      .modal-dialog role="document"
+        .modal-content
+          .modal-header
+            button type="button" class="close" data-dismiss="modal" aria-label="Close"
+              span aria-hidden="true" &times;
+            h4.modal-title#myModalLabel Add text to your Footer Embed block
+          .modal-body
             .form-group
               = form.text_area :footer_embed, rows:8, class: 'form-control', placeholder: "Enter Text Here"
               .checkbox_section
@@ -46,25 +47,18 @@ p.text-right = link_to website_root_url(host: website_host(@business.website), p
               .checkbox_section
                 = form.check_box :hide_embed_on_landing, class: 'checkbox', rows:3
                 = form.label :hide_embed_on_landing, "Hide on Landing Pages", rows:3, checked: true
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          .modal-footer
+            button type="button" class="btn btn-secondary" data-dismiss="modal" Close
             = form.submit class: "btn btn-primary", placeholder: "Save Changes"
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="modal fade" id="header-embed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="myModalLabel">Add text to your Header Embed block</h4>
-          </div>
-          <div class="modal-body">
+    .modal.fade#header-embed-modal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+      .modal-dialog role="document"
+        .modal-content
+          .modal-header
+            button type="button" class="close" data-dismiss="modal" aria-label="Close"
+              span aria-hidden="true" &times;
+            h4.modal-title#myModalLabel Add text to your Header Embed block
+          .modal-body
             .form-group
               = form.text_area :header_embed, rows:8, class: 'form-control', placeholder: "Enter Text Here"
               .checkbox_section
@@ -73,14 +67,9 @@ p.text-right = link_to website_root_url(host: website_host(@business.website), p
               .checkbox_section
                 = form.check_box :hide_header_embed_on_landing, class: 'checkbox', rows:3
                 = form.label :hide_header_embed_on_landing, "Hide on Landing Pages", rows:3, checked: true
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          .modal-footer
+            button type="button" class="btn btn-secondary" data-dismiss="modal" Close
             = form.submit class: "btn btn-primary", placeholder: "Save Changes"
-          </div>
-        </div>
-      </div>
-    </div>
 
     .webpage-submit
       .row

@@ -1,0 +1,14 @@
+- title 'Manage Fonts'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Manage Website', :fp => :website_root, :an => ' Theme & Design' }
+
+.webpage-designer data-input-prefix="website"
+  = form_for @website, url: [@business, :website_theme], method: :patch do |form|
+    = errors_for @website
+    = render form
+    br
+    = link_to 'https://fonts.google.com/', target: :_blank do
+      ' Browse Google Fonts
+    br
+    .text-center
+      = form.submit class: 'btn btn-primary btn-lg', placeholder: 'Save Changes'

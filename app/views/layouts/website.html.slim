@@ -32,14 +32,103 @@ html lang="en"
     - cache @page do
       = @page.try(:page_head_injection).try(:html_safe)
     css:
+      @import url('https://fonts.googleapis.com/css?family=#{@website.h1_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.h2_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.h3_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.h4_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.h5_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.h6_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.paragraph_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.blockquote_font_family}');
+      @import url('https://fonts.googleapis.com/css?family=#{@website.lead_font_family}');
       body {
         background-color: #{@website.background_color};
         color: #{@website.foreground_color};
+      }
+      .webpage-block .jumbotron h1, h1 {
+        color: #{@website.h1_font_color};
+        font-family: #{@website.h1_font_family};
+        font-size: #{@website.h1_font_desk_size_value}px;
+      }
+      .webpage-block .jumbotron h2, h2 {
+        color: #{@website.h2_font_color};
+        font-family: #{@website.h2_font_family};
+        font-size: #{@website.h2_font_desk_size_value}px;
+      }
+      .webpage-block .jumbotron h3, h3 {
+        color: #{@website.h3_font_color};
+        font-family: #{@website.h3_font_family};
+        font-size: #{@website.h3_font_desk_size_value}px;
+      }
+      .webpage-block .jumbotron h4, h4 {
+        color: #{@website.h4_font_color};
+        font-family: #{@website.h4_font_family};
+        font-size: #{@website.h4_font_desk_size_value}px;
+      }
+      .webpage-block .jumbotron h5, h5 {
+        color: #{@website.h5_font_color};
+        font-family: #{@website.h5_font_family};
+        font-size: #{@website.h5_font_desk_size_value}px;
+      }
+      .webpage-block .jumbotron h6, h6 {
+        color: #{@website.h6_font_color};
+        font-family: #{@website.h6_font_family};
+        font-size: #{@website.h6_font_desk_size_value}px;
+      }
+      .webpage-block .jumbotron p, p {
+        color: #{@website.paragraph_font_color};
+        font-family: #{@website.paragraph_font_family};
+        font-size: #{@website.paragraph_font_desk_size_value}px;
+      }
+      .jumbotron blockquote, blockquote {
+        color: #{@website.blockquote_font_color};
+        font-family: #{@website.blockquote_font_family};
+        font-size: #{@website.blockquote_font_desk_size_value}px;
+      }
+      .jumbotron .lead, .lead {
+        color: #{@website.lead_font_color};
+        font-family: #{@website.lead_font_family};
+        font-size: #{@website.lead_font_desk_size_value}px;
+      }
+      @media (max-width: 767px) {
+        .webpage-block .jumbotron h1, h1 {
+          font-size: #{@website.h1_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron h2, h2 {
+          font-size: #{@website.h2_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron h3, h3 {
+          font-size: #{@website.h3_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron h4, h4 {
+          font-size: #{@website.h4_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron h5, h5 {
+          font-size: #{@website.h5_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron h6, h6 {
+          font-size: #{@website.h6_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron p, p {
+          font-size: #{@website.paragraph_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron blockquote, blockquote {
+          font-size: #{@website.blockquote_font_mobile_size_value}px;
+        }
+        .webpage-block .jumbotron .lead, .lead {
+          font-size: #{@website.lead_font_mobile_size_value}px;
+        }
       }
       .webpage-background a {
         color: #{@website.link_color};
       }
       .webpage-block a {
+        color: #{@website.link_color};
+      }
+      .webpage-contact a {
+        color: #{@website.link_color};
+      }
+      .webpage-about a {
         color: #{@website.link_color};
       }
       .webpage-footer {

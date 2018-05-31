@@ -318,7 +318,9 @@ Rails.application.routes.draw do
           resource :menus, only: %i[edit update]
           resource :meta, only: %i[edit update]
           resource :sidebars, only: %i[edit update]
-          resource :theme, only: %i[edit update]
+          resource :theme, only: %i[edit update] do
+            get :manage_fonts
+          end
           resources :custom_pages, only: %i[new create edit update]
           resources :redirects, only: %i[index new create edit update destroy]
           resources :webpages, only: %i[index destroy] do
