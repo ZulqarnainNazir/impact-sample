@@ -1,6 +1,6 @@
 class Businesses::Content::PostsController < Businesses::Content::BaseController
   include PlacementAttributesConcern
-  include RequiresWebPlanConcern
+  #include RequiresWebPlanConcern
 
   layout 'business_reduced'
 

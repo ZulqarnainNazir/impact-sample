@@ -1,5 +1,5 @@
 class Businesses::Tools::DirectoryWidgetsController < Businesses::BaseController
-  before_action -> { confirm_module_activated(2) }
+  #before_action -> { confirm_module_activated(2) }
   before_action only: member_actions do
     @directory_widget = @business.directory_widgets.find(params[:id])
   end

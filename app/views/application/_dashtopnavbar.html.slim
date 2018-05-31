@@ -44,7 +44,7 @@
                 | Quick Post
           - else
             li class="disabled"
-              = link_to "#" do
+              = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                 i.fa.fa-bolt.disabled-nav-content>
                 span.disabled-nav-content
                   | Quick Post
@@ -56,7 +56,7 @@
                   | Before &amp; After
             - else
               li class='disabled'
-                = link_to "#" do
+                = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                   i.fa.fa-columns.disabled-nav-content>
                   span.disabled-nav-content
                     | Before &amp; After
@@ -67,7 +67,7 @@
                   | Gallery
             - else
               li class='disabled'
-                = link_to "#" do
+                = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                   i.fa.fa-photo.disabled-nav-content>
                   span.disabled-nav-content
                     | Gallery
@@ -79,7 +79,7 @@
                   | Before &amp; After
             - else
               li class='disabled'
-                = link_to "#" do
+                = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                   i.fa.fa-columns.disabled-nav-content>
                   span.disabled-nav-content
                     | Before &amp; After
@@ -90,7 +90,7 @@
                   | Gallery
             - else
               li class='disabled'
-                = link_to "#" do
+                = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                   i.fa.fa-photo.disabled-nav-content>
                   span.disabled-nav-content
                     | Gallery
@@ -102,7 +102,7 @@
                 | Event
           - else
             li class='disabled'
-              = link_to "#" do
+              = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                 i.fa.fa-calendar.disabled-nav-content>
                 span.disabled-nav-content
                   | Event
@@ -114,7 +114,7 @@
                 | Job
           - else
             li class='disabled'
-              = link_to "#" do
+              = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                 i.fa.fa-briefcase.disabled-nav-content>
                 span.disabled-nav-content
                   | Job
@@ -126,42 +126,71 @@
                 | Offer
           - else
             li class='disabled'
-              = link_to "#" do
+              = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                 i.fa.fa-ticket.disabled-nav-content>
                 span.disabled-nav-content
                   | Offer
+        - else
+          li class="disabled"
+            = link_to [@business, :content_activate], style: 'cursor: pointer;'  do
+              i.fa.fa-bolt.disabled-nav-content>
+              span.disabled-nav-content
+                | Quick Post
+          li class='disabled'
+            = link_to [@business, :content_activate], style: 'cursor: pointer;'  do
+              i.fa.fa-columns.disabled-nav-content>
+              span.disabled-nav-content
+                | Before &amp; After
+          li class='disabled'
+            = link_to [@business, :content_activate], style: 'cursor: pointer;'  do
+              i.fa.fa-photo.disabled-nav-content>
+              span.disabled-nav-content
+                | Gallery
+          li class='disabled'
+            = link_to [@business, :content_activate], style: 'cursor: pointer;'  do
+              i.fa.fa-calendar.disabled-nav-content>
+              span.disabled-nav-content
+                | Event
+          li class='disabled'
+            = link_to [@business, :content_activate], style: 'cursor: pointer;'  do
+              i.fa.fa-briefcase.disabled-nav-content>
+              span.disabled-nav-content
+                | Job
+          li class='disabled'
+            = link_to [@business, :content_activate], style: 'cursor: pointer;'  do
+              i.fa.fa-ticket.disabled-nav-content>
+              span.disabled-nav-content
+                | Offer
         - if @business.module_active?(3)
           li.list-divider = link_to [:new, @business, :crm_feedback] do
             i.fa.fa-star>
             span
               | Collect Customer Reviews
+        - else
+          li class='disabled'
+            = link_to [@business, :crm_reviews], style: 'cursor: pointer;' do
+              i.fa.fa-star.disabled-nav-content>
+              span.disabled-nav-content
+                | Collect Customer Reviews
 
-        - if !@business.is_on_engage_plan? || current_user.super_user?
-          - if @business.module_active?(1)
-            - if @business.content_type_active?("post")
-              li = link_to [:new, @business, :content_post] do
-                i.fa.fa-edit>
-                span
-                  | Custom Post
-            - else
-              li class='disabled'
-                = link_to "#" do
-                  i.fa.fa-edit.disabled-nav-content>
-                  span.disabled-nav-content
-                    | Custom Post
-
-        - elsif @business.is_on_engage_plan?
+        - if @business.module_active?(1)
           - if @business.content_type_active?("post")
-            li = link_to plans_business_subscriptions_path, style: 'opacity: 0.4;' do
+            li = link_to [:new, @business, :content_post] do
               i.fa.fa-edit>
               span
                 | Custom Post
           - else
             li class='disabled'
-              = link_to "#" do
+              = link_to edit_business_account_module_path(@business, @business.get_account_module(1).id), style: 'cursor: pointer;'  do
                 i.fa.fa-edit.disabled-nav-content>
                 span.disabled-nav-content
                   | Custom Post
+        - else
+          li class='disabled'
+            = link_to [@business, :content_activate], style: 'cursor: pointer;'  do
+              i.fa.fa-edit.disabled-nav-content>
+              span.disabled-nav-content
+                | Custom Post
 
   a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-inline-block href="#{new_business_crm_invite_url}"
     i.fa.fa-user-plus.fa-2 aria-hidden="true"

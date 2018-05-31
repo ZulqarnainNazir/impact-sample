@@ -1,5 +1,14 @@
 class Businesses::Crm::CompanyListsController < Businesses::BaseController
-  before_action -> { confirm_module_activated(2) }, except: :index
+  before_action only: [:new, :edit] do
+    if !@business.module_active?(2)
+      messages = AccountModule.create_module(@business.id, {kind: 2, active: true})
+      @business.reload
+      flash[:appcues_event] = messages[0]
+      flash[:notice] = messages[1]
+    end
+  end
+
+  before_action -> { confirm_module_activated(2) }, except: [:new, :edit, :index]
 
   before_action only: new_actions do
     @company_list = @business.company_lists.new

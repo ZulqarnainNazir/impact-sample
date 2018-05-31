@@ -1,4 +1,6 @@
 class Businesses::Content::ImagesController < Businesses::Content::BaseController
+  skip_before_action :confirm_content_activated
+  
   before_action only: member_actions do
     @image = Image.where('business_id = ? OR user_id = ?', @business.id, current_user.id).includes(:placements).find_by_id!(params[:id])
   end

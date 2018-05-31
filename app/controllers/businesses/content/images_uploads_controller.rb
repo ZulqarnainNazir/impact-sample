@@ -1,4 +1,6 @@
 class Businesses::Content::ImagesUploadsController < Businesses::Content::BaseController
+  skip_before_action :confirm_content_activated
+  
   def create
     @image = @business.images.new(user: current_user)
     @image.assign_attributes(image_params)

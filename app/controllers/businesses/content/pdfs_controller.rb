@@ -1,6 +1,7 @@
 class Businesses::Content::PdfsController < Businesses::Content::BaseController
   respond_to(:html, :js, :json)
   skip_before_action :verify_authenticity_token
+  skip_before_action :confirm_content_activated
 
   def index
     @business = Business.find(params['business_id'])
@@ -14,7 +15,7 @@ class Businesses::Content::PdfsController < Businesses::Content::BaseController
     @pdf = @business.pdfs.new(user: current_user)
   end
 
-  def create    
+  def create
     @pdf = Pdf.new(pdf_params)
     @pdf.business = Business.find(params['business_id'])
     @pdf.user = current_user
