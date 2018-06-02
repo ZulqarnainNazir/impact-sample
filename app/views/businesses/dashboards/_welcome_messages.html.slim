@@ -1,0 +1,20 @@
+- if !@business.module_active?(0) && !@business.module_active?(1) && !@business.module_active?(2) && !@business.module_active?(3) && !@business.module_active?(4)
+  div.alert.alert-warning.alert-dismissable.m-t-sm
+    p Hi #{current_user.first_name}, glad you're a part of our little community! What do you want to accomplish today? Activate something below to get started...
+
+- elsif @business.to_dos_enabled?
+  div.alert.alert-warning.alert-dismissable.m-t-sm
+    p Hi #{current_user.first_name}, ready to make progress on your website? Check out the To-Do's below...
+
+- elsif @business.modules_unactivated > 3
+  div.alert.alert-success.alert-dismissable.m-t-sm
+    p Hi #{current_user.first_name}, welcome back! Did you know there are some features available that you're not taking advantage of? Check them out below.
+
+- elsif @business.account_modules.count > 2
+  div.alert.alert-success.alert-dismissable.m-t-sm
+    p Hi #{current_user.first_name}, welcome back! Browse #{link_to "Marketing Missions", [@business, :missions]} to find simple marketing activities.
+
+/- if !@business.module_active?(0) && !@business.module_active?(1) && !@business.module_active?(2) && !@business.module_active?(3) && !@business.module_active?(4)
+  div.alert.alert-warning.alert-dismissable.m-t-sm
+    button aria-hidden="true" data-dismiss="alert" class="close" type="button" ×
+    p Looks like you haven't activated any features yet, #{link_to "let's fix that!", [@business, :account_modules]} If you're not sure where to start, try #{link_to " Marketing Missions™", business_account_modules_path(:kind => 4, :active => true)} to find easy marketing activities.
