@@ -1,4 +1,4 @@
-posts = posts(@business, content_category_ids: [@content_category.id])
+posts = posts(nil, @business, content_category_ids: [@content_category.id])
 
 xml.instruct! :xml, version: '1.0', encoding: 'UTF-8'
 xml.rss version: '2.0', 'xmlns:media' => 'http://search.yahoo.com/mrss/', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do

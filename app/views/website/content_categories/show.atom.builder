@@ -1,4 +1,4 @@
-posts = posts(@business, content_category_ids: [@content_category.id])
+posts = posts(nil, @business, content_category_ids: [@content_category.id])
 
 atom_feed do |atom|
   atom.title "Category – #{@content_category.name}"

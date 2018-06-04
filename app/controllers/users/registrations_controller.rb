@@ -39,6 +39,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       redirect_to "/users/sign_up", :flash => { :notice => :signed_up }
       return
     end
+    # Skip confirmation email for now, as rendering depends on the business being created
+    resource.skip_confirmation_notification!
     resource.save
     yield resource if block_given?
     if resource.persisted?

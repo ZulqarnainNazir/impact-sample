@@ -27,6 +27,9 @@ class Authorization < ActiveRecord::Base
 
   after_create do
     # AuthorizationsMailer.owner_welcome(self).deliver_now #.deliver_later(wait: 10.seconds)
+
+    # We skipped sending the authorization earlier, so send it once we link user to a business
+    self.user.send_confirmation_instructions unless self.user.confirmed?
   end
 
   def self.alphabetical

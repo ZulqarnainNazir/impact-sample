@@ -1,6 +1,6 @@
 blog_feed_group = @page.groups.where(type: 'BlogFeedGroup').first
 blog_feed_block = blog_feed_group.blocks.where(type: 'BlogFeedBlock').first if blog_feed_group
-blog_feed_posts = posts(blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), limit: blog_feed_block.items_limit) if blog_feed_block
+blog_feed_posts = posts(blog_feed_block, blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), limit: blog_feed_block.items_limit) if blog_feed_block
 
 if blog_feed_group && blog_feed_block
   xml.instruct! :xml, version: '1.0', encoding: 'UTF-8'

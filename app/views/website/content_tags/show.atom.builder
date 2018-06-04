@@ -1,4 +1,4 @@
-posts = posts(@business, content_tag_ids: [@content_tag.id])
+posts = posts(nil, @business, content_tag_ids: [@content_tag.id])
 
 atom_feed do |atom|
   atom.title "Tag – #{@content_tag.name}"
