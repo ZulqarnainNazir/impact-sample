@@ -1,5 +1,5 @@
 class Businesses::Crm::CompanyListsController < Businesses::BaseController
-  before_action only: [:new, :edit] do
+  before_action only: [:new, :create, :edit, :update] do
     if !@business.module_active?(2)
       messages = AccountModule.create_module(@business.id, {kind: 2, active: true})
       @business.reload
