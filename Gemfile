@@ -56,6 +56,7 @@ gem 'rack-attack'
 gem 'rack-timeout'
 gem 'rails'
 gem 'react-rails'
+gem "recaptcha", require: "recaptcha/rails"
 gem 'recurring_select'
 gem 'sanitize'
 gem 'sass-rails'

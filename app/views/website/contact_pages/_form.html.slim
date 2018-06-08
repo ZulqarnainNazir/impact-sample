@@ -15,5 +15,7 @@
   .form-group
     = form.label :message, class: 'control-label sr-only'
     = form.text_area :message, placeholder: 'Message', rows: 5, class: 'form-control'
+
   .form-group
-    = form.button 'Send Message', class: 'btn btn-primary'
+    = recaptcha_tags
+  = form.button 'Send Message', class: 'btn btn-primary contact-form-submit-button m-b-md'

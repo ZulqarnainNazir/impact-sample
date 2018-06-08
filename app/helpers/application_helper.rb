@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Recaptcha::ClientHelper
   # Render a submit button and cancel link
   # def submit_or_cancel(cancel_url = session[:return_to] ? session[:return_to] : url_for(:action => 'index'), label = 'Save Changes', submit_html_options = {})
   #   submit_html_options.merge!({ :class => "btn btn-primary" })

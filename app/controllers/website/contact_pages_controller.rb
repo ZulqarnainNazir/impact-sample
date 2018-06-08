@@ -1,4 +1,6 @@
 class Website::ContactPagesController < Website::BaseController
+  include Recaptcha::Verify
+
   before_action do
     @page = @website.contact_page or raise ActiveRecord::RecordNotFound
     @contact_message = @business.contact_messages.new
@@ -6,7 +8,12 @@ class Website::ContactPagesController < Website::BaseController
   end
 
   def create
-    create_resource @contact_message, contact_message_params, location: :website_contact_page, template: :show
+    if verify_recaptcha(model: @contact_message)
+      create_resource @contact_message, contact_message_params, location: :website_contact_page, template: :show
+    else
+      flash[:alert] = "You do not appear to be human, or you forgot to answer the recaptcha prompt"
+      redirect_to :back
+    end
   end
 
   private

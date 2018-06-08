@@ -22,5 +22,5 @@
               = text_area_tag field.form_field.name, params[field.form_field.name.to_sym], :class => 'form-control', :cols => 50, :rows => 5, :required => field.required
             - else
               = text_field_tag field.form_field.name, params[field.form_field.name.to_sym], :class => 'form-control', :required => field.required
+      = recaptcha_tags
       = submit_tag "Submit"
-
