@@ -19,6 +19,7 @@
             i.fa.fa-check-square-o.text-info style="font-size: 1.1em;"
             span.text-muted  Save time with easy-to-use local marketing tools
       = form_for resource, as: resource_name, url: registration_path(resource_name) do |form|
+        = form.hidden_field :confirm, :id => 'confirm', :name => 'confirm', :value => @quick_invite.blank?
         = form.text_field :honey, style: 'margin-left: -10000px; float: left;'
         .group
           => form.label :first_name, class: 'control-label'

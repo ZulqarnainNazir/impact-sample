@@ -20,7 +20,7 @@ class Users::SessionsController < Devise::SessionsController
         super
       end
     else
-      locable_user = LocableUser.find_by_email(user_params[:email])
+      locable_user = LocableUser.find_by_email(user_params[:email]) rescue nil
 
       if locable_user && locable_user.authenticate(user_params[:password])
         user = User.where(email: user_params[:email]).first_or_initialize

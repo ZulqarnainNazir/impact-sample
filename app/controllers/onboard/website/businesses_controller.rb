@@ -34,7 +34,7 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
       footer_block_attributes: {},
     }
     create_resource @business, initial_business_params, location: [:edit_onboard_website, @business]
-    
+
     if @business.persisted?
       #this code block creates the default subscription for businesses, i.e.,
       #the "Engage", or Free plan.
@@ -53,8 +53,8 @@ class Onboard::Website::BusinessesController < Onboard::Website::BaseController
   end
 
   def import_cce
-    locable_business = LocableBusiness.find_by_slug(params[:cce_business_url].to_s.split('/').last)
-    locable_user = LocableUser.find_by_email(current_user.email)
+    locable_business = LocableBusiness.find_by_slug(params[:cce_business_url].to_s.split('/').last) rescue nil
+    locable_user = LocableUser.find_by_email(current_user.email) rescue nil
 
     if locable_business
       existing_user_cce_business = current_user.businesses.where(cce_id: locable_business.id).first

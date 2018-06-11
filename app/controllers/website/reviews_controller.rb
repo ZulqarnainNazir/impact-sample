@@ -22,7 +22,7 @@ class Website::ReviewsController < Website::BaseController
 
   def index
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
-    @locable_business = LocableBusiness.find_by_id(@business.cce_id) if @business.cce_id?
+    @locable_business = LocableBusiness.find_by_id(@business.cce_id) if @business.cce_id? rescue nil
   end
 
   def create
