@@ -249,4 +249,71 @@ namespace :scheduled do
       end
     end
   end
+
+  def trigger_summary_new_follower_emails(name, default_time_window, min_time_window)
+    admin_ids = User.where(super_user: true).pluck(:id)
+    job = SummaryJob.find_by_name("#{name}_followers")
+
+    last_run_at = job.last_run_at
+    if (last_run_at.blank?)
+      puts 'Run over default period'
+      cutoff = (Time.now - default_time_window)
+    elsif (last_run_at > Time.now - min_time_window)
+      puts 'Not running, too soon'
+      puts "#{last_run_at} greater than #{Time.now - min_time_window}"
+      return
+    else
+      puts 'Running over time since last run'
+      puts last_run_at
+      cutoff = last_run_at
+    end
+
+    job.last_run_at = Time.now
+    job.save!
+
+    new_listings = CompanyListCompany.where("created_at > ?", cutoff)
+
+    businesses_to_notify = new_listings.map { |l| l.company.business }.uniq
+
+    puts "Notifying #{businesses_to_notify.size} businesses"
+
+    businesses_to_notify.each do |business|
+      puts "...Business #{business.id}"
+      users = business.authorizations.reject { |auth|
+        auth.follower_notifications != name ||
+        false # admin_ids.include?(auth.user.id)
+      }.map { |auth| auth.user }
+
+      puts "...Notifying #{users.size} users"
+      return unless users.size > 0
+
+      follower_businesses = business.listed_by_business.where(
+        'company_list_companies.created_at > ?', cutoff
+      ).map { |l| l.company_list.business }
+
+      users.each do |user|
+        puts "......User #{user.id} has #{follower_businesses.size} new followers"
+        FollowerNotificationMailer.summary_email(
+          user: user,
+          business: business,
+          follower_businesses: follower_businesses
+        ).deliver_now
+      end
+    end
+  end
+
+  desc 'Trigger hourly new follower emails'
+  task trigger_hourly_new_follower_emails: :environment do
+    trigger_summary_new_follower_emails('hourly', 60 * 60, 60 * 55)
+  end
+
+  desc 'Trigger daily new follower emails'
+  task trigger_daily_new_follower_emails: :environment do
+    trigger_summary_new_follower_emails('daily', 3600 * 24, 3600 * 23)
+  end
+
+  desc 'Trigger weekly new follower emails'
+  task trigger_weekly_new_follower_emails: :environment do
+    trigger_summary_new_follower_emails('weekly', 86400 * 7, 86400 * 6.5)
+  end
 end

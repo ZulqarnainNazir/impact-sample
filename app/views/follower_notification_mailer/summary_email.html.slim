@@ -1,0 +1,29 @@
+= render partial: "follower_header"
+- locable_icon = render partial: "locable_icon"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:0 0 6px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          = "#{@who} #{@follower_businesses.length === 1 ? 'is' : 'are'} following you!"
+          div style="font-size: 20px; color: #5D5D5D;"
+            = "The following #{@follower_businesses.length === 1 ? 'company has' : 'companies have'} added #{@business.name} to their Local Network."
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          - @follower_businesses[0..5].each do |follower|
+            div style="width: 30%; height: 250px; position: relative; top: 0; left: 0; display: inline-block; min-width: 150px; vertical-align: bottom;"
+              span
+                = sanitize(follower.name)
+              - if follower.logo&.attachment_cache_url
+                image src="https://#{follower.logo.attachment_cache_url}" style="width: 100%;"
+              - else
+                image src="#{locable_icon}" style="width: 50%; margin-top: 25px"
+                - @follower_businesses[0..5].each do |follower|
+      - if @follower_businesses.length > 6
+        tr
+          td align="center" style="padding:0 0 6px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#5D5D5D;font-size:26px;"
+            = "...and #{@follower_businesses.length - 6} more!"
+      tr
+        td align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;padding-bottom:40px"
+          = link_to 'View Your Followers', [@business, :crm, 'company_lists', 'following'], style: 'color:#0C75B8;', target: '_blank'

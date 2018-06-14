@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110183642) do
+ActiveRecord::Schema.define(version: 20180610202619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,15 +53,16 @@ ActiveRecord::Schema.define(version: 20180110183642) do
   add_index "ahoy_messages", ["user_id", "user_type"], name: "index_ahoy_messages_on_user_id_and_user_type", using: :btree
 
   create_table "authorizations", force: :cascade do |t|
-    t.integer  "business_id",                                  null: false
-    t.integer  "user_id",                                      null: false
-    t.integer  "role",                                         null: false
+    t.integer  "business_id",                                     null: false
+    t.integer  "user_id",                                         null: false
+    t.integer  "role",                                            null: false
     t.json     "settings"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.boolean  "contact_message_notifications", default: true, null: false
-    t.boolean  "review_notifications",          default: true, null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.boolean  "contact_message_notifications", default: true,    null: false
+    t.boolean  "review_notifications",          default: true,    null: false
     t.string   "invite_message"
+    t.string   "follower_notifications",        default: "daily", null: false
   end
 
   add_index "authorizations", ["business_id"], name: "index_authorizations_on_business_id", using: :btree
@@ -1244,6 +1245,14 @@ ActiveRecord::Schema.define(version: 20180110183642) do
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree
+
+  create_table "summary_jobs", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "last_run_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "business_id",                null: false

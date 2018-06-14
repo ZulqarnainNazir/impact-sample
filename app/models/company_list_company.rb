@@ -4,6 +4,7 @@ class CompanyListCompany < ActiveRecord::Base
   belongs_to :company_list
   belongs_to :company_list_categories
   belongs_to :company
+
   def set_company_list
     if self.company_list_category_id
       self.company_list_id = CompanyListCategory.find(self.company_list_category_id).company_list_id

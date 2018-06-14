@@ -10,6 +10,10 @@
     .col-lg-12
       .ibox.float-e-margins
         .ibox-content
+          .pull-right
+            = link_to [:edit, @business, :crm_follower_notifications], class: 'btn btn-sm btn-default' do
+              => icon 'check-square-o'
+              | Set Notifications
           - if @listings.empty?
             .row
               .col-lg-4.col-lg-offset-4

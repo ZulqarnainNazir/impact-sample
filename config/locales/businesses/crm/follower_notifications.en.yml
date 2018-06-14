@@ -1,0 +1,6 @@
+en:
+  businesses:
+    crm:
+      follower_notifications:
+        update:
+          notice: The Authorized users’ notification settings were updated successfully.

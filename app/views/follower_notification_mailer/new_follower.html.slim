@@ -1,0 +1,14 @@
+= render partial: "follower_header"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:0 0 6px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          | A new business is following you!
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          = "#{sanitize(@follower_business.name)} has added #{@business.name} to their Local Network"
+      tr
+        td align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;padding-bottom:40px"
+          = link_to 'View Your Followers', [@business, :crm, 'company_lists', 'following'], style: 'color:#0C75B8;', target: '_blank'

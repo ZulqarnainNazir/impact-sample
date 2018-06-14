@@ -1,0 +1,34 @@
+- title 'Follower Notifications'
+
+= render :partial => 'dashbreadcrumb',
+  :locals => { :fn => 'Local Connections', :fp => :crm_root,
+    :sn => 'Local Networks', :sp => :crm_company_lists,
+    :an => 'Notifications'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              - if @business.authorizations.empty?
+                p: em No managers found. #{link_to 'Add a manager', [:new, @business, :authorization]} to enable follower notifications.
+              - else
+                = form_tag [@business, :crm_follower_notifications], method: :patch do
+                  table.table.table-bordered.table-striped
+                    thead
+                      tr
+                        th Name
+                        th Receive Notifications?
+                    tbody
+                      - @business.authorizations.includes(:user).each do |authorization|
+                        tr
+                          td = authorization.user.name
+                          td
+                            = label_tag do
+                              | Frequency
+                              =< select_tag("authorizations[#{authorization.id}][follower_notifications]",
+                                options_for_select([['Never', 'never'], ['Hourly', 'hourly'], ['Daily', 'daily'], ['Weekly', 'weekly']],
+                                authorization.follower_notifications))
+                  = button_tag 'Save', class: 'btn btn-primary'

@@ -6,7 +6,7 @@
       div.ibox-content.product-box
         - cache post do
           div.product-imitation.p-a-0
-            = link_to [:website, post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
+            = link_to [:website, post, only_path: false, host: website_host(business.website)] do
               - if post.main_image 
                 = image_tag post.main_image.attachment_url(:small)
               - else
@@ -22,14 +22,14 @@
                 - else
                   = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to [:website, post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
+            = link_to [:website, post, only_path: false, host: website_host(business.website)], class: 'grid-feed-title'
               = truncate sanitize(post.title.titleize), length: 60, omission: '... '
             - if post.meta_description.present?
               small.m-t-xs = truncate sanitize(post.meta_description), length: 90, omission: '... '             
             - else
               small.m-t-xs = truncate sanitize(post.sections_content), length: 90, omission: '... '
             div.mt-text.rt
-              = link_to [:website, post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
+              = link_to [:website, post, only_path: false, host: website_host(business.website)], class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
   / .col-xs-4.slider-content.single-blog
