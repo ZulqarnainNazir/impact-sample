@@ -7,7 +7,7 @@
     .ibox-blog  
       div.ibox-content.product-box    
         - cache gallery do  
-          div.product-imitation = link_to [:website, gallery, only_path: false, host: website_host(business.website)] do
+          div.product-imitation = link_to [:website, gallery, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
             - if gallery_count > 0 && gallery_count <= 2
               - gallery.gallery_images.limit(2).each_with_index do |gallery_image, index|
                   - image = gallery_image.gallery_image
@@ -30,7 +30,7 @@
             -elsif gallery_count == 0
               = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
-            = link_to [:website, gallery, only_path: false, host: website_host(business.website)]
+            = link_to [:website, gallery, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
               div.grid-feed-title  = truncate sanitize(gallery.title), length: 75, omission: '... '
               / p.slider-text.slider-text-sub
             small.m-t-xs #{pluralize(gallery.gallery_images.count, 'photo').upcase}
@@ -40,7 +40,7 @@
               - else
                 small.m-t-xs = truncate sanitize(gallery.description), length: 85, omission: '... '
             div.mt-text.rt
-              = link_to [:website, gallery, only_path: false, host: website_host(business.website)], class: 'btn-feed-block'
+              = link_to [:website, gallery, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
           
