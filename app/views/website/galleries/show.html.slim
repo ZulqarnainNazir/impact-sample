@@ -24,7 +24,7 @@
         h1
           => @gallery.title
         - if @gallery.content_categories.any? || @gallery.content_tags.any?
-          span.text-muted>Created #{time_ago_in_words @gallery.published_at} ago in
+          / span.text-muted>Created #{time_ago_in_words @gallery.published_at} ago in
           - (@gallery.content_categories + @gallery.content_tags).each_with_index do |classification, i|
             = link_to classification.name, [:website, classification]
             - if i < @gallery.content_categories.count + @gallery.content_tags.count - 1

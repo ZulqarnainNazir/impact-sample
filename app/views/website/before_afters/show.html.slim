@@ -19,7 +19,7 @@
         - else
           - cache @before_after do
             h1 = @before_after.title
-            span.text-muted> Posted #{time_ago_in_words @before_after.published_at} ago
+            / span.text-muted> Posted #{time_ago_in_words @before_after.published_at} ago
             - if @before_after.content_categories.any?
               span.text-muted> in 
               - (@before_after.content_categories + @before_after.content_tags).each_with_index do |classification, i|

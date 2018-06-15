@@ -20,7 +20,7 @@
           .feed-item-meta
           - cache @post do
             h1 = @post.title
-            span.text-muted> Posted #{time_ago_in_words @post.published_at} ago
+            / span.text-muted> Posted #{time_ago_in_words @post.published_at} ago
             - if @post.content_categories.any? || @post.content_tags.any?
               span.text-muted> in
               - (@post.content_categories + @post.content_tags).each_with_index do |classification, i|

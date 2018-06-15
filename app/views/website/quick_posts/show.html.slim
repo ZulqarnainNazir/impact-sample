@@ -20,7 +20,7 @@
           .feed-item-meta
           - cache @quick_post do
             h1 = @quick_post.title
-            span.text-muted> Posted #{time_ago_in_words @quick_post.published_at} ago
+            / span.text-muted> Posted #{time_ago_in_words @quick_post.published_at} ago
             - if @quick_post.content_categories.any? || @quick_post.content_tags.any?
               span.text-muted> in
               - (@quick_post.content_categories + @quick_post.content_tags).each_with_index do |classification, i|
