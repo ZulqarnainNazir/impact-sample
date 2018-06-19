@@ -199,7 +199,7 @@ BlockContainer = React.createClass
       when 'AboutBlock'
         return {
           # editText: this.editText #.bind(null),
-          # editBackground: this.editMedia.bind(null, 'background'),
+          editBackground: this.editMedia.bind(null, 'background'),
           editImage: this.editMedia.bind(null, 'image'),
           editCustom: this.editDefaultSettings.bind(null, false),
           prevTheme: this.prevTheme.bind(null, ['banner', 'left']),

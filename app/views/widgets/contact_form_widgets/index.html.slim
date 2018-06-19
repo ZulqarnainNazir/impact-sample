@@ -3,3 +3,7 @@
 - else
   - layout_path = 'website/contact_blocks/' << @contact_form.layout
   = render partial: layout_path, locals: { business: @business, contact_form: @contact_form, location: @business.location }
+div.text-center
+  p 
+    span Powered by 
+    = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-contact", target: "_blank"
