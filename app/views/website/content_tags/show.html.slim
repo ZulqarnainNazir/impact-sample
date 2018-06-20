@@ -1,18 +1,20 @@
 - title "Tag – #{@content_tag.name}"
 - canonical_url website_content_tag_url(@content_tag)
 
-ol.breadcrumb
-  li = link_to icon('home'), :website_root
-  li.active
-    ' Tag
-    strong “#{@content_tag.name}”
-.m-t-lg
-/ div class=(@website.content_blog_sidebar? ? 'search-container' : 'col-sm-12 m-t-lg')
-div.search-container.mt-lg
-  .grid
-    = render posts(nil, @business, content_tag_ids: [@content_tag.id], page: params[:page], limit: 12)
-/ - if @website.content_blog_sidebar?
-/   .search-sidebar
-/     .show-sidebar-grid
-/       = render posts(@business), small: true
-= paginate posts(nil, @business, content_category_ids: [@content_tag.id], page: params[:page], limit: 12)
+.container.blog-content
+  .row.p-md
+    ol.breadcrumb
+      li = link_to icon('home'), :website_root
+      li.active
+        ' Tag
+        strong “#{@content_tag.name}”
+    .m-t-lg
+    / div class=(@website.content_blog_sidebar? ? 'search-container' : 'col-sm-12 m-t-lg')
+    div.search-container.mt-lg
+      .grid
+        = render posts(nil, @business, content_tag_ids: [@content_tag.id], page: params[:page], limit: 12)
+    / - if @website.content_blog_sidebar?
+    /   .search-sidebar
+    /     .show-sidebar-grid
+    /       = render posts(@business), small: true
+    = paginate posts(nil, @business, content_category_ids: [@content_tag.id], page: params[:page], limit: 12)
