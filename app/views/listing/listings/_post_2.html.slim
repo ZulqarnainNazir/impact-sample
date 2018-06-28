@@ -18,15 +18,16 @@
           p This post has not been published by the business owner yet. Check back later!
         - else
           .feed-item-meta
-          - cache post do
-            h2 = post.title
-            span.text-muted> Posted #{time_ago_in_words post.published_at} ago
-            - if post.content_categories.any? || post.content_tags.any?
-              span.text-muted> in
-              - (post.content_categories + post.content_tags).each_with_index do |classification, i|
-                = link_to classification.name, [:website, classification]
-                - if i < post.content_categories.count + post.content_tags.count - 1
-                  ' ,
-            hr
-            = render partial: 'website/post_sections/post_section', collection: post.arranged_sections, locals: { level: 2 }
-            = javascript_include_tag "masonry_blog"
+          .col-sm-7
+            - cache post do
+              h2 = post.title
+              span.text-muted> Posted #{time_ago_in_words post.published_at} ago
+              - if post.content_categories.any? || post.content_tags.any?
+                span.text-muted> in
+                - (post.content_categories + post.content_tags).each_with_index do |classification, i|
+                  = link_to classification.name, [:website, classification]
+                  - if i < post.content_categories.count + post.content_tags.count - 1
+                    ' ,
+              hr
+              = render partial: 'website/post_sections/post_section', collection: post.arranged_sections, locals: { level: 2 }
+              = javascript_include_tag "masonry_blog"

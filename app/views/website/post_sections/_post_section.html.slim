@@ -10,14 +10,22 @@
     h5 = post_section.heading
   - else
     h6 = post_section.heading
-  - if post_section.image_right? || post_section.image_left?
+  - if post_section.image_right?
     .row
-      .col-sm-7 class=('pull-right' if post_section.image_left?) = sanitize_html post_section.content
+      .col-sm-5.col-sm-push-7
+        - if post_section.post_section_image_placement.try(:embeds?)
+          = post_section.post_section_image_placement.embed.html_safe
+        - elsif post_section.post_section_image
+          = image_tag post_section.post_section_image.attachment_medium_url, alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive'
+      .col-sm-7.col-sm-pull-5 = sanitize_html post_section.content
+  - elsif post_section.image_left?
+    .row
       .col-sm-5
         - if post_section.post_section_image_placement.try(:embeds?)
           = post_section.post_section_image_placement.embed.html_safe
         - elsif post_section.post_section_image
           = image_tag post_section.post_section_image.attachment_medium_url, alt: post_section.post_section_image.alt, title: post_section.post_section_image.title, class: 'img-responsive'
+      .col-sm-7 = sanitize_html post_section.content
   - elsif post_section.full_text?
     = sanitize_html post_section.content
   - elsif post_section.full_image?

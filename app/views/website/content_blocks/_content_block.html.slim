@@ -15,13 +15,13 @@
             = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :jumbo_fixed : :jumbo), class: 'center-block img-responsive'
         - elsif content_block.theme == 'left'
           .row
-            .col-sm-8
-              p = sanitize_html content_block.text
-            .col-sm-4
+            .col-sm-4.col-sm-push-8
               - if content_block.block_image_placement.try(:embeds?)
                 = content_block.block_image_placement.embed.html_safe
               - elsif content_block.block_image
                 = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :small_fixed : :small), class: 'center-block img-responsive'
+            .col-sm-8.col-sm-pull-4
+              p = sanitize_html content_block.text
         - elsif content_block.theme == 'right'
           .row
             .col-sm-4
@@ -33,13 +33,13 @@
               p = sanitize_html content_block.text
         - elsif content_block.theme == 'left_half'
           .row
-            .col-sm-6
-              p = sanitize_html content_block.text
-            .col-sm-6
+            .col-sm-6.col-sm-push-6
               - if content_block.block_image_placement.try(:embeds?)
                 = content_block.block_image_placement.embed.html_safe
               - elsif content_block.block_image
                 = image_tag content_block.block_image.attachment_url(content_block.block_image_placement.full_width ? :medium_fixed : :medium), class: 'center-block img-responsive'
+            .col-sm-6.col-sm-pull-6
+              p = sanitize_html content_block.text
         - elsif content_block.theme == 'right_half'
           .row
             .col-sm-6
