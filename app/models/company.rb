@@ -123,7 +123,7 @@ class Company < ActiveRecord::Base
     #current_business mirrors Devise's use of the nomenclature and should be what's passed as the argument if available.
     # if not, @business, or whatever variable is holding the record for the current account/business being used
     #current_business == business/account logged-into.
-    if self.business.in_impact? 
+    if self.business.in_impact?
       #in_impact == business has been claimed, and cannot be edited by a business that created the current_business
       return true
     elsif self.business_record_creator && self.user_business_id == current_business.id
@@ -138,11 +138,13 @@ class Company < ActiveRecord::Base
 
   def self.select_collection(user_business_id, contact_id = nil)
     if contact_id.nil?
-      select("companies.id, businesses.name").joins(:business).where(:user_business_id => user_business_id)
+      select("companies.id, businesses.name").joins(:business).where(:user_business_id => user_business_id).order("businesses.name")
     else
-      select("companies.id, businesses.name").joins(:business).joins(:contact_companies).where(:user_business_id => user_business_id, :"contact_companies.contact_id" => contact_id)
+      select("companies.id, businesses.name").joins(:business).joins(:contact_companies).where(:user_business_id => user_business_id, :"contact_companies.contact_id" => contact_id).order("businesses.name")
     end
   end
+
+
   def self.create_with_associations(params, user_business)
     if params[:website_url].nil?
       business = Business.new(:name => params[:name], :in_impact => false)

@@ -209,7 +209,7 @@
             .col-xs-12
               = form_for @company, url: [@business, :crm, @company] do |form|
                 .form-group
-                  = form.select :contact_ids, options_from_collection_for_select(Contact.where(:business_id => @business.id), :id, :name, @company.contact_ids), { include_blank: true }, { multiple: true, class: 'form-control' }
+                  = form.select :contact_ids, options_from_collection_for_select(Contact.where(:business_id => @business.id).order(:first_name), :id, :name, @company.contact_ids), { include_blank: true }, { multiple: true, class: 'form-control' }
                 = form.submit 'Update Associations', class: 'btn btn-primary btn-block'
             / .ibox-content style="padding: 20px"
             /   = form_for @company, url: [@business, :crm, @company] do |form|
