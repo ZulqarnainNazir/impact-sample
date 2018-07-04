@@ -2,7 +2,7 @@
   .contact-box.center-version id="business-#{business.id}"
     = link_to '#', class: 'business-card', data: { 'business-id' => business.id, toggle: 'modal', url: "#{impact_url}#{widgets_directory_widget_path(uuid: directory.uuid, business_id: business.id)}", target: "#business-modal-#{business.id}", 'slug' => business.slug } do
       - if business.logo
-        = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto;'
+        = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; max-width: 100%; height: auto;'
       h3.m-b-xs: strong=business.name
         / a href="tel:#{business.business.location.phone_number}"
       - if !business.location.street1.blank?
