@@ -36,7 +36,7 @@
                   span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
                   span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
                 div = truncate(review.description, length: 90)
-              .pull-right
+              /.pull-right
                 - if review.published?
                   strong.text-success> Published
                   = link_to 'Hide', [business, :crm, review, :review_publication, dashboard: true], method: :delete, class: 'btn btn-xs btn-default' 
@@ -44,4 +44,4 @@
                   strong.text-muted> Hidden
                   = link_to 'Publish', [business, :crm, review, :review_publication, dashboard: true], method: :post, class: 'btn btn-xs btn-primary' 
           
-      = link_to 'View All', [business, :crm_reviews], class: 'btn btn-primary btn-block m-t'
+      = link_to 'Manage Reviews', [business, :crm_reviews], class: 'btn btn-primary btn-block m-t'
