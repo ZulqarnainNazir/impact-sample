@@ -13,14 +13,15 @@
           .pull-right
             = link_to [:edit, @business, :crm_follower_notifications], class: 'btn btn-sm btn-default' do
               => icon 'check-square-o'
-              | Set Notifications
+              | Set Email Notifications
           - if @listings.empty?
             .row
               .col-lg-4.col-lg-offset-4
                 .p-a-3.text-center
                   = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 220px', class: 'img-responsive center-block')
-                  h2 No Companies or Causes Found
-                  p.text-left.m-t-md.strong No companies or causes have added you to their Local Network.
+                  h2 No companies are following you.
+                  p.text-left.m-t-md.strong Grow your Local Networks and invite your Local Connections to Follow you back
+                  = link_to "Manage Local Networks", [@business, :crm_company_lists]
           - else
             table.footable.table.table-stripped.datatable
               thead

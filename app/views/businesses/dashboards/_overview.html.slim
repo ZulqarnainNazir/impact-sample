@@ -1,19 +1,29 @@
 .ibox.float-e-margins
   .ibox-title
-    h5 Local Connections
+    h5 
+      i.fa.fa-users
+      |  Local Connections
+    .ibox-tools style="margin-top: -3px;"
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             i.fa.fa-cloud-upload
+             |  Import Connections
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to "Import Companies", [business, :crm_imports, import_type: :companies]
+        li
+          = link_to "Import People", [business, :crm_imports]
 
   .ibox-content
     .row
       .col-xs-6
         - if business.contacts.empty?
           .p-a-1.text-center
-            h2 No People Contacts
+            h3 No People Contacts
             p
               = link_to "Create People Contact", [:new, business, :crm_contact], class: 'text-navy'
-              br
-              | -- or --
-              br
-              = link_to "Import People Contacts", [business, :crm_imports], class: 'text-navy'
         - else
           .p-a-1.text-center
             = link_to [business, :crm_contacts] do
@@ -23,20 +33,13 @@
             / h1.no-margins 12
             / small New Contacts
             .row.m-t-sm
-              = link_to [business, :crm_imports], class: 'btn btn-sm btn-primary btn-outline' do
-                i.fa.fa-plus-circle
-                |  Import People Contacts
               = link_to "Add a Contact", [:new, business, :crm_contact], class: 'clear text-muted'
       .col-xs-6
         - if business.owned_companies.empty?
           .p-a-1.text-center
-            h2 No Companies or Causes
+            h3 No Companies or Causes
             p
               = link_to "Add a Company or Cause", [:new, business, :crm_company], class: 'text-navy'
-              br
-              | -- or --
-              br
-              = link_to "Import Companies or Causes", [business, :crm_imports, import_type: :companies], class: 'text-navy'
         - else
           .p-a-1.text-center
             = link_to [business, :crm_companies] do
@@ -46,7 +49,4 @@
             / h1.no-margins 12
             / small New Contacts
             .row.m-t-sm
-              = link_to [business, :crm_imports, import_type: :companies], class: 'btn btn-sm btn-primary btn-outline' do
-                i.fa.fa-plus-circle
-                |  Import Companies or Causes 
               = link_to "Add a Company", [:new, business, :crm_company], class: 'clear text-muted'

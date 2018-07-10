@@ -6,20 +6,30 @@
     /   |  Configure
   - if business.company_lists.empty?
     .ibox-content
-      .p-a-3.text-center
+      .p-a-2.text-center
+        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 110px', class: 'img-responsive center-block')
         h2 No Local Networks
         h4
-          = link_to "Click to Create a Network and Add Companies & Causes", [:new, business, :crm_company_list], class: "text-navy"
+          = link_to "Start Following Companies & Causes", [:new, business, :crm_company_list], class: "text-navy"
   - else
     .ibox-content
       h3
         i.fa.fa-list
         |  Local Networks
+      = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 110px', class: 'img-responsive center-block')
       small
         - companies = []
         - business.company_lists.each {|list| companies = companies.concat(list.companies)}
         = "Following #{companies.uniq.size} Companies & Causes in #{business.company_lists.size} Networks."
-        = link_to " Manage Networks", [business, :crm_company_lists]
+      = link_to " Manage Networks", [business, :crm_company_lists]
+      hr
+      i.fa.fa-calendar-plus-o
+      strong
+        = link_to " Community Calendar(s)", [@business, :tools_calendar_widgets]
+      hr
+      i.fa.fa-address-book-o
+      strong
+        = link_to " Local Directory(ies)", [@business, :tools_directory_widgets]
     /.ibox-content
      / .feed-activity-list
         / =======

@@ -25,6 +25,8 @@
             /  .grid-item
             /    = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
             .grid-item
+              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
+            .grid-item
               = render partial: 'businesses/dashboards/overview', locals: { business: @business }
             .grid-item
               .ibox.float-e-margins
@@ -67,8 +69,7 @@
                         div
                           = @business.contact_forms.count
                           |  Form Embeds
-            .grid-item
-              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
+
       .row
         .col-lg-12
           .ibox.float-e-margins

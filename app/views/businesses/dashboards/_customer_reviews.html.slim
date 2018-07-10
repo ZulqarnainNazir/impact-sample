@@ -1,15 +1,15 @@
 .ibox.float-e-margins
   - if business.reviews.empty?
     .ibox-content
-      .p-a-3.text-center
-        h2.m-b-xs No Customer Reviews
+      .p-a-2.text-center
+        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Customer%20reviews.png', style: 'max-height: 90px', class: 'img-responsive center-block')
         - if !@business.module_active?(3)
           = form_tag business_account_modules_path(:kind => 3, :active => true) do
             = button_tag( type: 'submit', :class => "btn btn-link") do
-              h4.text-navy.m-t-0.m-b-0 Begin Requesting & Collecting Reviews Now
+              h4.text-navy.m-t-0.m-b-0 Start Collecting Customer Reviews
         - else
           h4
-            = link_to "Begin Requesting & Collecting Reviews Now", [:new, @business, :crm_feedback], class: "text-navy"
+            = link_to "Start Collecting Reviews Now", [:new, @business, :crm_feedback], class: "text-navy"
   - else
     .ibox-title
       h5 Recent Customer Reviews
