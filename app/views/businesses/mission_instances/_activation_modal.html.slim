@@ -37,7 +37,8 @@ javascript:
     var form = $("#mission-activation-modal-#{@mission.id}");
 
     $(form).on("ajax:success", function(e, data, status, xhr) {
-      window.location.reload()
+      // redirect to created mission instance
+      window.location.replace("#{j business_mission_path(@business, mission)}");
     }).on("ajax:error", function(e, data, status, xhr) {
       $(form).render_form_errors('mission_instance', data.responseJSON)
     })

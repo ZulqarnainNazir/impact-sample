@@ -29,6 +29,8 @@ module IntercomHelper
         sent_member_invite: current_user.invites.where(invite_as_member: true).any?,
         received_invite: Invite.where(invitee: Contact.find_by(email: current_user.email)).any?,
         received_member_invite: Invite.where(invitee: Contact.find_by(email: current_user.email), invite_as_member: true).any?,
+        invited_to_account: current_user.invited_to_account,
+        added_to_account: current_user.added_to_account,
 
         created_reviews_widget: current_user.businesses.any? { |b| !b.review_widgets.empty? },
         created_directory_widget: current_user.businesses.any? { |b| !b.directory_widgets.empty? },

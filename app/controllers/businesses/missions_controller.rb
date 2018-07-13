@@ -1,5 +1,4 @@
 class Businesses::MissionsController < Businesses::BaseController
-  before_action -> { confirm_module_activated(0) }
   def index
     @missions = Mission.reminders_for_business(@business)
                        .includes(:categories)

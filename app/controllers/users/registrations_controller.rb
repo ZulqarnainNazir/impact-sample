@@ -18,10 +18,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @categories = Category.alphabetical
     if params[:contact_id]
       @invited_user = Contact.find(params[:contact_id])
+      @@invited_user = @invited_user
+    else
+      @@invited_user = nil
     end
     if params[:company_id]
       @invited_company = Company.find(params[:company_id]) #.try(:business)
       # raise StandardError, @invited_business.to_json
+    end
+    if !@invited_user.nil?
+      @pre_populate_email = @invited_user.email         # use email from invited_user
+    elsif @invited_user.nil? && params[:email].present?
+      @pre_populate_email = params[:email].strip        # use email from query if there is one
     end
     @quick_invite = params[:quick_invite]
     @build_plan_id = SubscriptionPlan.find_by(name: "Build").id
@@ -47,7 +55,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up
         sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
+        if(defined? @@invited_user != nil)
+          respond_with resource, location: after_sign_in_path_for(resource, @@invited_user.id)
+        else
+          respond_with resource, location: after_sign_up_path_for(resource)
+        end
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}"
         expire_data_after_sign_in!

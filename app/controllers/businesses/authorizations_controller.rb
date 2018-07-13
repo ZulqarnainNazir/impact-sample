@@ -24,6 +24,8 @@ class Businesses::AuthorizationsController < Businesses::BaseController
   end
 
   def create
+    current_user.added_to_account = true
+    current_user.save
     create_resource [@business, @authorization], authorization_params, context: :invite, location: [@business, :authorizations]
   end
 

@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
         flash[:notice] = "Looks like you don't have a plan set-up for this business.
         Let's get you started!"
         redirect_to(plan_business_subscriptions_path)
-      end   
+      end
     end
   end
 
@@ -68,11 +68,11 @@ class ApplicationController < ActionController::Base
   end
 
   # Customize redirect location for newly signed-up and signed-in users.
-  def after_sign_in_path_for(user)
+  def after_sign_in_path_for(user, contact_num = nil)
     if user.authorized_businesses.any?
       :businesses
     else
-      new_onboard_user_url(anchor: "/wizard/lookup") #:new_onboard_website_business
+      new_onboard_user_url(anchor: "/wizard/lookup", :contact_id => contact_num) #:new_onboard_website_business
     end
   end
 

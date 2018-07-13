@@ -33,7 +33,7 @@
           span.highlight
         .group
           => form.label :email, class: 'control-label'
-          = form.email_field :email, class: 'form-control', value: @invited_user.try(:email)
+          = form.email_field :email, class: 'form-control', value: @pre_populate_email
           span.bar
           span.highlight
         .group

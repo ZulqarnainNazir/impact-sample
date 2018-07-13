@@ -6,7 +6,7 @@ class Lookup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
+      search: store.get("first_search"),
       matches: [],
       loading: false,
       manualSubmit: false
@@ -20,6 +20,26 @@ class Lookup extends React.Component {
 
   componentDidMount() {
    this.searchInput.focus();
+   if(this.state.search != ""){
+     this.initial_search();
+   }
+  }
+
+  initial_search() {
+    console.log("about to perform search");
+    const search = this.state.search;
+    $.ajax({
+      url: `/onboard/users/new/?query=${search}`,
+      dataType: 'json',
+      success: (matches) => {
+        this.setState({
+          matches,
+          loading: false,
+          progress: search.length > 0 ? '50%' : '0%',
+          manualSubmit: true,
+        });
+      }
+    });
   }
 
   update(field) {

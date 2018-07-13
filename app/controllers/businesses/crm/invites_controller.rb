@@ -56,6 +56,12 @@ class Businesses::Crm::InvitesController < Businesses::BaseController
       @invite.type_of = 'basic'
     end
 
+    if(@invite.type_of == 'membership_1' || @invite.type_of == 'membership_2')
+      @invite.invite_as_member = true
+    else
+      @invite.invite_as_member = false
+    end
+
     if params[:invite][:invitee_id].blank? || @contact_present == false
       #invitee.update!(invitee_params)
       @invitee = Contact.new(invitee_params)

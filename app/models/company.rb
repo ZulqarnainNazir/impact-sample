@@ -218,4 +218,14 @@ class Company < ActiveRecord::Base
     best_match = counts.sort_by {|k,v| v}.reverse[0][0].to_i
     find(best_match)
   end
+
+  def self.get_company_name_by_invite_id(id)
+    company = Company.joins("INNER JOIN invites ON companies.id = invites.company_id").where(["invites.invitee_id = ?", id])
+    if(company.blank?)
+      ""
+    else
+      company.first.name
+    end
+  end
+
 end

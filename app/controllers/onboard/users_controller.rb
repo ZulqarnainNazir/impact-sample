@@ -17,6 +17,12 @@ class Onboard::UsersController < ApplicationController
     @quick_invite = params[:quick_invite]
     @build_plan_id = SubscriptionPlan.find_by(name: "Build").id
 
+    if @invited_user
+      @initial_search = Company.get_company_name_by_invite_id(@invited_user.id)
+    else
+      @initial_search = ""
+    end
+
     respond_to do |format|
       format.html
       format.json { render json: @businesses.as_json(include: [:location, :categories, :owners, :company]) }

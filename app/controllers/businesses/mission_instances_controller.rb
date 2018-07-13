@@ -116,14 +116,33 @@ class Businesses::MissionInstancesController < Businesses::BaseController
 
     mission_instance.assign_attributes(mission_instance_params.merge(business: @business))
 
+    # Activate missions module and send intercom event
+    intercom_message = ""
+    appcues_message = ""
+
+    if !@business.module_present?(0)
+      @module = AccountModule.new(:kind => 0, :active => true)
+      @module.business = @business
+
+      appcues_message = "Appcues.track('module activated: marketing_missions ')"
+      intercom_message = "marketing-missions-activated"
+
+      if @module.save
+        flash[:appcues_event] = appcues_message
+        intercom_event intercom_message
+      end
+    end
+
+    # Finish saving mission instance and then redirect
     respond_to do |format|
       if mission_instance.save && mission.save
         mission = Mission.find(params[:mission_id])
         service = MissionActioner.new(mission, @business, current_user)
 
         if service.activate
-          format.html { redirect_to [@business, mission], notice: 'Mission activated' }
+          format.html { redirect_to [@business, mission_instance], notice: 'Mission activated' }
           format.json { render json: mission_instance }
+
         else
           format.html { redirect_to :back, error: 'Failed to activate mission' }
           format.json { render json: mission_instance.errors, status: :unprocessable_entity }

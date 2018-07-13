@@ -30,6 +30,11 @@ const OnboardingWizard = (props) => {
     store.set('plan', { name: 'engage' });
     hashHistory.push('wizard/businfo')
   }
+  if (props.initial_search){
+    store.set('first_search', props.initial_search);
+  } else {
+    store.set('first_search', "");
+  }
   if (props.current_user) {
     store.set('user', props.current_user);
     store.set('accountComplete', true);

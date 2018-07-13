@@ -14,6 +14,7 @@ class Authorization < ActiveRecord::Base
     existing_user = User.find_by_email(user.try(:email))
 
     if existing_user
+      existing_user.invited_to_account = true
       self.user = existing_user
       AuthorizationsMailer.welcome(self).deliver_now
     else
@@ -21,6 +22,7 @@ class Authorization < ActiveRecord::Base
         def user.password_required?
           false
         end
+        user.invited_to_account = true
       end
     end
   end
@@ -35,4 +37,5 @@ class Authorization < ActiveRecord::Base
   def self.alphabetical
     joins(:user).order('LOWER(users.last_name) ASC, LOWER(users.first_name) ASC')
   end
+
 end

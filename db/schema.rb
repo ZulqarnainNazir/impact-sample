@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180610202619) do
+ActiveRecord::Schema.define(version: 20180706203051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1367,6 +1367,8 @@ ActiveRecord::Schema.define(version: 20180610202619) do
     t.integer  "cce_id"
     t.boolean  "app_marketing_reminders",   default: true,  null: false
     t.boolean  "email_marketing_reminders", default: true,  null: false
+    t.boolean  "added_to_account",          default: false
+    t.boolean  "invited_to_account",        default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
