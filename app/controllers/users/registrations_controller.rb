@@ -55,7 +55,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up
         sign_up(resource_name, resource)
-        if(defined? @@invited_user != nil)
+        invited_user_def = defined? @@invited_user
+        if(invited_user_def != nil && @@invited_user.present?)
           respond_with resource, location: after_sign_in_path_for(resource, @@invited_user.id)
         else
           respond_with resource, location: after_sign_up_path_for(resource)
