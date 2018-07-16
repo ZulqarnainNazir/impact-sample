@@ -2,7 +2,7 @@
   - if business.reviews.empty?
     .ibox-content
       .p-a-2.text-center
-        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Customer%20reviews.png', style: 'max-height: 90px', class: 'img-responsive center-block')
+        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Customer%20reviews.png', style: 'max-height: 90px; height: 90px;', class: 'img-responsive center-block')
         - if !@business.module_active?(3)
           = form_tag business_account_modules_path(:kind => 3, :active => true) do
             = button_tag( type: 'submit', :class => "btn btn-link") do
