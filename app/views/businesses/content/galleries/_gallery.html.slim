@@ -30,26 +30,26 @@
             - if i < gallery.content_categories.count + gallery.content_tags.count - 1
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
-        - if share_authorized?(@business) && shared?(gallery, @business)
-          = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default'
-          = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default'
-          = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-        - elsif share_authorized?(@business) && !shared?(gallery, @business)
-          = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default'
-          = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default gallery-not-shared', id: gallery.id
-          = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-        - elsif !share_authorized?(@business)
-          = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default gallery-unauthorized'
-          = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default gallery-unauthorized'
+          - if share_authorized?(@business) && shared?(gallery, @business)
+            = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default'
+            = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default'
+            = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default', title: ' Edit Gallery'
+            = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', title: ' Delete Gallery', data: { confirm: 'Are you sure?' }
+          - elsif share_authorized?(@business) && !shared?(gallery, @business)
+            = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default'
+            = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default gallery-not-shared', id: gallery.id
+            = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default', title: ' Edit Post'
+            = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', title: ' Delete Gallery', data: { confirm: 'Are you sure?' }
+          - elsif !share_authorized?(@business)
+            = link_to icon('share-alt'), [:new, @business, :content, gallery, :share], class: 'btn btn-default gallery-unauthorized'
+            = link_to icon('line-chart'), [@business, :content, gallery, :sharing_insights], class: 'btn btn-default gallery-unauthorized'
 
-          = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-      h2
+            = link_to icon('pencil'), [:edit, @business, :content, gallery], class: 'btn btn-default', title: ' Edit Post'
+            = link_to icon('trash'), [@business, :content, gallery], method: :delete, class: 'btn btn-danger', title: ' Delete Gallery', data: { confirm: 'Are you sure?' }
+      h4
         - if @business.webhost_primary?
           - if gallery.published_status == false
-            h2 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => gallery.id], target: :_blank
+            h4 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => gallery.id], target: :_blank
           - else
             - if Rails.env.development? || Rails.env.test?
               = link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank 

@@ -30,62 +30,63 @@
             - if i < before_after.content_categories.count + before_after.content_tags.count - 1
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
-        - if share_authorized?(@business) && shared?(before_after, @business)
-          = link_to icon('share-alt'), [:new, @business, :content,  before_after, :share], class: 'btn btn-default'
-          = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default'
-          = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-        - elsif share_authorized?(@business) && !shared?(before_after, @business)
-          = link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default'
-          = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-not-shared', id: before_after.id
-          = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-        - elsif !share_authorized?(@business)
-          = link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default before-after-unauthorized'
-          = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-unauthorized'
+          - if share_authorized?(@business) && shared?(before_after, @business)
+            = link_to icon('share-alt'), [:new, @business, :content,  before_after, :share], class: 'btn btn-default'
+            = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default'
+            = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
+            = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+          - elsif share_authorized?(@business) && !shared?(before_after, @business)
+            = link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default'
+            = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-not-shared', id: before_after.id
+            = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
+            = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+          - elsif !share_authorized?(@business)
+            = link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default before-after-unauthorized'
+            = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-unauthorized'
 
-          = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+            = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
+            = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
 
-      - if @business.webhost_primary?
-        - if before_after.published_status == false
-          h2 = link_to before_after.title, [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), protocol: :http, :id => before_after.id], target: :_blank
+      .m-t-md
+        - if @business.webhost_primary?
+          - if before_after.published_status == false
+            h4 = link_to before_after.title, [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), protocol: :http, :id => before_after.id], target: :_blank
+          - else
+            - if !@business.is_on_engage_plan?
+              - if Rails.env.development? || Rails.env.test?
+                h4 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              - elsif Rails.env.production?
+                h4 = link_to before_after.title, "http://#{website_host(@business.website)}/#{path_to_external_content(before_after)}", only_path: false, protocol: :http, target: :_blank
+        - elsif !@business.webhost_primary? && @business.has_plan?
+          - if Rails.env.development? || Rails.env.test?
+            h4 = link_to before_after.title, listing_path_content_url(@business, before_after.slug, 'before_after'), target: :_blank
+          - elsif Rails.env.production?
+            h4 = link_to before_after.title, listing_path_content_url(@business, before_after.slug, 'before_after'), target: :_blank
         - else
-          - if !@business.is_on_engage_plan?
-            - if Rails.env.development? || Rails.env.test?
-              h2 = link_to before_after.title, [:website, before_after, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
-            - elsif Rails.env.production?
-              h2 = link_to before_after.title, "http://#{website_host(@business.website)}/#{path_to_external_content(before_after)}", only_path: false, protocol: :http, target: :_blank
-      - elsif !@business.webhost_primary? && @business.has_plan?
-        - if Rails.env.development? || Rails.env.test?
-          h2 = link_to before_after.title, listing_path_content_url(@business, before_after.slug, 'before_after'), target: :_blank
-        - elsif Rails.env.production?
-          h2 = link_to before_after.title, listing_path_content_url(@business, before_after.slug, 'before_after'), target: :_blank
-      - else
-        h2 = before_after.title
+          h4 = before_after.title
 
-      - if before_after.before_image || before_after.after_image
-        .row style="margin-top: 20px"
-          .col-sm-6
-            - if before_after.before_image
-              h3.h4 Before
-              = image_tag before_after.before_image.attachment_medium_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'thumbnail', style: 'max-width: 100%'
-          .col-sm-6
-            - if before_after.after_image
-              h3.h4 After
-              = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'thumbnail', style: 'max-width: 100%'
-      = truncate sanitize(before_after.description), length: 250
-      - if shared?(before_after, @business)
-        .container-fluid 
-          ul.list-inline
-            li Comments 
-            li = @graph.get_total_post_comment_count(before_after.facebook_id)
-            li Likes 
-            li = @graph.get_total_post_like_count(before_after.facebook_id)
-            li Clicks
-            li = @graph.get_total_post_click_count(before_after.facebook_id)
-            li Reach
-            li = @graph.get_total_post_reach_count(before_after.facebook_id)
+        - if before_after.before_image || before_after.after_image
+          .row style="margin-top: 20px"
+            .col-sm-3
+              - if before_after.before_image
+                h3.h4 Before
+                = image_tag before_after.before_image.attachment_medium_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'img-responsive pull-left', style: 'max-width: 100%'
+            .col-sm-3
+              - if before_after.after_image
+                h3.h4 After
+                = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'img-responsive pull-left', style: 'max-width: 100%'
+        = truncate sanitize(before_after.description), length: 250
+        - if shared?(before_after, @business)
+          .container-fluid 
+            ul.list-inline
+              li Comments 
+              li = @graph.get_total_post_comment_count(before_after.facebook_id)
+              li Likes 
+              li = @graph.get_total_post_like_count(before_after.facebook_id)
+              li Clicks
+              li = @graph.get_total_post_click_count(before_after.facebook_id)
+              li Reach
+              li = @graph.get_total_post_reach_count(before_after.facebook_id)
 
 
 

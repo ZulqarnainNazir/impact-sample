@@ -14,7 +14,7 @@
             - else
               | #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")} ago
       .col-xs-7.content
-        .feed-item.feed-event
+        .feed-event
           .feed-item-meta
             strong> Event
             - if event_definition.published_status == false
@@ -38,21 +38,21 @@
                 - if share_authorized?(@business) && shared?(event_definition, @business)
                   = link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default'
                   = link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default'
-                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default'
-                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default'
-                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
+                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
+                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
                 - elsif share_authorized?(@business) && !shared?(event_definition, @business)
                   = link_to icon('share-alt'), [:new, @business, :content, event_definition, :share], class: 'btn btn-default'
                   = link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-not-shared', id: event_definition.id
-                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default'
-                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default'
-                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
+                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
+                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
                 - elsif !share_authorized?(@business)
                   = link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default event-definition-unauthorized'
                   = link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-unauthorized'
-                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default'
-                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default'
-                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
+                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
+                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
           .event-widget
             .event
               time.event-datetime datetime=event.occurs_on
@@ -66,14 +66,14 @@
               .event-info
                 - if @business.webhost_primary?
                   - if event_definition.published_status != true
-                    h2.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => event.id], target: :_blank
+                    h4.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => event.id], target: :_blank
                   - else
-                    h2.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+                    h4.event-title = link_to event_definition.title, [:website, event, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
                   .event-desc.truncate = truncate sanitize(event_definition.description), length: 250
                 - elsif !@business.webhost_primary? && @business.has_plan?
-                  h2 = link_to event_definition.title, listing_path_content_url(@business, event.id, 'event'), target: :_blank
+                  h4 = link_to event_definition.title, listing_path_content_url(@business, event.id, 'event'), target: :_blank
                 - else
-                  h2 = event_definition.title
+                  h4 = event_definition.title
 
   javascript:
 

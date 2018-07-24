@@ -1,7 +1,7 @@
 .timeline-item
   .row
     .col-xs-3.date
-      => icon 'bolt'
+      => icon 'briefcase'
       - if job.published_at > DateTime.now && job.published_status != false
         |  Will post in
         br
@@ -30,44 +30,44 @@
             - if i < job.content_categories.count + job.content_tags.count - 1
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
-        - if share_authorized?(@business) && shared?(job, @business)
-          = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
-          = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default'
-          = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default'
-          = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-        - elsif share_authorized?(@business) && !shared?(job, @business)
-          = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
-          = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-not-shared', id: job.id
-          = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default'
-          = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-        - elsif !share_authorized?(@business)
-          = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default job-unauthorized'
-          = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-unauthorized'
-          = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default'
-          = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+          - if share_authorized?(@business) && shared?(job, @business)
+            = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
+            = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default'
+            = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default', title: ' Edit Job'
+            = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default', title: ' Create a Copy'
+            = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', title: ' Delete Job', data: { confirm: 'Are you sure?' }
+          - elsif share_authorized?(@business) && !shared?(job, @business)
+            = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
+            = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-not-shared', id: job.id
+            = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default', title: ' Edit Job'
+            = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default', title: ' Create a Copy'
+            = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', title: ' Delete Job', data: { confirm: 'Are you sure?' }
+          - elsif !share_authorized?(@business)
+            = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default job-unauthorized'
+            = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-unauthorized'
+            = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default', title: ' Edit Job'
+            = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default', title: ' Create a Copy'
+            = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', title: ' Delete Job', data: { confirm: 'Are you sure?' }
 
       - if @business.webhost_primary?
         - if job.published_status == false
-          h2 = link_to job.title, [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => website_host(@business.website), protocol: :http, :id => job.id], target: :_blank
+          h4 = link_to job.title, [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => website_host(@business.website), protocol: :http, :id => job.id], target: :_blank
         - else
           - if Rails.env.development? || Rails.env.test?
-            h2 = link_to job.title, [:website, job, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+            h4 = link_to job.title, [:website, job, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
           - elsif Rails.env.production?
-            h2 = link_to job.title, "http://#{website_host(@business.website)}/#{path_to_external_content(job)}", only_path: false, protocol: :http, target: :_blank
+            h4 = link_to job.title, "http://#{website_host(@business.website)}/#{path_to_external_content(job)}", only_path: false, protocol: :http, target: :_blank
       - elsif !@business.webhost_primary? && @business.has_plan?
-        h2 = link_to job.title, listing_path_content_url(@business, job.slug, 'job'), target: :_blank
+        h4 = link_to job.title, listing_path_content_url(@business, job.slug, 'job'), target: :_blank
       - else
-        h2 = job.title
+        h4 = job.title
       - placement = job.job_image_placement
       - if placement.try(:embeds?)
         .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
         br
-      - elsif placement.try(:image).try(:attachment_url, :large)
-        = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
-        br
+      - elsif placement.try(:image).try(:attachment_url, :thumbnail)
+        = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive pull-left', style: 'margin-right: 10px; max-height: 90px'
+
       = truncate sanitize(job.description), length: 250
       - if shared?(job, @business)
         .container-fluid 

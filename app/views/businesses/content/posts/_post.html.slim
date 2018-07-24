@@ -32,30 +32,31 @@
         span.btn-group.btn-group-sm style="margin-left:8px"
           = link_to icon('share-alt'), '#', class: 'btn btn-default'
           = link_to icon('line-chart'), '#', class: 'btn btn-default'
-          = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default'
-          = link_to icon('copy'), [:clone, @business, :content, post], class: 'btn btn-default'
-          = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-      - if @business.webhost_primary?
-        - if post.published_status == false
-          h2 = link_to post.title, [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => post.id], target: :_blank
+          = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default', title: ' Edit Post'
+          = link_to icon('copy'), [:clone, @business, :content, post], class: 'btn btn-default', title: ' Create a Copy'
+          = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }
+      .m-t-md
+        - if @business.webhost_primary?
+          - if post.published_status == false
+            h4 = link_to post.title, [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => post.id], target: :_blank
+          - else
+            - if !@business.is_on_engage_plan?
+              - if Rails.env.development? || Rails.env.test?
+                h4 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              - elsif Rails.env.production?
+                h4 = link_to post.title, "http://#{website_host(@business.website)}/#{path_to_external_content(post)}", only_path: false, protocol: :http, target: :_blank
+        - elsif !@business.webhost_primary? && @business.has_plan?
+          h4 = link_to post.title, listing_path_content_url(@business, post.slug, 'post'), target: :_blank
         - else
-          - if !@business.is_on_engage_plan?
-            - if Rails.env.development? || Rails.env.test?
-              h2 = link_to post.title, [:website, post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
-            - elsif Rails.env.production?
-              h2 = link_to post.title, "http://#{website_host(@business.website)}/#{path_to_external_content(post)}", only_path: false, protocol: :http, target: :_blank
-      - elsif !@business.webhost_primary? && @business.has_plan?
-        h2 = link_to post.title, listing_path_content_url(@business, post.slug, 'post'), target: :_blank
-      - else
-        h2 = post.title
-      .clearfix
-        - placement = post.sections_placement
-        - if placement.try(:embeds?)
-          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
-        - elsif placement.try(:image).try(:attachment_url, :thumbnail)
-          = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-          
-        - if post.meta_description && post.meta_description.length > 0
-          = truncate post.meta_description, length: 250
-        - else
-          = truncate sanitize(post.sections_content), length: 250
+          h4 = post.title
+        .clearfix
+          - placement = post.sections_placement
+          - if placement.try(:embeds?)
+            .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+          - elsif placement.try(:image).try(:attachment_url, :thumbnail)
+            = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive pull-left', style: 'margin-right: 10px; max-height: 90px'
+
+          - if post.meta_description && post.meta_description.length > 0
+            = truncate post.meta_description, length: 250
+          - else
+            = truncate sanitize(post.sections_content), length: 250
