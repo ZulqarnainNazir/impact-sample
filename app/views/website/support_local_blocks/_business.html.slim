@@ -5,7 +5,7 @@
         = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; max-width: 100%; height: auto;'
       h3.m-b-xs: strong=business.name
         / a href="tel:#{business.business.location.phone_number}"
-      - if !business.location.street1.blank?
+      - if !business.location.hide_address? && !business.location.street1.blank?
         address.m-t-sm
           p.m-b-none = business.location.street1
           p.m-b-none = business.location.street2
