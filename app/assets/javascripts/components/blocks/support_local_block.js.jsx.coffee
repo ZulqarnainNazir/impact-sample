@@ -16,7 +16,7 @@ SupportLocalBlock = React.createClass
       widgetId = settings.widget_id
     if widgetId && this.items()[widgetId]
       widgetName = this.items()[widgetId].name
-      widgetPath = this.props.companyListsPath + widgetId + "/edit"
+      widgetPath = this.props.directoryWidgetsPath + widgetId + "/edit"
 
     `<div className="webpage-block-representer">
       <p style={{fontSize: 30}}>Local Connections Feed</p>
