@@ -86,5 +86,5 @@
       - if !location.hide_address?
         div style="margin-top:20px; margin-bottom:50px"
           - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
-            q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), zoom: 18}.to_param
+            q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), zoom: 15}.to_param
           iframe width="100%" height="300" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
