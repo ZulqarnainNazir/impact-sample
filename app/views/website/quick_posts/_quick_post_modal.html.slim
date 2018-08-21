@@ -19,16 +19,16 @@
                 = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
             = link_to "#", id: "quick-post-#{quick_post.id}-2", "data-toggle" => "modal", 'data-target' => "#quick-post-modal-#{quick_post.id}", class: "quick-post-card grid-feed-title", 'data-slug'=>"#{quick_post.slug}" do
-              = truncate sanitize(quick_post.title), length: 60, omission: '... '
+              = truncate sanitize_simple(quick_post.title), length: 60, omission: '... '
             - if quick_post.meta_description.present?
-              small.m-t-xs = truncate sanitize(quick_post.meta_description), length: 90, omission: '... '             
+              small.m-t-xs = truncate sanitize_simple(quick_post.meta_description), length: 90, omission: '... '
             - else
-              small.m-t-xs = truncate sanitize(quick_post.description), length: 80, omission: '... '
+              small.m-t-xs = truncate sanitize_simple(quick_post.description), length: 80, omission: '... '
             div.mt-text.rt
               = link_to "#", id: "quick-post-#{quick_post.id}-3", "data-toggle" => "modal", 'data-target' => "#quick-post-modal-#{quick_post.id}", class: "quick-post-card btn-feed-block", 'data-slug'=>"#{quick_post.slug}" do
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
-                
+
 - else
   .feed-item.feed-quick_post
     .feed-item-meta

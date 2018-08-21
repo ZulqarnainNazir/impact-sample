@@ -23,11 +23,11 @@
                   = image_tag "impact_gs.jpg", alt: "image", title: "image"
           div.product-desc
             = link_to "#", id: "post-#{post.id}-2", "data-toggle" => "modal", 'data-target' => "#post-modal-#{post.id}", class: "post-card grid-feed-title", 'data-slug'=>"#{post.slug}" do
-              = truncate sanitize(post.title.titleize), length: 60, omission: '... '
+              = truncate sanitize_simple(post.title.titleize), length: 60, omission: '... '
             - if post.meta_description.present?
-              small.m-t-xs = truncate sanitize(post.meta_description), length: 90, omission: '... '             
+              small.m-t-xs = truncate sanitize_simple(post.meta_description), length: 90, omission: '... '
             - else
-              small.m-t-xs = truncate sanitize(post.sections_content), length: 90, omission: '... '
+              small.m-t-xs = truncate sanitize_simple(post.sections_content), length: 90, omission: '... '
             div.mt-text.rt
               = link_to "#", id: "post-#{post.id}", "data-toggle" => "modal", 'data-target' => "#post-modal-#{post.id}", class: "post-card btn-feed-block", 'data-slug'=>"#{post.slug}" do
                 |Read More
@@ -70,12 +70,12 @@
             = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail', style: 'max-width: 100%'
           - else
             = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-            
+
           - if post.meta_description && post.meta_description.length > 0
             = truncate post.meta_description, length: 250
           - else
             = truncate sanitize(post.sections_content), length: 250
-            
+
 div class="modal fade content-modal" id="post-modal-#{post.id}" role="dialog" data-slug="#{post.slug}"
   .modal-dialog.modal-lg
     .modal-content

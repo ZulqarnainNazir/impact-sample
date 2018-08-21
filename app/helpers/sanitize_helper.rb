@@ -10,4 +10,8 @@ module SanitizeHelper
       },
     )).html_safe
   end
+
+  def sanitize_simple(html)
+    Nokogiri::HTML.parse(Sanitize.fragment(html.to_s, Sanitize::Config::DEFAULT).html_safe).text
+  end
 end
