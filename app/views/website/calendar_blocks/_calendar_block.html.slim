@@ -3,5 +3,5 @@
 div.col-xs-12.m-t-lg class=calendar_block.custom_class
   a id=calendar_block.custom_anchor_id
 
-  = render 'website/calendar_blocks/calendar_widget_inner'
-
+  - if !@calendar_widget.nil?
+    = render 'website/calendar_blocks/calendar_widget_inner'
