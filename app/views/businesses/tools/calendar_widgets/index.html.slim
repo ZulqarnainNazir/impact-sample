@@ -17,7 +17,7 @@
                     = button_tag icon('search'), class: 'btn btn-default'
             = link_to [:new, @business, :tools_calendar_widget], class: 'btn btn-sm btn-primary' do
               => icon 'plus-circle'
-              | Add Calendar Embed
+              | Create Calendar
             <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kjip2iZDWHjSmajfUPL')">What is this?</a>  
           
           - if @calendar_widgets.empty?
@@ -25,9 +25,9 @@
               .col-lg-4.col-lg-offset-4
                 .p-a-3.text-center
                   = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Content%20blog%20marketing%20posts.png', style: 'max-height: 220px', class: 'img-responsive center-block')
-                  h2 No Calendar Embeds Found
+                  h2 No Calendars Found
                   h4
-                    = link_to 'Create a New Calendar Embed', [:new, @business, :tools_calendar_widget], class: 'text-navy'
+                    = link_to 'Create a New Calendar', [:new, @business, :tools_calendar_widget], class: 'text-navy'
                   p.text-left.m-t-md.strong Highlight Your Events or Create Community Calendars 
                   p.text-left Choose from different default layouts. Add a self-updating community calendar to your website to promote local activities.  
           - else

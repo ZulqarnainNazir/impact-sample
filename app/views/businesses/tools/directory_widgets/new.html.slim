@@ -14,10 +14,10 @@ wrapper.wrapper-content
           = errors_for @directory_widget
           .form-group
             = form.label :name, class: 'control-label'
-            = form.text_field :name, class: 'form-control'
+            = form.text_field :name, class: 'form-control', placeholder: 'Give this Directory a name (it will not be public)'
           .form-group
             = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
-            = form.text_field :public_label, class: 'form-control'
+            = form.text_field :public_label, class: 'form-control', placeholder: 'Name to appear above the directory'
           .form-group
             label Enable Embed Search
             br
@@ -25,10 +25,10 @@ wrapper.wrapper-content
               = form.radio_button :enable_search, true
               | Yes
             label.radio-inline
-              = form.radio_button :enable_search, false
+              = form.radio_button :enable_search, false, :checked => true
               | No
           .form-group
-            = form.label :company_list_id, "Local Network", class: 'control-label'
+            = form.label :company_list_id, "Choose or Add Local Network to Display", class: 'control-label'
             = form.select :company_list_id, options_from_collection_for_select(CompanyList.select_collection(@business.id), 'id', 'name', @directory_widget.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
           a.text-center data-toggle="modal" data-target="#modal"
             => icon 'cog'

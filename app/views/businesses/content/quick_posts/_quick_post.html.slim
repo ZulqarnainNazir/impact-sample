@@ -31,18 +31,18 @@
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
           - if share_authorized?(@business) && shared?(quick_post, @business)
-            = link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default'
-            = link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default'
+            /= link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default'
             = link_to icon('pencil'), [:edit, @business, :content, quick_post], class: 'btn btn-default', title: ' Edit Post'
             = link_to icon('trash'), [@business, :content, quick_post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }
           - elsif share_authorized?(@business) && !shared?(quick_post, @business)
-            = link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default'
-            = link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default quick-post-not-shared', id: quick_post.id
+            /= link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default quick-post-not-shared', id: quick_post.id
             = link_to icon('pencil'), [:edit, @business, :content, quick_post], class: 'btn btn-default', title: ' Edit Post'
             = link_to icon('trash'), [@business, :content, quick_post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }
           - elsif !share_authorized?(@business)
-            = link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default quick-post-unauthorized'
-            = link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default quick-post-unauthorized'
+            /= link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default quick-post-unauthorized'
+            /= link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default quick-post-unauthorized'
 
             = link_to icon('pencil'), [:edit, @business, :content, quick_post], class: 'btn btn-default', title: ' Edit Post'
             = link_to icon('trash'), [@business, :content, quick_post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }

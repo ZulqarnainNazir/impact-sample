@@ -5,7 +5,8 @@
       = hidden_field_tag :json, true
       .form-group
         = form.label :name, class: 'control-label'
-        = form.text_field :name, class: 'form-control'
+        = form.text_field :name, class: 'form-control', placeholder: 'e.g. Members, Non Profits I support, etc'
+        p.small It's best to add or import Companies in bulk if you haven't yet.
       .form-group
         = form.radio_button :sort_by, 0, class: 'sort_by', checked: 'checked'
         = form.label :sort_by, "Show Alphabetically", class: 'control-label'
@@ -22,7 +23,6 @@
           span.advanced-button Add New Company
 
       ol.company-list-categories-associations style="margin: 20px 20px 20px 20px;"
-        | It's best to add or import Companies in bulk if you haven't yet.
         = render partial: 'businesses/crm/company_lists/company_list_category', collection: company_list.company_list_categories << CompanyListCategory.new, locals: { company_list: company_list, list_form: form, disabled: true }
 
       .ibox.float-e-margins

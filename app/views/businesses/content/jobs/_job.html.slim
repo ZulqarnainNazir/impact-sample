@@ -31,20 +31,20 @@
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
           - if share_authorized?(@business) && shared?(job, @business)
-            = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
-            = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default'
+            /= link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default'
             = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default', title: ' Edit Job'
             = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default', title: ' Create a Copy'
             = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', title: ' Delete Job', data: { confirm: 'Are you sure?' }
           - elsif share_authorized?(@business) && !shared?(job, @business)
-            = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
-            = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-not-shared', id: job.id
+            /= link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-not-shared', id: job.id
             = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default', title: ' Edit Job'
             = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default', title: ' Create a Copy'
             = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', title: ' Delete Job', data: { confirm: 'Are you sure?' }
           - elsif !share_authorized?(@business)
-            = link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default job-unauthorized'
-            = link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-unauthorized'
+            /= link_to icon('share-alt'), [:new, @business, :content, job, :share], class: 'btn btn-default job-unauthorized'
+            /= link_to icon('line-chart'), [@business, :content, job, :sharing_insights], class: 'btn btn-default job-unauthorized'
             = link_to icon('pencil'), [:edit, @business, :content, job], class: 'btn btn-default', title: ' Edit Job'
             = link_to icon('copy'), [:clone, @business, :content, job], class: 'btn btn-default', title: ' Create a Copy'
             = link_to icon('trash'), [@business, :content, job], method: :delete, class: 'btn btn-danger', title: ' Delete Job', data: { confirm: 'Are you sure?' }

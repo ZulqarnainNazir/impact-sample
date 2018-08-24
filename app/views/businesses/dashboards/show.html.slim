@@ -17,6 +17,10 @@
             /    = render 'mission_prompts'
             /- if @business.module_active?(3)
             .grid-item
+              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
+            .grid-item
+              = render partial: 'businesses/dashboards/overview', locals: { business: @business }
+            .grid-item
               = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
             /- if @business.module_active?(4)
             .grid-item
@@ -24,10 +28,6 @@
             /- if @business.module_active?(0)
             /  .grid-item
             /    = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
-            .grid-item
-              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
-            .grid-item
-              = render partial: 'businesses/dashboards/overview', locals: { business: @business }
             /.grid-item
               .ibox.float-e-margins
                 .ibox-title

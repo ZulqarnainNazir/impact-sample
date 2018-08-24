@@ -36,20 +36,20 @@
               span.btn-group.btn-group-sm style="margin-left:8px"
 
                 - if share_authorized?(@business) && shared?(event_definition, @business)
-                  = link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default'
-                  = link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default'
+                  /= link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default'
+                  /= link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default'
                   = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
                   = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
                   = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
                 - elsif share_authorized?(@business) && !shared?(event_definition, @business)
-                  = link_to icon('share-alt'), [:new, @business, :content, event_definition, :share], class: 'btn btn-default'
-                  = link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-not-shared', id: event_definition.id
+                  /= link_to icon('share-alt'), [:new, @business, :content, event_definition, :share], class: 'btn btn-default'
+                  /= link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-not-shared', id: event_definition.id
                   = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
                   = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
                   = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
                 - elsif !share_authorized?(@business)
-                  = link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default event-definition-unauthorized'
-                  = link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-unauthorized'
+                  /= link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default event-definition-unauthorized'
+                  /= link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-unauthorized'
                   = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
                   = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
                   = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }

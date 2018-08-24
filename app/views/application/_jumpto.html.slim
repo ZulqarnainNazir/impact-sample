@@ -12,11 +12,11 @@ ul.dropdown-menu.dropdown-messages
       = link_to "Website Tasks", [@business, :to_dos]
 
   li
-    = link_to "Manage Images", business_content_images_path
+    = link_to "Manage Images & PDFs", business_content_images_path
 
   - if @business.module_active?(1)
     li
-      = link_to "View Blog Content", [@business, :content_root]
+      = link_to "Manage Posts", [@business, :content_root]
 
   - if @business.modules_unactivated != 0
     li.hidden-md.hidden-lg

@@ -30,8 +30,8 @@
             - if i < post.content_categories.count + post.content_tags.count - 1
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
-          = link_to icon('share-alt'), '#', class: 'btn btn-default'
-          = link_to icon('line-chart'), '#', class: 'btn btn-default'
+          /= link_to icon('share-alt'), '#', class: 'btn btn-default'
+          /= link_to icon('line-chart'), '#', class: 'btn btn-default'
           = link_to icon('pencil'), [:edit, @business, :content, post], class: 'btn btn-default', title: ' Edit Post'
           = link_to icon('copy'), [:clone, @business, :content, post], class: 'btn btn-default', title: ' Create a Copy'
           = link_to icon('trash'), [@business, :content, post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }

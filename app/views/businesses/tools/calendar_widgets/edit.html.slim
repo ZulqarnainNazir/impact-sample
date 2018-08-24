@@ -9,47 +9,16 @@ wrapper.wrapper-content.edit-calendar-embed
       .ibox.float-e-margins
         .ibox-title
           <!-- TODO - Add Embed-Setup-Hints information -->
-          <a class="btn btn-primary btn-outline pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Embed Setup Hints</a>
+          /<a class="btn btn-primary btn-outline pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Embed Setup Hints</a>
           h3 Edit Calendar Embed
         .ibox-content
           = errors_for @calendar_widget
           .form-group
             = form.label :name, class: 'control-label'
-            = form.text_field :name, class: 'form-control'
+            = form.text_field :name, class: 'form-control', placeholder: 'Give this calendar a name (it will not be public)'
           .form-group
             = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
-            = form.text_field :public_label, class: 'form-control'
-          .form-group
-            = form.label :default_view, "Choose Default View", class: 'control-label'
-            br
-            label.radio-inline
-              = form.radio_button :default_view, 'agenda'
-              | Week View
-            label.radio-inline
-              = form.radio_button :default_view, 'grid'
-              | Card View
-            label.radio-inline
-              = form.radio_button :default_view, 'list'
-              | List View
-          .form-group.filter-kind-checkboxes
-            = form.label :filter_kinds, "What Kinds of Events Do You Want to Include?", class: 'control-label'
-            br
-            = form.collection_check_boxes(:filter_kinds, CalendarWidget.filter_kinds, :first, :last) do |b|
-              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
-            br style="clear:both;"
-          .form-group
-            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
-            = form.text_field :max_items, class: 'form-control', :required => true
-          .form-group
-            label Enable Embed Search
-            br
-            label.radio-inline
-              = form.radio_button :enable_search, true
-              | Yes
-            label.radio-inline
-              = form.radio_button :enable_search, false
-              | No
-
+            = form.text_field :public_label, class: 'form-control', placeholder: 'Name to appear above the calendar'
           .form-group
             = form.label "Show content from:"
             .form-group
@@ -65,6 +34,37 @@ wrapper.wrapper-content.edit-calendar-embed
                 a.text-center data-toggle="modal" data-target="#modal"
                   => icon 'cog'
                   span.advanced-button Manage Businesses
+          
+          .form-group
+            = form.label :default_view, "Choose Default View", class: 'control-label'
+            br
+            label.radio-inline
+              = form.radio_button :default_view, 'list'
+              | List View
+            label.radio-inline
+              = form.radio_button :default_view, 'agenda'
+              | Week View
+            label.radio-inline
+              = form.radio_button :default_view, 'grid'
+              | Card View
+          .form-group.filter-kind-checkboxes
+            = form.label :filter_kinds, "What Kinds of Events Do You Want to Include?", class: 'control-label'
+            br
+            = form.collection_check_boxes(:filter_kinds, CalendarWidget.filter_kinds, :first, :last) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
+          .form-group
+            = form.label :max_items, "Max Number of Events Per Page", class: 'control-label'
+            = form.text_field :max_items, class: 'form-control', :required => true
+          .form-group
+            label Enable Embed Search
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
 
         .ibox-content
           .btn-group
@@ -110,7 +110,7 @@ wrapper.wrapper-content.edit-calendar-embed
       .modal-header
         button type="button" class="close" data-dismiss="modal" aria-label="Close"
           span aria-hidden="true" &times;
-        <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        /<a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
         h3 Create a Local Network
       .modal-body
         - if @calendar_widget.company_list_ids.second.nil?

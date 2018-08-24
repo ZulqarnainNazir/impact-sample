@@ -31,18 +31,18 @@
               ' ,
         span.btn-group.btn-group-sm style="margin-left:8px"
           - if share_authorized?(@business) && shared?(before_after, @business)
-            = link_to icon('share-alt'), [:new, @business, :content,  before_after, :share], class: 'btn btn-default'
-            = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default'
+            /= link_to icon('share-alt'), [:new, @business, :content,  before_after, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default'
             = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
             = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
           - elsif share_authorized?(@business) && !shared?(before_after, @business)
-            = link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default'
-            = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-not-shared', id: before_after.id
+            /= link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-not-shared', id: before_after.id
             = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
             = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
           - elsif !share_authorized?(@business)
-            = link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default before-after-unauthorized'
-            = link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-unauthorized'
+            /= link_to icon('share-alt'), [:new, @business, :content, before_after, :share], class: 'btn btn-default before-after-unauthorized'
+            /= link_to icon('line-chart'), [@business, :content, before_after, :sharing_insights], class: 'btn btn-default before-after-unauthorized'
 
             = link_to icon('pencil'), [:edit, @business, :content, before_after], class: 'btn btn-default'
             = link_to icon('trash'), [@business, :content, before_after], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
