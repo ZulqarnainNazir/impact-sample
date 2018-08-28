@@ -16,7 +16,7 @@
       h3
         i.fa.fa-list
         |  Local Networks
-      = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 110px', class: 'img-responsive center-block')
+      = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'height: 110px', class: 'img-responsive center-block')
       small
         - companies = []
         - business.company_lists.each {|list| companies = companies.concat(list.companies)}
@@ -48,7 +48,7 @@
         i.fa.fa-arrow-down
         |  View More
 
-.modal.inmodal id="configure-list-feed"
+/.modal.inmodal id="configure-list-feed"
   .modal-dialog.animated.bounceInRight
     .modal-content
       .modal-header
