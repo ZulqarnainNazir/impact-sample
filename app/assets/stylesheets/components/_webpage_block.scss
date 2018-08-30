@@ -18,6 +18,9 @@
     border-radius: 0;
     @media (max-width: 767px) {
       height: auto !important;
+      .hero-content .well {
+        padding-left: 0px;
+        padding-right: 0px; }
     }
     .col-sm-6 {
       .webpage-image-empty {
