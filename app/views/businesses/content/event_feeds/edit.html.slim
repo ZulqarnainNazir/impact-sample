@@ -1,0 +1,17 @@
+- title 'Edit Calendar Feed'
+
+= render partial: 'dashbreadcrumb', locals: { fn: 'Import Events', fp: :content_event_imports, an: ' Edit Calendar Feed'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              | Update Calendar feed
+              div
+                span.small Import events powered by Chamber Master (RSS), or Ical, including Google Calendar.
+                = link_to ' More info.', '#', class: 'feed-type-info small'
+            .ibox-content
+              = render 'form'

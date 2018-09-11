@@ -1,5 +1,5 @@
 - title 'New Business Event'
 
 = errors_for @event_definition
-= form_for @event_definition, url: [@business, :content_event_definitions], html: { class: 'save-once' } do |form|
+= form_for @event_definition, url: business_content_event_definitions_path(@business), html: { class: 'save-once' } do |form|
   = render form

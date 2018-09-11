@@ -89,12 +89,16 @@ gem 'country_select', '~> 1.1.1'
 gem 'saas-kit'
 # gem 'rails_admin', github: 'sferik/rails_admin'
 
+gem 'feedjira'
+gem 'icalendar'
+gem 'chronic'
+gem 'nickel'
+
 group :development, :test do
   gem 'dotenv-rails'
   gem 'erd'
   gem 'faker'
   gem 'spring'
-  gem 'faker'
   gem 'pry-rails'
   gem 'active_record_query_trace'
   gem 'bullet'

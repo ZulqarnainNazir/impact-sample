@@ -7,6 +7,7 @@ Rails.application.configure do
   config.active_support.deprecation = :log
   config.assets.debug = false
   config.assets.digest = true
+  config.assets.quiet = true
   config.assets.raise_runtime_errors = true
   config.cache_classes = false
   config.consider_all_requests_local = true
@@ -14,6 +15,10 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
   config.time_zone = 'UTC'
   config.log_level = :debug
+
+  if ENV['RUN_JOBS_INLINE']
+    config.active_job.queue_adapter = :inline
+  end
 
   #config.autoload_paths << Rails.root.join("app", "classes")
   config.autoload_paths += Dir["#{config.root}/app/classes/**/"]

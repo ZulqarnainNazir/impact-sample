@@ -1,0 +1,21 @@
+- title 'New Calendar Feed'
+
+= render partial: 'dashbreadcrumb', locals: { fn: 'Import Events', fp: :content_event_imports, an: ' New Calendar Feed'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              .row
+                .col-md-8
+                  | Add a Calendar feed
+                  div
+                    span.small Import events powered by Chamber Master (RSS), or Ical, including Google Calendar.
+                    = link_to ' More info.', '#', class: 'feed-type-info small'
+                / .col-md-6
+                /   = link_to 'Show Me How', '#', class: 'btn btn-sm btn-primary btn-outline pull-right', onclick: 'alert("Coming soon.")'
+            .ibox-content
+              = render 'form'

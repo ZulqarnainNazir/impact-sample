@@ -16,6 +16,23 @@ body.stop-scrolling {
   display: none;
   z-index: 10000; }
 
+.sweet-alert--left {
+  text-align: left !important;
+}
+
+.sweet-alert--left .sa-button-container {
+  text-align: center;
+}
+
+.sweet-alert--left .sweet-alert_block {
+  margin-bottom: 15px;
+}
+
+.sweet-alert--left .sweet-alert_block p {
+  margin-bottom: 7px;
+  margin-top: 10px;
+}
+
 .sweet-alert {
   background-color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

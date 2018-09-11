@@ -82,7 +82,7 @@
               - if event.event_definition.url?
                   .block
                     strong.m-r-xs More info:
-                    = link_to event.event_definition.url, "http://#{event.event_definition.url}"
+                    = link_to event.event_definition.url, url_with_http(event.event_definition.url)
 
               - if event.business != @business
                   br

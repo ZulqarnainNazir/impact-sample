@@ -1,0 +1,68 @@
+= render partial: "mission_notification_mailer/mission_header"
+tr
+  td style="padding:50px 12px 0 12px;"
+    /! ::::::: Intro :::::::
+    table border="0" cellpadding="0" cellspacing="0" width="100%"
+      tr
+        td align="center" style="padding:0 0 6px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          = @business.name
+      tr
+        td align="center" style="padding:0 0 36px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:26px;"
+          | Update on your event feed import
+      tr
+        td.intro-txt align="center" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:20px;color:#5D5D5D;"
+          | Your import has been fully processed
+
+tr
+  td.missions style="padding: 44px 0;"
+    /! ::::::: COMMENT :::::::
+    table bgcolor="#F5F8FC" border="0" cellpadding="0" cellspacing="0" width=""
+      tr
+        td.mission-inner style="padding:20px 12px;"
+          table border="0" cellpadding="0" cellspacing="0" width="100%"
+            tr
+              td width="60%"
+                table border="0" cellpadding="0" cellspacing="0" width="100%"
+                  tr
+                    td style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:16px;font-weight:bold;text-align:left;"
+                      - if @no_new_info
+                        | Reprocessed Feed, there was nothing new to import.
+                      - else
+                        table border="0" cellpadding="0" cellspacing="0" width="80%"
+                          tr
+                            td Total events processed:
+                            td = @import_service.stats[:total]
+                          tr
+                            td Events imported with missing data:
+                            td = @import_service.stats[:invalid]
+                          tr
+                            td Events fully imported with no missing data:
+                            td = @import_service.stats[:valid]
+                          tr
+                            td Events skipped from previous import:
+                            td = @import_service.stats[:matched]
+
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      br
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              td width="40%"
+                table align="right" border="0" cellpadding="0" cellspacing="0" style="border:1px solid #0C75B8;"
+                  tr
+                    td style="padding:10px 12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#0C75B8;font-size:11px;font-weight:bold;"
+                      = link_to 'VIEW IT NOW', business_content_event_feed_url(@business, @event_feed), style: 'color:#0C75B8;', target: '_blank'
+tr
+  td style="padding: 44px 0;"
+    table align="left" border="0" cellpadding="0" cellspacing="0" style=""
+      tr
+        td style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#000000;font-size:12px;font-weight:bold;text-align:left; padding-left: 44px;"
+          = link_to "Don't receive this type of notification", edit_business_content_event_import_notifications_url(@business)

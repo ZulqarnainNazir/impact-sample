@@ -14,6 +14,7 @@ ol.breadcrumb
       = link_to 'Manage To Do Lists', super_to_do_lists_path, class: 'btn btn-default'
       = link_to 'Manage Missions', super_missions_path, class: 'btn btn-default'
       = link_to 'Manage Custom Missions', custom_super_missions_path, class: 'btn btn-default'
+      = link_to 'Manage Event Feeds', super_event_feeds_path, class: 'btn btn-default'
 
 = errors_for @business
 
@@ -44,7 +45,7 @@ ol.breadcrumb
           | Enable Subscription and Billing Roadblock
           br
         p
-          | The default is false, which means this option is disabled. If you enable it, first check bill online and set the plan to Engage, the user will then be prompted to select their setup plan and then enter their company's billing information (.../subscriptions/initial_billing_setup). The prompt acts as a roadblock preventing access to the business admin back-end (/business/business_id/...). 
+          | The default is false, which means this option is disabled. If you enable it, first check bill online and set the plan to Engage, the user will then be prompted to select their setup plan and then enter their company's billing information (.../subscriptions/initial_billing_setup). The prompt acts as a roadblock preventing access to the business admin back-end (/business/business_id/...).
   .panel.panel-default
     .panel-heading
       h1.h4.panel-title Bill Business Online?
@@ -71,7 +72,7 @@ ol.breadcrumb
               | This business is an affiliate. If you want to revoke the business'
               | affiliate privileges, unclick the checkbox and save. This will prevent the affiliate from earning revenue from any new business signing-up with the affiliate's unique URL. Checking the box will reverse this and restore the business' ability to earn affiliate revenue.
             p
-              | Unique URL: 
+              | Unique URL:
               | #{@business.unique_affiliate_url(root_url)}
 
   .panel.panel-default
@@ -90,7 +91,7 @@ br
       .panel-heading
         h1.h4.panel-title Make This Business an Affiliate
       .panel-body
-        = button_to 'Make Affiliate', {action: 'create_affiliation'}, data: {disable_with: 'processing...' }, class: "btn btn-primary btn-xs", id: 'create-affiliation' 
+        = button_to 'Make Affiliate', {action: 'create_affiliation'}, data: {disable_with: 'processing...' }, class: "btn btn-primary btn-xs", id: 'create-affiliation'
         br
         p
           | Make this business an affiliate. The default earning will be 20% of each paid subscription brought in by this business. The business will gain a unique URL (e.g., 'https://impact.com/ref=foo') that it can share. If a business signs-up and claims a paid subscription via this unique URL, then the affiliate will earn a percentage of that subscription. Making the business an affiliate automatically grants the business affiliate privileges. These can be revoked on this page after the affiliation is created.
@@ -102,10 +103,10 @@ br
     .panel-body
       p
         - if !@business.get_referred_by.nil?
-          | Referred by: 
+          | Referred by:
           = link_to business_dashboard_path(@business.get_referred_by) do
             = @business.get_referred_by.name
-          = button_to 'Delete Referral', {action: 'delete_affiliation'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'delete-referral' 
+          = button_to 'Delete Referral', {action: 'delete_affiliation'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'delete-referral'
         - elsif @business.get_referred_by.nil?
           'If applicable, you can manually associate this business with an affiliate who referred it. In dropdown below is a list of all affiliates who have their affiliate status activated. Select one and click save.
           = form_tag({:action => 'associate_with_affiliate'}, {method: :post}) do
@@ -119,7 +120,7 @@ br
       .panel-heading
         h1.h4.panel-title Delete Legacy Subscription
       .panel-body
-        = button_to 'Delete Legacy Plan', {action: 'delete_legacy_plan', add_legacy: 'false'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'delete-legacy-plan' 
+        = button_to 'Delete Legacy Plan', {action: 'delete_legacy_plan', add_legacy: 'false'}, method: :delete, data: {disable_with: 'loading...' }, class: "btn btn-danger btn-xs", id: 'delete-legacy-plan'
         br
         p
           | Delete the Legacy Plan subscription for this business. This will usually result in a subscription roadblock being raised that prevents the user from accessing their website's backend until they acquire a subscription.
@@ -129,7 +130,7 @@ br
       .panel-heading
         h1.h4.panel-title Create Legacy Subscription
       .panel-body
-        = button_to 'Create Legacy Plan', {action: 'add_legacy_plan', add_legacy: 'true'}, data: {disable_with: 'loading...' }, class: "btn btn-primary btn-xs", id: 'create-legacy-plan' 
+        = button_to 'Create Legacy Plan', {action: 'add_legacy_plan', add_legacy: 'true'}, data: {disable_with: 'loading...' }, class: "btn btn-primary btn-xs", id: 'create-legacy-plan'
         br
         p
           | Create the Legacy Plan subscription for this business. They will have access to their entire backend and will never be charged.

@@ -1,0 +1,22 @@
+- title 'Feed Events'
+
+= render partial: 'dashbreadcrumb', locals: { fn: 'Feeds', fp: :content_event_imports, an: 'Feed Events'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              .row
+                .col-md-6
+                  h2 = @event_feed.name
+                .col-md-6
+                  .row
+                    = button_to 'Reprocess Feed', [:reprocess, @business, :content, @event_feed], method: :post, class: 'btn btn-primary pull-right', form_class: 'feed-reprocess-btn'
+                    = link_to [:edit, @business, :content, @event_feed], class: 'btn btn-default pull-right m-r-1' do
+                      i.fa.fa-edit
+                      span.m-l-half Edit
+
+              = render 'events_table'

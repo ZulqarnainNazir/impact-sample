@@ -1,5 +1,6 @@
 class Businesses::Content::EventDefinitionsController < Businesses::Content::BaseController
   include PlacementAttributesConcern
+  include EventDefinitionsConcern
 
   before_action only: new_actions do
     @event_definition = @business.event_definitions.new
@@ -61,18 +62,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   end
 
   def update
-    if !params[:event_definition][:virtual_event].present?
-      @event_definition.virtual_event = false
-    end
-    if params[:event_definition][:event_definition_location_attributes][:location_id].empty? && @event_definition.event_definition_location.present?
-      params[:event_definition][:event_definition_location_attributes][:location_id] = @event_definition.event_definition_location.location_id
-    end
-
-    if params[:draft].present?
-      @event_definition.published_status = false
-    else
-      @event_definition.published_status = true
-    end
+    prepare_for_event_update
     respond_to do |format|
       if @event_definition.update(event_definition_params)
         @event_definition.reschedule_events!
@@ -115,38 +105,5 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
 
   def cloneable_attributes
     %w[title subtitle description price url start_date end_date start_time end_time repeats repetition_days repetition_weeks hide_full_address show_city_only private virtual_event rsvp_required kind]
-  end
-
-  def event_definition_params
-    params.require(:event_definition).permit(
-      :description,
-      :end_date,
-      :end_time,
-      :meta_description,
-      :embed,
-      :price,
-      :repetition,
-      :start_date,
-      :start_time,
-      :subtitle,
-      :title,
-      :url,
-      :kind,
-      :hide_full_address,
-      :show_city_only,
-      :private,
-      :virtual_event,
-      :rsvp_required,
-      content_category_ids: [],
-      content_tag_ids: [],
-      event_definition_location_attributes: [:id, :location_id],
-      event_image_placement_attributes: placement_attributes,
-      main_image_placement_attributes: placement_attributes,
-    ).tap do |safe_params|
-      merge_placement_image_attributes safe_params, :event_image_placement_attributes
-      merge_placement_image_attributes safe_params, :main_image_placement_attributes
-      safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
-      safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
-    end
   end
 end

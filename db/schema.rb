@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20180706203051) do
     t.boolean  "contact_message_notifications", default: true,    null: false
     t.boolean  "review_notifications",          default: true,    null: false
     t.string   "invite_message"
+    t.boolean  "event_import_notifications",    default: true, null: false
     t.string   "follower_notifications",        default: "daily", null: false
   end
 
@@ -176,6 +177,17 @@ ActiveRecord::Schema.define(version: 20180706203051) do
     t.datetime "updated_at",                      null: false
   end
 
+  create_table "business_widgets", force: :cascade do |t|
+    t.integer  "widget_id"
+    t.integer  "business_id"
+    t.jsonb    "settings"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "business_widgets", ["business_id"], name: "index_business_widgets_on_business_id", using: :btree
+  add_index "business_widgets", ["widget_id"], name: "index_business_widgets_on_widget_id", using: :btree
+
   create_table "businesses", force: :cascade do |t|
     t.string   "name",                                           null: false
     t.string   "tagline"
@@ -211,9 +223,9 @@ ActiveRecord::Schema.define(version: 20180706203051) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
+    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
-    t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
     t.text     "slug"
@@ -575,7 +587,6 @@ ActiveRecord::Schema.define(version: 20180706203051) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.boolean  "published_status"
     t.boolean  "hide_full_address", default: false
     t.boolean  "show_city_only",    default: false
     t.boolean  "private",           default: false
@@ -583,10 +594,31 @@ ActiveRecord::Schema.define(version: 20180706203051) do
     t.boolean  "rsvp_required",     default: false
     t.integer  "kind",              default: 0,     null: false
     t.text     "embed"
+    t.integer  "event_feed_id"
+    t.boolean  "import_pending",    default: false
+    t.string   "type"
+    t.boolean  "archived",          default: false
+    t.text     "imported_event_id"
+    t.boolean  "published_status"
   end
 
   add_index "event_definitions", ["business_id"], name: "index_event_definitions_on_business_id", using: :btree
+  add_index "event_definitions", ["event_feed_id"], name: "index_event_definitions_on_event_feed_id", using: :btree
   add_index "event_definitions", ["id", "slug"], name: "index_event_definitions_on_id_and_slug", unique: true, using: :btree
+
+  create_table "event_feeds", force: :cascade do |t|
+    t.integer  "business_id"
+    t.integer  "creator_id"
+    t.string   "name"
+    t.string   "url"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "location_id"
+    t.datetime "last_imported"
+  end
+
+  add_index "event_feeds", ["business_id"], name: "index_event_feeds_on_business_id", using: :btree
+  add_index "event_feeds", ["creator_id"], name: "index_event_feeds_on_creator_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.integer  "business_id",         null: false
@@ -1063,7 +1095,7 @@ ActiveRecord::Schema.define(version: 20180706203051) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -1080,7 +1112,7 @@ ActiveRecord::Schema.define(version: 20180706203051) do
     t.text     "meta_description"
     t.text     "facebook_id"
     t.text     "slug"
-    t.datetime "published_time"
+    t.time     "published_time"
     t.boolean  "published_status"
     t.datetime "published_on"
   end
@@ -1427,6 +1459,13 @@ ActiveRecord::Schema.define(version: 20180706203051) do
 
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
+
+  create_table "widgets", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "widget_type", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   add_foreign_key "contact_form_form_fields", "contact_forms"
   add_foreign_key "contact_form_form_fields", "form_fields"

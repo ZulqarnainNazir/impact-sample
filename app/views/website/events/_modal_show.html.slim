@@ -10,8 +10,8 @@
     - image_width = image_og_width(event.image_size[0])
     - image_height = image_og_height(event.image_size[1])
   / -canonize_obj({url: website_event_url, params: event.to_generic_param})
-  
-.blog-content  
+
+.blog-content
   div.row
     .page-header.m-t-0
       h1.no-margins
@@ -34,7 +34,7 @@
         - location = event.event_definition.try(:location)
         .well.well-transparent
           .event-details.m-t-0
-            - if location 
+            - if location
                 span.font-bold.mg-l-md = location.name
                 small (Location)
 
@@ -54,41 +54,41 @@
               i.fa.fa-clock-o
               = event.event_definition.start_time.strftime('%I:%M %p')
               - if event.event_definition.end_time.present?
-                | &nbsp;to  
+                | &nbsp;to
                 = event.event_definition.end_time.strftime('%I:%M %p')
             - if event.event_definition.price?
-              .block 
+              .block
                 i.fa.fa-money
                 = event.event_definition.price
             - if !event.event_definition.private?
-                .block 
-                  strong.m-r-xs Private: 
+                .block
+                  strong.m-r-xs Private:
                   |No
             - elsif event.event_definition.private?
-                .block 
-                  strong.m-r-xs Private: 
+                .block
+                  strong.m-r-xs Private:
                   |Yes
 
             - if !event.event_definition.rsvp_required?
                 .block
-                  strong.m-r-xs RSVP Required: 
+                  strong.m-r-xs RSVP Required:
                   |No
             - elsif event.event_definition.rsvp_required?
                 .block
-                  strong.m-r-xs RSVP Required: 
+                  strong.m-r-xs RSVP Required:
                   |Yes
 
             - if event.event_definition.url?
                 .block
                   strong.m-r-xs More info:
-                  = link_to event.event_definition.url, "http://#{event.event_definition.url}"
+                  = link_to event.event_definition.url, url_with_http(event.event_definition.url)
 
             - if event.business != @business
                 .block
-                  |Posted by 
+                  |Posted by
                   strong.m-r-xs
                     =event.business.name
-                  
+
 
         - if !event.event_definition.virtual_event?
           - if location && !event.event_definition.hide_full_address? && !event.event_definition.show_city_only?
@@ -107,5 +107,5 @@
       - if upcoming_events.any?
         .col-sm-12
           h4 Other Upcoming Instances
-          .grid 
+          .grid
             = render partial: 'website/events/event', collection: upcoming_events, locals: { small: true }

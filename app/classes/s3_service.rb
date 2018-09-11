@@ -10,8 +10,8 @@ class S3Service
     end
   end
 
-  def self.upload(filename)
-    bucket.objects.create formatted_key(filename), File.new(filename)
+  def self.upload(filename, args = {})
+    bucket.objects.create formatted_key(filename), File.new(filename), args
   end
 
   def self.formatted_key(key)

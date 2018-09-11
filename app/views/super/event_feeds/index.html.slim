@@ -1,0 +1,24 @@
+.row.m-t-3
+  .col-md-12
+    = link_to 'Add New Event Feed', new_super_event_feed_path, class: 'btn btn-primary pull-right'
+    = render 'super/shared/links'
+
+.ibox-content.m-t-3
+  .table-responsive
+    table.table.table-striped.table-bordered.table-hover.datatable
+      thead
+        th Name
+        th URL
+        th Account Associated
+        th
+      tbody
+        - @event_feeds.each do |event_feed|
+          tr
+            td = event_feed.name
+            td = event_feed.url
+            td = event_feed.business.name
+            td
+              = link_to edit_super_event_feed_path(event_feed), class: 'btn btn-primary btn-circle m-r-1' do
+                i.fa.fa-pencil-square-o
+              = link_to super_event_feed_path(event_feed), class: 'btn btn-danger btn-circle', method: :delete, data: { confirm: 'Are you sure?' } do
+                i.fa.fa-trash

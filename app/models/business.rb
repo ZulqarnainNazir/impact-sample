@@ -16,6 +16,7 @@ class Business < ActiveRecord::Base
 
   with_options dependent: :destroy do
     has_many :account_modules
+    has_many :event_feeds
     has_many :authorizations
     has_many :before_afters
     has_many :categorizations, as: :categorizable
@@ -70,7 +71,6 @@ class Business < ActiveRecord::Base
   has_many :listed_by_business, :class_name => "CompanyListCompany", :through => :owned_by_business, :source => :company_list_companies
   has_one :company, :class_name => "Company", :foreign_key => "company_business_id"
   has_one :subscription_affiliate
-
 
   has_placed_image :logo
 
@@ -625,6 +625,10 @@ class Business < ActiveRecord::Base
   def sitemap_url
     "https://s3.amazonaws.com/#{Rails.application.secrets.aws_s3_bucket}/sitemaps/#{self.id}/sitemap.xml.gz"
     # "http://s3-#{Rails.application.secrets.aws_s3_region}.amazonaws.com/#{Rails.application.secrets.aws_s3_bucket}/sitemaps/#{self.id}/sitemap.xml.gz"
+  end
+
+  def owned_businesses
+    owned_companies.includes(:business).map { |c| c.business }.compact
   end
 
   def first_five_to_dos

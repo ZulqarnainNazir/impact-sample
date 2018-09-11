@@ -2,12 +2,16 @@ module ContentSlugConcern
   extend ActiveSupport::Concern
 
   included do
-    validates :slug, presence: true
+    validates :slug, presence: true, if: :validate_presence_of_slug?
     before_validation :generate_slug, on: :create
   end
 
   def generate_slug
     self.slug = find_available_slug(title.gsub(/['’]/, '').gsub(/,/, '').parameterize, 1) if title.present?
+  end
+
+  def validate_presence_of_slug?
+    true
   end
 
   private

@@ -20,9 +20,7 @@ class EventDefinition < ActiveRecord::Base
   has_placed_image :event_image
   has_placed_image :main_image
 
-
   accepts_nested_attributes_for :event_definition_location, allow_destroy: true, reject_if: :all_blank
-
 
   validates_presence_of :business, if: :not_draft?
   # validates :event_definition_location, presence: true, unless: :is_virtual_event?
@@ -32,6 +30,8 @@ class EventDefinition < ActiveRecord::Base
   validates_presence_of :start_time, if: :not_draft?
   validates_presence_of :end_date, if: :repetition? and :not_draft?
   validate :end_date_cannot_before_start_date
+
+  scope :not_pending, -> { where(import_pending: false, archived: false) }
 
   before_validation do
     unless self.virtual_event?

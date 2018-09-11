@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  business_id: 1
+  creator_id: 1
+  name: MyString
+  url: MyString
+
+two:
+  business_id: 1
+  creator_id: 1
+  name: MyString
+  url: MyString

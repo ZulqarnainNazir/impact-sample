@@ -1,0 +1,30 @@
+- title 'Event Import Notifications'
+
+= render partial: 'dashbreadcrumb', locals: { fn: 'Feeds', fp: :content_event_imports, an: 'Notifications'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              - if @business.authorizations.empty?
+                p: em No managers found. #{link_to 'Add a manager', [:new, @business, :authorization]} to enable contact message notifications.
+              - else
+                = form_tag [@business, :content_event_import_notifications], method: :patch do
+                  table.table.table-bordered.table-striped
+                    thead
+                      tr
+                        th Name
+                        th Receive Notifications?
+                    tbody
+                      - @business.authorizations.includes(:user).each do |authorization|
+                        tr
+                          td = authorization.user.name
+                          td
+                            => hidden_field_tag "authorizations[#{authorization.id}][event_import_notifications]", '0'
+                            = label_tag class: 'checkbox', style: 'margin-left: 20px' do
+                              => check_box_tag "authorizations[#{authorization.id}][event_import_notifications]", '1', authorization.event_import_notifications?
+                              | Yes
+                  = button_tag 'Save', class: 'btn btn-primary'

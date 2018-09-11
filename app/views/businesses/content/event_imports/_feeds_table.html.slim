@@ -1,0 +1,41 @@
+.feeds-wrapper
+  = link_to new_business_content_event_feed_path(@business), class: 'btn btn-sm btn-primary' do
+    i.fa.fa-plus-circle
+    span.m-l-half Add Calendar Feed
+  = link_to edit_business_content_event_import_notifications_path(@business), class: 'btn btn-sm btn-default m-l-1' do
+    i.fa.fa-check-square-o.m-r-half
+    | Set Notifications
+  = link_to 'What feeds are supported?', '#', class: 'feed-type-info p-l-1 small'
+  / = link_to 'What is this?', '#', class: 'btn btn-sm btn-primary btn-outline pull-right', onclick: 'alert("Coming soon.")'
+
+  .feeds-table
+    table.table.datatable
+      thead
+        tr
+          th Name
+          th URL
+          th Feed Type
+          th Events
+          th Last Imported
+          th
+      tbody
+        - @event_feeds.each do |event_feed|
+          tr
+            td = link_to event_feed.name, business_content_event_feed_path(@business, event_feed)
+            td width="20%" = truncate event_feed.url, length: 50
+            td
+              span.label.label-default = feed_type event_feed
+            td = link_to event_feed.imported_event_definitions.size, business_content_event_feed_path(@business, event_feed)
+            td = event_feed.last_imported.try :strftime, '%m/%d/%Y %l:%M%p'
+            td align="right" width="20%"
+              = link_to edit_business_content_event_feed_path(@business, event_feed), class: 'btn btn-sm btn-default' do
+                i.fa.fa-edit
+                span.m-l-half Edit
+              span.m-l-1
+                = link_to business_content_event_feed_path(@business, event_feed), class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+                  i.fa.fa-times-circle.m-r-half
+                  | Delete
+
+  p.small
+    | Only import feeds from your own calendar. Want to import events from other calendars? Go to
+    = link_to ' Companies and Causes.', [@business, :crm, :companies]

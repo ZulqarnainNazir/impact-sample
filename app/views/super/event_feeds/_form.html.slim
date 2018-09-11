@@ -1,0 +1,17 @@
+.row.m-y-3
+  = errors_for @event_feed
+  = form_for [:super, @event_feed] do |f|
+    .col-md-8
+      .form-group
+        = f.label :name, 'Name*', class: 'control-label'
+        = f.text_field :name, class: 'form-control'
+      .form-group
+        = f.label :url, class: 'control-label'
+        = f.text_area :url, class: 'form-control'
+      .form-group
+        = f.label :business_id, 'Business', class: 'control-label'
+        = f.collection_select :business_id, Business.all, :id, :name, {},class: 'form-control'
+
+      .text-center
+        = link_to 'Cancel', super_event_feeds_path, class: 'btn btn-default m-r-1'
+        = f.submit 'Submit', class: 'btn btn-primary'

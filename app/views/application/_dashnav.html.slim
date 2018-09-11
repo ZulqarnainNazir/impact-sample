@@ -81,7 +81,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             li class=('active' if controller_path.match(/\Abusinesses\/content\/content_category_tag_management_index/))
               = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
             li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
-              = link_to "Import Events", [@business, :content_event_imports]
+              = link_to "Import Events", [@business, :content, :event_imports]
 
       / Nested menu logic got too complex for one line
       - crm_active = (\
@@ -120,11 +120,10 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               small.font-normal.font-italic Collect, Promote & Grow
             span.fa.arrow
           ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-            li class=('active' if controller_path.match(/\Abusinesses\/crm\/form_submissions/))
-              - if !@business.module_active?(4)
-                = link_to "Form Submissions", [@business, :crm_contact_forms]
-              - else
-                = link_to "Form Submissions", [@business, :crm_form_submissions]
+            - if !@business.module_active?(4)
+              = link_to "Form Submissions", [@business, :crm_contact_forms]
+            - else
+              = link_to "Form Submissions", [@business, :crm_form_submissions]
             li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
               = link_to "Manage Web Forms", [@business, :crm_contact_forms]
             li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))

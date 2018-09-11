@@ -1,0 +1,6 @@
+en:
+  businesses:
+    content:
+      event_import_notifications:
+        update:
+          notice: The Authorized users’ notification settings were updated successfully.

@@ -71,6 +71,7 @@ Rails.application.routes.draw do
 
     namespace :super do
       resources :to_do_lists
+      resources :event_feeds, except: [:show]
       resources :missions do
         get :custom, on: :collection
       end
@@ -198,7 +199,12 @@ Rails.application.routes.draw do
             get :sharing_insights
             get :clone, on: :member
           end
-          resources :event_imports, only: %i[index] do
+          resources :event_feeds, except: [:index] do
+            post :reprocess, on: :member
+            resources :imported_event_definitions, except: [:show, :index, :new, :create]
+          end
+          resource :event_import_notifications, only: %i[edit update]
+          resources :event_imports, only: :index do
             post :import_all, on: :collection
             post :import, on: :member
           end
