@@ -31,6 +31,10 @@ class ImportedEventDefinition < EventDefinition
       .include_archived
   end
 
+  def self.model_name
+    EventDefinition.model_name
+  end
+
   def archive!
     self.archived = true
     save validate: false
