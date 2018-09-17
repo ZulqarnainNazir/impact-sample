@@ -9,6 +9,9 @@
   .row
     .col-lg-12
       .ibox.float-e-margins
+        .ibox-title
+          h1
+            | These companies and causes follow you
         .ibox-content
           .pull-right
             = link_to [:edit, @business, :crm_follower_notifications], class: 'btn btn-sm btn-default' do
@@ -27,11 +30,11 @@
               thead
                 tr
                   th
-                    | Name
+                    | Company Name
                   th
-                    | Status
+                    | Your Status
                   th
-                    | Types
+                    | Included in:
                   th
                     | # in Network
               tbody
