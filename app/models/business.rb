@@ -48,7 +48,7 @@ class Business < ActiveRecord::Base
     has_many :contact_forms
     has_many :form_submissions
     has_one :mission_notification_setting
-    has_one :location
+    has_one :location, -> { order created_at: :asc }
     has_one :website
   end
 
