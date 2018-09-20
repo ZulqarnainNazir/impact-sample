@@ -1,0 +1,30 @@
+- business = quick_post.business
+- if @masonry.present? && @masonry == true
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache quick_post do
+          div.product-imitation.p-a-0
+            = link_to listing_quick_post_path(@business, quick_post.slug), target: :_blank do
+              - placement = quick_post.quick_post_image_placement
+              - if placement
+                - cache placement
+                  - if placement.try(:embeds?)
+                    = placement.embed.html_safe
+                  - elsif placement.try(:image).try(:attachment_medium_url)
+                    = image_tag placement.image.attachment_url(:small)
+                  - else
+                    = image_tag "impact_gs.jpg", alt: "image", title: "image"
+              - else
+                = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            = link_to listing_quick_post_path(@business, quick_post.slug), target: :_blank, class: 'grid-feed-title'
+              = truncate sanitize_simple(quick_post.title), length: 60, omission: '... '
+            - if quick_post.meta_description.present?
+              small.m-t-xs = truncate sanitize_simple(quick_post.meta_description), length: 90, omission: '... '
+            - else
+              small.m-t-xs = truncate sanitize_simple(quick_post.description), length: 80, omission: '... '
+            div.mt-text.rt
+              = link_to listing_quick_post_path(@business, quick_post.slug), target: :_blank, class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right

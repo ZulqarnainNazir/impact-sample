@@ -1,0 +1,123 @@
+doctype html
+html lang="en"
+  = render 'listing_head'
+  body style="margin-bottom:4em;"
+  	= render 'appcues'
+    = render 'listing_navbar'
+    .row style="background: #f1f1f1"
+      .container style="padding-top: 15px"
+        .listing
+          .container.listing-container
+            .webpage-block.row
+              .jumbotron style = "#{
+                  if @business.hero
+                    "background-image: url(" + @business.hero.attachment_jumbo_url
+                  else
+                    "background-image: url(/assets/Listing_Hero_Default.png)"
+                  end }"
+                .row
+                  .col-sm-12.social-links.text-shadow-dark style = "padding: 5px; text-align: right"
+                    ul.list-inline
+                        - if @business.facebook_id?
+                          li = link_to "https://www.facebook.com/#{@business.facebook_id}", target: :_blank do
+                            i.fa.fa-facebook-square.fa-2x
+                        - if @business.twitter_id?
+                          li = link_to "https://www.twitter.com/#{@business.twitter_id}", target: :_blank do
+                            i.fa.fa-twitter-square.fa-2x
+                        - if @business.google_plus_id?
+                          li = link_to "https://plus.google.com/+#{@business.google_plus_id}", target: :_blank do
+                            i.fa.fa-google-plus-square.fa-2x
+                        - if @business.youtube_id?
+                          li = link_to "https://www.youtube.com/user/#{@business.youtube_id}", target: :_blank do
+                            i.fa.fa-youtube-square.fa-2x
+                        - if @business.linkedin_id?
+                          li = link_to "https://www.linkedin.com/#{@business.linkedin_id}", target: :_blank do
+                            i.fa.fa-linkedin-square.fa-2x
+                        - if @business.pinterest_id?
+                          li = link_to "https://www.pinterest.com/#{@business.pinterest_id}", target: :_blank do
+                            i.fa.fa-pinterest-square.fa-2x
+                        - if @business.instagram_id?
+                          li = link_to "https://www.instagram.com/#{@business.instagram_id}", target: :_blank do
+                            i.fa.fa-instagram.fa-2x
+                        - if @business.yelp_id?
+                          li = link_to "https://www.yelp.com/biz/#{@business.yelp_id}", target: :_blank do
+                            i.fa.fa-yelp.fa-2x
+                        - if @business.citysearch_id?
+                          li = link_to "https://www.citysearch.com/#{@business.citysearch_id}", target: :_blank do
+                            i.fa.fa-square.fa-2x
+                        - if @business.foursquare_id?
+                          li = link_to "https://foursquare.com/v/#{@business.foursquare_id}", target: :_blank do
+                            i.fa.fa-foursquare.fa-2x
+                        - if @business.zillow_id?
+                          li = link_to "https://www.zillow.com/profile/#{@business.zillow_id}", target: :_blank do
+                            i.fa.fa-square.fa-2x
+                        - if @business.opentable_id?
+                          li = link_to "https://www.opentable.com/#{@business.opentable_id}", target: :_blank do
+                            i.fa.fa-square.fa-2x
+                        - if @business.trulia_id?
+                          li = link_to "https://www.trulia.com/profile/#{@business.trulia_id}", target: :_blank do
+                            i.fa.fa-square.fa-2x
+                        - if @business.realtor_id?
+                          li = link_to "https://www.realtor.com/realestateagents/#{@business.realtor_id}", target: :_blank do
+                            i.fa.fa-square.fa-2x
+                        - if @business.tripadvisor_id?
+                          li = link_to "https://www.tripadvisor.com/#{@business.tripadvisor_id}", target: :_blank do
+                            i.fa.fa-tripadvisor.fa-2x
+                        - if @business.houzz_id?
+                          li = link_to "https://www.houzz.com/pro/#{@business.houzz_id}", target: :_blank do
+                            i.fa.fa-houzz.fa-2x
+                        - if @business.location.email? && !@business.location.hide_email?
+                          li = link_to "mailto:#{@business.location.email}" do
+                            i.fa.fa-envelope-square.fa-2x
+                  .col-sm-3.col-xs-5.logo-container
+                    .logo-style
+                      - if @business.logo
+                        = image_tag @business.logo.attachment_large_url, alt: 'Logo image', class: 'img-responsive logo-img', style: 'width: 100%;'
+                  .col-sm-9.col-xs-7.no-padding.business-name.text-shadow-dark
+                    h1 = @business.name
+            .row
+              .col-sm-8.col-md-6.hidden-xs
+                .fluid-nav
+                  ul.nav.navbar-top-links.dir-menu-custom
+                    li
+                      = link_to "Overview", listing_path(@business)
+                    - if @business.directory_widgets.size > 0
+                      li
+                        span = link_to "Local Connections", listing_directories_path
+                    - if @business.calendar_widgets.size > 0
+                      li
+                        span = link_to "Calendars", listing_calendars_path
+                    - if @posts.size > 0
+                      li
+                        span = link_to "Content", listing_contents_path
+              .col-sm-10.visible-xs
+                .fluid-nav
+                  ul.nav.navbar-top-links.dir-menu-custom
+                    li
+                      = link_to "Overview", listing_path(@business)
+                    - if @business.directory_widgets.size > 0
+                      li
+                        span = link_to "Local Connections", listing_directories_path
+                    - if @business.calendar_widgets.size > 0
+                      li
+                        span = link_to "Calendars", listing_calendars_path
+                    - if @posts.size > 0
+                      li
+                        span = link_to "Content", listing_contents_path
+              .col-sm-2.web-link
+                - if @business.website_url != 'http://'
+                  li
+                    = link_to @business.website_url, target: :_blank do
+                      i.fa.fa-external-link
+                      span  Website
+            = yield
+          .container
+            .m-md
+              .pull-right
+                p Main Street for the 21st Century
+              div
+                strong
+                  | Copyright
+                |  Locable © 2018
+    = yield :javascript
+    = intercom_tag

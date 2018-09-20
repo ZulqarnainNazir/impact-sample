@@ -1,0 +1,46 @@
+.timeline-item
+  .row
+    .col-xs-3.date
+      => icon 'bolt'
+      - if quick_post.published_at > DateTime.now && quick_post.published_status != false
+        |  Will post in
+        br
+        small.text-navy
+          | #{time_ago_in_words quick_post.published_at.in_time_zone("Pacific Time (US & Canada)")}
+      - elsif quick_post.published_status == false
+        | Unpublished
+      - else
+        |  #{quick_post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%l:%M %P')}
+        br
+        small.text-navy
+          | #{time_ago_in_words quick_post.published_at.in_time_zone("Pacific Time (US & Canada)")} ago
+    .col-xs-9.content
+      strong> Quick Post
+      - if quick_post.published_status == false
+        code
+          small Draft
+      span.pull-right
+        - if quick_post.content_categories.any? || quick_post.content_tags.any?
+          span.text-muted> Posted in
+          - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
+            - if business.website
+              = link_to classification.name, [:website, classification, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
+            - else
+              = classification.name
+            - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
+              ' ,
+      - if business.website
+        - if quick_post.published_status == false
+          h2 = link_to quick_post.title, [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(business.website), protocol: :http, :id => quick_post.id], target: :_blank
+        - else
+          h2 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
+      - else
+        h2 = quick_post.title
+      - placement = quick_post.quick_post_image_placement
+      - if placement.try(:embeds?)
+        .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        br
+      - elsif placement.try(:image).try(:attachment_url, :large)
+        = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title, class: 'thumbnail', style: 'max-width: 100%'
+        br
+      = truncate sanitize(quick_post.content), length: 250

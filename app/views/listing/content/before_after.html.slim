@@ -1,0 +1,49 @@
+- before_after = @post
+- if !(before_after.published_status == false || @preview)
+  - title before_after.title
+  - description before_after.meta_description
+  - image before_after.main_image.try(:attachment_url, :jumbo) || before_after.before_image.try(:attachment_url, :jumbo) || before_after.after_image.try(:attachment_url, :jumbo)
+  - unless before_after.after_image.nil? || before_after.image_size.nil?
+    - image_width = image_og_width(before_after.image_size[0])
+    - image_height = image_og_height(before_after.image_size[1])
+  - canonical_url website_generic_post_url(before_after.to_generic_param)
+- else
+  - title "This post is not yet published"
+  - description "This post is not yet published"
+
+.row
+  div class='col-sm-12'
+    .feed_before_after.post-show
+      - if (before_after.published_status == false && !@preview)
+        p This post has not been published by the business owner yet. Check back later!
+      - else
+        - cache before_after do
+          h2.h3 = before_after.title
+          span.text-muted> Posted #{time_ago_in_words before_after.published_at} ago
+          - if before_after.content_categories.any?
+            span.text-muted> in
+            - (before_after.content_categories + before_after.content_tags).each_with_index do |classification, i|
+              = link_to classification.name.titleize , [:website, classification]
+              - if i < before_after.content_categories.count + before_after.content_tags.count - 1
+                '  ,
+          hr
+          - if before_after.before_image || before_after.after_image
+            .row
+              .col-xs-12
+                .col-sm-6.no-padding
+                  - if before_after.before_image
+                    h3.h4 Before
+                    div.blog-show-image = image_tag before_after.before_image.attachment_url(:medium), alt: before_after.before_image.alt, title: before_after.before_image.title
+                .col-sm-6.no-padding
+                  - if before_after.after_image
+                    h3.h4 After
+                    div.blog-show-image = image_tag before_after.after_image.attachment_url(:medium), alt: before_after.after_image.alt, title: before_after.before_image.title
+
+        p.m-t-md = sanitize_html before_after.description
+  / - if @website.content_blog_sidebar? || @website.events_sidebar?
+  /   .col-sm-4.m-t-lg
+  /     .show-sidebar-grid
+  /       - if @website.content_blog_sidebar?
+  /         = render posts(@business), small: true
+  /       - if @website.events_sidebar?
+  /         = render events(@business), small: true

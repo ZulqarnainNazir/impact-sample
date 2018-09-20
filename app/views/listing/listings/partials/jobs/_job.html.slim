@@ -1,0 +1,54 @@
+- business = job.business
+- if @masonry.present? && @masonry == true
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache job do
+          div.product-imitation
+            = link_to listing_job_path(@business, job.slug), target: :_blank do
+              - placement = job.job_image_placement
+              - if placement.try(:embeds?)
+                = placement.embed.html_safe
+              - elsif placement.try(:image)
+                - if placement.image.present?
+                  = image_tag placement.image.attachment_url(:small)
+              - else
+                = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            div.event-time-banner.block
+              span.event-tags
+                i.fa.fa-calendar.m-r-xs
+                = job.start_date.strftime('%b %d, %Y ')
+            = link_to listing_job_path(@business, job.slug), target: :_blank, class: 'grid-feed-title'
+               = truncate sanitize_simple(job.title.titleize), length: 60, omission: '... '
+
+            - if !job.paid?
+              small.m-t-xs.block
+                = job.readable_kind
+            small.m-t-xs.block
+              = job.readable_schedule_type
+            - if job.paid?
+              small.m-t-xs.block
+                = job.readable_compensation_type
+            - if job.paid?
+              small.m-t-xs.block
+                = ("$ " + job.compensation_range)
+
+            - if @show_location && job.try(:location)
+              - if job.location.street1?
+                small.m-t-xs.block
+                  i.fa.fa-map-marker.m-r-xs
+                  = truncate sanitize_simple(job.location.street1.titleize)
+                  - if job.location.street2?
+                    = truncate sanitize_simple(job.location.street2.titleize)
+              small.m-t-xs.block.m-lt-8
+                i.icon-block.m-r-xs
+                - if job.location.city?
+                  = truncate sanitize_simple(job.location.city.titleize) + " "
+                - if job.location.state?
+                  = truncate sanitize_simple(job.location.state.upcase) + ", "
+                = truncate sanitize_simple(job.location.zip_code)
+            div.mt-text.rt
+              = link_to listing_job_path(@business, job.slug), target: :_blank, class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right

@@ -1,0 +1,77 @@
+- feedname = "search-events"
+
+- start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
+
+- has_clear_search = params[:blog_search].present? || params[:start_date].present?
+
+= form_tag request_url + '#' + feedname, method: :get, class: "search-events col-xs-12", name: "feedname" do
+
+  = hidden_field_tag :view, params[:view]
+
+  .panel.panel-default.p-sm.p-b-0
+
+    .row.visible-xs-block.visible-sm-block.m-b
+
+      .col-xs-6
+        a.btn.btn-primary.search-toggle aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-input-group"
+          i.fa.fa-chevron-down.m-r-sm
+          i.fa.fa-chevron-up.m-r-sm
+          'Add Search Criteria
+
+
+      .col-xs-6
+        a.btn.btn-primary.view-toggle aria-expanded="false" data-toggle="collapse" type="button" aria-haspopup="true" style="cursor: pointer;" data-target="#search-event-views"
+          i.fa.fa-calendar.m-r-sm
+          'Change View
+
+    #search-input-group.collapse-sm.input-group.row.m-b class=('collapse in' if has_clear_search)
+
+      label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
+        'Start Date
+        = text_field_tag :start_date, start_date_parsed&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%m/%d/%Y"), class: 'form-control', data: {provide: 'datepicker'}, placeholder: Date.today.strftime('%b %d %Y')
+      label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
+        'Search
+        = text_field_tag :blog_search, params[:blog_search], placeholder: 'Keyword', class: 'form-control'
+
+      - if has_clear_search
+        .col-xs-6.col-md-2
+          = link_to request_url + '#' + feedname, class: "btn btn-default btn-clear-search", role: :button do
+            'Clear Search
+      div.col-xs-6.col-md-3
+        = button_tag class: 'btn btn-primary btn-find-events' do
+          i.fa.fa-search.m-r-sm
+          'Find Events
+
+
+
+  - if event_kinds.size != 1
+
+    .panel.panel-default.p-sm.p-t-0.p-b-0
+
+      .row
+
+        a.filter-toggle.col-xs-12.m-t-xs.m-b-xs aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-event-filter"
+          'Filter Results
+          i.fa.fa-chevron-down.m-l-xs
+          i.fa.fa-chevron-up.m-l-xs
+
+        #search-event-filter.collapse.col-xs-12 class=("in" unless params[:filter_kinds].blank?)
+
+          .row
+
+            - kind_names = ['events', 'classes', 'deadlines']
+
+            - kind_names.each_index do |i|
+
+              - if event_kinds.include?(i)
+
+                - n = kind_names[i]
+                - val = params[:filter_kinds]&.include?(i.to_s)
+
+                label.col-xs-8.col-sm-3.m-t-xs
+                  = n.titlecase
+                  = check_box_tag "filter_kinds[]", "#{i}", val, class: '', style: 'margin-left: 10px; vertical-align: text-top'
+
+            .col-xs-4.col-sm-3
+              button.btn.btn-primary.m-b-sm style="float: right"
+                | Submit

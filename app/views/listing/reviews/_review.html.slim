@@ -28,7 +28,10 @@
             span.fa.fa-star
           - else
             span.fa.fa-star-o
-    p.review-text.review-quote itemprop="description" = review.description
+    - if @truncate_rev
+      p.review-text.review-quote itemprop="description" = truncate review.description, length: 200, omission: '... '
+    - else
+      p.review-text.review-quote itemprop="description" = review.description
     p.reviewer
       - if review.contact && review.contact.name
         span.reviewer-name itemprop="author" => review.contact.name
@@ -47,7 +50,7 @@
           = image_tag 'locable.png', alt: ''
         meta itemprop="datePublished" content=review.reviewed_at.strftime('%F')
         span.text-muted #{time_ago_in_words review.reviewed_at} ago
-    - if review.title.blank?
+    - if review.title.blank? && !@hide_link
       p.reviewer
-        => link_to "Read More", listing_path_review_url(@business, review)
+        => link_to "Read More", listing_review_path(@business, review)
   hr

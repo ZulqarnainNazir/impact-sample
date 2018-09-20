@@ -22,8 +22,13 @@ class Businesses::Data::DetailsController < Businesses::BaseController
       :membership_org,
       category_ids: [],
       logo_placement_attributes: placement_attributes,
+      hero_placement_attributes: placement_attributes,
     ).deep_merge(
       logo_placement_attributes: {
+        image_user: current_user,
+        image_business: @business,
+      },
+      hero_placement_attributes: {
         image_user: current_user,
         image_business: @business,
       },

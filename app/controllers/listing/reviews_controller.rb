@@ -1,7 +1,18 @@
 class Listing::ReviewsController < ApplicationController
+  layout "listing"
+
   include ApplicationHelper
+  include SearchHelper
   before_action do
     @business = Business.listing_lookup(params[:lookup])
+
+    @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
+    @content_feed_widget.business = @business
+    @content_feed_widget.max_items = 12
+    params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
+    @posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
+
+
   end
 
   before_action only: new_actions do
@@ -23,11 +34,14 @@ class Listing::ReviewsController < ApplicationController
 
   before_action only: [:show] do
     @review = @business.reviews.published.find(params[:id])
+    @truncate_rev = false;
+    @hide_link = true;
   end
 
   def index
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
     @locable_business = LocableBusiness.find_by_id(@business.cce_id) if @business.cce_id? rescue nil
+    @truncate_rev = false
   end
 
   def create

@@ -1,0 +1,54 @@
+- business = before_after.business
+- if @masonry.present? && @masonry == true
+  / .col-xs-4.slider-content.single-blog
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache before_after do
+          div.product-imitation
+            = link_to listing_before_after_path(@business, before_after.slug), target: :_blank do
+              - if before_after.before_image.present? && before_after.after_image.present?
+                - image_before = before_after.before_image.attachment_url(:thumbnail)
+                - image_after = before_after.after_image.attachment_url(:thumbnail)
+                div.before = image_tag image_before
+                div.after = image_tag image_after
+              - else
+                div.before = image_tag "impact_gs.jpg", alt: "image", title: "image"
+                div.after = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            / - if before_after.content_categories.any?
+            /   small.text-muted
+            /     - (before_after.content_categories + before_after.content_tags).each_with_index do |classification, i|
+            /       = link_to classification.name.titleize , [:website, classification]
+            /       - if i < before_after.content_categories.count + before_after.content_tags.count - 1
+            /         '  |
+            = link_to listing_before_after_path(@business, before_after.slug), target: :_blank, class: 'grid-feed-title'
+              = truncate sanitize_simple(before_after.title.titleize), length: 50, omission: '... '
+            small.m-t-xs
+              i BEFORE & AFTER
+            div
+              - if before_after.meta_description.present?
+                small.m-t-xs = truncate sanitize_simple(before_after.meta_description), length: 90, omission: '... '
+              - else
+                small.m-t-xs = truncate sanitize_simple(before_after.description), length: 90, omission: '... '
+            div.mt-text.rt
+              = link_to listing_before_after_path(@business, before_after.slug), target: :_blank, class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
+  / .col-xs-4.slider-content.single-blog
+    - cache before_after do
+      = link_to website_generic_post_path(before_after.to_generic_param)
+        - if before_after.before_image.present? && before_after.after_image.present?
+          - image_before = before_after.before_image.attachment_url(:thumbnail)
+          - image_after = before_after.after_image.attachment_url(:thumbnail)
+          div.ba-container
+            div.col-before.blog-image-position style="background-image: url('#{image_before}');"
+            div.col-after.blog-image-position style="background-image: url('#{image_after}');"
+          / = image_tag before_after.before_image.attachment_medium_url, alt: before_after.before_image.alt, title: before_after.before_image.title, class: 'before-clip', style: 'max-width: 100%'
+          / = image_tag before_after.after_image.attachment_medium_url, alt: before_after.after_image.alt, title: before_after.after_image.title, class: 'after-clip', style: 'max-width: 100%'
+        - else
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+        h3.slider-text = truncate sanitize_simple(before_after.title), length: 75, omission: '... '
+        p.slider-text.slider-text-sub
+          i BEFORE & AFTER
+        / p.slider-p = truncate sanitize_simple(before_after.description), length: 75, omission: '... '

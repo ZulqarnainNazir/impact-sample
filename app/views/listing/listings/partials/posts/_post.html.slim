@@ -1,0 +1,48 @@
+- business = post.business
+- if @masonry.present? && @masonry == true
+  /.col-xs-4.slider-content.single-blog
+  div.grid-item
+    div.ibox-blog
+      div.ibox-content.product-box
+        - cache post do
+          div.product-imitation.p-a-0
+            = link_to listing_post_path(@business, post.slug), target: :_blank do
+              - if post.main_image
+                = image_tag post.main_image.attachment_url(:small)
+              - else
+                - placement = post.sections_placement
+                - if placement
+                  - cache placement do
+                    - if placement.try(:embeds?)
+                      = placement.embed.html_safe
+                    - elsif placement.try(:image)
+                      = image_tag placement.image.attachment_url(:small)
+                    - else
+                      = image_tag "impact_gs.jpg", alt: "image", title: "image"
+                - else
+                  = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            = link_to listing_post_path(@business, post.slug), target: :_blank, class: 'grid-feed-title'
+              = truncate sanitize_simple(post.title.titleize), length: 60, omission: '... '
+            - if post.meta_description.present?
+              small.m-t-xs = truncate sanitize_simple(post.meta_description), length: 90, omission: '... '
+            - else
+              small.m-t-xs = truncate sanitize_simple(post.sections_content), length: 90, omission: '... '
+            div.mt-text.rt
+              = link_to listing_post_path(@business, post.slug), target: :_blank, class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right
+  / .col-xs-4.slider-content.single-blog
+    = link_to website_generic_post_path(post.to_generic_param) do
+      - cache post do
+        - placement = post.sections_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        - elsif placement.try(:image).try(:attachment_medium_url)
+          div.post-blog-image style="background-image: url('#{placement.image.attachment_medium_url}');"
+        - else
+          = image_tag "impact_gs.jpg", alt: "image", title: "image", class: "slider-imaging"
+          / div.post-blog-image.content-no-photo
+        h3.slider-text = truncate sanitize_simple(post.title), length: 75, omission: '... '
+        p.slider-p = truncate(post.meta_description && post.meta_description.length > 0 ? post.meta_description : sanitize_simple(post.sections_content), length: 90, omission: '... ')
+        / button.btn.btn-primary.btn-sm.pull-left Read More

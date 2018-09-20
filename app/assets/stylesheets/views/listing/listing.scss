@@ -1,0 +1,79 @@
+.support_local_block {
+  @import 'variables';
+  @import 'dashboard/variables'; // Imports all of dashboard styles
+
+  .clearfix {
+    clear: both;
+  }
+}
+
+.dir-menu-custom {
+  border-bottom-style: none !important;
+}
+
+.social-links a {color: #fff;}
+
+.listing {
+  background-color: #f1f1f1;
+}
+
+.listing .container {
+  box-shadow: 0px 2px 2px grey;
+  margin-bottom: 10px;
+  width: 100%;
+  background-color: #fff;
+}
+
+.jumbotron {
+  color: white;
+  min-height: 248px;
+  max-height: 248px;
+}
+
+.logo-style {
+  height: 200px;
+  max-width: 200px;
+  background: #fff;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.3);
+  img {
+      
+  }
+
+}
+
+.logo-img {
+  width: auto !important;
+  max-height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.web-link li {
+  display: block;
+  padding: 16px;
+}
+.web-link li a {
+  color: #777;
+}
+
+@media only screen and (max-width: 768px) {
+  .webpage-block .jumbotron .business-name h1 {font-size: 18px; margin-top: 10%;}
+
+  .logo-style {
+    height: 78px;
+  }
+  .business-name {
+    margin-top: 20%;
+  }
+
+  .menu-no-slide{
+    display: none;
+  }
+
+  .logo-container {
+    width: 40%;
+    margin-top: 20%;
+  }
+}

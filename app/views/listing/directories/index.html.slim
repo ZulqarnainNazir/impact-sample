@@ -1,0 +1,30 @@
+- title 'Local Connections'
+
+= render 'application/alerts'
+.page-header
+  h1.h2
+    ' Local Connections
+
+
+.row
+  .col-sm-3
+  .col-sm-6
+      .form-group
+        = form_tag(listing_directories_path, method: "get") do
+          label Directories:
+          = collection_select :directory, :id, @directories, :id, :name, {:selected => params[:directory][:id]}, {:class => 'form-control', :onchange => 'this.form.submit()'}
+  .col-sm-3
+
+.row
+  .col-xs-12
+    = render partial: "listing/directories/display_directory"
+
+
+/- @directories.each do |dir|
+  .row
+    .col-xs-12
+      - if !dir.public_label.blank?
+        h2 = link_to dir.public_label, listing_directory_path(@business, dir.id)
+      - else
+        h2 = link_to dir.name, listing_directory_path(@business, dir.id)
+

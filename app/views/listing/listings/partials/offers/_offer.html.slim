@@ -1,0 +1,26 @@
+- business = offer.business
+- if @masonry.present? && @masonry == true
+  - cache offer do
+    div.grid-item
+      div.ibox-blog
+        div.ibox-content.product-box
+          div.product-imitation
+            .offer-border
+              = link_to listing_offer_path(@business, offer.slug), target: :_blank do
+                - if offer.main_image
+                  = image_tag offer.main_image.attachment_url(:small)
+                - else
+                  - if offer.try(:offer_image)
+                    - image = offer.offer_image
+                    - if image && !image.nil?
+                      = image_tag image.attachment_url(:small)
+                  - else
+                    = image_tag "impact_gs.jpg", alt: "image", title: "image"
+          div.product-desc
+            = link_to listing_offer_path(@business, offer.slug), target: :_blank, class: 'grid-feed-title'
+              = truncate sanitize_simple(offer.title), length: 75, omission: '...'
+            small.m-t-xs = truncate sanitize_simple(offer.offer), length: 90, omission: '... '
+            div.mt-text.rt
+              = link_to listing_offer_path(@business, offer.slug), target: :_blank, class: 'btn-feed-block'
+                |Read More
+                i.pad-lt-3.fa.fa-long-arrow-right

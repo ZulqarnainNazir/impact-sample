@@ -1,14 +1,14 @@
 - if params[:content] == 'before_after'
   = render 'before_after', before_after: @post
 - elsif params[:content] == 'event'
-  = render 'event_2', event: @post
+  = render 'event', event: @post
 - elsif params[:content] == 'gallery'
-  = render 'gallery_2', gallery: @post
+  = render 'gallery', gallery: @post
 - elsif params[:content] == 'offer'
-  = render 'offer_2', offer: @post
+  = render 'offer', offer: @post
 - elsif params[:content] == 'post'
-  = render 'post_2', post: @post
+  = render 'post', post: @post
 - elsif params[:content] == 'quick_post'
-  = render 'quick_post_2', quick_post: @post
+  = render 'quick_post', quick_post: @post
 - elsif params[:content] == 'job'
-  = render 'job_2', job: @post
+  = render 'job', job: @post

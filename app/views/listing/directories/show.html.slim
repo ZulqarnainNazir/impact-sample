@@ -1,0 +1,50 @@
+
+= render 'application/alerts'
+.page-header
+  h1.h2
+    = @directory.public_label
+.row
+  .col-xs-12.no-padding
+    .webpage-block.support_local_block.p-a-20px
+      - if @directory.enable_search
+        .row
+          .col-md-12.m-b-5px
+            = form_tag nil, :method => "get", :class => "form-inline"
+              .form-group
+                label.sr-only for="query" Search Query
+                = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
+              .form-group.m-l-5px
+                label.sr-only for="category" Category
+                / .col-md-12
+                = select_tag :category, content_tag(:option,'Search by Category...',:value=>"")+options_from_collection_for_select(@categories, "id", "label", params[:category]), class: "form-control"
+              .form-group.m-l-5px
+                = submit_tag "Search", class: "btn btn-primary"
+
+
+      - if @directory.company_list.sort_by == 0
+        .row.full-list
+          - i = 0
+          - @businesses.sort_by { |c| c.name }.each do |company|
+            = render partial: "listing/directories/business", locals: { business: company.business, columns: false, directory: @directory }
+            - i += 1
+            - if (i%4 == 0)
+              .clearfix
+      - else
+        - @categories_search.each do |category|
+          .row.categories-view
+            .col-md-12
+              h3 = category.label
+            - i = 0
+            - if !params[:query].blank?
+              - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |company|
+                = render partial: "listing/directories/business", locals: { business: company.business, columns: false, directory: @directory }
+                - i += 1
+                - if (i%4 == 0)
+                  .clearfix
+            - else
+              - category.companies.sort_by { |c| c.name }.each do |company|
+                = render partial: "listing/directories/business", locals: { business: company.business, columns: false, directory: @directory }
+                - i += 1
+                - if (i%4 == 0)
+                  .clearfix
+

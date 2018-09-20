@@ -1,0 +1,55 @@
+- cache business do
+  .col-sm-3
+    .contact-box.center-version id="business-#{business.id}"
+      a.business-card data-business-id=business.id href = listing_path(business)
+        - if business.logo
+          = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; max-width: 100%; height: auto;'
+        h3.m-b-xs: strong=business.name
+          / a href="tel:#{business.business.location.phone_number}"
+        - if !business.location.street1.blank?
+          address.m-t-sm
+            p.m-b-none = business.location.street1
+            p.m-b-none = business.location.street2
+            p.m-b-none = business.location.city && business.location.state ? "#{business.location.city}, #{business.location.state} #{business.location.zip_code}" : ""
+        - if !business.location.phone_number.blank?
+          abbr title="Phone"
+          = " #{business.location.phone_number}"
+
+      - if !business.reviews.blank?
+        p.text-center
+          span.review-rating
+            - if business.reviews.average(:overall_rating) >= 1.0
+              span.fa.fa-star
+            - else
+              span.fa.fa-star-o
+            - if business.reviews.average(:overall_rating) >= 2.0
+              span.fa.fa-star
+            - else
+              span.fa.fa-star-o
+            - if business.reviews.average(:overall_rating) >= 3.0
+              span.fa.fa-star
+            - else
+              span.fa.fa-star-o
+            - if business.reviews.average(:overall_rating) >= 4.0
+              span.fa.fa-star
+            - else
+              span.fa.fa-star-o
+            - if business.reviews.average(:overall_rating) >= 5.0
+              span.fa.fa-star
+            - else
+              span.fa.fa-star-o
+      .contact-box-footer
+        .mt-xs.btn-group
+          - if !business.location.phone_number.blank?
+            a.btn.btn-xs.btn-white href="tel:#{business.location.phone_number}"
+              i.fa.fa-phone
+              |  Call
+          - if !business.location.email.blank?
+            a.btn.btn-xs.btn-white href="mailto:#{business.location.email}"
+              i.fa.fa-phone
+              |  Email
+          - if !business.website_url.blank?
+            a.btn.btn-xs.btn-white href=business.website_url target="_blank"
+              i.fa.fa-external-link
+              |  Website
+

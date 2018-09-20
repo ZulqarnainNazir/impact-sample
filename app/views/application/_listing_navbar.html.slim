@@ -1,7 +1,7 @@
 - cache [user_signed_in?, current_user].compact do
   .container.main-nav
     nav.navbar.navbar-static-top style='margin-bottom:0;'
-      = link_to image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive'), :root, class: 'navbar-brand', style: 'padding: 5px 15px;'
+      = link_to image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive'), "http://www.locable.com", class: 'navbar-brand', style: 'padding: 5px 15px;'
       / = link_to image_tag('impact-light-xs.png', alt: 'IMPACT', class: 'img-responsive'), :root, class: 'navbar-brand hidden-sm hidden-md hidden-lg', style: 'padding: 5px 15px;'
       - if user_signed_in?
         ul.nav.pull-right

@@ -73,6 +73,7 @@ class Business < ActiveRecord::Base
   has_one :subscription_affiliate
 
   has_placed_image :logo
+  has_placed_image :hero
 
   accepts_nested_attributes_for :location, update_only: true
   accepts_nested_attributes_for :website

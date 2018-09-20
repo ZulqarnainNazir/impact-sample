@@ -14,10 +14,46 @@ module ApplicationHelper
     business.generate_listing_path
   end
 
+  def listing_review_path(business, review)
+    business.generate_listing_path + "/reviews/#{review.to_param}"
+  end
+
+  def listing_directory_path(business, directory)
+    business.generate_listing_path + "/directories/#{directory.to_param}"
+  end
+
+  def listing_event_path(business, event)
+    business.generate_listing_path + "/events/#{event.to_param}"
+  end
+
+  def listing_content_type_path(business, content, content_type)
+    business.generate_listing_path + "/#{content}?content=#{content_type}"
+  end
+
+  def listing_before_after_path(business, content)
+    business.generate_listing_path + "/before_after/#{content}/"
+  end
+
+  def listing_offer_path(business, content)
+    business.generate_listing_path + "/offer/#{content}/"
+  end
+
+  def listing_post_path(business, content)
+    business.generate_listing_path + "/post/#{content}/"
+  end
+
+  def listing_job_path(business, content)
+    business.generate_listing_path + "/job/#{content}/"
+  end
+
+  def listing_quick_post_path(business, content)
+    business.generate_listing_path + "/quick_post/#{content}/"
+  end
+
+
   def listing_path_url(business)
     "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}"
   end
-
 
   def listing_path_url_with_segment(business)
     "http://#{ENV['LISTING_HOST']}#{business.generate_listing_segment}"
@@ -26,8 +62,17 @@ module ApplicationHelper
   def listing_path_content_url(business, content, content_type)
     "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/#{content}?content=#{content_type}"
   end
+
   def listing_path_review_url(business, review)
     "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/show/#{review.to_param}"
+  end
+
+  def listing_path_directory_url(business, directory)
+    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/directories/show/#{directory.to_param}"
+  end
+
+  def listing_path_event_url(business, event)
+    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/events/show/#{event.to_param}"
   end
 
   def listing_path_new_review_url(business, score, token)

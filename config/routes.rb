@@ -30,14 +30,28 @@ Rails.application.routes.draw do
 
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do
     root to: 'listings#index'
-    match '/:lookup', to: 'listings#listing', via: :get
-    match '/:lookup/:content_type/', to: 'listings#content_type', :as => "content_type", via: :get
+    match '/:lookup', to: 'listings#overview', via: :get
+    match '/:lookup/directories', to: 'directories#index', :as => 'directories', via: :get
+    match '/:lookup/directories/:id', to: 'directories#show', :as => 'directory', via: :get
+    match '/:lookup/calendars', to: 'calendars#index', :as => 'calendars', via: :get
+    match '/:lookup/content', to: 'content#index', :as => 'contents', via: :get
+    match '/:lookup/before_after/:content_type/', to: 'content#before_after', :as => 'before_after', via: :get
+    match '/:lookup/offer/:content_type/', to: 'content#offer', :as => 'offer', via: :get
+    match '/:lookup/post/:content_type/', to: 'content#post', :as => 'post', via: :get
+    match '/:lookup/job/:content_type/', to: 'content#job', :as => 'job', via: :get
+    match '/:lookup/quick_post/:content_type/', to: 'content#quick_post', :as => 'quick_post', via: :get
+    match '/:lookup/reviews', to: 'reviews#index', :as => 'reviews', via: :get
+    match '/:lookup/reviews/:id', to: 'reviews#show', :as => 'review', via: :get
+
+    match '/:lookup/:content_type/', to: 'content#content_type', :as => "content_type", via: :get
     match '/:lookup/:content_type/gallery/:gallery_image', to: 'listings#gallery_image', :as => "gallery_image", via: :get
-    match '/:lookup/reviews/all', to: 'reviews#index', :as => 'reviews', via: :get
+
+    match '/:lookup/reviews/all', to: 'reviews#index', via: :get
     match '/:lookup/reviews/create', to: 'reviews#create', :as => 'create_review', via: :post
-    match '/:lookup/reviews/show/:id', to: 'reviews#show', :as => 'review', via: :get
     match '/:lookup/reviews/new', to: 'reviews#new', :as => 'new_review', via: :get
     match '/:lookup/shares/share', to: 'shares#show', :as => 'share', via: :get
+
+
     # resources :galleries, only: %i[index show] do
     #   resources :gallery_images, only: %i[show]
     # end

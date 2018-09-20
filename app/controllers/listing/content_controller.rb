@@ -1,27 +1,24 @@
 require 'search_helper'
-class Listing::ListingsController < ApplicationController
+class Listing::ContentController < ApplicationController
   layout "listing"
 
   include SearchHelper
   helper_method :events, :posts
-  before_action do
+  before_action :index do
     @business = Business.listing_lookup(params[:lookup])
-
-    if @business.events.any?
-      @calendar_widget = CalendarWidget.new         # empty "fake" calendar widget in order to display business events
-    end
-
     @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
     @content_feed_widget.business = @business
     @content_feed_widget.max_items = 12
+
     params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
     @posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
 
 
-    @truncate_rev = true
-    @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
+  end
 
+  def index
 
+    @business = Business.listing_lookup(params[:lookup])
     @masonry = true #tells content partials to use masonry format
     #params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
 
@@ -36,27 +33,6 @@ class Listing::ListingsController < ApplicationController
       prune_content_types_all(@content_types_all)
     end
     #end of overriding-code
-
-    @og_title = @business.name + ", " + @business.location.city + ' ' + @business.location.state
-  end
-
-  def setup_content_types
-    @masonry = true #tells content partials to use masonry format
-
-    #code below is overriding code found in search_helper
-    @content_types_all = "Event Gallery BeforeAfter Offer Post Job".split
-    if !params[:content_types].present? && !@content_types_all.nil?
-      params[:content_types] = @content_types_all
-    elsif params[:content_types].present?
-      @content_types = params[:content_types]
-    end
-    if @content_types_all.present?
-      prune_content_types_all(@content_types_all)
-    end
-    #end of overriding-code
-  end
-
-  def index
 
   end
 
@@ -87,6 +63,27 @@ class Listing::ListingsController < ApplicationController
     end
   end
 
+  def before_after
+    @post = @business.before_afters.find_by(slug: params[:content_type])
+  end
+
+  def offer
+    @post = @business.offers.find_by(slug: params[:content_type])
+  end
+
+  def post
+    @post = @business.posts.find_by(slug: params[:content_type])
+  end
+
+  def job
+    @post = @business.jobs.find_by(slug: params[:content_type])
+  end
+
+  def quick_post
+    @post = @business.quick_posts.find_by(slug: params[:content_type])
+  end
+
+
   def gallery_image #in routes, a child of content_type (specficially, gallery)
     @gallery = @business.galleries.find_by(slug: params[:content_type])
     @gallery_image = GalleryImage.find(params[:gallery_image])
@@ -99,6 +96,7 @@ class Listing::ListingsController < ApplicationController
   end
 
   def listing
+=begin
   	@masonry = true #tells content partials to use masonry format
 
   	#code below is overriding code found in search_helper
@@ -112,13 +110,7 @@ class Listing::ListingsController < ApplicationController
       prune_content_types_all(@content_types_all)
     end
     #end of overriding-code
-  end
-
-  def overview
-  end
-
-  def local_connections
-    @directories = @business.directory_widgets
+=end
   end
 
   private
