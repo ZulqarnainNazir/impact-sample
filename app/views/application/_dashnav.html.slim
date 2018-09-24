@@ -120,10 +120,11 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               small.font-normal.font-italic Collect, Promote & Grow
             span.fa.arrow
           ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-            - if !@business.module_active?(4)
-              = link_to "Form Submissions", [@business, :crm_contact_forms]
-            - else
-              = link_to "Form Submissions", [@business, :crm_form_submissions]
+            li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
+              - if !@business.module_active?(4)
+                = link_to "Form Submissions", [@business, :crm_contact_forms]
+              - else
+                = link_to "Form Submissions", [@business, :crm_form_submissions]
             li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
               = link_to "Manage Web Forms", [@business, :crm_contact_forms]
             li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
