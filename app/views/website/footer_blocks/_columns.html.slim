@@ -6,14 +6,15 @@ footer.site-footer.site-footer-columns
           ul.list-inline.footer-social
             = render partial: 'website/nav_links/social', locals: {business: business, location: location}
         - cache website do
-          .site-footer-column.col-sm-6.col-md-8
+          .site-footer-column.col-sm-6.col-md-7
             ul.list-unstyled.footer-links
               = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
         - cache location do
-          .site-footer-column.col-sm-4.col-md-3.vcard
+          .site-footer-column.col-sm-4.col-md-4.vcard
             p.h3.fn.org = location.name
             - if location.phone_number? && !location.hide_phone?
               p.tel = link_to number_to_phone(location.phone_number), "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
+            = render partial: 'website/contact_pages/opening', collection: @business.location.openings
             - if !location.hide_address?
               - if location.latitude? && location.longitude?
                 p.adr = link_to "//maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do

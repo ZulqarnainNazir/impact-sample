@@ -6,21 +6,21 @@ footer.site-footer.site-footer-layers
   - cache website do
     .site-footer-middle
       .container
-        ul.list-unstyled.footer-links
-          = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
+        .col-sm-8
+          ul.list-unstyled.footer-links
+            = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
+        .col-sm-4
+          = render partial: 'website/contact_pages/opening', collection: @business.location.openings
   .site-footer-bottom
     .container
       .row.vcard
-        .col-sm-4
-          p.h4.fn.org = business.name
-          p.copyright &copy #{Time.zone.now.year} #{business.name}
         - cache location do
-          .col-sm-4.footer-center
+          .col-sm-4.col-sm-push-4.footer-center
             - if location.phone_number? && !location.hide_phone?
               p.tel = link_to number_to_phone(location.phone_number), "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
             - if location.email? && !location.hide_email?
               = link_to location.email, "mailto:#{location.email}", class: 'email'
-          .col-sm-4.footer-right
+          .col-sm-4.col-sm-push-4.footer-right
             - if !location.hide_address?
               - if location.latitude? && location.longitude?
                 p.adr = link_to "//maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do
@@ -33,3 +33,6 @@ footer.site-footer.site-footer-layers
                   => location.address_line_one
                   br>
                   = location.address_line_two
+        .col-sm-4.col-sm-pull-8
+          p.h4.fn.org = business.name
+          p.copyright &copy #{Time.zone.now.year} #{business.name}
