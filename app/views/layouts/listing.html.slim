@@ -1,7 +1,7 @@
 doctype html
 html lang="en"
   = render 'listing_head'
-  body style="margin-bottom:4em;"
+  body
   	= render 'appcues'
     = render 'listing_navbar'
     .row style="background: #f1f1f1"
@@ -81,29 +81,61 @@ html lang="en"
                   ul.nav.navbar-top-links.dir-menu-custom
                     li
                       = link_to "Overview", listing_path(@business)
-                    - if @business.directory_widgets.size > 0
+                    - if @business.directory_widgets.size == 1
                       li
-                        span = link_to "Local Connections", listing_directories_path
-                    - if @business.calendar_widgets.size > 0
-                      li
-                        span = link_to "Calendars", listing_calendars_path
+                        = link_to "Local Connections", listing_path_directory_url(@business, @business.directory_widgets.first)
+                    - elsif @business.directory_widgets.size > 1
+                      li.dropdown
+                        a.user-dropdown-toggle[data-toggle="dropdown"]
+                          span = "Local Connections"
+                        ul.dropdown-menu
+                          - @business.directory_widgets.each do |dir|
+                            li[style="display:block"]
+                              = link_to dir.name, listing_path_directory_url(@business, dir)
+                    - if @business.calendar_widgets.size == 1
+                        li
+                          = link_to "Calendars", listing_path_calendar_url(@business, @business.calendar_widgets.first)
+                    - elsif @business.calendar_widgets.size > 1
+                        li.dropdown
+                          a.user-dropdown-toggle[data-toggle="dropdown"]
+                            span = "Calendars"
+                          ul.dropdown-menu
+                            - @business.calendar_widgets.each do |cal|
+                              li[style="display:block"]
+                                = link_to cal.name, listing_path_calendar_url(@business, cal)
                     - if @posts.size > 0
                       li
-                        span = link_to "Content", listing_contents_path
+                        = link_to "Content", listing_contents_path
               .col-sm-10.visible-xs
                 .fluid-nav
                   ul.nav.navbar-top-links.dir-menu-custom
                     li
                       = link_to "Overview", listing_path(@business)
-                    - if @business.directory_widgets.size > 0
+                    - if @business.directory_widgets.size == 1
                       li
-                        span = link_to "Local Connections", listing_directories_path
-                    - if @business.calendar_widgets.size > 0
-                      li
-                        span = link_to "Calendars", listing_calendars_path
+                        = link_to "Local Connections", listing_path_directory_url(@business, @business.directory_widgets.first)
+                    - elsif @business.directory_widgets.size > 1
+                      li.dropdown
+                        a.user-dropdown-toggle[data-toggle="dropdown"]
+                          span = "Local Connections"
+                        ul.dropdown-menu
+                          - @business.directory_widgets.each do |dir|
+                            li[style="display:block"]
+                              = link_to dir.name, listing_path_directory_url(@business, dir)
+                    - if @business.calendar_widgets.size == 1
+                        li
+                          = link_to "Calendars", listing_path_calendar_url(@business, @business.calendar_widgets.first)
+                    - elsif @business.calendar_widgets.size > 1
+                        li.dropdown
+                          a.user-dropdown-toggle[data-toggle="dropdown"]
+                            span = "Calendars"
+                          ul.dropdown-menu
+                            - @business.calendar_widgets.each do |cal|
+                              li[style="display:block"]
+                                = link_to cal.name, listing_path_calendar_url(@business, cal)
                     - if @posts.size > 0
                       li
-                        span = link_to "Content", listing_contents_path
+                        = link_to "Content", listing_contents_path
               .col-sm-2.web-link
                 - if @business.website_url != 'http://'
                   li
@@ -111,7 +143,7 @@ html lang="en"
                       i.fa.fa-external-link
                       span  Website
             = yield
-          .container
+          .row
             .m-md
               .pull-right
                 p Main Street for the 21st Century

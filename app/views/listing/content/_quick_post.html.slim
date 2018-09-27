@@ -12,7 +12,7 @@
 
 .row
   div class='col-sm-12'
-    .feed-quick_post
+    .feed-quick_post.post-show
       - if (quick_post.published_status == false && !@preview)
         p This post has not been published by the business owner yet. Check back later!
       - else

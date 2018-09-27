@@ -1,5 +1,5 @@
 class Listing::ReviewsController < ApplicationController
-  layout "listing"
+  layout :resolve_layout
 
   include ApplicationHelper
   include SearchHelper
@@ -75,7 +75,20 @@ class Listing::ReviewsController < ApplicationController
     end
   end
 
+  def new
+
+  end
+
   private
+
+  def resolve_layout
+    case action_name
+    when "new"
+      "bare_listing"
+    else
+      "listing"
+    end
+  end
 
   def feedback_params
     params.require(:feedback).permit(

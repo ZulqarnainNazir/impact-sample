@@ -1,80 +1,108 @@
-.support_local_block {
-  @import 'variables';
-  @import 'dashboard/variables'; // Imports all of dashboard styles
-
-  .clearfix {
-    clear: both;
-  }
-}
-
-.dir-menu-custom {
-  border-bottom-style: none !important;
-}
-
 .listing {
   background-color: #f1f1f1;
+
+    .support_local_block {
+      @import 'variables';
+      @import 'dashboard/variables'; // Imports all of dashboard styles
+
+      .clearfix {
+        clear: both;
+      }
+    }
   
-  .social-links a {color: #fff;}
-
-  .container {
-    box-shadow: 0px 2px 2px grey;
-    margin-bottom: 10px;
-    width: 100%;
-    background-color: #fff;
-  }
-
-  .jumbotron {
-    color: white;
-    min-height: 248px;
-    max-height: 248px;
-  }
-
-  .logo-style {
-    height: 200px;
-    max-width: 200px;
-    background: #fff;
-    border: 2px solid #fff;
-    border-radius: 2px;
-    box-shadow: 0px 0px 2px rgba(0,0,0,0.3);
-    img {
-
+    .dir-menu-custom {
+      border-bottom-style: none !important;
     }
 
-  }
+    .fluid-nav > ul.nav {
+      overflow-x: visible;
+    }
 
-  .logo-img {
-    width: auto !important;
-    max-height: 200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+    .social-links a {color: #fff;}
 
-  .web-link li {
-    display: block;
-    padding: 16px;
-  }
-  .web-link li a {
-    color: #777;
-  }
+    .container {
+      box-shadow: 0px 2px 2px grey;
+      margin-bottom: 10px;
+      width: 100%;
+      background-color: #fff;
+    }
 
-  @media only screen and (max-width: 768px) {
-    .webpage-block .jumbotron .business-name h1 {font-size: 18px; margin-top: 10%;}
+    .jumbotron {
+      color: white;
+      min-height: 248px;
+      max-height: 248px;
+    }
 
     .logo-style {
-      height: 78px;
-    }
-    .business-name {
-      margin-top: 20%;
+      height: 200px;
+      max-width: 200px;
+      background: #fff;
+      border: 2px solid #fff;
+      border-radius: 2px;
+      box-shadow: 0px 0px 2px rgba(0,0,0,0.3);
+      img {
+
+      }
+
     }
 
-    .menu-no-slide{
+    .logo-img {
+      width: auto !important;
+      max-height: 200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .web-link li {
+      display: block;
+      padding: 16px;
+    }
+    .web-link li a {
+      color: #777;
+    }
+
+    .listing-show-more-desc {
       display: none;
     }
 
-    .logo-container {
-      width: 40%;
-      margin-top: 20%;
+    .listing-desc-container .paragraph-desc {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 10;
+      -webkit-box-orient: vertical;
     }
-}
+
+    .listing-show-more-desc:checked ~ p {
+      overflow: auto;
+      display: inherit;
+    }
+
+    .listing-show-more-desc:checked ~ .show-more-desc-trigger {
+      display: none;
+    }
+
+    .listing-desc-container .show-more-desc-trigger{
+      display: none;
+    }
+
+    @media only screen and (max-width: 768px) {
+      .webpage-block .jumbotron .business-name h1 {font-size: 18px; margin-top: 10%;}
+
+      .logo-style {
+        height: 78px;
+      }
+      .business-name {
+        margin-top: 20%;
+      }
+
+      .menu-no-slide{
+        display: none;
+      }
+
+      .logo-container {
+        width: 40%;
+        margin-top: 20%;
+      }
+    }
 }
   

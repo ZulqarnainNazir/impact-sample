@@ -19,9 +19,13 @@
         p = link_to @business.location.email, "mailto:#{@business.location.email}", class: 'email', itemprop: 'email'
       = render partial: 'website/contact_pages/opening', collection: @business.location.openings
 .col-sm-5
-  div
+  .listing-desc-container.m-t-sm
+    input.listing-show-more-desc type="checkbox" id="listing-desc-1"
     p = sanitize_simple(@business.description)
-.col-sm-4
+    label.show-more-desc-trigger for="listing-desc-1"
+      a
+        = "Read more"
+#map-col-id.col-sm-4
   - if !@business.location.hide_address?
     - if @business.location && !@business.location.latitude.nil? && !@business.location.longitude.nil?
       - map_params = { center: [@business.location.latitude, @business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
@@ -49,4 +53,15 @@
     - elsif reviews.count > 0
       - reviews.each do |review|
         = render partial: 'listing/reviews/review', locals: {review: review}
+
+javascript:
+
+  if($('.listing-desc-container p').height() > $('#map-col-id').height()){
+    $('.listing-desc-container p').addClass('paragraph-desc');
+    $('.show-more-desc-trigger').show();
+  }
+
+  $('.show-more-desc-trigger').click(function() {
+    $('.show-more-desc-trigger').hide();
+  })
 

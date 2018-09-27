@@ -1,14 +1,7 @@
-- title 'Calendars'
-
-
-= render 'application/alerts'
-.page-header
-  h1.h2
-    ' Calendars
-
 .row
 
 div.col-xs-12.m-t-lg
+  h2 = @calendar_widget.name
   a
 
   - request_url = url_for({ controller: params[:controller], action: params[:action] })

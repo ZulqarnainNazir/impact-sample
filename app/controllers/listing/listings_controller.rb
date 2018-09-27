@@ -21,7 +21,6 @@ class Listing::ListingsController < ApplicationController
     @truncate_rev = true
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
 
-
     @masonry = true #tells content partials to use masonry format
     #params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
 
@@ -37,7 +36,20 @@ class Listing::ListingsController < ApplicationController
     end
     #end of overriding-code
 
-    @og_title = @business.name + ", " + @business.location.city + ' ' + @business.location.state
+    @og_title = @business.name
+
+    if @business.location.city.present? || @business.location.state.present?
+      @og_title = @og_title + ','
+    end
+
+    if @business.location.city.present?
+      @og_title = @og_title + ' ' + @business.location.city
+    end
+
+    if @business.location.state.present?
+      @og_title = @og_title + ' ' + @business.location.state
+    end
+
   end
 
   def setup_content_types

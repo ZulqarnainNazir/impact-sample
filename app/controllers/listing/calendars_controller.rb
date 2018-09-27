@@ -35,5 +35,10 @@ class Listing::CalendarsController < ApplicationController
 
   end
 
+  def show
+    @calendar_widget = @business.calendar_widgets.find(params[:id])
+
+  end
+
 
 end

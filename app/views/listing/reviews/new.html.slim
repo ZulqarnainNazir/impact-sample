@@ -1,109 +1,109 @@
 - title 'Leave a Customer Review'
 
-.container
-  .row
-    .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
-      p.lead.text-center Thank you for taking the time to leave a review for <strong>#{@business.name}</strong>. This should only take a minute.
-      / - if @feedback.errors
-      /   .panel.panel-warning
-      /     .panel-heading
-      /       strong Oops! Looks like you've missed filling in a required field.
-      / = errors_for @feedback
-      = form_for @feedback, url: listing_create_review_path(@business.generate_listing_segment), method: :post do |form|
-        = hidden_field_tag :feedback_token, params[:feedback_token]
-        hr
-        = form.fields_for :review do |form|
-          = form.hidden_field :company_id, :value => @feedback.company_id
+
+.row
+  .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
+    p.lead.text-center Thank you for taking the time to leave a review for <strong>#{@business.name}</strong>. This should only take a minute.
+    / - if @feedback.errors
+    /   .panel.panel-warning
+    /     .panel-heading
+    /       strong Oops! Looks like you've missed filling in a required field.
+    / = errors_for @feedback
+    = form_for @feedback, url: listing_create_review_path(@business.generate_listing_segment), method: :post do |form|
+      = hidden_field_tag :feedback_token, params[:feedback_token]
+      hr
+      = form.fields_for :review do |form|
+        = form.hidden_field :company_id, :value => @feedback.company_id
+        .row
+          h3.col-sm-8.col-sm-offset-2.text-center How would you rate your experience with us?
+
+        br
+        .text-center.m-md
           .row
-            h3.col-sm-8.col-sm-offset-2.text-center How would you rate your experience with us?
-            
-          br
-          .text-center.m-md
-            .row
-              .col-sm-6.col-sm-offset-3
-                .form-group.form-group-rating
-                  = form.hidden_field :overall_rating
-                  = form.label :overall_rating, class: 'control-label'
-                  .text-warning style="font-size:3em; cursor:pointer"
-                    span.fa> class=(form.object.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
-                    span.fa> class=(form.object.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
-                    span.fa> class=(form.object.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
-                    span.fa> class=(form.object.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
-                    span.fa class=(form.object.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
-                    h5.col-sm-12.text-center.text-muted 
-                      | (1 = Very Bad ... 5 = Fantastic)
-          .form-group.m-t-xl.text-center
-            = form.label :description, 'Adding unique details about your experience helps people learn about local businesses!', class: 'control-label text-center'
-            = form.text_area :description, placeholder: 'What was your experience like? What product or service did they provide? What stands out the most and what is the most important thing someone should know?', rows: 4, class: 'form-control'
-        - unless form.object.score?
-          .form-group
-            p: strong How likely is it that you would recommend #{@business.name} to a friend or colleague?
-            .table-repsonsive
-              table.table.text-center style="border:none"
-                tbody
-                  tr
-                    td
-                      = form.label :score_1 do
-                        ' 01
-                        br>
-                        = form.radio_button :score, 1
-                    td
-                      = form.label :score_2 do
-                        ' 2
-                        br>
-                        = form.radio_button :score, 2
-                    td
-                      = form.label :score_3 do
-                        ' 3
-                        br>
-                        = form.radio_button :score, 3
-                    td
-                      = form.label :score_4 do
-                        ' 4
-                        br>
-                        = form.radio_button :score, 4
-                    td
-                      = form.label :score_5 do
-                        ' 5
-                        br>
-                        = form.radio_button :score, 5
-                    td
-                      = form.label :score_6 do
-                        ' 6
-                        br>
-                        = form.radio_button :score, 6
-                    td
-                      = form.label :score_7 do
-                        ' 7
-                        br>
-                        = form.radio_button :score, 7
-                    td
-                      = form.label :score_8 do
-                        ' 8
-                        br>
-                        = form.radio_button :score, 8
-                    td
-                      = form.label :score_9 do
-                        ' 9
-                        br>
-                        = form.radio_button :score, 9
-                    td
-                      = form.label :score_10 do
-                        ' 10
-                        br>
-                        = form.radio_button :score, 10
-          .row
-            .col-sm-4.text-left Not at all likely
-            .col-sm-4.text-center Neutral
-            .col-sm-4.text-right Extremely Likely
-          .form-group
-            = form.label :description, form.object.score? ? "Why might you recommend #{@business.name} to a friend or colleague" : 'Why?', class: 'control-label'
-            = form.text_area :description, rows: 4, class: 'form-control'
-        .text-center.m-t-lg
-          .form-group
-            = form.button class: 'btn btn-lg btn-success' do
-              ' Submit Review
-              = icon 'angle-double-right'
+            .col-sm-6.col-sm-offset-3
+              .form-group.form-group-rating
+                = form.hidden_field :overall_rating
+                = form.label :overall_rating, class: 'control-label'
+                .text-warning style="font-size:3em; cursor:pointer"
+                  span.fa> class=(form.object.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o') data-rating="1"
+                  span.fa> class=(form.object.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o') data-rating="2"
+                  span.fa> class=(form.object.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o') data-rating="3"
+                  span.fa> class=(form.object.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o') data-rating="4"
+                  span.fa class=(form.object.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o') data-rating="5"
+                  h5.col-sm-12.text-center.text-muted
+                    | (1 = Very Bad ... 5 = Fantastic)
+        .form-group.m-t-xl.text-center
+          = form.label :description, 'Adding unique details about your experience helps people learn about local businesses!', class: 'control-label text-center'
+          = form.text_area :description, placeholder: 'What was your experience like? What product or service did they provide? What is the most important thing someone should know?', rows: 5, class: 'form-control'
+      - unless form.object.score?
+        .form-group
+          p: strong How likely is it that you would recommend #{@business.name} to a friend or colleague?
+          .table-repsonsive
+            table.table.text-center style="border:none"
+              tbody
+                tr
+                  td
+                    = form.label :score_1 do
+                      ' 01
+                      br>
+                      = form.radio_button :score, 1
+                  td
+                    = form.label :score_2 do
+                      ' 2
+                      br>
+                      = form.radio_button :score, 2
+                  td
+                    = form.label :score_3 do
+                      ' 3
+                      br>
+                      = form.radio_button :score, 3
+                  td
+                    = form.label :score_4 do
+                      ' 4
+                      br>
+                      = form.radio_button :score, 4
+                  td
+                    = form.label :score_5 do
+                      ' 5
+                      br>
+                      = form.radio_button :score, 5
+                  td
+                    = form.label :score_6 do
+                      ' 6
+                      br>
+                      = form.radio_button :score, 6
+                  td
+                    = form.label :score_7 do
+                      ' 7
+                      br>
+                      = form.radio_button :score, 7
+                  td
+                    = form.label :score_8 do
+                      ' 8
+                      br>
+                      = form.radio_button :score, 8
+                  td
+                    = form.label :score_9 do
+                      ' 9
+                      br>
+                      = form.radio_button :score, 9
+                  td
+                    = form.label :score_10 do
+                      ' 10
+                      br>.container
+                      = form.radio_button :score, 10
+        .row
+          .col-sm-4.text-left Not at all likely
+          .col-sm-4.text-center Neutral
+          .col-sm-4.text-right Extremely Likely
+        .form-group
+          = form.label :description, form.object.score? ? "Why might you recommend #{@business.name} to a friend or colleague" : 'Why?', class: 'control-label'
+          = form.text_area :description, rows: 4, class: 'form-control'
+      .text-center.m-t-lg.m-b-lg
+        .form-group
+          = form.button class: 'btn btn-lg btn-success' do
+            ' Submit Review
+            = icon 'angle-double-right'
 
 javascript:
   $('.form-group-rating .fa').click(function(e) {
