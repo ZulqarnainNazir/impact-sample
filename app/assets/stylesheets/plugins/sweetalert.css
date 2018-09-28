@@ -362,6 +362,11 @@ body.stop-scrolling {
       background-position: center center;
       background-repeat: no-repeat; }
 
+.sweet-alert-scroll{
+  position: absolute;  
+}
+
+
 /*
  * Animations
  */

@@ -2,12 +2,12 @@
   = f.hidden_field :business_id, value: @unclaimed_business.present? ? @unclaimed_business.id : @business.id
   .form-group
     = f.label :name, 'Feed Name', class: 'control-label'
-    = f.text_field :name, class: 'form-control'
+    = f.text_field :name, class: 'form-control', placeholder: 'Add a name for your feed to stay organized'
     - if f.object.errors[:name].any?
       label class="error" = f.object.errors[:name].first
   .form-group
     = f.label :url, 'Feed URL', class: 'control-label'
-    = f.text_field :url, class: 'form-control'
+    = f.text_field :url, class: 'form-control', placeholder: 'Include full feed url - will start with http or https'
     - if f.object.errors[:url].any?
       label class="error" = f.object.errors[:url].first
 

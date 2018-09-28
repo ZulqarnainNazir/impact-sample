@@ -1,6 +1,9 @@
 class Businesses::Content::EventFeedsController < Businesses::Content::BaseController
-  def show
+  before_action except: [:new, :create] do
     @event_feed = EventFeed.find(params[:id])
+  end
+
+  def show
     if !authorized_for_event_feed?
       redirect_to business_content_event_imports_path, alert: "Unauthorized to view this event feed."
       return
@@ -9,7 +12,6 @@ class Businesses::Content::EventFeedsController < Businesses::Content::BaseContr
   end
 
   def reprocess
-    @event_feed = EventFeed.find(params[:id])
     @event_feed.import
 
     redirect_to [@business, :content, @event_feed], notice: "This feed has been queued for processing. Please refresh the page to see updates as the feed is imported. Once the import is finished, we'll send an email notification."
@@ -27,7 +29,6 @@ class Businesses::Content::EventFeedsController < Businesses::Content::BaseContr
       return
     end
 
-    @event_feed = EventFeed.find(params[:id])
     @event_feed.location || @event_feed.build_location
   end
 
@@ -49,7 +50,6 @@ class Businesses::Content::EventFeedsController < Businesses::Content::BaseContr
   end
 
   def update
-    @event_feed = EventFeed.find(params[:id])
     @event_feed.assign_attributes(event_feed_params)
 
     if !authorized_for_event_feed?
@@ -71,7 +71,6 @@ class Businesses::Content::EventFeedsController < Businesses::Content::BaseContr
   end
 
   def destroy
-    @event_feed = EventFeed.find(params[:id])
     @event_feed.destroy
 
     redirect_to business_content_event_imports_path, notice: 'Feed destroyed'

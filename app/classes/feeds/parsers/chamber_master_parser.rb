@@ -30,9 +30,15 @@ module Feeds
 
       def occurence_from_description(start_date, description)
         return unless description.present?
-        parsed_desc = Nickel.parse(description)
-        parsed_desc.occurrences.find do |occurence|
-          occurence.start_date.to_date == start_date
+        begin
+          parsed_desc = Nickel.parse(description)
+          parsed_desc.occurrences.find do |occurence|
+            occurence.start_date.to_date == start_date
+          end
+        rescue
+          Rails.logger.error "Failed to parse occurence from description. Start date: #{start_date}, Description: #{description}"
+
+          nil
         end
       end
     end

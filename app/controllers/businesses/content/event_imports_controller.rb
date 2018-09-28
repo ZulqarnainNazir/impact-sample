@@ -1,10 +1,10 @@
 class Businesses::Content::EventImportsController < Businesses::Content::BaseController
-  before_action only: :index do
-    @event_feeds = EventFeed.for_business(@business)
-  end
-
   before_action do
     @locable_business = LocableBusiness.find_by_id(@business.cce_id) if @business.cce_id?
+  end
+
+  def index
+    @event_feeds = EventFeed.for_business(@business)
   end
 
   def import_all

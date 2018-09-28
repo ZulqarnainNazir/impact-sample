@@ -16,5 +16,5 @@
           .ibox.float-e-margins
             .ibox-content
               = errors_for @event_definition
-              = form_for @event_definition, url: [@business, :content, @event_feed, @event_definition], html: { class: 'save-once' } do |form|
+              = form_for @event_definition, url: business_content_event_feed_imported_event_definition_path(@business, @event_feed, @event_definition), html: { class: 'save-once' } do |form|
                 = render partial: 'businesses/content/event_definitions/form', locals: { form: form }

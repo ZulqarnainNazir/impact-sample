@@ -2,34 +2,18 @@ $(document).ready(function(){
   $('a.feed-type-info').click(function(){
     swal({
       html: true,
-      customClass: 'sweet-alert--left',
-      title: 'These are feed types we support',
+      customClass: 'sweet-alert--left sweet-alert-scroll',
+      title: 'Supported Feed Types',
       text: '<div class="sweet-alert_block">' +
-          '<strong>Chamber Master</strong> or ' +
-          '<strong>Chamber Organizer</strong>' +
-          '<br/>' +
-          '<p>The correct feed URL for this type of input will include "rss" and link to an XML document.</p>' +
-        '</div>' +
-        '<div class="sweet-alert_block">' +
-          '<strong>Timely</strong>' +
-          '<br/>' +
-          '<p>To import a Timely calendar:' +
+          '<p>Currently supported calendars:</p>' +
           '<ul>' +
-            '<li>Find the "Subscribe" menu</li>' +
-            '<li>Hover over the "Export to XML" option</li>' +
-            '<li>Right click and choose "Copy Link Address." This is the URL we need in order to import the calendar.</li>' +
+            '<li>Google Calendar</li>' +
+            '<li>Chamber Master</li>' +
+            '<li>Chamber Organizer and Chamber Nation</li>' +
+            '<li>Timely</li>' +
+            '<li>Contact us if your calendar is not included</li>' +
           '</ul>' +
-        '</div>' +
-        '<div class="sweet-alert_block">' +
-          '<strong>Google Calendar</strong>' +
-          '<br/>' +
-          '<p>To import a Google calendar:</p>' +
-          '<ul>' +
-            '<li><a href="https://calendar.google.com/calendar/r", target="_blank">Click this link</a> to go to your Google calendars</li>' +
-            '<li>Click the gear icon in the top right, choose "Settings"</li>' +
-            '<li>Look for the calendar you want to import underneath "Settings for my calendars", click it</li>' +
-            '<li>Find the URL underneath "Public address in iCal format." This is the URL we need in order to import the calendar.</li>' +
-          '</ul>' +
+          '<p>Learn more about importing <a href="http://help.locable.com/marketing-tools/how-to-import-from-an-existing-event-calendar", target="_blank">in our support center</a>' +
         '</div>',
       type: 'info'
     });
