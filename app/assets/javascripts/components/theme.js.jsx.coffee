@@ -1,5 +1,6 @@
 Theme = React.createClass
     propTypes:
+        internalWebpages: React.PropTypes.arrayOf(React.PropTypes.object)
         browserButtonsSrc: React.PropTypes.string.isRequired
         initialHeaderBlock: React.PropTypes.object.isRequired
         initialFooterBlock: React.PropTypes.object.isRequired
@@ -339,7 +340,7 @@ Theme = React.createClass
                             </div>
                         </div>
                     </div>
-                    <Block {...this.state.footerBlock} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
+                    <Block {...this.state.footerBlock} contentCategories={this.props.contentCategories} internalWebpages={this.props.internalWebpages} kind="full_width" groupInputName="footer_block_attributes" editing={this.state.editing} prevTheme={this.prevFooterTheme} nextTheme={this.nextFooterTheme} footerEmbed />
                 </div>
                 <div className="panel-footer clearfix">
                     <p className="checkbox pull-right" style={{margin: 0}}>
@@ -655,7 +656,7 @@ Theme = React.createClass
 
     prevFooterTheme: (event) ->
         event.preventDefault()
-        availableThemes = ['simple', 'simple_full_width', 'columns', 'layers']
+        availableThemes = ['columns_with_feeds', 'simple', 'simple_full_width', 'columns', 'layers']
         currentTheme = this.state.footerBlock.theme
         currentThemeIndex = availableThemes.indexOf(currentTheme)
         theme = availableThemes[currentThemeIndex - 1] or availableThemes[-1]
@@ -663,7 +664,7 @@ Theme = React.createClass
 
     nextFooterTheme: (event) ->
         event.preventDefault()
-        availableThemes = ['simple', 'simple_full_width', 'columns', 'layers']
+        availableThemes = ['columns_with_feeds', 'simple', 'simple_full_width', 'columns', 'layers']
         currentTheme = this.state.footerBlock.theme
         currentThemeIndex = availableThemes.indexOf(currentTheme)
         theme = availableThemes[currentThemeIndex + 1] or availableThemes[0]

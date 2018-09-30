@@ -9,6 +9,8 @@
       defaultForegroundColor: form.object.foreground_color,
       defaultLinkColor: form.object.link_color,
       defaultWrapContainer: form.object.wrap_container,
+      internalWebpages: form.object.webpages.select(:id, :name),
+      contentCategories: form.object.business.content_categories.as_json,
       initialHeaderBlock: form.object.header_block.try(:as_theme_json, form.object.business),
       initialFooterBlock: form.object.footer_block.try(:as_theme_json, form.object.business),
       initialFooterEmbed: form.object.footer_embed,

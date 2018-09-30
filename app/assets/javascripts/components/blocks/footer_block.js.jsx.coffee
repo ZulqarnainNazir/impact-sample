@@ -10,6 +10,8 @@ FooterBlock = React.createClass
         this.renderSimpleFullWidth()
       when 'columns'
         this.renderColumns()
+      when 'columns_with_feeds'
+        this.renderColumnsWithFeeds()
       when 'layers'
         this.renderLayers()
       else
@@ -17,9 +19,8 @@ FooterBlock = React.createClass
 
   renderSimpleFullWidth: ->
     `<footer className="site-footer site-footer-simple">
-      <hr />
       <div className="container">
-        <p className="copyright">© 2017 {this.props.name}</p>
+        <p className="copyright">© 2018 {this.props.name}</p>
         <ul className="list-inline footer-social">
           <li><a href="#"><i className="fa fa-facebook-square fa-2x"></i></a></li>
           <li><a href="#"><i className="fa fa-twitter-square fa-2x"></i></a></li>
@@ -36,7 +37,7 @@ FooterBlock = React.createClass
     `<footer className="site-footer site-footer-simple">
       <div className="container">
         <hr />
-        <p className="copyright">© 2017 {this.props.name}</p>
+        <p className="copyright">© 2018 {this.props.name}</p>
         <ul className="list-inline footer-social">
           <li><a href="#"><i className="fa fa-facebook-square fa-2x"></i></a></li>
           <li><a href="#"><i className="fa fa-twitter-square fa-2x"></i></a></li>
@@ -74,7 +75,7 @@ FooterBlock = React.createClass
           <div className="row vcard">
             <div className="col-sm-4">
               <p className="h4 fn org">{this.props.name}</p>
-              <p className="copyright">© 2017 {this.props.name}</p>
+              <p className="copyright">© 2018 {this.props.name}</p>
             </div>
             <div className="col-sm-4 footer-center">
               {this.renderPhone()} <br />
@@ -116,9 +117,77 @@ FooterBlock = React.createClass
         </div>
       </div>
       <div className="container text-center">
-        <p className="copyright">© 2017 {this.props.name}</p>
+        <p className="copyright">© 2018 {this.props.name}</p>
       </div>
     </footer>`
+
+  renderColumnsWithFeeds: ->
+    `<footer className="site-footer site-footer-columns">
+      <LeftFeedSettingsModal footerBlock={this.props} contentCategories={this.props.contentCategories} reset={function(){}} update={function(){}} />
+      <RightFeedSettingsModal footerBlock={this.props} contentCategories={this.props.contentCategories} reset={function(){}} update={function(){}} />
+      <LeftColumnLabelConfigModal footerBlock={this.props} internalWebpages={this.props.internalWebpages} reset={function(){}} update={function(){}} />
+      <RightColumnLabelConfigModal footerBlock={this.props} internalWebpages={this.props.internalWebpages} reset={function(){}} update={function(){}} />
+      <div className="site-footer-upper">
+        <div className="container">
+          <div className="row">
+            <div className="site-footer-columns-with-feed col-sm-3 m-b-xl">
+              <ul className="list-inline footer-social">
+                <li><a href="#"><i className="fa fa-facebook-square fa-2x"></i></a></li>
+                <li><a href="#"><i className="fa fa-twitter-square fa-2x"></i></a></li>
+                <li><a href="#"><i className="fa fa-google-plus-square fa-2x"></i></a></li>
+                <li><a href="#"><i className="fa fa-youtube-square fa-2x"></i></a></li>
+                <li><a href="#"><i className="fa fa-linkedin-square fa-2x"></i></a></li>
+                <li><a href="#"><i className="fa fa-envelope-square fa-2x"></i></a></li>
+              </ul>
+              <NavLinks items={this.props.pages} className="list-unstyled footer-links" />
+            </div>
+            <div className="site-footer-column col-sm-8">
+              <div className="row">
+                <div className="col-sm-6">
+                  <div><a href="#" className="h3 action-link" onClick={this.renderLeftFeedColumnConfigLabelModal}>Label (<u>edit</u>)</a></div>
+                  <hr></hr>
+                  <div><a href="#" className="action-link btn btn-white btn-xs" onClick={this.renderLeftFeedColumnConfigModal}>Configure Feed</a></div>
+                </div>
+                <div className="col-sm-6">
+                  <div><a href="#" className="h3 action-link" onClick={this.renderRightFeedColumnConfigLabelModal}>Label (<u>edit</u>)</a></div>
+                  <hr></hr>
+                  <div><a href="#" className="action-link btn btn-white btn-xs" onClick={this.renderRightFeedColumnConfigModal}>Configure Feed</a></div>
+                </div>
+              </div>
+            </div>
+            {/*<div className="site-footer-column col-sm-4 col-md-4 vcard">
+              <p className="h3 fn org">{this.props.name}</p>
+              <p>{this.renderPhone()}</p>
+              {this.renderAddress()}
+              <p>{this.renderEmail()}</p>
+            </div>*/}
+          </div>
+        </div>
+      </div>
+      <div className="container text-center">
+        <p className="copyright">© 2018 {this.props.name}</p>
+      </div>
+    </footer>`
+
+  renderLeftFeedColumnConfigModal: (event) ->
+    event.preventDefault()
+    $('body').addClass('modal-open')
+    $('#left_feed_settings_modal').modal('show')
+
+  renderLeftFeedColumnConfigLabelModal: (event) ->
+    event.preventDefault()
+    $('body').addClass('modal-open')
+    $('#left_label_config_modal').modal('show')
+
+  renderRightFeedColumnConfigModal: (event) ->
+    event.preventDefault()
+    $('body').addClass('modal-open')
+    $('#right_feed_settings_modal').modal('show')
+
+  renderRightFeedColumnConfigLabelModal: (event) ->
+    event.preventDefault()
+    $('body').addClass('modal-open')
+    $('#right_label_config_modal').modal('show')
 
   renderAddress: ->
     unless this.props.hideAddress

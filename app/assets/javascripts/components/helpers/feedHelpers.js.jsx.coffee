@@ -1,4 +1,10 @@
 feedHelpers = {
+  updateFooterFeedColumnSettings: (component) ->
+    console.log 'updateFooterFeedColumnSettings'
+
+  resetFooterFeedColumnSettings: ->
+    console.log 'resetFooterFeedColumnSettings'
+
   editFeedSettings: (groupId, block) ->
     $('#feed_settings_group_uuid').val groupId
     $('#feed_settings_block_uuid').val block.uuid
@@ -52,7 +58,6 @@ feedHelpers = {
       checkListSelect()
 
     checkListSelect()
-
 
   updateFeedSettings: (component) ->
     component.updateBlock $('#feed_settings_group_uuid').val(), $('#feed_settings_block_uuid').val(),

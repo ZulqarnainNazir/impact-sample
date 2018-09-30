@@ -183,6 +183,7 @@ const GroupContainer = React.createClass({
       editTaglineSettings: this.editTaglineSettings, // .bind(this),
       editDefaultSettings: this.editDefaultSettings, // .bind(this),
       editFeedSettings: this.editFeedSettings, // .bind(this),
+      editFooterFeedColumnSettings: this.editFooterFeedColumnSettings, // .bind(this),
       editSupportLocalSettings: this.editSupportLocalSettings, // .bind(this),
       editCalendarSettings: this.editCalendarSettings, // .bind(this),
       editContactFormSettings: this.editContactFormSettings, // .bind(this),

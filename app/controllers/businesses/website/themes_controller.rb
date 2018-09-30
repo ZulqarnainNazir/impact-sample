@@ -25,7 +25,7 @@ class Businesses::Website::ThemesController < Businesses::Website::BaseControlle
       :wrap_container,
       component_attributes,
       header_block_attributes: block_attributes.push(*%i[logo_height logo_horizontal_position logo_vertical_position logo_bar_fixed navigation_horizontal_position social_enabled contact_position navbar_location]),
-      footer_block_attributes: block_attributes,
+      footer_block_attributes: block_attributes.push(FooterBlock::SETTINGS),
     )
   end
 

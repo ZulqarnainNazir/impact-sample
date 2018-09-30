@@ -36,7 +36,7 @@ class Onboard::Website::ThemesController < Onboard::Website::BaseController
       :hide_embed_on_landing,
       :hide_embed_on_blog,
       header_block_attributes: block_attributes.push(*%i[logo_height logo_horizontal_position logo_vertical_position logo_bar_fixed navigation_horizontal_position social_enabled contact_position navbar_location]),
-      footer_block_attributes: block_attributes,
+      footer_block_attributes: block_attributes.push(FooterBlock::SETTINGS),
     )
   end
 end
