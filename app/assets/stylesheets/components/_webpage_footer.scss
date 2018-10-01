@@ -1,10 +1,18 @@
 .webpage-footer {
   padding-bottom: 1px;
+  &:before, &:after {
+   content: ""; 
+   position: absolute;
+  }
   hr,
   .page-header {
     border-color: rgba(0,0,0,0.1);
   }
   .site-footer-simple {
+   &:before, &:after {
+     content: ""; 
+     position: absolute;
+    }
     text-align: center;
     $footer-color: lighten($navbar-inverse-color, 10%);
     $footer-link-color: $link-color;
@@ -12,6 +20,10 @@
       margin-top: 0;
     }
     .footer-social {
+      &:before, &:after {
+       content: ""; 
+       position: absolute;
+      }
       margin-left: -1px;
       li {
         padding-left: 1px;
@@ -30,6 +42,10 @@
   }
 
   .site-footer-columns {
+    &:before, &:after {
+     content: ""; 
+     position: absolute;
+    }
     $footer-color: lighten($navbar-inverse-color, 10%);
     $footer-link-color: $link-color;
     .site-footer-upper {
@@ -48,6 +64,10 @@
       margin-top: 0;
     }
     .footer-social {
+      &:before, &:after {
+       content: ""; 
+       position: absolute;
+      }
       margin-left: -1px;
       text-align: center;
       li {
@@ -56,6 +76,10 @@
       }
     }
     .footer-links {
+      &:before, &:after {
+       content: ""; 
+       position: absolute;
+      }
       -webkit-column-count: 2;
       -moz-column-count: 2;
       column-count: 2;
@@ -81,6 +105,10 @@
   }
 
   .site-footer-columns-with-feed {
+    &:before, &:after {
+     content: ""; 
+     position: absolute;
+    }
     $footer-color: lighten($navbar-inverse-color, 10%);
     $footer-link-color: $link-color;
     .site-footer-upper {
@@ -100,6 +128,10 @@
       margin-top: 0;
     }
     .footer-social {
+      &:before, &:after {
+       content: ""; 
+       position: absolute;
+      }
       margin-left: -1px;
       text-align: center;
       li {
@@ -109,6 +141,10 @@
       }
     }
     .footer-links {
+      &:before, &:after {
+       content: ""; 
+       position: absolute;
+      }
       -webkit-column-count: 2;
       -moz-column-count: 2;
       column-count: 2;

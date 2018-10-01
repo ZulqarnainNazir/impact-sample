@@ -51,9 +51,9 @@ footer.site-footer.site-footer-columns
                 = link_to [:website, (event.respond_to?(:events) ? event.events.first : event), only_path: false, host: website_host(business.website)], class: "h4 m-b-0" do
                   = event.title
                 .small
-                  i.fa.fa-calendar.m-r-xs
-                  = event.occurs_on.strftime('%b %d, %Y ')
-                  /= truncate(strip_tags(event.description), length: 100)
+                  /i.fa.fa-calendar.m-r-xs
+                  /= event.occurs_on.strftime('%b %d, %Y ')
+                  = truncate(strip_tags(event.description), length: 100)
                   = ' '
                   /= event_definition.start_time
                   /= link_to [:website, (event.respond_to?(:events) ? event.events.first : event), only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: "btn-link btn-feed-block" do
