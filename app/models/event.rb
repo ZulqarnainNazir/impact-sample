@@ -25,17 +25,24 @@ class Event < ActiveRecord::Base
     event_definition.title
   end
 
+  def occurs_on_with_time_timestamp
+    if event_definition&.start_time
+      occurs_on.strftime('%b %d, %Y') + ' at ' + event_definition.start_time.strftime('%l:%M %p')
+    else
+      occurs_on.strftime('%b %d, %Y')
+    end
+  end
 
   def description
     #leveraged in as_indexed_json below for ElasticSearch
     event_definition.description
   end
-  
+
   def subtitle
     #leveraged in as_indexed_json below for ElasticSearch
     event_definition.subtitle
   end
-  
+
   def as_indexed_json(options = {})
     #the methods called here are defined in this model;
     #they are included in the ElasticSearch

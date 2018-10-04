@@ -19,19 +19,22 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.left_label_text
               hr
           ul class="list-unstyled"
-            - posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[QuickPost Gallery BeforeAfter Post], content_category_ids: Array(@business.website.footer_block.left_category_ids)).search.first(@business.website.footer_block.left_number_of_feed_items.to_i)
+            - (posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[QuickPost Gallery BeforeAfter Post], content_category_ids: Array(@business.website.footer_block.left_category_ids)).search.first(@business.website.footer_block.left_number_of_feed_items.to_i));nil
             - posts.each do |post|
               li
                 = link_to [:website, post, only_path: false, host: website_host(business.website)], class: "grid-feed-title m-b-0" do
                   = post.title
                 small class="m-t-xs"
-                  - if post.respond_to?(:description)
-                    = truncate(strip_tags(post.description), length: 100)
-                  - else
+                  - if post.is_a?(QuickPost)
                     = truncate(strip_tags(post.content), length: 100)
+                  - else
+                    - if post.description.blank?
+                      = truncate(strip_tags(post.meta_description), length: 100)
+                    - else
+                      = truncate(strip_tags(post.description), length: 100)
                 = ' '
                 = link_to [:website, post, only_path: false, host: website_host(business.website)], class: "btn-link btn-feed-block"
-                  Read More
+                  | Read More
                   i class="pad-lt-3 fa fa-long-arrow-right"
               hr
 
@@ -45,20 +48,14 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.right_label_text
               hr
           ul class="list-unstyled"
-            - posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[Event], content_category_ids: Array(@business.website.footer_block.right_category_ids)).search.first(@business.website.footer_block.right_number_of_feed_items.to_i)
+            - posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[Event], content_category_ids: Array(@business.website.footer_block.right_category_ids)).search.select{ |event| event.is_a? Event }.sort_by(&:occurs_on).first(@business.website.footer_block.right_number_of_feed_items.to_i)
             - posts.each do |event|
               li.m-b-lg
-                = link_to [:website, (event.respond_to?(:events) ? event.events.first : event), only_path: false, host: website_host(business.website)], class: "h4 m-b-0" do
+                = link_to [:website, event, only_path: false, host: website_host(business.website)], class: "h4 m-b-0" do
                   = event.title
                 .small
-                  /i.fa.fa-calendar.m-r-xs
-                  /= event.occurs_on.strftime('%b %d, %Y ')
-                  = truncate(strip_tags(event.description), length: 100)
-                  = ' '
-                  /= event_definition.start_time
-                  /= link_to [:website, (event.respond_to?(:events) ? event.events.first : event), only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: "btn-link btn-feed-block" do
-                    Read More
-                    i class="pad-lt-3 fa fa-long-arrow-right"
+                  i.fa.fa-calendar.m-r-xs
+                  = event.occurs_on_with_time_timestamp
 
   .container.text-center
     p.copyright &copy #{Time.zone.now.year} #{business.name}
