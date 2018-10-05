@@ -49,8 +49,8 @@ CalendarSettingsModal = React.createClass
             <hr />
           </div>
           <div className="modal-footer">
-            <span className="btn btn-default" data-dismiss="modal">Cancel</span>
-            <span className="btn btn-primary" data-dismiss="modal" onClick={this.props.updateCalendarSettings}>Save</span>
+            <span className="btn btn-link m-r-xl" data-dismiss="modal">Cancel</span>
+            <span className="btn btn-primary col-xs-6" data-dismiss="modal" onClick={this.props.updateCalendarSettings}>Save</span>
           </div>
         </div>
       </div>

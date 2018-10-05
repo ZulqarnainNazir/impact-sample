@@ -250,12 +250,12 @@ const CustomGroupModal = React.createClass({
             </div>
             <div className="modal-footer">
               <button
-                className="btn btn-default"
+                className="btn btn-link m-r-xl"
                 data-dismiss="modal"
                 onClick={this.resetCustomGroup}
               >Cancel</button>
               <button
-                className="btn btn-primary"
+                className="btn btn-primary col-xs-6"
                 data-dismiss="modal" onClick={this.props.updateCustomGroup}
               >Save</button>
             </div>

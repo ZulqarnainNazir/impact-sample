@@ -83,8 +83,8 @@ LinkModal = React.createClass
           </div>
 
           <div className="modal-footer">
-            <span className="btn btn-default" data-dismiss="modal" onClick={this.props.resetLink}>Cancel</span>
-            <span className="btn btn-primary" data-dismiss="modal" onClick={this.props.updateLink}>Save</span>
+            <span className="btn btn-link m-r-xl" data-dismiss="modal" onClick={this.props.resetLink}>Cancel</span>
+            <span className="btn btn-primary col-xs-6" data-dismiss="modal" onClick={this.props.updateLink}>Save</span>
           </div>
         </div>
       </div>

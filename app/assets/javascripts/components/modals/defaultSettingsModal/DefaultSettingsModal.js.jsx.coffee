@@ -46,10 +46,10 @@ DefaultSettingsModal = React.createClass
           </div>
           <div className="modal-footer">
             <span
-              className="btn btn-default" data-dismiss="modal" onClick={() => $('#default_settings_custom_class').val('')}
+              className="btn btn-link m-r-xl" data-dismiss="modal" onClick={() => $('#default_settings_custom_class').val('')}
             >Cancel</span>
             <span
-              className="btn btn-primary" data-dismiss="modal" onClick={this.props.updateDefaultSettings}
+              className="btn btn-primary col-xs-6" data-dismiss="modal" onClick={this.props.updateDefaultSettings}
             >Save</span>
           </div>
         </div>

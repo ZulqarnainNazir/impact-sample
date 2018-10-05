@@ -13,8 +13,8 @@ MediaModal = React.createClass
 
   renderMediaLibrarySaveButton: () ->
     if (['uploading', 'finishing'].indexOf(this.props.mediaImageStatus) >= 0)
-      return `<span className="btn btn-primary disabled" data-dismiss="modal" onClick={this.props.updateMedia}>Save</span>`
-    return `<span className="btn btn-primary" data-dismiss="modal" onClick={this.props.updateMedia}>Save</span>`
+      return `<span className="btn btn-primary col-xs-6 disabled" data-dismiss="modal" onClick={this.props.updateMedia}>Save</span>`
+    return `<span className="btn btn-primary col-xs-6" data-dismiss="modal" onClick={this.props.updateMedia}>Save</span>`
 
   showMediaLibrary: () ->
     mediaHelpers.showMediaLibrary(this.props.loadMediaLibraryImages);
@@ -89,7 +89,7 @@ MediaModal = React.createClass
               </div>
             </div>
             <div className="modal-footer">
-              <span className="btn btn-default" data-dismiss="modal" onClick={this.props.resetMedia}>Cancel</span>
+              <span className="btn btn-link m-r-xl" data-dismiss="modal" onClick={this.props.resetMedia}>Cancel</span>
               {this.renderMediaLibrarySaveButton()}
             </div>
           </div>
@@ -100,7 +100,7 @@ MediaModal = React.createClass
 MediaModal.mediaModalTitle = () ->
   if ($('#media_type').val() == 'background')
     return 'Add Background Image'
-  return 'Add an Image or Video'
+  return 'Add an Image or Embed'
 
 MediaModal.propTypes = {
   mediaImageAttachmentURL: React.PropTypes.string,

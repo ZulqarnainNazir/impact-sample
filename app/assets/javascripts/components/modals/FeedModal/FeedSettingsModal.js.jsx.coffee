@@ -189,8 +189,8 @@ FeedSettingsModal = React.createClass
             </div>
           </div>
           <div className="modal-footer">
-            <span className="btn btn-default" data-dismiss="modal" onClick={this.resetFeedSettings}>Cancel</span>
-            <span className="btn btn-primary" data-dismiss="modal" onClick={this.props.updateFeedSettings}>Save</span>
+            <span className="btn btn-link m-r-xl" data-dismiss="modal" onClick={this.resetFeedSettings}>Cancel</span>
+            <span className="btn btn-primary col-xs-6" data-dismiss="modal" onClick={this.props.updateFeedSettings}>Save</span>
           </div>
         </div>
       </div>
