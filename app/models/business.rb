@@ -721,6 +721,14 @@ class Business < ActiveRecord::Base
     self.slug = name.gsub(/['’]/, '').gsub(/,/, '').parameterize
   end
 
+  def og_logo_url
+    logo.try(:attachment_full_url, :jumbo)
+  end
+
+  def logo_size
+    FastImage.size(self.og_logo_url)
+  end
+
   private
 
   def bootstrap_to_dos

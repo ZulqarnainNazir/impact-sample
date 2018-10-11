@@ -14,7 +14,7 @@ class Listing::ListingsController < ApplicationController
     @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
     @content_feed_widget.business = @business
     @content_feed_widget.max_items = 12
-    params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
+    params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost", "Post",""]
     @posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
 
 

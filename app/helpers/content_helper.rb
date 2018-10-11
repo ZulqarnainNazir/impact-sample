@@ -3,6 +3,10 @@ module ContentHelper
         content_for :title, string_or_locals if string_or_locals.is_a? String
     end
 
+    def review_title(string_or_locals = {})
+        content_for :review_title, string_or_locals if string_or_locals.is_a? String
+    end
+
     def description(string_or_locals = {})
         content_for :description, string_or_locals if string_or_locals.is_a? String
     end

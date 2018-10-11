@@ -9,14 +9,13 @@
         clear: both;
       }
     }
-  
+
     .dir-menu-custom {
       border-bottom-style: none !important;
     }
 
-    .fluid-nav > ul.nav {
-      overflow-x: visible;
-    }
+
+
 
     .social-links a {color: #fff;}
 
@@ -85,6 +84,20 @@
       display: none;
     }
 
+    @media only screen and (min-width: 576px){
+      .fluid-nav > ul.nav {
+        overflow-x: visible;
+      }
+    }
+
+    .show-nav-cal {
+      display: none;
+    }
+
+    .show-nav-dir {
+      display: none;
+    }
+
     @media only screen and (max-width: 768px) {
       .webpage-block .jumbotron .business-name h1 {font-size: 18px; margin-top: 10%;}
 
@@ -109,4 +122,3 @@
 .listing-container {
  min-height: 600px; 
 }
-  

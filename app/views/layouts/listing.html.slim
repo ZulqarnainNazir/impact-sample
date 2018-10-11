@@ -76,7 +76,7 @@ html lang="en"
                   .col-sm-9.col-xs-7.no-padding.business-name.text-shadow-dark
                     h1 = @business.name
             .row
-              .col-sm-8.col-md-6.hidden-xs
+              .col.lg-6.col-md-6.col-sm-6.col-xs-12.hidden-xs
                 .fluid-nav
                   ul.nav.navbar-top-links.dir-menu-custom
                     li
@@ -106,7 +106,7 @@ html lang="en"
                     - if @posts.size > 0
                       li
                         = link_to "Content", listing_contents_path
-              .col-sm-10.visible-xs
+              .col-xs-12.visible-xs
                 .fluid-nav
                   ul.nav.navbar-top-links.dir-menu-custom
                     li
@@ -116,27 +116,31 @@ html lang="en"
                         = link_to "Local Connections", listing_path_directory_url(@business, @business.directory_widgets.first)
                     - elsif @business.directory_widgets.size > 1
                       li.dropdown
-                        a.user-dropdown-toggle[data-toggle="dropdown"]
+                        a.dir-menu
                           span = "Local Connections"
-                        ul.dropdown-menu
-                          - @business.directory_widgets.each do |dir|
-                            li[style="display:block"]
-                              = link_to dir.name, listing_path_directory_url(@business, dir)
                     - if @business.calendar_widgets.size == 1
                         li
                           = link_to "Calendars", listing_path_calendar_url(@business, @business.calendar_widgets.first)
                     - elsif @business.calendar_widgets.size > 1
-                        li.dropdown
-                          a.user-dropdown-toggle[data-toggle="dropdown"]
+                        li
+                          a.cal-menu
                             span = "Calendars"
-                          ul.dropdown-menu
-                            - @business.calendar_widgets.each do |cal|
-                              li[style="display:block"]
-                                = link_to cal.name, listing_path_calendar_url(@business, cal)
                     - if @posts.size > 0
                       li
                         = link_to "Content", listing_contents_path
-              .col-sm-2.web-link
+              .col-xs-12.show-nav-dir
+                .fluid-nav
+                  ul.nav.navbar-top-links.dir-menu-custom
+                    - @business.directory_widgets.each do |dir|
+                      li
+                        = link_to dir.name, listing_path_directory_url(@business, dir)
+              .col-xs-12.show-nav-cal
+                .fluid-nav
+                  ul.nav.navbar-top-links.dir-menu-custom
+                    - @business.calendar_widgets.each do |cal|
+                      li
+                        = link_to cal.name, listing_path_calendar_url(@business, cal)
+              .col.lg-2.col-md-2.col-sm-2.col-xs-12.web-link
                 - if @business.website_url != 'http://'
                   li
                     = link_to @business.website_url, target: :_blank do
@@ -153,3 +157,17 @@ html lang="en"
                 |  Locable © 2018
     = yield :javascript
     = intercom_tag
+
+
+  javascript:
+
+    $(".cal-menu").click(function() {
+      $(".show-nav-dir").hide();
+      $(".show-nav-cal").toggle();
+    });
+
+    $(".dir-menu").click(function() {
+      $(".show-nav-cal").hide();
+      $(".show-nav-dir").toggle();
+    });
+
