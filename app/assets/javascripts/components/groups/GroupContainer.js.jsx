@@ -249,7 +249,7 @@ const GroupContainer = React.createClass({
   renderHeroToggles() {
     if (this.props.editing && (this.props.group.type === 'HeroGroup')) {
       return (<ul className="webpage-group-hero-handles">
-        <ul className="sortable-hero-handles" data-group-uuid={this.props.group.uuid} style={{ color: 'black' }}>
+        <ul className="sortable-hero-handles text-shadow-light" data-group-uuid={this.props.group.uuid} style={{ color: 'black' }}>
           {this.renderHeroSwitchers()}
           {this.renderHeroAdder()}
         </ul>
