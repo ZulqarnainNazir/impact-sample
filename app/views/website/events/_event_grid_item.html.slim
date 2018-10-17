@@ -45,11 +45,11 @@
   - if event.event_definition.location.present?
     .street1
       i.fa.fa-map-marker.m-r-xs
-      = truncate sanitize(event.event_definition.location.street1.titleize)
+      = truncate sanitize(event.event_definition.location.street1&.titleize)
     .city-state-zip
       i.icon-block.m-r-xs
-      = truncate sanitize(event.event_definition.location.city.titleize) + ', '
-      = truncate sanitize(event.event_definition.location.state.upcase) + ' '
+      = truncate sanitize(event.event_definition.location.city&.titleize) + ', '
+      = truncate sanitize(event.event_definition.location.state&.upcase) + ' '
       = truncate sanitize(event.event_definition.location.zip_code)
 
 /
