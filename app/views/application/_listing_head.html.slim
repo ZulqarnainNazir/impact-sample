@@ -7,9 +7,9 @@ head
   meta http-equiv="X-UA-Compatible" content="IE=edge"
   meta content=@og_title property="og:title"
   - if !@business.description.blank?
-    meta property="og:description" content=@business.description
+    meta property="og:description" content=sanitize_simple(@business.description)
   - if @business.logo
-    meta property="og:image" content=@business.logo.attachment_full_url
+    meta property="og:image" content=@business.logo.attachment_jumbo_url
   - else
     meta content="#{asset_url('locable-montage.png')}" property="og:image"
 

@@ -29,10 +29,6 @@ div.col-xs-12.m-t-lg
   - event_kinds = [0, 1, 2]
   - filter_kinds = event_kinds
 
-  / Fake a calendar widget
-  - @calendar_widget.show_our_content = true
-  - @calendar_widget.business = @business
-  - @calendar_widget.max_items = 12
 
   / Find the events to display
   - events = calendar_widget_search(@calendar_widget,

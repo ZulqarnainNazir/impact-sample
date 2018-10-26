@@ -10,15 +10,15 @@
     - image_height = image_og_height(@event.image_size[1])
   -canonize_obj({url: website_event_url, params: @event.to_generic_param})
 
-.container.blog-content
+.container.blog-content itemprop="event" itemscope="true" itemtype="http://schema.org/Event"
   div.row.p-md
-    - if !@content_feed_widget
-      ol.breadcrumb
-        li = link_to icon('home'), :website_root
-        li = link_to 'Events', :website_events
-        li.active = @event.event_definition.title
+    /- if !@content_feed_widget
+    /  ol.breadcrumb
+    /    li = link_to icon('home'), :website_root
+    /    li = link_to 'Events', :website_events
+    /    li.active = @event.event_definition.title
     .page-header
-      h1.no-margins
+      h1.no-margins itemprop="name"
         => @event.event_definition.title
       - if (@event.event_definition.published_status == false && !@preview)
         p This post has not been published by the business owner yet. Check back later!
@@ -29,43 +29,43 @@
           .responsive-post-image = placement.embed.html_safe
           .m-b-md
         - elsif placement.try(:image)
-          div.blog-show-image = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title
+          div.blog-show-image = image_tag placement.image.attachment_url(:medium), alt: placement.image.alt, title: placement.image.title, itemprop: 'image'
           .m-b-md
         - if @event.event_definition.description?
           .h4 Description
-          p.m-t-sm = sanitize_html @event.event_definition.description
+          .m-t-sm itemprop="description" = sanitize_html @event.event_definition.description
       .col-sm-6
         - location = @event.event_definition.try(:location)
         .well.well-transparent
           .event-details
             - if location
-                span.font-bold.mg-l-md = location.name
+                span.font-bold.mg-l-md itemprop="location" itemtype="http://schema.org/Place" = location.name
                 small (Location)
 
             - unless @event.event_definition.hide_full_address? || @event.event_definition.virtual_event?
               - if !@event.event_definition.hide_full_address? && !@event.event_definition.show_city_only?
                 .block
                   i.fa.fa-map-marker
-                  = location.full_address
+                  span itemprop="address" itemtype="http://schema.org/PostalAddress" = location.full_address
               - if @event.event_definition.show_city_only?
                 .block
                   i.fa.fa-map-marker
-                  = location.city_and_state
+                  span itemprop="address" itemtype="http://schema.org/PostalAddress" = location.city_and_state
             - if @event.occurs_on.present?
               .block
                 i.fa.fa-calendar
-                = @event.occurs_on.strftime('%b %d, %Y')
+                span itemprop="startDate" = @event.occurs_on.strftime('%b %d, %Y')
             - if @event.event_definition.start_time.present?
               .block
                 i.fa.fa-clock-o
-                = @event.event_definition.start_time.strftime('%I:%M %p')
+                span itemprop="doorTime" = @event.event_definition.start_time.strftime('%I:%M %p')
                 - if @event.event_definition.end_time.present?
-                  | &nbsp;to
+                  | &nbsp;to&nbsp;
                   = @event.event_definition.end_time.strftime('%I:%M %p')
             - if @event.event_definition.price?
               .block
                 i.fa.fa-money
-                = @event.event_definition.price
+                = @event.event_definition.price, itemprop='price'
             - if !@event.event_definition.private?
                 .block
                   strong.m-r-xs Private:

@@ -1,9 +1,9 @@
 - if review
   - if !(review.published_was == false || @preview)
     - review_title review.overall_rating.round.to_s + "-Star Review - " + @business.name + " - " + review.reviewed_at.strftime('%F')
-    - description review.description
+    - description sanitize_simple(review.description)
     - if @business.logo
-      - image @business.logo.attachment_full_url
+      - image @business.logo.attachment_jumbo_url
       - if @business.logo_size
         - image_og_width @business.logo_size[0]
         - image_og_height @business.logo_size[1]
