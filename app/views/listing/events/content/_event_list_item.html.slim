@@ -3,7 +3,6 @@
 /
 - business = event.business
 
-
 - product_image = link_to listing_event_path(business, event.id), {class: 'calendar-card'} do
   - if event.event_definition.main_image
     = image_tag event.event_definition.main_image.attachment_url(:small)

@@ -23,7 +23,7 @@ module ApplicationHelper
   end
 
   def listing_event_path(business, event)
-    business.generate_listing_path + "/events/#{event.to_param}"
+    business.generate_listing_path + "/event/#{event.to_param}"
   end
 
   def listing_content_type_path(business, content, content_type)

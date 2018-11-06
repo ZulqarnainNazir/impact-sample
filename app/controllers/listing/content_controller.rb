@@ -83,6 +83,10 @@ class Listing::ContentController < ApplicationController
     @post = @business.quick_posts.find_by(slug: params[:content_type])
   end
 
+  def event
+    @event = @business.events.find_by(id: params[:content_type])
+  end
+
 
   def gallery_image #in routes, a child of content_type (specficially, gallery)
     @gallery = @business.galleries.find_by(slug: params[:content_type])

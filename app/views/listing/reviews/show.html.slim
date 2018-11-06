@@ -1,8 +1,17 @@
-- if @review.title
-  - title "Review – #{@review.title}"
-- else
-  - title "Review"
-
+- if @review
+  - if !(@review.published_was == false || @preview)
+    - title @review.overall_rating.round.to_s + "-Star Review - " + @business.name + " - " + @review.reviewed_at.strftime('%F')
+    - description sanitize_simple(@review.description)
+    - if @business.logo
+      - image @business.logo.attachment_jumbo_url
+      - if @business.logo_size
+        - image_og_width @business.logo_size[0]
+        - image_og_height @business.logo_size[1]
+    - else
+      - image asset_url('customer_reviews_shadow.png').sub('http:', '')
+  - else
+    - title "This post is not yet published"
+    - description "This post is not yet published"
 / ol.breadcrumb
 /   li = link_to icon('home'), listing_path(@business)
 /   li = link_to 'Customer Reviews', listing_reviews_path(@business)
