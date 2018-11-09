@@ -16,7 +16,16 @@ module ExternalUrlHelper
   end
 
   def url_with_http(url)
-    url.start_with?('http://') ? url : "http://#{url}"
+    # url.start_with?('http://') ? url : "http://#{url}"
+
+    if url.start_with?('http://')
+      url
+    elsif url.start_with?('https://')
+      url
+    else
+      "http://#{url}"
+    end
+
   end
 
 end

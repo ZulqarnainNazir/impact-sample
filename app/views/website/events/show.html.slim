@@ -86,8 +86,8 @@
 
             - if @event.event_definition.url?
                 .block
-                  strong.m-r-xs More info:
-                  = link_to @event.event_definition.url, url_with_http(@event.event_definition.url)
+                  strong.m-r-xs
+                    = link_to 'Click for More Info', url_with_http(@event.event_definition.url)
 
         - if !@event.event_definition.virtual_event?
           - if location && !@event.event_definition.hide_full_address? && !@event.event_definition.show_city_only?
