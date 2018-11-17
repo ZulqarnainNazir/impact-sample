@@ -4,7 +4,7 @@
 - else
   - title @event.event_definition.title.titleize
   - description @event.event_definition.meta_description
-  -image @event.event_definition.main_image.try(:attachment_url) || @event.event_definition.try(:event_image_placement).try(:attachment_url)
+  - image @event.event_definition.main_image.try(:attachment_url) || @event.event_definition.try(:event_image_placement).try(:attachment_url)
   - unless @event.image_size.nil?
     - image_width = image_og_width(@event.image_size[0])
     - image_height = image_og_height(@event.image_size[1])
