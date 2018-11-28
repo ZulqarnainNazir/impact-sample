@@ -8,7 +8,8 @@ class FormSubmission < ActiveRecord::Base
 
   def send_notification
     business.authorizations.includes(:user).where(contact_message_notifications: true).each do |authorization|
-      AuthorizationsMailer.contact_form_submission_notification(authorization, self).deliver_later(wait_until: 1.minute.from_now)
+      # AuthorizationsMailer.contact_form_submission_notification(authorization, self).deliver_later(wait_until: 1.minute.from_now)
+      AuthorizationsMailer.contact_form_submission_notification(authorization, self).deliver_later
     end
   end
 end
