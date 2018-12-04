@@ -6,9 +6,9 @@ CalendarSettingsModal = React.createClass
       this.state = { value: null }
       return;
 
-    firstEmbed = this.props.calendarWidgets[0]
+    selected= this.props.calendarWidgets.selected
 
-    this.state = { value: firstEmbed && firstEmbed.id }
+    this.state = { value: selected && selected.id }
 
   handleChange: (event) ->
     this.setState({ value: event.target.value });
@@ -18,7 +18,7 @@ CalendarSettingsModal = React.createClass
       return
 
     return this.props.calendarWidgets.map (item) ->
-      return `<option key={item.id} value={item.id}>{item.name}</option>`
+      return `<option key={item.id} value={item.id} selected={this.state == item.id}>{item.name}</option>`
 
   render: ->
     `<div id="calendar_settings_modal" className="modal fade">
