@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181204224645) do
+ActiveRecord::Schema.define(version: 20181205003609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,7 +218,10 @@ ActiveRecord::Schema.define(version: 20181204224645) do
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
     t.text     "slug"
+    t.integer  "community_id"
   end
+
+  add_index "businesses", ["community_id"], name: "index_businesses_on_community_id", using: :btree
 
   create_table "calendar_widgets", force: :cascade do |t|
     t.string   "name"
@@ -1456,6 +1459,7 @@ ActiveRecord::Schema.define(version: 20181204224645) do
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
+  add_foreign_key "businesses", "communities"
   add_foreign_key "contact_form_form_fields", "contact_forms"
   add_foreign_key "contact_form_form_fields", "form_fields"
   add_foreign_key "contact_forms", "businesses"
