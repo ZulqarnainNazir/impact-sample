@@ -1,0 +1,9 @@
+= simple_form_for [:super, @community] do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :label
+    = f.input :boundry_coordinates
+
+  .form-actions
+    = f.button :submit

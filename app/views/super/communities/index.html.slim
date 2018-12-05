@@ -1,0 +1,26 @@
+div class="ibox float-e-margins"
+	div class="ibox-title"
+	 h1 Primary Communities
+	div class="ibox-content"
+    div class="row m-t-3"
+      div class="col-md-12"
+        div class="btn-group" data-toggle="buttons"
+          = link_to new_super_community_path, class: "btn btn-sm btn-white", id: "add-new" do
+            | Add New Community
+        table class="table table-striped datatable"
+          thead
+            tr
+              th Label
+              th Boundry coordinates
+              th
+              th
+              th
+
+          tbody
+            - @communities.each do |community|
+              tr
+                td = community.label
+                td = community.boundry_coordinates
+                td = link_to 'Show', super_community_path(community)
+                td = link_to 'Edit', edit_super_community_path(community)
+                td = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete
