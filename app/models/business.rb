@@ -71,7 +71,9 @@ class Business < ActiveRecord::Base
   has_many :listed_by_business, :class_name => "CompanyListCompany", :through => :owned_by_business, :source => :company_list_companies
   has_one :company, :class_name => "Company", :foreign_key => "company_business_id"
   has_one :subscription_affiliate
-  belongs_to :community
+
+  has_many :ambassadors
+  has_many :communities, through: :ambassadors
 
   has_placed_image :logo
   has_placed_image :hero

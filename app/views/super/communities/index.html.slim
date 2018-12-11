@@ -5,28 +5,34 @@ div class="ibox float-e-margins"
     div class="row m-t-3"
       div class="col-md-12"
         div class="btn-group" data-toggle="buttons"
-          = link_to new_super_community_path, class: "btn btn-sm btn-white" do
+          = link_to new_super_community_path do
             | Add New Community
         table class="table table-striped datatable"
           thead
             tr
               th Label
-              th Boundry coordinates
-              th Accounts
+              /!th Boundry coordinates
+              th Businesses
+              th Claimed Accounts
               th Paid Accounts
               th Ambassadors
-              th Manage
+              th
 
 
           tbody
             - @communities.each do |community|
               tr
                 td = community.label
-                td = community.boundry_coordinates
+                /!td = community.boundry_coordinates
+                td = community.businesses.count + community.owned_companies_count(community)
+                /!td = community.companies.where(:in_impact => true).count
+                /!td = community.businesses.owned_companies.count
+                /!td TBD
                 td = community.businesses.count
+                /!td = community.businesses.includes(:subscription).where(subscription.subscription_plan_id > 1).count
                 td = community.paid_accounts(community)
-                td Select Ambassadors
+                /!td TBD
+                td = community.ambassadors.where(anchor: true).count + community.ambassadors.where(champion: true).count
                 td
-                  = link_to 'Show', super_community_path(community)
-                  = link_to 'Edit', edit_super_community_path(community)
-                  = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete
+                  = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"
+                  = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-sm btn-danger"

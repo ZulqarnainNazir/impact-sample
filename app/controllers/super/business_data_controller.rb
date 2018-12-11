@@ -9,6 +9,7 @@ class Super::BusinessDataController < SuperController
   	#records in the Business table (firms with records in Business table are those that
   		# have accounts on IMPACT, i.e., have active websites)
     @businesses = Business.order("id").search(params[:search]) #.page(params[:page]).per(20)
+    @communities = Community.all
   end
 
   def edit
@@ -24,10 +25,30 @@ class Super::BusinessDataController < SuperController
 		flash[:notice] = "Update error. Please try again."
 		render 'edit'
 	end
+
+
+  # respond_to do |format|
+  #     format.json do
+  #       # render :json => {success: 'yes'}
+  #       render json: { text: 'Ok' }
+  #     end
+  # end
+
+  end
+
+  # Updates Community ID for a business
+  def update_community
+
+    if @business.update_attributes(:community_id)
+      render json: { text: 'Ok' }
+    else
+      render text: 'Error', status: 422
+    end
+
   end
 
   def merge_with
-  	#merge_with, a GET resource, is where the super admin can search for and 
+  	#merge_with, a GET resource, is where the super admin can search for and
   	#select a business to merge into the parent business; merge_with is a member
   	#of a business reflected in the route.
   	@businesses = Business.order("id").merge_search(params[:search], @business).page(params[:page]).per(20)
@@ -66,8 +87,8 @@ class Super::BusinessDataController < SuperController
 	end
 
 	def business_and_related_params
-	    params.require(:business).permit(:name, :description, :website_url, 
-	      :website_url, :facebook_id, :google_plus_id, :linkedin_id, :twitter_id, :youtube_id, :citysearch_id, :instagram_id, 
+	    params.require(:business).permit(:name, :description, :website_url,
+	      :website_url, :facebook_id, :google_plus_id, :linkedin_id, :twitter_id, :youtube_id, :citysearch_id, :instagram_id,
 	      :pinterest_id, :yelp_id, :kind, :foursquare_id, :zillow_id, :opentable_id, :trulia_id, :realtor_id, :tripadvisor_id, :houzz_id, :year_founded,
 	      :location_attributes => [:name, :email, :street1, :street2, :city, :state, :zip_code, :phone_number],
           :logo_placement_attributes => [:id, :kind, :_destroy, :image_id, :image_attachment_cache_url, :image_attachment_content_type, :image_attachment_file_name, :image_attachment_file_size, :image_alt, :image_title]

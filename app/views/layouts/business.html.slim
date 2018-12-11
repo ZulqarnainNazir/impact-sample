@@ -5,9 +5,9 @@ html
   body
     = render 'appcues'
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
-      = render 'dashnav' 
+      = render 'dashnav'
       div id="page-wrapper" class="gray-bg"
-        = render 'dashtopnavbar' 
+        = render 'dashtopnavbar'
         = render 'alerts'
         div
           = yield

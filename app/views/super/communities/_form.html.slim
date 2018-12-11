@@ -5,5 +5,51 @@
     = f.input :label
     = f.input :boundry_coordinates
 
+
+  h2 Select Ambassadors (Anchors = Paid, Champions = Unpaid)
+  div class="row m-t-3"
+    div class="col-md-12"
+      table class="table table-striped datatable"
+        thead
+          tr
+            th Business
+            th Anchor
+            th Champion
+
+
+        tbody
+          - @businesses.each do | business |
+            tr
+              td = business.name
+              / td Checkbox for setting Anchor
+              td = check_box_tag :ambassadors
+              / td CHeckbox for setting champion
+              td = check_box_tag :ambassadors
+              / td  = select_tag :community_id, options_from_collection_for_select(@communities, 'id', 'label', params[:community_id])
+
+
+
+
+
+    / h2 Select Ambassadors (Anchors = Paid, Champions = Unpaid)
+    / div class="row m-t-3"
+    /   div class="col-md-12"
+    /     table class="table table-striped datatable"
+    /       thead
+    /         tr
+    /           th Business
+    /           th Anchor
+    /           th Champion
+    /
+    /
+    /       tbody
+    /         - @businesses.each do | business |
+    /           tr
+    /             td = business.name
+    /             - f.simple_fields_for :ambassadors do |a|
+    /
+    /               td = a.check_box :anchor
+    /               td = a.check_box :champion
+
   .form-actions
     = f.button :submit

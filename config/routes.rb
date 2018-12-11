@@ -115,8 +115,12 @@ Rails.application.routes.draw do
           get :merge_with
           get :select_merge_fields
           put :merge_now
+          put :update_community
         end
       end
+
+
+
       resources :subscription_plans
       resources :affiliates, only: [:index]
       resources :to_dos, only: :index
@@ -131,6 +135,9 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    # put "super/business_data/update_community" => "super/business_data/#update_community"
+    # put 'super/business_data/update_community' => 'super/business_data#update_community'
 
     resources :sns, only: [:none] do
       collection do

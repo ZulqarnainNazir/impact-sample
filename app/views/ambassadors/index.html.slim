@@ -1,0 +1,19 @@
+h1 Listing ambassadors
+
+table
+  thead
+    tr
+      th
+      th
+      th
+
+  tbody
+    - @ambassadors.each do |ambassador|
+      tr
+        td = link_to 'Show', ambassador
+        td = link_to 'Edit', edit_ambassador_path(ambassador)
+        td = link_to 'Destroy', ambassador, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Ambassador', new_ambassador_path

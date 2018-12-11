@@ -1,6 +1,6 @@
 # class CommunitiesController < ApplicationController
 class Super::CommunitiesController < SuperController
-  before_action :set_community, only: [:show, :edit, :update, :destroy]
+  before_action :set_community, only: [:edit, :update, :destroy]
   layout 'businesses'
   # GET /communities
   # GET /communities.json
@@ -10,16 +10,20 @@ class Super::CommunitiesController < SuperController
 
   # GET /communities/1
   # GET /communities/1.json
-  def show
-  end
+  # def show
+  # end
 
   # GET /communities/new
   def new
     @community = Community.new
+    # @businesses = Business.where('community_id = ?', @community)
+    @businesses = @community.businesses
   end
 
   # GET /communities/1/edit
   def edit
+    # @businesses = Business.where('community_id = ?', @community)
+    @businesses = @community.businesses
   end
 
   # POST /communities
