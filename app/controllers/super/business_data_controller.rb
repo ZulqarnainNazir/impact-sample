@@ -37,15 +37,15 @@ class Super::BusinessDataController < SuperController
   end
 
   # Updates Community ID for a business
-  def update_community
+  # def update_community
+  #
+  #   if @business.update_attributes(:community_id)
+  #     render json: { text: 'Ok' }
+  #   else
+  #     render text: 'Error', status: 422
+  #   end
 
-    if @business.update_attributes(:community_id)
-      render json: { text: 'Ok' }
-    else
-      render text: 'Error', status: 422
-    end
-
-  end
+  # end
 
   def merge_with
   	#merge_with, a GET resource, is where the super admin can search for and

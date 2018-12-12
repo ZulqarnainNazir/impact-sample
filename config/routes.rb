@@ -115,7 +115,7 @@ Rails.application.routes.draw do
           get :merge_with
           get :select_merge_fields
           put :merge_now
-          put :update_community
+          # put :update_community
         end
       end
 

@@ -1,8 +1,9 @@
 class Community < ActiveRecord::Base
   has_many :ambassadors
   accepts_nested_attributes_for :ambassadors
-  has_many :businesses, through: :ambassadors
-
+  # has_many :businesses, through: :ambassadors
+  has_many :businesses
+  
   validates :label, presence: true
 
   def paid_accounts(community)

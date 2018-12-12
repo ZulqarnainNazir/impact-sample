@@ -2,10 +2,10 @@ div id="companies-partial"
   .table-responsive
     table.table.table-striped.table-bordered.table-hover.datatable
       thead
-        th Business Table ID
-        th Entries in Company Table
+        th Business ID
         th Name
         th Community
+        th Entries in Company Table
         th Active Account
         th Merge
         th Last Updated On
@@ -14,15 +14,13 @@ div id="companies-partial"
         - @businesses.each do |a|
           tr
             td = a.id
-            td = a.owned_by_business.count
+
             td = link_to edit_super_business_datum_path(a) do
               = a.name
-            /!td = a.communities.last.label
-            td  = select_tag :community_id, options_from_collection_for_select(@communities, 'id', 'label', a.community_id), class: 'community_selector'
-            / , data: {remote: true, url: "/super/business_data/#{a.id}", method: 'put'}
-            /!= form_for business, url: admin_business_path(business.id), html: { class: 'admin_businesses__site_select clearfix' } do |form|
-            /!      = form.select :site_id, options_from_collection_for_select(sites, 'id', 'name', business.site_id.to_s), style: 'display: inline; width: 170px'
-
+            td
+              = form_for a, url: business_data_details_path(a.id), html: { class: 'community_selector clearfix' } do |form|
+                = form.select :community_id, options_from_collection_for_select(@communities, 'id', 'label', a.community_id)
+            td = a.owned_by_business.count
             td = a.in_impact
             td = link_to 'Go', merge_with_super_business_datum_path(a)
             td = a.updated_at.to_date.to_formatted_s(:long_ordinal)

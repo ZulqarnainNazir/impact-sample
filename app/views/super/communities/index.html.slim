@@ -10,29 +10,31 @@ div class="ibox float-e-margins"
         table class="table table-striped datatable"
           thead
             tr
-              th Label
-              /!th Boundry coordinates
-              th Businesses
-              th Claimed Accounts
-              th Paid Accounts
+              th Community ID
+              th Community Name
+              th Business in Community/Accounts
+              th Paid Businesses in Community
+              th Entries in Company Tables
               th Ambassadors
               th
-
 
           tbody
             - @communities.each do |community|
               tr
+                td = community.id
                 td = community.label
-                /!td = community.boundry_coordinates
-                td = community.businesses.count + community.owned_companies_count(community)
-                /!td = community.companies.where(:in_impact => true).count
-                /!td = community.businesses.owned_companies.count
-                /!td TBD
                 td = community.businesses.count
-                /!td = community.businesses.includes(:subscription).where(subscription.subscription_plan_id > 1).count
                 td = community.paid_accounts(community)
-                /!td TBD
+                td = community.businesses.count + community.owned_companies_count(community)
                 td = community.ambassadors.where(anchor: true).count + community.ambassadors.where(champion: true).count
                 td
                   = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"
                   = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-sm btn-danger"
+                /!td = community.companies.where(:in_impact => true).count
+                /!td = community.businesses.owned_companies.count
+                /!td TBD
+
+                /!td = community.businesses.includes(:subscription).where(subscription.subscription_plan_id > 1).count
+
+                /!td TBD
+                / owned_by_business.count
