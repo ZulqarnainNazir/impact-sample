@@ -19,7 +19,6 @@ $(document).on('change', '.community_selector', function(e) {
   });
 });
 
-// url: '/super/business_data/' + tag.find(":selected").val() + '/update_community',
 
 // $(document).on('change', 'form.admin_businesses__site_select select', function(e) {
 //   var form = $(this).closest('form');
