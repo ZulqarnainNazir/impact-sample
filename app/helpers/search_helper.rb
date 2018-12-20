@@ -72,11 +72,11 @@ module SearchHelper
     @events = []
 
     if include_past
-      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories])
+      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
                           .where({business_id: @business_ids})
                           .where(event_definitions: { published_status: true })
     else
-      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories])
+      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
                           .where(business_id: @business_ids)
                           .where('occurs_on >= ?', Time.zone.now)
                           .where(event_definitions: { published_status: true })

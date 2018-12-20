@@ -60,7 +60,7 @@ class Event < ActiveRecord::Base
 
   def content_tag_ids
     #leveraged in as_indexed_json below for ElasticSearch
-    event_definition.try(:content_tag_ids) || []
+    @content_tag_ids ||= event_definition&.content_tag_ids || []
   end
 
   def sorting_date
