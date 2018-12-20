@@ -9,10 +9,8 @@ module ExternalUrlHelper
 
   	args = content_type.to_generic_param_two.each {|n| n.to_s}
 
-  	# args.unshift(website_host(business.website))
-
   	#'http://www.' +
-  	(website_host(business.website) + '/') + (args.map { |arg| arg.gsub(%r{^/*(.*?)/*$}, '\1') }.join("/"))
+  	(business.website.host + '/') + (args.map { |arg| arg.gsub(%r{^/*(.*?)/*$}, '\1') }.join("/"))
   end
 
   def url_with_http(url)

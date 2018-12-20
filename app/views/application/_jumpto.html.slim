@@ -27,7 +27,7 @@ ul.dropdown-menu.dropdown-messages
         /<span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
   - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
     li.hidden-md.hidden-lg title="Preview Website"
-      = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank do
+      = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank do
         i.fa.fa-external-link
         span [data-i18n="nav.website"]
           |  Preview Website

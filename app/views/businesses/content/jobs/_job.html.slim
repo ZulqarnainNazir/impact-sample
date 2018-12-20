@@ -24,7 +24,7 @@
           span.text-muted> Posted in
           - (job.content_categories + job.content_tags).each_with_index do |classification, i|
             - if @business.webhost_primary?
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              = link_to classification.name, [:website, classification, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
             - else
               = classification.name
             - if i < job.content_categories.count + job.content_tags.count - 1
@@ -51,12 +51,12 @@
 
       - if @business.webhost_primary?
         - if job.published_status == false
-          h4 = link_to job.title, [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => website_host(@business.website), protocol: :http, :id => job.id], target: :_blank
+          h4 = link_to job.title, [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => @business.website.host, protocol: :http, :id => job.id], target: :_blank
         - else
           - if Rails.env.development? || Rails.env.test?
-            h4 = link_to job.title, [:website, job, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+            h4 = link_to job.title, [:website, job, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
           - elsif Rails.env.production?
-            h4 = link_to job.title, "http://#{website_host(@business.website)}/#{path_to_external_content(job)}", only_path: false, protocol: :http, target: :_blank
+            h4 = link_to job.title, "http://#{@business.website.host}/#{path_to_external_content(job)}", only_path: false, protocol: :http, target: :_blank
       - elsif !@business.webhost_primary? && @business.has_plan?
         h4 = link_to job.title, listing_path_content_url(@business, job.slug, 'job'), target: :_blank
       - else

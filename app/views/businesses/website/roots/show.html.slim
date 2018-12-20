@@ -5,8 +5,8 @@
 br
 - if @business.website
   h2.h3 Preview Your Website
-  = link_to website_root_url(host: website_host(@business.website), protocol: :http), target: :_blank, class: 'btn btn-info' do
-    strong => website_root_url(host: website_host(@business.website), protocol: :http)
+  = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: 'btn btn-info' do
+    strong => website_root_url(host: @business.website.host, protocol: :http)
     i.fa.fa-external-link style="margin-left:5px"
   hr
   br

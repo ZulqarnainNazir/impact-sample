@@ -13,7 +13,7 @@ footer.site-footer.site-footer-columns
           - internal_target = @business.website.footer_block.left_label_internal_target
           h3.m-t-0
             - if internal_target.present?
-              = link_to @business.website.footer_block.left_label_text, "http://#{website_host(@business.website)}/#{@business.website.webpages.find_by(id: internal_target)&.pathname}"
+              = link_to @business.website.footer_block.left_label_text, "http://#{@business.website.host}/#{@business.website.webpages.find_by(id: internal_target)&.pathname}"
               hr
             - else
               = @business.website.footer_block.left_label_text
@@ -22,7 +22,7 @@ footer.site-footer.site-footer-columns
             - (posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[QuickPost Gallery BeforeAfter Post], content_category_ids: Array(@business.website.footer_block.left_category_ids)).search.first(@business.website.footer_block.left_number_of_feed_items.to_i));nil
             - posts.each do |post|
               li
-                = link_to [:website, post, only_path: false, host: website_host(business.website)], class: "grid-feed-title m-b-0" do
+                = link_to [:website, post, only_path: false, host: business.website.host], class: "grid-feed-title m-b-0" do
                   = post.title
                 small class="m-t-xs"
                   - if post.is_a?(QuickPost)
@@ -33,7 +33,7 @@ footer.site-footer.site-footer-columns
                     - else
                       = truncate(strip_tags(post.description), length: 100)
                 = ' '
-                = link_to [:website, post, only_path: false, host: website_host(business.website)], class: "btn-link btn-feed-block"
+                = link_to [:website, post, only_path: false, host: business.website.host], class: "btn-link btn-feed-block"
                   | Read More
                   i class="pad-lt-3 fa fa-long-arrow-right"
               hr
@@ -42,7 +42,7 @@ footer.site-footer.site-footer-columns
           - internal_target = @business.website.footer_block.right_label_internal_target
           h3.m-t-0
             - if internal_target.present?
-              = link_to @business.website.footer_block.right_label_text, "http://#{website_host(@business.website)}/#{@business.website.webpages.find_by(id: internal_target)&.pathname}"
+              = link_to @business.website.footer_block.right_label_text, "http://#{@business.website.host}/#{@business.website.webpages.find_by(id: internal_target)&.pathname}"
               hr
             - else
               = @business.website.footer_block.right_label_text
@@ -51,7 +51,7 @@ footer.site-footer.site-footer-columns
             - posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[Event], content_category_ids: Array(@business.website.footer_block.right_category_ids)).search.select{ |event| event.is_a? Event }.sort_by(&:occurs_on).first(@business.website.footer_block.right_number_of_feed_items.to_i)
             - posts.each do |event|
               li.m-b-lg
-                = link_to [:website, event, only_path: false, host: website_host(business.website)], class: "h4 m-b-0" do
+                = link_to [:website, event, only_path: false, host: business.website.host], class: "h4 m-b-0" do
                   = event.title
                 .small
                   i.fa.fa-calendar.m-r-xs

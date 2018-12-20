@@ -19,11 +19,7 @@ class CalendarWidget < ActiveRecord::Base
   end
 
   def get_business_ids
-    business_ids = []
-    company_list = []
-    self.company_list_ids.each {|n| company_list << CompanyList.find(n) unless n == ""}
-    company_list.each {|n| n.companies.each {|n| business_ids << n.business.id if n.business} }
-    return business_ids
+    CompanyList.where(id: company_list_ids).includes(:companies).pluck('companies.company_business_id')
   end
 
   def content_types

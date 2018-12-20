@@ -24,7 +24,7 @@
           span.text-muted> Posted in
           - (offer.content_categories + offer.content_tags).each_with_index do |classification, i|
             - if @business.webhost_primary?
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              = link_to classification.name, [:website, classification, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
             - else
               = classification.name
             - if i < offer.content_categories.count + offer.content_tags.count - 1
@@ -51,12 +51,12 @@
 
       - if @business.webhost_primary?
         - if offer.published_status == false
-          h4 = link_to offer.title, [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => website_host(@business.website), protocol: :http, :id => offer.id], target: :_blank
+          h4 = link_to offer.title, [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => @business.website.host, protocol: :http, :id => offer.id], target: :_blank
         -else
           - if Rails.env.development? || Rails.env.test?
-            h4 = link_to offer.title, [:website, offer, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+            h4 = link_to offer.title, [:website, offer, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
           - elsif Rails.env.production?
-            h4 = link_to offer.title, "http://#{website_host(@business.website)}/#{path_to_external_content(offer)}", only_path: false, protocol: :http, target: :_blank
+            h4 = link_to offer.title, "http://#{@business.website.host}/#{path_to_external_content(offer)}", only_path: false, protocol: :http, target: :_blank
       - elsif !@business.webhost_primary? && @business.has_plan?
         h4 = link_to offer.title, listing_path_content_url(@business, offer.slug, 'offer'), only_path: false, protocol: :http, target: :_blank        
       - else

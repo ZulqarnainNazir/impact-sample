@@ -46,7 +46,7 @@
             br>
             - if form.object.persisted?
               - if @job.published_status == false
-                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @job.id], class: 'btn btn-block btn-default', :target => "_blank"
+                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => @business.website.host, protocol: :http, :id => @job.id], class: 'btn btn-block btn-default', :target => "_blank"
           = react_component 'ImagePlacement',
             imagesPath: business_images_path(form.object.business),
             inputPrefix: 'job[job_image_placement_attributes]',

@@ -38,9 +38,8 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
   def edit
     port = ":#{request.try(:port)}" if request.port
-    host = website_host @business.website
     post_path = website_before_after_path(@before_after)
-    @preview_url = @before_after.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @before_after.id]
+    @preview_url = @before_after.published_status != false ? @business.website.host + port + post_path : [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => @business.website.host, protocol: :http, :id => @before_after.id]
   end
 
 

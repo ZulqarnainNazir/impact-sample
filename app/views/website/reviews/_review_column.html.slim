@@ -24,7 +24,7 @@
     .review-text
       - if review.title
         - if defined?(new_window)
-          h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+          h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), website_review_url(review, host: @business.website.host, protocol: :http), target: :_blank
         - else
           h2.h4 style="margin: 0 0 0.5em" => link_to truncate(review.title, length: 45), [:website, review]
       p.review-quote = truncate review.description, length: 300
@@ -48,4 +48,4 @@
           
     - if review.title.blank?
       p.reviewer
-        => link_to "Read More", website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+        => link_to "Read More", website_review_url(review, host: @business.website.host, protocol: :http), target: :_blank

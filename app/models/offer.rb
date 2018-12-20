@@ -3,7 +3,6 @@ class Offer < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
-  include WebsiteHelper
   include Rails.application.routes.url_helpers
   include ExternalUrlHelper
   attr_accessor :minimal_validations
@@ -46,7 +45,7 @@ class Offer < ActiveRecord::Base
 
   def share_callback_url
     if self.business.webhost_primary? && !self.business.is_on_engage_plan?
-      url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
+      url_for("http://#{self.business.website.host}/#{path_to_external_content(self)}")
     elsif self.business.is_on_engage_plan?
       "http://#{ENV['LISTING_HOST']}#{self.business.generate_listing_path}/#{self.slug}?content=offer"
     end

@@ -32,7 +32,7 @@
 
     - if webpage.persisted?
       li
-        - webpage_url = webpage.pathname? ? website_custom_page_url(webpage.pathname, host: website_host(@business.website), protocol: :http) : website_root_url(host: website_host(@business.website), protocol: :http)
+        - webpage_url = webpage.pathname? ? website_custom_page_url(webpage.pathname, host: @business.website.host, protocol: :http) : website_root_url(host: @business.website.host, protocol: :http)
         = link_to webpage_url, target: :_blank, class: 'btn btn-primary', title: 'Preview Live Webpage' do
           span.hidden-xs Preview&nbsp;
           i.fa.fa-external-link style='margin-right: 0;'

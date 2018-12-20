@@ -1,4 +1,4 @@
-/ - raise StandardError, website_host(@business.website)
+/ - raise StandardError, @business.website.host
 - business = gallery.business
 - if @masonry.present? && @masonry == true
   / .col-xs-4.slider-content.single-blog

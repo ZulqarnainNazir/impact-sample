@@ -24,7 +24,7 @@
           span.text-muted> Posted in
           - (gallery.content_categories + gallery.content_tags).each_with_index do |classification, i|
             - if @business.website
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              = link_to classification.name, [:website, classification, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
             - else
               = classification.name
             - if i < gallery.content_categories.count + gallery.content_tags.count - 1
@@ -49,12 +49,12 @@
       h4
         - if @business.webhost_primary?
           - if gallery.published_status == false
-            h4 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => gallery.id], target: :_blank
+            h4 = link_to gallery.title, [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => @business.website.host, protocol: :http, :id => gallery.id], target: :_blank
           - else
             - if Rails.env.development? || Rails.env.test?
-              = link_to gallery.title, [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank 
+              = link_to gallery.title, [:website, gallery, only_path: false, host: @business.website.host, protocol: :http], target: :_blank 
             - elsif Rails.env.production?
-              = link_to gallery.title, "http://#{website_host(@business.website)}/#{path_to_external_content(gallery)}", only_path: false, protocol: :http, target: :_blank
+              = link_to gallery.title, "http://#{@business.website.host}/#{path_to_external_content(gallery)}", only_path: false, protocol: :http, target: :_blank
         - elsif !@business.webhost_primary? && @business.has_plan?
              = link_to gallery.title, listing_path_content_url(@business, gallery.slug, 'gallery'), only_path: false, protocol: :http, target: :_blank
         - else
@@ -68,12 +68,12 @@
 
               - if gallery.published_status != false
                 - if Rails.env.development? || Rails.env.test?
-                   = link_to [:website, gallery, only_path: false, host: website_host(@business.website), protocol: :http], class: 'gallery-item', target: :_blank do
+                   = link_to [:website, gallery, only_path: false, host: @business.website.host, protocol: :http], class: 'gallery-item', target: :_blank do
                       figure
                         .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                           = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
                 - elsif Rails.env.production?
-                  = link_to "http://#{website_host(@business.website)}/#{path_to_external_content(gallery)}", only_path: false, protocol: :http, class: 'gallery-item', target: :_blank do
+                  = link_to "http://#{@business.website.host}/#{path_to_external_content(gallery)}", only_path: false, protocol: :http, class: 'gallery-item', target: :_blank do
                       figure
                         .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                           = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'

@@ -100,9 +100,8 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
 
   def edit
     port = ":#{request.try(:port)}" if request.port
-    host = website_host @business.website
     post_path = website_post_path(@post)
-    @preview_url = @post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @post.id]
+    @preview_url = @post.published_status != false ? @business.website.host + port + post_path : [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => @business.website.host, protocol: :http, :id => @post.id]
   end
 
   def destroy
@@ -181,7 +180,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     if @post.published_on > DateTime.now
       {
         caption: truncate(Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @post, only_path: false, host: website_host(@business.website), protocol: :http]),
+        link: url_for([:website, @post, only_path: false, host: @business.website.host, protocol: :http]),
         name: @post.title,
         picture: @post.post_sections.first.try(:post_section_image).try(:attachment_url),
         published: true,
@@ -191,7 +190,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
       {
         backdated_time: @post.created_at,
         caption: truncate(Sanitize.fragment(@post.sections_content, Sanitize::Config::DEFAULT), length: 1000),
-        link: url_for([:website, @post, only_path: false, host: website_host(@business.website), protocol: :http]),
+        link: url_for([:website, @post, only_path: false, host: @business.website.host, protocol: :http]),
         name: @post.title,
         picture: @post.post_sections.first.try(:post_section_image).try(:attachment_url),
       }
