@@ -72,11 +72,11 @@ module SearchHelper
     @events = []
 
     if include_past
-      found_events = Event.includes(:business, event_definition: [:main_image, :event_image_placement, :location, :event_image])
+      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories])
                           .where({business_id: @business_ids})
                           .where(event_definitions: { published_status: true })
     else
-      found_events = Event.includes(:business, event_definition: [:main_image, :event_image_placement, :location, :event_image])
+      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories])
                           .where(business_id: @business_ids)
                           .where('occurs_on >= ?', Time.zone.now)
                           .where(event_definitions: { published_status: true })
@@ -177,7 +177,6 @@ module SearchHelper
     end_date_to_filter = Date.parse end_date rescue nil
 
     if search_string.present?
-
       event_definitions = ContentFeedWidgetSearch.new(
           widget,
           business,
@@ -185,7 +184,6 @@ module SearchHelper
           content_types: ['Event'],
           include_past: date_to_filter.present?
         ).search
-
       if date_to_filter.present?
         events = Event.includes(:business, :event_definition).where(
           event_definition_id: event_definitions).order(:occurs_on)
