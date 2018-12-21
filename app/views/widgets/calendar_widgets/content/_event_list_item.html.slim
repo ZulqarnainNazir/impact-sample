@@ -76,7 +76,7 @@
     - if business != main_biz
       .description
         bg-warning
-          | Posted by 
+          | Posted by
           = business.name
 
 div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
@@ -91,7 +91,7 @@ div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog"
             | &times;
           br
       .modal-body
-        = render partial: 'widgets/calendar_widgets/content/event', locals: {event: event}
+        = render 'widgets/calendar_widgets/content/event', event: event
 
 javascript:
   $('#event-modal-#{event.id}').on('shown.bs.modal', function () {

@@ -1,9 +1,9 @@
 /
 / Logic for rendering local variables
 /
-- business = event.business
+- business ||= event.business
 - stacked = local_assigns[:stack].present? ? stack : false
-- product_image = link_to website_event_url(event, host: business.website.host,
+- product_image = link_to website_event_url(event, host: website.host,
 protocol: :http), target: :_blank do
   - if event.event_definition.main_image
     = image_tag event.event_definition.main_image.attachment_url(:small)

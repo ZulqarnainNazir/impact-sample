@@ -109,4 +109,4 @@
           .col-sm-12
             h4 Other Upcoming Instances
             .grid
-              = render partial: 'website/events/event', collection: upcoming_events, locals: { small: true }
+              = render partial: 'website/events/event', collection: upcoming_events, locals: { small: true, business: event.business, website: event.business.website }

@@ -39,7 +39,7 @@ module SearchHelper
   ###.joins(:event_definition).where(:event_definitions => {published_status: true})
 
   def events_organized_desc_listings(business, page: 1, limit: 4)
-    Kaminari.paginate_array(business.events.joins(:event_definition).where(:event_definitions => {published_status: true}).
+    Kaminari.paginate_array(business.events.includes(:event_definition).where(event_definitions: { published_status: true }).
       where('occurs_on >= ?', Time.zone.now).
       order(occurs_on: :desc)).
       page(page).
@@ -83,7 +83,7 @@ module SearchHelper
     end
 
     found_events.
-    order(occurs_on: :desc).each do |x|
+    order(occurs_on: :desc).find_each do |x|
         tag_ids = x.content_tag_ids
         category_ids = x.content_category_ids
 
@@ -185,10 +185,10 @@ module SearchHelper
           include_past: date_to_filter.present?
         ).search
       if date_to_filter.present?
-        events = Event.includes(:business, :event_definition).where(
+        events = Event.where(
           event_definition_id: event_definitions).order(:occurs_on)
       else
-        events = Event.includes(:business, :event_definition).where(
+        events = Event.where(
           event_definition_id: event_definitions
         ).where("occurs_on >= ?", Time.zone.now).order(:occurs_on)
       end
