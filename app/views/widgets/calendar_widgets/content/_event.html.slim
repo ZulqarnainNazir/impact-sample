@@ -2,6 +2,7 @@
       - title "This post is not yet published"
       - description "This post is not yet published"
     - else
+      / FIXME: Why?
       - upcoming_events = event.event_definition.events.where.not(id: event.id).where('occurs_on >= ?', Time.zone.now).order(occurs_on: :asc).page(1).per(4)
       - title event.event_definition.title.titleize
       - description event.event_definition.meta_description
@@ -109,4 +110,4 @@
           .col-sm-12
             h4 Other Upcoming Instances
             .grid
-              = render partial: 'website/events/event', collection: upcoming_events, locals: { small: true, business: event.business, website: event.business.website }
+              = render partial: 'website/events/event', collection: upcoming_events, locals: { small: true, business: business, website: website, event: event }

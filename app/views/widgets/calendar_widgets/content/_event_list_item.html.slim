@@ -1,7 +1,7 @@
 /
 / Logic for rendering local variables
 /
-- business = event.business
+- business ||= event.business
 
 
 - product_image = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.event_definition.slug}" do
@@ -11,11 +11,10 @@
     - placement = event.event_definition.event_image_placement
     - if placement
       - cache placement
-        - if placement.try(:embeds?)
+        - if placement&.embeds?
           = placement.embed.html_safe
-        - elsif placement.try(:image)
-          - if placement.image.present?
-            = image_tag placement.image.attachment_url(:small)
+        - elsif placement&.image
+          = image_tag placement.image.attachment_url(:small)
     - else
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
@@ -91,7 +90,8 @@ div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog"
             | &times;
           br
       .modal-body
-        = render 'widgets/calendar_widgets/content/event', event: event
+        / FIXME: goood lord no
+        = render 'widgets/calendar_widgets/content/event', event: event, business: business, website: website
 
 javascript:
   $('#event-modal-#{event.id}').on('shown.bs.modal', function () {

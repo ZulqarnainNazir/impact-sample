@@ -3,7 +3,7 @@ footer.site-footer.site-footer-simple
     hr
     p.copyright &copy #{Time.zone.now.year} #{business.name}
     ul.list-inline.footer-social
-      = render partial: 'website/nav_links/social', locals: {business: business, location: location} 
+      = render partial: 'website/nav_links/social', locals: {business: business, location: location}
     - cache website do
       ul.list-inline.footer-links
-        = render partial: 'website/nav_links/nav_link', collection: website.nav_links.footer.order(position: :asc), locals: { style: '' }
+        = render partial: 'website/nav_links/nav_link', collection: website.nav_links.includes(:webpage).footer.order(position: :asc), locals: { business: business, location: location, website: website, style: '' }

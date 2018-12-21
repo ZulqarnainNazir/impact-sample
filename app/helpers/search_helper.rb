@@ -185,10 +185,10 @@ module SearchHelper
           include_past: date_to_filter.present?
         ).search
       if date_to_filter.present?
-        events = Event.where(
+        events = Event.includes(:event_definition, :business).where(
           event_definition_id: event_definitions).order(:occurs_on)
       else
-        events = Event.where(
+        events = Event.includes(:event_definition, :business).where(
           event_definition_id: event_definitions
         ).where("occurs_on >= ?", Time.zone.now).order(:occurs_on)
       end

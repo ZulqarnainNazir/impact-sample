@@ -1,7 +1,6 @@
 /
 / Logic for rendering local variables
 /
-- business ||= event.business
 - stacked = local_assigns[:stack].present? ? stack : false
 - product_image = link_to website_event_url(event, host: website.host,
 protocol: :http), target: :_blank do
@@ -19,7 +18,7 @@ protocol: :http), target: :_blank do
     - else
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
-- title = link_to website_event_url(event, host: business.website.host,
+- title = link_to website_event_url(event, host: website.host,
 protocol: :http), target: :_blank, class: 'title'
   = truncate sanitize(event.event_definition.title.titleize),
       length: 60,
@@ -63,6 +62,6 @@ div class=(stacked ?  'col-xs-12' : 'col-xs-12 col-sm-6 col-md-4')
       .location
         = location
 
-      = link_to website_event_url(event, host: business.website.host, protocol: :http), target: :_blank , class: 'read-more'
+      = link_to website_event_url(event, host: website.host, protocol: :http), target: :_blank , class: 'read-more'
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right

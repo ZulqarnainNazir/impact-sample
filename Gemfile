@@ -53,7 +53,6 @@ gem 'platform-api'
 gem 'puma'
 gem 'quiet_assets'
 gem 'rack-attack'
-gem 'rack-timeout'
 gem 'rails'
 gem 'react-rails'
 gem "recaptcha", require: "recaptcha/rails"
