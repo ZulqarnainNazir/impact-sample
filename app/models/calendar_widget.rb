@@ -1,4 +1,5 @@
 class CalendarWidget < ActiveRecord::Base
+  include Concerns::BusinessIds
   after_initialize :init
   belongs_to :business
 
@@ -16,10 +17,6 @@ class CalendarWidget < ActiveRecord::Base
     [[0, "Events"],
      [1, "Classes"],
      [2, "Deadlines"]]
-  end
-
-  def get_business_ids
-    CompanyList.where(id: company_list_ids).includes(:companies).pluck('companies.company_business_id')
   end
 
   def content_types

@@ -1,5 +1,6 @@
 class Block < ActiveRecord::Base
   include PlacedImageConcern
+  include Concerns::BusinessIds
 
   store_accessor :settings, :background_color, :foreground_color, :link_color,
                             :height, :items_limit, :well_style, :custom_class,
