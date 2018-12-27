@@ -2,8 +2,6 @@
 / Logic for rendering local variables
 /
 - business ||= event.business
-
-
 - product_image = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.event_definition.slug}" do
   - if event.event_definition.main_image
     = image_tag event.event_definition.main_image.attachment_url(:small)

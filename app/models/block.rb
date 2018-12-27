@@ -35,7 +35,7 @@ class Block < ActiveRecord::Base
     if frame.is_a?(Website)
       @business ||= frame.business
     elsif frame.is_a?(Group)
-      @business ||= frame.webpage.try(:website).try(:business)
+      @business ||= frame.webpage&.website&.business
     end
   end
 

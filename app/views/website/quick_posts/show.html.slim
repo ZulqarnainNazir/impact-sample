@@ -4,7 +4,7 @@
 - else
   - title @quick_post.title
   - description @quick_post.meta_description
-  - image @quick_post.main_image.try(:attachment_url, :jumbo) || @quick_post.try(:quick_post_image_placement).try(:attachment_url, :jumbo)
+  - image @quick_post.main_image.try(:attachment_url, :jumbo) || @quick_post&.quick_post_image_placement.try(:attachment_url, :jumbo)
   - unless @quick_post.image_size.nil?
     - image_width = image_og_width(@quick_post.image_size[0])
     - image_height = image_og_height(@quick_post.image_size[1])

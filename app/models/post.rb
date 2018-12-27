@@ -149,7 +149,7 @@ class Post < ActiveRecord::Base
   end
 
   def share_image_url
-    self.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_full_url, :jumbo)
+    post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_full_url, :jumbo)
   end
 
   def image_size

@@ -4,4 +4,4 @@
 - canonical_url website_custom_page_url(@page.pathname)
 
 = render partial: 'website/groups/group', collection: @page.groups.full_width, locals: { sidebar_position: @page.sidebar_position }
-= render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }
+= render partial: 'website/groups/group', collection: @page.groups.container.includes(:group_background, :blocks), locals: { sidebar_position: @page.sidebar_position }

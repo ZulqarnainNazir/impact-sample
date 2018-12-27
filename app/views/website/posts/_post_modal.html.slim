@@ -7,7 +7,7 @@
         - cache post do
           div.product-imitation.p-a-0
             = link_to "#", id: "post-#{post.id}-1", "data-toggle" => "modal", 'data-target' => "#post-modal-#{post.id}", class: "post-card", 'data-slug'=>"#{post.slug}" do
-              - if post.main_image 
+              - if post.main_image
                 = image_tag post.main_image.attachment_url(:small)
               - else
                 - placement = post.sections_placement
@@ -85,7 +85,7 @@ div class="modal fade content-modal" id="post-modal-#{post.id}" role="dialog" da
             | &times;
           br
       .modal-body
-        = render partial: 'website/posts/modal_show', locals: {post: post}
+        = render partial: 'website/posts/modal_show', locals: { post: post, content_categories: post.content_categories, content_tags: post.content_tags }
 
 javascript:
   $("post-modal-#{post.id}").on('shown.bs.modal', function () {

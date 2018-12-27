@@ -20,14 +20,14 @@
           p This post has not been published by the business owner yet. Check back later!
         - else
           .feed-item-meta
-          - cache post do
+          - cache [post, content_categories, content_tags] do
             h1 = post.title
             span.text-muted> Posted #{time_ago_in_words post.published_at} ago
-            - if post.content_categories.any? || post.content_tags.any?
+            - if content_categories.any? || content_tags.any?
               span.text-muted> in
-              - (post.content_categories + post.content_tags).each_with_index do |classification, i|
+              - (content_categories + content_tags).each_with_index do |classification, i|
                 = link_to classification.name, [:website, classification]
-                - if i < post.content_categories.count + post.content_tags.count - 1
+                - if i < content_categories.count + content_tags.count - 1
                   ' ,
             hr
             = render partial: 'website/post_sections/post_section', collection: post.arranged_sections, locals: { level: 2 }

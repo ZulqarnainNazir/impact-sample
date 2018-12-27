@@ -1,6 +1,7 @@
 module SearchHelper
 
   def order_the_events(array)
+    # FIXME: Why?
     #purpose of method is to take an array containing various content types
     #pluck the events, and rearrange them from earliest to latest
     #while maintaining the original integrity of order
