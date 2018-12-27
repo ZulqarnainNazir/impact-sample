@@ -3,6 +3,7 @@ class Website::AsyncController < Website::BaseController
     @post = QuickPost.find(params[:post_id])
     render partial: "website/#{@post.to_partial_path}" + "_modal", object: @post, as: @post.class.name.underscore
   end
+  
   def post
     @post = Post.find(params[:post_id])
     render partial: "website/#{@post.to_partial_path}" + "_modal", object: @post, as: @post.class.name.underscore
