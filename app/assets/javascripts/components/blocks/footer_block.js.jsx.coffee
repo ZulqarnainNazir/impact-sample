@@ -20,7 +20,7 @@ FooterBlock = React.createClass
   renderSimpleFullWidth: ->
     `<footer className="site-footer site-footer-simple">
       <div className="container">
-        <p className="copyright">© 2018 {this.props.name}</p>
+        <p className="copyright">© 2019 {this.props.name}</p>
         <ul className="list-inline footer-social">
           <li><a href="#"><i className="fa fa-facebook-square fa-2x"></i></a></li>
           <li><a href="#"><i className="fa fa-twitter-square fa-2x"></i></a></li>
@@ -37,7 +37,7 @@ FooterBlock = React.createClass
     `<footer className="site-footer site-footer-simple">
       <div className="container">
         <hr />
-        <p className="copyright">© 2018 {this.props.name}</p>
+        <p className="copyright">© 2019 {this.props.name}</p>
         <ul className="list-inline footer-social">
           <li><a href="#"><i className="fa fa-facebook-square fa-2x"></i></a></li>
           <li><a href="#"><i className="fa fa-twitter-square fa-2x"></i></a></li>
@@ -117,7 +117,7 @@ FooterBlock = React.createClass
         </div>
       </div>
       <div className="container text-center">
-        <p className="copyright">© 2018 {this.props.name}</p>
+        <p className="copyright">© 2019 {this.props.name}</p>
       </div>
     </footer>`
 
@@ -165,7 +165,7 @@ FooterBlock = React.createClass
         </div>
       </div>
       <div className="container text-center">
-        <p className="copyright">© 2018 {this.props.name}</p>
+        <p className="copyright">© 2019 {this.props.name}</p>
       </div>
     </footer>`
 
