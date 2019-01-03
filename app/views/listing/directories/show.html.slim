@@ -34,7 +34,7 @@
         - @categories_search.each do |category|
           .row.categories-view
             .col-md-12
-              h3 = category.label
+              h2 = category.label
             - i = 0
             - if !params[:query].blank?
               - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |company|
