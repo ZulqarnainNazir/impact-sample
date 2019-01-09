@@ -1,13 +1,13 @@
 <%= @personal_message %>
 
-<%= @business.name %> in <%= @business.location.city_and_state %> wanted to share with you that they're using Locable's Marketing Platform to simplify local marketing and tap into the power of their Local Connections - hey, maybe that's you? 
+<%= @business.name %> in <%= @business.location.city_and_state %> is using Locable's web platform for local marketing, cross-promotion, & collaboration to help us #TakeBackLocal.
   
-Take advantage of our easy-to-use tools for your business or organization.
+Join so we can better promote you and we'd love it if you used Locable to automatically promote us back...
 
 <%= link_to "CLAIM YOUR FREE ACCOUNT", new_user_registration_url(:company_id => @business_id, :contact_id => @invitee_id, quick_invite: @invite.skip_company, :protocol => 'https') %>
 
-At a minimum, claiming your account ensures information about your business or organization is accurate when people want to promote you.
+Claiming your account ensures your information is accurate when people want to promote you and you can tap into the power of your Local Connections.
 
-Learn more about Locable and our mission at www.locable.com
+Learn more about Locable and our mission to support local communities at https://www.locable.com
 
-If the button above is not clickable, please copy and paste this link into your browser - https://impact.locable.com/users/sign_up/
+If the button above is not clickable, please copy and paste this link into your browser - https://impact.locable.com/users/sign_up/?utm_source=basic-invite-plain-text

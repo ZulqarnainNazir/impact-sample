@@ -1,6 +1,6 @@
 - title 'Invite'
 - basic_subject = "Subject: Recommended by #{@business.name} in #{@business.location.city_and_state}"
-- member_subject = "Subject: [Their name], equip us to promote [their company]!"
+- member_subject = "Subject: [Their name], let's cross-promote to reach more people for [their company] and support local!"
 - member_subject_2 = "Subject: Free marketing for [their company] in and around [your city, state]"
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Local Connections', :fp => :crm_root, :an => 'Invite'}
@@ -80,16 +80,16 @@
                 hr  
                 - if @business.membership_org
                   .m-t.text-center.js-membership-toggle
-                    h4 Which invite would you like to send?
+                    h4 Which invitation would you like to send?
                     / .i-checks
                     = form.label :type_of_membership_1, class: 'checkbox-inline i-checks' do
                       = form.radio_button :type_of, :membership_1
                       i
-                      |  Invite as Member Option #1
-                    = form.label :type_of_membership_2, class: 'checkbox-inline i-checks' do
-                      = form.radio_button :type_of, :membership_2
-                      i
-                      |  Membership Invite Option #2
+                      |  Invite a Member
+                    /= form.label :type_of_membership_2, class: 'checkbox-inline i-checks' do
+                    /  = form.radio_button :type_of, :membership_2
+                    /  i
+                    /  |  Membership Invite Option #2
                     = form.label :type_of_basic, class: 'checkbox-inline i-checks' do
                       = form.radio_button :type_of, :basic
                       i

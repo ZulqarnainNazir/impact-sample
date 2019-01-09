@@ -1,37 +1,64 @@
 = render partial: "invite_header"
 tr
-  td style="padding:0 20px;"
+  td style="padding:0 12px;"
     table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
       tr
-        td align="center" style="padding:50px 16px 12px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:28px;color:#000000;"
+        td align="center" style="padding:12px 8px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:28px;color:#000000;"
           | &nbsp;
       tr
-        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+        td.padding-0 align="center" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
           = @personal_message
           br &nbsp;
       tr
-        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
-          | We're doing more to promote you. Now that we're working with Locable, we can ensure you're featured prominently and <strong>even promote your events, offers, jobs postings and more.</strong>
+        td.padding-0 align="left" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:18px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | At&nbsp;
+          = @business.name
+          | &nbsp;we're doing more to promote you. 
           br &nbsp;
       tr
-        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
-          | It takes less than 5-minutes to join and ensures your information is correct.
+        td.padding-0 align="left" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | We're using Locable's web platform for local marketing, <strong>cross-promotion</strong> & <strong>collaboration</strong> to help us all <strong>#TakeBackLocal</strong>.
       tr
         td align="center" style="padding:40px 0;"
           table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
             tr
               td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
-                = link_to "Accept Now", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
+                = link_to "Join Now - It's Free", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
       tr
-        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
-          | If the button isn't working, copy and paste this url into your browser:
-      tr
-        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#20BEEC;line-height:22px;letter-spacing:0.03em;"
-          | https://impact.locable.com/users/sign_up/
+        td.padding-0 align="left" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | When you join, we can better promote you and we'd love it if you used Locable to <strong>automatically</strong> promote us back...
           br &nbsp;
       tr
-        td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
-          | When you join, you'll begin to tap into the power of your Local Connections and simplify your marketing with free, easy-to-use tools to help you grow.
+        td.padding-0 align="left" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | <strong>Automatically</strong> promote causes & businesses you care about <em>plus</em> feature local events and activities on your website - like ours ;)
+          br &nbsp;    
+      tr
+        td.padding-0 align="left" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | Locable simplifies local marketing & ensures you're featured prominently and even promotes your events, offers, job postings and more to <strong>reach more people</strong>.
+          br &nbsp; 
+      tr
+        td.padding-0 align="center" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | It takes less than 5-minutes to join and ensure your information is correct.
+      tr
+        td align="center" style="padding:40px 0;"
+          table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
+            tr
+              td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
+                = link_to "Accept Invite", new_user_registration_url(:contact_id => @invitee_id, :quick_invite => true, :protocol => 'https'), style: "color:#FFFFFF;", target: "_blank"
+      tr
+        td.padding-0 align="center" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | If the button isn't working, copy and paste this url into your browser:
+      tr
+        td.padding-0 align="center" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#20BEEC;line-height:22px;letter-spacing:0.03em;"
+          | https://impact.locable.com/users/sign_up/?utm_source=member-invite
+          br &nbsp;
+      tr
+        td.padding-0 align="center" style="padding:0 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | Claiming your account gives you access to free tools and enables you to Tap into the Power of <em>Your</em> Local Connections.
+          br &nbsp;
+      tr
+        td.padding-0 align="center" style="padding:0 12px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          | Learn more about Locable and their mission to support local communities at <a href="https://www.locable.com">www.locable.com</a>
           br &nbsp;
       tr
         td

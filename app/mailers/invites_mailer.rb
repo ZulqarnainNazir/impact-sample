@@ -47,11 +47,11 @@ class InvitesMailer < ApplicationMailer
         @invite_company = Company.find(@business_id)
         subject = ""
         if !@invitee.first_name.blank? && !@invite_company.nil? && !@invite_company.name.blank?
-          subject = "#{@invitee.first_name}, equip us to promote #{@invite_company.name}!"
+          subject = "#{@invitee.first_name}, let's cross-promote to reach more people for #{@invite_company.name} and support local!"
         elsif @invitee.first_name.blank? && !@invite_company.nil? && !@invite_company.name.blank?
-          subject = "Equip us to promote #{@invite_company.name}!"
+          subject = "Let's cross-promote to reach more people for #{@invite_company.name} and support local!"
         else
-          subject = "Equip us to promote you"
+          subject = "Let's cross-promote to reach more people and support local!"
         end
 
         # subject = @business.website_url == "http://" ? "#{@invitee.first_name}, equip us to promote #{@invite_company.name}!" : "Equip us to promote #{@invite_company.name}!"
@@ -60,7 +60,7 @@ class InvitesMailer < ApplicationMailer
       elsif !@invitee_id.nil?
         @business = sending_bus
         @invitee = Contact.find(invite.invitee_id)
-        subject = "#{@invitee.first_name.length > 0 ? "#{@invitee.first_name}, equip us to promote you" : "Equip us to promote you"}!"
+        subject = "#{@invitee.first_name.length > 0 ? "#{@invitee.first_name}, let's cross-promote to reach more people and support local" : "Let's cross-promote to reach more people and support local"}!"
         track extra: {business_id: @business.id}
         mail to: invite.invitee.email, from: "#{@business.name} <#{Rails.application.secrets.invite_email}>", subject: subject
       end
