@@ -7,3 +7,11 @@ tbody
     td.content-block 
       | #{name.length > 0 ? name : @authorization.user.email}, You are now an authorized #{@authorization.role} of 
       = link_to @authorization.business.name, [@authorization.business, :dashboard]
+  tr
+    td.padding-0 align="left" style="padding:0px 8px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+      br
+      Locable is a web platform for local marketing, <strong>cross-promotion</strong>, & <strong>collaboration</strong> to help us <strong>#TakeBackLocal</strong>.
+  tr
+    td.padding-0 align="center" style="padding:0 12px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+      | Learn more about Locable and our mission to support local communities at <a href="https://www.locable.com">www.locable.com</a>
+      br &nbsp;

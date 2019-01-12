@@ -6,7 +6,7 @@ class AccountMailer < Devise::Mailer
   layout 'mailer_theme_three', only: [:confirmation_instructions]
 
   def confirmation_instructions(record, token, opts={})
-    opts[:subject] = "#{record.name}, Confirm your account in Locable's Marketing Platform"
+    opts[:subject] = "#{record.name}, Confirm Your Locable Account"
     super
   end
 
