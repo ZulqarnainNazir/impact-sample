@@ -8,7 +8,6 @@ class Businesses::Data::DetailsController < Businesses::BaseController
   def update
     update_resource @business, business_params, context: :requires_categories, location: [:edit, @business, :data_details]
 
-
     respond_to do |format|
       if @business.save
         # format.html { redirect_to tasks_url, notice: 'Task was successfully created. '+task_params.inspect}
@@ -44,7 +43,6 @@ class Businesses::Data::DetailsController < Businesses::BaseController
       :website_url,
       :year_founded,
       :membership_org,
-      :community_id,
       category_ids: [],
       logo_placement_attributes: placement_attributes,
       hero_placement_attributes: placement_attributes,

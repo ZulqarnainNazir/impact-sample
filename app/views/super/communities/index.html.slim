@@ -4,18 +4,17 @@ div class="ibox float-e-margins"
   div class="ibox-content"
     div class="row m-t-3"
       div class="col-md-12"
-        div class="btn-group" data-toggle="buttons"
-          = link_to new_super_community_path do
-            | Add New Community
+        = link_to new_super_community_path, class: "btn btn-sm btn-success" do
+          | Add New Community
         table class="table table-striped datatable"
           thead
             tr
               th Community ID
-              th Community Name
-              th Business in Community/Accounts
-              th Paid Businesses in Community
-              th Entries in Company Tables
-              th Ambassadors
+              th Community Label
+              th Claimed Accounts in Community
+              th Paid Accounts in Community
+              th Total Entries in Company Tables
+              th # of Ambassadors
               th
 
           tbody
@@ -23,11 +22,10 @@ div class="ibox float-e-margins"
               tr
                 td = community.id
                 td = community.label
-                td = community.businesses.count
-                td = community.paid_accounts(community)
-                td = community.businesses.count + community.owned_companies_count(community)
-                td
-                td = community.community_businesses.where(anchor: true).count + community.community_businesses.where(champion: true).count
+                td = community.accounts_count(community)
+                td = community.paid_accounts_count(community)
+                td = community.owned_by_businsess_count(community)
+                td = community.ambassador_count(community)
                 td
                   = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"
                   = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-sm btn-danger"

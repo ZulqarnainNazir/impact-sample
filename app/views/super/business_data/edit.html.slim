@@ -8,7 +8,7 @@
     .col-md-8
 	    .ibox.float-e-margins
 			.ibox-title
-			    h1 Business Information for #{@business.name} 
+			    h1 Business Information for #{@business.name}
 			    -if @business.present?
 				    =link_to business_dashboard_path(@business) do
 					    | view business account
@@ -23,16 +23,16 @@
 	              h3: strong = @business.name
 	              p.m-b-none
 		            = link_to listing_path_url(@business), listing_path_url(@business), target: :_blank
-	              p.m-b-none 
-	                | Phone: 
-	                a href="tel:#{@business.location.phone_number}" 
+	              p.m-b-none
+	                | Phone:
+	                a href="tel:#{@business.location.phone_number}"
 	                  = @business.location.phone_number
 	              p.m-b-none
-	                | Website: 
-	                a href="#{@business.website_url}" 
+	                | Website:
+	                a href="#{@business.website_url}"
 	                  = @business.website_url
 	              p Description: #{@business.description && @business.description.length > 100 ? "#{@business.description[0..100]}..." : @business.description}
-	            
+
 	              a.company-view-more.btn.btn-sm.btn-white href="#company-more-collapse" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="company-profile-collapse"
 	                i.fa.fa-chevron-down>
 	                i.fa.fa-chevron-up>
@@ -52,3 +52,5 @@
 						    	.dd-handle
 							    	= n.business_that_has_this_record_as_contact.name
 		= render partial: 'businesses/dashboards/followers', locals: { business: @business }
+
+    = render partial: 'communities'
