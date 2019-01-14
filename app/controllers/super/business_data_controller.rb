@@ -9,7 +9,6 @@ class Super::BusinessDataController < SuperController
   	#records in the Business table (firms with records in Business table are those that
   		# have accounts on IMPACT, i.e., have active websites)
     @businesses = Business.order("id").search(params[:search]) #.page(params[:page]).per(20)
-    @communities = Community.all
   end
 
   def edit
@@ -17,7 +16,6 @@ class Super::BusinessDataController < SuperController
   end
 
   def update
-    # @business.communities << params[:business][:community_ids]
 
   	if @business.update_attributes(business_and_related_params)
   		flash[:notice] = "You've updated data on this business."
@@ -27,15 +25,6 @@ class Super::BusinessDataController < SuperController
   		flash[:notice] = "Update error. Please try again."
   		render 'edit'
   	end
-
-
-    # respond_to do |format|
-    #     format.json do
-    #       # render :json => {success: 'yes'}
-    #       render json: { text: 'Ok' }
-    #     end
-    # end
-
   end
 
   # Updates Community ID for a business
