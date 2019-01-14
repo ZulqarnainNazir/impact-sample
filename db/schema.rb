@@ -52,15 +52,6 @@ ActiveRecord::Schema.define(version: 20181206045803) do
   add_index "ahoy_messages", ["token"], name: "index_ahoy_messages_on_token", using: :btree
   add_index "ahoy_messages", ["user_id", "user_type"], name: "index_ahoy_messages_on_user_id_and_user_type", using: :btree
 
-  create_table "ambassadors", force: :cascade do |t|
-    t.integer  "community_id"
-    t.integer  "business_id"
-    t.boolean  "anchor"
-    t.boolean  "champion"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                     null: false
     t.integer  "user_id",                                         null: false
@@ -227,10 +218,7 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
     t.text     "slug"
-    t.integer  "community_id"
   end
-
-  add_index "businesses", ["community_id"], name: "index_businesses_on_community_id", using: :btree
 
   create_table "calendar_widgets", force: :cascade do |t|
     t.string   "name"
@@ -290,6 +278,18 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
+
+  create_table "community_businesses", force: :cascade do |t|
+    t.integer  "community_id"
+    t.integer  "business_id"
+    t.boolean  "anchor"
+    t.boolean  "champion"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "community_businesses", ["business_id"], name: "index_community_businesses_on_business_id", using: :btree
+  add_index "community_businesses", ["community_id"], name: "index_community_businesses_on_community_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.integer  "user_business_id"
@@ -1468,7 +1468,6 @@ ActiveRecord::Schema.define(version: 20181206045803) do
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
-  add_foreign_key "businesses", "communities"
   add_foreign_key "contact_form_form_fields", "contact_forms"
   add_foreign_key "contact_form_form_fields", "form_fields"
   add_foreign_key "contact_forms", "businesses"

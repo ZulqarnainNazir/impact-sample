@@ -17,13 +17,13 @@ class Super::CommunitiesController < SuperController
   def new
     @community = Community.new
     # @businesses = Business.where('community_id = ?', @community)
-    @businesses = @community.businesses
+    # @businesses = @community.businesses
   end
 
   # GET /communities/1/edit
   def edit
     # @businesses = Business.where('community_id = ?', @community)
-    @businesses = @community.businesses
+    # @businesses = @community.businesses
   end
 
   # POST /communities
@@ -69,6 +69,6 @@ class Super::CommunitiesController < SuperController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def community_params
-      params.require(:community).permit(:label, :boundry_coordinates)
+      params.require(:community).permit(:label, :boundry_coordinates, community_businesses_attributes: [:id, :anchor, :champion])
     end
 end

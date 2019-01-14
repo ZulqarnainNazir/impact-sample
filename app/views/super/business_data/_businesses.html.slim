@@ -18,8 +18,12 @@ div id="companies-partial"
             td = link_to edit_super_business_datum_path(a) do
               = a.name
             td
-              = form_for a, url: business_data_details_path(a.id), html: { class: 'community_selector clearfix' } do |form|
-                = form.select :community_id, options_from_collection_for_select(@communities, 'id', 'label', a.community_id)
+              -if a.communities.first
+                = a.communities.first.label
+              -else
+                p None
+              / = form_for a, url: business_data_details_path(a.id), html: { class: 'community_selector clearfix' } do |form|
+              /   = form.select :community_id, options_from_collection_for_select(@communities, 'id', 'label', a.community_id)
             td = a.owned_by_business.count
             td = a.in_impact
             td = link_to 'Go', merge_with_super_business_datum_path(a)

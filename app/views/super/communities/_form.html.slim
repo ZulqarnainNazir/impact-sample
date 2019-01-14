@@ -6,26 +6,32 @@
     = f.input :boundry_coordinates
 
 
-  h2 Select Ambassadors (Anchors = Paid, Champions = Unpaid)
-  div class="row m-t-3"
-    div class="col-md-12"
-      table class="table table-striped datatable"
-        thead
-          tr
-            th Business
-            th Anchor
-            th Champion
-
-
-        tbody
-          - @businesses.each do | business |
+  h2 Select Ambassadors (Anchors = Paid/Branded Portal, Champions = Unpaid)
+  -if @community.community_businesses.present?
+    div class="row m-t-3"
+      div class="col-md-12"
+        table class="table table-striped datatable"
+          thead
             tr
-              td = business.name
-              / td Checkbox for setting Anchor
-              td = check_box_tag :ambassadors
-              / td CHeckbox for setting champion
-              td = check_box_tag :ambassadors
-              / td  = select_tag :community_id, options_from_collection_for_select(@communities, 'id', 'label', params[:community_id])
+              th Business
+              th Anchor
+              th Champion
+
+          tbody
+            = f.simple_fields_for :community_businesses do |cbf|
+              - business = cbf.object.business
+              - if business
+
+                tr
+                  / td= puts business
+                  td = business.name
+                  / td Checkbox for setting Anchor
+                  td = cbf.check_box :anchor
+                  / td CHeckbox for setting champion
+                  td = cbf.check_box :champion
+                  / td  = select_tag :community_id, options_from_collection_for_select(@communities, 'id', 'label', params[:community_id])
+  -else
+    p No Business in this Community yet.
 
 
 
@@ -53,3 +59,4 @@
 
   .form-actions
     = f.button :submit
+    = link_to 'Cancel', super_communities_path

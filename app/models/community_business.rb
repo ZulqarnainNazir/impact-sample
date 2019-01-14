@@ -1,4 +1,4 @@
-class Ambassador < ActiveRecord::Base
+class CommunityBusiness < ActiveRecord::Base
   belongs_to :community
   belongs_to :business
 

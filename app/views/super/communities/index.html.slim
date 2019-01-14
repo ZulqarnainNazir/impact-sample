@@ -26,7 +26,8 @@ div class="ibox float-e-margins"
                 td = community.businesses.count
                 td = community.paid_accounts(community)
                 td = community.businesses.count + community.owned_companies_count(community)
-                td = community.ambassadors.where(anchor: true).count + community.ambassadors.where(champion: true).count
+                td
+                td = community.community_businesses.where(anchor: true).count + community.community_businesses.where(champion: true).count
                 td
                   = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"
                   = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-sm btn-danger"

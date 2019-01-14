@@ -1,9 +1,9 @@
 class Community < ActiveRecord::Base
-  has_many :ambassadors
-  accepts_nested_attributes_for :ambassadors
-  # has_many :businesses, through: :ambassadors
-  has_many :businesses
-  
+  has_many :community_businesses
+  has_many :businesses, through: :community_businesses
+  accepts_nested_attributes_for :community_businesses
+  # has_many :businesses
+
   validates :label, presence: true
 
   def paid_accounts(community)
@@ -22,11 +22,11 @@ class Community < ActiveRecord::Base
 
   def owned_companies_count(community)
     count = 0
-    Business.where('community_id = ?', community).each do | b |
-      if b.owned_companies.count > 1
-        count += b.owned_companies.count
-      end
-    end
+    # Business.where('community_id = ?', community).each do | b |
+    #   if b.owned_companies.count > 1
+    #     count += b.owned_companies.count
+    #   end
+    # end
     return count
   end
 
