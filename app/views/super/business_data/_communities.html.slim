@@ -1,6 +1,7 @@
 = form_for @business, url: super_business_datum_path, html: { class: ""} do |business|
 
   h2 Communties
+  =hidden_field_tag "business[community_ids][]", nil
   - Community.all.each do |community|
     = check_box_tag "business[community_ids][]", community.id, @business.communities.include?(community)
     = community.label

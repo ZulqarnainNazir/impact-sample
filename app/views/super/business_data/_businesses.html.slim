@@ -5,7 +5,7 @@ div id="companies-partial"
         th Business ID
         th Name
         th Communities
-        th Entries in Company Table
+        th # of Businesses in CRM
         th Active Account
         th Merge
         th Last Updated On
@@ -24,7 +24,7 @@ div id="companies-partial"
                 p None
               / = form_for a, url: business_data_details_path(a.id), html: { class: 'community_selector clearfix' } do |form|
               /   = form.select :community_id, options_from_collection_for_select(@communities, 'id', 'label', a.community_id)
-            td = a.owned_by_business.count
+            td = a.owned_companies.count
             td = a.in_impact
             td = link_to 'Go', merge_with_super_business_datum_path(a)
             td = a.updated_at.to_date.to_formatted_s(:long_ordinal)

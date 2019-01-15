@@ -13,7 +13,7 @@ div class="ibox float-e-margins"
               th Community Label
               th Claimed Accounts in Community
               th Paid Accounts in Community
-              th Total Entries in Company Tables
+              th Total Related Businesses in CRM
               th # of Ambassadors
               th
 
@@ -24,7 +24,7 @@ div class="ibox float-e-margins"
                 td = community.label
                 td = community.accounts_count(community)
                 td = community.paid_accounts_count(community)
-                td = community.owned_by_businsess_count(community)
+                td = community.related_businesses_count(community)
                 td = community.ambassador_count(community)
                 td
                   = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"

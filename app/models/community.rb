@@ -1,5 +1,6 @@
 class Community < ActiveRecord::Base
-  has_many :community_businesses
+  has_many :community_businesses, inverse_of: :community
+  # has_many :businesses, -> {distinct}, through: :community_businesses
   has_many :businesses, through: :community_businesses
   accepts_nested_attributes_for :community_businesses
   # has_many :businesses
@@ -35,12 +36,14 @@ class Community < ActiveRecord::Base
     #Subscription.all.where('subscription_plan_id > ?', '1').count Business.where('community_id = ?',1).count Community.last.businesses.last.subscription
   end
 
-  def owned_by_businsess_count(community)
+  def related_businesses_count(community)
     count = 0
     # Business.where('community_id = ?', community).each do | b |
     community.businesses.each do | b |
-      if b.owned_by_business.count > 1
-        count += b.owned_by_business.count
+      # puts b.name
+      if b.owned_companies.count >= 1
+        count += b.owned_companies.count
+        # puts count
       end
     end
     return count
