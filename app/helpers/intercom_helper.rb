@@ -61,6 +61,8 @@ module IntercomHelper
         account_id: params[:business_id],
         form_count: current_business.contact_forms.size,
         form_submissions_count: current_business.form_submissions.size,
+        comapny_follows: current_business.listed_by_business.length.to_s,
+        
       )
     end
 

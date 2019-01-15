@@ -57,6 +57,8 @@ class Businesses::Crm::CompanyListsController < Businesses::BaseController
     else
       create_resource @company_list, company_list_params, location: [:edit, @business, :crm, @company_list]
     end
+
+    intercom_event 'followed_a_business'
   end
 
   def update
