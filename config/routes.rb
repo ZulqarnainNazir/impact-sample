@@ -431,11 +431,6 @@ Rails.application.routes.draw do
 
   scope module: :website, as: :website, constraints: WebsiteConstraint.new do
     root to: 'home_pages#show'
-    namespace :async do
-      get :quick_post
-      get :post
-      get :calendar_event
-    end
     get '/robots.:format' => 'robots#robots'
     resource :about_page, path: 'about', only: %i[show]
     resource :blog_page, path: 'blog', only: %i[index show]

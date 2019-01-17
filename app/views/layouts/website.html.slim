@@ -27,7 +27,6 @@ html lang="en"
       link rel="canonical" href=content_for(:canonical_url)
     = stylesheet_link_tag 'application', media: 'all', protocol: :https, data: { turbolinks_track: true }
     = javascript_include_tag 'application', protocol: :https, data: { turbolinks_track: true }
-    = content_for :render_async
     - cache @website do
       = @website.head_injection.try(:html_safe)
     - cache @page do

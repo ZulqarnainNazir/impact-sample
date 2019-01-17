@@ -33,9 +33,9 @@
           - else
             - order_the_events(posts.to_a).each do |post|
               - if blog_feed_block.business == post.business
-                = render post
+                = render posts
               - else
-                = render_async eval("website_async_#{post.class.to_s.underscore}_path(post_id: post)"), error_message: 'The post could not be loaded'
+                = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
 
         - elsif !posts.present? || posts.empty?
           div.col-xs-9
