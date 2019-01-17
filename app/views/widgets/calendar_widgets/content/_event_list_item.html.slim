@@ -76,26 +76,25 @@
           | Posted by
           = business.name
 
-div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
+div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}" data-event-id="#{event.id}"
   .modal-dialog.modal-lg
     .modal-content
-      .modal-header
-        button class="" type="button" data-dismiss="modal"
-          span
-            << Back
-        button class="close" type="button" data-dismiss="modal"
-          span
-            | &times;
-          br
-      .modal-body
-        / FIXME: goood lord no
-        = render 'widgets/calendar_widgets/content/event', event: event, business: business, website: website
 
 javascript:
   $('#event-modal-#{event.id}').on('shown.bs.modal', function () {
+    $.ajax({
+        url: "/async/calendar",
+        type: "GET",
+        data: { event: "#{event.id}"} ,
+        success: function(html){
+          console.log($(this))
+          $("#event-modal-#{event.id} .modal-content").append(html);
+        }
+    });
     window.location.hash = '#{event.event_definition.slug}';
   })
 
   $('#event-modal-#{event.id}').on('hidden.bs.modal', function (e) {
+    $("#event-modal-#{event.id} .modal-content").empty();
     window.location.hash = '';
   })

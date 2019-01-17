@@ -429,6 +429,11 @@ Rails.application.routes.draw do
     resources :locations, only: %i[index new create]
   end
 
+  namespace :async do
+    get 'calendar', to: 'widgets#calendar'
+    get 'quick_post', to: 'widgets#quick_post'
+  end
+
   scope module: :website, as: :website, constraints: WebsiteConstraint.new do
     root to: 'home_pages#show'
     get '/robots.:format' => 'robots#robots'

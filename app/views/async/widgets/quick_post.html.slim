@@ -1,0 +1,7 @@
+.modal-header
+  button class="close" type="button" data-dismiss="modal"
+    span
+      | &times;
+    br
+.modal-body
+  = render 'website/quick_posts/modal_show', quick_post: @quick_post

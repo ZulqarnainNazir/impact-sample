@@ -33,9 +33,9 @@
           - else
             - order_the_events(posts.to_a).each do |post|
               - if blog_feed_block.business == post.business
-                = render posts
+                = render post
               - else
-                = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
+                = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
 
         - elsif !posts.present? || posts.empty?
           div.col-xs-9
