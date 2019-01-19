@@ -61,7 +61,8 @@ div class=(stacked ?  'col-xs-12' : 'col-xs-12 col-sm-6 col-md-4')
         = date_time
       .location
         = location
-
-      = link_to website_event_url(event, host: website.host, protocol: :http), target: :_blank , class: 'read-more'
+      /NOTE:  should use the current_site's host if the modal is rendered on a custom site, if it is an embed keep this code
+      /       host: website.host, protocol: :http
+      = link_to website_event_path(event), target: :_blank , class: 'read-more'
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right
