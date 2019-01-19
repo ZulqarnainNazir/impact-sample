@@ -9,10 +9,10 @@
             br>
             - if @post.persisted?
               - if @post.published_status == false
-                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @post.id], class: 'btn btn-block btn-default', :target => "_blank"
+                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "posts", only_path: false, :host => @business.website.host, protocol: :http, :id => @post.id], class: 'btn btn-block btn-default', :target => "_blank"
               - else
                 - if @business.webhost_primary?
-                  = link_to "View Post", [:website, @post, only_path: false, host: website_host(@business.website), protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
+                  = link_to "View Post", [:website, @post, only_path: false, host: @business.website.host, protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
                 - if !@business.webhost_primary? && @business.has_plan?
                   = link_to "View Post", listing_path_content_url(@business, @post.slug, 'post'), class: 'btn btn-block btn-default', :target => "_blank"
 

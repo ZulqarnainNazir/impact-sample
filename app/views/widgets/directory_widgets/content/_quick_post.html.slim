@@ -24,16 +24,16 @@
           span.text-muted> Posted in
           - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
             - if business.website
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
+              = link_to classification.name, [:website, classification, only_path: false, host: business.website.host, protocol: :http], target: :_blank
             - else
               = classification.name
             - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
               ' ,
       - if business.website
         - if quick_post.published_status == false
-          h2 = link_to quick_post.title, [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(business.website), protocol: :http, :id => quick_post.id], target: :_blank
+          h2 = link_to quick_post.title, [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => business.website.host, protocol: :http, :id => quick_post.id], target: :_blank
         - else
-          h2 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
+          h2 = link_to quick_post.title, [:website, quick_post, only_path: false, host: business.website.host, protocol: :http], target: :_blank
       - else
         h2 = quick_post.title
       - placement = quick_post.quick_post_image_placement

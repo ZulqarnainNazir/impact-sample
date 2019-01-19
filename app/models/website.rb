@@ -93,7 +93,11 @@ class Website < ActiveRecord::Base
   end
 
   def webhost
-    webhosts.primary.any? ? webhosts.primary.first : webhosts.first
+    @webhost ||= (webhosts.primary.any? ? webhosts.primary.first : webhosts.first)
+  end
+
+  def host
+    @host ||= webhost&.primary? ? webhost.name : [subdomain, Rails.application.secrets.host].join('.')
   end
 
   def arranged_nav_links(location)

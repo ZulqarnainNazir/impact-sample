@@ -1,9 +1,7 @@
 /
 / Logic for rendering local variables
 /
-- business = event.business
-
-
+- business ||= event.business
 - product_image = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.event_definition.slug}" do
   - if event.event_definition.main_image
     = image_tag event.event_definition.main_image.attachment_url(:small)
@@ -11,11 +9,10 @@
     - placement = event.event_definition.event_image_placement
     - if placement
       - cache placement
-        - if placement.try(:embeds?)
+        - if placement&.embeds?
           = placement.embed.html_safe
-        - elsif placement.try(:image)
-          - if placement.image.present?
-            = image_tag placement.image.attachment_url(:small)
+        - elsif placement&.image
+          = image_tag placement.image.attachment_url(:small)
     - else
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
@@ -76,28 +73,28 @@
     - if business != main_biz
       .description
         bg-warning
-          | Posted by 
+          | Posted by
           = business.name
 
-div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
+div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}" data-event-id="#{event.id}"
   .modal-dialog.modal-lg
     .modal-content
-      .modal-header
-        button class="" type="button" data-dismiss="modal"
-          span
-            << Back
-        button class="close" type="button" data-dismiss="modal"
-          span
-            | &times;
-          br
-      .modal-body
-        = render partial: 'widgets/calendar_widgets/content/event', locals: {event: event}
 
 javascript:
   $('#event-modal-#{event.id}').on('shown.bs.modal', function () {
+    $.ajax({
+        url: "/async/calendar",
+        type: "GET",
+        data: { event: "#{event.id}"} ,
+        success: function(html){
+          console.log($(this))
+          $("#event-modal-#{event.id} .modal-content").append(html);
+        }
+    });
     window.location.hash = '#{event.event_definition.slug}';
   })
 
   $('#event-modal-#{event.id}').on('hidden.bs.modal', function (e) {
+    $("#event-modal-#{event.id} .modal-content").empty();
     window.location.hash = '';
   })

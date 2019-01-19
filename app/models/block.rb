@@ -1,5 +1,6 @@
 class Block < ActiveRecord::Base
   include PlacedImageConcern
+  include Concerns::BusinessIds
 
   store_accessor :settings, :background_color, :foreground_color, :link_color,
                             :height, :items_limit, :well_style, :custom_class,
@@ -34,7 +35,7 @@ class Block < ActiveRecord::Base
     if frame.is_a?(Website)
       @business ||= frame.business
     elsif frame.is_a?(Group)
-      @business ||= frame.webpage.try(:website).try(:business)
+      @business ||= frame.webpage&.website&.business
     end
   end
 

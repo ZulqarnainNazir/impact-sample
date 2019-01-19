@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def confirm_module_activated(module_kind_number)
-    # marketing_missions: 0, 
+    # marketing_missions: 0,
     # content_engine: 1,
     # local_connections: 2,
     # customer_reviews: 3,
@@ -30,17 +30,17 @@ class ApplicationController < ActionController::Base
     unless current_user.super_user? || @business.is_on_legacy_plan?
       if @business.bill_online == true && @business.subscription_billing_roadblock == true
         @subscription = @business.subscription
-        # if params[:action] != 'initial_plan_setup' 
-        #   && @subscription.plan.is_engage_plan? && @subscription.missing_any_payment_info? 
-        #   || (params[:action] != 'initial_billing_setup' && params[:action] != 'initial_plan_setup') 
+        # if params[:action] != 'initial_plan_setup'
+        #   && @subscription.plan.is_engage_plan? && @subscription.missing_any_payment_info?
+        #   || (params[:action] != 'initial_billing_setup' && params[:action] != 'initial_plan_setup')
         #   && !@subscription.plan.is_engage_plan? && @subscription.needs_payment_info?
         unless params[:action] == 'initial_plan_setup' || params[:action] == 'initial_billing_setup'
-          flash[:notice] = "Looks like you don't have a plan set-up for this business. 
+          flash[:notice] = "Looks like you don't have a plan set-up for this business.
           Let's get you started!"
           redirect_to initial_plan_setup_business_subscriptions_path and return
         end
         # elsif params[:action] != 'initial_billing_setup' && !@subscription.plan.is_engage_plan? && @subscription.needs_payment_info? && !params[:back_to_initial].present?
-        #   flash[:notice] = "Looks like your plan is set-up for this business 
+        #   flash[:notice] = "Looks like your plan is set-up for this business
         #   but we don't have your billing information. Let's take care of that!"
         #   redirect_to(setup_billing_business_subscriptions_path)
       end
@@ -93,14 +93,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Find the website‘s custom host or IMPACT subdomain.
-  def website_host(website)
-    if website.webhost.try(:primary?)
-      website.webhost.name
-    else
-      [website.subdomain, Rails.application.secrets.host].join('.')
-    end
-  end
   def set_dashboard_url
     if (request.subdomains.first == 'www' || (!request.ssl? && Rails.env.production?)) && request.host.match(Regexp.escape(Rails.application.secrets.host))
       if Rails.env.production?

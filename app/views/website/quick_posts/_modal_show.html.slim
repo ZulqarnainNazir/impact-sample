@@ -28,7 +28,7 @@
               span.text-muted> in
               - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
                 = link_to classification.name, [:website, classification]
-                - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
+                - if i < quick_post.content_categories.size + quick_post.content_tags.size - 1
                   ' ,
             hr
             - placement = quick_post.quick_post_image_placement
@@ -39,10 +39,3 @@
               div.blog-show-image = image_tag placement.image.attachment_url(:large), alt: placement.image.alt, title: placement.image.title
               br
           = sanitize_html quick_post.description
-    / - if @website.content_blog_sidebar? || @website.events_sidebar?
-    /   .col-sm-4.m-t-lg 
-    /     .show-sidebar-grid
-    /       - if @website.content_blog_sidebar?
-    /         = render posts(nil, @business), small: true
-    /       - if @website.events_sidebar?
-    /         = render events(@business), small: true

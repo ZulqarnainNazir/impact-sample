@@ -6,7 +6,7 @@
       div.ibox-content.product-box
         - cache before_after do
           div.product-imitation
-            = link_to [:website, before_after, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank do
+            = link_to [:website, before_after, only_path: false, host: business.website.host, protocol: :http], target: :_blank do
               - if before_after.before_image.present? && before_after.after_image.present?
                 - image_before = before_after.before_image.attachment_url(:small)
                 - image_after = before_after.after_image.attachment_url(:small)
@@ -22,7 +22,7 @@
             /       = link_to classification.name.titleize , [:website, classification]
             /       - if i < before_after.content_categories.count + before_after.content_tags.count - 1
             /         '  |
-            = link_to [:website, before_after, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'grid-feed-title'
+            = link_to [:website, before_after, only_path: false, host: business.website.host, protocol: :http], target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(before_after.title.titleize), length: 50, omission: '... '
             small.m-t-xs
               i BEFORE & AFTER
@@ -32,7 +32,7 @@
               - else
                 small.m-t-xs = truncate sanitize(before_after.description), length: 90, omission: '... '
             div.mt-text.rt
-              = link_to [:website, before_after, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank, class: 'btn-feed-block'
+              = link_to [:website, before_after, only_path: false, host: business.website.host, protocol: :http], target: :_blank, class: 'btn-feed-block'
                 |Read More
                 i.pad-lt-3.fa.fa-long-arrow-right
   / .col-xs-4.slider-content.single-blog

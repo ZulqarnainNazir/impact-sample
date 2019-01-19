@@ -1,0 +1,10 @@
+.modal-header
+  button class="" type="button" data-dismiss="modal"
+    span
+      << Back
+  button class="close" type="button" data-dismiss="modal"
+    span
+      | &times;
+    br
+.modal-body
+  = render 'widgets/calendar_widgets/content/event', event: @event, business: @business, website: @website

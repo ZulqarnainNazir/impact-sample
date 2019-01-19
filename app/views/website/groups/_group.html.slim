@@ -1,5 +1,5 @@
-- blocks = group.max_blocks.to_i > 0 ? group.blocks[0..(group.max_blocks - 1)] : group.blocks
-- background_image_url = group.group_background.try(:attachment_jumbo_url).present? ? (group.group_background.attachment_jumbo_url.gsub(/'/) {"\\'"}) : ''
+- blocks = (group.max_blocks.to_i > 0) ? group.blocks[0..(group.max_blocks - 1)] : group.blocks
+- background_image_url = group.group_background&.attachment_jumbo_url.present? ? (group.group_background.attachment_jumbo_url.gsub(/'/) {"\\'"}) : ''
 - sidebar_reverse_position = sidebar_position == 'left' ? 'right' : 'left'
 - image_style = "background-image: url('#{background_image_url}'); background-position: center center; background-repeat: no-repeat; background-size: cover;" if background_image_url.present?
 - color_style = "background-color: #{group.background_color}" if group.background_color.present?
@@ -11,13 +11,13 @@
           - if group.is_a?(HeroGroup) && group.blocks.length > 1
             .slick-carousel
               = render blocks, carousel: true
-          - elsif group.is_a?(HeroGroup) && group.blocks.length == 1 
+          - elsif group.is_a?(HeroGroup) && group.blocks.length == 1
             = render blocks
       - else
         - if group.is_a?(HeroGroup) && group.blocks.length > 1
           .slick-carousel
             = render blocks, carousel: true
-        - elsif group.is_a?(HeroGroup) && group.blocks.length == 1 
+        - elsif group.is_a?(HeroGroup) && group.blocks.length == 1
           = render blocks
   - else
     .webpage-group.webpage-group-basic class="webpage-group-basic-#{sidebar_reverse_position} #{group.custom_class} " style="#{image_style} #{color_style}"

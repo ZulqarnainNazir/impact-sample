@@ -52,7 +52,7 @@
             br>
             - if form.object.persisted?
               - if @event_definition.published_status == false
-                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "events", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @event_definition.events.first&.id], class: 'btn btn-block btn-default', :target => "_blank"
+                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "events", only_path: false, :host => @business.website.host, protocol: :http, :id => @event_definition.events.first&.id], class: 'btn btn-block btn-default', :target => "_blank"
           = react_component 'ImagePlacement',
             imagesPath: business_images_path(form.object.business),
             inputPrefix: 'event_definition[event_image_placement_attributes]',

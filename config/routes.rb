@@ -293,7 +293,7 @@ Rails.application.routes.draw do
             collection do
               get 'download_contact_template'
               get 'download_company_template'
-              get '/import_status_check/:job_id', to: :import_status_check, as: :import_status_check
+              get '/import_status_check/:job_id', action: :import_status_check, as: :import_status_check
               post 'review'
               post 'review_duplicates'
               post 'process_csv'
@@ -429,9 +429,13 @@ Rails.application.routes.draw do
     resources :locations, only: %i[index new create]
   end
 
+  namespace :async do
+    get 'calendar', to: 'widgets#calendar'
+    get 'quick_post', to: 'widgets#quick_post'
+  end
+
   scope module: :website, as: :website, constraints: WebsiteConstraint.new do
     root to: 'home_pages#show'
-
     get '/robots.:format' => 'robots#robots'
     resource :about_page, path: 'about', only: %i[show]
     resource :blog_page, path: 'blog', only: %i[index show]

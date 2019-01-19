@@ -11,6 +11,7 @@
         - posts = blog_search_base(blog_feed_block, blog_feed_block.business, params[:blog_search], content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
       - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
         - Rails.logger.info "BLOG FEED BLOCK Case 2"
+
         - posts = events_organized_desc(blog_feed_block, blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
       - else
         - Rails.logger.info "BLOG FEED BLOCK Case 3"
@@ -21,21 +22,20 @@
         div.row style="padding-top:30px; text-align:center;"
           = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
       .grid
-        - if posts.present? && !posts.empty?
+        - if posts&.any?
           - if params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
-            - posts.to_a.each do |posts|
+            - posts.includes(:business).to_a.each do |posts|
 
               - if blog_feed_block.business == posts.business
                 = render posts
               - else
                 = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
           - else
-            - order_the_events(posts.to_a).each do |posts|
-
-              - if blog_feed_block.business == posts.business
-                = render posts
+            - order_the_events(posts.to_a).each do |post|
+              - if blog_feed_block.business == post.business
+                = render post
               - else
-                = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
+                = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
 
         - elsif !posts.present? || posts.empty?
           div.col-xs-9

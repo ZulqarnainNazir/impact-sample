@@ -28,7 +28,7 @@
           = form.label :pathname, class: 'control-label'
           = form.text_field :pathname, autocomplete: 'off', class: 'form-control js-pathname-input'
           p.help-block
-            = website_host(form.object.website)
+            = form.object.website.host
             | /
             strong.text-info.js-pathname-label = form.object.pathname
         = render "businesses/website/common/og_image", form: form, prefix: prefix

@@ -24,7 +24,7 @@
           span.text-muted> Posted in
           - (offer.content_categories + offer.content_tags).each_with_index do |classification, i|
             - if business.website
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
+              = link_to classification.name, [:website, classification, only_path: false, host: business.website.host, protocol: :http], target: :_blank
             - else
               = classification.name
             - if i < offer.content_categories.count + offer.content_tags.count - 1
@@ -35,9 +35,9 @@
         /   = link_to icon('trash'), [business, :content, offer], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
       - if business.website
         - if offer.published_status == false
-          h2 = link_to offer.title, [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => website_host(business.website), protocol: :http, :id => offer.id], target: :_blank
+          h2 = link_to offer.title, [:website, :generic_post, :preview, :type => "offers", only_path: false, :host => business.website.host, protocol: :http, :id => offer.id], target: :_blank
         -else
-          h2 = link_to offer.title, [:website, offer, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank
+          h2 = link_to offer.title, [:website, offer, only_path: false, host: business.website.host, protocol: :http], target: :_blank
       - else
         h2 = offer.title
       .offer-row class=(offer.kind || 'image_left')

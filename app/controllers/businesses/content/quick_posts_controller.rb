@@ -51,9 +51,8 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
 
   def edit
     port = ":#{request.try(:port)}" if request.port
-    host = website_host @business.website
     post_path = website_quick_post_path(@quick_post)
-    @preview_url = @quick_post.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @quick_post.id]
+    @preview_url = @quick_post.published_status != false ? @business.website.host + port + post_path : [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => @business.website.host, protocol: :http, :id => @quick_post.id]
   end
 
   def update

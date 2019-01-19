@@ -1,14 +1,10 @@
 /
 / Logic for rendering local variables
 /
-- business = event.business
+- specific_event_url = event.business&.website ? website_event_url(event, host: event.business.website.host,
+protocol: :http) : website_event_path(event)
 - stacked = local_assigns[:stack].present? ? stack : false
-
-- product_image = link_to [:website,
-    event,
-    only_path: false,
-    host: website_host(business.website),
-    protocol: :http], target: :_blank do
+- product_image = link_to specific_event_url, target: :_blank do
   - if event.event_definition.main_image
     = image_tag event.event_definition.main_image.attachment_url(:small)
   - else
@@ -23,11 +19,7 @@
     - else
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
-- title = link_to [:website,
-    event,
-    only_path: false,
-    host: website_host(business.website),
-    protocol: :http], target: :_blank, class: 'title'
+- title = link_to specific_event_url, target: :_blank, class: 'title'
   = truncate sanitize(event.event_definition.title.titleize),
       length: 60,
       omission: '... '
@@ -69,7 +61,8 @@ div class=(stacked ?  'col-xs-12' : 'col-xs-12 col-sm-6 col-md-4')
         = date_time
       .location
         = location
-
-      = link_to [:website, event, only_path: false, host: website_host(business.website), protocol: :http], target: :_blank , class: 'read-more'
+      /NOTE:  should use the current_site's host if the modal is rendered on a custom site, if it is an embed keep this code
+      /         host: website.host, protocol: :http
+      = link_to specific_event_url, target: :_blank , class: 'read-more'
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right

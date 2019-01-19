@@ -38,7 +38,7 @@
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'
             - else
-              = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => website_host(@business.website), protocol: :http, :gallery_id => gallery.id, :id => gallery_image.id], class: 'gallery-item' do
+              = link_to [:website, :generic_post, :preview, :type => "gallery_images", only_path: false, :host => @business.website.host, protocol: :http, :gallery_id => gallery.id, :id => gallery_image.id], class: 'gallery-item' do
                   figure
                     .gallery-item-image style="background-image:url('#{image.attachment_url(:thumbnail)}')"
                       = image_tag image.attachment_url(:thumbnail), alt: image.alt, title: image.title, class: 'img-responsive'

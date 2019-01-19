@@ -24,13 +24,12 @@
         = link_to image_tag(business.logo.attachment_url(:logo_small), alt: business.name, style: 'height: 40px'), :root, class: 'navbar-brand navbar-brand-image'
     - else
       = link_to truncate(business.name, length: 45), :root, class: 'navbar-brand navbar-brand-text'
-
   - navlinks = capture do
     - webpages = header_block.frame.arranged_nav_links(:header)
     - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'
       - if webpages.length.even?
         ul.nav.navbar-nav.navbar-abs-half-left
-          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2 - 1)], locals: { style: navbar_nav_style }
+          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2 - 1)], locals: { style: webpages }
         ul.nav.navbar-nav.navbar-abs-half-right
           = render partial: 'website/nav_links/nav_link', collection: webpages[(webpages.length / 2)..-1], locals: { style: navbar_nav_style }
       - else
@@ -43,7 +42,7 @@
         = render partial: 'website/nav_links/nav_link', collection: header_block.frame.arranged_nav_links(:header), locals: { style: navbar_nav_style }
     - else
       ul.nav.navbar-nav class=(header_block.navigation_horizontal_position == 'center' ? 'navbar-center' : (header_block.navigation_horizontal_position == 'right' ? 'navbar-right' : ''))
-        = render partial: 'website/nav_links/nav_link', collection: header_block.frame.arranged_nav_links(:header), locals: { style: navbar_nav_style }
+        = render partial: 'website/nav_links/nav_link', collection: webpages, locals: { style: navbar_nav_style }
 
   - navbar_interior = capture do
     .navbar-header class=(header_block.logo_horizontal_position == 'center' ? 'navbar-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-right' : ''))
@@ -117,7 +116,7 @@
           = image
   = navbar
   - if header_block.logo_vertical_position == 'below'
-    .container 
+    .container
       div class=(header_block.logo_horizontal_position == 'center' ? 'navbar-outside-center' : (header_block.logo_horizontal_position == 'right' ? 'navbar-outside-right' : 'navbar-outside-left'))
         = image
 
@@ -177,7 +176,7 @@
       var header_height = $('.webpage-header.hero-behind, .webpage-header.navbar-fixed-top').height();
       if($('body > .webpage-group .webpage-hero > div').length > 0) {
         if ($('body > .webpage-group .webpage-hero > div').hasClass('maintain-aspect-ratio')) {
-          
+
           if ($('body > .webpage-group .webpage-hero > div').hasClass('below')) {
             $('body > .webpage-group > div').css({marginTop: header_height});
           } else {

@@ -40,9 +40,8 @@ class Businesses::Content::GalleriesController < Businesses::Content::BaseContro
 
   def edit
     port = ":#{request.try(:port)}" if request.port
-    host = website_host @business.website
     post_path = website_gallery_path(@gallery)
-    @preview_url = @gallery.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @gallery.id]
+    @preview_url = @gallery.published_status != false ? @business.website.host + port + post_path : [:website, :generic_post, :preview, :type => "galleries", only_path: false, :host => @business.website.host, protocol: :http, :id => @gallery.id]
   end
 
 

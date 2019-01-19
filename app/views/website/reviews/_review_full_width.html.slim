@@ -3,7 +3,7 @@
     h2.h4
       - if review.title
         - if defined?(new_window)
-          => link_to review.title, website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+          => link_to review.title, website_review_url(review, host: @business.website.host, protocol: :http), target: :_blank
         - else
           => link_to review.title, [:website, review]
       p
@@ -48,4 +48,4 @@
           
     - if review.title.blank?
       p.reviewer
-        => link_to "Read More", website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+        => link_to "Read More", website_review_url(review, host: @business.website.host, protocol: :http), target: :_blank

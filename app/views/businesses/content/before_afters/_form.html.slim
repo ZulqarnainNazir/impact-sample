@@ -6,10 +6,10 @@
           .form-group
             - if @before_after.persisted?
               - if @before_after.published_status == false
-                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @before_after.id], class: 'btn btn-block btn-default', :target => "_blank"
+                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "before_afters", only_path: false, :host => @business.website.host, protocol: :http, :id => @before_after.id], class: 'btn btn-block btn-default', :target => "_blank"
               - else
                 - if @business.webhost_primary?
-                  = link_to "View Post", [:website, @before_after, only_path: false, host: website_host(@business.website), protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
+                  = link_to "View Post", [:website, @before_after, only_path: false, host: @business.website.host, protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
                 - elsif !@business.webhost_primary? && @business.has_plan?
                   = link_to "View Post", listing_path_content_url(@business, @before_after.slug, 'before_after'), class: 'btn btn-block btn-default', :target => "_blank"
             .row

@@ -5,7 +5,7 @@ class AuthenticationsController < ApplicationController
       raise ArgumentError unless params[:business_id].present?
       raise ArgumentError unless params[:facebook_id].present?
       business = Business.find(params[:business_id])
-      callback_url = url_for([:authenticate_facebook_page, business_id: params[:business_id], facebook_id: params[:facebook_id], only_path: false])
+      callback_url = url_for([:authenticate_facebook_page, business_id: params[:business_id], facebook_id: params[:facebook_id]])
       oauth = Koala::Facebook::OAuth.new(Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret, callback_url)
       app_token = oauth.get_app_access_token
       user_token = oauth.get_access_token(params[:code])

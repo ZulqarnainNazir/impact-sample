@@ -32,7 +32,7 @@
               <a class="btn btn-primary btn-sm btn-outline" href="javascript:Appcues.show('-KjPyGESE-SPVyXne4Qn')">Show hints ➤</a>
               .pull-right
                 - if @reviews.any?
-                  => link_to 'View Public Reviews', website_reviews_url(host: website_host(@business.website), protocol: :http), target: :_blank, style: 'margin-right: 0.5em'
+                  => link_to 'View Public Reviews', website_reviews_url(host: @business.website.host, protocol: :http), target: :_blank, style: 'margin-right: 0.5em'
                 .btn-group
                   = link_to [:edit, @business, :crm_review_notifications], class: 'btn btn-sm btn-primary btn-outline' do
                     => icon 'check-square-o'

@@ -4,7 +4,7 @@
       - if review.title
         - if defined?(link_title)
           - if defined?(new_window)
-            => link_to review.title, website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+            => link_to review.title, website_review_url(review, host: @business.website.host, protocol: :http), target: :_blank
           - else
             => link_to review.title, [:website, review]
         - else
@@ -55,5 +55,5 @@
         span.text-muted #{time_ago_in_words review.reviewed_at} ago
     - if review.title.blank? && action_name != 'show'
       p.reviewer
-        => link_to "Read More", website_review_url(review, host: website_host(@business.website), protocol: :http), target: :_blank
+        => link_to "Read More", website_review_url(review, host: @business.website.host, protocol: :http), target: :_blank
   hr

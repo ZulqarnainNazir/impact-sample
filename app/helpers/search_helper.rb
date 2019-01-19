@@ -1,6 +1,7 @@
 module SearchHelper
 
   def order_the_events(array)
+    # FIXME: Why?
     #purpose of method is to take an array containing various content types
     #pluck the events, and rearrange them from earliest to latest
     #while maintaining the original integrity of order
@@ -39,7 +40,7 @@ module SearchHelper
   ###.joins(:event_definition).where(:event_definitions => {published_status: true})
 
   def events_organized_desc_listings(business, page: 1, limit: 4)
-    Kaminari.paginate_array(business.events.joins(:event_definition).where(:event_definitions => {published_status: true}).
+    Kaminari.paginate_array(business.events.includes(:event_definition).where(event_definitions: { published_status: true }).
       where('occurs_on >= ?', Time.zone.now).
       order(occurs_on: :desc)).
       page(page).
@@ -49,7 +50,7 @@ module SearchHelper
   def events_organized_desc(blog_feed_block, business, content_category_ids: [], content_tag_ids: [], include_past: false, page: 1, limit: 4)
 
     #this method is used to display events on a consumer-facing feed
-    #on the client's website. 
+    #on the client's website.
     #first, it pulls all events for the given business.
     #then, if the user has designated that only events with a certain tag and/or category
     #should appear, it plucks those and gives them to Kaminari to paginate.
@@ -72,14 +73,18 @@ module SearchHelper
     @events = []
 
     if include_past
-      found_events = Event.where({business_id: @business_ids}).joins(:event_definition).where(:event_definitions => {published_status: true})
+      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
+                          .where({business_id: @business_ids})
+                          .where(event_definitions: { published_status: true })
     else
-      found_events = Event.where({business_id: @business_ids}).
-                       where('occurs_on >= ?', Time.zone.now).joins(:event_definition).where(:event_definitions => {published_status: true})
+      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
+                          .where(business_id: @business_ids)
+                          .where('occurs_on >= ?', Time.zone.now)
+                          .where(event_definitions: { published_status: true })
     end
 
     found_events.
-    order(occurs_on: :desc).each do |x|
+    order(occurs_on: :desc).find_each do |x|
         tag_ids = x.content_tag_ids
         category_ids = x.content_category_ids
 
@@ -114,10 +119,10 @@ module SearchHelper
     Kaminari.paginate_array(
         ContentBlogSearch.new(
           blog_feed_block,
-          business, 
-          '', 
-          content_types: content_types, 
-          content_category_ids: content_category_ids, 
+          business,
+          '',
+          content_types: content_types,
+          content_category_ids: content_category_ids,
           content_tag_ids: content_tag_ids
         ).search
       ).page(page).per(limit)
@@ -127,10 +132,10 @@ module SearchHelper
     Kaminari.paginate_array(
         ContentBlogSearch.new(
           blog_feed_block,
-          business, 
-          search_string, 
+          business,
+          search_string,
           content_types: content_types,
-          content_category_ids: content_category_ids, 
+          content_category_ids: content_category_ids,
           content_tag_ids: content_tag_ids
         ).search
       ).page(page).per(limit)
@@ -173,7 +178,6 @@ module SearchHelper
     end_date_to_filter = Date.parse end_date rescue nil
 
     if search_string.present?
-
       event_definitions = ContentFeedWidgetSearch.new(
           widget,
           business,
@@ -181,12 +185,11 @@ module SearchHelper
           content_types: ['Event'],
           include_past: date_to_filter.present?
         ).search
-
       if date_to_filter.present?
-        events = Event.where(
+        events = Event.includes(:event_definition, :business).where(
           event_definition_id: event_definitions).order(:occurs_on)
       else
-        events = Event.where(
+        events = Event.includes(:event_definition, :business).where(
           event_definition_id: event_definitions
         ).where("occurs_on >= ?", Time.zone.now).order(:occurs_on)
       end
@@ -225,9 +228,9 @@ module SearchHelper
 
   end
 
-  #get_content_types method is a critical method for 
-  #getting the right content types to show, as scoped by type. 
-  #e.g., if the homepage is scoped to show events and before and after, 
+  #get_content_types method is a critical method for
+  #getting the right content types to show, as scoped by type.
+  #e.g., if the homepage is scoped to show events and before and after,
   #this method should be used in the
   #home_pages_controller.
 

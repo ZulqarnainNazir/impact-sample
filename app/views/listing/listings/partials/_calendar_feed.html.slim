@@ -144,7 +144,7 @@ div.col-xs-12.m-t-lg
                       .count = counts[6]
 
         .row
-          - if events.present? && !events.empty?
+          - if events.any?
             - events.each_with_index do |event, index|
               = render :partial => "listing/events/content/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : events[index-1]}
           - else
@@ -153,5 +153,3 @@ div.col-xs-12.m-t-lg
 
     .text-center.clear-container
       = paginate events
-
-

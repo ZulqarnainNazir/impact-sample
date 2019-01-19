@@ -2,7 +2,6 @@ class Event < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   include ExternalUrlHelper
-  include WebsiteHelper
   include Rails.application.routes.url_helpers
 
   belongs_to :business
@@ -56,12 +55,12 @@ class Event < ActiveRecord::Base
 
   def content_category_ids
     #leveraged in as_indexed_json below for ElasticSearch
-    event_definition.try(:content_category_ids) || []
+    @content_category_ids ||= event_definition&.content_category_ids || []
   end
 
   def content_tag_ids
     #leveraged in as_indexed_json below for ElasticSearch
-    event_definition.try(:content_tag_ids) || []
+    @content_tag_ids ||= event_definition&.content_tag_ids || []
   end
 
   def sorting_date
@@ -85,7 +84,7 @@ class Event < ActiveRecord::Base
 
   def share_callback_url
     if self.business.webhost_primary? && !self.business.is_on_engage_plan?
-      url_for("http://#{website_host(self.business.website)}/#{path_to_external_content(self)}")
+      url_for("http://#{self.business.website.host}/#{path_to_external_content(self)}")
     elsif self.business.is_on_engage_plan?
       "http://#{ENV['LISTING_HOST']}#{self.business.generate_listing_path}/#{self.id}?content=event"
     end

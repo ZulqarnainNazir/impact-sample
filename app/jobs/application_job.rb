@@ -9,12 +9,4 @@ class ApplicationJob < ActiveJob::Base
     uri.query = URI.encode_www_form({ token: token })
     Net::HTTP.get_response(uri)
   end
-
-  def website_host(website)
-    if website.webhost.try(:primary?)
-      website.webhost.name
-    else
-      [website.subdomain, Rails.application.secrets.host].join('.')
-    end
-  end
 end

@@ -28,8 +28,8 @@ class FacebookReviewsExportJob < ApplicationJob
     {
       backdated_time: review.created_at,
       caption: truncate(Sanitize.fragment(review.description, Sanitize::Config::DEFAULT), length: 1000),
-      link: website_review_url(review, host: website_host(review.business.website)),
-      name: review_stars(review.overall_rating) + review.title,
+      link: website_review_url(review, host: review.business.website.host),
+      name: (review_stars(review.overall_rating) + review.title),
     }
   end
 

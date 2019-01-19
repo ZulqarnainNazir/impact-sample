@@ -1,4 +1,4 @@
-- cache [nav_link, *nav_link.cached_children, style] do
+- cache [nav_link, nav_link.webpage, *nav_link.cached_children, style] do
   - if nav_link.dropdown?
     li.dropdown
       = link_to '#', class: 'dropdown-toggle', style: style, data: { toggle: 'dropdown' } do

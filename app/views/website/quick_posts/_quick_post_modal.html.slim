@@ -1,4 +1,4 @@
-- business = quick_post.business
+- business ||= quick_post.business
 - if @masonry.present? && @masonry == true
   div.grid-item
     div.ibox-blog
@@ -57,19 +57,22 @@
 div class="modal fade content-modal" id="quick-post-modal-#{quick_post.id}" role="dialog" data-slug="#{quick_post.slug}"
   .modal-dialog.modal-lg
     .modal-content
-      .modal-header
-        button class="close" type="button" data-dismiss="modal"
-          span
-            | &times;
-          br
-      .modal-body
-        = render partial: 'website/quick_posts/modal_show', locals: {quick_post: quick_post}
 
 javascript:
-  $("quick-post-modal-#{quick_post.id}").on('shown.bs.modal', function () {
+  $("#quick-post-modal-#{quick_post.id}").on('shown.bs.modal', function () {
+    $.ajax({
+        url: "/async/quick_post",
+        type: "GET",
+        data: { quick_post: "#{quick_post.id}"} ,
+        success: function(html){
+          console.log($(this))
+          $("#quick-post-modal-#{quick_post.id} .modal-content").append(html);
+        }
+    });
     window.location.hash = '#{quick_post.slug}';
   })
 
-  $("quick-post-modal-#{quick_post.id}").on('hidden.bs.modal', function (e) {
+  $("#quick-post-modal-#{quick_post.id}").on('hidden.bs.modal', function (e) {
+    $("#quick-post-modal-#{quick_post.id} .modal-content").empty();
     window.location.hash = '';
   })

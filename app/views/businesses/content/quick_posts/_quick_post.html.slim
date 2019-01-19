@@ -24,7 +24,7 @@
           span.text-muted> Posted in
           - (quick_post.content_categories + quick_post.content_tags).each_with_index do |classification, i|
             - if @business.webhost_primary?
-              = link_to classification.name, [:website, classification, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              = link_to classification.name, [:website, classification, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
             - else
               = classification.name
             - if i < quick_post.content_categories.count + quick_post.content_tags.count - 1
@@ -49,12 +49,12 @@
       .m-t-md
         - if @business.webhost_primary?
           - if quick_post.published_status == false
-            h4 = link_to quick_post.title, [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => website_host(@business.website), protocol: :http, :id => quick_post.id], target: :_blank
+            h4 = link_to quick_post.title, [:website, :generic_post, :preview, :type => "quick_posts", only_path: false, :host => @business.website.host, protocol: :http, :id => quick_post.id], target: :_blank
           - else
             - if Rails.env.development? || Rails.env.test?
-              h4 = link_to quick_post.title, [:website, quick_post, only_path: false, host: website_host(@business.website), protocol: :http], target: :_blank
+              h4 = link_to quick_post.title, [:website, quick_post, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
             - elsif Rails.env.production?
-              h4 = link_to quick_post.title, "http://#{website_host(@business.website)}/#{path_to_external_content(quick_post)}", only_path: false, protocol: :http, target: :_blank
+              h4 = link_to quick_post.title, "http://#{@business.website.host}/#{path_to_external_content(quick_post)}", only_path: false, protocol: :http, target: :_blank
         - elsif !@business.webhost_primary? && @business.has_plan?
           h4 = link_to quick_post.title, listing_path_content_url(@business, quick_post.slug, 'quick_post'), target: :_blank
         - else

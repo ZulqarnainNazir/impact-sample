@@ -75,9 +75,8 @@ class Businesses::Content::JobsController < Businesses::Content::BaseController
 
   def edit
     port = ":#{request.try(:port)}" if request.port
-    host = website_host @business.website
     post_path = website_job_path
-    @preview_url = @job.published_status != false ? host + port + post_path : [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => website_host(@business.website), protocol: :http, :id => @job.id]
+    @preview_url = @job.published_status != false ? @business.website.host + port + post_path : [:website, :generic_post, :preview, :type => "jobs", only_path: false, :host => @business.website.host, protocol: :http, :id => @job.id]
   end
 
   def destroy
@@ -96,8 +95,8 @@ class Businesses::Content::JobsController < Businesses::Content::BaseController
   private
 
   def cloneable_attributes
-      %w[title subtitle description start_date compensation_type 
-        compensation_range end_date schedule_type kind meta_description url 
+      %w[title subtitle description start_date compensation_type
+        compensation_range end_date schedule_type kind meta_description url
         hide_full_address show_city_only private rsvp_required]
   end
 
