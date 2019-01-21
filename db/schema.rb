@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180706203051) do
+ActiveRecord::Schema.define(version: 20181206045803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -271,6 +271,25 @@ ActiveRecord::Schema.define(version: 20180706203051) do
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
   add_index "comments", ["commenter_id"], name: "index_comments_on_commenter_id", using: :btree
+
+  create_table "communities", force: :cascade do |t|
+    t.string   "label"
+    t.string   "boundry_coordinates"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  create_table "community_businesses", force: :cascade do |t|
+    t.integer  "community_id"
+    t.integer  "business_id"
+    t.boolean  "anchor"
+    t.boolean  "champion"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "community_businesses", ["business_id"], name: "index_community_businesses_on_business_id", using: :btree
+  add_index "community_businesses", ["community_id"], name: "index_community_businesses_on_community_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.integer  "user_business_id"

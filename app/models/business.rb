@@ -72,6 +72,9 @@ class Business < ActiveRecord::Base
   has_one :company, :class_name => "Company", :foreign_key => "company_business_id"
   has_one :subscription_affiliate
 
+  has_many :community_businesses
+  has_many :communities, through: :community_businesses
+
   has_placed_image :logo
   has_placed_image :hero
 

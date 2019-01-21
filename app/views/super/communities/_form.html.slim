@@ -1,0 +1,33 @@
+= simple_form_for [:super, @community] do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :label, label: 'Community Name: '
+    = f.input :boundry_coordinates, label: 'Defining Coordinates for Community(Not Implemented): '
+
+  h2 Select Ambassadors
+  p Note: Anchors are paid and have cobranding while Champions are unpaid and are only follow recommendations for new accounts.
+  -if @community.community_businesses.present?
+    div class="row m-t-3"
+      div class="col-md-12"
+        table class="table table-striped datatable"
+          thead
+            tr
+              th Business
+              th Anchor
+              th Champion
+
+          tbody
+            = f.simple_fields_for :community_businesses do |cbf|
+              - business = cbf.object.business
+              = cbf.input :id, as: :hidden, input_html: {value: cbf.object.id}
+              tr
+                td = business.name
+                td = cbf.check_box :anchor
+                td = cbf.check_box :champion
+  -else
+    p No Business in this Community yet.
+
+  .form-actions
+    = f.button :submit
+    = link_to 'Cancel', super_communities_path

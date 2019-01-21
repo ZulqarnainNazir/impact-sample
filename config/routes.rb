@@ -28,6 +28,7 @@ end
 Rails.application.routes.draw do
 
 
+
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do
     root to: 'listings#index'
     match '/:lookup', to: 'listings#overview', via: :get
@@ -87,6 +88,7 @@ Rails.application.routes.draw do
     end
 
     namespace :super do
+      resources :communities
       resources :to_do_lists
       resources :event_feeds, except: [:show]
       resources :missions do
@@ -113,8 +115,10 @@ Rails.application.routes.draw do
           get :merge_with
           get :select_merge_fields
           put :merge_now
+          # put :update_community
         end
       end
+
       resources :subscription_plans
       resources :affiliates, only: [:index]
       resources :to_dos, only: :index

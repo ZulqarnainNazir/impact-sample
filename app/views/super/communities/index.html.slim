@@ -1,0 +1,39 @@
+div class="ibox float-e-margins"
+  div class="ibox-title"
+    h1 Primary Communities
+  div class="ibox-content"
+    div class="row m-t-3"
+      div class="col-md-12"
+        = link_to new_super_community_path, class: "btn btn-sm btn-success" do
+          | Add New Community
+        table class="table table-striped datatable"
+          thead
+            tr
+              th Community ID
+              th Community Label
+              th Claimed Accounts in Community
+              th Paid Accounts in Community
+              th Total Related Businesses in CRM
+              th # of Ambassadors
+              th
+
+          tbody
+            - @communities.each do |community|
+              tr
+                td = community.id
+                td = community.label
+                td = community.accounts_count(community)
+                td = community.paid_accounts_count(community)
+                td = community.related_businesses_count(community)
+                td = community.ambassador_count(community)
+                td
+                  = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"
+                  = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-sm btn-danger"
+                /!td = community.companies.where(:in_impact => true).count
+                /!td = community.businesses.owned_companies.count
+                /!td TBD
+
+                /!td = community.businesses.includes(:subscription).where(subscription.subscription_plan_id > 1).count
+
+                /!td TBD
+                / owned_by_business.count
