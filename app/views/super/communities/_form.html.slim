@@ -2,11 +2,11 @@
   = f.error_notification
 
   .form-inputs
-    = f.input :label
-    = f.input :boundry_coordinates
+    = f.input :label, label: 'Community Name: '
+    = f.input :boundry_coordinates, label: 'Defining Coordinates for Community(Not Implemented): '
 
-
-  h2 Select Ambassadors (Anchors = Paid/Branded Portal, Champions = Unpaid)
+  h2 Select Ambassadors
+  p Note: Anchors are paid and have cobranding while Champions are unpaid and are only follow recommendations for new accounts.
   -if @community.community_businesses.present?
     div class="row m-t-3"
       div class="col-md-12"
@@ -17,48 +17,16 @@
               th Anchor
               th Champion
 
-
           tbody
             = f.simple_fields_for :community_businesses do |cbf|
               - business = cbf.object.business
-              - if business
-                / put hidden field here with business ID
-                / =hidden_field_tag "[community][business_id]", business.id
-
-                tr
-                  / td= puts business
-                  td = business.name
-                  / td Checkbox for setting Anchor
-                  td = cbf.check_box :anchor
-                  / td CHeckbox for setting champion
-                  td = cbf.check_box :champion
-                  / td  = select_tag :community_id, options_from_collection_for_select(@communities, 'id', 'label', params[:community_id])
+              = cbf.input :id, as: :hidden, input_html: {value: cbf.object.id}
+              tr
+                td = business.name
+                td = cbf.check_box :anchor
+                td = cbf.check_box :champion
   -else
     p No Business in this Community yet.
-
-
-
-
-
-    / h2 Select Ambassadors (Anchors = Paid, Champions = Unpaid)
-    / div class="row m-t-3"
-    /   div class="col-md-12"
-    /     table class="table table-striped datatable"
-    /       thead
-    /         tr
-    /           th Business
-    /           th Anchor
-    /           th Champion
-    /
-    /
-    /       tbody
-    /         - @businesses.each do | business |
-    /           tr
-    /             td = business.name
-    /             - f.simple_fields_for :ambassadors do |a|
-    /
-    /               td = a.check_box :anchor
-    /               td = a.check_box :champion
 
   .form-actions
     = f.button :submit

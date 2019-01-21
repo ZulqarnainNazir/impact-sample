@@ -1,9 +1,7 @@
 class Community < ActiveRecord::Base
-  has_many :community_businesses, inverse_of: :community
-  # has_many :businesses, -> {distinct}, through: :community_businesses
+  has_many :community_businesses
   has_many :businesses, through: :community_businesses
   accepts_nested_attributes_for :community_businesses
-  # has_many :businesses
 
   validates :label, presence: true
 
@@ -24,8 +22,8 @@ class Community < ActiveRecord::Base
   def paid_accounts_count(community)
     count = 0
     if community.businesses.present?
+      # community.businesses.all.joins(:subscription).where('subscription.subscription_plan_id > ?', '1').each do |b|
       community.businesses.includes(:subscription).each do | b |
-      # Business.communities.includes(:subscription).each do | b |
         if b.subscription && b.subscription.subscription_plan_id > 1
           count += 1
         end
@@ -52,7 +50,8 @@ class Community < ActiveRecord::Base
   def ambassador_count(community)
     count = 0
     community.community_businesses.each do | b |
-      if b.is_anchor? || b.is_champion?
+      if b.anchor? || b.champion?
+        # if b.is_anchor? || b.is_champion?
         count += 1
       end
     end
