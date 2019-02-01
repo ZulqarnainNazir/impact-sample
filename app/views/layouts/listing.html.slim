@@ -143,7 +143,7 @@ html lang="en"
               .col.lg-2.col-md-2.col-sm-2.col-xs-12.web-link
                 - if @business.website_url != 'http://'
                   li
-                    = link_to @business.website_url, target: :_blank do
+                    = link_to @business.website_url, rel: 'nofollow', target: :_blank do
                       i.fa.fa-external-link
                       span  Website
             = yield
