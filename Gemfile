@@ -102,6 +102,8 @@ group :development, :test do
   gem 'active_record_query_trace'
   gem 'bullet'
   gem 'byebug'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :test do

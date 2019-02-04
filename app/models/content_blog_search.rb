@@ -10,12 +10,14 @@ class ContentBlogSearch
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
 
+    @business_ids = []
     if @blog_feed_block
       @business_ids = @blog_feed_block.get_business_ids
       @business_ids << @business.id if @blog_feed_block.show_our_content?
     else
-      @business_ids = [@business.id]
+      @business_ids << @business.id
     end
+    @business_ids = @business_ids.compact
   end
 
   def search
@@ -336,9 +338,7 @@ class ContentBlogSearch
       ).to_a.sort_by {|obj| obj.published_at}.reverse!
 
     else
-      Elasticsearch::Model.search(dsl1, content_classes)
-                                .records( includes: :business )
-                                .to_a
+      Elasticsearch::Model.search(dsl1, content_classes).records.to_a
     end
 
   end
