@@ -14,7 +14,6 @@ div id="companies-partial"
         - @businesses.each do |a|
           tr
             td = a.id
-
             td = link_to edit_super_business_datum_path(a) do
               = a.name
             td
