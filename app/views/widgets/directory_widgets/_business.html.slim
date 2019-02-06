@@ -43,7 +43,7 @@
           - if !business.location.phone_number.blank?
             a.btn.btn-xs.btn-white href="tel:#{business.location.phone_number}"
               i.fa.fa-phone
-              |  Call 
+              |  Call
           - if !business.location.email.blank?
             a.btn.btn-xs.btn-white href="mailto:#{business.location.email}"
               i.fa.fa-phone
@@ -51,7 +51,7 @@
           - if !business.website_url.blank?
             a.btn.btn-xs.btn-white href=business.website_url target="_blank"
               i.fa.fa-external-link
-              |  Website 
+              |  Website
     .modal.fade.business-modal id="business-modal-#{business.id}" aria-hidden="true" role="dialog" data-dismiss="modal"
       .modal-dialog.modal-lg
         .modal-content
@@ -64,7 +64,7 @@
           .modal-footer
             button.btn.btn-default data-dismiss="modal"
               | Done
-    javascript: 
+    javascript:
       jQuery(document).ready(function() {
         setTimeout(function() {
           var element = jQuery("#business-modal-#{business.id}");
