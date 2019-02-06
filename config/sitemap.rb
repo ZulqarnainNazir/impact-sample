@@ -25,7 +25,7 @@ Business.find_each do |business|
     SitemapGenerator::Sitemap.create do
 
       SitemapGenerator::Interpreter.send :include, ExternalUrlHelper
-      SitemapGenerator::Interpreter.send :include, WebsiteHelper
+      # SitemapGenerator::Interpreter.send :include, WebsiteHelper
 
       add website_root_path, :lastmod => website.updated_at unless website.home_page.try(:settings).try(:no_index)
       add website_about_page_path, :lastmod => website.updated_at unless website.about_page.try(:settings).try(:no_index)
@@ -33,7 +33,7 @@ Business.find_each do |business|
       add website_contact_page_path, :lastmod => website.updated_at unless website.contact_page.try(:settings).try(:no_index)
       add website_galleries_path, :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
       add website_reviews_path, :lastmod => website.updated_at unless website.blog_page.try(:settings).try(:no_index)
-      
+
       website.business.before_afters.find_each do |before_after|
         next if website.business.before_afters.empty?
         add "/#{path_to_external_content(before_after)}", :lastmod => before_after.updated_at
@@ -51,34 +51,34 @@ Business.find_each do |business|
       end
       website.business.events.find_each do |event|
         next if website.business.events.empty?
-        add "/#{path_to_external_content(event)}", :lastmod => event.updated_at  
+        add "/#{path_to_external_content(event)}", :lastmod => event.updated_at
         #add website_event_path(event), :lastmod => event.updated_at
       end
       website.business.offers.find_each do |offer|
         next if website.business.offers.empty?
-        add "/#{path_to_external_content(offer)}", :lastmod => offer.updated_at   
+        add "/#{path_to_external_content(offer)}", :lastmod => offer.updated_at
         #add website_offer_path(offer), :lastmod => offer.updated_at
       end
       website.business.posts.find_each do |post|
         next if website.business.posts.empty?
-        add "/#{path_to_external_content(post)}", :lastmod => post.updated_at   
+        add "/#{path_to_external_content(post)}", :lastmod => post.updated_at
         #add website_post_path(post), :lastmod => post.updated_at
       end
       website.business.quick_posts.find_each do |quick_post|
         next if website.business.quick_posts.empty?
-        add "/#{path_to_external_content(quick_post)}", :lastmod => quick_post.updated_at   
+        add "/#{path_to_external_content(quick_post)}", :lastmod => quick_post.updated_at
         #add website_quick_post_path(quick_post), :lastmod => quick_post.updated_at
       end
       website.business.reviews.find_each do |review|
-        next if website.business.reviews.empty?  
+        next if website.business.reviews.empty?
         add website_review_path(review), :lastmod => review.updated_at
       end
       website.business.galleries.find_each do |gallery|
         next if website.business.galleries.empty?
-        add "/#{path_to_external_content(gallery)}", :lastmod => gallery.updated_at   
+        add "/#{path_to_external_content(gallery)}", :lastmod => gallery.updated_at
         #add website_gallery_path(gallery), :lastmod => gallery.updated_at
         gallery.gallery_images.find_each do |image|
-          next if gallery.gallery_images.empty?  
+          next if gallery.gallery_images.empty?
           add website_gallery_gallery_image_path(gallery, image), :lastmod => image.updated_at
         end
       end
