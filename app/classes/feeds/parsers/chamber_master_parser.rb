@@ -7,8 +7,8 @@ module Feeds
         occurence    = parsed_title.occurrences[0]
         orig_title   = entry.title
         title        = parsed_title.message.sub(': ', '')
-        start_date   = occurence.start_date.try(:to_date)
-        end_date     = occurence.end_date.try(:to_date)
+        start_date   = occurence.start_date&.to_date
+        end_date     = occurence.end_date&.to_date
 
         description = Nokogiri::HTML(entry.summary).text
         desc_occurence = occurence_from_description(start_date, description)
