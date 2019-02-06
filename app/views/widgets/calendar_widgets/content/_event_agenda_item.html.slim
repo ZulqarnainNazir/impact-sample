@@ -84,8 +84,7 @@
       - if business != main_biz
         .description
           bg-warning
-            | Posted by 
-            = business.name
+            | Posted by #{business.name}
 
 
 div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
