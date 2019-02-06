@@ -85,9 +85,7 @@
 
             - if event.business != @business
                 .block
-                  |Posted by
-                  strong.m-r-xs
-                    =event.business.name
+                  |Posted by #{event.business.name}
 
 
         - if !event.event_definition.virtual_event?
