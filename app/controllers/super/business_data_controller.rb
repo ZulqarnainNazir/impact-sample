@@ -8,7 +8,7 @@ class Super::BusinessDataController < SuperController
   	#business table holds core business data for all firms, including those that have
   	#records in the Business table (firms with records in Business table are those that
   		# have accounts on IMPACT, i.e., have active websites)
-    @businesses = Business.order("id").search(params[:search]) #.page(params[:page]).per(20)
+    @businesses = Business.includes(:communities).order("id").search(params[:search]) #.page(params[:page]).per(20)
   end
 
   def edit
