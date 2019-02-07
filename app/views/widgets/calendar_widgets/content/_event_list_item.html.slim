@@ -17,7 +17,7 @@
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
 - title = link_to "#", id: "event-#{event.id}-2", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'title calendar-card', 'data-slug'=>"#{event.event_definition.slug}"
-  = truncate sanitize(event.event_definition.title.titleize),
+  = truncate sanitize_simple(event.event_definition.title.titleize),
       length: 60,
       omission: '... '
 
@@ -38,7 +38,7 @@
       = truncate sanitize(event.event_definition.location.city.titleize) + ', '
       = truncate sanitize(event.event_definition.location.state.upcase)
 
-- description = truncate sanitize(event.event_definition.description),
+- description = truncate sanitize_simple(event.event_definition.description),
     length: 140,
     omission: '... '
 

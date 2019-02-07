@@ -62,7 +62,7 @@
               = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; height: auto; margin-bottom:10px;'
             .col-xs-12.col-sm-7.m-b-5px
               div class="full-description-#{business.id}"
-                = business.description.html_safe
+                = sanitize_simple business.description
                 - if business.description && business.description.length > 0
                   .text-center
                     = link_to "View Less", "#", class: 'btn btn-default js-view-less'
@@ -70,11 +70,11 @@
                 - description = truncate(business.description, length: 250) do
                   .text-center
                     = link_to "Read More", "#", class: 'btn btn-default js-read-more'
-                = business.description.html_safe
+                = sanitize_simple business.description
           - else
             .col-xs-12.m-b-5px
               div class="full-description-#{business.id}"
-                = business.description.html_safe
+                = sanitize_simple business.description
                 - if business.description && business.description.length > 0
                   .text-center
                     = link_to "View Less", "#", class: 'btn btn-default js-view-less'
@@ -82,7 +82,7 @@
                 - description = truncate(business.description, length: 250) do
                   .text-center
                     = link_to "Read More", "#", class: 'btn btn-default js-read-more'
-                = business.description.html_safe
+                = sanitize_simple business.description
 
       / ul.nav.nav-tabs
       /   li.active
