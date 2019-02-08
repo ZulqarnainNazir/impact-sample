@@ -140,7 +140,7 @@ module Feeds
     end
 
     # When you add a new chambermaster feed, add the hostname to this list
-    def known_chambermaster_hosts
+    def known_chambermaster_event_hosts
       ['webstercityarea.chamberofcommerce']
     end
 
