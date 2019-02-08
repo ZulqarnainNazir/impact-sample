@@ -124,7 +124,7 @@ module Feeds
 
     def parser_from_url
       case event_feed.url
-      when /.*chambermaster|chamberorganizer/
+      when  -> (event_feed_url) { known_chambermaster_hosts.any? { |host| event_feed_url.include? host }  }
         Feeds::Parsers::ChamberMasterParser.new
       when /\.rss|\.xml/
         Feeds::Parsers::RssParser.new
@@ -135,6 +135,10 @@ module Feeds
       when /google\.com\/calendar\/v3/
         Feeds::Parsers::JsonParser.new
       end
+    end
+
+    def known_chambermaster_hosts
+      ['chambermaster', 'chamberorganizer', 'webstercityarea.chamberofcommerce']
     end
 
     def no_new_info?
