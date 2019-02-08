@@ -8,7 +8,6 @@ module Feeds
       end
 
       def event_from_entry(entry)
-        event_metadata_hash(entry)
         Feeds::Event.new entry.to_h.merge(
           summary: Nokogiri::HTML(entry.summary).text,
           event_id: digest(entry.to_json)
