@@ -72,12 +72,12 @@
             .form-group.col-xs-6
               = form.label :start_date, class: 'control-label'
               .input-group
-                = form.text_field :start_date, value: form.object.start_date&.localtime.strftime("%b %d %Y"), class: 'form-control', data: { provide: 'datepicker' }
+                = form.text_field :start_date, value: form.object.start_date&.localtime&.strftime("%b %d %Y"), class: 'form-control', data: { provide: 'datepicker' }
                 span.input-group-addon: i.fa.fa-calendar
             .form-group.col-xs-6
               = form.label :start_time, class: 'control-label'
               div class="input-group clockpicker" data-align="top" data-autoclose="true"
-                = form.text_field :start_time, value: form.object.start_time&.localtime&.try(:strftime, '%I:%M%p'), class: 'form-control'
+                = form.text_field :start_time, value: form.object.start_time&.localtime&.strftime("%I:%M%p"), class: 'form-control'
                 span class="input-group-addon"
                   span class="glyphicon glyphicon-time"
             .form-group.col-xs-6.col-xs-push-6
