@@ -72,7 +72,7 @@
             .form-group.col-xs-6
               = form.label :start_date, class: 'control-label'
               .input-group
-                = form.text_field :start_date, value: form.object.start_date&.localtime&.strftime("%b %d %Y"), class: 'form-control', data: { provide: 'datepicker' }
+                = form.text_field :start_date, value: form.object.start_date&.strftime("%b %d %Y"), class: 'form-control', data: { provide: 'datepicker' }
                 span.input-group-addon: i.fa.fa-calendar
             .form-group.col-xs-6
               = form.label :start_time, class: 'control-label'
