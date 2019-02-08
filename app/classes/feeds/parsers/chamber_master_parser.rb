@@ -55,8 +55,8 @@ module Feeds
         event_hash[:location_name] = find_value_by_text(doc: doc, text: 'Location')&.split(',')&.first
         event_hash[:google_maps_url] = doc.css('a').map { |link| link['href'] if link['href'].include?('maps.google') }.compact.first
         if time
-          event_hash[:start_time] = "#{time.first} Central".to_time
-          event_hash[:end_time] = "#{time.last} Central".to_time
+          event_hash[:start_time] = "#{time.first} Central".to_datetime
+          event_hash[:end_time] = "#{time.last} Central".to_datetime
         end
         puts "======================= event Data ====================="
         pp event_hash

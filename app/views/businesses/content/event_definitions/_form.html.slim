@@ -77,13 +77,13 @@
             .form-group.col-xs-6
               = form.label :start_time, class: 'control-label'
               div class="input-group clockpicker" data-align="top" data-autoclose="true"
-                = form.text_field :start_time, :value => (form.object.start_time.present? ? form.object.start_time.try(:strftime, '%I:%M%p') : Time.now.in_time_zone("Pacific Time (US & Canada)").strftime("%I:%M%p")), class: 'form-control'
+                = form.text_field :start_time, value: form.object.start_time.localtime.try(:strftime, '%I:%M%p'), class: 'form-control'
                 span class="input-group-addon"
                   span class="glyphicon glyphicon-time"
             .form-group.col-xs-6.col-xs-push-6
               = form.label :end_time, class: 'control-label'
               div class="input-group clockpicker" data-align="top" data-autoclose="true"
-                = form.text_field :end_time, value: form.object.end_time.try(:strftime, '%I:%M%p'), class: 'form-control'
+                = form.text_field :end_time, value: form.object.end_time.localtime.try(:strftime, '%I:%M%p'), class: 'form-control'
                 span class="input-group-addon"
                   span class="glyphicon glyphicon-time"
           hr
@@ -189,17 +189,17 @@
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
         .form-group.m-b-none
-          = form.button 'Save Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+          = form.button 'Save Draft'.html_safe, class: 'btn btn-block', name: "draft", value: "draft", type: "button"
     - elsif form.object.persisted?
       .col-sm-4.col-sm-offset-2.col-xs-6
-        = form.button 'Update Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
+        = form.button 'Update Post', class: 'btn btn-block btn-secondary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
         a.text-center data-toggle="modal" data-target="#advanced-modal"
           span.fa.fa-cog.fa-2x
           span.hidden-xs.advanced-button Advanced
       .col-sm-4.col-xs-4
         .form-group.m-b-none
-          = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+          = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn btn-block btn-primary', name: "draft", value: "draft", type: "button"
     - else
       .col-sm-4.col-sm-offset-2.col-xs-6
         = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', type: "button", name: "publish"
