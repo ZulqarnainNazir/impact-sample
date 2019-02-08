@@ -124,7 +124,9 @@ module Feeds
 
     def parser_from_url
       case event_feed.url
-      when  -> (event_feed_url) { known_chambermaster_hosts.any? { |host| event_feed_url.include? host }  }
+      when  -> (event_feed_url) { known_chambermaster_event_hosts.any? { |host| event_feed_url.include? host }  }
+        Feeds::Parsers::ChamberMasterEventParser.new
+      when /.*chambermaster|chamberorganizer/
         Feeds::Parsers::ChamberMasterParser.new
       when /\.rss|\.xml/
         Feeds::Parsers::RssParser.new
@@ -139,7 +141,7 @@ module Feeds
 
     # When you add a new chambermaster feed, add the hostname to this list
     def known_chambermaster_hosts
-      ['chambermaster', 'chamberorganizer', 'webstercityarea.chamberofcommerce']
+      ['webstercityarea.chamberofcommerce']
     end
 
     def no_new_info?
