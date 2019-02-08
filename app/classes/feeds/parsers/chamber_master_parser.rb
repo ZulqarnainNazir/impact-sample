@@ -58,11 +58,8 @@ module Feeds
           event_hash[:start_time] = "#{time.first} Central".to_datetime
           event_hash[:end_time] = "#{time.last} Central".to_datetime
         end
-        puts "======================= event Data ====================="
-        pp event_hash
-        puts "======================= /end event URL ====================="
 
-        return event_hash
+        event_hash
       end
 
       # NOTE: this is what happens when you're scraping a webpage that uses no ids or classes or data attributes...
