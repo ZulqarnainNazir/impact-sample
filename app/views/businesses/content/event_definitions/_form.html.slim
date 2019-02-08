@@ -190,7 +190,7 @@
       .col-sm-4.col-xs-4
         .form-group.m-b-none
           = form.button 'Save Draft'.html_safe, class: 'btn btn-block', name: "draft", value: "draft", type: "button"
-    - elsif form.object.persisted?
+    - elsif form.object.valid?
       .col-sm-4.col-sm-offset-2.col-xs-6
         = form.button 'Update Post', class: 'btn btn-block btn-secondary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding

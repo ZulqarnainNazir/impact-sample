@@ -19,7 +19,7 @@
             td = feed_item.start_date.try :strftime, '%m/%d/%Y'
             td = fields_with_errors(feed_item)
             td = @event_feed.name
-            td = @event_feed.last_imported.strftime('%m/%d/%Y')
+            td = @event_feed.created_at.strftime('%m/%d/%Y')
             td width="15%"
               - if feed_item.import_pending? && !feed_item.published_status?
                 span
