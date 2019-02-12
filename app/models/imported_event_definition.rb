@@ -17,6 +17,9 @@ class ImportedEventDefinition < EventDefinition
 
   validates :imported_event_id, presence: true
 
+  # These are the validations which are used to determine whether an imported
+  # event definition is considered filled out enough to be published and imported.
+  # Otherwise its created without being published, and is considered to be pending import.
   with_options on: :feed_overview do
     validate :venue_attached
     validates_presence_of :description
