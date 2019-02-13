@@ -13,3 +13,4 @@ public/.DS_Store
 .idea
 .powder
 /node_modules
+.byebug_history
