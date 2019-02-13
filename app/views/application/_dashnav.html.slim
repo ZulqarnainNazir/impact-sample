@@ -8,45 +8,62 @@
 
 nav.navbar-default.navbar-static-side[role="navigation"]
     ul#side-menu.nav.metismenu
-      li.nav-header
-        .dropdown.profile-element
-          .text-center.img-well.text-muted.hidden-xs
-            = link_to [:edit, @business, :data_details] do
-                - if @business.logo
-                  = image_tag @business.logo.attachment_large_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
-                - else
-                    i.fa.fa-photo.fa-5x
-                div style='padding-top:10px;'
-                    = content_tag :span, 'Click to Change Logo', class: 'small'
-          a.user-dropdown-toggle[data-toggle="dropdown"]
-            span.clear
-              span.block.m-t-xs
-                / strong.font-bold
-                /   | #{current_user.first_name} #{current_user.last_name}
-
-                span.text-muted = truncate(@business.name, length: 27)
-                span.caret.pull-right
-          ul.dropdown-menu
-            / li
-            /   = link_to 'Edit Profile info', :edit_user_registration
-            h3.p-w-sm Jump to:
-            - @businesses_for_nav.each do |business|
-              li
-                = link_to business.name, business_dashboard_path(business)
-            li.divider
-            li
-              = link_to 'All Accounts', :root
-            li.bg-success
-              = link_to new_onboard_user_path(anchor: "reset")
-                i.fa.fa-plus-circle
-                span.dropdown-add
-                  | Add Account
-        .logo-element.text-center
-          span
-            - if @business.logo
-              = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
-            - else
-              i.fa.fa-photo.fa-2x
+      / li.nav-header
+      /   a.navbar-minimalize.minimalize-styl-2.btn.btn-primary[href="#"]
+      /   / a.navbar-minimalize.btn.btn-primary[href="#"]
+      /   /   i.fa.fa-bars
+      li.nav-header.profile-element
+        = link_to image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive'), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand', style: 'margin: 0 0 20px 0; padding: 0 30px 0 0;'
+        / = image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive navbar-brand', style: 'margin: 0 0 20px 0; padding: 0 30px 0 0;')
+        / li.nav-header
+        / span
+        / .block
+        = link_to [:edit, @business, :data_details], class: 'no-padding' do
+          h5
+            | Update Your Company Profile
+        .progress.progress-striped
+          .progress-bar.progress-bar-warning aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" style=("width: 50%")
+            | 5/10
+            span.sr-only 40% Complete
+      / li.nav-header
+      /   .dropdown.profile-element
+      /     .text-center.img-well.text-muted.hidden-xs
+      /       / = link_to [:edit, @business, :data_details] do
+      /       /     - if @business.logo
+      /       /       = image_tag @business.logo.attachment_large_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
+      /       /     - else
+      /       /         i.fa.fa-photo.fa-5x
+      /       /     div style='padding-top:10px;'
+      /       /         = content_tag :span, 'Click to Change Logo', class: 'small'
+      /     / a.user-dropdown-toggle[data-toggle="dropdown"]
+      /     /   span.clear
+      /     /     span.block.m-t-xs
+      /     /       / strong.font-bold
+      /     /       /   | #{current_user.first_name} #{current_user.last_name}
+      /     /
+      /     /       span.text-muted = truncate(@business.name, length: 27)
+      /     /       span.caret.pull-right
+      /     / ul.dropdown-menu
+      /     /   / li
+      /     /   /   = link_to 'Edit Profile info', :edit_user_registration
+      /     /   h3.p-w-sm Jump to:
+      /     /   - @businesses_for_nav.each do |business|
+      /     /     li
+      /     /       = link_to business.name, business_dashboard_path(business)
+      /     /   li.divider
+      /     /   li
+      /     /     = link_to 'All Accounts', :root
+      /     /   li.bg-success
+      /     /     = link_to new_onboard_user_path(anchor: "reset")
+      /     /       i.fa.fa-plus-circle
+      /     /       span.dropdown-add
+      /     /         | Add Account
+      /   .logo-element.text-center
+      /     span
+      /       - if @business.logo
+      /         = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
+      /       - else
+      /         i.fa.fa-photo.fa-2x
 
       li class=('active' if controller_path.match(/\Abusinesses\/dashboard/))
         = link_to [@business, :dashboard] do
@@ -54,11 +71,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           span.nav-label[data-i18n="nav.dashboard"]
             | Dashboard
 
-      li title="Collaborate with other local organizations on marketing campaigns" class=('active' if false)
-        = link_to [@business, :dashboard] do
-          i.fa.fa-bullseye
-          span.nav-label[data-i18n="nav.dashboard"]
-            | Campaigns
+
 
       li title="Manage companies your connected with and create networks" class=('active' if crm_active)
         = link_to "#"
@@ -80,6 +93,11 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
             = link_to "Import Companies", [@business, :crm_imports]
 
+      li title="Collaborate with Other Local Organizations on Marketing Campaigns" class=('active' if false)
+        = link_to [@business, :dashboard] do
+          i.fa.fa-bullseye
+          span.nav-label[data-i18n="nav.dashboard"]
+            | Campaigns
 
       li title="Manage Content for Campaigns & Website" class=('active' if controller_path.match(/\Abusinesses\/content/) || controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
           = link_to "#"
@@ -123,7 +141,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
         = link_to "#"
           i.fa.fa-desktop
           span.nav-label[data-i18n="nav.manage_website"]
-            | Website
+            | Your Website
             / br
             / small.font-normal.font-italic Manage & Enhance Your Website
           span.fa.arrow
@@ -206,7 +224,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           = link_to "#"
             i.fa.fa-filter
             span.nav-label[data-i18n="nav.contacts"]
-              | Conversion
+              | Contact Forms
               / br
               / small.font-normal.font-italic Collect, Promote & Grow
             span.fa.arrow
@@ -280,7 +298,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           = link_to "#"
             i.fa.fa-flag
             span.nav-label[data-i18n="nav.contacts"]
-              | Missions & ToDo's
+              | Missions & Tasks/Todo's
               / br
               / small.font-normal.font-italic Find & Manage Marketing Tasks
             span.fa.arrow
@@ -330,32 +348,32 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Community & Values", [:edit, @business, :data_values]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
             = link_to "Images & PDFs", [@business, :content_images]
-
-      / hr
-      li title="Manage Users, Billing & More" class=('active' if controller_path.match(/\Abusinesses\/authorizations/) || controller_path.match(/\Abusinesses\/subscriptions/))
-        = link_to "#"
-          i.fa.fa-cog
-          span.nav-label[data-i18n="nav.business_data"]
-            | Settings
-            / br
-            / small.font-normal.font-italic Manage Users, Subscription & More
-          span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Aaccount\/details/))
-          li
-            = link_to 'Edit My Profile', :edit_user_registration
-          li class=('active' if controller_path.match(/\Abusinesses\/authorizations/))
-            = link_to 'Manage Users', [@business, :authorizations]
-          - if current_user.authorized_business_owner?(@business) || current_user.super_user?
-            li class=('active' if controller_path.match(/\Abusinesses\/subscriptions/))
-              = link_to 'Billing', subscription_dashboard_business_subscriptions_path(@business)
           li class=('active' if controller_path.match(/\Abusinesses\/accounts\/root/))
             = link_to "Integrations/Linked Accounts", [@business, :accounts_root]
-          li = link_to 'Manage Active Features', business_account_modules_path
+
+      / hr
+      / li title="Manage Users, Billing & More" class=('active' if controller_path.match(/\Abusinesses\/authorizations/) || controller_path.match(/\Abusinesses\/subscriptions/))
+      /   = link_to "#"
+      /     i.fa.fa-cog
+      /     span.nav-label[data-i18n="nav.business_data"]
+      /       | Settings
+      /       / br
+      /       / small.font-normal.font-italic Manage Users, Subscription & More
+      /     span.fa.arrow
+      /   ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Aaccount\/details/))
+      /     li
+      /       = link_to 'Edit My Profile', :edit_user_registration
+      /     li class=('active' if controller_path.match(/\Abusinesses\/authorizations/))
+      /       = link_to 'Manage Users', [@business, :authorizations]
+      /     - if current_user.authorized_business_owner?(@business) || current_user.super_user?
+      /       li class=('active' if controller_path.match(/\Abusinesses\/subscriptions/))
+      /         = link_to 'Billing', subscription_dashboard_business_subscriptions_path(@business)
+      /     li = link_to 'Manage Active Features', business_account_modules_path
 
 
 
 
-      - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
+      / - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
       - if current_user.super_user?
         li class=('active' if controller_path.match(/\Abusinesses\/super_settings/))
           = link_to [:edit, @business, :super_settings] do
@@ -363,21 +381,21 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             span.nav-label[data-i18n="nav.super_settings"]
               | Super Admin
 
-      li = link_to 'http://help.locable.com/', target: :_blank do
-        i.fa.fa-life-ring>
-        span.nav-label[data-i18n="nav.support"]
-          | Support
+      / li = link_to 'http://help.locable.com/', target: :_blank do
+      /   i.fa.fa-life-ring>
+      /   span.nav-label[data-i18n="nav.support"]
+      /     | Support
 
-      - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-        li = link_to connect_locable_path, target: :_blank do
-        i.fa.fa-external-link>
-        span.nav-label[data-i18n="nav.cce"]
-          | Go to Locable
+      / - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
+      /   li = link_to connect_locable_path, target: :_blank do
+      /   i.fa.fa-external-link>
+      /   span.nav-label[data-i18n="nav.cce"]
+      /     | Go to Locable
 
-      li = link_to :destroy_user_session, method: :delete do
-        i.fa.fa-sign-out
-        span.nav-label[data-i18n="nav.signout"]
-          | Sign out
+      / li = link_to :destroy_user_session, method: :delete do
+      /   i.fa.fa-sign-out
+      /   span.nav-label[data-i18n="nav.signout"]
+      /     | Sign out
 
       - if user_masquerade?
         li = link_to "Reverse masquerade", back_masquerade_path(current_user)

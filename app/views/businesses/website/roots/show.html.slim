@@ -2,6 +2,8 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Website'}
 
+= render partial: 'businesses/dashboards/website_setup_tasks', locals: { business: @business }
+
 br
 - if @business.website
   h2.h3 Preview Your Website

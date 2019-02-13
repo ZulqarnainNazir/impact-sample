@@ -4,40 +4,73 @@
     / a.pull-right.text-muted data-toggle="modal" data-target="#configure-list-feed"
     /   i.fa.fa-cog
     /   |  Configure
-  - if business.company_lists.empty?
-    .ibox-content
-      .p-a-2.text-center
-        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 110px; height: 110px;', class: 'img-responsive center-block')
-        h2 No Local Networks
-        h4
-          = link_to "Start Following Companies & Causes", [:new, business, :crm_company_list], class: "text-navy"
-        hr
-        i.fa.fa-calendar-plus-o
-        strong
-          = link_to " Calendar(s)", [@business, :tools_calendar_widgets]
-        hr
-        i.fa.fa-address-book-o
-        strong
-          = link_to " Local Directory(ies)", [@business, :tools_directory_widgets]
-  - else
-    .ibox-content
-      h3
-        i.fa.fa-list
-        |  Local Networks
-      = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'height: 110px', class: 'img-responsive center-block')
-      small
-        - companies = []
-        - business.company_lists.each {|list| companies = companies.concat(list.companies)}
-        = "Following #{companies.uniq.size} Companies & Causes in #{business.company_lists.size} Networks."
-      = link_to " Manage Networks", [business, :crm_company_lists]
-      hr
-      i.fa.fa-calendar-plus-o
-      strong
-        = link_to " Calendar(s)", [@business, :tools_calendar_widgets]
-      hr
-      i.fa.fa-address-book-o
-      strong
-        = link_to " Local Directory(ies)", [@business, :tools_directory_widgets]
+  / - if business.company_lists.empty?
+  /   .ibox-content
+  /     .p-a-2.text-center
+  /       = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 110px; height: 110px;', class: 'img-responsive center-block')
+  /       h2 No Local Networks
+  /       h4
+  /         = link_to "Start Following Companies & Causes", [:new, business, :crm_company_list], class: "text-navy"
+  /       hr
+  /       i.fa.fa-calendar-plus-o
+  /       strong
+  /         = link_to " Calendar(s)", [@business, :tools_calendar_widgets]
+  /       hr
+  /       i.fa.fa-address-book-o
+  /       strong
+  /         = link_to " Local Directory(ies)", [@business, :tools_directory_widgets]
+  / - else
+  /   .ibox-content
+  /     h3
+  /       i.fa.fa-list
+  /       |  Local Networks
+  /     = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'height: 110px', class: 'img-responsive center-block')
+  /     small
+  /       - companies = []
+  /       - business.company_lists.each {|list| companies = companies.concat(list.companies)}
+  /       / = "Following #{companies.uniq.size} Companies & Causes in #{business.company_lists.size} Networks."
+  /       = "You have created #{business.company_lists.size} Networks."
+  /     = link_to " Manage Networks", [business, :crm_company_lists]
+  hr
+  i.fa.fa-calendar-plus-o
+  strong
+    = link_to " Calendar(s)", [@business, :tools_calendar_widgets]
+  hr
+  i.fa.fa-address-book-o
+  h3 Participation Status
+  p Install these widgets on your site to participate & boost your reach
+  strong
+    = link_to " Local Directory(ies)", [@business, :tools_directory_widgets]
+    .btn.btn-default= link_to [@business, :tools_directory_widgets] do
+      | Campaign Widget
+      br
+      / small.font-normal.font-italic Self-Updating Directories
+    = link_to [@business, :tools_directory_widgets] do
+      | Directory Widget
+      br
+      / small.font-normal.font-italic Self-Updating Directories
+    = link_to [@business, :tools_calendar_widgets] do
+      | Calendar Widget
+      br
+      / small.font-normal.font-italic Community Calendar & Your Events
+    = link_to "#" do
+      |  Job & Volunteer Board
+      span.badge = "Coming Soon"
+      br
+    = link_to [@business, :tools_review_widgets] do
+      | Reviews Widget
+      br
+      / small.font-normal.font-italic Promote Your Reviews
+    = link_to [@business, :tools_content_feed_widgets] do
+      | Content Widget
+      br
+      / small.font-normal.font-italic Feature Any Content
+    = link_to [@business, :crm_contact_forms] do
+      | Form Widget
+      br
+      / small.font-normal.font-italic Forms & Instant Contact Page
+
+
     /.ibox-content
      / .feed-activity-list
         / =======
@@ -45,12 +78,12 @@
         / =======
        / - business.company_lists.each do |list|
        /   .feed-element
-       /     strong 
+       /     strong
        /       = link_to list.name, [:edit, @business, :crm, list]
        /     div
         /      = list.companies.size
        /       |  Companies &amp; Causes
-            
+
       / eventually change to link to actual feed page, not just company lists
       /= link_to [business, :crm_company_lists], class: 'btn btn-primary btn-block btn-outline m-t' do
         i.fa.fa-arrow-down

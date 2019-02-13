@@ -1,56 +1,132 @@
 - title 'Business Data'
 
-= render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Business Data'}
+/ = render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Business Data'}
+.row.admin-dash
+  .col-md-12
+    .fluid-nav
+      ul.nav.navbar-top-links
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-chevron-left
+          span
+            | Back to Dashboard
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt
+          span
+            | Business Basics
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt
+          span
+            | Contact Information/Locations
+
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt
+          span
+            | Business Hours
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt
+          span
+            | Social Profiles
+
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt
+          span
+            | Team Members
+
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt
+          span
+            | Images & PDFs
+
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt
+          span
+            | Integrations/Linked Accounts
+
+
+= render partial: 'businesses/dashboards/setup_tasks', locals: { business: @business }
 
 .row
-  .col-lg-12
-    .wrapper.wrapper-content
-      .row
-        .col-lg-12
-          .ibox.float-e-margins
-            .ibox-title
-              h3 Manage Your Business Data
-            .ibox-content
-              .row.dashboard-root-primary-panels
-                .col-sm-6.col-md-4.col-lg-2
-                  = link_to [:edit, @business, :data, :details] do
-                    .panel.panel-success
-                      .panel-heading
-                        i.fa.fa-list-ul.fa-4x
-                      .panel-footer.text-right
-                        span.pull-left> Basic Details
-                        i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2
-                  = link_to [:edit, @business, :data, :openings] do
-                    .panel.panel-primary
-                      .panel-heading
-                        i.fa.fa-clock-o.fa-4x
-                      .panel-footer.text-right
-                        span.pull-left> Hours
-                        i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2
-                  = link_to [:edit, @business, :data, :location] do
-                    .panel.panel-warning
-                      .panel-heading
-                        i.fa.fa-map-marker.fa-4x
-                      .panel-footer.text-right
-                        span.pull-left> Contact Info
-                        i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2
-                  = link_to [:edit, @business, :data, :social_profiles] do
-                    .panel.panel-success
-                      .panel-heading
-                        i.fa.fa-heart-o.fa-4x
-                      .panel-footer.text-right
-                        span.pull-left> Social Profiles
-                        i.fa.fa-arrow-circle-right
-                /.col-sm-6.col-md-4.col-lg-2
-                /  = link_to [:edit, @business, :data, :team_member] do
-                /    .panel.panel-primary
-                /      .panel-heading
-                /        i.fa.fa-user.fa-4x
-                /      .panel-footer.text-right
-                /        span.pull-left> Manage Team
-                /        i.fa.fa-arrow-circle-right
-              hr
-              p Jump straight to the pages above in the main menu under Business Data. Manage your profile information to ensure you're accurately represented by your Local Connections.
+  .col-sm-3
+    .ibox
+      .ibox-title
+        h5 Current Hours
+      .ibox-content
+        | Hours or Operation
+        | Schedule change in hours
+  .col-sm-3
+    .ibox
+      .ibox-title
+        h5 Listling Management
+      .ibox-content
+        | List of Managed Profiles
+  .col-sm-3
+    .ibox
+      .ibox-title
+        h5 Locations
+      .ibox-content
+        | List of Locations
+  .col-sm-3
+    .ibox
+      .ibox-title
+        h5 Produtcs/Services
+      .ibox-content
+        | List of Products
+
+
+
+
+
+
+
+/ .row
+/   .col-lg-12
+/     .wrapper.wrapper-content
+/       .row
+/         .col-lg-12
+/           .ibox.float-e-margins
+/             .ibox-title
+/               h3 Manage Your Business Data
+/             .ibox-content
+/               .row.dashboard-root-primary-panels
+/                 .col-sm-6.col-md-4.col-lg-2
+/                   = link_to [:edit, @business, :data, :details] do
+/                     .panel.panel-success
+/                       .panel-heading
+/                         i.fa.fa-list-ul.fa-4x
+/                       .panel-footer.text-right
+/                         span.pull-left> Basic Details
+/                         i.fa.fa-arrow-circle-right
+/                 .col-sm-6.col-md-4.col-lg-2
+/                   = link_to [:edit, @business, :data, :openings] do
+/                     .panel.panel-primary
+/                       .panel-heading
+/                         i.fa.fa-clock-o.fa-4x
+/                       .panel-footer.text-right
+/                         span.pull-left> Hours
+/                         i.fa.fa-arrow-circle-right
+/                 .col-sm-6.col-md-4.col-lg-2
+/                   = link_to [:edit, @business, :data, :location] do
+/                     .panel.panel-warning
+/                       .panel-heading
+/                         i.fa.fa-map-marker.fa-4x
+/                       .panel-footer.text-right
+/                         span.pull-left> Contact Info
+/                         i.fa.fa-arrow-circle-right
+/                 .col-sm-6.col-md-4.col-lg-2
+/                   = link_to [:edit, @business, :data, :social_profiles] do
+/                     .panel.panel-success
+/                       .panel-heading
+/                         i.fa.fa-heart-o.fa-4x
+/                       .panel-footer.text-right
+/                         span.pull-left> Social Profiles
+/                         i.fa.fa-arrow-circle-right
+/                 /.col-sm-6.col-md-4.col-lg-2
+/                 /  = link_to [:edit, @business, :data, :team_member] do
+/                 /    .panel.panel-primary
+/                 /      .panel-heading
+/                 /        i.fa.fa-user.fa-4x
+/                 /      .panel-footer.text-right
+/                 /        span.pull-left> Manage Team
+/                 /        i.fa.fa-arrow-circle-right
+/               hr
+/               p Jump straight to the pages above in the main menu under Business Data. Manage your profile information to ensure you're accurately represented by your Local Connections.

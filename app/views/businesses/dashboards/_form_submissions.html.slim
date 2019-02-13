@@ -1,15 +1,21 @@
 .ibox.float-e-margins
   - if business.form_submissions.empty? && business.contact_messages.where(hide: false).empty?
     .ibox-content
-      .p-a-2.text-center
-        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Form%20Builder.png', style: 'max-height: 90px; height: 90px;', class: 'img-responsive center-block')
-        - if !@business.module_active?(4)
-          = form_tag business_account_modules_path(:kind => 4, :active => true) do
-            = button_tag( type: 'submit', :class => "btn btn-link") do
-              h4.text-navy.m-t-0.m-b-0 Add Forms to Your Website
-        - else
-          h4
-            = link_to "Add Forms to Your Website", [@business, :crm_contact_forms], class: "text-navy"
+      / .p-a-2.text-center
+      / = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Form%20Builder.png', style: 'max-height: 90px; height: 90px;', class: 'img-responsive center-block')
+      / - if !@business.module_active?(4)
+      /   = form_tag business_account_modules_path(:kind => 4, :active => true) do
+      /     = button_tag( type: 'submit', :class => "btn btn-link") do
+      /       h4.text-navy.m-t-0.m-b-0 Add Forms to Your Website
+      / - else
+      /   h4
+      /
+      .p-a-1.text-center
+        h3 Blog Post Title
+        | Add Image as Well
+        p Blog Post Description
+      hr
+      = link_to "Add Forms to Your Website", [@business, :crm_contact_forms], class: "text-navy"
   - else
     .ibox-title
       h5 Recent Form Submissions

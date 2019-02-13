@@ -1,0 +1,40 @@
+.ibox.float-e-margins
+  .ibox-title
+    h5
+      i.fa.fa-address-card-o
+      |  Contacts
+    .ibox-tools style="margin-top: -3px;"
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             |  Add Contacts
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to "Add Contact", [:new, business, :crm_contact]
+        li
+          = link_to "Import Contacts", [business, :crm_imports]
+
+  .ibox-content
+    | Table of contacts and CRMy stuff here
+    hr
+    / h1.no-margins 12
+    / small New Contacts
+
+    / = link_to "Add a Contact", [:new, business, :crm_contact], class: 'clear text-muted'
+      / .col-xs-6
+      /   - if business.owned_companies.empty?
+      /     .p-a-1.text-center
+      /       h3 No Companies or Causes
+      /       p
+      /         = link_to "Add a Company or Cause", [:new, business, :crm_company], class: 'text-navy'
+      /   - else
+      /     .p-a-1.text-center
+      /       = link_to [business, :crm_companies] do
+      /         h1.no-margins = business.owned_companies.size
+      /       small Companies &amp; Causes
+      /       hr
+      /       / h1.no-margins 12
+      /       / small New Contacts
+      /       .row.m-t-sm
+      /         = link_to "Add a Company", [:new, business, :crm_company], class: 'clear text-muted'

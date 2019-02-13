@@ -1,0 +1,218 @@
+.ibox.float-e-margins
+  .ibox-title
+    h5 Let's Get Started: What would you like to do?
+    .ibox-tools
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             |  Manage
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          / | Hide/Show Quick Start
+          = link_to "Hide Quick Start", [@business, :reminders]
+        / li
+        /   = link_to 'Create Task', new_business_mission_instance_path(@business)
+        / li
+        /   = link_to "Browse Recommended Missions", [@business, :missions]
+        / li
+        /   = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
+  .ibox-content
+    .row
+      .col-sm-4
+        .row
+          .col-sm-12
+            h3 Help Promote Your Community
+            span Add a Community Feed to Your Site
+            hr
+        .row
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-calendar.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Community Calendar
+
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-address-book.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Direcotry
+        .row
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-briefcase.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Job/Volunteer Board
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-file-text.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Community Content Feed
+      .col-sm-4
+        .row
+          .col-sm-12
+            h3 Join The Conversation
+            span Share Your Events, Offers & More with The Community
+            hr
+        .row
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-bullseye.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Join a Campaign
+
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-calendar.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Post an Event
+
+        .row
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-briefcase.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Share a Job/Volunteer Opening
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-bullhorn.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Highlight Company "News"
+      .col-sm-4
+        .row
+          .col-sm-12
+            h3 Improve Your Marketing Foundation
+            span Get More Out of Word-of-Mouth & Referrals
+            hr
+        .row
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-map-marker.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Complete Your Company Profile
+                / .progress.progress-striped
+                /   .progress-bar.progress-bar-warning aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" style=("width: 50%")
+                /     span.sr-only 40% Complete (success)
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-desktop.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Improve Your Website
+                  / Create a New Website/Microsite with Your Own content feeds/calendars/forms
+        .row
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-comment.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Collect Customer Reviews
+          .col-sm-6
+            .widget.style1.navy-bg
+              .row.vertical-align
+                .col-xs-3
+                  i.fa.fa-graduation-cap.fa-3x
+                .col-xs-9.text-right
+                  span.font-bold Read Our Marketing 3-4-5 Playbook
+
+
+
+/ .theme-config
+/   .theme-config-box
+/     .spin-icon
+/       i.fa.fa-cogs.fa-spin
+/     / .skin-settings
+/     /   .title Configuration
+/     /   .setings-item
+/     /     span
+/     /       | Collapse menu
+/     /     .switch
+/     /       .onoffswitch
+/     /         input#collapsemenu.onoffswitch-checkbox name="collapsemenu" type="checkbox" /
+/     /         label.onoffswitch-label for="collapsemenu"
+/     /           span.onoffswitch-inner
+/     /           span.onoffswitch-switch
+/     /   .setings-item
+/     /     span
+/     /       | Fixed sidebar
+/     /     .switch
+/     /       .onoffswitch
+/     /         input#fixedsidebar.onoffswitch-checkbox name="fixedsidebar" type="checkbox" /
+/     /         label.onoffswitch-label for="fixedsidebar"
+/     /           span.onoffswitch-inner
+/     /           span.onoffswitch-switch
+/     /   .setings-item
+/     /     span
+/     /       | Top navbar
+/     /     .switch
+/     /       .onoffswitch
+/     /         input#fixednavbar.onoffswitch-checkbox name="fixednavbar" type="checkbox" /
+/     /         label.onoffswitch-label for="fixednavbar"
+/     /           span.onoffswitch-inner
+/     /           span.onoffswitch-switch
+/     /   .setings-item
+/     /     span
+/     /       | Top navbar v.2
+/     /       br
+/     /       small Primary layout
+/     /     .switch
+/     /       .onoffswitch
+/     /         input#fixednavbar2.onoffswitch-checkbox name="fixednavbar2" type="checkbox" /
+/     /         label.onoffswitch-label for="fixednavbar2"
+/     /           span.onoffswitch-inner
+/     /           span.onoffswitch-switch
+/     /   .setings-item
+/     /     span
+/     /       | Boxed layout
+/     /     .switch
+/     /       .onoffswitch
+/     /         input#boxedlayout.onoffswitch-checkbox name="boxedlayout" type="checkbox" /
+/     /         label.onoffswitch-label for="boxedlayout"
+/     /           span.onoffswitch-inner
+/     /           span.onoffswitch-switch
+/     /   .setings-item
+/     /     span
+/     /       | Fixed footer
+/     /     .switch
+/     /       .onoffswitch
+/     /         input#fixedfooter.onoffswitch-checkbox name="fixedfooter" type="checkbox" /
+/     /         label.onoffswitch-label for="fixedfooter"
+/     /           span.onoffswitch-inner
+/     /           span.onoffswitch-switch
+/       / .title Skins
+/       / .setings-item.default-skin
+/       /   span.skin-name
+/       /     a.s-skin-0 href="#"
+/       /       | Default
+/       / .setings-item.blue-skin
+/       /   span.skin-name
+/       /     a.s-skin-1 href="#"
+/       /       | Blue light
+/       / .setings-item.yellow-skin
+/       /   span.skin-name
+/       /     a.s-skin-3 href="#"
+/       /       | Yellow/Purple
+/       / .setings-item.ultra-skin
+/       /   span.skin-name
+/       /     a.md-skin href="md_skin/" target="_blank"
+/       /       | Material Design
