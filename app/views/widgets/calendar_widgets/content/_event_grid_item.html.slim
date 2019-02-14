@@ -19,9 +19,8 @@
             = image_tag placement.image.attachment_url(:small)
     - else
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
-
 - title = link_to "#", id: "event-#{event.id}-2", class: "title", "data-toggle" => "modal", 'data-target' => "event-modal-#{event.id}", class: "title", 'data-slug'=>"#{event.event_definition.slug}" do
-  = truncate sanitize(event.event_definition.title.titleize),
+  = truncate sanitize_simple(event.event_definition.title.titleize),
       length: 60,
       omission: '... '
 
@@ -73,8 +72,7 @@
       - if business != main_biz
         .description
           bg-warning
-            | Posted by
-            = business.name
+            | Posted by #{business.name}
 
 div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
   .modal-dialog.modal-lg

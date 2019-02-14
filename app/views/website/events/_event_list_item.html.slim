@@ -28,7 +28,7 @@
     only_path: false,
     host: business.website.host,
     protocol: :http], target: :_blank, class: 'title'
-  = truncate sanitize(event.event_definition.title.titleize),
+  = truncate sanitize_simple(event.event_definition.title.titleize),
       length: 60,
       omission: '... '
 
@@ -51,7 +51,7 @@
       = truncate sanitize(event.event_definition.location.city.titleize) + ', '
       = truncate sanitize(event.event_definition.location.state.upcase)
 
-- description = truncate sanitize(event.event_definition.description),
+- description = truncate sanitize_simple(event.event_definition.description),
     length: 140,
     omission: '... '
 

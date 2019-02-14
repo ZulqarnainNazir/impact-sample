@@ -1,7 +1,8 @@
 #
-# Takes a feed URL, downloads the response and delegates it to a parser class.
-# The parser class is expected to return a collection of Feed::Events from which
-# imported events can be created.
+# Takes an EventFeed, figures out which parser class relates the URL and uses
+# the parser class to get an array of structs representng each event in the feed.
+#
+# For each of these, an ImportedEventDefinition is created.
 #
 # Usage:
 #   Feeds::ImportService.new(event_feed: event_feed).run
@@ -17,6 +18,8 @@ module Feeds
       @parser        = args.fetch :parser, parser_from_url
       @always_notify = args.fetch :always_notify, true
 
+      # These statistics are filled in as the service is run. This data is used
+      # for notification emails about the feed later on.
       @stats = {
         total: 0,    # All event items found in the feed
         imported: 0, # Events that were imported
@@ -37,7 +40,7 @@ module Feeds
 
       send_notification if always_notify || anything_changed?
       event_feed.update_column(:last_imported, Time.now)
-      # event_feed.imported_event_definitions.import
+
       stats
     end
 
@@ -60,6 +63,8 @@ module Feeds
 
     def create_event_definition(event)
       import_logger.info "importing #{event.event_id}" if Rails.env.development?
+      # Only create a location if location information was found for the event.
+      # We don't want a bunch of blank locations.
       if event.location_data_present?
         location = ::Location.where(
           business_id: event_feed.business_id,
@@ -96,6 +101,8 @@ module Feeds
 
       begin
         EventDefinition.transaction do
+          # Records should be created even with partial data that fail validations.
+          # We want owners of the feed to have the opportunity to fill in the rest.
           event_definition.save validate: false
           location ||= ::Location.new(business_id: event_feed.business_id, name: '')
           location.save validate: false
@@ -106,8 +113,12 @@ module Feeds
           event_definition
         end
         stats[:imported] += 1
+        # We use a custom set of validations for the imported event definition to
+        # identify whether there is enough information to consider the event definition
+        # fully "imported". We'll still create the event definition otherwise, but
+        # it'll be created with a pending import status and not published.
         if event_definition.valid?(:feed_overview)
-          event_definition.reschedule_events!
+          event_definition.reschedule_events! # Create Event records
           event_definition.__elasticsearch__.index_document
           stats[:valid] += 1
         else
@@ -122,6 +133,8 @@ module Feeds
       end
     end
 
+    # Maps event feed URLs to parser classes. Whatever class is returned by this case
+    # statement is used to parse the supplied Event Feed's URL and get the events from the feed.
     def parser_from_url
       case event_feed.url
       when  -> (event_feed_url) { known_chambermaster_event_hosts.any? { |host| event_feed_url.include? host }  }
