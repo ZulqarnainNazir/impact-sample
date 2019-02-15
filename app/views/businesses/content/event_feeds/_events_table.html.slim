@@ -4,6 +4,7 @@
       thead
         tr
           th Title
+          th Source URL
           th Start Date
           th Missing Data
           th Import Feed
@@ -14,10 +15,11 @@
         - @imported_event_definitions.each do |feed_item|
           tr class="#{'import-inactive' if feed_item.archived?}"
             td width="20%" = feed_item.title
+            td = link_to  '->', feed_item.url, target: :_blank
             td = feed_item.start_date.try :strftime, '%m/%d/%Y'
             td = fields_with_errors(feed_item)
             td = @event_feed.name
-            td = @event_feed.created_at.strftime('%m/%d/%Y')
+            td = feed_item.created_at.strftime('%m/%d/%Y')
             td width="15%"
               - if feed_item.import_pending? && !feed_item.published_status?
                 span

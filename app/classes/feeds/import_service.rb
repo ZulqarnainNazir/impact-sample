@@ -137,6 +137,8 @@ module Feeds
     # statement is used to parse the supplied Event Feed's URL and get the events from the feed.
     def parser_from_url
       case event_feed.url
+      when  -> (event_feed_url) { known_chambermaster_event_hosts.any? { |host| event_feed_url.include? host }  }
+        Feeds::Parsers::ChamberMasterEventParser.new
       when /.*chambermaster|chamberorganizer/
         Feeds::Parsers::ChamberMasterParser.new
       when /\.rss|\.xml/
@@ -148,6 +150,11 @@ module Feeds
       when /google\.com\/calendar\/v3/
         Feeds::Parsers::JsonParser.new
       end
+    end
+
+    # When you add a new chambermaster feed, add the hostname to this list
+    def known_chambermaster_event_hosts
+      ['webstercityarea.chamberofcommerce']
     end
 
     def no_new_info?
