@@ -1,6 +1,6 @@
 - title 'Edit Your Business Details'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Basic Details'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :an => ' Business Basics'}
 
 .row
   .col-lg-12
@@ -10,6 +10,10 @@
           .ibox.float-e-margins
             .ibox-title
               h3 Edit Your Business Details
+              p.help-block
+                span
+                  | Locable Listing URL:&nbsp
+                  = link_to listing_path_url(@business), listing_path_url(@business), target: :_blank
             .ibox-content
               = errors_for @business
               = form_for @business, url: [@business, :data_details] do |form|

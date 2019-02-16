@@ -8,114 +8,75 @@
 
 nav.navbar-default.navbar-static-side[role="navigation"]
     ul#side-menu.nav.metismenu
-      / li.nav-header
-      /   a.navbar-minimalize.minimalize-styl-2.btn.btn-primary[href="#"]
-      /   / a.navbar-minimalize.btn.btn-primary[href="#"]
-      /   /   i.fa.fa-bars
-      li.nav-header.profile-element
-        = link_to image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive'), @business ? business_dashboard_path(@business) : root_path, class: 'navbar-brand', style: 'margin: 0 0 20px 0; padding: 0 30px 0 0;'
-        / = image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive navbar-brand', style: 'margin: 0 0 20px 0; padding: 0 30px 0 0;')
-        / li.nav-header
-        / span
-        / .block
-        = link_to [:edit, @business, :data_details], class: 'no-padding' do
+      li.nav-header.profile-element.clearfix style="padding: 10px 15px 4px;"
+        = link_to image_tag('Locable_White_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive'), "https://www.locable.com", class: 'navbar-brand no-padding', target: "_blank"
+        / = image_tag('Locable_White_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive navbar-brand', style: 'margin: 0 0 20px 0; padding: 0 30px 0 0;')
+      / Make conditional on completeness
+      li.profile-element
+        = link_to [@business, :data_root], class: '' do
           h5
             | Update Your Company Profile
-        .progress.progress-striped
-          .progress-bar.progress-bar-warning aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" style=("width: 50%")
-            | 5/10
-            span.sr-only 40% Complete
-      / li.nav-header
-      /   .dropdown.profile-element
-      /     .text-center.img-well.text-muted.hidden-xs
-      /       / = link_to [:edit, @business, :data_details] do
-      /       /     - if @business.logo
-      /       /       = image_tag @business.logo.attachment_large_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
-      /       /     - else
-      /       /         i.fa.fa-photo.fa-5x
-      /       /     div style='padding-top:10px;'
-      /       /         = content_tag :span, 'Click to Change Logo', class: 'small'
-      /     / a.user-dropdown-toggle[data-toggle="dropdown"]
-      /     /   span.clear
-      /     /     span.block.m-t-xs
-      /     /       / strong.font-bold
-      /     /       /   | #{current_user.first_name} #{current_user.last_name}
-      /     /
-      /     /       span.text-muted = truncate(@business.name, length: 27)
-      /     /       span.caret.pull-right
-      /     / ul.dropdown-menu
-      /     /   / li
-      /     /   /   = link_to 'Edit Profile info', :edit_user_registration
-      /     /   h3.p-w-sm Jump to:
-      /     /   - @businesses_for_nav.each do |business|
-      /     /     li
-      /     /       = link_to business.name, business_dashboard_path(business)
-      /     /   li.divider
-      /     /   li
-      /     /     = link_to 'All Accounts', :root
-      /     /   li.bg-success
-      /     /     = link_to new_onboard_user_path(anchor: "reset")
-      /     /       i.fa.fa-plus-circle
-      /     /       span.dropdown-add
-      /     /         | Add Account
-      /   .logo-element.text-center
-      /     span
-      /       - if @business.logo
-      /         = image_tag @business.logo.attachment_medium_url, alt: 'Logo image', class: 'img-responsive', style: 'width: 100%;'
-      /       - else
-      /         i.fa.fa-photo.fa-2x
-
+          .progress.progress-striped
+            .progress-bar.progress-bar-warning aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" style=("width: 50%")
+              | 5/10
+              span.sr-only 40% Complete
       li class=('active' if controller_path.match(/\Abusinesses\/dashboard/))
         = link_to [@business, :dashboard] do
           i.fa.fa-tachometer
           span.nav-label[data-i18n="nav.dashboard"]
             | Dashboard
-
-
-
-      li title="Manage companies your connected with and create networks" class=('active' if crm_active)
+      li title="Manage Local Networks and Followers" class=('active' if crm_active)
         = link_to "#"
           i.fa.fa-users
           span.nav-label[data-i18n="nav.contacts"]
             | Local Connections™
-            / br
-            / small.font-normal.font-italic Manage Contacts & Relationships
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
-            = link_to "Companies & Causes", [@business, :crm_companies]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists/))
             = link_to "Local Networks", [@business, :crm_company_lists]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists\/following/))
             = link_to "Followers", [@business, :crm, 'company_lists', 'following']
-          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
-          /   = link_to "People", [@business, :crm_contacts]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
-            = link_to "Import Companies", [@business, :crm_imports]
+          li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
+            = link_to [@business, :tools_directory_widgets] do
+              | Manage Directory Widgets
 
-      li title="Collaborate with Other Local Organizations on Marketing Campaigns" class=('active' if false)
-        = link_to [@business, :dashboard] do
-          i.fa.fa-bullseye
-          span.nav-label[data-i18n="nav.dashboard"]
-            | Campaigns
+      / li title="Collaborate with Other Local Organizations on Marketing Campaigns" class=('active' if false)
+      /   = link_to [@business, :dashboard] do
+      /     i.fa.fa-bullseye
+      /     span.nav-label[data-i18n="nav.dashboard"]
+      /       | Campaigns
 
-      li title="Manage Content for Campaigns & Website" class=('active' if controller_path.match(/\Abusinesses\/content/) || controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
-          = link_to "#"
-            i.fa.fa-bullhorn
-            span.nav-label[data-i18n="nav.manage_content"]
-              | Marketing Messages
-              / br
-              / small.font-normal.font-italic Manage Your Blog & Content
-            span.fa.arrow
-          ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/content/))
-            li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
-              = link_to "Manage Posts", [@business, :content_root]
-            / li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
-            /   = link_to "Embed Content", [@business, :tools_content_feed_widgets]
-            / li class=('active' if controller_path.match(/\Abusinesses\/content\/content_category_tag_management_index/))
-            /   = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
-            / li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
-            /   = link_to "Import Events", [@business, :content, :event_imports]
+      li title="Manage Content for Feeds, Campaigns & Your Website" class=('active' if controller_path.match(/\Abusinesses\/content/) || controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
+        = link_to "#"
+          i.fa.fa-bullhorn
+          span.nav-label[data-i18n="nav.manage_content"]
+            | Marketing Messages
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/content/))
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
+            = link_to "New Quick Post", [:new, @business, :content_quick_post]
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
+            = link_to "New Offer", [:new, @business, :content_offer]
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
+            = link_to "New Job/Volunteer Opportunity", [:new, @business, :content_job]
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
+            = link_to "New Gallery", [:new, @business, :content_gallery]
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
+            = link_to "New Before & After", [:new, @business, :content_before_after]
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
+            = link_to "New Custom Post", [:new, @business, :content_post]
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
+            = link_to "Manage Messages", [@business, :content_root]
+          li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
+            = link_to [@business, :tools_content_feed_widgets] do
+              | Manage Content Feed Widgets
+          / li class='disabled'
+          /   = link_to "#" do
+          /     |  Manage Job & Volunteer Board Widgets
+          /     span.badge
+          /       = "Coming Soon"
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/content_category_tag_management_index/))
+            = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
 
       li title="Manage Events & Calendar Feeds" class=('active' if false)
         = link_to [@business, :dashboard] do
@@ -124,44 +85,38 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Events
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless false)
-          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/feed/))
-          /   = link_to "Manage Posts", [@business, :content_root]
-          / li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
-          /   = link_to "Embed Content", [@business, :tools_content_feed_widgets]
-          / li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
-          /   = link_to "Images & PDFs", [@business, :content_images]
-          / li class=('active' if controller_path.match(/\Abusinesses\/content\/content_category_tag_management_index/))
-          /   = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
-            = link_to "Manage Events", [@business, :content, :event_imports]
+            = link_to "New Event", [:new, @business, :content_event_definition]
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
+            = link_to "Manage Events", [@business, :content_root]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
             = link_to "Event Feeds", [@business, :content, :event_imports]
+          li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
+            = link_to [@business, :tools_calendar_widgets] do
+              | Manage Calendar Widgets
 
       li title="Manage & Enhance Your Website" class=('active' if controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/) || embeds_active)
         = link_to "#"
           i.fa.fa-desktop
           span.nav-label[data-i18n="nav.manage_website"]
             | Your Website
-            / br
-            / small.font-normal.font-italic Manage & Enhance Your Website
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/) || embeds_active)
           - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user?
-
             li class=('active' if controller_path.match(/\Aonboard\/users\/new/))
               = link_to new_website_business_website_add_website_path, method: :get
                 i.fa.fa-plus-circle
                 | Add New Website
-                br
-                small.font-normal.font-italic Build a Solid Foundation
-
+                / br
+                / small.font-normal.font-italic Build a Solid Foundation
           - else
-
+            - if @business.to_dos_enabled
+              li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
+                 = link_to [@business, :to_dos] do
+                    | Website Launch Tasks
             li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
               = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
                 | Pages
-                br
-                small.font-normal.font-italic Manage Site Content
             li class=('active' if controller_path.match(/\Abusinesses\/website\/menus/))
               = link_to "Navigation Menus", [:edit, @business, :website_menus]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/theme/))
@@ -174,169 +129,84 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Sidebars", [:edit, @business, :website_sidebars]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/redirects/))
               = link_to "Redirects", [@business, :website_redirects]
-            - if @business.to_dos_enabled
-              li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
-                 = link_to [@business, :to_dos] do
-                    | Website Tasks
-                    br
-                    small.font-normal.font-italic Launch Tasks & To-Dos
-
-
-
-
-          / Move to Dashboard Partial
-          / hr
-          / li title="Website Embed Tools" class=('active' if embeds_active)
-          /   li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
-          /     = link_to [@business, :tools_directory_widgets] do
-          /         | Directories
-          /         br
-          /         small.font-normal.font-italic Self-Updating Directories
-          /   li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
-          /     = link_to [@business, :tools_calendar_widgets] do
-          /         | Calendars
-          /         br
-          /         small.font-normal.font-italic Community Calendar & Your Events
-          /   li class='disabled'
-          /     = link_to "#" do
-          /       span.badge
-          /         = "Coming Soon"
-          /       |  Job & Volunteer Board
-          /   li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-          /     = link_to [@business, :tools_review_widgets] do
-          /         | Embed Reviews
-          /         br
-          /         small.font-normal.font-italic Promote Your Reviews
-          /   li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
-          /     = link_to [@business, :tools_content_feed_widgets] do
-          /         | Embed Content
-          /         br
-          /         small.font-normal.font-italic Feature Any Content
-          /   li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
-          /     = link_to [@business, :crm_contact_forms] do
-          /         | Embed Forms
-          /         br
-          /         small.font-normal.font-italic Forms & Instant Contact Page
-
-
-
-      li title="Manage Landing Pages, Calls-to-Action, and Forms" class=('active' if controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-          = link_to "#"
-            i.fa.fa-filter
-            span.nav-label[data-i18n="nav.contacts"]
-              | Contact Forms
-              / br
-              / small.font-normal.font-italic Collect, Promote & Grow
-            span.fa.arrow
-          ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-            li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
-              - if !@business.module_active?(4)
-                = link_to "Form Submissions", [@business, :crm_contact_forms]
-              - else
-                = link_to "Form Submissions", [@business, :crm_form_submissions]
-            li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
-              = link_to "Manage Web Forms", [@business, :crm_contact_forms]
-            / li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
-            /   = link_to "Manage Reviews", [@business, :crm_reviews]
-            / li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
-            /   = link_to "Private Feedback", [@business, :crm_feedbacks]
-            / li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-                /   = link_to "Embed Reviews", [@business, :tools_review_widgets]
-
-
-
+      / Add Landing Pages and Call-to-Action Builder to this section and renmae to Conversions
+      li title="Manage Forms & Instant Contact Page" class=('active' if controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
+        = link_to "#"
+          i.fa.fa-filter
+          span.nav-label[data-i18n="nav.contacts"]
+            | Contact Forms
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
+            = link_to "Form Submissions", [@business, :crm_form_submissions]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
+            = link_to "Manage Forms", [@business, :crm_contact_forms]
 
       li title="Collect Customer Feedback & Reviews" class=('active' if controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-          = link_to "#"
-            i.fa.fa-comment
-            span.nav-label[data-i18n="nav.contacts"]
-              | Feedback & Reviews
-              / br
-              / small.font-normal.font-italic Collect, Promote & Grow
-            span.fa.arrow
-          ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-            / li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
-            /   - if !@business.module_active?(4)
-            /     = link_to "Form Submissions", [@business, :crm_contact_forms]
-            /   - else
-            /     = link_to "Form Submissions", [@business, :crm_form_submissions]
-            / li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
-            /   = link_to "Manage Web Forms", [@business, :crm_contact_forms]
+        = link_to "#"
+          i.fa.fa-comment
+          span.nav-label[data-i18n="nav.contacts"]
+            | Feedback & Reviews
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions)/) || controller_path.match(/\Abusinesses\/tools\/review_widgets/))
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
+            = link_to "Private Feedback", [@business, :crm_feedbacks]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
+            = link_to "Manage Reviews", [@business, :crm_reviews]
+          li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
+            = link_to [@business, :tools_review_widgets] do
+              | Manage Reviews Widgets
 
-            li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
-              = link_to "Private Feedback", [@business, :crm_feedbacks]
-            li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
-              = link_to "Manage Reviews", [@business, :crm_reviews]
-            / li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
-            /   = link_to "Embed Reviews", [@business, :tools_review_widgets]
-
-
-
-      li title="Manage Contact Information" class=('active' if crm_active)
+      li title="Manage Contacts" class=('active' if crm_active)
         = link_to "#"
           i.fa.fa-address-card-o
           span.nav-label[data-i18n="nav.contacts"]
             | Contacts
-            / br
-            / small.font-normal.font-italic Manage Contacts & Relationships
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/crm/))
-          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
-          /   = link_to "Companies & Causes", [@business, :crm_companies]
-          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists/))
-          /   = link_to "Local Networks", [@business, :crm_company_lists]
-          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists\/following/))
-          /   = link_to "Followers", [@business, :crm, 'company_lists', 'following']
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
+            = link_to "Companies & Causes", [@business, :crm_companies]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
             = link_to "People", [@business, :crm_contacts]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
             = link_to "Import Contacts", [@business, :crm_imports]
 
-
-
       li title="Find Marketing Missions & Manage Marketing Tasks" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders|marketing_assistant)/))
-          = link_to "#"
-            i.fa.fa-flag
-            span.nav-label[data-i18n="nav.contacts"]
-              | Missions & Tasks/Todo's
-              / br
-              / small.font-normal.font-italic Find & Manage Marketing Tasks
-            span.fa.arrow
-          ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/activity_calendar|missions|reminders/))
-            li class=('active' if controller_path.match(/activity_calendar/))
-              = link_to "Mission Calendar", [:timeline, @business, :activity_calendar, :index]
-            li class=('active' if controller_path.match(/\Abusinesses\/reminders/))
-              = link_to "Active Missions", [@business, :reminders]
-            li class=('active' if action_name == 'index' && controller_path.match(/\Abusinesses\/missions/))
-              = link_to "Browse Missions", [@business, :missions]
+        = link_to "#"
+          i.fa.fa-flag
+          span.nav-label[data-i18n="nav.contacts"]
+            | Missions & Tasks
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/activity_calendar|missions|reminders/))
+          li class=('active' if controller_path.match(/activity_calendar/))
+            = link_to "Task Calendar", [:timeline, @business, :activity_calendar, :index]
+          li class=('active' if controller_path.match(/\Abusinesses\/reminders/))
+            = link_to "Active Missions", [@business, :reminders]
+          li class=('active' if action_name == 'index' && controller_path.match(/\Abusinesses\/missions/))
+            = link_to "Browse Recommended Missions", [@business, :missions]
+          / li class=('active' if action_name == 'custom' && controller_path.match(/\Abusinesses\/missions/))
+            = link_to "Custom Missions", [:custom, @business, :missions]
+          / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant/))
+            = link_to "To-Do Lists", [@business, :marketing_assistant_index]
 
-
-            / li class=('active' if action_name == 'custom' && controller_path.match(/\Abusinesses\/missions/))
-              = link_to "Custom Missions", [:custom, @business, :missions]
-            / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant/))
-              = link_to "To-Do Lists", [@business, :marketing_assistant_index]
-
-      li title="Keep Your Hour, Location & Product Information Current" class=('active' if controller_path.match(/\Abusinesses\/data/) || controller_path.match(/\Abusinesses\/accounts\/root/))
+      li title="Keep Your Online Company Profile Current" class=('active' if controller_path.match(/\Abusinesses\/data/) || controller_path.match(/\Abusinesses\/accounts\/root/))
         = link_to "#"
           i.fa.fa-map-marker
           span.nav-label[data-i18n="nav.business_data"]
-            | Business Data
-            / br
-            / small.font-normal.font-italic Keep Your Core Data Current
+            | Company Profile
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/data/))
           li class=('active' if controller_path.match(/\Abusinesses\/data\/details/))
             = link_to "Business Basics", [:edit, @business, :data_details]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/location/))
-            = link_to "Contact Information/Locations", [:edit, @business, :data_location]
+            = link_to "Contact Information", [:edit, @business, :data_location]
+          / Add Locations??
           li class=('active' if controller_path.match(/\Abusinesses\/data\/openings/))
             = link_to "Business Hours", [:edit, @business, :data_openings]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/social_profiles/))
             = link_to "Social Profiles", [:edit, @business, :data_social_profiles]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/team_members/))
             = link_to "Team Members", [@business, :data_team_members]
-          / li class=('active' if controller_path.match(/\Abusinesses\/accounts\/root/))
-          /   = link_to "Linked Accounts", [@business, :accounts_root]
           / li class=('active' if controller_path.match(/\Abusinesses\/data\/lines/))
             = link_to "Business Lines", [:edit, @business, :data_lines]
           / - if @business.lines.any?(&:persisted?)
@@ -348,36 +218,16 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Community & Values", [:edit, @business, :data_values]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
             = link_to "Images & PDFs", [@business, :content_images]
+          / Add Other Integrations in Linked Accounts
           li class=('active' if controller_path.match(/\Abusinesses\/accounts\/root/))
-            = link_to "Integrations/Linked Accounts", [@business, :accounts_root]
-
-      / hr
-      / li title="Manage Users, Billing & More" class=('active' if controller_path.match(/\Abusinesses\/authorizations/) || controller_path.match(/\Abusinesses\/subscriptions/))
-      /   = link_to "#"
-      /     i.fa.fa-cog
-      /     span.nav-label[data-i18n="nav.business_data"]
-      /       | Settings
-      /       / br
-      /       / small.font-normal.font-italic Manage Users, Subscription & More
-      /     span.fa.arrow
-      /   ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Aaccount\/details/))
-      /     li
-      /       = link_to 'Edit My Profile', :edit_user_registration
-      /     li class=('active' if controller_path.match(/\Abusinesses\/authorizations/))
-      /       = link_to 'Manage Users', [@business, :authorizations]
-      /     - if current_user.authorized_business_owner?(@business) || current_user.super_user?
-      /       li class=('active' if controller_path.match(/\Abusinesses\/subscriptions/))
-      /         = link_to 'Billing', subscription_dashboard_business_subscriptions_path(@business)
-      /     li = link_to 'Manage Active Features', business_account_modules_path
-
-
+            = link_to "Linked Accounts", [@business, :accounts_root]
 
 
       / - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
       - if current_user.super_user?
         li class=('active' if controller_path.match(/\Abusinesses\/super_settings/))
           = link_to [:edit, @business, :super_settings] do
-            i.fa.fa-cogs>
+            i.fa.fa-cogs
             span.nav-label[data-i18n="nav.super_settings"]
               | Super Admin
 
@@ -401,6 +251,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
         li = link_to "Reverse masquerade", back_masquerade_path(current_user)
 
 
+/ Original Menu for Temp Reference
 / nav.navbar-default.navbar-static-side[role="navigation"]
 /     ul#side-menu.nav.metismenu
 /       li.nav-header

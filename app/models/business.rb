@@ -732,6 +732,10 @@ class Business < ActiveRecord::Base
     FastImage.size(self.og_logo_url)
   end
 
+  def review_rating_average
+    4.1
+  end
+
   private
 
   def bootstrap_to_dos

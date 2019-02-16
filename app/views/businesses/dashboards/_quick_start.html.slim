@@ -2,139 +2,154 @@
   .ibox-title
     h5 Let's Get Started: What would you like to do?
     .ibox-tools
-      a.user-dropdown-toggle[data-toggle="dropdown"]
-        span
-           small.text-muted
-             |  Manage
-             span.caret.pull-right
-      ul.dropdown-menu
-        li
-          / | Hide/Show Quick Start
-          = link_to "Hide Quick Start", [@business, :reminders]
-        / li
-        /   = link_to 'Create Task', new_business_mission_instance_path(@business)
-        / li
-        /   = link_to "Browse Recommended Missions", [@business, :missions]
-        / li
-        /   = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
+      a.collapse-link
+        i.fa.fa-chevron-up
+      /   a.user-dropdown-toggle[data-toggle="dropdown"]
+      /     span
+      /        small.text-muted
+      /          |  Manage
+      /          span.caret.pull-right
+      /   ul.dropdown-menu
+      /     li
+      /       / | Hide/Show Quick Start
+      /       = link_to "Hide Quick Start", [@business, :reminders]
   .ibox-content
     .row
-      .col-sm-4
-        .row
-          .col-sm-12
-            h3 Help Promote Your Community
-            span Add a Community Feed to Your Site
-            hr
-        .row
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-calendar.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Community Calendar
-
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-address-book.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Direcotry
-        .row
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-briefcase.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Job/Volunteer Board
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-file-text.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Community Content Feed
-      .col-sm-4
-        .row
-          .col-sm-12
-            h3 Join The Conversation
-            span Share Your Events, Offers & More with The Community
-            hr
-        .row
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-bullseye.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Join a Campaign
-
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-calendar.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Post an Event
-
-        .row
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-briefcase.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Share a Job/Volunteer Opening
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-bullhorn.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Highlight Company "News"
-      .col-sm-4
-        .row
-          .col-sm-12
-            h3 Improve Your Marketing Foundation
-            span Get More Out of Word-of-Mouth & Referrals
-            hr
-        .row
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-map-marker.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Complete Your Company Profile
-                / .progress.progress-striped
-                /   .progress-bar.progress-bar-warning aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" style=("width: 50%")
-                /     span.sr-only 40% Complete (success)
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-desktop.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Improve Your Website
-                  / Create a New Website/Microsite with Your Own content feeds/calendars/forms
-        .row
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-comment.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Collect Customer Reviews
-          .col-sm-6
-            .widget.style1.navy-bg
-              .row.vertical-align
-                .col-xs-3
-                  i.fa.fa-graduation-cap.fa-3x
-                .col-xs-9.text-right
-                  span.font-bold Read Our Marketing 3-4-5 Playbook
-
+      .col-lg-4
+        .widget.p-lg.text-center style="border: 1px solid #e7eaec;"
+          .m-b-md
+            .row
+              .col-12.m-b-sm
+                h3 Improve Your Marketing Foundation
+                span Get More Out of Word-of-Mouth & Referrals
+            .row
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to [@business, :data_root] do
+                  .widget.bg-success
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-map-marker.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Complete Your Company Profile
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to [@business, :website_root] do
+                  .widget.bg-success
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-desktop.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Improve Your Website
+                        / Create a New Website/Microsite with Your Own content feeds/calendars/forms
+            .row
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to [:new, @business, :crm_feedback] do
+                  .widget.bg-success
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-comment.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Collect Customer Reviews
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to "https://www.locable.com/marketing-3-4-5-authentic-marketing-for-local-and-small-businesses/", target: "_blank" do
+                  .widget.bg-success
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-graduation-cap.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Read Our Marketing
+                        br
+                        span.font-bold 3-4-5 Playbook
+      .col-lg-4
+        .widget.p-lg.text-center style="border: 1px solid #e7eaec;"
+          .m-b-md
+            .row
+              .col-12.m-b-sm
+                h3 Help Promote Your Community
+                span Add a Community Feed to Your Site
+            .row
+              .col-lg-12.col-md-6.col-sm-12
+                =link_to [:new, @business, :tools_calendar_widget] do
+                  .widget.bg-info
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-calendar.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Community Calendar
+              .col-lg-12.col-md-6.col-sm-12
+                =link_to [:new, @business, :tools_directory_widget] do
+                  .widget.bg-info
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-address-book.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Directory
+            .row
+              .col-lg-12.col-md-6.col-sm-12
+                =link_to [:new, @business, :tools_content_feed_widget] do
+                  .widget.bg-info
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-briefcase.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Job/Volunteer Board
+              .col-lg-12.col-md-6.col-sm-12
+                =link_to [:new, @business, :tools_content_feed_widget] do
+                  .widget.bg-info
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-file-text.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Community Content Feed
+      .col-lg-4
+        .widget.p-lg.text-center style="border: 1px solid #e7eaec;"
+          .m-b-md
+            .row
+              .col-12.m-b-sm
+                h3 Join The Conversation
+                span Share Your Events, Offers & More with The Community
+            .row
+              / .col-lg-12.col-md-6.col-sm-12
+              /   = link_to [:new, @business, :content_quick_post] do
+              /     .widget.bg-primary
+              /       .row.vertical-align
+              /         .col-xs-2
+              /           i.fa.fa-bullseye.fa-3x
+              /         .col-xs-10.text-right
+              /           span.font-bold Participate in a Campaign
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to [:new, @business, :content_event_definition] do
+                  .widget.bg-primary
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-calendar.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Post an Event
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to [:new, @business, :content_offer] do
+                  .widget.bg-primary
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-ticket.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Post an Offer
+            .row
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to [:new, @business, :content_job] do
+                  .widget.bg-primary
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-briefcase.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Share a Job/Volunteer Opportunity
+              .col-lg-12.col-md-6.col-sm-12
+                = link_to [:new, @business, :content_quick_post] do
+                  .widget.bg-primary
+                    .row.vertical-align
+                      .col-xs-2
+                        i.fa.fa-bullhorn.fa-3x
+                      .col-xs-10.text-right
+                        span.font-bold Highlight Company "News"
+                        / span.font-bold Quick Post
 
 
 / .theme-config

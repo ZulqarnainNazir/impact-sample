@@ -1,42 +1,38 @@
 .ibox.float-e-margins
-  - if business.form_submissions.empty? && business.contact_messages.where(hide: false).empty?
-    .ibox-content
-      / .p-a-2.text-center
-      / = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Form%20Builder.png', style: 'max-height: 90px; height: 90px;', class: 'img-responsive center-block')
-      / - if !@business.module_active?(4)
-      /   = form_tag business_account_modules_path(:kind => 4, :active => true) do
-      /     = button_tag( type: 'submit', :class => "btn btn-link") do
-      /       h4.text-navy.m-t-0.m-b-0 Add Forms to Your Website
-      / - else
-      /   h4
-      /
-      .p-a-1.text-center
-        h3 Blog Post Title
-        | Add Image as Well
-        p Blog Post Description
-      hr
-      = link_to "Add Forms to Your Website", [@business, :crm_contact_forms], class: "text-navy"
-  - else
-    .ibox-title
-      h5 Recent Form Submissions
-      small.pull-right.text-muted
-        = link_to [business, :crm_contact_forms] do
-          i.fa.fa-edit
-          |  Manage Forms
-    .ibox-content
+  .ibox-title
+    h5
+      i.fa.fa-filter
+      |  Form Submissions
+  .ibox-content
+    - if business.form_submissions.empty? && business.contact_messages.where(hide: false).empty?
+
+      / Temporary - Replace with Video for Zero State
+      .p-a-2.text-center
+        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Form%20Builder.png', style: 'max-height: 90px; height: 90px;', class: 'img-responsive center-block')
+        = button_tag( type: 'submit', :class => "btn btn-link") do
+          h4.text-navy.m-t-0.m-b-0 Add Forms to Your Website
+
+      / .p-a-1.text-center
+      /   h3 Add Video Here
+      / hr
+      / = link_to "Add Forms to Your Website", [@business, :crm_contact_forms], class: "text-navy"
+    - else
       .feed-activity-list
         - (business.contact_messages.includes(:contact).where(hide: false).order(created_at: :desc).limit(3) + business.form_submissions.includes(:contact).order(created_at: :desc).limit(3) ).sort_by(&:created_at).reverse[0, 3].each do |submission|
           .feed-element
-            div
-              small.pull-right = "#{time_ago_in_words(submission.created_at)} ago"
-              div.text-left
-                strong
-                  - if submission.try(:contact)
-                    = link_to submission.try(:contact).try(:name), [:edit, business, :crm, submission.try(:contact)]
-                = link_to [business, :crm, submission] do
-                  p
-                    - if submission.class == FormSubmission
-                      = truncate(submission.form_submission_values.joins(:form_field).find_by(form_fields: {name: 'message'}).try(:value), length: 90)
-                    - else
-                      = truncate(submission.message, length: 90)
-      = link_to 'View All Submissions', [business, :crm_form_submissions], class: 'btn btn-primary btn-block m-t'
+            = link_to [:edit, business, :crm, submission.try(:contact)], class: "pull-left" do
+              / img.img-circle src=""
+              i.fa.fa-user-circle-o.fa-3x
+            small.pull-right = "#{time_ago_in_words(submission.created_at)} ago"
+            div.text-left
+              strong
+                - if submission.try(:contact)
+                  = link_to submission.try(:contact).try(:name), [:edit, business, :crm, submission.try(:contact)]
+              = link_to [business, :crm, submission] do
+                p
+                  - if submission.class == FormSubmission
+                    = truncate(submission.form_submission_values.joins(:form_field).find_by(form_fields: {name: 'message'}).try(:value), length: 90)
+                  - else
+                    = truncate(submission.message, length: 90)
+      / hr
+      = link_to 'View All', [business, :crm_form_submissions], class: 'btn btn-primary m-t'

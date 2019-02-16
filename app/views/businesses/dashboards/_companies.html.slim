@@ -1,0 +1,47 @@
+.ibox.float-e-margins
+  .ibox-title
+    h5
+      |  Companies & Causes
+    .ibox-tools style="margin-top: -3px;"
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             |  Manage Local Connections
+             sup
+              small
+                | TM
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to "View All", [business, :crm_companies]
+        li
+          = link_to "Add Company or Cause", [:new, business, :crm_company]
+        li
+          = link_to "Add Contact", [:new, business, :crm_contact]
+        li
+          = link_to "Import Companies", [business, :crm_imports, import_type: :companies]
+
+  .ibox-content
+    - if business.owned_companies.empty?
+      .p-a-1.text-center
+        h3 No Companies or Causes Yet.
+        p
+          = link_to "Get Started by Adding a Company or Cause", [:new, business, :crm_company], class: 'text-navy'
+    -else
+      table.footable.table.table-stripped.simple-datatable
+        thead
+          tr
+            th
+              | Name
+            th
+              | Included In
+            th
+              | Status
+            th
+              | Estimated Reach
+            th
+              | Website
+        tbody
+          = render partial: 'businesses/dashboards/company', collection: @companies
+      hr
+      = link_to "View All", [@business, :crm_companies], class: 'btn btn-primary m-t'

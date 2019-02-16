@@ -118,9 +118,10 @@
         i.fa.fa-life-ring
         | Support
       li
-        a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
+        / a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
+        = link_to [@business, :crm_companies], class: 'btn btn-primary invite-btn hidden-xs' do
           i.fa.fa-user-plus.fa-2 aria-hidden="true"
-          |  Follow Companies
+          |  Follow Companies & Causes
           / |  Follow Organization/Send Invite
       / li.dropdown.pull-right
       /   = render "jumpto"

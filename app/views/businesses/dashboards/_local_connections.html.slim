@@ -1,8 +1,8 @@
-- listings = business.listed_by_business
+- followers = business.listed_by_business
 
 - last_sign_in_at = current_user.last_sign_in_at
 
-- recent_listings = listings.select { |listing| last_sign_in_at - listing.created_at <= 0 }
+- recent_followers = followers.select { |follower| last_sign_in_at - follower.created_at <= 0 }
 
 - companies = []
 - @business.company_lists.each {|list| companies = companies.concat(list.companies)}
@@ -11,7 +11,6 @@
   .ibox-title
     h5
       i.fa.fa-users
-      / = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'max-height: 35px; height: 35px;', class: 'img-responsive center-block')
       |  Local Connections
       small
         sup TM
@@ -23,18 +22,18 @@
              span.caret.pull-right
       ul.dropdown-menu
         li
-          = link_to "Add Company or Cause", [:new, business, :crm_contact]
+          = link_to "Add Company or Cause", [:new, business, :crm_company]
         li
-          = link_to "Manage Local Networks", [:new, business, :crm_contact]
+          = link_to "Manage Local Networks", [@business, :crm, 'company_lists']
         li
           = link_to "Import Companies", [business, :crm_imports, import_type: :companies]
         li
-          = link_to "View Followers", [business, :crm_imports, import_type: :companies]
+          = link_to "View Followers", [@business, :crm, 'company_lists', 'following']
 
   .ibox-content
     .row
       .col-xs-4.no-padding
-        = link_to [@business, :crm, 'company_lists', 'following'] do
+        = link_to [@business, :crm, 'company_lists'] do
 
           .widget.bg-success.m-xxs.p-xxs
             h5 Following
@@ -43,182 +42,34 @@
             small
               .fa.fa-plus
               | 2 New
-            / small="Companies & Causes in #{@business.company_lists.size} Networks."
+            /   - if recent_followers.length > 0
+            /     = recent_followers.length.to_s + " New"
 
-          / .text-center
-          /   div style="font-size: 1.5em"
-          /     | Following
-          /   div style="font-size: 3em; line-height: 1"
-          /     strong
-          /       = companies.uniq.size
-          /     - if recent_listings.length > 0
-          /       em
-          /         = companies.uniq.size.to_s + " New"
-          /   div= "Companies & Causes in #{@business.company_lists.size} Networks."
-          /   / = "Following #{companies.uniq.size} Companies & Causes
       .col-xs-4.no-padding
         = link_to [@business, :crm, 'company_lists', 'following'] do
           .widget.bg-info.m-xxs.p-xxs
             h5 Followers
             h1.m-xs
-              strong= listings.length
+              strong= followers.length
             small
-              .fa.fa-plus
-              | 4 New
-            / - if recent_listings.length > 0
-            /   small
-            /     = recent_listings.length.to_s + " New"
-            / small="Companies & Causes"
-          / .text-center
-          /   div style="font-size: 1.5em"
-          /     | Followed By
-          /   div style="font-size: 3em; line-height: 1"
-          /     strong
-          /       = listings.length
-          /     - if recent_listings.length > 0
-          /       em
-          /         = recent_listings.length.to_s + " New"
-          /   div Companies & Causes
+              - if recent_followers.length > 0
+                .fa.fa-plus
+                = recent_followers.length.to_s + " New"
+              -else
+                | No New Followers
       .col-xs-4.no-padding
-        = link_to [@business, :crm, 'company_lists', 'following'] do
-          .widget.bg-primary.m-xxs.p-xxs
-            h5 Reach
-            h1.m-xs
-              strong= companies.uniq.size
-            small
-              em Last 30 Days
-            / small People
-          / .text-center
-          /   div style="font-size: 1.5em"
-          /     | Reached
-          /   div style="font-size: 3em; line-height: 1"
-          /     strong
-          /       = listings.length
-          /     - if recent_listings.length > 0
-          /       em
-          /         = recent_listings.length.to_s + " New"
-          /   div People Through Your Local ConnectionsTM
+        / = link_to [@business, :crm, 'company_lists', 'following'] do
+        .widget.bg-primary.m-xxs.p-xxs
+          h5
+            | Reach&nbsp
+          h1.m-xs
+            strong
+              | 1B
+          small
+            / em Last 30 Days
+            em Coming Soon
     .row
       .col-xs-12
-        .text-center= "You have created #{business.company_lists.size} Networks."
-        / = link_to " Manage Networks", [business, :crm_company_lists]
-
-      / - if business.company_lists.empty?
-      /   .p-a-2.text-center
-      /     = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Connections%20&%20Community.png', style: 'height: 110px', class: 'img-responsive center-block')
-      /     h2 No Local Networks
-      /     h4
-      /       = link_to "Start Following Companies & Causes", [:new, business, :crm_company_list], class: "text-navy"
-      /     hr
-      /     i.fa.fa-calendar-plus-o
-      /     strong
-      /       = link_to " Calendar(s)", [@business, :tools_calendar_widgets]
-      /     hr
-      /     i.fa.fa-address-book-o
-      /     strong
-      /       = link_to " Local Directory(ies)", [@business, :tools_directory_widgets]
-      / - else
-      /   = link_to [business, :crm_company_lists] do
-      /     .text-center
-      /       div style="font-size: 1.5em"
-      /         | Supporting
-      /       div style="font-size: 3em; line-height: 1"
-      /         strong
-      /           = @business.company_lists.size
-      /       div Local Networks
-
-            / = "Following #{companies.uniq.size} Companies & Causes in #{business.company_lists.size} Networks."
-            / = "You have created #{business.company_lists.size} Networks."
-
-    / .row
-    /   .col-sm-4
-    /     = link_to [@business, :tools_calendar_widgets] do
-    /       div style="font-size: 3em; line-height: 1"
-    /         strong
-    /           | 1
-    /       i.fa.fa-calendar
-    /       | Calendar
-    /
-    /       / small.font-normal.font-italic Community Calendar & Your Events
-    /   .col-sm-4
-    /     strong
-    /       i.fa.fa-address-book
-    /       = link_to "Directory Widgets", [@business, :tools_directory_widgets]
-    /       / small.font-normal.font-italic Self-Updating Directories
-    /
-    /   .col-sm-4
-    /     strong
-    /       .btn.btn-default= link_to [@business, :tools_directory_widgets] do
-    /         i.fa.fa-bullseye
-    /         | Campaign Widgets
-    /         span.badge = "Coming Soon"
-    / .row
-    /   .col-sm-4
-    /     strong
-    /       i.fa.fa-briefcase
-    /       = link_to "#" do
-    /         |  Job & Volunteer Board Widgets
-    /         span.badge = "Coming Soon"
-    /         br
-    /   .col-sm-4
-    /     strong
-    /       i.fa.fa-file-text
-    /       = link_to [@business, :tools_content_feed_widgets] do
-    /         | Content Widgets
-    /         br
-
-        / = link_to [@business, :tools_review_widgets] do
-        /   | Reviews Widget
-        /   br
-        /   / small.font-normal.font-italic Promote Your Reviews
-        /
-        /   / small.font-normal.font-italic Feature Any Content
-        / = link_to [@business, :crm_contact_forms] do
-        /   | Form Widget
-        /   br
-        /   / small.font-normal.font-italic Forms & Instant Contact Page
-
-
-    / .row
-    /   .col-sm-6
-    /     = link_to [@business, :crm, 'company_lists', 'following'] do
-    /         .text-center
-    /           div style="font-size: 3em; line-height: 1"
-    /             i.fa.fa-heart-o
-    /           small = @business.name + " is followed by"
-    /           div style="font-size: 1.5em"
-    /             strong
-    /               = listings.length.to_s + " Total "
-    /             - if recent_listings.length > 0
-    /               em
-    /                 = '﹢' + recent_listings.length.to_s + " New"
-    /           div Companies & Causes
-    /
-    /   .col-sm-6
-    /     = link_to [@business, :crm, 'company_lists', 'following'] do
-    /         .text-center
-    /           div style="font-size: 3em; line-height: 1"
-    /             i.fa.fa-heart-o
-    /           small = @business.name + " is following"
-    /           div style="font-size: 1.5em"
-    /             strong
-    /               = companies.uniq.size.to_s + " Total "
-    /             - if recent_listings.length > 0
-    /               em
-    /                 = '﹢' + companies.uniq.size.to_s + " New"
-    /           div Companies & Causes
-    /     / = "Following #{} Companies & Causes"
-
-/ = link_to [@business, :crm, 'company_lists', 'following'] do
-/   .ibox-content.p-h-lg
-/     .text-center
-/       div style="font-size: 3em; line-height: 1"
-/         i.fa.fa-heart-o
-/       small = @business.name + " is followed by"
-/       div style="font-size: 1.5em"
-/         strong
-/           = listings.length.to_s + " Total "
-/         - if recent_listings.length > 0
-/           em
-/             = '﹢' + recent_listings.length.to_s + " New"
-/       div Companies & Causes
+        .text-center
+          = "You have created #{business.company_lists.size} Local Networks."
+          = link_to " Manage Networks", [business, :crm_company_lists]

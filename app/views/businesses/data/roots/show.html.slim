@@ -1,49 +1,65 @@
 - title 'Business Data'
 
-/ = render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Business Data'}
 .row.admin-dash
   .col-md-12
     .fluid-nav
       ul.nav.navbar-top-links
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-chevron-left
+        li
+          strong.p-sm
+            i.fa.fa-chevron-right
+            i.fa.fa-chevron-right
+        li = link_to [@business, :dashboard] do
+          i.fa.fa-tachometer.hidden-xs
+          i.fa.fa-2x.fa-tachometer.text-center.visible-xs
           span
-            | Back to Dashboard
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt
+            | Dashboard
+        li = link_to [:edit, @business, :data_details] do
+          i.fa.fa-address-card-o.hidden-xs
+          i.fa.fa-2x.fa-address-card-o.text-center.visible-xs
           span
             | Business Basics
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt
+        li = link_to [:edit, @business, :data_location] do
+          i.fa.fa-map-marker.hidden-xs
+          i.fa.fa-2x.fa-map-marker.text-center.visible-xs
           span
-            | Contact Information/Locations
-
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt
+            | Contact Information
+        li = link_to [:edit, @business, :data_openings] do
+          i.fa.fa-clock-o.hidden-xs
+          i.fa.fa-2x.fa-clock-o.text-center.visible-xs
           span
             | Business Hours
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt
+        li = link_to [:edit, @business, :data_social_profiles] do
+          i.fa.fa-share-alt.hidden-xs
+          i.fa.fa-2x.fa-share-alt.text-center.visible-xs
           span
             | Social Profiles
 
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt
+        li = link_to [@business, :data_team_members] do
+          i.fa.fa-user.hidden-xs
+          i.fa.fa-2x.fa-user.text-center.visible-xs
           span
             | Team Members
 
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt
+        li = link_to [@business, :content_images] do
+          i.fa.fa-picture-o.hidden-xs
+          i.fa.fa-2x.fa-picture-o.text-center.visible-xs
           span
             | Images & PDFs
 
-        li = link_to [:new, @business, :content_quick_post] do
-          i.fa.fa-bolt
+        li = link_to [@business, :accounts_root] do
+          i.fa.fa-link.hidden-xs
+          i.fa.fa-2x.fa-link.text-center.visible-xs
           span
-            | Integrations/Linked Accounts
+            | Linked Accounts
+        li
+          strong.p-sm
+            i.fa.fa-chevron-left
+            i.fa.fa-chevron-left
 
-
-= render partial: 'businesses/dashboards/setup_tasks', locals: { business: @business }
+/ = render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Business Data'}
+.row.m-t-sm
+  .col-xs-12
+    = render partial: 'businesses/dashboards/profile_completeness_tasks', locals: { business: @business }
 
 .row
   .col-sm-3

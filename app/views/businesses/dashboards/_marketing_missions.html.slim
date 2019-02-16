@@ -26,202 +26,54 @@
 
   .ibox-content
     .row
-      .col-sm-4
-        | Notifications
+      / .col-lg-4
+      /   | Notifications
+      /
+      /   .activity-stream
+      /     .stream
+      /       .stream-badge
+      /         i.fa.fa-pencil
+      /       .stream-panel
+      /         .stream-info
+      /           a href="#"
+      /             img src=("<%= image_path('a5.jpg') %>") /
+      /             span Karen Miggel
+      /             span.date Today at 01:32:40 am
+      /         | Add new note to the
+      /         a href="#"  Martex
+      /         | project.
+      /         small.label.label-danger
+      /           | Action Required
+      /     .stream
+      /       .stream-badge
+      /         i.fa.fa-commenting-o
+      /       .stream-panel
+      /         .stream-info
+      /           a href="#"
+      /             img src=("<%= image_path('a4.jpg') %>") /
+      /             span John Mikkens
+      /             span.date Yesterday at 10:00:20 am
+      /         | Commented on
+      /         a href="#"  Ariana
+      /         | profile.
+      /     .stream
+      /       .stream-badge
+      /         i.fa.fa-circle
+      /       .stream-panel
+      /         .stream-info
+      /           a href="#"
+      /             img src=("<%= image_path('a2.jpg') %>") /
+      /             img src=("<%= image_path('a3.jpg') %>") /
+      /             img src=("<%= image_path('a4.jpg') %>") /
+      /             span Mike Johnson, Monica Smith and Karen Dortmund
+      /             span.date Yesterday at 02:13:20 am
+      /         | Changed status of third stage in the
+      /         a href="#"  Vertex
+      /         | project.
 
-        .activity-stream
-          .stream
-            .stream-badge
-              i.fa.fa-pencil
-            .stream-panel
-              .stream-info
-                a href="#"
-                  img src=("<%= image_path('a5.jpg') %>") /
-                  span Karen Miggel
-                  span.date Today at 01:32:40 am
-              | Add new note to the
-              a href="#"  Martex
-              | project.
-              small.label.label-danger
-                | Action Required
-          .stream
-            .stream-badge
-              i.fa.fa-commenting-o
-            .stream-panel
-              .stream-info
-                a href="#"
-                  img src=("<%= image_path('a4.jpg') %>") /
-                  span John Mikkens
-                  span.date Yesterday at 10:00:20 am
-              | Commented on
-              a href="#"  Ariana
-              | profile.
-          .stream
-            .stream-badge
-              i.fa.fa-circle
-            .stream-panel
-              .stream-info
-                a href="#"
-                  img src=("<%= image_path('a2.jpg') %>") /
-                  img src=("<%= image_path('a3.jpg') %>") /
-                  img src=("<%= image_path('a4.jpg') %>") /
-                  span Mike Johnson, Monica Smith and Karen Dortmund
-                  span.date Yesterday at 02:13:20 am
-              | Changed status of third stage in the
-              a href="#"  Vertex
-              | project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a6.jpg') %>") /
-          /         span Jessica Smith
-          /         span.date Yesterday at 08:14:41 am
-          /     | Add new files to own file sharing place.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-send.bg-primary
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a7.jpg') %>") /
-          /         img src=("<%= image_path('a1.jpg') %>") /
-          /         span Martha Farter and Mike Rodgers
-          /         span.date Yesterday at 04:18:13 am
-          /     | Sent email to all users participating in new project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-tag.bg-warning
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a7.jpg') %>") /
-          /         span Mark Mickens
-          /         span.date Yesterday at 06:00:30 am
-          /     | Has been taged in the latest comments about the new project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a8.jpg') %>") /
-          /         span Mike Johnson
-          /         span.date Yesterday at 02:13:20 am
-          /     | Changed status of second stage in the latest project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a1.jpg') %>") /
-          /         span Jessica Smith
-          /         span.date Yesterday at 08:14:41 am
-          /     | Add new files to own file sharing place.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a6.jpg') %>") /
-          /         span Jessica Smith
-          /         span.date Yesterday at 08:14:41 am
-          /     | Add new files to own file sharing place.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-send
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a7.jpg') %>") /
-          /         span Martha Farter
-          /         span.date Yesterday at 04:18:13 am
-          /     | Sent email to all users participating in new project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-sliders.bg-success
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a2.jpg') %>") /
-          /         span Mark Mickens
-          /         span.date Yesterday at 06:00:30 am
-          /     | Has been taged in the latest comments about the new project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a8.jpg') %>") /
-          /         span Mike Johnson
-          /         span.date Yesterday at 02:13:20 am
-          /     | Changed status of second stage in the latest project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a1.jpg') %>") /
-          /         span Jessica Smith
-          /         span.date Yesterday at 08:14:41 am
-          /     | Add new files to own file sharing place.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-pencil
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a5.jpg') %>") /
-          /         img src=("<%= image_path('a2.jpg') %>") /
-          /         span Karen Johnson and Sasha Miggel
-          /         span.date Today at 01:32:40 am
-          /     | Add new note to the
-          /     a href="#"  Martex
-          /     | project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-commenting-o
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a4.jpg') %>") /
-          /         span John Mikkens
-          /         span.date Yesterday at 10:00:20 am
-          /     | Commented on
-          /     a href="#"  Ariana
-          /     | profile.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a2.jpg') %>") /
-          /         span Mike Johnson
-          /         span.date Yesterday at 02:13:20 am
-          /     | Changed status of third stage in the
-          /     a href="#"  Vertex
-          /     | project.
-          / .stream
-          /   .stream-badge
-          /     i.fa.fa-circle
-          /   .stream-panel
-          /     .stream-info
-          /       a href="#"
-          /         img src=("<%= image_path('a6.jpg') %>") /
-          /         span Jessica Smith
-          /         span.date Yesterday at 08:14:41 am
-          /     | Add new files to own file sharing place.
-
-
-      .col-sm-4
-        | My Tasks
+      / .col-lg-4
+      .col-lg-6
+        | Upcoming Tasks
         ul.todo-list.m-t.small-list
           li
             a.check-link href="#"
@@ -248,7 +100,8 @@
             span.m-l-xs Highlight Your Team
 
 
-      .col-sm-4
+      / .col-lg-4
+      .col-lg-6
         | Receommned Missions
         - recommended.any?
           / ul.list-group.to-dos
