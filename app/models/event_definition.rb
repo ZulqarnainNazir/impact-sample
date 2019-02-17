@@ -97,7 +97,6 @@ class EventDefinition < ActiveRecord::Base
   end
 
   def un_published?
-    byebug
     published_status.blank?
   end
 
