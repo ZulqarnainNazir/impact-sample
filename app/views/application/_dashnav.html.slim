@@ -102,6 +102,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Your Website
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/) || embeds_active)
+          li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
+            = link_to [@business, :website_root] do
+              | At a Glance
           - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user?
             li class=('active' if controller_path.match(/\Aonboard\/users\/new/))
               = link_to new_website_business_website_add_website_path, method: :get

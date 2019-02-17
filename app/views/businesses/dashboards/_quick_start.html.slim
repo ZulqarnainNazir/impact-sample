@@ -32,14 +32,22 @@
                       .col-xs-10.text-right
                         span.font-bold Complete Your Company Profile
               .col-lg-12.col-md-6.col-sm-12
-                = link_to [@business, :website_root] do
-                  .widget.bg-success
-                    .row.vertical-align
-                      .col-xs-2
-                        i.fa.fa-desktop.fa-3x
-                      .col-xs-10.text-right
-                        span.font-bold Improve Your Website
-                        / Create a New Website/Microsite with Your Own content feeds/calendars/forms
+                - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user?
+                  = link_to new_website_business_website_add_website_path, method: :get
+                    .widget.bg-success
+                      .row.vertical-align
+                        .col-xs-2
+                          i.fa.fa-desktop.fa-3x
+                        .col-xs-10.text-right
+                          span.font-bold Improve Your Website
+                -else
+                  = link_to [@business, :website_root] do
+                    .widget.bg-success
+                      .row.vertical-align
+                        .col-xs-2
+                          i.fa.fa-desktop.fa-3x
+                        .col-xs-10.text-right
+                          span.font-bold Improve Your Website
             .row
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [:new, @business, :crm_feedback] do
@@ -65,7 +73,7 @@
             .row
               .col-12.m-b-sm
                 h3 Help Promote Your Community
-                span Add a Community Feed to Your Site
+                span Add an Automated Community Feed to Your Site
             .row
               .col-lg-12.col-md-6.col-sm-12
                 =link_to [:new, @business, :tools_calendar_widget] do

@@ -33,6 +33,7 @@ class Businesses::DashboardsController < Businesses::BaseController
 
 
   def show_quick_start
+    # Need to complete checks
     # Only show for a short amount of time like x # of things completed then default to missions
     # if ((community calendar || Directory || Job Board || Community Feed => website or widget) && (join Campaign || Post an Event || Share a Job || Quick Post) && (Profile Complete || Collected a Review || Website Customer)) || Business Creted > 180 Days || shown or hidden flag by user
     if ((( @business.quick_posts.count >= 1 || @business.jobs.count >= 1 || @business.events.count >= 1) && ( @business.reviews.count >= 1)) || @business.created_at < Date.today - 180.days)
@@ -55,7 +56,6 @@ class Businesses::DashboardsController < Businesses::BaseController
 
   def show_local_connections
     # Only show if following a business > 1, followers is > 1
-
     if following_count >= 1 || follower_count >= 1
       true
     else
@@ -86,6 +86,7 @@ class Businesses::DashboardsController < Businesses::BaseController
 
   def show_participation_status
     # Only show once there is a follower and hide if > 3 or 4 installed
+    #Need to add installation checks
     if follower_count >=1
       true
     else
@@ -103,8 +104,5 @@ class Businesses::DashboardsController < Businesses::BaseController
   def follower_count
     @business.listed_by_business.length
   end
-
-
-
 
 end

@@ -36,8 +36,8 @@
           span
             | Request Customer Reviews
         li = link_to [:new, @business, :crm_company] do
-          i.fa.fa-users.hidden-xs
-          i.fa.fa-2x.fa-users.text-center.visible-xs
+          i.fa.fa-building.hidden-xs
+          i.fa.fa-2x.fa-building.text-center.visible-xs
           span
             | Add Company or Cause
         li = link_to [:new, @business, :crm_contact] do
@@ -72,11 +72,11 @@
             i.fa.fa-chevron-left
 
 / = render partial: 'businesses/dashboards/welcome_messages', locals: { business: @business }
-
-div.alert.alert-warning.alert-dismissable.m-t-sm
-  h1
-    strong Hi #{current_user.first_name}, ready to make some progress on your website?
-  p.h4 #{link_to 'Click here to complete your remaining website launch tasks', [@business, :to_dos]} so your Community Manager can help you get your site launched!
+- if @business.to_dos_enabled
+  div.alert.alert-warning.alert-dismissable.m-t-sm
+    h1
+      strong Hi #{current_user.first_name}, ready to make some progress on your website?
+    p.h4 #{link_to 'Click here to complete your remaining website launch tasks', [@business, :to_dos]} so your Community Manager can help you get your site launched!
 
 -if @show_quick_start
   = render partial: 'businesses/dashboards/quick_start'
