@@ -180,17 +180,7 @@
 .webpage-save
   = hidden_field_tag 'draft', nil, :id => "draftField"
   .row
-    - if form.object.invalid?
-      .col-sm-4.col-sm-offset-2.col-xs-6
-        = form.button 'Publish Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
-      .col-sm-2.col-xs-1.text-center.no-padding
-        a.text-center data-toggle="modal" data-target="#advanced-modal"
-          span.fa.fa-cog.fa-2x
-          span.hidden-xs.advanced-button Advanced
-      .col-sm-4.col-xs-4
-        .form-group.m-b-none
-          = form.button 'Save Draft'.html_safe, class: 'btn btn-block', name: "draft", value: "draft", type: "button"
-    - elsif form.object.valid?
+    - if form.object.published?
       .col-sm-4.col-sm-offset-2.col-xs-6
         = form.button 'Update Post', class: 'btn btn-block btn-secondary', type: "button", name: "publish"
       .col-sm-2.col-xs-1.text-center.no-padding
@@ -200,6 +190,16 @@
       .col-sm-4.col-xs-4
         .form-group.m-b-none
           = form.button 'Unpublish & Revert to Draft'.html_safe, class: 'btn btn-block btn-primary', name: "draft", value: "draft", type: "button"
+    - elsif form.un_published?
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Publish Post', class: 'btn btn-block btn-primary', type: "button", name: "publish"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#advanced-modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Save Draft'.html_safe, class: 'btn btn-block', name: "draft", value: "draft", type: "button"
     - else
       .col-sm-4.col-sm-offset-2.col-xs-6
         = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', type: "button", name: "publish"
