@@ -15,8 +15,9 @@
           th Name
           th URL
           th Feed Type
-          th Events
+          th Total Events
           th Last Imported
+          th Pending Events
           th
       tbody
         - @event_feeds.each do |event_feed|
@@ -25,8 +26,9 @@
             td width="20%" = truncate event_feed.url, length: 50
             td
               span.label.label-default = feed_type event_feed
-            td = link_to event_feed.imported_event_definitions.size, business_content_event_feed_path(@business, event_feed)
+            td = link_to event_feed.imported_event_definitions.size, business_content_event_feed_path(@business, event_feed, published: true)
             td = event_feed.last_imported.try :strftime, '%m/%d/%Y %l:%M%p'
+            td = link_to ImportedEventDefinition.unpublished_events_for_feed(event_feed).size, business_content_event_feed_path(@business, event_feed)
             td align="right" width="20%"
               = link_to edit_business_content_event_feed_path(@business, event_feed), class: 'btn btn-sm btn-default' do
                 i.fa.fa-edit
