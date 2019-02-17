@@ -20,6 +20,7 @@ gem 'aws-sdk', '~> 2'
 
 gem 'rails_autoscale_agent'
 
+gem 'ahoy_matey'
 gem 'bcrypt'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
@@ -78,6 +79,7 @@ gem 'rb-readline'
 
 #ahoy email tracks email opens, among other things. google for more info.
 gem 'ahoy_email'
+
 
 #allows for unsubscribe option for emails. google for more info.
 gem 'mailkick'
