@@ -91,17 +91,8 @@ class EventDefinition < ActiveRecord::Base
     end
   end
 
-  # Alias methods for published_status
-  def published?
-    published_status?
-  end
-
-  def un_published?
-    published_status.blank?
-  end
-
   def not_draft?
-    self.published_status
+    published_status?
   end
 
   def start_date=(*args)
