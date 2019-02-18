@@ -1,39 +1,47 @@
 - request_url = url_for({ controller: params[:controller], action: params[:action] })
 
-- if @content_feed_widget.public_label
-  .row
-    .col-md-12
-      h1 = @content_feed_widget.public_label
-  div
-    - if params[:blog_search].present? && !params[:blog_search].empty?
-      - posts = content_feed_widget_base_search(@content_feed_widget, @content_feed_widget.business, params[:blog_search], content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
-      div searching
-    - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
-      - posts = events_organized_desc(@content_feed_widget, @content_feed_widget.business, page: params[:page], limit: @content_feed_widget.max_items)
-      div events
-    - else
-      - posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
+#reach
+  - if @content_feed_widget.public_label
+    .row
+      .col-md-12
+        h1 = @content_feed_widget.public_label
+    div
+      - if params[:blog_search].present? && !params[:blog_search].empty?
+        - posts = content_feed_widget_base_search(@content_feed_widget, @content_feed_widget.business, params[:blog_search], content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
+        div searching
+      - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
+        - posts = events_organized_desc(@content_feed_widget, @content_feed_widget.business, page: params[:page], limit: @content_feed_widget.max_items)
+        div events
+      - else
+        - posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
 
-    a name="blog-feed"
-    - if @content_feed_widget.enable_search == true
-      div.row style="padding-top:30px; text-align:center;"
-        = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
-    .m-t-lg
-    .grid
-      - if posts.present? && !posts.empty?
-        / h1 =@content_feed_widget.content_types.to_s.split(' ')
-        - order_the_events(posts.to_a).each do |posts|
-          - if @content_feed_widget.business == posts.business
-            = render :partial => "website/#{posts.to_partial_path}", :object => posts
-          - else
-            = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
-      - elsif !posts.present? || posts.empty?
-        div.col-xs-9
-        h2 Nothing matched your search or there is no content here yet...
-    .text-center.clear-container
-      = paginate posts
-    div.text-center
-      p 
-        span Powered by 
-        = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-content", target: "_blank"
+      a name="blog-feed"
+      - if @content_feed_widget.enable_search == true
+        div.row style="padding-top:30px; text-align:center;"
+          = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
+      .m-t-lg
+      .grid
+        - if posts.present? && !posts.empty?
+          / h1 =@content_feed_widget.content_types.to_s.split(' ')
+          - order_the_events(posts.to_a).each do |posts|
+            - if @content_feed_widget.business == posts.business
+              = render :partial => "website/#{posts.to_partial_path}", :object => posts
+            - else
+              = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
+        - elsif !posts.present? || posts.empty?
+          div.col-xs-9
+          h2 Nothing matched your search or there is no content here yet...
+      .text-center.clear-container
+        = paginate posts
+      div.text-center
+        p
+          span Powered by
+          = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-content", target: "_blank"
 
+javascript:
+  console.log("Recording Reach");
+  var isInIframe = (parent !== window),parentUrl = null;
+  if (isInIframe) {
+    parentUrl = document.referrer;
+  }
+  ahoy.track("Reach", {business_id: "#{@business.id}", businesses_ids: "#{@content_feed_widget.get_business_ids}", site: parentUrl });
