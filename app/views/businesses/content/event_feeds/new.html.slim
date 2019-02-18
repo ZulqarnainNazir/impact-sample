@@ -8,14 +8,17 @@
       .row
         .col-lg-12
           .ibox.float-e-margins
-            .ibox-title
-              .row
-                .col-md-8
-                  | Add a Calendar feed
-                  div
-                    span.small Import events powered by Chamber Master (RSS), or Ical, including Google Calendar.
-                    = link_to ' More info.', '#', class: 'feed-type-info small'
-                / .col-md-6
-                /   = link_to 'Show Me How', '#', class: 'btn btn-sm btn-primary btn-outline pull-right', onclick: 'alert("Coming soon.")'
-            .ibox-content
-              = render 'form'
+
+            - if current_user.super_user?
+              .ibox-title
+                .row
+                  .col-md-8
+                    | Add a Calendar feed
+                    div
+                      span.small Import events powered by Chamber Master (RSS), or Ical, including Google Calendar.
+                      = link_to ' More info.', '#', class: 'feed-type-info small'
+              .ibox-content
+                  = render 'form'
+            - else
+              .ibox-content
+                spam.small Please contact your account manager to setup your feed
