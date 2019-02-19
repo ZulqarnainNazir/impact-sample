@@ -18,5 +18,6 @@
                     = link_to [:edit, @business, :content, @event_feed], class: 'btn btn-default pull-right m-r-1' do
                       i.fa.fa-edit
                       span.m-l-half Edit
+                      = link_to('View Published', business_content_root_path(@business), class: 'btn btn-info pull-right', form_class: 'feed-reprocess-btn')
 
               = render 'events_table'
