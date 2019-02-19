@@ -485,7 +485,7 @@ PLATFORMS
 DEPENDENCIES
   active_record_query_trace
   ahoy_email
-  ahoy_matey
+  ahoy_matey (~> 2.2.0)
   ancestry
   asset_sync
   autoprefixer-rails

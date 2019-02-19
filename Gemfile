@@ -20,7 +20,7 @@ gem 'aws-sdk', '~> 2'
 
 gem 'rails_autoscale_agent'
 
-gem 'ahoy_matey'
+
 gem 'bcrypt'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
@@ -76,6 +76,7 @@ gem 'letter_opener', group: :development
 gem 'jquery-turbolinks'
 gem 'browser-timezone-rails'
 gem 'rb-readline'
+gem 'ahoy_matey', '~> 2.2.0'
 
 #ahoy email tracks email opens, among other things. google for more info.
 gem 'ahoy_email'
