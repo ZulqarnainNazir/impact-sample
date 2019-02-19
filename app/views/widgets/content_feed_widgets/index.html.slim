@@ -15,6 +15,8 @@
       - else
         - posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
 
+      h1= posts
+      
       a name="blog-feed"
       - if @content_feed_widget.enable_search == true
         div.row style="padding-top:30px; text-align:center;"
