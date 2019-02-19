@@ -9,6 +9,7 @@
           th Missing Data
           th Import Feed
           th Import Date
+          th Status
           th
       tbody
         - @imported_event_definitions.each do |feed_item|
@@ -19,6 +20,15 @@
             td = fields_with_errors(feed_item)
             td = @event_feed.name
             td = feed_item.created_at.strftime('%m/%d/%Y')
+            td width="15%"
+              - if feed_item.import_pending? && !feed_item.published_status?
+                span
+                  | Needs info
+                  i.fa.fa-times-circle.text-danger.m-l-half style='font-size: 20px'
+              - else
+                span
+                  | Published
+                  i.fa.fa-check-circle.text-success.m-l-half style='font-size: 20px'
             td width='20%' align="right"
               - if feed_item.archived?
                 | Archived
