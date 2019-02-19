@@ -13,10 +13,6 @@
             = link_to new_business_crm_invite_path(@business, company_id: @company.id), class: 'btn btn-sm btn-default pull-right' do
               => icon 'envelope'
               | Invite
-            - if current_user.super_user?
-              = link_to new_business_content_event_feed_path(@business, unclaimed_id: @company.business), class: 'btn btn-sm btn-primary m-r-half pull-right' do
-                i.fa.fa-plus-circle
-                span.m-l-half Add Calendar Feed
           h1.h4 Company Information (Public)
         .ibox-content
           .row
