@@ -108,6 +108,17 @@ class Business < ActiveRecord::Base
   before_save :generate_slug, unless: :slug?
   # after_create :generate_intercom_company
 
+
+  def calc_reach
+    count = 0
+    Ahoy::Event.where(name: "Reach").each do |b|
+      if (b.properties['businesses_ids'] && b.properties['businesses_ids'].include?("#{self.id}")) 
+        count += 1
+      end
+    end
+    return count
+  end
+
   def associate_users_with_intercom_company(options = {})
     # associates users with company.
     # IMPORTANT: company will NOT appear in Intercom's UI unless it is associated with a user.
