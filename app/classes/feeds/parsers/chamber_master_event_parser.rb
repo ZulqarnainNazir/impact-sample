@@ -29,7 +29,7 @@ module Feeds
       private
 
       def get_location google_maps_url, location_name
-        address1, city, state_zip_country = CGI::parse(google_maps_url).to_a.flatten.last.split(',')
+        address1, city, state_zip_country = CGI::parse(google_maps_url).to_a.flatten.last.split(',') rescue ''
         state_id, zip_code, country_id = state_zip_country&.split(' ')
         if country_id
           Feeds::Location.new({
