@@ -15,8 +15,8 @@
       - else
         - posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
 
-      h1= posts
-      
+      / h1= posts
+
       a name="blog-feed"
       - if @content_feed_widget.enable_search == true
         div.row style="padding-top:30px; text-align:center;"
@@ -24,9 +24,13 @@
       .m-t-lg
       .grid
         - if posts.present? && !posts.empty?
+          - post_ids = []
           / h1 =@content_feed_widget.content_types.to_s.split(' ')
           - order_the_events(posts.to_a).each do |posts|
+            - post_ids << posts.business.id
+            / =posts.class.name
             - if @content_feed_widget.business == posts.business
+              / = posts.to_partial_path
               = render :partial => "website/#{posts.to_partial_path}", :object => posts
             - else
               = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
@@ -46,4 +50,4 @@ javascript:
   if (isInIframe) {
     parentUrl = document.referrer;
   }
-  ahoy.track("Reach", {business_id: "#{@business.id}", businesses_ids: "#{@content_feed_widget.get_business_ids}", site: parentUrl });
+  ahoy.track("Reach", {widget_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", posts: "#{post_ids}", site: parentUrl });
