@@ -47,4 +47,4 @@
 
 javascript:
   console.log("Recording Reach");
-  ahoy.track("Reach", {type: "Website Content Feed", block_id: "#{blog_feed_block.id}", business_id: "#{@business.id}", company_ids: "#{blog_feed_block.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href});
+  ahoy.track("Reach", {type: "Website Content Feed", type_id: "#{blog_feed_block.id}", business_id: "#{@business.id}", company_ids: "#{blog_feed_block.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href});

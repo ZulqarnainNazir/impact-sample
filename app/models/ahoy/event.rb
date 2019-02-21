@@ -48,7 +48,7 @@ class Ahoy::Event < ActiveRecord::Base
 
     aggregate_occurences = []
     self.where('time > ?', Time.now - 30.days).where(name: "Reach").each do |event|
-      if event.properties['occurences']
+      if event.properties['occurences'] && event.properties['occurences'].present?
         aggregate_occurences << JSON.parse(event.properties['occurences'])
       end
     end

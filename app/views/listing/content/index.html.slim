@@ -12,8 +12,10 @@
       .m-t-lg
       .grid
         - if posts.present? && !posts.empty?
+          - reach_occurences = []
           / h1 =@content_feed_widget.content_types.to_s.split(' ')
           - order_the_events(posts.to_a).each do |posts|
+            - reach_occurences << posts.business.id
             - if @content_feed_widget.business.id == posts.business.id
               = render :partial => "listing/listings/partials/#{posts.to_partial_path}", :object => posts
             - else
@@ -23,3 +25,8 @@
           h2 There is no content here yet...
       .text-center.clear-container
         = paginate posts
+
+
+javascript:
+  console.log("Recording Reach");
+  ahoy.track("Reach", {type: "Listing Content", type_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href });

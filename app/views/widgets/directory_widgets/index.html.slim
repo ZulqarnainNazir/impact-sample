@@ -84,4 +84,4 @@ javascript:
   if (isInIframe) {
     parentUrl = document.referrer;
   }
-  ahoy.track("Reach", {type: "Directory Widget", widget_id: "#{@directory.id}", business_id: "#{@business.id}", company_ids: "#{@directory.company_list.companies.pluck(:company_business_id)}", occurences: "#{reach_occurences}", site: parentUrl });
+  ahoy.track("Reach", {type: "Directory Widget", type_id: "#{@directory.id}", business_id: "#{@business.id}", company_ids: "#{@directory.company_list.companies.pluck(:company_business_id)}", occurences: "#{reach_occurences}", site: parentUrl });

@@ -101,4 +101,4 @@
       });
 
       console.log("Recording Reach");
-      ahoy.track("Reach", {type: "Website Directory Embed", block_id: "#{@directory.id}", business_id: "#{@business.id}", company_ids: "#{@directory.company_list.companies.pluck(:company_business_id)}", occurences: "#{reach_occurences}", site: window.location.href });
+      ahoy.track("Reach", {type: "Website Directory Embed", type_id: "#{@directory.id}", business_id: "#{@business.id}", company_ids: "#{@directory.company_list.companies.pluck(:company_business_id)}", occurences: "#{reach_occurences}", site: window.location.href });

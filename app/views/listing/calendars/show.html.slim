@@ -148,12 +148,18 @@ div.col-xs-12.m-t-lg
 
         .row
           - if events.present? && !events.empty?
+            - reach_occurences = []
             - events.each_with_index do |event, index|
-
-                = render :partial => "listing/listings/partials/events/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : events[index-1]}
+              - reach_occurences << event.business.id
+              = render :partial => "listing/listings/partials/events/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : events[index-1]}
           - else
             div.col-xs-12.col-sm-8.col-sm-push-2
               h2 Nothing matched your search or there is no content here yet...
 
     .text-center.clear-container
       = paginate events
+
+
+javascript:
+  console.log("Recording Reach");
+  ahoy.track("Reach", {type: "Listing Calendar", type_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href });
