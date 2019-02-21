@@ -116,4 +116,4 @@ javascript:
   if (isInIframe) {
     parentUrl = document.referrer;
   }
-  ahoy.track("Content View", {business_id: "#{@business.id}", post_type: "EventDefinition", post_id: "#{@event.event_definition.id}", site: parentUrl });
+  ahoy.track("Content View", {business_id: "#{@business.id}", post_type: "Event", post_id: "#{@event.event_definition.id}", site: parentUrl });

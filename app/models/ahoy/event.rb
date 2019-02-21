@@ -46,16 +46,16 @@ class Ahoy::Event < ActiveRecord::Base
   def self.update_aggregate_reach
     # Calculates the number of times any content from an account is shown and updates business table. Widget Index Impressions + Content View Impressions and updates table
 
-    aggregate_post_ids = []
+    aggregate_occurences = []
     self.where('time > ?', Time.now - 30.days).where(name: "Reach").each do |event|
-      if event.properties['posts']
-        aggregate_post_ids << JSON.parse(event.properties['posts'])
+      if event.properties['occurences']
+        aggregate_occurences << JSON.parse(event.properties['occurences'])
       end
     end
 
     # Need to Add in view counts as well
 
-    counts = aggregate_post_ids.flatten.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
+    counts = aggregate_occurences.flatten.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
 
     counts.each do |k, v|
       b = Business.find(k)

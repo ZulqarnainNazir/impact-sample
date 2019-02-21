@@ -24,10 +24,10 @@
       .m-t-lg
       .grid
         - if posts.present? && !posts.empty?
-          - post_ids = []
+          - reach_occurences = []
           / h1 =@content_feed_widget.content_types.to_s.split(' ')
           - order_the_events(posts.to_a).each do |posts|
-            - post_ids << posts.business.id
+            - reach_occurences << posts.business.id
             / =posts.class.name
             - if @content_feed_widget.business == posts.business
               / = posts.to_partial_path
@@ -50,4 +50,4 @@ javascript:
   if (isInIframe) {
     parentUrl = document.referrer;
   }
-  ahoy.track("Reach", {widget_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", posts: "#{post_ids}", site: parentUrl });
+  ahoy.track("Reach", {type: "Content Widget", widget_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });
