@@ -195,5 +195,9 @@
     var isInIframe = (parent !== window),parentUrl = null;
     if (isInIframe) {
       parentUrl = document.referrer;
+      type = "Calendar Widget";
+    } else {
+      parentUrl = window.location.href;
+      type = "Website Calendar Feed";
     }
-    ahoy.track("Reach", {type: "Calendar Widget", widget_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });
+    ahoy.track("Reach", {type: type, widget_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });
