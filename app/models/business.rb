@@ -108,55 +108,27 @@ class Business < ActiveRecord::Base
   before_save :generate_slug, unless: :slug?
   # after_create :generate_intercom_company
 
-  def calc_estimated_reach
-    # Estimates the number of potenital impressions from following a business.
-    # Get number of index loads in last 30 days
-    loads = Ahoy::Event.where('time > ?', Time.now - 30.days).where(name: "Reach").where_props(business_id: "#{self.id}").count
+  def get_estimated_reach
+    # Estimates the number of potenital impressions (Reach) from following a business.
+
+    # Get number of impressions from target busienss installs in last 30 days
+    install_impressions = Ahoy::Event.where('time > ?', Time.now - 30.days).where(name: "Reach").where_props(business_id: "#{self.id}").count
 
     # Return a range based on # of weekly posts - Currently hard coded to 2-4 posts per week and normalized for monthly
-    # Future Update - Should base the range on average monthly posts for each busienss individually
-    # Future Update - Should be smarter about posts types - ex: if they only have a calendar installed and the business doesnt post events then we should take that into account.
-    if loads > 0
-      return "#{(loads*2*52)/12}-#{(loads*4*52)/12}"
+    # TODO: Should base the range on average monthly posts for each busienss individually
+    # TODO: Should be smarter about posts types - ex: if they only have a calendar installed and the business doesnt post events then we should take that into account.
+    if install_impressions > 0
+      return "#{(install_impressions*2*52)/12}-#{(install_impressions*4*52)/12}"
     else
       return "No Data Available"
     end
   end
 
-
-  def calc_visitors
-    # Calculates the number of people who have seen any content shown from an account. Unique Sessions NOT Unique users
+  def visitors
+    # Calculates the number of people who have seen any content shown from an account for last 30 days. Unique Sessions NOT Unique users
     # Based on Ahoy::Visit ID in Ahoy::Event item
 
     Ahoy::Event.where('time > ?', Time.now - 30.days).where(name: "Reach").where_props(business_id: "#{self.id}").pluck(:visit_id).uniq.count
-
-  end
-
-  #move to rake task?
-  # Run via scheduler once nightly
-  def self.update_aggregate_reach
-    # Calculates the number of times any content from an account is shown and updates business table. Widget Index Impressions + Content View Impressions and updates table
-
-    aggregate_occurences = []
-    Ahoy::Event.where('time > ?', Time.now - 30.days).where(name: "Reach").each do |event|
-      if event.properties['occurences'] && event.properties['occurences'].present?
-        aggregate_occurences << JSON.parse(event.properties['occurences'])
-      end
-    end
-
-    # Need to Add in view counts as well
-
-    counts = aggregate_occurences.flatten.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
-
-    counts.each do |k, v|
-      b = Business.find(k)
-      # puts b.name
-      b.reach = v
-      b.save
-    end
-
-    puts "Reach by Business:"
-    return counts
 
   end
 

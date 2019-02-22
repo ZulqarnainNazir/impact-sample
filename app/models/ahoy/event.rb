@@ -7,7 +7,7 @@ class Ahoy::Event < ActiveRecord::Base
   belongs_to :user
 
   # Run via scheduler once nightly
-  #Probably she be a method in a differnt model or helper
+  #Probably she be a method in a differnt model or helper or rake
   def self.check_widget_installations
 
     # For Each Widget Installed across all accounts
