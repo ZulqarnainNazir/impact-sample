@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190221235020) do
+ActiveRecord::Schema.define(version: 20190222011143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -600,6 +600,7 @@ ActiveRecord::Schema.define(version: 20190221235020) do
     t.datetime "updated_at",       null: false
     t.boolean  "enable_search"
     t.string   "public_label"
+    t.boolean  "status"
   end
 
   add_index "directory_widgets", ["business_id"], name: "index_directory_widgets_on_business_id", using: :btree
