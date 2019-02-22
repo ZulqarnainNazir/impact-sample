@@ -72,7 +72,7 @@
   - counts = [0, 0, 0, 0, 0, 0, 0]
 
 / The Actual Widget
-.row.calendar-widget
+.row.calendar-widget id="calendar-widget-#{@calendar_widget.uuid}"
 
   - if @calendar_widget.public_label.present?
     .col-xs-12

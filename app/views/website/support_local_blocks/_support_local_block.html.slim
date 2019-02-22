@@ -14,7 +14,7 @@
     - @widget.layout = params[:widget_layout]
 
   .col-xs-12.no-padding
-    .webpage-block.support_local_block.p-a-20px
+    .webpage-block.support_local_block.p-a-20px id="directory-widget-#{@directory.uuid}"
       - if @directory.public_label
         .row
           .col-md-12

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190222011143) do
+ActiveRecord::Schema.define(version: 20190222180623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -273,6 +273,7 @@ ActiveRecord::Schema.define(version: 20190222011143) do
     t.datetime "updated_at",                    null: false
     t.string   "default_view"
     t.integer  "filter_kinds",     default: [],              array: true
+    t.boolean  "status"
   end
 
   add_index "calendar_widgets", ["business_id"], name: "index_calendar_widgets_on_business_id", using: :btree
@@ -554,6 +555,7 @@ ActiveRecord::Schema.define(version: 20190222011143) do
     t.datetime "updated_at",                      null: false
     t.text     "company_list_ids", default: [],                array: true
     t.boolean  "show_our_content", default: true
+    t.boolean  "status"
   end
 
   add_index "content_feed_widgets", ["business_id"], name: "index_content_feed_widgets_on_business_id", using: :btree

@@ -30,10 +30,10 @@
             - reach_occurences << posts.business.id
             / =posts.class.name
             - if @content_feed_widget.business == posts.business
-              = posts.to_partial_path
+              / = posts.to_partial_path
               = render :partial => "website/#{posts.to_partial_path}", :object => posts
             - else
-              = posts.to_partial_path
+              / = posts.to_partial_path
               = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
         - elsif !posts.present? || posts.empty?
           div.col-xs-9
