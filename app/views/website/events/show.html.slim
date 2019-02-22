@@ -109,3 +109,11 @@
           .grid
             .row
               = render partial: 'website/events/event', collection: @upcoming_events, locals: { small: true }
+
+javascript:
+  console.log("Recording Content View");
+  var isInIframe = (parent !== window),parentUrl = null;
+  if (isInIframe) {
+    parentUrl = document.referrer;
+  }
+  ahoy.track("Content View", {business_id: "#{@business.id}", post_type: "Event", post_id: "#{@event.event_definition.id}", site: parentUrl });

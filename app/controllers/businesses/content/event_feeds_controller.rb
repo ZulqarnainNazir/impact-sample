@@ -8,7 +8,11 @@ class Businesses::Content::EventFeedsController < Businesses::Content::BaseContr
       redirect_to business_content_event_imports_path, alert: "Unauthorized to view this event feed."
       return
     end
-    @imported_event_definitions = ImportedEventDefinition.all_events_for_feed(@event_feed)
+    if params[:published]
+      @imported_event_definitions = ImportedEventDefinition.published_events_for_feed(@event_feed)
+    else
+      @imported_event_definitions = ImportedEventDefinition.unpublished_events_for_feed(@event_feed)
+    end
   end
 
   def reprocess

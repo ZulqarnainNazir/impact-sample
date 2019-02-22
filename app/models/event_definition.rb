@@ -92,7 +92,7 @@ class EventDefinition < ActiveRecord::Base
   end
 
   def not_draft?
-    self.published_status
+    published_status?
   end
 
   def start_date=(*args)

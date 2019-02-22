@@ -16,7 +16,7 @@
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
 - title = link_to "#", id: "event-#{event.id}-2", class: "title", "data-toggle" => "modal", 'data-target' => "event-modal-#{event.id}", class: "grid-feed-title content-card", 'data-slug'=>"#{event.event_definition.slug}" do
-  = truncate sanitize(event.event_definition.title.titleize),
+  = truncate sanitize_simple(event.event_definition.title.titleize),
       length: 60,
       omission: '... '
 
@@ -63,8 +63,7 @@ div.grid-item
           i.pad-lt-3.fa.fa-long-arrow-right
 
       - if business != @business
-        bg-warning.p-w-xs.m-t-xl.b-r-sm
-          | Posted by: #{business.name}
+        | Posted by: #{business.name}
 
 div class="modal fade content-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
   .modal-dialog.modal-lg
@@ -83,6 +82,10 @@ div class="modal fade content-modal" id="event-modal-#{event.id}" role="dialog" 
 javascript:
   $('#event-modal-#{event.id}').on('shown.bs.modal', function () {
     window.location.hash = '#{event.event_definition.slug}';
+
+    console.log("Recording Content View");
+    ahoy.track("Content View", {type: "Content Widget", business_id: "#{@business.id}", post_type: "Event", post_id: "#{event.event_definition.id}", site: document.referrer });
+
   })
 
   $('#event-modal-#{event.id}').on('hidden.bs.modal', function (e) {

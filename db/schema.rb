@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181206045803) do
+ActiveRecord::Schema.define(version: 20190222180623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "account_modules", force: :cascade do |t|
     t.integer  "business_id"
@@ -36,6 +37,16 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.datetime "updated_at"
   end
 
+  create_table "ahoy_events", force: :cascade do |t|
+    t.integer  "visit_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.jsonb    "properties"
+    t.datetime "time"
+  end
+
+  add_index "ahoy_events", ["name", "time"], name: "index_ahoy_events_on_name_and_time", using: :btree
+
   create_table "ahoy_messages", force: :cascade do |t|
     t.string   "token"
     t.text     "to"
@@ -52,6 +63,34 @@ ActiveRecord::Schema.define(version: 20181206045803) do
   add_index "ahoy_messages", ["token"], name: "index_ahoy_messages_on_token", using: :btree
   add_index "ahoy_messages", ["user_id", "user_type"], name: "index_ahoy_messages_on_user_id_and_user_type", using: :btree
 
+  create_table "ahoy_visits", force: :cascade do |t|
+    t.string   "visit_token"
+    t.string   "visitor_token"
+    t.integer  "user_id"
+    t.string   "ip"
+    t.text     "user_agent"
+    t.text     "referrer"
+    t.string   "referring_domain"
+    t.text     "landing_page"
+    t.string   "browser"
+    t.string   "os"
+    t.string   "device_type"
+    t.string   "country"
+    t.string   "region"
+    t.string   "city"
+    t.string   "utm_source"
+    t.string   "utm_medium"
+    t.string   "utm_term"
+    t.string   "utm_content"
+    t.string   "utm_campaign"
+    t.string   "app_version"
+    t.string   "os_version"
+    t.string   "platform"
+    t.datetime "started_at"
+  end
+
+  add_index "ahoy_visits", ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true, using: :btree
+
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                     null: false
     t.integer  "user_id",                                         null: false
@@ -62,7 +101,7 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.boolean  "contact_message_notifications", default: true,    null: false
     t.boolean  "review_notifications",          default: true,    null: false
     t.string   "invite_message"
-    t.string   "follower_notifications",        default: "daily", null: false
+    t.string   "follower_notifications",        default: "never", null: false
     t.boolean  "event_import_notifications",    default: true,    null: false
   end
 
@@ -212,12 +251,13 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
+    t.boolean  "in_impact",                      default: true
     t.boolean  "bill_online",                    default: true
     t.boolean  "subscription_billing_roadblock", default: false
-    t.boolean  "in_impact",                      default: true
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
     t.text     "slug"
+    t.integer  "reach"
   end
 
   create_table "calendar_widgets", force: :cascade do |t|
@@ -233,6 +273,7 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.datetime "updated_at",                    null: false
     t.string   "default_view"
     t.integer  "filter_kinds",     default: [],              array: true
+    t.boolean  "status"
   end
 
   add_index "calendar_widgets", ["business_id"], name: "index_calendar_widgets_on_business_id", using: :btree
@@ -514,6 +555,7 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.datetime "updated_at",                      null: false
     t.text     "company_list_ids", default: [],                array: true
     t.boolean  "show_our_content", default: true
+    t.boolean  "status"
   end
 
   add_index "content_feed_widgets", ["business_id"], name: "index_content_feed_widgets_on_business_id", using: :btree
@@ -560,6 +602,7 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.datetime "updated_at",       null: false
     t.boolean  "enable_search"
     t.string   "public_label"
+    t.boolean  "status"
   end
 
   add_index "directory_widgets", ["business_id"], name: "index_directory_widgets_on_business_id", using: :btree
@@ -1278,10 +1321,10 @@ ActiveRecord::Schema.define(version: 20181206045803) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
-    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
+    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree

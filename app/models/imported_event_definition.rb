@@ -8,8 +8,17 @@ class ImportedEventDefinition < EventDefinition
 
   after_save :reschedule_events!
 
-  scope :pending, -> { where import_pending: true }
+  scope :pending, -> { where(import_pending: true) }
+  scope :published, -> { where(import_pending: false)  }
   scope :include_archived, -> { where archived: [true, false, nil]}
+  scope :published_events_for_feed, lambda { |feed|
+      includes(:business, :event_definition_location)
+      .where(event_feed: feed)
+      .published }
+  scope :unpublished_events_for_feed, lambda { |feed|
+      includes(:business, :event_definition_location)
+      .where(event_feed: feed)
+      .pending }
 
   accepts_nested_attributes_for :event_definition_location, allow_destroy: true, reject_if: :all_blank
 
@@ -17,6 +26,9 @@ class ImportedEventDefinition < EventDefinition
 
   validates :imported_event_id, presence: true
 
+  # These are the validations which are used to determine whether an imported
+  # event definition is considered filled out enough to be published and imported.
+  # Otherwise its created without being published, and is considered to be pending import.
   with_options on: :feed_overview do
     validate :venue_attached
     validates_presence_of :description
@@ -25,11 +37,7 @@ class ImportedEventDefinition < EventDefinition
     validates_presence_of :start_time
   end
 
-  def self.all_events_for_feed(feed)
-    includes(:business, :event_definition_location)
-      .where(event_feed: feed)
-      .include_archived
-  end
+
 
   def self.model_name
     EventDefinition.model_name

@@ -23,6 +23,7 @@
 //= require bootstrap-datetimepicker
 //= require twitter/typeahead.min
 //= require dashboard/inspinia.js
+//= require ahoy
 //= require ./plugins/summernote-lite
 //= require_tree ./plugins
 //= require_tree ./scripts

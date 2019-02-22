@@ -13,29 +13,38 @@
       thead
         tr
           th Name
-          th URL
           th Feed Type
-          th Events
+          th URL
+          th Total Imported Events
           th Last Imported
-          th
+          th Pending Events
+          th Manage Feed Settings
       tbody
         - @event_feeds.each do |event_feed|
           tr
-            td = link_to event_feed.name, business_content_event_feed_path(@business, event_feed)
-            td width="20%" = truncate event_feed.url, length: 50
+            td width="20%" = link_to event_feed.name, business_content_event_feed_path(@business, event_feed)
             td
               span.label.label-default = feed_type event_feed
-            td = link_to event_feed.imported_event_definitions.size, business_content_event_feed_path(@business, event_feed)
+            td width="10%" = link_to truncate(event_feed.url, length: 50), event_feed.url
+            td
+              - if current_user.super_user?
+                = link_to event_feed.imported_event_definitions.size, business_content_event_feed_path(@business, event_feed, published: true)
+              - else
+                = event_feed.imported_event_definitions.size
             td = event_feed.last_imported.try :strftime, '%m/%d/%Y %l:%M%p'
-            td align="right" width="20%"
-              = link_to edit_business_content_event_feed_path(@business, event_feed), class: 'btn btn-sm btn-default' do
-                i.fa.fa-edit
-                span.m-l-half Edit
-              span.m-l-1
-                = link_to business_content_event_feed_path(@business, event_feed), class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
-                  i.fa.fa-times-circle.m-r-half
-                  | Delete
+            td width="20%" = link_to "Resolve #{ImportedEventDefinition.unpublished_events_for_feed(event_feed).size} Pending Events", business_content_event_feed_path(@business, event_feed)
+            td width="20%"
+              - if current_user.super_user?
+                = link_to edit_business_content_event_feed_path(@business, event_feed), class: 'btn btn-sm btn-default' do
+                  i.fa.fa-edit
+                  span.m-l-half Edit
+                span.m-l-1
+                  = link_to business_content_event_feed_path(@business, event_feed), class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+                    i.fa.fa-times-circle.m-r-half
+                    | Delete
+              - else
+                = link_to 'Contact Support', 'mailto:help@locable.com'
 
-  p.small
-    | Only import feeds from your own calendar. Want to import events from other calendars? Go to
-    = link_to ' Companies and Causes.', [@business, :crm, :companies]
+  / p.small
+  /   | Only import feeds from your own calendar. Want to import events from other calendars? Go to
+  /   = link_to ' Companies and Causes.', [@business, :crm, :companies]
