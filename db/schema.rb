@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190217051815) do
+ActiveRecord::Schema.define(version: 20190221235020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 20190217051815) do
     t.boolean  "affiliate_activated",            default: false
     t.boolean  "membership_org",                 default: false
     t.text     "slug"
+    t.integer  "reach"
   end
 
   create_table "calendar_widgets", force: :cascade do |t|
