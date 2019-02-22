@@ -13,7 +13,6 @@ tr class=('unread' unless company.read_by.include?(current_user.id))
         => icon 'envelope'
         | Invite
   td
-    | No Data&nbsp
-    span.badge.badge-info Coming Soon
+    = company.business.get_estimated_reach
 
-  td = link_to company.business.website_url, company.business.website_url, target: '_blank'
+  / td = link_to company.business.website_url, company.business.website_url, target: '_blank'

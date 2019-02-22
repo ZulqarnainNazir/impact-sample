@@ -13,8 +13,7 @@ tr class=('unread' unless company.read_by.include?(current_user.id))
         => icon 'envelope'
         | Invite
   td
-    | No Data&nbsp
-    span.badge.badge-info Coming Soon
+    = company.business.get_estimated_reach
   td = company.business.location.email
   td = company.business.location.phone_number? ? company.business.location.phone_number : '--'
   td = company.business.location.street1
