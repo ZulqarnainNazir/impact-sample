@@ -10,22 +10,22 @@
         tr
           td style='border-top: 0 !important;'
             = link_to [@business, :tools_calendar_widgets] do
-              button.btn.m-b-sm type="button" class="#{@business.calendar_widgets.count >= 1 ? 'btn-primary' : 'btn-danger'}"
-                i.fa.fa-2x class="#{@business.calendar_widgets.count >= 1 ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
+              button.btn.m-b-sm type="button" class="#{@business.community_calendar_installed ? 'btn-primary' : 'btn-danger'}"
+                i.fa.fa-2x class="#{@business.community_calendar_installed ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
               br
               .text-muted.text-uppercase
                 | Calendar
           td style='border-top: 0 !important;'
             = link_to [@business, :tools_directory_widgets] do
-              button.btn.btn-primary.m-b-sm type="button" class="#{@business.directory_widgets.count >= 1 ? 'btn-primary' : 'btn-danger'}"
-                i.fa.fa-2x class="#{@business.directory_widgets.count >= 1 ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
+              button.btn.btn-primary.m-b-sm type="button" class="#{@business.support_local_directory_installed ? 'btn-primary' : 'btn-danger'}"
+                i.fa.fa-2x class="#{@business.support_local_directory_installed ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
               br
               .text-muted.text-uppercase
                 | Directory
           td style='border-top: 0 !important;'
             = link_to [@business, :tools_content_feed_widgets] do
-              button.btn.m-b-sm type="button" class="#{@business.content_feed_widgets.count >= 1 ? 'btn-primary' : 'btn-danger'}"
-                i.fa.fa-2x class="#{@business.content_feed_widgets.count >= 1 ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
+              button.btn.m-b-sm type="button" class="#{@business.community_content_feed_installed ? 'btn-primary' : 'btn-danger'}"
+                i.fa.fa-2x class="#{@business.community_content_feed_installed ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
               br
               .text-muted.text-uppercase
                 | Content Feed
@@ -54,7 +54,9 @@
         /       .text-muted.text-uppercase
         /         | Job/Volunteer Board
 
-    p Create and install these tools on your site to passively participate & help promote your community.
+    p
+      small
+        | Create and install these tools on your site to passively participate & help promote your community.
     / hr
     / h3 Leader Board
     / p Join These People in the Champion Club
