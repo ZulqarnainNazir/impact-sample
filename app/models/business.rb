@@ -132,6 +132,36 @@ class Business < ActiveRecord::Base
 
   end
 
+  def support_local_directory_installed
+    #if DirectoryWidet.status == true
+    DirectoryWidget.where(business_id: self.id).each do |w|
+      if w.status == true
+        return true
+      end
+    end
+    return false
+  end
+
+  def community_calendar_installed
+    #if calendarWidet.status == true && calendarWidget includes a company listing
+     CalendarWidget.where(business_id: self.id).each do |w|
+      if w.status == true && w.company_list_ids.count > 1
+        return true
+      end
+    end
+    return false
+  end
+
+  def community_content_feed_installed
+    #if ContentFeedWidet.status == true && contentfeedWidget includes a company listing
+    ContentFeedWidget.where(business_id: self.id).each do |w|
+     if w.status == true && w.company_list_ids.count > 1
+       return true
+     end
+   end
+   return false
+  end
+
   def associate_users_with_intercom_company(options = {})
     # associates users with company.
     # IMPORTANT: company will NOT appear in Intercom's UI unless it is associated with a user.
