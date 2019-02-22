@@ -10,4 +10,4 @@ Ahoy.user_agent_parser = :device_detector
 # better bot detection
 Ahoy.bot_detection_version = 2
 
-Ahoy.quiet = true if Rails.env.production?
+Ahoy.quiet = false if Rails.env.production?
