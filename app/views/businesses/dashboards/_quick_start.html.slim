@@ -25,10 +25,13 @@
             .row
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [@business, :data_root] do
-                  .widget.bg-success
+                  .widget class="#{false ? 'gray-bg' : 'bg-success'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-map-marker.fa-3x
+                        -if false
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-map-marker.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Complete Your Company Profile
               .col-lg-12.col-md-6.col-sm-12
@@ -41,28 +44,38 @@
                         .col-xs-10.text-right
                           span.font-bold Improve Your Website
                 -else
+
                   = link_to [@business, :website_root] do
-                    .widget.bg-success
+                    .widget class="#{((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && @business.to_dos.where(status: 0).count == 0) ? 'gray-bg' : 'bg-success'}"
                       .row.vertical-align
                         .col-xs-2
-                          i.fa.fa-desktop.fa-3x
+                          -if ((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && @business.to_dos.where(status: 0).count == 0)
+                            i.fa.fa-check.fa-3x
+                          -else
+                            i.fa.fa-desktop.fa-3x
                         .col-xs-10.text-right
                           span.font-bold Improve Your Website
             .row
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [:new, @business, :crm_feedback] do
-                  .widget.bg-success
+                  .widget class="#{@business.reviews.count >= 1 ? 'gray-bg' : 'bg-success'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-comment.fa-3x
+                        - if @business.reviews.count >= 1
+                          i.fa.fa-check.fa-3x
+                        - else
+                          i.fa.fa-comment.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Collect Customer Reviews
               .col-lg-12.col-md-6.col-sm-12
                 = link_to "https://www.locable.com/marketing-3-4-5-authentic-marketing-for-local-and-small-businesses/", target: "_blank" do
-                  .widget.bg-success
+                  .widget class="#{false ? 'gray-bg' : 'bg-success'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-graduation-cap.fa-3x
+                        -if false
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-graduation-cap.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Read Our Marketing
                         br
@@ -77,35 +90,47 @@
             .row
               .col-lg-12.col-md-6.col-sm-12
                 =link_to [:new, @business, :tools_calendar_widget] do
-                  .widget.bg-info
+                  .widget class="#{@business.community_calendar_installed ? 'gray-bg' : 'bg-info'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-calendar.fa-3x
+                        -if @business.community_calendar_installed
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-calendar.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Community Calendar
               .col-lg-12.col-md-6.col-sm-12
                 =link_to [:new, @business, :tools_directory_widget] do
-                  .widget.bg-info
+                  .widget class="#{@business.support_local_directory_installed ? 'gray-bg' : 'bg-info'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-address-book.fa-3x
+                        -if @business.support_local_directory_installed
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-address-book.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Directory
             .row
               .col-lg-12.col-md-6.col-sm-12
                 =link_to [:new, @business, :tools_content_feed_widget] do
-                  .widget.bg-info
+                  .widget class="#{@business.community_content_feed_installed_with_jobs ? 'gray-bg' : 'bg-info'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-briefcase.fa-3x
+                        -if @business.community_content_feed_installed_with_jobs
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-briefcase.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Job/Volunteer Board
               .col-lg-12.col-md-6.col-sm-12
                 =link_to [:new, @business, :tools_content_feed_widget] do
-                  .widget.bg-info
+                  .widget class="#{@business.community_content_feed_installed ? 'gray-bg' : 'bg-info'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-file-text.fa-3x
+                        -if @business.community_content_feed_installed
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-file-text.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Community Content Feed
       .col-lg-4
@@ -126,35 +151,47 @@
               /           span.font-bold Participate in a Campaign
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [:new, @business, :content_event_definition] do
-                  .widget.bg-primary
+                  .widget class="#{@business.events.count >= 1 ? 'gray-bg' : 'bg-primary'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-calendar.fa-3x
+                        -if @business.events.count >= 1
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-calendar.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Post an Event
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [:new, @business, :content_offer] do
-                  .widget.bg-primary
+                  .widget class="#{@business.offers.count >= 1 ? 'gray-bg' : 'bg-primary'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-ticket.fa-3x
+                        -if @business.offers.count >= 1
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-ticket.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Post an Offer
             .row
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [:new, @business, :content_job] do
-                  .widget.bg-primary
+                  .widget class="#{@business.jobs.count >= 1 ? 'gray-bg' : 'bg-primary'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-briefcase.fa-3x
+                        -if @business.jobs.count >= 1
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-briefcase.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Share a Job/Volunteer Opportunity
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [:new, @business, :content_quick_post] do
-                  .widget.bg-primary
+                  .widget class="#{@business.quick_posts.count >= 1 ? 'gray-bg' : 'bg-primary'}"
                     .row.vertical-align
                       .col-xs-2
-                        i.fa.fa-bullhorn.fa-3x
+                        -if @business.quick_posts.count >= 1
+                          i.fa.fa-check.fa-3x
+                        -else
+                          i.fa.fa-bullhorn.fa-3x
                       .col-xs-10.text-right
                         span.font-bold Highlight Company "News"
                         / span.font-bold Quick Post

@@ -33,10 +33,26 @@ class Businesses::DashboardsController < Businesses::BaseController
 
 
   def show_quick_start
-    # Need to complete checks
-    # Only show for a short amount of time like x # of things completed then default to missions
-    # if ((community calendar || Directory || Job Board || Community Feed => website or widget) && (join Campaign || Post an Event || Share a Job || Quick Post) && (Profile Complete || Collected a Review || Website Customer)) || Business Creted > 180 Days || shown or hidden flag by user
-    if ((( @business.quick_posts.count >= 1 || @business.jobs.count >= 1 || @business.events.count >= 1) && ( @business.reviews.count >= 1)) || @business.created_at < Date.today - 180.days)
+
+    # TODO - Add Join Campaign Option replacing offer or job/volunteer opportunity
+    # TODO - Add || shown or hidden flag by user to end of if
+    # TODO - Update field when Read Playbook is clicked to mark as complete/grayed out (but dont count it as a check below)?
+    # TODO - Replace content feed that has jobs with Job Board widget when available
+    # TODO - Lessen website TODO requirement but add check that site is live
+
+    # TODO - Add Profile Complete Check to foundation group
+
+    #Simply to break up the logic into more readable chunks
+    foundation_group = [@business.reviews.count >= 1, ((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && @business.to_dos.where(status: 0).count == 0)].count(true) > 2
+    particpation_group = [@business.support_local_directory_installed, @business.community_calendar_installed, @business.community_content_feed_installed, @business.community_content_feed_installed_with_jobs].count(true) > 2
+    conversation_group = [@business.quick_posts.count >= 1,  @business.jobs.count >= 1, @business.offers.count >= 1,  @business.events.count >= 1].count(true) > 3
+
+    # puts "Foundation: #{foundation_group}"
+    # puts "Participation: #{particpation_group}"
+    # puts "Conversation: #{conversation_group}"
+    # puts "Created at: #{@business.created_at < Date.today - 180.days}"
+
+    if (foundation_group && particpation_group && conversation_group) || @business.created_at < Date.today - 180.days
       false
     else
       true
@@ -51,7 +67,7 @@ class Businesses::DashboardsController < Businesses::BaseController
     else
       true
     end
-    # true
+    true
   end
 
   def show_local_connections

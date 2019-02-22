@@ -162,6 +162,15 @@ class Business < ActiveRecord::Base
    return false
   end
 
+  def community_content_feed_installed_with_jobs
+    ContentFeedWidget.where(business_id: self.id).each do |w|
+     if w.status == true && w.company_list_ids.count > 1 && w.content_types.include?("Job")
+       return true
+     end
+   end
+   return false
+  end
+
   def associate_users_with_intercom_company(options = {})
     # associates users with company.
     # IMPORTANT: company will NOT appear in Intercom's UI unless it is associated with a user.
