@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   has_many :invites,
     foreign_key: :inviter_id
 
+  has_many :visits, class_name: "Ahoy::Visit"
+
   devise *%i[confirmable database_authenticatable lockable registerable recoverable rememberable trackable validatable masqueradable]
 
   attr_accessor :honey

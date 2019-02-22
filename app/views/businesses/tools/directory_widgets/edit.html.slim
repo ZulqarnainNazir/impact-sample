@@ -69,7 +69,7 @@ wrapper.wrapper-content
               p
                 button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy
               pre#copy-iframe
-                = h "<iframe width=\"100%\" height=\"400px\" frameBorder=\"0\" height src=\"#{website_root_url()}widgets/directory_widgets/#{@directory_widget.uuid}\"></iframe>"
+                = h "<iframe width=\"100%\" height=\"400px\" frameBorder=\"0\" height src=\"#{website_root_url()}widgets/directory_widgets/#{@directory_widget.uuid}\" id=\"directory-widget-#{@directory_widget.uuid}\"></iframe>"
 
 
 .modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"

@@ -72,7 +72,7 @@
   - counts = [0, 0, 0, 0, 0, 0, 0]
 
 / The Actual Widget
-.row.calendar-widget
+.row.calendar-widget id="calendar-widget-#{@calendar_widget.uuid}"
 
   - if @calendar_widget.public_label.present?
     .col-xs-12
@@ -175,7 +175,9 @@
 
       .row
         - if events.present? && !events.empty?
+          - reach_occurences = []
           - events.each_with_index do |event, index|
+            - reach_occurences << event.business.id
             - if event.business == @calendar_widget.business
               = render :partial => "website/events/event_#{container_view}_item", object: event, as: :event, locals: {prev: index <= 0 ? nil : events[index-1]}
             - else
@@ -186,3 +188,16 @@
 
   .text-center.clear-container
     = paginate events
+
+
+  javascript:
+    console.log("Recording Reach");
+    var isInIframe = (parent !== window),parentUrl = null;
+    if (isInIframe) {
+      parentUrl = document.referrer;
+      type = "Calendar Widget";
+    } else {
+      parentUrl = window.location.href;
+      type = "Website Calendar Feed";
+    }
+    ahoy.track("Reach", {type: type, type_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });

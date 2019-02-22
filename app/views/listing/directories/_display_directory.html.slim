@@ -20,10 +20,12 @@
                 = submit_tag "Search", class: "btn btn-primary"
 
 
+      - reach_occurences = []
       - if @directory.company_list.sort_by == 0
         .row.full-list
           - i = 0
           - @businesses.sort_by { |c| c.name }.each do |company|
+            - reach_occurences << company.business.id
             = render partial: "listing/directories/business", locals: { business: company.business, columns: false, directory: @directory }
             - i += 1
             - if (i%4 == 0)
@@ -36,14 +38,19 @@
             - i = 0
             - if !params[:query].blank?
               - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |company|
+                - reach_occurences << company.business.id
                 = render partial: "listing/directories/business", locals: { business: company.business, columns: false, directory: @directory }
                 - i += 1
                 - if (i%4 == 0)
                   .clearfix
             - else
               - category.companies.sort_by { |c| c.name }.each do |company|
+                - reach_occurences << company.business.id
                 = render partial: "listing/directories/business", locals: { business: company.business, columns: false, directory: @directory }
                 - i += 1
                 - if (i%4 == 0)
                   .clearfix
 
+javascript:
+  console.log("Recording Reach");
+  ahoy.track("Reach", {type: "Listing Directory Index", type_id: "#{@directory.id}", business_id: "#{@business.id}", company_ids: "#{@directory.company_list.companies.pluck(:company_business_id)}", occurences: "#{reach_occurences}", site: window.location.href });

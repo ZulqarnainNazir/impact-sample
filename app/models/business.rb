@@ -108,6 +108,60 @@ class Business < ActiveRecord::Base
   before_save :generate_slug, unless: :slug?
   # after_create :generate_intercom_company
 
+  def get_estimated_reach
+    # Estimates the number of potenital impressions (Reach) from following a business.
+
+    # Get number of impressions from target busienss installs in last 30 days
+    install_impressions = Ahoy::Event.where('time > ?', Time.now - 30.days).where(name: "Reach").where_props(business_id: "#{self.id}").count
+
+    # Return a range based on # of weekly posts - Currently hard coded to 2-4 posts per week and normalized for monthly
+    # TODO: Should base the range on average monthly posts for each busienss individually
+    # TODO: Should be smarter about posts types - ex: if they only have a calendar installed and the business doesnt post events then we should take that into account.
+    if install_impressions > 0
+      return "#{(install_impressions*2*52)/12}-#{(install_impressions*4*52)/12}"
+    else
+      return "No Data Available"
+    end
+  end
+
+  def visitors
+    # Calculates the number of people who have seen any content shown from an account for last 30 days. Unique Sessions NOT Unique users
+    # Based on Ahoy::Visit ID in Ahoy::Event item
+
+    Ahoy::Event.where('time > ?', Time.now - 30.days).where(name: "Reach").where_props(business_id: "#{self.id}").pluck(:visit_id).uniq.count
+
+  end
+
+  def support_local_directory_installed
+    #if DirectoryWidet.status == true
+    DirectoryWidget.where(business_id: self.id).each do |w|
+      if w.status == true
+        return true
+      end
+    end
+    return false
+  end
+
+  def community_calendar_installed
+    #if calendarWidet.status == true && calendarWidget includes a company listing
+     CalendarWidget.where(business_id: self.id).each do |w|
+      if w.status == true && w.company_list_ids.count > 1
+        return true
+      end
+    end
+    return false
+  end
+
+  def community_content_feed_installed
+    #if ContentFeedWidet.status == true && contentfeedWidget includes a company listing
+    ContentFeedWidget.where(business_id: self.id).each do |w|
+     if w.status == true && w.company_list_ids.count > 1
+       return true
+     end
+   end
+   return false
+  end
+
   def associate_users_with_intercom_company(options = {})
     # associates users with company.
     # IMPORTANT: company will NOT appear in Intercom's UI unless it is associated with a user.

@@ -16,11 +16,12 @@
         .form-group.m-l-5px
           = submit_tag "Search", class: "btn btn-primary"
 
-
+- reach_occurences = []
 - if @directory.company_list.sort_by == 0
   .row.full-list
     - i = 0
     - @businesses.sort_by { |c| c.name }.each do |company|
+      - reach_occurences << company.business.id
       = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
       - i += 1
       - if (i%4 == 0)
@@ -33,19 +34,21 @@
       - i = 0
       - if !params[:query].blank?
         - category.companies.where("companies.name ILIKE ?", "%#{params[:query]}%").sort_by { |c| c.name }.each do |company|
+          - reach_occurences << company.business.id
           = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
           - i += 1
           - if (i%4 == 0)
             .clearfix
       - else
         - category.companies.sort_by { |c| c.name }.each do |company|
+          - reach_occurences << company.business.id
           = render partial: "widgets/directory_widgets/business", locals: { business: company.business, columns: false, directory: @directory }
           - i += 1
           - if (i%4 == 0)
             .clearfix
 div.text-center
-  p 
-    span Powered by 
+  p
+    span Powered by
     = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-directory", target: "_blank"
 
 
@@ -56,12 +59,12 @@ div.text-center
       console.log(window.location, $('.params-info').data('business-id'))
       $('#business-modal-' + $('.params-info').data('business-id')).modal('show')
     })
-    
+
 javascript:
   $(document).on('ready', function() {
     $('.business-card').on('click', function(event) {
       var businessId = $(this).data('business-id');
-      // Important Note: this only works if the url is guaranteed to have a trailing slash 
+      // Important Note: this only works if the url is guaranteed to have a trailing slash
       //window.history.replaceState(null, null, businessId);
       $('#business-modal-' + businessId + " iframe").attr('src', $('#business-modal-' + businessId + " iframe").data('src'));
       $('#business-modal-' + businessId).modal('show');
@@ -75,3 +78,10 @@ javascript:
       }
     });
   });
+
+  console.log("Recording Reach");
+  var isInIframe = (parent !== window),parentUrl = null;
+  if (isInIframe) {
+    parentUrl = document.referrer;
+  }
+  ahoy.track("Reach", {type: "Directory Widget", type_id: "#{@directory.id}", business_id: "#{@business.id}", company_ids: "#{@directory.company_list.companies.pluck(:company_business_id)}", occurences: "#{reach_occurences}", site: parentUrl });
