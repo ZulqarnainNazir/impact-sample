@@ -160,7 +160,8 @@ module Feeds
     end
 
     def known_ics_event_hosts
-      ['https://webstercity.com/?plugin=all-in-one-event-calendar&controller=ai1ec_exporter_controller&action=export_events']
+      ['https://webstercity.com/?plugin=all-in-one-event-calendar&controller=ai1ec_exporter_controller&action=export_events',
+       'https://srv2-advancedview.rschooltoday.com/public/conference/ical/u/49ba913bbf720506d413e899d070c959']
     end
 
     def no_new_info?

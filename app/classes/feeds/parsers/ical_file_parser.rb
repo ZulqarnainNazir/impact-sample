@@ -14,7 +14,6 @@ module Feeds
       end
 
       def event_from_entry(event)
-        byebug
         Feeds::Event.new({
           event_id: event.uid.to_s,
           title: event.summary&.to_s.try(:force_encoding, 'utf-8'),
