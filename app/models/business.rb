@@ -796,7 +796,8 @@ class Business < ActiveRecord::Base
   end
 
   def review_rating_average
-    4.1
+    rating = self.reviews.map {|n| n.overall_rating}.sum / self.reviews.count
+    rating.round(1)
   end
 
   private

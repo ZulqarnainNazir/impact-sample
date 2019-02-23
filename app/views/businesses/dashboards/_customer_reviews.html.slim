@@ -5,7 +5,7 @@
       |  Customer Reviews
     - if business.reviews.present?
       .ibox-tools style="margin-top: -3px;"
-        h3.text-muted #{@business.review_rating_average} / 5 Stars
+        h4.text-muted AVG #{@business.review_rating_average} STARS *
   .ibox-content
     - if business.reviews.empty?
       .p-a-1.text-center
@@ -50,3 +50,7 @@
       / hr
       = link_to 'View All', [@business, :crm_reviews], class: 'btn btn-primary m-t'
       = link_to "Request Review", [:new, @business, :crm_feedback], class: "text-navy m-t m-l-md"
+
+      p
+        small
+          em * Reflects all reviews including those unpublished.

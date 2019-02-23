@@ -1,11 +1,11 @@
-- followers = business.listed_by_business
-
 - last_sign_in_at = current_user.last_sign_in_at
 
+- followers = business.listed_by_business
 - recent_followers = followers.select { |follower| last_sign_in_at - follower.created_at <= 0 }
 
 - companies = []
 - @business.company_lists.each {|list| companies = companies.concat(list.companies)}
+-recent_follows = companies.uniq.select {|company| last_sign_in_at - company.created_at <= 0}
 
 .ibox
   .ibox-title
@@ -40,8 +40,12 @@
             h1.m-xs
               strong= companies.uniq.size
             small
-              .fa.fa-plus
-              | 2 New
+              - if recent_follows.length > 0
+                .fa.fa-plus
+                = recent_follows.length.to_s + " New"
+              -else
+                | No New Follows
+            / | 2 New
             /   - if recent_followers.length > 0
             /     = recent_followers.length.to_s + " New"
 
@@ -67,7 +71,7 @@
               =@business.reach
           small
             em Last 30 Days
-            
+
     .row
       .col-xs-12
         .text-center
