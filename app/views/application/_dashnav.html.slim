@@ -38,7 +38,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Followers", [@business, :crm, 'company_lists', 'following']
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
             = link_to [@business, :tools_directory_widgets] do
-              | Manage Directory Widgets
+              | Directory Widgets
 
       / li title="Collaborate with Other Local Organizations on Marketing Campaigns" class=('active' if false)
       /   = link_to [@business, :dashboard] do
@@ -69,7 +69,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Manage Messages", [@business, :content_root]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to [@business, :tools_content_feed_widgets] do
-              | Manage Content Feed Widgets
+              | Content Feed Widgets
           / li class='disabled'
           /   = link_to "#" do
           /     |  Manage Job & Volunteer Board Widgets
@@ -88,12 +88,13 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
             = link_to "New Event", [:new, @business, :content_event_definition]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
-            = link_to "Manage Events", [@business, :content_root]
+            / Need to add eventdefintions and inmportedeventdefintion?
+            = link_to "Manage Events", [@business, :content_root, query: 'post_types=event']
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
             = link_to "Event Feeds", [@business, :content, :event_imports]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
             = link_to [@business, :tools_calendar_widgets] do
-              | Manage Calendar Widgets
+              | Calendar Widgets
 
       li title="Manage & Enhance Your Website" class=('active' if controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/) || embeds_active)
         = link_to "#"
@@ -158,7 +159,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Manage Reviews", [@business, :crm_reviews]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
             = link_to [@business, :tools_review_widgets] do
-              | Manage Reviews Widgets
+              | Reviews Widgets
 
       li title="Manage Contacts" class=('active' if crm_active)
         = link_to "#"
