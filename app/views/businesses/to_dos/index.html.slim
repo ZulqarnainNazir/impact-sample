@@ -9,6 +9,8 @@
             ' Website Launch Tasks
             span.small These tasks need to be completed, click on titles to view details and comment
         .ibox-content
+          / - if @business.to_dos_enabled
+          /   = render partial: 'businesses/dashboards/website_launch_tasks', locals: { business: @business }
           - unless @get_started_to_dos.empty?
             = render partial: 'businesses/to_dos/collection', locals: { to_dos: @get_started_to_dos, business: @business, group: 'Getting Started' }
           - unless @prepare_launch_to_dos.empty?
@@ -26,4 +28,3 @@
                   = render partial: 'businesses/to_dos/add_modal', locals: { business: @business }
                 .col-md-6.col-sm-6
                   = link_to 'Update Notification Preferences', business_notification_settings_path(@business), class: 'btn btn-primary pull-right'
-

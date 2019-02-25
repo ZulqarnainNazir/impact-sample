@@ -3,19 +3,20 @@
 = render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Website'}
 
 -if @business.website
- h2.h3 Preview Your Website
- = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: 'btn btn-info' do
-   strong => website_root_url(host: @business.website.host, protocol: :http)
-   i.fa.fa-external-link style="margin-left:5px"
+ h2.h3
+   | Preview Your Website
+   = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: 'btn btn-info' do
+     strong => website_root_url(host: @business.website.host, protocol: :http)
+     i.fa.fa-external-link style="margin-left:5px"
  br
 
-- if @business.to_dos_enabled
-  = render partial: 'businesses/dashboards/website_launch_tasks', locals: { business: @business }
+/ - if @business.to_dos_enabled
+/   = render partial: 'businesses/dashboards/website_launch_tasks', locals: { business: @business }
 
-h2 6 Core Page Links
-h2 Stats
-h2 Video
-Quick Links: Posting New Content, Managing Feeds, Managing Forms, Menus
+/ h2 6 Core Page Links
+/ h2 Stats
+/ h2 Video
+/ Quick Links: Posting New Content, Managing Feeds, Managing Forms, Menus
 
 h2.h3 Manage your website's content
 .row.dashboard-root-primary-panels
