@@ -48,7 +48,7 @@ class Businesses::Content::PostsController < Businesses::Content::BaseController
     end
     respond_to do |format|
       if @post.save
-        flash[:appcues_event] = "Appcues.track('created post')"
+        # flash[:appcues_event] = "Appcues.track('created post')"
         @post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
 

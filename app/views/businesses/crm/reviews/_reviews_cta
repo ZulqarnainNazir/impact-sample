@@ -13,7 +13,7 @@
                   <p>All you need is a customer's email address and we do the rest. As you collect reviews, you can easily share and promote them on your website to increase credibility.</p>
                   <p>Everyting is search engine optimized and our approach can help you grow reviews on 3rd-party sites like Yelp, Facebook and Google.</p>
               </div>
-              <a href="javascript:Appcues.show('-KzzzN485O46A0Q8VmHU')" class="pull-left text-warning" style="margin-top: 10px;">Learn More </a>
+              <!--<a href="javascript:Appcues.show('-KzzzN485O46A0Q8VmHU')" class="pull-left text-warning" style="margin-top: 10px;">Learn More </a>-->
               <div class="m-t text-right">
 
                   <% if !@business.module_active?(3) %>

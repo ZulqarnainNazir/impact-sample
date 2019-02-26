@@ -12,14 +12,14 @@ html lang="en"
     #{@custom_css.html_safe}
 
   body style="margin-bottom:4em" class="#{body_class}"
-    = render 'appcues'
+    / = render 'appcues'
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
-      = render 'dashnav' 
+      = render 'dashnav'
       div id="page-wrapper" class="gray-bg"
-        = render 'dashtopnavbar' 
+        = render 'dashtopnavbar'
         = render 'alerts'
         .container-mock style="padding-top: 15px"
           = yield
     = yield :javascript
     = intercom_tag
-    = render 'appcues_user_info'
+    / = render 'appcues_user_info'

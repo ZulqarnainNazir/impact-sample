@@ -7,7 +7,7 @@ class Businesses::DashboardsController < Businesses::BaseController
 
   def show
     metadata = {:company_name => @business.name, :company_id => @business.id}
-    flash[:appcues_event] = "Appcues.track('dashboard for #{@business.name} visited by #{current_user.name}')"
+    # flash[:appcues_event] = "Appcues.track('dashboard for #{@business.name} visited by #{current_user.name}')"
     intercom_event("dashboard-visited", metadata)
 
     params[:future] ||= true unless params[:past]

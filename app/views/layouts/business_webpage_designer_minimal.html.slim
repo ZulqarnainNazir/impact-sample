@@ -8,7 +8,7 @@ html lang="en"
 
   body style="margin-bottom:4em" class="mini-navbar"
 
-    = render 'appcues'
+    / = render 'appcues'
 
     div id="wrapper" class="#{params[:controller]}.#{params[:action]} gray-bg"
       = render 'alerts'
@@ -16,4 +16,4 @@ html lang="en"
         = yield
     = yield :javascript
     = intercom_tag
-    = render 'appcues_user_info'
+    / = render 'appcues_user_info'

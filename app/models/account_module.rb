@@ -69,7 +69,7 @@ class AccountModule < ActiveRecord::Base
 
   def self.create_module(biz_id, settings)
     business = Business.find(biz_id)
-    appcues_message = ""
+    # appcues_message = ""
 
     if settings[:active] == true
       if business.module_present?(settings[:kind])
@@ -77,20 +77,20 @@ class AccountModule < ActiveRecord::Base
         acct_module.active = true
         acct_module.save
 
-        appcues_message = appcues_create_message("reactivated", settings[:kind])
+        # appcues_message = appcues_create_message("reactivated", settings[:kind])
       else
         acct_module = AccountModule.create(settings)
         acct_module.business = business
         acct_module.save
 
-        appcues_message = appcues_create_message("activated", settings[:kind])
+        # appcues_message = appcues_create_message("activated", settings[:kind])
       end
     elsif settings[:active] == false
       acct_module = business.account_modules.where(kind: settings[:kind]).first
       acct_module.active = false
       acct_module.save
 
-      appcues_message = appcues_create_message("deactivated", settings[:kind])
+      # appcues_message = appcues_create_message("deactivated", settings[:kind])
     end
 
     if settings[:active] == true
@@ -98,33 +98,34 @@ class AccountModule < ActiveRecord::Base
       notice_msg = "Success, you've activated your #{messages[settings[:kind]].humanize.downcase} now let's put it to work!"
     end
 
-    [appcues_message, notice_msg]
+    # [appcues_message, notice_msg]
+    [notice_msg]
   end
 
   private
 
-  def self.appcues_create_message(event, kind_number)
-    kind_number = kind_number.to_i
-    message = ""
-    if kind_number == 0
-      message = "marketing_missions"
-    elsif kind_number == 1
-      message = "content_engine"
-    elsif kind_number == 2
-      message = "local_connections"
-    elsif kind_number == 3
-      message = "customer_reviews"
-    elsif kind_number == 4
-      message = "form_builder"
-    elsif kind_number == 5
-      message = "website"
-    end
-    # marketing_missions: 0,
-    # content_engine: 1,
-    # local_connections: 2,
-    # customer_reviews: 3,
-    # form_builder: 4,
-    # website: 5
-    "Appcues.track('module #{event}: #{message} ')"
-  end
+  # def self.appcues_create_message(event, kind_number)
+  #   kind_number = kind_number.to_i
+  #   message = ""
+  #   if kind_number == 0
+  #     message = "marketing_missions"
+  #   elsif kind_number == 1
+  #     message = "content_engine"
+  #   elsif kind_number == 2
+  #     message = "local_connections"
+  #   elsif kind_number == 3
+  #     message = "customer_reviews"
+  #   elsif kind_number == 4
+  #     message = "form_builder"
+  #   elsif kind_number == 5
+  #     message = "website"
+  #   end
+  #   # marketing_missions: 0,
+  #   # content_engine: 1,
+  #   # local_connections: 2,
+  #   # customer_reviews: 3,
+  #   # form_builder: 4,
+  #   # website: 5
+  #   "Appcues.track('module #{event}: #{message} ')"
+  # end
 end

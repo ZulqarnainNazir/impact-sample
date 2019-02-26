@@ -3,7 +3,7 @@ class Businesses::Crm::CompanyListsController < Businesses::BaseController
     if !@business.module_active?(2)
       messages = AccountModule.create_module(@business.id, {kind: 2, active: true})
       @business.reload
-      flash[:appcues_event] = messages[0]
+      # flash[:appcues_event] = messages[0]
       flash[:notice] = messages[1]
     end
   end

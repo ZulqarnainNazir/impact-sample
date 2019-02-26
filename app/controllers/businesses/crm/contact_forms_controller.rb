@@ -28,7 +28,7 @@ class Businesses::Crm::ContactFormsController < Businesses::BaseController
     @contact_form = @business.contact_forms.new
     create_resource @contact_form, contact_form_params, location: [:edit, @business, :crm, @contact_form] do |success|
       if success
-        flash[:appcues_event] = "Appcues.track('added form')"
+        # flash[:appcues_event] = "Appcues.track('added form')"
         intercom_event 'added-form'
       end
     end
