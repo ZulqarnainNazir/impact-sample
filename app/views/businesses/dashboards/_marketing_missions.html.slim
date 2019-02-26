@@ -78,37 +78,13 @@
       /         | project.
 
       / .col-lg-4
-      .col-lg-6.p-lg
+      .col-lg-6.p-sm
         / h3 Today's/Upcoming Tasks (Click To Complete)
-        h3.text-center Today's Tasks (Click To Complete)
-
-        / li
-        /   a.check-link href="#"
-        /     i.fa.fa-check-square
-        /   span.m-l-xs.todo-completed Review Your Free Listing
-        / li
-        /   a.check-link href="#"
-        /     i.fa.fa-check-square
-        /   span.m-l-xs.todo-completed Update Your Contact Info
-        / li
-        /   a.check-link href="#"
-        /     i.fa.fa-square-o
-        /   span.m-l-xs Add Your Hours
-        /   small.label.label-primary
-        /     i.fa.fa-clock-o
-        /     |  1 mins
-        / li
-        /   a.check-link href="#"
-        /     i.fa.fa-square-o
-        /   span.m-l-xs Add Social Media Links
-        / li
-        /   a.check-link href="#"
-        /     i.fa.fa-square-o
-        /   span.m-l-xs Highlight Your Team
-
-
+        h3
+          | Today's Tasks &nbsp
+          / small Click To Complete
         - if instances.empty?
-          .p-h-md.text-center
+          .p-h-md
             - if params[:future]
               / h2 No Upcoming Marketing Missions Scheduled
               h2 No Tasks Scheduled For Today
@@ -118,26 +94,56 @@
         - else
           ul.todo-list.p-h-md.small-list
             - instances.each do |event|
-              li
-                = link_to business_mission_path(@business, event.id), class: '' do
-                  i.fa.fa-square-o
-                  span.m-l-xs= truncate(event.title, length: 80)
-                  / p= truncate(event.description.html_safe, length: 115)
+              - if event.active?
+                li
+                  = link_to business_mission_path(@business, event.mission.id), class: '' do
+                    i.fa.fa-square-o
+                    span.m-l-xs= truncate(event.title, length: 80)
+              -else
+                li style='text-decoration: line-through;'
+                  = link_to business_mission_path(@business, event.mission.id), class: '' do
+                    i.fa.fa-check-square-o
+                    span.m-l-xs= truncate(event.title, length: 80)
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-check-square
+              /   span.m-l-xs.todo-completed Review Your Free Listing
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-check-square
+              /   span.m-l-xs.todo-completed Update Your Contact Info
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-square-o
+              /   span.m-l-xs Add Your Hours
+              /   small.label.label-primary
+              /     i.fa.fa-clock-o
+              /     |  1 mins
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-square-o
+              /   span.m-l-xs Add Social Media Links
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-square-o
+              /   span.m-l-xs Highlight Your Team
 
-                  / - if @mission_instance = MissionInstance.find_by(id: event.mission_instance_id)
-                  /   .row
-                  /     .col-md-6
-                  /       - if event.is_a?(MissionInstanceEvent)
-                  /         div= @mission_instance.schedule_in_words
-                  /         small
-                  /         span.text-navy= event.start.strftime('%b %e')
-                  /         = ' '
-                  /         | assigned to
-                  /         = ' '
-                  /
-                  /         = render partial: 'businesses/missions/assignment_modal', locals: { mission: @mission_instance.mission, mission_instance: @mission_instance, skip_icon: true, color_class: 'text-blue' }
-                  /         .col-md-6
-                  /           = render partial: 'businesses/activity_calendar/timeline_actions', locals: { mi: @mission_instance, event: event }
+              / p= truncate(event.description.html_safe, length: 115)
+
+              / - if @mission_instance = MissionInstance.find_by(id: event.mission_instance_id)
+              /   .row
+              /     .col-md-6
+              /       - if event.is_a?(MissionInstanceEvent)
+              /         div= @mission_instance.schedule_in_words
+              /         small
+              /         span.text-navy= event.start.strftime('%b %e')
+              /         = ' '
+              /         | assigned to
+              /         = ' '
+              /
+              /         = render partial: 'businesses/missions/assignment_modal', locals: { mission: @mission_instance.mission, mission_instance: @mission_instance, skip_icon: true, color_class: 'text-blue' }
+              /         .col-md-6
+              /           = render partial: 'businesses/activity_calendar/timeline_actions', locals: { mi: @mission_instance, event: event }
         = link_to [:timeline, @business, :activity_calendar_index], class: 'btn btn-primary btn-block btn-outline m-t' do
           i.fa.fa-arrow-down
           |  View All
@@ -145,14 +151,14 @@
 
 
       / .col-lg-4
-      .col-lg-6.p-lg
-        h3.text-center Receommned Missions (Click To Add)
+      .col-lg-6.p-sm
+        h3 Recommended Missions
         - recommended.any?
           / ul.list-group.to-dos
-          ul.list-group.p-h-md
+          ul.list-group
             - recommended.each do |mission|
               = link_to business_mission_path(@business, mission), class: 'block' do
-                li.list-group-item.m-xs
+                li.list-group-item.m-t-xs.m-b-xs
                   i.fa.fa-plus-circle.m-r-sm.float-left
                   = mission.title
                   / span.badge.badge-warning.pull-right = mission.time_to_complete
