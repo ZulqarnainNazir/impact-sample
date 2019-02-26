@@ -81,7 +81,7 @@
 -if @show_quick_start
   = render partial: 'businesses/dashboards/quick_start'
 
-.row
+.row.m-t-sm
   div class="#{(@show_community_content_feed || @show_participation_status) ? 'col-lg-8' : 'col-lg-12'}"
 
     -if @show_marketing_missions
