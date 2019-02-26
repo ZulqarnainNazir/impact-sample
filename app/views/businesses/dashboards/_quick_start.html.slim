@@ -25,10 +25,10 @@
             .row
               .col-lg-12.col-md-6.col-sm-12
                 = link_to [@business, :data_root] do
-                  .widget class="#{false ? 'gray-bg' : 'bg-success'}"
+                  .widget class="#{@business.percent_profile_completeness == 100 ? 'gray-bg' : 'bg-success'}"
                     .row.vertical-align
                       .col-xs-2
-                        -if false
+                        -if @business.percent_profile_completeness == 100
                           i.fa.fa-check.fa-3x
                         -else
                           i.fa.fa-map-marker.fa-3x

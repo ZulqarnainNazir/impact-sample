@@ -108,6 +108,163 @@ class Business < ActiveRecord::Base
   before_save :generate_slug, unless: :slug?
   # after_create :generate_intercom_company
 
+  def business_basics_completeness
+    # Logo, Hero, Name, Description, Tagline, Year Founded, Website, Categories
+
+    completed_count = 0
+    if self.logo.present?
+      completed_count +=1
+    end
+    if self.hero.present?
+      completed_count +=1
+    end
+    if self.name.present?
+      completed_count +=1
+    end
+    if self.description.present?
+      completed_count +=1
+    end
+    if self.tagline.present?
+      completed_count +=1
+    end
+    if self.year_founded.present?
+      completed_count +=1
+    end
+    if self.website.present?
+      completed_count +=1
+    end
+    if self.categories.present?
+      completed_count +=1
+    end
+
+    return completed_count
+
+  end
+
+  def business_basics_completed
+
+    self.business_basics_completeness == 8
+
+  end
+
+  def contact_info_completeness
+    # Location Name, Street Address, City, State, Zip Code, Phone Number, Email Address, Serviec Area (not included)
+
+    completed_count = 0
+    if self.location.name.present?
+      completed_count +=1
+    end
+    if self.location.street1.present?
+      completed_count +=1
+    end
+    if self.location.city.present?
+      completed_count +=1
+    end
+    if self.location.state.present?
+      completed_count +=1
+    end
+    if self.location.zip_code.present?
+      completed_count +=1
+    end
+    if self.location.phone_number.present?
+      completed_count +=1
+    end
+    if self.location.email.present?
+      completed_count +=1
+    end
+
+    return completed_count
+
+  end
+
+  def contact_info_completed
+
+    self.contact_info_completeness == 7
+
+  end
+
+  def business_hours_completeness
+    # Are there hours?
+    #TODO - Expand this to cover each day OR have by appointment - I think that would require to explicitly label as closed.
+
+    completed_count = 0
+    if self.location.openings.any?
+      completed_count +=1
+    end
+
+    return completed_count
+
+  end
+
+  def business_hours_completed
+
+    self.business_hours_completeness == 1
+
+  end
+
+  def social_profiles_completeness
+    # Are there any social Profiles?
+    #TODO - Expand this to give different weights to different networks or groups of networks (primary vs secondary)?
+
+    completed_count = 0
+    if self.facebook_id.present? || self.twitter_id.present? || self.linkedin_id.present? || self.youtube_id.present? || self.pinterest_id.present? || self.instagram_id.present? || self.yelp_id.present? || self.citysearch_id.present? || self.foursquare_id.present? || self.zillow_id.present? || self.opentable_id.present? || self.trulia_id.present? || self.realtor_id.present? || self.tripadvisor_id.present? || self.houzz_id.present? || self.cce_url.present?
+      completed_count +=1
+    end
+
+    return completed_count
+
+  end
+
+  def social_profiles_completed
+
+    self.social_profiles_completeness == 1
+
+  end
+
+  def team_members_completeness
+    # Are there any social Profiles?
+    #TODO - Expand this to give different weights to different networks or groups of networks (primary vs secondary)?
+
+    completed_count = 0
+    if self.team_members.any?
+      completed_count +=1
+    end
+
+    return completed_count
+
+  end
+
+  def team_members_completed
+
+    self.team_members_completeness == 1
+
+  end
+
+  def percent_profile_completeness
+    sum = 0
+
+    # Basics - 8 Feilds
+    sum += self.business_basics_completeness
+
+    # Location - 7 Feilds
+    sum += self.contact_info_completeness
+
+    # Hours - 1 Feild
+    sum += self.business_hours_completeness
+
+    # Socail Profiles - 1 Feild
+    sum += self.social_profiles_completeness
+
+    # Team Members - 1 Feild
+    sum += self.team_members_completeness
+
+
+    # The .0 makes the base a float for %
+    ((sum / 18.0) * 100)
+
+  end
+
+
   def get_estimated_reach
     # Estimates the number of potenital impressions (Reach) from following a business.
 

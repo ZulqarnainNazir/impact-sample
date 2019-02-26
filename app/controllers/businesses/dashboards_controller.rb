@@ -43,9 +43,9 @@ class Businesses::DashboardsController < Businesses::BaseController
     # TODO - Add Profile Complete Check to foundation group
 
     #Simply to break up the logic into more readable chunks
-    foundation_group = [@business.reviews.count >= 1, ((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && @business.to_dos.where(status: 0).count == 0)].count(true) > 2
-    particpation_group = [@business.support_local_directory_installed, @business.community_calendar_installed, @business.community_content_feed_installed, @business.community_content_feed_installed_with_jobs].count(true) > 2
-    conversation_group = [@business.quick_posts.count >= 1,  @business.jobs.count >= 1, @business.offers.count >= 1,  @business.events.count >= 1].count(true) > 3
+    foundation_group = [@business.percent_profile_completeness == 100, @business.reviews.count >= 1, ((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && @business.to_dos.where(status: 0).count == 0)].count(true) >= 2
+    particpation_group = [@business.support_local_directory_installed, @business.community_calendar_installed, @business.community_content_feed_installed, @business.community_content_feed_installed_with_jobs].count(true) >= 2
+    conversation_group = [@business.quick_posts.count >= 1,  @business.jobs.count >= 1, @business.offers.count >= 1,  @business.events.count >= 1].count(true) >= 3
 
     # puts "Foundation: #{foundation_group}"
     # puts "Participation: #{particpation_group}"
@@ -67,7 +67,7 @@ class Businesses::DashboardsController < Businesses::BaseController
     else
       true
     end
-    true
+    # true
   end
 
   def show_local_connections
