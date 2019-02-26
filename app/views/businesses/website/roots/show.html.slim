@@ -3,10 +3,11 @@
 = render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Website'}
 
 -if @business.website
- h2.h3
-   | Preview Your Website
+ h2
+   / | Preview Your Website
    = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: 'btn btn-info' do
-     strong => website_root_url(host: @business.website.host, protocol: :http)
+     / strong => website_root_url(host: @business.website.host, protocol: :http)
+     strong Preview Your Website
      i.fa.fa-external-link style="margin-left:5px"
  br
 
@@ -22,7 +23,7 @@
 / TODO - Add Stats
 
 
-h2 Update Your Core Pages
+h2.h3.m-b-lg Update Your Core Pages
 / TODO - Make this 6 Core pages
 .row
   - if @website.home_page
@@ -76,7 +77,7 @@ h2 Update Your Core Pages
 
 
 / Quick Links: Posting New Content, Managing Feeds, Managing Forms, Menus
-h2 Add Events, Offers, News & Other Content To Your Site
+h2.h3.m-b-lg Add Events, Offers, News & Other Content To Your Site
 .row.dashboard-root-secondary-panels
   .col-sm-6.col-md-4.col-lg-2
     = link_to [:new, @business, :content_quick_post] do
@@ -127,17 +128,17 @@ h2 Add Events, Offers, News & Other Content To Your Site
           span.pull-left Custom Post
           i.fa.fa-arrow-circle-right
 
-h2 Manage Your Company Profile and Support Local
+h2.h3.m-b-lg Manage Your Company Profile and Support Local
 .row.dashboard-root-primary-panels
   .col-sm-6.col-lg-3
-    = link_to [:edit, @business, :website, :details] do
+    = link_to [@business, :data_root] do
       .panel.panel-primary
         .panel-heading
           .row
             .col-xs-3
               i.fa.fa-map-marker.fa-5x
         .panel-footer.text-right
-          span.pull-left Company Profile
+          span.pull-left Update Core Business Data
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-lg-3
     = link_to [@business, :tools_directory_widgets] do
@@ -161,16 +162,16 @@ h2 Manage Your Company Profile and Support Local
           span.pull-left Add a Community Calendar
           i.fa.fa-arrow-circle-right
 
-  .col-sm-6.col-lg-3
-    = link_to [:edit, @business, :website, :details] do
-      .panel.panel-danger
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-bullseye.fa-5x
-        .panel-footer.text-right
-          span.pull-left Join a Campaign
-          i.fa.fa-arrow-circle-right
+  / .col-sm-6.col-lg-3
+  /   = link_to [:edit, @business, :website, :details] do
+  /     .panel.panel-danger
+  /       .panel-heading
+  /         .row
+  /           .col-xs-3
+  /             i.fa.fa-bullseye.fa-5x
+  /       .panel-footer.text-right
+  /         span.pull-left Join a Campaign
+  /         i.fa.fa-arrow-circle-right
   / .col-sm-6.col-lg-3
   /   = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website, :webpages] do
   /     .panel.panel-success
