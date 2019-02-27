@@ -138,7 +138,7 @@
       li.dropdown.pull-right.m-t-xs
         = link_to [:edit, @business, :data_details], class: 'no-padding', style: 'float: left;' do
           - if @business.logo
-            = image_tag @business.logo.attachment_large_url, alt: '', class: 'img-circle', style: 'max-height: 40px;'
+            = image_tag @business.logo.attachment_large_url, alt: '', class: '', style: 'max-height: 40px;'
           - else
             i.fa.fa-photo.fa-2x
         / span.float-left
