@@ -1,4 +1,4 @@
-.row.border-bottom
+.row.border-bottom.m-b-xs
   nav.navbar.navbar-static-top role="navigation" style=("margin-bottom: 0")
     .navbar-header
       a.navbar-minimalize.minimalize-styl-2.btn.btn-primary href="#"
@@ -134,7 +134,7 @@
       /       i.fa.fa-photo.fa-2x
 
       / li.dropdown.profile-element
-      li.dropdown.pull-right.m-t-sm
+      li.dropdown.pull-right.m-t-xs
         = link_to [:edit, @business, :data_details], class: 'no-padding', style: 'float: left;' do
           - if @business.logo
             = image_tag @business.logo.attachment_large_url, alt: '', class: 'img-circle', style: 'max-height: 40px;'
@@ -151,7 +151,7 @@
             strong= @business.name
             b.caret
             br
-            p= current_user.name
+            p.m-b-0= current_user.name
 
         ul.dropdown-menu.animated.fadeInRight.m-t-xs
           li
