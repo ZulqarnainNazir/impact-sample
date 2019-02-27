@@ -42,13 +42,13 @@ task export_biz_data_to_intercom: [:environment] do
 	           :has_to_dos_enabled => biz.to_dos_enabled,
 
 	           #modules
-	           :activated_mission_count => biz.missions.where(status: "active").count,
-	           :marketing_missions_module => biz.module_active?(0),
-	           :content_engine_module => biz.module_active?(1),
-	           :local_connections_module => biz.module_active?(2),
-	           :customer_reviews_module => biz.module_active?(3),
-	           :form_builder_module => biz.module_active?(4),
-	           :website_module => biz.module_active?(5),
+	           # :activated_mission_count => biz.missions.where(status: "active").count,
+	           # :marketing_missions_module => biz.module_active?(0),
+	           # :content_engine_module => biz.module_active?(1),
+	           # :local_connections_module => biz.module_active?(2),
+	           # :customer_reviews_module => biz.module_active?(3),
+	           # :form_builder_module => biz.module_active?(4),
+	           # :website_module => biz.module_active?(5),
 
 	            #CRM stuff
 	           :landing_page_count => biz.count_landing_pages,

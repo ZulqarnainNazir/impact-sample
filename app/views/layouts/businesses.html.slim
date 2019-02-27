@@ -7,7 +7,7 @@ html
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
       - if current_user.super_user?
         = render 'billing_dashnav'
-      div id="page-wrapper" class="gray-bg"
+      div id="page-wrapper" class="gray-bg" style="#{!current_user.super_user? ? 'margin-left: -1px' : ''}"
         = render 'dashtopnavbar_reduced'
         = render 'alerts'
         div

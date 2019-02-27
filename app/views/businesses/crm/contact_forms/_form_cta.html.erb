@@ -17,16 +17,17 @@
               <!-- <a href="javascript:Appcues.show('-L-bqYqWpwL99FN5DUmI')" class="pull-left text-warning" style="margin-top: 10px;">Learn More </a> -->
               <div class="m-t text-right">
 
-                  <% if !@business.module_active?(4) %>
-                      <%= form_tag business_account_modules_path(:kind => 4, :active => true) do %>
-                          <%= button_tag( type: 'submit',
+                  <%# if !@business.module_active?(4) %>
+                      <%#= form_tag business_account_modules_path(:kind => 4, :active => true) do %>
+                          <%#= button_tag( type: 'submit',
                           :class => "btn btn-outline btn-primary") do %>
                               Activate Forms <i class="fa fa-plus-circle"></i>
-                          <% end %>
-                      <% end %>
-                  <% else %>
-                      <%= link_to( "Configure", business_crm_contact_forms_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
-                  <% end %>
+                          <%# end %>
+                      <%# end %>
+                  <%# else %>
+                      <%#= link_to( "Configure", business_crm_contact_forms_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
+                  <% #end %>
+                  <%= link_to( "Configure", business_crm_contact_forms_path(@business), :class => "btn btn-xs btn-outline btn-primary" ) %>
               </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ class Business < ActiveRecord::Base
   enum plan: { free: 0, web: 1, primary: 2, }
 
   with_options dependent: :destroy do
-    has_many :account_modules
+    # has_many :account_modules
     has_many :event_feeds
     has_many :authorizations
     has_many :before_afters
@@ -404,13 +404,13 @@ class Business < ActiveRecord::Base
            :to_dos_enabled => self.to_dos_enabled,
 
            #modules
-           :activated_mission_count => self.missions.where(status: "active").count,
-           :marketing_missions_module => self.module_active?(0),
-           :content_engine_module => self.module_active?(1),
-           :local_connections_module => self.module_active?(2),
-           :customer_reviews_module => self.module_active?(3),
-           :form_builder_module => self.module_active?(4),
-           :website_module => self.module_active?(5),
+           # :activated_mission_count => self.missions.where(status: "active").count,
+           # :marketing_missions_module => self.module_active?(0),
+           # :content_engine_module => self.module_active?(1),
+           # :local_connections_module => self.module_active?(2),
+           # :customer_reviews_module => self.module_active?(3),
+           # :form_builder_module => self.module_active?(4),
+           # :website_module => self.module_active?(5),
 
             #CRM stuff
            :landing_page_count => self.count_landing_pages,
@@ -485,108 +485,108 @@ class Business < ActiveRecord::Base
     end
   end
 
-  def create_and_enable_all_modules
-    count = [0, 1, 2, 3, 4, 5]
-    content_type = [:post, :before_after, :event, :quick_post, :job, :offer, :gallery]
-    count.each do |kind|
-      @module = AccountModule.new(kind: kind, active: true)
-      @module.business = self
-      if kind == 1
-        content_type.each do |content_type|
-          @module.send("#{content_type}=", true)
-        end
-      end
-      @module.save
-    end
-  end
+  # def create_and_enable_all_modules
+  #   count = [0, 1, 2, 3, 4, 5]
+  #   content_type = [:post, :before_after, :event, :quick_post, :job, :offer, :gallery]
+  #   count.each do |kind|
+  #     @module = AccountModule.new(kind: kind, active: true)
+  #     @module.business = self
+  #     if kind == 1
+  #       content_type.each do |content_type|
+  #         @module.send("#{content_type}=", true)
+  #       end
+  #     end
+  #     @module.save
+  #   end
+  # end
+  #
+  # def create_and_enable_content_engine
+  #   content_type = [:post, :before_after, :event, :quick_post, :job, :offer, :gallery]
+  #   @module = AccountModule.new(kind: 1, active: true)
+  #   @module.business = biz
+  #   content_type.each do |content_type|
+  #     @module.send("#{content_type}=", true)
+  #   end
+  #   @module.save
+  # end
+  #
+  # def enabled_content_types
+  #   enabled_types = []
+  #   if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+  #     self.account_modules.where({kind: 1}).first.settings.each do |key, value|
+  #       if value == true
+  #         enabled_types << key
+  #       end
+  #     end
+  #   end
+  #   enabled_types
+  # end
 
-  def create_and_enable_content_engine
-    content_type = [:post, :before_after, :event, :quick_post, :job, :offer, :gallery]
-    @module = AccountModule.new(kind: 1, active: true)
-    @module.business = biz
-    content_type.each do |content_type|
-      @module.send("#{content_type}=", true)
-    end
-    @module.save
-  end
-
-  def enabled_content_types
-    enabled_types = []
-    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
-      self.account_modules.where({kind: 1}).first.settings.each do |key, value|
-        if value == true
-          enabled_types << key
-        end
-      end
-    end
-    enabled_types
-  end
-
-  def modules_unactivated
-    if self.account_modules
-      6 - self.account_modules.where({active: true}).count
-    else
-      6
-    end
-  end
-
-  def any_content_type_active?
-    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
-      self.account_modules.where({kind: 1}).first.settings.each do |key, value|
-        if value == true
-          return true
-        end
-      end
-    end
-    return false
-  end
-
-  def content_type_active?(content_type)
-    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
-      self.account_modules.where({kind: 1}).first.content_active?(content_type)
-    else
-      false
-    end
-  end
-
-  def content_type_enabled?(content_type)
-    #used for HTML where an attribute should be "true" when enabled would be false or nil
-    #e.g., a link where disabled: true, when enabled == false
-    if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
-      return self.account_modules.where({kind: 1}).first.content_enabled(content_type)
-    else
-      true
-    end
-  end
-
-  def module_active?(module_kind_number)
-    # marketing_missions: 0,
-    # content_engine: 1,
-    # local_connections: 2,
-    # customer_reviews: 3,
-    # form_builder: 4,
-    # website: 5
-    if self.account_modules.where({kind: module_kind_number, active: true}).present?
-      true
-    else
-      false
-    end
-  end
-
-  def module_present?(module_kind_number)
-    if self.account_modules.where({kind: module_kind_number}).present?
-      true
-    else
-      false
-    end
-  end
-
-  def get_account_module(module_kind_number)
-    m = self.account_modules.where({kind: module_kind_number}).first
-    if !m.nil?
-      m
-    end
-  end
+  # def modules_unactivated
+  #   if self.account_modules
+  #     6 - self.account_modules.where({active: true}).count
+  #   else
+  #     6
+  #   end
+  # end
+  #
+  # def any_content_type_active?
+  #   if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+  #     self.account_modules.where({kind: 1}).first.settings.each do |key, value|
+  #       if value == true
+  #         return true
+  #       end
+  #     end
+  #   end
+  #   return false
+  # end
+  #
+  # def content_type_active?(content_type)
+  #   if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+  #     self.account_modules.where({kind: 1}).first.content_active?(content_type)
+  #   else
+  #     false
+  #   end
+  # end
+  #
+  # def content_type_enabled?(content_type)
+  #   #used for HTML where an attribute should be "true" when enabled would be false or nil
+  #   #e.g., a link where disabled: true, when enabled == false
+  #   if self.module_present?(1) && !self.account_modules.where({kind: 1}).first.settings.nil?
+  #     return self.account_modules.where({kind: 1}).first.content_enabled(content_type)
+  #   else
+  #     true
+  #   end
+  # end
+  #
+  # def module_active?(module_kind_number)
+  #   # marketing_missions: 0,
+  #   # content_engine: 1,
+  #   # local_connections: 2,
+  #   # customer_reviews: 3,
+  #   # form_builder: 4,
+  #   # website: 5
+  #   if self.account_modules.where({kind: module_kind_number, active: true}).present?
+  #     true
+  #   else
+  #     false
+  #   end
+  # end
+  #
+  # def module_present?(module_kind_number)
+  #   if self.account_modules.where({kind: module_kind_number}).present?
+  #     true
+  #   else
+  #     false
+  #   end
+  # end
+  #
+  # def get_account_module(module_kind_number)
+  #   m = self.account_modules.where({kind: module_kind_number}).first
+  #   if !m.nil?
+  #     m
+  #   end
+  # end
 
   def create_default_directories
     case self[:kind]

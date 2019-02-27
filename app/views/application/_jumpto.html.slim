@@ -1,44 +1,44 @@
-a.dropdown-toggle.count-info.jump-to.navbar-link[data-toggle="dropdown" href="#" title="Jump to a different page"]
-  | Jump to&nbsp;
-  i.fa.fa-toggle-down
-ul.dropdown-menu.dropdown-messages
-  - unless @business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true
-      - if (@business.build_plan_no_setup_fee == false)
-        li
-          = link_to "Manage Web Pages", [@business, :website_webpages]
-
-  - if @business.to_dos_enabled
-    li
-      = link_to "Website Tasks", [@business, :to_dos]
-
-  li
-    = link_to "Manage Images & PDFs", business_content_images_path
-
-  - if @business.module_active?(1)
-    li
-      = link_to "Manage Posts", [@business, :content_root]
-
-  - if @business.modules_unactivated != 0
-    li.hidden-md.hidden-lg
-      = link_to business_account_modules_path
-        i.fa.fa-plus-square-o
-        span
-          |  Activate Features
-        /<span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
-  - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
-    li.hidden-md.hidden-lg title="Preview Website"
-      = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank do
-        i.fa.fa-external-link
-        span [data-i18n="nav.website"]
-          |  Preview Website
-
-  - elsif @business.is_on_engage_plan?
-    li.hidden-md.hidden-lg title="Preview Listing"
-      = link_to listing_path_url(@business), target: :_blank do
-        i.fa.fa-external-link
-        span [data-i18n="nav.listing"]
-          |  Preview Listing
-  hr
-  li = link_to 'http://help.locable.com/', target: :_blank do
-    i.fa.fa-life-ring>
-    | Support
+/ a.dropdown-toggle.count-info.jump-to.navbar-link[data-toggle="dropdown" href="#" title="Jump to a different page"]
+/   | Jump to&nbsp;
+/   i.fa.fa-toggle-down
+/ ul.dropdown-menu.dropdown-messages
+/   - unless @business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true
+/       - if (@business.build_plan_no_setup_fee == false)
+/         li
+/           = link_to "Manage Web Pages", [@business, :website_webpages]
+/
+/   - if @business.to_dos_enabled
+/     li
+/       = link_to "Website Tasks", [@business, :to_dos]
+/
+/   li
+/     = link_to "Manage Images & PDFs", business_content_images_path
+/
+/   - if @business.module_active?(1)
+/     li
+/       = link_to "Manage Posts", [@business, :content_root]
+/
+/   - if @business.modules_unactivated != 0
+/     li.hidden-md.hidden-lg
+/       = link_to business_account_modules_path
+/         i.fa.fa-plus-square-o
+/         span
+/           |  Activate Features
+/         /<span class="label label-warning" style="margin-left: 3px;"> #{@business.modules_unactivated} more </span>
+/   - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
+/     li.hidden-md.hidden-lg title="Preview Website"
+/       = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank do
+/         i.fa.fa-external-link
+/         span [data-i18n="nav.website"]
+/           |  Preview Website
+/
+/   - elsif @business.is_on_engage_plan?
+/     li.hidden-md.hidden-lg title="Preview Listing"
+/       = link_to listing_path_url(@business), target: :_blank do
+/         i.fa.fa-external-link
+/         span [data-i18n="nav.listing"]
+/           |  Preview Listing
+/   hr
+/   li = link_to 'http://help.locable.com/', target: :_blank do
+/     i.fa.fa-life-ring>
+/     | Support

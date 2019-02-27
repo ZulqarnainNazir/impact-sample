@@ -1,5 +1,5 @@
 class Businesses::ActivityCalendarController < Businesses::BaseController
-  before_action -> { confirm_module_activated(0) }, except: :timeline
+  # before_action -> { confirm_module_activated(0) }, except: :timeline
   def index
     @events = service.calendar_events
   end

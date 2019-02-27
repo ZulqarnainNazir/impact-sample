@@ -177,9 +177,9 @@ Rails.application.routes.draw do
       scope module: :businesses do
         resource :dashboard, path: '', only: %i[show]
         resource :dashboard_tour_viewed, only: %i[create]
-        resources :account_modules do
-          get 'remote_create', :on => :collection
-        end
+        # resources :account_modules do
+        #   get 'remote_create', :on => :collection
+        # end
 
           resources :subscriptions, except: [:index] do
             resources :affiliate_payments, only: %i[show edit update] do

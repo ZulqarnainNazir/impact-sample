@@ -13,17 +13,17 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def confirm_module_activated(module_kind_number)
-    # marketing_missions: 0,
-    # content_engine: 1,
-    # local_connections: 2,
-    # customer_reviews: 3,
-    # form_builder: 4,
-    # website: 5
-    if !@business.module_active?(module_kind_number)
-      redirect_to business_account_modules_path
-    end
-  end
+  # def confirm_module_activated(module_kind_number)
+  #   # marketing_missions: 0,
+  #   # content_engine: 1,
+  #   # local_connections: 2,
+  #   # customer_reviews: 3,
+  #   # form_builder: 4,
+  #   # website: 5
+  #   if !@business.module_active?(module_kind_number)
+  #     redirect_to business_account_modules_path
+  #   end
+  # end
 
   def raise_initial_billing_and_subscription_roadblock
     #if super admin sets roadblock to true, the following takes place

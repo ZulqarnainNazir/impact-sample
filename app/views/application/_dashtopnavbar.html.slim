@@ -100,7 +100,8 @@
       / li.bg-danger = link_to 'http://#', target: :_blank, style: 'color: #FFF;' do
       /   i.fa.fa-bullseye
       /   | View Active Campaigns
-      - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
+      / - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
+      - if @business.website && !@business.is_on_engage_plan?
         li.hidden-xs.hidden-sm title=" Preview Website"
           = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: "navbar-link" do
             i.fa.fa-external-link
@@ -156,7 +157,8 @@
         ul.dropdown-menu.animated.fadeInRight.m-t-xs
           li
             = link_to 'Edit My Profile', :edit_user_registration
-          - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
+          / - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
+          - if @business.website && !@business.is_on_engage_plan?
             li.visible-xs.visible-sm title=" Preview Website"
               = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: "navbar-link" do
                 i.fa.fa-external-link
@@ -191,8 +193,8 @@
           - if current_user.authorized_business_owner?(@business) || current_user.super_user?
             li
               = link_to 'Billing', subscription_dashboard_business_subscriptions_path(@business)
-          li
-            = link_to 'Manage Active Features', business_account_modules_path
+          / li
+          /   = link_to 'Manage Active Features', business_account_modules_path
 
           - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
             li

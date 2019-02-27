@@ -3,17 +3,17 @@
 .businesses
   - if @businesses.empty?
       .p-a-3.text-center
-        h1 Looks like you're not connected to any businesses or organizations
+        p Looks like you're not connected to any businesses or organizations
   - else
-    .row
-      .col-md-4.col-md-offset-8.col-sm-6.col-sm-offset-3
-        = form_tag root_path, :method => 'get' do
-          .input-group
-            = text_field_tag :search, params[:search], class: "form-control", placeholder: "Search for a business"
-            span.input-group-btn
-              = submit_tag "Search", :name => nil, class: "btn btn-default"
+    / .row
+    /   .col-md-4.col-md-offset-8.col-sm-6.col-sm-offset-3
+    /     = form_tag root_path, :method => 'get' do
+    /       .input-group
+    /         = text_field_tag :search, params[:search], class: "form-control", placeholder: "Search for a business"
+    /         span.input-group-btn
+    /           = submit_tag "Search", :name => nil, class: "btn btn-default"
 
-  p style="margin:2em 0" = page_entries_info @businesses, entry_name: 'business'
+    p style="margin:2em 0" = page_entries_info @businesses, entry_name: 'business'
   .row
     = render @businesses
     .col-sm-4.col-md-3.col-lg-2
