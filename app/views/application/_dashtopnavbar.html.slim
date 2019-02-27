@@ -136,13 +136,11 @@
 
       / li.dropdown.profile-element
       li.dropdown.pull-right.m-t-xs
-        = link_to [:edit, @business, :data_details], class: 'no-padding', style: 'float: left;' do
-          - if @business.logo
-            = image_tag @business.logo.attachment_large_url, alt: '', class: '', style: 'max-height: 40px;'
-          - else
-            i.fa.fa-photo.fa-2x
-        / span.float-left
-        /   = link_to [:edit, @business, :data_details] do
+        / = link_to [:edit, @business, :data_details], class: 'no-padding', style: 'float: left;' do
+        /   - if @business.logo
+        /     = image_tag @business.logo.attachment_large_url, alt: '', class: 'img-circle', style: 'max-height: 40px;'
+        /   - else
+        /     i.fa.fa-photo.fa-2x
 
         a.dropdown-toggle.p-t-0 data-toggle="dropdown" style="display: inline-block;" href="#"
           / span.clear
