@@ -73,7 +73,7 @@
 
 / = render partial: 'businesses/dashboards/welcome_messages', locals: { business: @business }
 - if @business.to_dos_enabled
-  div.alert.alert-warning.alert-dismissable.m-t-sm
+  div.alert.alert-warning.alert-dismissable.m-t-sm.m-b-sm
     h1
       strong Hi #{current_user.first_name}, ready to make some progress on your website?
     p.h4 #{link_to 'Click here to complete your remaining website launch tasks', [@business, :to_dos]} so your Community Manager can help you get your site launched!
@@ -81,7 +81,7 @@
 -if @show_quick_start
   = render partial: 'businesses/dashboards/quick_start'
 
-.row.m-t-sm
+.row.m-t-xs
   div class="#{(@show_community_content_feed || @show_participation_status) ? 'col-lg-8' : 'col-lg-12'}"
 
     -if @show_marketing_missions
