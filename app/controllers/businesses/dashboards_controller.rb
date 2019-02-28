@@ -67,7 +67,7 @@ class Businesses::DashboardsController < Businesses::BaseController
     else
       true
     end
-    # true
+    true
   end
 
   def show_local_connections

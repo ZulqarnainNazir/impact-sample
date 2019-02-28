@@ -263,19 +263,31 @@ class MissionInstance < ActiveRecord::Base
   end
 
   def self.one_time_missions_for_today(business)
+    # MissionInstance.joins(:mission)
+    #                .where(business: business)
+    #                .for_today
+    #                .active
+    #                .one_time
+    # Remove today constraint and add future constraint
     MissionInstance.joins(:mission)
                    .where(business: business)
-                   .for_today
                    .active
                    .one_time
+                   .select(&:due_in_future?)
   end
 
   def self.recurring_missions_for_today(business, statuses = nil)
+    # MissionInstanceEvent.joins(mission_instance: :mission)
+    #                     .where(business: business)
+    #                     .for_today
+    #                     .where(mission_instances: { last_status: (statuses || ACTIVE_STATUS_INDEXES) })
+    #                     .map(&:mission_instance)
+    # Remove today constraint and add future constraint
     MissionInstanceEvent.joins(mission_instance: :mission)
                         .where(business: business)
-                        .for_today
                         .where(mission_instances: { last_status: (statuses || ACTIVE_STATUS_INDEXES) })
                         .map(&:mission_instance)
+                        .select(&:due_in_future?)
   end
 
   def self.recurring_missions_due_on(date)
