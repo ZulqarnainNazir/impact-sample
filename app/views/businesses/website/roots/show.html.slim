@@ -96,22 +96,6 @@ h2.h3.m-b-lg Add Events, Offers, News & Other Content To Your Site
           span.pull-left Event
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to [:new, @business, :content_gallery] do
-      .panel.panel-primary
-        .panel-heading
-          i.fa.fa-photo.fa-4x
-        .panel-footer.text-right
-          span.pull-left Gallery
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
-    = link_to [:new, @business, :content_before_after] do
-      .panel.panel-primary
-        .panel-heading
-          i.fa.fa-tasks.fa-4x
-        .panel-footer.text-right
-          span.pull-left Before &amp; After
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
     = link_to [:new, @business, :content_offer] do
       .panel.panel-primary
         .panel-heading
@@ -120,10 +104,34 @@ h2.h3.m-b-lg Add Events, Offers, News & Other Content To Your Site
           span.pull-left Offer
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :content_job] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-briefcase.fa-4x
+        .panel-footer.text-right
+          span.pull-left Job/Volunteer Post
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :content_gallery] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-camera.fa-4x
+        .panel-footer.text-right
+          span.pull-left Gallery
+          i.fa.fa-arrow-circle-right
+  / .col-sm-6.col-md-4.col-lg-2
+  /   = link_to [:new, @business, :content_before_after] do
+  /     .panel.panel-primary
+  /       .panel-heading
+  /         i.fa.fa-columns.fa-4x
+  /       .panel-footer.text-right
+  /         span.pull-left Before &amp; After
+  /         i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
     = link_to [:new, @business, :content_post] do
       .panel.panel-primary
         .panel-heading
-          i.fa.fa-edit.fa-4x
+          i.fa.fa-file-text-o.fa-4x
         .panel-footer.text-right
           span.pull-left Custom Post
           i.fa.fa-arrow-circle-right
