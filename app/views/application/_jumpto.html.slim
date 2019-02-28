@@ -4,7 +4,7 @@ a.dropdown-toggle.count-info.jump-to.navbar-link[data-toggle="dropdown" href="#"
 ul.dropdown-menu.dropdown-messages
   - if @business.to_dos_enabled
     li
-      = link_to "Website Luanch Tasks", [@business, :to_dos]
+      = link_to "Website Launch Tasks", [@business, :to_dos]
   - unless @business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true
     - if (@business.build_plan_no_setup_fee == false)
       li
