@@ -1,8 +1,57 @@
 - title 'Content'
 
-= render :partial => 'dashbreadcrumb', :locals => { :an => ' Add Content'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Marketing Messages', :fp => :content_root, :an => ' Add Content'}
 
-.row
+
+/ .row.admin-dash
+/   .col-md-12
+/     .fluid-nav
+/       ul.nav.navbar-top-links
+/         li
+/           strong.p-sm
+/             i.fa.fa-chevron-right
+/             i.fa.fa-chevron-right
+/         li = link_to [:new, @business, :content_quick_post] do
+/           i.fa.fa-bolt.hidden-xs
+/           i.fa.fa-2x.fa-bolt.text-center.visible-xs
+/           span
+/             | New Quick Post
+/         li = link_to [:new, @business, :content_event_definition] do
+/           i.fa.fa-calendar.hidden-xs
+/           i.fa.fa-2x.fa-calendar.text-center.visible-xs
+/           span
+/             | New Event
+/         li = link_to [:new, @business, :content_offer] do
+/           i.fa.fa-ticket.hidden-xs
+/           i.fa.fa-2x.fa-ticket.text-center.visible-xs
+/           span
+/             | New Offer
+/         li = link_to [:new, @business, :content_job] do
+/           i.fa.fa-breifcase.hidden-xs
+/           i.fa.fa-2x.fa-breifcase.text-center.visible-xs
+/           span
+/             | New Job/Volunteer Opportunity
+/         li = link_to [:new, @business, :content_gallery] do
+/           i.fa.fa-camera.hidden-xs
+/           i.fa.fa-2x.fa-camera.text-center.visible-xs
+/           span
+/             | New Gallery
+/         li = link_to [:new, @business, :content_before_after] do
+/           i.fa.fa-columns.hidden-xs
+/           i.fa.fa-2x.fa-columns.text-center.visible-xs
+/           span
+/             | New Before & After
+/         li = link_to [:new, @business, :content_post] do
+/           i.fa.fa-file-text-o.hidden-xs
+/           i.fa.fa-2x.fa-file-text-o.text-center.visible-xs
+/           span
+/             | New Custom Post
+/         li
+/           strong.p-sm
+/             i.fa.fa-chevron-left
+/             i.fa.fa-chevron-left
+
+.row.m-t-xs
   .col-lg-12
     .wrapper.wrapper-content
       .row
@@ -10,56 +59,94 @@
           .ibox.float-e-margins
             .ibox-title
               h5
-                | Post new content
+                | What would you like to create?
             .ibox-content
               .row.dashboard-root-secondary-panels
-                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
+                .col-xs-12.col-sm-6.col-lg-3
                   = link_to [:new, @business, :content_quick_post] do
                     .panel.panel-primary
                       .panel-heading
-                        i.fa.fa-file-text-o.fa-4x
+                        .row
+                          .col-xs-3
+                            i.fa.fa-bolt.fa-3x.float-left
+                          .col-xs-9
+                            span Perfect for company news, annoucements, and highlights.
                       .panel-footer.text-right
-                        span.pull-left> Quick Post
+                        span.pull-left New Quick Post
                         i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2
+                .col-xs-12.col-sm-6.col-lg-3
                   = link_to [:new, @business, :content_event_definition] do
-                    .panel.panel-success
+                    .panel.panel-primary
                       .panel-heading
-                        i.fa.fa-calendar.fa-4x
+                        .row
+                          .col-xs-3
+                            i.fa.fa-calendar.fa-3x.float-left
+                          .col-xs-9
+                            span Share your events and classes with the community.
                       .panel-footer.text-right
-                        span.pull-left> New Event
+                        span.pull-left New Event
                         i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
-                  = link_to [:new, @business, :content_gallery] do
-                    .panel.panel-warning
-                      .panel-heading
-                        i.fa.fa-photo.fa-4x
-                      .panel-footer.text-right
-                        span.pull-left> New Gallery
-                        i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
-                  = link_to [:new, @business, :content_before_after] do
-                    .panel.panel-danger
-                      .panel-heading
-                        i.fa.fa-tasks.fa-4x
-                      .panel-footer.text-right
-                        span.pull-left> Before &amp; Af…
-                        i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2
+                .col-xs-12.col-sm-6.col-lg-3
                   = link_to [:new, @business, :content_offer] do
                     .panel.panel-primary
                       .panel-heading
-                        i.fa.fa-ticket.fa-4x
+                        .row
+                          .col-xs-3
+                            i.fa.fa-ticket.fa-3x.float-left
+                          .col-xs-9
+                            span Post your offers, coupons, and discounts.
                       .panel-footer.text-right
-                        span.pull-left> New Offer
+                        span.pull-left New Offer
                         i.fa.fa-arrow-circle-right
-                .col-sm-6.col-md-4.col-lg-2.requires-plan-upgrade
-                  = link_to [:new, @business, :content_post] do
-                    .panel.panel-success
+                .col-xs-12.col-sm-6.col-lg-3
+                  = link_to [:new, @business, :content_job] do
+                    .panel.panel-primary
                       .panel-heading
-                        i.fa.fa-edit.fa-4x
+                        .row
+                          .col-xs-3
+                            i.fa.fa-briefcase.fa-3x.float-left
+                          .col-xs-9
+                            span Highlight your job openings & volunteer opportunities.
                       .panel-footer.text-right
-                        span.pull-left> Custom Post
+                        span.pull-left New Job/Volunteer Post
+                        i.fa.fa-arrow-circle-right
+              .row.dashboard-root-secondary-panels
+                .col-xs-12.col-sm-6.col-lg-3.requires-plan-upgrade
+                  = link_to [:new, @business, :content_gallery] do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-camera.fa-3x.float-left
+                          .col-xs-9
+                            span Share your photos.
+                      .panel-footer.text-right
+                        span.pull-left New Gallery
+                        i.fa.fa-arrow-circle-right
+                .col-xs-12.col-sm-6.col-lg-3.requires-plan-upgrade
+                  = link_to [:new, @business, :content_before_after] do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-columns.fa-3x.float-left
+                          .col-xs-9
+                            span Share your work with a before and after picture.
+                      .panel-footer.text-right
+                        span.pull-left New Before & After
+                        i.fa.fa-arrow-circle-right
+
+                .col-xs-12.col-sm-6.col-lg-3.requires-plan-upgrade
+                  = link_to [:new, @business, :content_post] do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-file-text-o.fa-3x.float-left
+                          .col-xs-9
+                            span Create a custom blog post.
+                      .panel-footer.text-right
+                        span.pull-left New Custom Post
                         i.fa.fa-arrow-circle-right
 hr
 p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post], class: 'requires-plan-upgrade'} if you don't see a match.

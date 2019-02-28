@@ -208,6 +208,7 @@ Rails.application.routes.draw do
 
         namespace :content do
           root to: 'feeds#show'
+          get '/new', to: 'roots#show'
           get '/activate', to: 'base#index'
           resource :images_upload, only: %i[new create]
           resource :feed, only: %i[show]
