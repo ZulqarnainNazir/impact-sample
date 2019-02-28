@@ -31,14 +31,13 @@
           = link_to 'Browse Recommended Marketing Missions', business_missions_path(@business), class: 'text-navy'
     - else
       #vertical-timeline.vertical-container.dark-timeline.m-t-70px
-
         - @events.each do |event|
           .vertical-timeline-block
             .vertical-timeline-icon.navy-bg
               i.fa.fa-briefcase
 
             .vertical-timeline-content
-              = link_to business_mission_path(@business, event.id)
+              = link_to business_mission_path(@business, event.id) do
                 h2= event.title
               p= event.description.html_safe
 
