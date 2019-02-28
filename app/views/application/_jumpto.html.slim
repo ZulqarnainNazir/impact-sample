@@ -2,21 +2,19 @@ a.dropdown-toggle.count-info.jump-to.navbar-link[data-toggle="dropdown" href="#"
   | Jump to&nbsp;
   i.fa.fa-toggle-down
 ul.dropdown-menu.dropdown-messages
+  - if @business.to_dos_enabled
+    li
+      = link_to "Website Luanch Tasks", [@business, :to_dos]
   - unless @business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true
     - if (@business.build_plan_no_setup_fee == false)
       li
         = link_to "Manage Web Pages", [@business, :website_webpages]
 
-  - if @business.to_dos_enabled
-    li
-      = link_to "Website Tasks", [@business, :to_dos]
-
-  li
-    = link_to "Manage Images & PDFs", business_content_images_path
-
   / - if @business.module_active?(1)
   li
     = link_to "Manage Content", [@business, :content_root]
+  li
+    = link_to "Manage Images & PDFs", business_content_images_path
 
   / - if @business.modules_unactivated != 0
   /   li.hidden-md.hidden-lg
