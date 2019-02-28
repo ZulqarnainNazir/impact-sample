@@ -78,7 +78,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Followers", [@business, :crm, 'company_lists', 'following']
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
             = link_to [@business, :tools_directory_widgets] do
-              | Directory Widgets
+              | Directory Embeds
 
       / li title="Collaborate with Other Local Organizations on Marketing Campaigns" class=('active' if false)
       /   = link_to [@business, :dashboard] do
@@ -94,22 +94,24 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless contents_active)
           li  class=('active' if controller_path.match(/\Abusinesses\/content\/quick_posts/))
-            = link_to "New Quick Post", [:new, @business, :content_quick_post]
-          li  class=('active' if controller_path.match(/\Abusinesses\/content\/offers/))
-            = link_to "New Offer", [:new, @business, :content_offer]
-          li  class=('active' if controller_path.match(/\Abusinesses\/content\/jobs/))
-            = link_to "New Job/Volunteer Opportunity", [:new, @business, :content_job]
-          li  class=('active' if controller_path.match(/\Abusinesses\/content\/galleries/))
-            = link_to "New Gallery", [:new, @business, :content_gallery]
-          li  class=('active' if controller_path.match(/\Abusinesses\/content\/before_afters/))
-            = link_to "New Before & After", [:new, @business, :content_before_after]
-          li  class=('active' if controller_path.match(/\Abusinesses\/content\/posts/))
-            = link_to "New Custom Post", [:new, @business, :content_post]
+            = link_to "New Message", [:new, @business, :content_quick_post]
+          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/quick_posts/))
+          /   = link_to "New Quick Post", [:new, @business, :content_quick_post]
+          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/offers/))
+          /   = link_to "New Offer", [:new, @business, :content_offer]
+          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/jobs/))
+          /   = link_to "New Job/Volunteer Opportunity", [:new, @business, :content_job]
+          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/galleries/))
+          /   = link_to "New Gallery", [:new, @business, :content_gallery]
+          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/before_afters/))
+          /   = link_to "New Before & After", [:new, @business, :content_before_after]
+          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/posts/))
+          /   = link_to "New Custom Post", [:new, @business, :content_post]
           li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
             = link_to "Manage Messages", [@business, :content_root]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to [@business, :tools_content_feed_widgets] do
-              | Content Feed Widgets
+              | Content Feed Embeds
           / li class='disabled'
           /   = link_to "#" do
           /     |  Manage Job & Volunteer Board Widgets
@@ -134,7 +136,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Event Feeds", [@business, :content, :event_imports]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
             = link_to [@business, :tools_calendar_widgets] do
-              | Calendar Widgets
+              | Calendar Embeds
 
       li title="Manage & Enhance Your Website" class=('active' if controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/))
         = link_to "#"
@@ -196,7 +198,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
             = link_to "Private Feedback", [@business, :crm_feedbacks]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
-            = link_to "Manage Reviews", [@business, :crm_reviews]
+            = link_to "Reviews", [@business, :crm_reviews]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
             = link_to [@business, :tools_review_widgets] do
               | Reviews Widgets
