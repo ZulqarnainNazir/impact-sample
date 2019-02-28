@@ -1,8 +1,51 @@
 .wrapper.wrapper-content
   / <a class="btn btn-primary pull-right btn-sm btn-outline" href="javascript:Appcues.show('-KjjedDv3uzHEB-lx4fj')">See Help Tips</a>
+
   .row
     .col-md-8.col-md-offset-1.no-padding
       .ibox.float-e-margins
+        .ibox-title
+          h5 New Quick Post
+          .ibox-tools
+
+            button.btn.btn-primary.btn-sm.btn-outline.m-b-0 data-target="#myModal" data-toggle="modal" type="button"
+              | What's This?
+            #myModal.modal.inmodal aria-hidden="true" role="dialog" tabindex="-1"
+              .modal-dialog
+                .modal-content.animated.bounceInRight
+                  .modal-header
+                    button.close data-dismiss="modal" type="button"
+                      span aria-hidden="true"  &times;
+                      span.sr-only Close
+                    i.fa.fa-bolt.modal-icon
+                    h4.modal-title Quick Posts
+                    small.font-bold Quick Posts are like Facebook posts that live on your website.
+                  .modal-body.text-left
+
+                    p With a quick post you can quickly:
+                    ul
+                      li Post an Announcement
+                      li Celebrate an Employee
+                      li Introduce a New Product or Service
+                      li And pretty much anything else you'd post to social media about
+                    p
+                      | When you use a Quick Post, you can still share it to social media but you will also get the benefit of it appearing on your site which is good for search engines. Plus it'll appear on other local websites automatically thanks to our free Local Connections
+                      sup TM &nbsp
+                      | tools.
+                    p This means, more locals will see more of your content!
+
+
+                    / p
+                    /   strong Lorem Ipsum is simply dummy
+                    /   | text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                    /   | printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                    /   | remaining essentially unchanged.
+                    / .form-group
+                    /   label Sample Input
+                    /   input.form-control placeholder=("Enter your email") type="email" /
+                  .modal-footer
+                    button.btn.btn-white data-dismiss="modal" type="button"  Close
+                    / button.btn.btn-primary type="button"  Save changes
         .ibox-content
           .form-group
             - if @quick_post.persisted?
