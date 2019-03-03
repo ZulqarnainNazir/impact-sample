@@ -36,7 +36,7 @@
         = link_to [@business, :crm, 'company_lists'] do
 
           .widget.bg-success.m-xxs.p-xxs
-            h5 Following
+            h5 Supporting
             h1.m-xs
               strong= companies.uniq.size
             small
@@ -44,7 +44,7 @@
                 .fa.fa-plus
                 = recent_follows.length.to_s + " New"
               -else
-                | No New Follows
+                | No New
             / | 2 New
             /   - if recent_followers.length > 0
             /     = recent_followers.length.to_s + " New"
@@ -52,7 +52,7 @@
       .col-xs-4.no-padding
         = link_to [@business, :crm, 'company_lists', 'following'] do
           .widget.bg-info.m-xxs.p-xxs
-            h5 Followers
+            h5 Supporters
             h1.m-xs
               strong= followers.length
             small
@@ -60,7 +60,7 @@
                 .fa.fa-plus
                 = recent_followers.length.to_s + " New"
               -else
-                | No New Followers
+                | No New Supporters
       .col-xs-4.no-padding
         / = link_to [@business, :crm, 'company_lists', 'following'] do
         .widget.bg-primary.m-xxs.p-xxs

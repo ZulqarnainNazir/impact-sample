@@ -67,7 +67,7 @@ class Businesses::DashboardsController < Businesses::BaseController
     else
       true
     end
-    true
+    # true
   end
 
   def show_local_connections
@@ -113,7 +113,7 @@ class Businesses::DashboardsController < Businesses::BaseController
 
   def following_count
     companies = []
-    @business.company_lists.each {|list| companies = companies.concat(list.companies)}
+    @business.company_lists.includes(:companies).each {|list| companies = companies.concat(list.companies)}
     companies.uniq.size
   end
 

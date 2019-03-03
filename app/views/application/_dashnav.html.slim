@@ -72,13 +72,20 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Local Connections™
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless local_connections_active)
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
+            = link_to "Companies & Causes", [@business, :crm_companies]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
+            = link_to "People", [@business, :crm_contacts]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists/))
             = link_to "Local Networks", [@business, :crm_company_lists]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists\/following/))
-            = link_to "Followers", [@business, :crm, 'company_lists', 'following']
+            = link_to "Supporters", [@business, :crm, 'company_lists', 'following']
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
             = link_to [@business, :tools_directory_widgets] do
               | Directory Embeds
+          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
+          /   = link_to "Import Contacts", [@business, :crm_imports]
+
 
       / li title="Collaborate with Other Local Organizations on Marketing Campaigns" class=('active' if false)
       /   = link_to [@business, :dashboard] do
@@ -97,9 +104,12 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "New Message", [@business, :content_new]
           li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
             = link_to "Manage Messages", [@business, :content_root]
+
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to [@business, :tools_content_feed_widgets] do
               | Content Feed Embeds
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
+            = link_to "Images & PDFs", [@business, :content_images]
           / li class='disabled'
           /   = link_to "#" do
           /     |  Manage Job & Volunteer Board Widgets
@@ -151,6 +161,10 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
               = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
                 | Pages
+            li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
+              = link_to "Manage Content", [@business, :content_root]
+            li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
+              = link_to "Images & PDFs", [@business, :content_images]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/menus/))
               = link_to "Navigation Menus", [:edit, @business, :website_menus]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/theme/))
@@ -191,19 +205,19 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to [@business, :tools_review_widgets] do
               | Reviews Widgets
 
-      li title="Manage Contacts" class=('active' if contacts_active)
-        = link_to "#"
-          i.fa.fa-address-card-o
-          span.nav-label[data-i18n="nav.contacts"]
-            | Contacts
-          span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless contacts_active)
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
-            = link_to "Companies & Causes", [@business, :crm_companies]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
-            = link_to "People", [@business, :crm_contacts]
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
-            = link_to "Import Contacts", [@business, :crm_imports]
+      / li title="Manage Contacts" class=('active' if contacts_active)
+      /   = link_to "#"
+      /     i.fa.fa-address-card-o
+      /     span.nav-label[data-i18n="nav.contacts"]
+      /       | Contacts
+      /     span.fa.arrow
+      /   ul.nav.nav-second-level class=('collapse' unless contacts_active)
+      /     li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
+      /       = link_to "Companies & Causes", [@business, :crm_companies]
+      /     li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
+      /       = link_to "People", [@business, :crm_contacts]
+      /     li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
+      /       = link_to "Import Contacts", [@business, :crm_imports]
 
       li title="Find Marketing Missions & Manage Marketing Tasks" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders|marketing_assistant)/))
         = link_to "#"
@@ -250,9 +264,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Customer Information", [:edit, @business, :data_customers]
           / li class=('active' if controller_path.match(/\Abusinesses\/data\/values/))
             = link_to "Community & Values", [:edit, @business, :data_values]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
-            = link_to "Images & PDFs", [@business, :content_images]
-          / Add Other Integrations in Linked Accounts
+          / li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
+          /   = link_to "Images & PDFs", [@business, :content_images]
+          / / Add Other Integrations in Linked Accounts
           li class=('active' if controller_path.match(/\Abusinesses\/accounts\/root/))
             = link_to "Linked Accounts", [@business, :accounts_root]
 

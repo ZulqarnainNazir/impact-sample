@@ -118,11 +118,12 @@
       li.hidden-xs.hidden-sm = link_to 'http://help.locable.com/', target: :_blank do
         i.fa.fa-life-ring
         | Support
-      li
+      li.hidden-xs.hidden-sm
         / a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
-        = link_to [@business, :crm_companies], class: 'btn btn-primary invite-btn hidden-xs' do
+        / = link_to [@business, :crm_companies], class: 'btn btn-primary invite-btn hidden-xs' do
+        = link_to new_business_crm_invite_path(@business), class: 'btn btn-primary invite-btn' do
           i.fa.fa-user-plus.fa-2 aria-hidden="true"
-          |  Follow Companies & Causes
+          |  Request Support
           / |  Follow Organization/Send Invite
       / li.dropdown.pull-right
       /   = render "jumpto"
@@ -153,25 +154,35 @@
             p.m-b-0= current_user.name
 
         ul.dropdown-menu.animated.fadeInRight.m-t-xs
-          li
-            = link_to 'Edit My Profile', :edit_user_registration
-          / - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
+          li.visible-xs.visible-sm
+            / a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
+            / = link_to [@business, :crm_companies], class: 'btn btn-primary invite-btn hidden-xs' do
+            = link_to new_business_crm_invite_path(@business), class: '' do
+              i.fa.fa-user-plus.fa-2 aria-hidden="true"
+              |  Request Support
           - if @business.website && !@business.is_on_engage_plan?
             li.visible-xs.visible-sm title=" Preview Website"
-              = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: "navbar-link" do
+              = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: "" do
                 i.fa.fa-external-link
                 span [data-i18n="nav.website"]
                   |  Preview Website
 
           - elsif @business.is_on_engage_plan?
             li.visible-xs.visible-sm title=" Preview Listing"
-              = link_to listing_path_url(@business), target: :_blank, class: "navbar-link" do
+              = link_to listing_path_url(@business), target: :_blank, class: "" do
                 i.fa.fa-external-link
                 span [data-i18n="nav.listing"]
                   |  Preview Listing
-          li.visible-xs.visible-sm = link_to 'http://help.locable.com/', target: :_blank do
-            i.fa.fa-life-ring
-            |  Support
+
+          li.divider.visible-xs.visible-sm
+          li
+            = link_to 'Edit My Profile', :edit_user_registration
+          / - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
+
+
+          li
+            = link_to "Images & PDFs", [@business, :content_images]
+
           li.divider
           li
             span.p-w-md.text-uppercase Switch Account:
@@ -193,6 +204,8 @@
               = link_to 'Billing', subscription_dashboard_business_subscriptions_path(@business)
           / li
           /   = link_to 'Manage Active Features', business_account_modules_path
+          li
+            = link_to "Integrations", [@business, :accounts_root]
 
           - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
             li
@@ -200,7 +213,11 @@
                 i.fa.fa-external-link>
                 span.nav-label[data-i18n="nav.cce"]
                   |  View Partner Listing
+          li.visible-xs.visible-sm = link_to 'http://help.locable.com/', target: :_blank do
+            i.fa.fa-life-ring
+            |  Support
           li.divider
+
           li
             = link_to :destroy_user_session, method: :delete do
               i.fa.fa-sign-out
@@ -491,7 +508,7 @@
   /       /         | Custom Post
 
 / side button on mobile
-  / a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-inline-block href="#{new_business_crm_invite_url}"
-  /   i.fa.fa-user-plus.fa-2 aria-hidden="true"
-  /   / |  Send Invite
-  /   | Follow Companies
+/ a.btn.btn-primary.invite-btn.sidebar-btn.visible-xs-inline-block href="#{new_business_crm_invite_url}"
+/   i.fa.fa-user-plus.fa-2 aria-hidden="true"
+/   / |  Send Invite
+/   | Request Support
