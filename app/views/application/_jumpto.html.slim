@@ -8,11 +8,11 @@ ul.dropdown-menu.dropdown-messages
   - unless @business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true
     - if (@business.build_plan_no_setup_fee == false)
       li
-        = link_to "Manage Web Pages", [@business, :website_webpages]
+        = link_to "Manage Webpages", [@business, :website_webpages]
 
   / - if @business.module_active?(1)
   li
-    = link_to "Manage Content", [@business, :content_root]
+    = link_to "Manage Posts", [@business, :content_root]
   li
     = link_to "Manage Images & PDFs", business_content_images_path
 
@@ -39,4 +39,4 @@ ul.dropdown-menu.dropdown-messages
   hr
   li = link_to 'http://help.locable.com/', target: :_blank do
     i.fa.fa-life-ring>
-    | Support
+    | Help
