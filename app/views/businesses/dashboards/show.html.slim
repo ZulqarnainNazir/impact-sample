@@ -50,11 +50,12 @@
           i.fa.fa-2x.fa-bullhorn.text-center.visible-xs
           span
             | Manage Posts
-        li = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
-          i.fa.fa-desktop.hidden-xs
-          i.fa.fa-2x.fa-desktop.text-center.visible-xs
-          span
-            | Manage Webpages
+        - if (!@business.is_on_engage_plan? && !@business.build_plan_no_setup_fee == true) || current_user.super_user?
+          li = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
+            i.fa.fa-desktop.hidden-xs
+            i.fa.fa-2x.fa-desktop.text-center.visible-xs
+            span
+              | Manage Webpages
         li = link_to [@business, :data_root] do
           i.fa.fa-map-marker.hidden-xs
           i.fa.fa-2x.fa-map-marker.text-center.visible-xs
