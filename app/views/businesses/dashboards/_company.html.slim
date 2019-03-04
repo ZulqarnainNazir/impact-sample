@@ -3,7 +3,7 @@ tr
   td = link_to company.business.name, [:edit, @business, :crm, company]
   td
     - if company.company_lists.count >= 1
-      = "#{company.company_lists.count} Local Networks"
+      = "In #{company.company_lists.count} Local Networks"
     -else
       = link_to "Add to Network", [@business, :crm_company_lists], class: 'btn btn-success btn-sm'
   td
@@ -12,7 +12,7 @@ tr
     - else
       = link_to new_business_crm_invite_path(@business, company_id: company.id), class: 'btn btn-xs btn-default' do
         => icon 'envelope'
-        | Invite
+        | Request Support
   td
     = company.business.get_estimated_reach
 
