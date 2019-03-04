@@ -117,13 +117,13 @@
 
       li.hidden-xs.hidden-sm = link_to 'http://help.locable.com/', target: :_blank do
         i.fa.fa-life-ring
-        | Support
+        | Help
       li.hidden-xs.hidden-sm
         / a.btn.btn-primary.invite-btn.hidden-xs href="#{new_business_crm_invite_url}"
         / = link_to [@business, :crm_companies], class: 'btn btn-primary invite-btn hidden-xs' do
         = link_to new_business_crm_invite_path(@business), class: 'btn btn-primary invite-btn' do
           i.fa.fa-user-plus.fa-2 aria-hidden="true"
-          |  Request Support
+          |  Grow Supporters
           / |  Follow Organization/Send Invite
       / li.dropdown.pull-right
       /   = render "jumpto"
@@ -159,7 +159,7 @@
             / = link_to [@business, :crm_companies], class: 'btn btn-primary invite-btn hidden-xs' do
             = link_to new_business_crm_invite_path(@business), class: '' do
               i.fa.fa-user-plus.fa-2 aria-hidden="true"
-              |  Request Support
+              |  Grow Supporters
           - if @business.website && !@business.is_on_engage_plan?
             li.visible-xs.visible-sm title=" Preview Website"
               = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: "" do
@@ -174,7 +174,15 @@
                 span [data-i18n="nav.listing"]
                   |  Preview Listing
 
+          - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
+            li
+              = link_to connect_locable_path, target: :_blank do
+                i.fa.fa-external-link>
+                span.nav-label[data-i18n="nav.cce"]
+                  |  View Partner Listing
+
           li.divider.visible-xs.visible-sm
+
           li
             = link_to 'Edit My Profile', :edit_user_registration
           / - if @business.website && !@business.is_on_engage_plan? && @business.module_active?(5)
@@ -182,6 +190,22 @@
 
           li
             = link_to "Manage Images & PDFs", [@business, :content_images]
+
+          li.divider
+          li
+            = link_to 'Manage Users', [@business, :authorizations]
+          - if current_user.authorized_business_owner?(@business) || current_user.super_user?
+            li
+              = link_to 'Billing', subscription_dashboard_business_subscriptions_path(@business)
+          / li
+          /   = link_to 'Manage Active Features', business_account_modules_path
+          li
+            = link_to "Integrations", [@business, :accounts_root]
+
+
+          li.visible-xs.visible-sm = link_to 'http://help.locable.com/', target: :_blank do
+            i.fa.fa-life-ring
+            |  Help
 
           li.divider
           li
@@ -197,27 +221,6 @@
               i.fa.fa-plus-circle
               |  Add New Account
           li.divider
-          li
-            = link_to 'Manage Users', [@business, :authorizations]
-          - if current_user.authorized_business_owner?(@business) || current_user.super_user?
-            li
-              = link_to 'Billing', subscription_dashboard_business_subscriptions_path(@business)
-          / li
-          /   = link_to 'Manage Active Features', business_account_modules_path
-          li
-            = link_to "Integrations", [@business, :accounts_root]
-
-          - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-            li
-              = link_to connect_locable_path, target: :_blank do
-                i.fa.fa-external-link>
-                span.nav-label[data-i18n="nav.cce"]
-                  |  View Partner Listing
-          li.visible-xs.visible-sm = link_to 'http://help.locable.com/', target: :_blank do
-            i.fa.fa-life-ring
-            |  Support
-          li.divider
-
           li
             = link_to :destroy_user_session, method: :delete do
               i.fa.fa-sign-out

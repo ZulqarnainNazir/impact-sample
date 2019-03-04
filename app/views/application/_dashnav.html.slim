@@ -99,11 +99,10 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Marketing Messages
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless contents_active)
-          li  class=('active' if controller_path.match(/\Abusinesses\/content\/quick_posts/))
-            = link_to "New Message", [@business, :content_new]
           li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
-            = link_to "Manage Messages", [@business, :content_root]
-
+            = link_to "Manage Posts", [@business, :content_root]
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/quick_posts/))
+            = link_to "New Post", [@business, :content_new]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to [@business, :tools_content_feed_widgets] do
               | Content Feed Embeds
@@ -124,11 +123,11 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Events
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless events_active)
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/events/))
-            = link_to "New Event", [:new, @business, :content_event_definition]
           li class=('active' if controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/))
             / Need to add eventdefintions and inmportedeventdefintion?
             = link_to "Manage Events", [@business, :content_root, query: 'post_types=event']
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/events/))
+            = link_to "New Event", [:new, @business, :content_event_definition]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
             = link_to "Event Feeds", [@business, :content, :event_imports]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
@@ -151,15 +150,11 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             / li class=('active' if controller_path.match(/\Abusinesses\/website/))
             /   = link_to [@business, :website_root] do
             /     | At a Glance
-            - if @business.to_dos_enabled && (@business.to_dos.where('submission_status < ?', 2).count > 0)
-              li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
-                 = link_to [@business, :to_dos] do
-                    | Website Launch Tasks
             li class=('active' if controller_path.match(/\Abusinesses\/website\/webpages/))
               = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
-                | Pages
+                | Webpages
             li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
-              = link_to "Manage Content", [@business, :content_root]
+              = link_to "Manage Posts", [@business, :content_root]
             li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
               = link_to "Images & PDFs", [@business, :content_images]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/menus/))
@@ -174,6 +169,10 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Sidebars", [:edit, @business, :website_sidebars]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/redirects/))
               = link_to "Redirects", [@business, :website_redirects]
+            - if @business.to_dos_enabled && (@business.to_dos.where('submission_status < ?', 2).count > 0)
+              li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
+                 = link_to [@business, :to_dos] do
+                    | Website Launch Tasks
       / Add Landing Pages and Call-to-Action Builder to this section and renmae to Conversions
       li title="Manage Forms & Instant Contact Page" class=('active' if forms_active)
         = link_to "#"
@@ -194,10 +193,10 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Feedback & Reviews
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless reviews_active)
-          li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
-            = link_to "Private Feedback", [@business, :crm_feedbacks]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/reviews/))
             = link_to "Reviews", [@business, :crm_reviews]
+          li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
+            = link_to "Private Feedback", [@business, :crm_feedbacks]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
             = link_to [@business, :tools_review_widgets] do
               | Reviews Widgets
@@ -254,7 +253,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
       li = link_to 'http://help.locable.com/', target: :_blank do
         i.fa.fa-life-ring>
         span.nav-label[data-i18n="nav.support"]
-          | Support
+          | Help
 
       / li = link_to :destroy_user_session, method: :delete do
       /   i.fa.fa-sign-out
