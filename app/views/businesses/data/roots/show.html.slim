@@ -8,11 +8,11 @@
           strong.p-sm
             i.fa.fa-chevron-right
             i.fa.fa-chevron-right
-        li = link_to [@business, :dashboard] do
-          i.fa.fa-tachometer.hidden-xs
-          i.fa.fa-2x.fa-tachometer.text-center.visible-xs
-          span
-            | Dashboard
+        / li = link_to [@business, :dashboard] do
+        /   i.fa.fa-tachometer.hidden-xs
+        /   i.fa.fa-2x.fa-tachometer.text-center.visible-xs
+        /   span
+        /     | Dashboard
         li = link_to [:edit, @business, :data_details] do
           i.fa.fa-address-card-o.hidden-xs
           i.fa.fa-2x.fa-address-card-o.text-center.visible-xs
@@ -39,13 +39,6 @@
           i.fa.fa-2x.fa-user.text-center.visible-xs
           span
             | Team Members
-
-        li = link_to [@business, :content_images] do
-          i.fa.fa-picture-o.hidden-xs
-          i.fa.fa-2x.fa-picture-o.text-center.visible-xs
-          span
-            | Images & PDFs
-
         li = link_to [@business, :accounts_root] do
           i.fa.fa-link.hidden-xs
           i.fa.fa-2x.fa-link.text-center.visible-xs
