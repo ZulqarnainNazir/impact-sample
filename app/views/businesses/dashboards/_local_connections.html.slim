@@ -68,7 +68,7 @@
             | Reach&nbsp
           h1.m-xs
             strong
-              - if @business.reach && !@business.reach.present?
+              - if @business.reach && @business.reach.present?
                 = @business.reach
               -else
                 | 0
