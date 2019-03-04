@@ -6,6 +6,7 @@ task :check_feed_installations => :environment do
     #Listings do not count as an installation, only widgets and website embeds
 
     #TODO - Content feed in web builder does not rely on Widget, must be updated in order to be tracked this way
+    #TODO - Check to see if feeds include networks to confirm comminity participation
 
     def check_site(site, prefix, uuid)
       #Status check keys off of url from last Ahoy::Event and checks for presence of ID (prefix + uuid) on the page. If ID isn't present in view then we will not be able to confirm installation.
