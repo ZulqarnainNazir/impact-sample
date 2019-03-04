@@ -8,7 +8,7 @@ wrapper.wrapper-content
     = form_for @directory_widget, url: [@business, :tools_directory_widgets] do |form|
       .ibox.float-e-margins
         .ibox-title
-          <a class="btn btn-primary pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Show Me How</a>
+          / <a class="btn btn-primary pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Show Me How</a>
           h3 Create a Directory Embed
         .ibox-content
           = errors_for @directory_widget
@@ -43,7 +43,7 @@ wrapper.wrapper-content
       .modal-header
         button type="button" class="close" data-dismiss="modal" aria-label="Close"
           span aria-hidden="true" &times;
-        <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        / <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
         h3 Create a Local Network
       .modal-body
         = render partial: 'businesses/crm/company_lists/new', locals: {company_list: @business.company_lists.new({name: "Local Network #{@business.company_lists.size}"})}

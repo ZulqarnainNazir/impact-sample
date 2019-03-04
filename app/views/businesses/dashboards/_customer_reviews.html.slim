@@ -1,47 +1,56 @@
 .ibox.float-e-margins
-  - if business.reviews.empty?
-    .ibox-content
-      .p-a-2.text-center
-        = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Customer%20reviews.png', style: 'max-height: 90px; height: 90px;', class: 'img-responsive center-block')
-        - if !@business.module_active?(3)
-          = form_tag business_account_modules_path(:kind => 3, :active => true) do
-            = button_tag( type: 'submit', :class => "btn btn-link") do
-              h4.text-navy.m-t-0.m-b-0 Start Collecting Customer Reviews
-        - else
-          h4
-            = link_to "Start Collecting Reviews Now", [:new, @business, :crm_feedback], class: "text-navy"
-  - else
-    .ibox-title
-      h5 Recent Customer Reviews
-      = link_to [:new, @business, :crm_feedback], class: 'pull-right btn btn-xs btn-primary btn-outline' do
-        i.fa.fa-plus-circle
-        |  Collect More
-    .ibox-content
+  .ibox-title
+    h5
+      i.fa.fa-star
+      |  Customer Reviews
+    - if business.reviews.present?
+      .ibox-tools style="margin-top: -3px;"
+        h4.text-muted AVG #{@business.review_rating_average} STARS *
+  .ibox-content
+    - if business.reviews.empty?
+      .p-a-1.text-center
+        == "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe width='560' height='315' src='https://www.youtube.com/embed/bGu2Fc3UTJ8' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>"
+      hr
+      = link_to "Start Collecting Reviews Now", [:new, @business, :crm_feedback], class: "text-navy"
+    - else
       .feed-activity-list
-        - business.reviews.order(reviewed_at: :desc).limit(3).each do |review|
+        - @reviews.each do |review|
           .feed-element
-            = link_to [:edit, business, :crm, review.contact], class: "pull-left" do
+            = link_to [:edit, review.business, :crm, review.contact], class: "pull-left" do
               / img.img-circle src=""
               i.fa.fa-user-circle-o.fa-3x
-            div
-              small.pull-right = "#{time_ago_in_words(review.reviewed_at)} ago"
-              div.text-left
-                strong 
-                  = link_to review.customer_name, [:edit, business, :crm, review.contact]
-                |  rated 
-                span.text-warning style="display: inline-block"
-                  span.fa class=(review.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o')
-                  span.fa class=(review.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o')
-                  span.fa class=(review.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o')
-                  span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
-                  span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
-                div = truncate(review.description, length: 90)
+            div.pull-right
+              - if review.published?
+                strong
+                  = link_to 'Hide', [review.business, :crm, review, :review_publication, page: 1], method: :delete, class: 'btn btn-xs btn-default'
+              - else
+                strong
+                  = link_to 'Publish', [review.business, :crm, review, :review_publication, page: 1], method: :post, class: 'btn btn-xs btn-primary'
+            div.text-left
+              strong
+                = link_to review.customer_name, [:edit, review.business, :crm, review.contact]
+              |  rated you&nbsp
+              span.text-warning style="display: inline-block"
+                span.fa class=(review.overall_rating.to_i >= 1 ? 'fa-star' : 'fa-star-o')
+                span.fa class=(review.overall_rating.to_i >= 2 ? 'fa-star' : 'fa-star-o')
+                span.fa class=(review.overall_rating.to_i >= 3 ? 'fa-star' : 'fa-star-o')
+                span.fa class=(review.overall_rating.to_i >= 4 ? 'fa-star' : 'fa-star-o')
+                span.fa class=(review.overall_rating.to_i >= 5 ? 'fa-star' : 'fa-star-o')
+              br
+              small = "#{time_ago_in_words(review.reviewed_at)} ago"
+              / div = truncate(review.description, length: 90)
               /.pull-right
                 - if review.published?
                   strong.text-success> Published
-                  = link_to 'Hide', [business, :crm, review, :review_publication, dashboard: true], method: :delete, class: 'btn btn-xs btn-default' 
+                  = link_to 'Hide', [business, :crm, review, :review_publication, dashboard: true], method: :delete, class: 'btn btn-xs btn-default'
                 - else
                   strong.text-muted> Hidden
-                  = link_to 'Publish', [business, :crm, review, :review_publication, dashboard: true], method: :post, class: 'btn btn-xs btn-primary' 
-          
-      = link_to 'Manage Customer Reviews', [business, :crm_reviews], class: 'btn btn-primary btn-block m-t'
+                  = link_to 'Publish', [business, :crm, review, :review_publication, dashboard: true], method: :post, class: 'btn btn-xs btn-primary'
+
+      / hr
+      = link_to 'View All', [@business, :crm_reviews], class: 'btn btn-primary m-t'
+      = link_to "Request Review", [:new, @business, :crm_feedback], class: "text-navy m-t m-l-md"
+
+      p
+        small
+          em * Reflects all reviews including those unpublished.

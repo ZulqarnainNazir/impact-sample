@@ -1,0 +1,82 @@
+- last_sign_in_at = current_user.last_sign_in_at
+
+- followers = business.listed_by_business
+- recent_followers = followers.select { |follower| last_sign_in_at - follower.created_at <= 0 }
+
+- companies = []
+- @business.company_lists.each {|list| companies = companies.concat(list.companies)}
+-recent_follows = companies.uniq.select {|company| last_sign_in_at - company.created_at <= 0}
+
+.ibox
+  .ibox-title
+    h5
+      i.fa.fa-users
+      |  Local Connections
+      small
+        sup TM
+    .ibox-tools style="margin-top: -3px;"
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             |  Manage
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to "Add Company or Cause", [:new, business, :crm_company]
+        li
+          = link_to "Manage Local Networks", [@business, :crm, 'company_lists']
+        li
+          = link_to "Import Companies", [business, :crm_imports, import_type: :companies]
+        li
+          = link_to "View Followers", [@business, :crm, 'company_lists', 'following']
+
+  .ibox-content
+    .row
+      .col-xs-4.no-padding
+        = link_to [@business, :crm, 'company_lists'] do
+
+          .widget.bg-success.m-xxs.p-xxs
+            h5 Supporting
+            h1.m-xs
+              strong= companies.uniq.size
+            small
+              - if recent_follows.length > 0
+                .fa.fa-plus
+                = recent_follows.length.to_s + " New"
+              -else
+                | No New
+            / | 2 New
+            /   - if recent_followers.length > 0
+            /     = recent_followers.length.to_s + " New"
+
+      .col-xs-4.no-padding
+        = link_to [@business, :crm, 'company_lists', 'following'] do
+          .widget.bg-info.m-xxs.p-xxs
+            h5 Supporters
+            h1.m-xs
+              strong= followers.length
+            small
+              - if recent_followers.length > 0
+                .fa.fa-plus
+                = recent_followers.length.to_s + " New"
+              -else
+                | No New Supporters
+      .col-xs-4.no-padding
+        / = link_to [@business, :crm, 'company_lists', 'following'] do
+        .widget.bg-primary.m-xxs.p-xxs
+          h5
+            | Reach&nbsp
+          h1.m-xs
+            strong
+              - if @business.reach && !@business.reach.present?
+                = @business.reach
+              -else
+                | 0
+          small
+            em Last 30 Days
+
+    .row
+      .col-xs-12
+        .text-center
+          = "You have created #{business.company_lists.size} Local Networks."
+          = link_to " Manage Networks", [business, :crm_company_lists]

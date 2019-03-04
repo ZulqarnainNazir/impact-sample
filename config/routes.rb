@@ -177,9 +177,9 @@ Rails.application.routes.draw do
       scope module: :businesses do
         resource :dashboard, path: '', only: %i[show]
         resource :dashboard_tour_viewed, only: %i[create]
-        resources :account_modules do
-          get 'remote_create', :on => :collection
-        end
+        # resources :account_modules do
+        #   get 'remote_create', :on => :collection
+        # end
 
           resources :subscriptions, except: [:index] do
             resources :affiliate_payments, only: %i[show edit update] do
@@ -208,6 +208,7 @@ Rails.application.routes.draw do
 
         namespace :content do
           root to: 'feeds#show'
+          get '/new', to: 'roots#show'
           get '/activate', to: 'base#index'
           resource :images_upload, only: %i[new create]
           resource :feed, only: %i[show]

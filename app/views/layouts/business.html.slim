@@ -3,7 +3,7 @@ html
   = render 'head'
   = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
   body
-    = render 'appcues'
+    / = render 'appcues'
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
       = render 'dashnav'
       div id="page-wrapper" class="gray-bg"
@@ -22,4 +22,4 @@ html
       javascript:
         $('.requires-plan-upgrade').requiresPlanUpgrade();
     = intercom_tag
-    = render 'appcues_user_info'
+    / = render 'appcues_user_info'

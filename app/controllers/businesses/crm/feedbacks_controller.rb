@@ -1,5 +1,5 @@
 class Businesses::Crm::FeedbacksController < Businesses::BaseController
-  before_action -> { confirm_module_activated(3) }
+  # before_action -> { confirm_module_activated(3) }
   before_action only: new_actions do
     if params[:contact_id]
       @contact = @business.contacts.find(params[:contact_id])
@@ -39,9 +39,9 @@ class Businesses::Crm::FeedbacksController < Businesses::BaseController
             phone: @contact.phone,
             notes: @contact.crm_notes.first.try(:content),
           }
-          flash[:appcues_event] = "Appcues.track('added contact')"
+          # flash[:appcues_event] = "Appcues.track('added contact')"
           if @contact.feedbacks.any?
-            flash[:appcues_event] = "Appcues.track('added contact & requested review')"
+            # flash[:appcues_event] = "Appcues.track('added contact & requested review')"
             intercom_event 'invited-customer-to-review', {
                 contact_name: @contact.first_name + " " + @contact.last_name,
                 contact_email: @contact.email,

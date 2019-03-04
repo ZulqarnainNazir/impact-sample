@@ -8,7 +8,7 @@ wrapper.wrapper-content
     = form_for @directory_widget, url: [@business, :tools, @directory_widget] do |form|
       .ibox.float-e-margins
         .ibox-title
-          <a class="btn btn-primary btn-outline pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Embed Setup Hints</a>
+          / <a class="btn btn-primary btn-outline pull-right btn-sm" href="javascript:Appcues.show('-Kjiq-ehe39AZ-n2XwcF')">Embed Setup Hints</a>
           h3 Edit Directory Embed
         .ibox-content
           = errors_for @directory_widget
@@ -44,7 +44,7 @@ wrapper.wrapper-content
   .col-md-6
     .ibox.float-e-margins
       .ibox-title
-        <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjiuC6C3qdzgx4DJFq5')">Installation Hints</a>
+        / <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjiuC6C3qdzgx4DJFq5')">Installation Hints</a>
         h3 Embed Code
       .ibox-content
         .panel-group#accordian
@@ -78,7 +78,7 @@ wrapper.wrapper-content
       .modal-header
         button type="button" class="close" data-dismiss="modal" aria-label="Close"
           span aria-hidden="true" &times;
-        <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        / <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
         h3 Create a Local Network
       .modal-body
         = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: @directory_widget.company_list}

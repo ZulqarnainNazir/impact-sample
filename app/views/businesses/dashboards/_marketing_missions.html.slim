@@ -1,0 +1,233 @@
+/ - goal_num_prompts = 3
+/ - instances = MissionInstance.dashboard_prompts(@business, goal_num_prompts)
+- instances = MissionInstance.dashboard_prompts(@business, 5)
+/ - instances = @business.mission_instances.first(5)
+/ - recommended = Mission.recommended_for_business(@business, instances.map(&:mission_id)).first(goal_num_prompts - instances.size)
+- recommended = Mission.recommended_for_business(@business, instances.map(&:mission_id)).first(3)
+
+.ibox.float-e-margins
+  .ibox-title
+    h5
+      i.fa.fa-flag
+      |  Missions & Tasks
+    .ibox-tools
+      a.user-dropdown-toggle[data-toggle="dropdown"]
+        span
+           small.text-muted
+             |  Manage Missions
+             span.caret.pull-right
+      ul.dropdown-menu
+        li
+          = link_to 'Create Mission', new_business_mission_instance_path(@business)
+        li
+          = link_to "View Active Missions", [@business, :reminders]
+
+        li
+          = link_to "Browse Recommended Missions", [@business, :missions]
+        li
+          = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
+        / li
+        /   / | Hide/Show Quick Start
+        /   = link_to "Show Quick Start", [@business, :reminders]
+
+  .ibox-content
+    .row
+      / .col-lg-4
+      /   | Notifications
+      /
+      /   .activity-stream
+      /     .stream
+      /       .stream-badge
+      /         i.fa.fa-pencil
+      /       .stream-panel
+      /         .stream-info
+      /           a href="#"
+      /             img src=("<%= image_path('a5.jpg') %>") /
+      /             span Karen Miggel
+      /             span.date Today at 01:32:40 am
+      /         | Add new note to the
+      /         a href="#"  Martex
+      /         | project.
+      /         small.label.label-danger
+      /           | Action Required
+      /     .stream
+      /       .stream-badge
+      /         i.fa.fa-commenting-o
+      /       .stream-panel
+      /         .stream-info
+      /           a href="#"
+      /             img src=("<%= image_path('a4.jpg') %>") /
+      /             span John Mikkens
+      /             span.date Yesterday at 10:00:20 am
+      /         | Commented on
+      /         a href="#"  Ariana
+      /         | profile.
+      /     .stream
+      /       .stream-badge
+      /         i.fa.fa-circle
+      /       .stream-panel
+      /         .stream-info
+      /           a href="#"
+      /             img src=("<%= image_path('a2.jpg') %>") /
+      /             img src=("<%= image_path('a3.jpg') %>") /
+      /             img src=("<%= image_path('a4.jpg') %>") /
+      /             span Mike Johnson, Monica Smith and Karen Dortmund
+      /             span.date Yesterday at 02:13:20 am
+      /         | Changed status of third stage in the
+      /         a href="#"  Vertex
+      /         | project.
+
+      / .col-lg-4
+      .col-lg-6.p-sm
+        / h3 Today's/Upcoming Tasks (Click To Complete)
+
+          / small Click To Complete
+        - if instances.empty?
+          .p-h-md.text-center
+            - if params[:future]
+              / h2 No Upcoming Marketing Missions Scheduled
+              h2 No Upcoming Tasks Scheduled
+              = link_to 'Update Your Marketing Plan', [:timeline, @business, :activity_calendar, :index], class: 'btn btn-primary m-t'
+            / - elsif params[:past]
+            /   h2 No Past Marketing Missions
+            /   / = link_to 'Browse Recommended Marketing Missions', business_missions_path(business), class: 'text-navy'
+        - else
+          h3
+            | Upcoming Marketing Tasks
+          ul.todo-list.p-h-md.small-list
+            - instances.each do |event|
+              - if event.active?
+                li
+                  = link_to business_mission_path(@business, event.mission.id), class: '' do
+                    i.fa.fa-square-o
+                    span.m-l-xs= truncate(event.title, length: 80)
+              -else
+                li style='text-decoration: line-through;'
+                  = link_to business_mission_path(@business, event.mission.id), class: '' do
+                    i.fa.fa-check-square-o
+                    span.m-l-xs= truncate(event.title, length: 80)
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-check-square
+              /   span.m-l-xs.todo-completed Review Your Free Listing
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-check-square
+              /   span.m-l-xs.todo-completed Update Your Contact Info
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-square-o
+              /   span.m-l-xs Add Your Hours
+              /   small.label.label-primary
+              /     i.fa.fa-clock-o
+              /     |  1 mins
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-square-o
+              /   span.m-l-xs Add Social Media Links
+              / li
+              /   a.check-link href="#"
+              /     i.fa.fa-square-o
+              /   span.m-l-xs Highlight Your Team
+
+              / p= truncate(event.description.html_safe, length: 115)
+
+              / - if @mission_instance = MissionInstance.find_by(id: event.mission_instance_id)
+              /   .row
+              /     .col-md-6
+              /       - if event.is_a?(MissionInstanceEvent)
+              /         div= @mission_instance.schedule_in_words
+              /         small
+              /         span.text-navy= event.start.strftime('%b %e')
+              /         = ' '
+              /         | assigned to
+              /         = ' '
+              /
+              /         = render partial: 'businesses/missions/assignment_modal', locals: { mission: @mission_instance.mission, mission_instance: @mission_instance, skip_icon: true, color_class: 'text-blue' }
+              /         .col-md-6
+              /           = render partial: 'businesses/activity_calendar/timeline_actions', locals: { mi: @mission_instance, event: event }
+            = link_to [:timeline, @business, :activity_calendar_index], class: 'btn btn-primary btn-block btn-outline m-t' do
+              i.fa.fa-arrow-down
+              |  View All
+
+
+
+      / .col-lg-4
+      .col-lg-6.p-sm
+        h3 Recommended Missions
+        - recommended.any?
+          / ul.list-group.to-dos
+          ul.list-group
+            - recommended.each do |mission|
+              = link_to business_mission_path(@business, mission), class: 'block' do
+                li.list-group-item.m-t-xs.m-b-xs
+                  i.fa.fa-plus-circle.m-r-sm.float-left
+                  = mission.title
+                  / span.badge.badge-warning.pull-right = mission.time_to_complete
+            = link_to 'Browse Recommended Marketing Missions', business_missions_path(@business), class: 'btn btn-primary btn-block btn-outline m-t'
+
+
+/ .ibox id="activity_timeline"
+/   .ibox-title
+/     h5 Marketing Foundation/Account Setup Tasks
+/     h5="#{event_count} #{params[:future] ? "Upcoming" : "Past"} Marketing Mission#{event_count == 1 ? '' : 's'}"
+/     .ibox-tools
+/       a.user-dropdown-toggle[data-toggle="dropdown"]
+/         span
+/            small.text-muted
+/              i.fa.fa-edit
+/              |  Manage Missions
+/              span.caret.pull-right
+/       ul.dropdown-menu
+/         li
+/           = link_to "Active Missions List View", [@business, :reminders]
+/         li
+/           = link_to "Browse Missions", [@business, :missions]
+/         li
+/           = link_to 'Create New Mission', new_business_mission_instance_path(@business)
+/         li
+/           = link_to 'Manage Notifications', [:edit, @business, :mission_notifications]
+/   .ibox-content
+/     .fc-toolbar
+/       .fc-left
+/         .fc-button-group
+/           = link_to 'Upcoming', business_dashboard_path(business, future: true, past: nil, anchor: 'activity_timeline'), class: "fc-button #{params[:future] ? 'fc-state-active' : nil}"
+/           = link_to 'Past', business_dashboard_path(business, past: true, future: nil, anchor: 'activity_timeline'), class: "fc-button #{params[:past] ? 'fc-state-active' : nil}"
+/     - if events.empty?
+/       .p-a-3.text-center
+/         - if params[:future]
+/           h2 No Upcoming Marketing Missions Scheduled
+/         - elsif params[:past]
+/           h2 No Past Marketing Missions
+/         h4
+/           = link_to 'Browse Recommended Marketing Missions', business_missions_path(business), class: 'text-navy'
+/     - else
+/       #vertical-timeline.vertical-container.dark-timeline.m-t-70px
+/
+/         - events.each do |event|
+/           .vertical-timeline-block
+/             .vertical-timeline-icon.navy-bg
+/               i.fa.fa-briefcase
+/
+/             .vertical-timeline-content
+/               = link_to business_mission_path(business, event.id)
+/                 h2= truncate(event.title, length: 40)
+/               p= truncate(event.description.html_safe, length: 115)
+/
+/               - if @mission_instance = MissionInstance.find_by(id: event.mission_instance_id)
+/                 .row
+/                   .col-md-6
+/                     - if event.is_a?(MissionInstanceEvent)
+/                       div= @mission_instance.schedule_in_words
+/                     small
+/                       span.text-navy= event.start.strftime('%b %e')
+/                       = ' '
+/                       | assigned to
+/                       = ' '
+/
+/                       = render partial: 'businesses/missions/assignment_modal', locals: { mission: @mission_instance.mission, mission_instance: @mission_instance, skip_icon: true, color_class: 'text-blue' }
+/                   .col-md-6
+/                     = render partial: 'businesses/activity_calendar/timeline_actions', locals: { mi: @mission_instance, event: event }
+/       = link_to [:timeline, business, :activity_calendar_index], class: 'btn btn-primary btn-block btn-outline m-t' do
+/         i.fa.fa-arrow-down
+/         |  View More

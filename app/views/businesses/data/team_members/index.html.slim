@@ -1,6 +1,6 @@
 - title 'Manage Team Members'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Team Members'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :an => ' Team Members'}
 
 .row
   .col-lg-12
@@ -13,8 +13,8 @@
                 i.fa.fa-plus-circle>
                 ' Add a New Team Member
               h1.h3.panel-title
-                | Manage Team Members 
-                = link_to "Manage Users", [@business, :authorizations], class: "btn btn-xs btn-primary", style: "color: white; margin-left: 10px;"
+                | Manage Team Members
+                = link_to "Did You Mean Manage Authorized Account Users?", [@business, :authorizations], class: "btn btn-xs btn-primary", style: "color: white; margin-left: 10px;"
             .ibox-content
               = form_tag [@business, :data_team_members_positions], method: :patch do
                 .table-responsive

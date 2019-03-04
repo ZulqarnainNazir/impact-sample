@@ -1,0 +1,19 @@
+/ tr class=('unread' unless company.read_by.include?(current_user.id))
+tr
+  td = link_to company.business.name, [:edit, @business, :crm, company]
+  td
+    - if company.company_lists.count >= 1
+      = "In #{company.company_lists.count} Local Networks"
+    -else
+      = link_to "Add to Network", [@business, :crm_company_lists], class: 'btn btn-success btn-sm'
+  td
+    - if company.business.in_impact
+      | Claimed
+    - else
+      = link_to new_business_crm_invite_path(@business, company_id: company.id), class: 'btn btn-xs btn-default' do
+        => icon 'envelope'
+        | Request Support
+  td
+    = company.business.get_estimated_reach
+
+  / td = link_to company.business.website_url, company.business.website_url, target: '_blank'

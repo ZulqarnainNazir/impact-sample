@@ -1,89 +1,137 @@
-
 - title 'Your Locable Dashboard'
-= render partial: 'businesses/dashboards/welcome_messages', locals: { business: @business }
+
+.row.admin-dash
+  .col-md-12
+    .fluid-nav
+      ul.nav.navbar-top-links
+        li
+          strong.p-sm
+            i.fa.fa-chevron-right
+            i.fa.fa-chevron-right
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt.hidden-xs
+          i.fa.fa-2x.fa-bolt.text-center.visible-xs
+          span
+            | Quick Post
+        li = link_to [:new, @business, :content_event_definition] do
+          i.fa.fa-calendar.hidden-xs
+          i.fa.fa-2x.fa-calendar.text-center.visible-xs
+          span
+            | New Event
+        li = link_to [:new, @business, :content_offer] do
+          i.fa.fa-ticket.hidden-xs
+          i.fa.fa-2x.fa-ticket.text-center.visible-xs
+          span
+            | New Offer
+
+        / li = link_to [:new, @business, :content_quick_post] do
+        /   i.fa.fa-bullseye.hidden-xs
+        /   i.fa.fa-2x.fa-bullseye.text-center.visible-xs
+        /   span
+        /     | Campaigns
+
+        li = link_to [:new, @business, :crm_feedback] do
+          i.fa.fa-star.hidden-xs
+          i.fa.fa-2x.fa-star.text-center.visible-xs
+          span
+            | Request Customer Review
+        li = link_to [:new, @business, :crm_company] do
+          i.fa.fa-building.hidden-xs
+          i.fa.fa-2x.fa-building.text-center.visible-xs
+          span
+            | Add Company or Cause
+        li = link_to [:new, @business, :crm_contact] do
+          i.fa.fa-address-card-o.hidden-xs
+          i.fa.fa-2x.fa-address-card-o.text-center.visible-xs
+          span
+            | Add Contact
+        li = link_to [@business, :content_root] do
+          i.fa.fa-bullhorn.hidden-xs
+          i.fa.fa-2x.fa-bullhorn.text-center.visible-xs
+          span
+            | Manage Posts
+        li = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
+          i.fa.fa-desktop.hidden-xs
+          i.fa.fa-2x.fa-desktop.text-center.visible-xs
+          span
+            | Manage Webpages
+        li = link_to [@business, :data_root] do
+          i.fa.fa-map-marker.hidden-xs
+          i.fa.fa-2x.fa-map-marker.text-center.visible-xs
+          span
+            | Update Company Profile
+        li
+          a.navbar-minimalize href="#"
+            i.fa.fa-plus.hidden-xs
+            i.fa.fa-2x.fa-plus.text-center.visible-xs
+            span
+              | More
+        li
+          strong.p-sm
+            i.fa.fa-chevron-left
+            i.fa.fa-chevron-left
+
+/ = render partial: 'businesses/dashboards/welcome_messages', locals: { business: @business }
 - if @business.to_dos_enabled
-  = render partial: 'businesses/dashboards/to_dos', locals: { business: @business }
+  div.alert.alert-warning.alert-dismissable.m-t-sm.m-b-sm
+    h1
+      strong Hi #{current_user.first_name}, ready to make some progress on your website?
+    p.h4 #{link_to 'Click here to complete your remaining website launch tasks', [@business, :to_dos]} so your Community Manager can help you get your site launched!
 
-.row
-  .col-lg-12
-    .wrapper.wrapper-content
-      .row
-        .col-lg-12
-          .grid
-            .grid-item
-              = render partial: 'businesses/dashboards/followers', locals: { business: @business }
-            /- if @business.module_active?(0)
-            /  .grid-item
-            /    = render 'mission_prompts'
-            /- if @business.module_active?(3)
-            .grid-item
-              = render partial: 'businesses/dashboards/company_lists', locals: { business: @business }
-            .grid-item
-              = render partial: 'businesses/dashboards/overview', locals: { business: @business }
-            .grid-item
-              = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
-            /- if @business.module_active?(4)
-            .grid-item
-              = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
-            /- if @business.module_active?(0)
-            /  .grid-item
-            /    = render partial: 'businesses/dashboards/activity_timeline', locals: { business: @business }
-            /.grid-item
-              .ibox.float-e-margins
-                .ibox-title
-                  h5 Your Current Embed Tools
-                  .ibox-content
-                    .feed-activity-list
-                      .feed-element
-                        i.fa.fa-star
-                        strong
-                          = link_to " Customer Reviews Embeds", [@business, :tools_review_widgets]
-                        div
-                          = @business.review_widgets.count
-                          |  Review Embeds
-                      .feed-element
-                        i.fa.fa-bullhorn
-                        strong
-                          = link_to " Content Feed Embeds", [@business, :tools_content_feed_widgets]
-                        div
-                          = @business.content_feed_widgets.count
-                          |  Content Embeds
-                      .feed-element
-                        i.fa.fa-calendar-plus-o
-                        strong
-                          = link_to " Calendar Embeds", [@business, :tools_calendar_widgets]
-                        div
-                          = @business.calendar_widgets.count
-                          |  Calendar Embeds
-                      .feed-element
-                        i.fa.fa-address-book-o
-                        strong
-                          = link_to " Directory Embeds", [@business, :tools_directory_widgets]
-                        div
-                          = @business.directory_widgets.count
-                          |  Directory Embeds
-                      .feed-element
-                        i.fa.fa-check-square-o
-                        strong
-                          = link_to " Web Forms", [@business, :crm_contact_forms]
-                        div
-                          = @business.contact_forms.count
-                          |  Form Embeds
+-if @show_quick_start
+  = render partial: 'businesses/dashboards/quick_start'
 
+.row.m-t-xs
+  div class="#{(@show_community_content_feed || @show_participation_status) ? 'col-lg-8' : 'col-lg-12'}"
+
+    -if @show_marketing_missions
       .row
-        .col-lg-12
-          .ibox.float-e-margins
-            .ibox-title
-              h2
-                | Manage Active Features on Your Account
-                a class="btn btn-primary btn-sm pull-right" href="javascript:Appcues.show('-L-ZPRcW34uZb8tf2YYW')" What's managing features about &#x27a4;
-            /.ibox-tools
-                a class="collapse-link"
-                  i.fa.fa-chevron-up Collapse Section
-            .ibox-content
-              = render "modules"
+        .col-sm-12
+          = render 'marketing_missions'
+
+    / .wrapper.wrapper-content
+    .row
+      div class="#{(@show_local_connections && @show_campaigns) ? 'col-lg-6' : 'col-lg-12'}"
+        / .grid
+        -if @show_local_connections
+          = render partial: 'businesses/dashboards/local_connections', locals: { business: @business }
+      div class="#{(@show_local_connections && @show_campaigns) ? 'col-lg-6' : 'col-lg-12'}"
+        -if @show_campaigns
+          = render partial: 'businesses/dashboards/campaigns', locals: { business: @business }
+
+    .row
+      .col-lg-6
+        = render partial: 'businesses/dashboards/customer_reviews', locals: { business: @business }
+      .col-lg-6
+        = render partial: 'businesses/dashboards/form_submissions', locals: { business: @business }
+    .row
+      .col-xs-12
+        = render partial: 'businesses/dashboards/companies', locals: { business: @business }
+
+
+  -if @show_community_content_feed || @show_participation_status
+    .col-lg-4
+      -if @show_participation_status
+        = render partial: 'businesses/dashboards/participation_status', locals: { business: @business }
+      -if @show_community_content_feed
+        = render partial: 'businesses/dashboards/community_content_feed', locals: { business: @business }
+
+
+      / .row
+      /   .col-lg-12
+      /     .ibox.float-e-margins
+      /       .ibox-title
+      /         h2
+      /           | Manage Active Features on Your Account
+      /           a class="btn btn-primary btn-sm pull-right" href="javascript:Appcues.show('-L-ZPRcW34uZb8tf2YYW')" What's managing features about &#x27a4;
+      /       /.ibox-tools
+      /           a class="collapse-link"
+      /             i.fa.fa-chevron-up Collapse Section
+      /       .ibox-content
+      /         = render "modules"
       / p <strong>Please note</strong>: click #{link_to 'Manage Website', [@business, :website_root]} to create or update basic marketing pages or landing pages on your website. Content you create will automatically be placed on your website and distributed to your relevant Local Networks, the Locable Publisher Network, and any linked social accounts.
-javascript:
-  $('.grid').masonry({
-    itemSelector: '.grid-item',
-  });
+
+// javascript:
+//   $('.grid').masonry({
+//     itemSelector: '.grid-item',
+//   });

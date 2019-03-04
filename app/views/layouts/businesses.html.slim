@@ -3,12 +3,12 @@ html
   = render 'head'
   = stylesheet_link_tag 'dash', media: 'all', data: { turbolinks_track: true }
   body
-    = render 'appcues'
+    / = render 'appcues'
     div id="wrapper" class="#{params[:controller]}.#{params[:action]}"
       - if current_user.super_user?
         = render 'billing_dashnav'
-      div id="page-wrapper" class="gray-bg"
-        = render 'dashtopnavbar_reduced' 
+      div id="page-wrapper" class="gray-bg" style="#{!current_user.super_user? ? 'margin-left: -1px' : ''}"
+        = render 'dashtopnavbar_reduced'
         = render 'alerts'
         div
           = yield
@@ -17,7 +17,7 @@ html
           div
             strong
               | Copyright
-            |  Locable © 2019 
+            |  Locable © 2019
     = yield :javascript
     = intercom_tag
-    = render 'appcues_user_info'
+    / = render 'appcues_user_info'

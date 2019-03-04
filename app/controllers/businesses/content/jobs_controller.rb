@@ -30,7 +30,7 @@ class Businesses::Content::JobsController < Businesses::Content::BaseController
     end
     respond_to do |format|
       if @job.save
-        flash[:appcues_event] = "Appcues.track('created job')"
+        # flash[:appcues_event] = "Appcues.track('created job')"
         @job.__elasticsearch__.index_document
         flash[:notice] = 'Job successfully created.'
         format.html { redirect_to edit_business_content_job_path(@business, @job), notice: "Draft job saved" } if params[:draft].present?

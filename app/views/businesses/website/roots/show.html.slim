@@ -2,101 +2,270 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :an => ' Manage Website'}
 
-br
-- if @business.website
-  h2.h3 Preview Your Website
-  = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: 'btn btn-info' do
-    strong => website_root_url(host: @business.website.host, protocol: :http)
-    i.fa.fa-external-link style="margin-left:5px"
-  hr
-  br
+-if @business.website
+ h2
+   / | Preview Your Website
+   = link_to website_root_url(host: @business.website.host, protocol: :http), target: :_blank, class: 'btn btn-info' do
+     / strong => website_root_url(host: @business.website.host, protocol: :http)
+     strong Preview Your Website
+     i.fa.fa-external-link style="margin-left:5px"
+ br
 
-h2.h3 Manage your website's content
-.row.dashboard-root-primary-panels
-  .col-sm-6.col-lg-3
-    = link_to [:edit, @business, :website, :meta] do
-      .panel.panel-primary
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-tasks.fa-5x
-        .panel-footer.text-right
-          span.pull-left> SEO & Meta
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3
-    = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website, :webpages] do
-      .panel.panel-success
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-sitemap.fa-5x
-        .panel-footer.text-right
-          span.pull-left> Pages
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3
-    = link_to [:edit, @business, :website, :menus] do
-      .panel.panel-warning
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-random.fa-5x
-        .panel-footer.text-right
-          span.pull-left> Navigation
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-lg-3
-    = link_to [:edit, @business, :website, :theme] do
-      .panel.panel-danger
-        .panel-heading
-          .row
-            .col-xs-3
-              i.fa.fa-photo.fa-5x
-        .panel-footer.text-right
-          span.pull-left> Design
-          i.fa.fa-arrow-circle-right
+/ .row
+/   .col-sm-6
+/     / TODO - Add next 3 website Todos here
+/     - if @business.to_dos_enabled
+/       = render partial: 'businesses/dashboards/website_launch_tasks', locals: { business: @business }
+/   .col-sm-6
+/     / hTODO add intro video
 
-hr
-h2.h3 Or jump right to a task:
+
+/ TODO - Add Stats
+
+
+h2.h3.m-b-lg
+  | Update Your Core Pages
+  span.float-right.m-l-md = link_to [@business, :website_webpages], class: 'btn btn-sm btn-success' do
+    ' View All Pages
+/ TODO - Make this 6 Core pages
+.row
+  - if @website.home_page
+    = render partial: 'businesses/website/webpages/webpage', object: @website.home_page, locals: { business: @business, website: @website }
+  - else
+    .col-sm-6.col-md-3
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_home_page] do
+          .panel-body.text-center
+            i.fa.fa-home.fa-4x>
+            h2.h3>
+              ' Homepage
+              i.fa.fa-plus-circle
+            span.text-muted Add a Homepage
+  - if @website.about_page
+    = render partial: 'businesses/website/webpages/webpage', object: @website.about_page, locals: { business: @business, website: @website }
+  - else
+    .col-sm-6.col-md-3
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_about_page] do
+          .panel-body.text-center
+            i.fa.fa-question-circle.fa-4x>
+            h2.h3>
+              ' About
+              i.fa.fa-plus-circle
+            span.text-muted Add an About Page
+  - if @website.blog_page
+    = render partial: 'businesses/website/webpages/webpage', object: @website.blog_page, locals: { business: @business, website: @website }
+  - else
+    .col-sm-6.col-md-3
+      .panel.panel-default.page-preview
+        = link_to [:edit, @business, :website_blog_page] do
+          .panel-body.text-center
+            i.fa.fa-rss-square.fa-4x>
+            h2.h3>
+              ' Blog
+              i.fa.fa-plus-circle
+            span.text-muted Add a Blog Page
+  - if @website.contact_page
+    = render partial: 'businesses/website/webpages/webpage', object: @website.contact_page, locals: { business: @business, website: @website }
+  - else
+      .col-sm-6.col-md-3
+        .panel.panel-default.page-preview
+          = link_to [:edit, @business, :website_contact_page] do
+            .panel-body.text-center
+              i.fa.fa-map-marker.fa-4x>
+              h2.h3>
+                ' Contact
+                i.fa.fa-plus-circle
+              span.text-muted Add a Contact Page
+  / .col-sm-6.col-md-3
+  /   .panel.panel-default.page-preview
+  /     = link_to [:new, @business, :website_custom_page] do
+  /       .panel-body.text-center
+  /         i.fa.fa-file.fa-4x
+  /         h2.h3
+  /           ' View All Pages
+
+
+
+
+/ Quick Links: Posting New Content, Managing Feeds, Managing Forms, Menus
+h2.h3.m-b-lg Add Events, Offers, News & Other Content To Your Site
 .row.dashboard-root-secondary-panels
   .col-sm-6.col-md-4.col-lg-2
-    = link_to [:new, @business, :website, :custom_page] do
-      .panel.panel-warning
+    = link_to [:new, @business, :content_quick_post] do
+      .panel.panel-primary
         .panel-heading
-          i.fa.fa-plus.fa-4x
+          i.fa.fa-bolt.fa-4x
         .panel-footer.text-right
-          span.pull-left> Add Page
+          span.pull-left Quick Post
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-md-4.col-lg-2
-    = link_to [:new, @business, :content, :quick_post] do
-      .panel.panel-success
+    = link_to [:new, @business, :content_event_definition] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-calendar.fa-4x
+        .panel-footer.text-right
+          span.pull-left Event
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :content_offer] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-ticket.fa-4x
+        .panel-footer.text-right
+          span.pull-left Offer
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :content_job] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-briefcase.fa-4x
+        .panel-footer.text-right
+          span.pull-left Job/Volunteer Post
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :content_gallery] do
+      .panel.panel-primary
+        .panel-heading
+          i.fa.fa-camera.fa-4x
+        .panel-footer.text-right
+          span.pull-left Gallery
+          i.fa.fa-arrow-circle-right
+  / .col-sm-6.col-md-4.col-lg-2
+  /   = link_to [:new, @business, :content_before_after] do
+  /     .panel.panel-primary
+  /       .panel-heading
+  /         i.fa.fa-columns.fa-4x
+  /       .panel-footer.text-right
+  /         span.pull-left Before &amp; After
+  /         i.fa.fa-arrow-circle-right
+  .col-sm-6.col-md-4.col-lg-2
+    = link_to [:new, @business, :content_post] do
+      .panel.panel-primary
         .panel-heading
           i.fa.fa-file-text-o.fa-4x
         .panel-footer.text-right
-          span.pull-left> Quick Post
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
-    = link_to [:edit, @business, :website, :details] do
-      .panel.panel-danger
-        .panel-heading
-          i.fa.fa-list.fa-4x
-        .panel-footer.text-right
-          span.pull-left> Details
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
-    = link_to [:edit, @business, :website, :sidebars] do
-      .panel.panel-primary
-        .panel-heading
-          i.fa.fa-th.fa-4x
-        .panel-footer.text-right
-          span.pull-left> Sidebars
-          i.fa.fa-arrow-circle-right
-  .col-sm-6.col-md-4.col-lg-2
-    = link_to [:edit, @business, :website, :sidebars] do
-      .panel.panel-success
-        .panel-heading
-          i.fa.fa-reply.fa-4x
-        .panel-footer.text-right
-          span.pull-left> Redirects
+          span.pull-left Custom Post
           i.fa.fa-arrow-circle-right
 
-hr
-p Click the quick links above to create a new custom page, or jump right to drafting a post.
+h2.h3.m-b-lg Manage Your Company Profile and Support Local
+.row.dashboard-root-primary-panels
+  .col-sm-6.col-lg-3
+    = link_to [@business, :data_root] do
+      .panel.panel-primary
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-map-marker.fa-5x
+        .panel-footer.text-right
+          span.pull-left Update Your Company Profile
+          i.fa.fa-arrow-circle-right
+  .col-sm-6.col-lg-3
+    = link_to [@business, :tools_directory_widgets] do
+      .panel.panel-info
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-users.fa-5x
+        .panel-footer.text-right
+          span.pull-left Create a Directory
+          i.fa.fa-arrow-circle-right
+
+  .col-sm-6.col-lg-3
+    = link_to [@business, :tools_calendar_widgets] do
+      .panel.panel-info
+        .panel-heading
+          .row
+            .col-xs-3
+              i.fa.fa-calendar.fa-5x
+        .panel-footer.text-right
+          span.pull-left Create a Community Calendar
+          i.fa.fa-arrow-circle-right
+
+  / .col-sm-6.col-lg-3
+  /   = link_to [:edit, @business, :website, :details] do
+  /     .panel.panel-danger
+  /       .panel-heading
+  /         .row
+  /           .col-xs-3
+  /             i.fa.fa-bullseye.fa-5x
+  /       .panel-footer.text-right
+  /         span.pull-left Join a Campaign
+  /         i.fa.fa-arrow-circle-right
+  / .col-sm-6.col-lg-3
+  /   = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website, :webpages] do
+  /     .panel.panel-success
+  /       .panel-heading
+  /         .row
+  /           .col-xs-3
+  /             i.fa.fa-sitemap.fa-5x
+  /       .panel-footer.text-right
+  /         span.pull-left> Pages
+  /         i.fa.fa-arrow-circle-right
+  / .col-sm-6.col-lg-3
+  /   = link_to [:edit, @business, :website, :menus] do
+  /     .panel.panel-warning
+  /       .panel-heading
+  /         .row
+  /           .col-xs-3
+  /             i.fa.fa-random.fa-5x
+  /       .panel-footer.text-right
+  /         span.pull-left> Navigation
+  /         i.fa.fa-arrow-circle-right
+  / .col-sm-6.col-lg-3
+  /   = link_to [:edit, @business, :website, :theme] do
+  /     .panel.panel-danger
+  /       .panel-heading
+  /         .row
+  /           .col-xs-3
+  /             i.fa.fa-photo.fa-5x
+  /       .panel-footer.text-right
+  /         span.pull-left> Design
+  /         i.fa.fa-arrow-circle-right
+
+
+/ h2 Or Jump Right To A Task:
+/ .row.dashboard-root-secondary-panels
+/   .col-sm-6.col-md-4.col-lg-2
+/     = link_to [:new, @business, :website, :custom_page] do
+/       .panel.panel-warning
+/         .panel-heading
+/           i.fa.fa-plus.fa-4x
+/         .panel-footer.text-right
+/           span.pull-left> Add Page
+/           i.fa.fa-arrow-circle-right
+/   .col-sm-6.col-md-4.col-lg-2
+/     = link_to [:new, @business, :content, :quick_post] do
+/       .panel.panel-success
+/         .panel-heading
+/           i.fa.fa-file-text-o.fa-4x
+/         .panel-footer.text-right
+/           span.pull-left> Quick Post
+/           i.fa.fa-arrow-circle-right
+/   .col-sm-6.col-md-4.col-lg-2
+/     = link_to [:edit, @business, :website, :details] do
+/       .panel.panel-danger
+/         .panel-heading
+/           i.fa.fa-list.fa-4x
+/         .panel-footer.text-right
+/           span.pull-left> Details
+/           i.fa.fa-arrow-circle-right
+/   .col-sm-6.col-md-4.col-lg-2
+/     = link_to [:edit, @business, :website, :sidebars] do
+/       .panel.panel-primary
+/         .panel-heading
+/           i.fa.fa-th.fa-4x
+/         .panel-footer.text-right
+/           span.pull-left> Sidebars
+/           i.fa.fa-arrow-circle-right
+/   .col-sm-6.col-md-4.col-lg-2
+/     = link_to [:edit, @business, :website, :sidebars] do
+/       .panel.panel-success
+/         .panel-heading
+/           i.fa.fa-reply.fa-4x
+/         .panel-footer.text-right
+/           span.pull-left> Redirects
+/           i.fa.fa-arrow-circle-right
+
+/ hr
+/ p Click the quick links above to create a new custom page, or jump right to drafting a post.

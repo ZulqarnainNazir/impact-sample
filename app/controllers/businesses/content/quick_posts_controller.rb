@@ -35,7 +35,7 @@ class Businesses::Content::QuickPostsController < Businesses::Content::BaseContr
     end
     respond_to do |format|
       if @quick_post.save
-        flash[:appcues_event] = "Appcues.track('created quick post')"
+        # flash[:appcues_event] = "Appcues.track('created quick post')"
         @quick_post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_quick_post_path(@business, @quick_post), notice: "Draft created successfully" } if params[:draft].present?

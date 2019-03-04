@@ -27,7 +27,7 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
     end
     create_resource @custom_page, custom_page_params, location: [:edit, @business, :website, @custom_page] do |success|
       if @custom_page.hide_navigation
-        flash[:appcues_event] = "Appcues.track('created landing page')"
+        # flash[:appcues_event] = "Appcues.track('created landing page')"
         intercom_event 'created-landing-page'
       end
       intercom_event 'created-custom-webpage'

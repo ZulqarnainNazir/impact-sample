@@ -30,7 +30,7 @@ class Businesses::MissionInstancesController < Businesses::BaseController
 
     if @mission_instance.save_with_mission(@mission)
       @mission_instance.reschedule_events!
-      flash[:appcues_event] = "Appcues.track('created marketing mission')"
+      # flash[:appcues_event] = "Appcues.track('created marketing mission')"
       intercom_event 'created-marketing-mission'
       redirect_to custom_business_missions_path, notice: 'Mission Added'
     else
@@ -65,7 +65,7 @@ class Businesses::MissionInstancesController < Businesses::BaseController
     service = MissionActioner.new(mission, @business, current_user, params[:note])
 
     if service.complete
-      flash[:appcues_event] = "Appcues.track('completed mission')"
+      # flash[:appcues_event] = "Appcues.track('completed mission')"
       intercom_event 'completed-mission'
       redirect_to :back, notice: 'Mission completed'
     else
@@ -118,17 +118,17 @@ class Businesses::MissionInstancesController < Businesses::BaseController
 
     # Activate missions module and send intercom event
     intercom_message = ""
-    appcues_message = ""
+    # appcues_message = ""
 
     if !@business.module_present?(0)
       @module = AccountModule.new(:kind => 0, :active => true)
       @module.business = @business
 
-      appcues_message = "Appcues.track('module activated: marketing_missions ')"
+      # appcues_message = "Appcues.track('module activated: marketing_missions ')"
       intercom_message = "marketing-missions-activated"
 
       if @module.save
-        flash[:appcues_event] = appcues_message
+        # flash[:appcues_event] = appcues_message
         intercom_event intercom_message
       end
     end

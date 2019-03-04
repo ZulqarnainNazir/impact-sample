@@ -22,6 +22,22 @@ $(document).ready(function(){
     });
   };
 
+  if (!$.fn.dataTable.isDataTable('table.simple-datatable')) {
+    var table = $('table.simple-datatable').DataTable({
+        paging: false,
+        info: false,
+        searching: false,
+        responsive: true
+    });
+  };
+
+  // {
+  //   aaSorting: [],
+  //   pageLength: 10,
+  //   responsive: true,
+  //   dom: '<"html5buttons"B>lTfgitp',
+  // }
+
   if (!$.fn.dataTable.isDataTable('table.ajax-datatable')) {
     var tables = $('table.ajax-datatable');
     $.map(tables, function(table){

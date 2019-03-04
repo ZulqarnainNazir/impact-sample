@@ -45,7 +45,7 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
     end
     respond_to do |format|
       if @event_definition.save
-        flash[:appcues_event] = "Appcues.track('created event')"
+        # flash[:appcues_event] = "Appcues.track('created event')"
         @event_definition.reschedule_events!
         @event_definition.__elasticsearch__.index_document
         flash[:notice] = 'Event successfully created.'

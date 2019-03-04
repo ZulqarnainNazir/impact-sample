@@ -21,7 +21,7 @@
           = link_to polymorphic_url([@business, :crm_imports], :import_type => 'companies'), class: 'btn btn-sm btn-primary btn-outline pull-right' do
             => icon 'plus-circle'
             | Import contacts in bulk
-          
+
           - if @companies.empty?
             .row
               .col-lg-4.col-lg-offset-4
@@ -30,7 +30,7 @@
                   h2 No Companies or Causes Found
                   h4
                     = link_to 'Add a Company', [:new, @business, :crm_company], class: 'text-navy'
-                  p.text-left.m-t-md.strong Keep track of companies you endorse and causes you support. 
+                  p.text-left.m-t-md.strong Keep track of companies you endorse and causes you support.
                   p.text-left Go further by creating embeddable tools for your website like our self-updating directory, community calendar and more.
           - else
             / p style="margin:2em 0" = page_entries_info @companies
@@ -39,8 +39,14 @@
                 tr
                   th
                     | Name
-                  th 
-                    | Status
+                  / th
+                  /   | Status
+                  th
+                    | Supporting
+                  th
+                    | Supporters
+                  th
+                    | Estimated Monthly Reach
                   th
                     | Email
                   th

@@ -29,7 +29,7 @@
               /        => link_to 'Connect with Locable', [:edit, @business, :accounts_locable], class: 'btn btn-primary'
               /        = link_to 'Connect with Facebook', [:edit, @business, :accounts_facebook], class: 'btn btn-primary'
 
-              <a class="btn btn-primary btn-sm btn-outline" href="javascript:Appcues.show('-KjPyGESE-SPVyXne4Qn')">Show hints ➤</a>
+              / <a class="btn btn-primary btn-sm btn-outline" href="javascript:Appcues.show('-KjPyGESE-SPVyXne4Qn')">Show hints ➤</a>
               .pull-right
                 - if @reviews.any?
                   => link_to 'View Public Reviews', website_reviews_url(host: @business.website.host, protocol: :http), target: :_blank, style: 'margin-right: 0.5em'
@@ -55,9 +55,9 @@
                       h2 No Reviews Found
                       h4
                         = link_to 'Request a Customer Review', [:new, @business, :crm_feedback], class: 'text-navy'
-                      p.text-left.m-t-md.strong Collect customers reviews, all you need is a customer's email address and we do the rest. 
+                      p.text-left.m-t-md.strong Collect customers reviews, all you need is a customer's email address and we do the rest.
                       p.text-left Add Locable reviews to your site plus our approach can help you grow reviews on 3rd party sites like Yelp, Facebook and Google..
-                
+
               - else
                 div
                   .table-responsive

@@ -29,7 +29,7 @@ class Businesses::Content::OffersController < Businesses::Content::BaseControlle
     end
     respond_to do |format|
       if @offer.save
-        flash[:appcues_event] = "Appcues.track('created offer')"
+        # flash[:appcues_event] = "Appcues.track('created offer')"
         @offer.__elasticsearch__.index_document
         flash[:notice] = 'Offer was successfully created.'
         format.html { redirect_to edit_business_content_offer_path(@business, @offer), notice: "Offer draft created successfully" } if params[:draft].present?

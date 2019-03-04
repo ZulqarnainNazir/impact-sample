@@ -1,5 +1,9 @@
 nav.navbar-default.navbar-static-side[role="navigation"]
     ul#side-menu.nav.metismenu
+        li = link_to root_path do
+          / @business ? business_dashboard_path(@business) : root_path
+          span.nav-label[data-i18n="nav.subscriptions"]
+            | All Accounts
         li = link_to super_business_data_path do
           span.nav-label[data-i18n="nav.subscriptions"]
             | Core Business Data

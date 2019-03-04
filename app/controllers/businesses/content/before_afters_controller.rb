@@ -21,7 +21,7 @@ class Businesses::Content::BeforeAftersController < Businesses::Content::BaseCon
 
     respond_to do |format|
       if @before_after.save
-        flash[:appcues_event] = "Appcues.track('created before & after')"
+        # flash[:appcues_event] = "Appcues.track('created before & after')"
         @before_after.__elasticsearch__.index_document
         flash[:notice] = 'Before/After post was successfully created.'
         format.html { redirect_to edit_business_content_before_after_path(@business, @before_after), notice: "Before/After post created successfully" } if params[:draft].present?

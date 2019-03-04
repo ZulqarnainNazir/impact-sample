@@ -20,7 +20,7 @@ protocol: :http) : website_event_path(event)
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
 - title = link_to specific_event_url, target: :_blank, class: 'title'
-  = truncate sanitize(event.event_definition.title.titleize),
+  = truncate sanitize_simple(event.event_definition.title.titleize),
       length: 60,
       omission: '... '
 

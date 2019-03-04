@@ -117,11 +117,11 @@ class Businesses::Crm::ImportsController < Businesses::BaseController
     upload = S3Service.upload(Rails.root.join('tmp', params[:filename]))
 
     job = if params[:import_type] == "contacts"
-      flash[:appcues_event] = "Appcues.track('imports contacts')"
+      # flash[:appcues_event] = "Appcues.track('imports contacts')"
       intercom_event 'imports-contacts'
       ContactImportJob.perform_later(upload.key, @business, params)
     elsif params[:import_type] == "companies"
-      flash[:appcues_event] = "Appcues.track('imports companies')"
+      # flash[:appcues_event] = "Appcues.track('imports companies')"
       intercom_event 'imports-companies'
       CompanyImportJob.perform_later(upload.key, @business, params)
     end

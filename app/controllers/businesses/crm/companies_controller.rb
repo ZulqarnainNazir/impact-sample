@@ -29,7 +29,7 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
       if @companies.length < 1 or params[:force] == 'true'
         company = Company.create_with_associations(params, @business) do |success|
           if success
-            flash[:appcues_event] = "Appcues.track('added company')"
+            # flash[:appcues_event] = "Appcues.track('added company')"
             intercom_event 'added-company'
           end
         end
@@ -60,7 +60,7 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
       if params[:json] == 'true'
         render json: company.to_json, layout: false
       else
-        flash[:appcues_event] = "Appcues.track('added company')"
+        # flash[:appcues_event] = "Appcues.track('added company')"
         intercom_event 'added-company'
         redirect_to [:edit, @business, :crm, company]
       end

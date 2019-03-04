@@ -1,12 +1,50 @@
-tr class=('unread' unless company.read_by.include?(current_user.id))
+/ - company_list = company_list_company.company_list
+
+/ - is_in_crm = @business.owned_companies.any? { |company| company.company_business_id == company_list.business_id }
+/ - is_following = @business.company_lists.any? { |list| list.companies.any? { |c| c.company_business_id == company_list.business_id}}
+
+/ - params = { :referred_from => "following", :business => company_list.business_id, :business_name => company_list.business.name }
+/ - add_to_network_link = link_to "Add to Network", [@business, :crm_companies, params]
+/ - follow_back_link = link_to "Follow Back", [@business, :crm_company_lists, params]
+/
+/ - calendar = company_list.calendar_widgets.empty? ? nil : 'Calendar'
+/ - directory = company_list.directory_widgets.empty? ? nil : 'Directory'
+/ - content_feed = company_list.content_feed_widgets.empty? ? nil : 'Content Embed'
+/ - types = [calendar, directory, content_feed].select { |x| x.present? }
+/ - explicit_types = types.length > 3 ? types[0..1].join(', ') : types[0..2].join(', ')
+/ - more_types = types.length > 3 ? " +#{types.length - 2} More" : ""
+
+
+/ tr class=('unread' unless company.read_by.include?(current_user.id))
+tr
   td = link_to company.business.name, [:edit, @business, :crm, company]
+  / td
+  /   - if company.business.in_impact
+  /     | Claimed
+  /   - else
+  /     | Unclaimed
+  /     / = link_to new_business_crm_invite_path(@business, company_id: company.id), class: 'btn btn-xs btn-default' do
+  /     /   => icon 'envelope'
+  /     /   | Invite
+
+  td
+    - if company.company_lists.count >= 1
+      = "In #{company.company_lists.count} Local Networks"
+    -else
+      / - if is_following
+      /   = link_to "Support Back", [@business, :crm_company_lists], class: 'btn btn-success btn-sm'
+      / -else
+      = link_to "Add to Network", [@business, :crm_company_lists], class: 'btn btn-success btn-sm'
+
   td
     - if company.business.in_impact
       | Claimed
     - else
       = link_to new_business_crm_invite_path(@business, company_id: company.id), class: 'btn btn-xs btn-default' do
         => icon 'envelope'
-        | Invite
+        | Request Support
+  td
+    = company.business.get_estimated_reach
   td = company.business.location.email
   td = company.business.location.phone_number? ? company.business.location.phone_number : '--'
   td = company.business.location.street1

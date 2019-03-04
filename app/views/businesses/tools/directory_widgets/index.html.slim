@@ -18,7 +18,7 @@
             = link_to [:new, @business, :tools_directory_widget], class: 'btn btn-sm btn-primary' do
               => icon 'plus-circle'
               | Create Directory
-            <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kjip2iZDWHjSmajfUPL')">What is this?</a>
+            / <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kjip2iZDWHjSmajfUPL')">What is this?</a>
 
           - if @directory_widgets.empty?
             .row
@@ -28,7 +28,7 @@
                   h2 No Directories
                   h4
                     = link_to 'Create a New Directory', [:new, @business, :tools_directory_widget], class: 'text-navy'
-                  p.text-left.m-t-md.strong Create a referral network - add one or more self-updating directories to your website 
+                  p.text-left.m-t-md.strong Create a referral network - add one or more self-updating directories to your website
                   p.text-left Highlight causes you support or companies you endorse. Membership organizations can promote members and nonprofits can promote sponsors.
           - else
             p style="margin:2em 0" = page_entries_info @directory_widgets

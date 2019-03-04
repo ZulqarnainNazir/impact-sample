@@ -1,5 +1,5 @@
 class Businesses::Crm::ContactFormsController < Businesses::BaseController
-  before_action -> { confirm_module_activated(4) }, except: :index
+  # before_action -> { confirm_module_activated(4) }, except: :index
   before_action only: member_actions do
     @contact_form = @business.contact_forms.where(archived: false).find(params[:id])
     @form_fields = FormField.all
@@ -28,7 +28,7 @@ class Businesses::Crm::ContactFormsController < Businesses::BaseController
     @contact_form = @business.contact_forms.new
     create_resource @contact_form, contact_form_params, location: [:edit, @business, :crm, @contact_form] do |success|
       if success
-        flash[:appcues_event] = "Appcues.track('added form')"
+        # flash[:appcues_event] = "Appcues.track('added form')"
         intercom_event 'added-form'
       end
     end

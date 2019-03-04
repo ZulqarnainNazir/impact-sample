@@ -8,7 +8,7 @@ wrapper.wrapper-content
     = form_for @company_list, url: [@business, :crm, @company_list] do |form|
       .ibox.float-e-margins
         .ibox-title
-          <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">See list hints</a>
+          / <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">See list hints</a>
           h3 Edit Local Network
         .ibox-content
           = errors_for @company_list
@@ -107,7 +107,7 @@ wrapper.wrapper-content
         $(".company_ids:enabled").chosen();
       });
     });
-    
+
     /*
     I think this code was originally developed for creating/editing company_lists
     inside of content embeds. (See _edit.html.slim and _shared.html.slim)
