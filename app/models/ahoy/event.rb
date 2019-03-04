@@ -10,7 +10,9 @@ class Ahoy::Event < ActiveRecord::Base
 
   private
     def set_widget_status
-      if self.properties['type'] == 'Content Widget' || self.properties['type'] == 'Website Content Feed'
+      # Website Content Embed doesn't currently use ContentFeedWIdget - Needs to be updated.
+      # if self.properties['type'] == 'Content Widget' || self.properties['type'] == 'Website Content Feed'
+      if self.properties['type'] == 'Content Widget'
         w = ContentFeedWidget.find(self.properties['type_id'])
         if w.company_list_ids.count > 1
           w.status = true

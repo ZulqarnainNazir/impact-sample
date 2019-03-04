@@ -311,6 +311,7 @@ class Business < ActiveRecord::Base
 
   def community_content_feed_installed
     #if ContentFeedWidet.status == true && contentfeedWidget includes a company listing
+    #note that web builder doesnt currently use ContentFeedWidget so that needs to be updated
     ContentFeedWidget.where(business_id: self.id).each do |w|
      if w.status == true && w.company_list_ids.count > 1
        return true
