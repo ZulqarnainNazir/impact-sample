@@ -4,14 +4,14 @@
 /     !controller_path.match(/\Abusinesses\/crm\/(contact_forms|reviews|feedbacks|form_submissions|companies|contacts|imports)/))
 
 - local_connections_active = (\
-  controller_path.match(/\Abusinesses\/crm\/(company_lists)/) ||\
+  controller_path.match(/\Abusinesses\/crm\/(company_lists|companies|contacts|imports)/) ||\
   controller_path.match(/\Abusinesses\/crm\/company_lists\/following/) ||\
   controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
 
     / company_lists company_lists/following tools/directory_widgets
 
-- contacts_active = (\
-controller_path.match(/\Abusinesses\/crm\/(companies|contacts|imports)/))
+/ - contacts_active = (\
+/ controller_path.match(/\Abusinesses\/crm\/(companies|contacts|imports)/))
 
     / companies contacts imports
 
@@ -31,7 +31,7 @@ controller_path.match(/\Abusinesses\/crm\/(form_submissions|contact_forms)/))
 / controller_path.match(/\Abusinesses\/content/) || controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/)
 - contents_active = (\
   (controller_path.match(/\Abusinesses\/content/) &&\
-  !controller_path.match(/\Abusinesses\/content\/(images|events|event_imports)/)) ||\
+  !controller_path.match(/\Abusinesses\/content\/(events|event_imports)/)) ||\
   controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
 
 - events_active = (\
@@ -51,7 +51,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
       li.nav-header.profile-element.clearfix style="padding: 10px 15px 4px;"
         = link_to image_tag('Locable_White_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive'), "https://www.locable.com", class: 'navbar-brand no-padding', target: "_blank"
         / = image_tag('Locable_White_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive navbar-brand', style: 'margin: 0 0 20px 0; padding: 0 30px 0 0;')
-      / Make conditional on completeness
       li.profile-element
         = link_to [@business, :data_root], class: '' do
           h5
@@ -148,8 +147,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to new_website_business_website_add_website_path, method: :get
                 i.fa.fa-plus-circle
                 | Add New Website
-                / br
-                / small.font-normal.font-italic Build a Solid Foundation
           - else
             / li class=('active' if controller_path.match(/\Abusinesses\/website/))
             /   = link_to [@business, :website_root] do
@@ -205,20 +202,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to [@business, :tools_review_widgets] do
               | Reviews Widgets
 
-      / li title="Manage Contacts" class=('active' if contacts_active)
-      /   = link_to "#"
-      /     i.fa.fa-address-card-o
-      /     span.nav-label[data-i18n="nav.contacts"]
-      /       | Contacts
-      /     span.fa.arrow
-      /   ul.nav.nav-second-level class=('collapse' unless contacts_active)
-      /     li class=('active' if controller_path.match(/\Abusinesses\/crm\/companies/))
-      /       = link_to "Companies & Causes", [@business, :crm_companies]
-      /     li class=('active' if controller_path.match(/\Abusinesses\/crm\/contacts/))
-      /       = link_to "People", [@business, :crm_contacts]
-      /     li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
-      /       = link_to "Import Contacts", [@business, :crm_imports]
-
       li title="Find Marketing Missions & Manage Marketing Tasks" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders|marketing_assistant)/))
         = link_to "#"
           i.fa.fa-flag
@@ -237,13 +220,13 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant/))
             = link_to "To-Do Lists", [@business, :marketing_assistant_index]
 
-      li title="Keep Your Online Company Profile Current" class=('active' if controller_path.match(/\Abusinesses\/data/) || controller_path.match(/\Abusinesses\/accounts\/root/) || controller_path.match(/\Abusinesses\/content\/images/))
+      li title="Keep Your Online Company Profile Current" class=('active' if controller_path.match(/\Abusinesses\/data/) || controller_path.match(/\Abusinesses\/accounts\/root/))
         = link_to "#"
           i.fa.fa-map-marker
           span.nav-label[data-i18n="nav.business_data"]
             | Company Profile
           span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/data/) || controller_path.match(/\Abusinesses\/accounts\/root/) || controller_path.match(/\Abusinesses\/content\/images/))
+        ul.nav.nav-second-level class=('collapse' unless controller_path.match(/\Abusinesses\/data/) || controller_path.match(/\Abusinesses\/accounts\/root/))
           li class=('active' if controller_path.match(/\Abusinesses\/data\/details/))
             = link_to "Business Basics", [:edit, @business, :data_details]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/location/))
@@ -264,12 +247,19 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to "Customer Information", [:edit, @business, :data_customers]
           / li class=('active' if controller_path.match(/\Abusinesses\/data\/values/))
             = link_to "Community & Values", [:edit, @business, :data_values]
-          / li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
-          /   = link_to "Images & PDFs", [@business, :content_images]
           / / Add Other Integrations in Linked Accounts
           li class=('active' if controller_path.match(/\Abusinesses\/accounts\/root/))
             = link_to "Linked Accounts", [@business, :accounts_root]
 
+      li = link_to 'http://help.locable.com/', target: :_blank do
+        i.fa.fa-life-ring>
+        span.nav-label[data-i18n="nav.support"]
+          | Support
+
+      / li = link_to :destroy_user_session, method: :delete do
+      /   i.fa.fa-sign-out
+      /   span.nav-label[data-i18n="nav.signout"]
+      /     | Sign out
 
       / - if current_user.super_user? || current_user.authorizations.where(business_id: @business.id, role: 0).any?
       - if current_user.super_user?
@@ -279,21 +269,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             span.nav-label[data-i18n="nav.super_settings"]
               | Super Admin
 
-      / li = link_to 'http://help.locable.com/', target: :_blank do
-      /   i.fa.fa-life-ring>
-      /   span.nav-label[data-i18n="nav.support"]
-      /     | Support
 
-      / - if current_user.try(:cce_id?) && current_user.try(:cce_url?)
-      /   li = link_to connect_locable_path, target: :_blank do
-      /   i.fa.fa-external-link>
-      /   span.nav-label[data-i18n="nav.cce"]
-      /     | Go to Locable
-
-      / li = link_to :destroy_user_session, method: :delete do
-      /   i.fa.fa-sign-out
-      /   span.nav-label[data-i18n="nav.signout"]
-      /     | Sign out
 
       - if user_masquerade?
         li = link_to "Reverse masquerade", back_masquerade_path(current_user)
