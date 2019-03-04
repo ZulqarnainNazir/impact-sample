@@ -23,7 +23,10 @@
 / TODO - Add Stats
 
 
-h2.h3.m-b-lg Update Your Core Pages
+h2.h3.m-b-lg
+  | Update Your Core Pages
+  span.float-right.m-l-md = link_to [@business, :website_webpages], class: 'btn btn-sm btn-success' do
+    ' View All Pages
 / TODO - Make this 6 Core pages
 .row
   - if @website.home_page
@@ -74,6 +77,15 @@ h2.h3.m-b-lg Update Your Core Pages
                 ' Contact
                 i.fa.fa-plus-circle
               span.text-muted Add a Contact Page
+  / .col-sm-6.col-md-3
+  /   .panel.panel-default.page-preview
+  /     = link_to [:new, @business, :website_custom_page] do
+  /       .panel-body.text-center
+  /         i.fa.fa-file.fa-4x
+  /         h2.h3
+  /           ' View All Pages
+
+
 
 
 / Quick Links: Posting New Content, Managing Feeds, Managing Forms, Menus
@@ -146,7 +158,7 @@ h2.h3.m-b-lg Manage Your Company Profile and Support Local
             .col-xs-3
               i.fa.fa-map-marker.fa-5x
         .panel-footer.text-right
-          span.pull-left Update Core Business Data
+          span.pull-left Update Your Company Profile
           i.fa.fa-arrow-circle-right
   .col-sm-6.col-lg-3
     = link_to [@business, :tools_directory_widgets] do
@@ -156,7 +168,7 @@ h2.h3.m-b-lg Manage Your Company Profile and Support Local
             .col-xs-3
               i.fa.fa-users.fa-5x
         .panel-footer.text-right
-          span.pull-left Add a SupportLocal Directory
+          span.pull-left Create a Directory
           i.fa.fa-arrow-circle-right
 
   .col-sm-6.col-lg-3
@@ -167,7 +179,7 @@ h2.h3.m-b-lg Manage Your Company Profile and Support Local
             .col-xs-3
               i.fa.fa-calendar.fa-5x
         .panel-footer.text-right
-          span.pull-left Add a Community Calendar
+          span.pull-left Create a Community Calendar
           i.fa.fa-arrow-circle-right
 
   / .col-sm-6.col-lg-3

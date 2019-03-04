@@ -151,9 +151,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
                 / br
                 / small.font-normal.font-italic Build a Solid Foundation
           - else
-            li class=('active' if controller_path.match(/\Abusinesses\/website/))
-              = link_to [@business, :website_root] do
-                | At a Glance
+            / li class=('active' if controller_path.match(/\Abusinesses\/website/))
+            /   = link_to [@business, :website_root] do
+            /     | At a Glance
             - if @business.to_dos_enabled && (@business.to_dos.where('submission_status < ?', 2).count > 0)
               li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
                  = link_to [@business, :to_dos] do
