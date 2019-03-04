@@ -99,9 +99,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Marketing Messages
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless contents_active)
-          li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
+          li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(new|events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
             = link_to "Manage Posts", [@business, :content_root]
-          li  class=('active' if controller_path.match(/\Abusinesses\/content\/quick_posts/))
+          li  class=('active' if controller_path.match(/\Abusinesses\/content\/new/))
             = link_to "New Post", [@business, :content_new]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to [@business, :tools_content_feed_widgets] do
@@ -123,7 +123,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Events
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless events_active)
-          li class=('active' if controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/))
+          li class=('active' if controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(new|events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/))
             / Need to add eventdefintions and inmportedeventdefintion?
             = link_to "Manage Events", [@business, :content_root, query: 'post_types=event']
           li class=('active' if controller_path.match(/\Abusinesses\/content\/events/))
@@ -154,7 +154,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               = link_to [(@business.website.webpages.where(type: 'CustomPage').count > 7 ? :table : nil), @business, :website_webpages] do
                 | Webpages
             li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/)))
-              = link_to "Manage Posts", [@business, :content_root]
+              = link_to "Posts", [@business, :content_root]
             li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
               = link_to "Images & PDFs", [@business, :content_images]
             li class=('active' if controller_path.match(/\Abusinesses\/website\/menus/))
