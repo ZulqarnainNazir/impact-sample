@@ -12,12 +12,16 @@ class Ahoy::Event < ActiveRecord::Base
     def set_widget_status
       if self.properties['type'] == 'Content Widget'
         w = ContentFeedWidget.find(self.properties['type_id'])
-        w.status = true
-        w.save
+        if w.company_list_ids.count > 1
+          w.status = true
+          w.save
+        end
       elsif self.properties['type'] == 'Calendar Widget'
         w = CalendarWidget.find(self.properties['type_id'])
-        w.status = true
-        w.save
+        if w.company_list_ids.count > 1
+          w.status = true
+          w.save
+        end
       elsif self.properties['type'] == 'Directory Widget'
         w = DirectoryWidget.find(self.properties['type_id'])
         w.status = true
