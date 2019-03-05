@@ -91,7 +91,7 @@ class Businesses::DashboardsController < Businesses::BaseController
   end
 
   def show_community_content_feed
-    # Only show when there are Followed By's
+    # Only show when the business is supporting others
     if following_count >= 1
       true
     else
@@ -101,9 +101,8 @@ class Businesses::DashboardsController < Businesses::BaseController
   end
 
   def show_participation_status
-    # Only show once there is a follower and hide if > 3 or 4 installed
-    #Need to add installation checks
-    if follower_count >=1
+    # Only show once there are > 2 supporters or if a Directory, Community Calendar or Community Content Feed is installed.
+    if follower_count >2 || @business.support_local_directory_installed || @business.community_calendar_installed || @business.community_content_feed_installed
       true
     else
       false
