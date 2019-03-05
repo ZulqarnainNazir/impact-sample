@@ -1,3 +1,4 @@
+# This parser process ical feeds via an ICS file
 require 'icalendar'
 
 module Feeds
@@ -18,8 +19,8 @@ module Feeds
           event_id: event.uid.to_s,
           title: event.summary.try(:to_s).try(:force_encoding, 'utf-8'),
           summary: event.description.try(:to_s).try(:force_encoding, 'utf-8'),
-          start_date: event.dtstart.try(:to_datetime),
-          end_date: event.dtend.try(:to_datetime),
+          start_date: event.dtstart,
+          end_date: event.dtend,
           location: get_location(event.location)
         })
       end

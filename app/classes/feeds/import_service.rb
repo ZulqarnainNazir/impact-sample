@@ -7,6 +7,11 @@
 # Usage:
 #   Feeds::ImportService.new(event_feed: event_feed).run
 #
+# Command Line Usage:
+# reload!; EventFeed.find(9).imported_event_definitions.destroy_all
+# reload!; ef = EventFeed.find(9); Feeds::ImportService.new(event_feed: ef, always_notify: true).run
+#
+#
 module Feeds
   class ImportError < StandardError; end
 
@@ -137,25 +142,51 @@ module Feeds
     # statement is used to parse the supplied Event Feed's URL and get the events from the feed.
     def parser_from_url
       case event_feed.url
-      when  -> (event_feed_url) { known_chambermaster_event_hosts.any? { |host| event_feed_url.include? host }  }
-        Feeds::Parsers::ChamberMasterEventParser.new
-      when /.*chambermaster|chamberorganizer/
+      when  -> (event_feed_url) { known_webster_city_ical_event_hosts.any? { |host| event_feed_url.include? host }  }
+        # Custom Parser for Webster City School District (rschooltoday) and Webster City Town Hall Calendar
+        Feeds::Parsers::IcalWebsterCityParser.new
+      when -> (event_feed_url) { event_feed_url.include? 'http://webstercityarea.chamberofcommerce.me/members/cal_xml/WCAC_rss.xml' }
+        #Custom Parser for Webster City Chamber in Central timezone
+        Feeds::Parsers::ChamberNationWebsterCityParser.new
+      when  -> (event_feed_url) { known_chamber_master_event_hosts.any? { |host| event_feed_url.include? host }  }
+        # Chamber Master uses RSS feeds
         Feeds::Parsers::ChamberMasterParser.new
+      when  -> (event_feed_url) { known_chamber_nation_event_hosts.any? { |host| event_feed_url.include? host }  }
+        # Chamber Nation & Chamber Organizer uses XML feeds - Only works for Pacific timezone feeds currently
+        Feeds::Parsers::ChamberNationParser.new
       when /\.rss|\.xml/
+        # Base RSS/XML Parser
         Feeds::Parsers::RssParser.new
       when /\.ics/
+        # Base ICAL/ICS parser
         Feeds::Parsers::IcalParser.new
       when /time.ly/ && /xml/
+        # TODO - Expand this check for mutliple version of timely calendars
+        # when  -> (event_feed_url) { known_timely_event_hosts.any? { |host| event_feed_url.include? host } }
+        # Base Timely Parser
         Feeds::Parsers::TimelyParser.new
       when /google\.com\/calendar\/v3/
-        Feeds::Parsers::JsonParser.new
+        # Base Google Calendar Parser
+        Feeds::Parsers::GoogleCalendarParser.new
       end
     end
 
-    # When you add a new chambermaster feed, add the hostname to this list
-    def known_chambermaster_event_hosts
-      ['webstercityarea.chamberofcommerce']
+    def known_webster_city_ical_event_hosts
+      ['https://webstercity.com/', 'https://srv2-advancedview.rschooltoday.com/public/conference/ical/u/']
     end
+
+    def known_chamber_master_event_hosts
+      ['chambermaster.com', 'eldoradocounty.org', 'bataviachamber.org', 'chchamber.com']
+    end
+
+    def known_chamber_nation_event_hosts
+      ['chamberofcommerce.me', 'chamberorganizer.com']
+    end
+
+    # def known_timely_event_hosts
+    #   ['time.ly', 'timely', 'all-in-one-event-calendar']
+    # end
+
 
     def no_new_info?
       stats[:total] == stats[:matched]

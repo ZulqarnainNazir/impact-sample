@@ -1,7 +1,8 @@
 # encoding: utf-8
+# Extends the base Chambernation parser for Webster City Chamber
 module Feeds
   module Parsers
-    class ChamberMasterEventParser < ChamberMasterParser
+    class ChamberNationWebsterCityParser < Feeds::Parsers::RssParser
       def event_from_entry(event)
         event_metadata = event_metadata_hash(event)
         parsed_title   = Nickel.parse(event.title)
