@@ -1,4 +1,6 @@
 # encoding: utf-8
+# Extends the base RSS parser for Chamber Master feeds
+# Need to test for Folsom Chamber and El Dorada Chamber. May need to extract into sub or super class in future.
 module Feeds
   module Parsers
     class ChamberMasterParser < Feeds::Parsers::RssParser

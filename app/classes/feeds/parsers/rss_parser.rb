@@ -1,3 +1,5 @@
+# This parser process RSS/XML feeds
+
 module Feeds
   module Parsers
     class RssParser < Feeds::BaseParser
@@ -7,6 +9,7 @@ module Feeds
         end
       end
 
+      #TODO - This should probably be expanded as the default?
       def event_from_entry(entry)
         Feeds::Event.new entry.to_h.merge(
           summary: Nokogiri::HTML(entry.summary).text,

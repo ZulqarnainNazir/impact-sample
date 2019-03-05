@@ -1,3 +1,5 @@
+# This parse processes Timely feeds using XML
+
 module Feeds
   module Parsers
     class TimelyParser < Feeds::BaseParser

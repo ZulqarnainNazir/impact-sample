@@ -7,13 +7,15 @@ module EventFeedHelper
   def feed_type(event_feed)
     case event_feed.url
     when /\.rss|\.xml/
-      'RSS'
+      'RSS/XML'
     when /\.ics/
-      'ICAL'
+      'ICAL/ICS'
     when /timely/
-      'ICAL'
+      'TIMELY'
     when /google\.com\/calendar\/v3/
-      'Google Calendar'
+      'GOOGLE'
+    else
+      'Custom'
     end
   end
 end

@@ -1,3 +1,6 @@
+# Extends the base iCal parser for Webster City School District (RSchool) & Webster City Town Hall Calendar
+# TODO - Extract Town Hall Calenadar to Timely
+
 require 'icalendar'
 
 module Feeds

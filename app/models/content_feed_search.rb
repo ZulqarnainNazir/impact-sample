@@ -27,7 +27,7 @@ class ContentFeedSearch
               business_id: @business.id,
             },
             term: {
-              published_status: true,
+              import_pending: false,
             },
           },
         ],
@@ -36,7 +36,8 @@ class ContentFeedSearch
     if @unpublished == 'true' && @published != 'true'
       dsl1[:filter][:and] << {
         term: {
-          published_status: (false || nil),
+          # published_status: (false || nil),
+          published_status: false,
         },
       }
     end
@@ -44,7 +45,8 @@ class ContentFeedSearch
     if @unpublished != 'true' && @published == 'true'
       dsl1[:filter][:and] << {
         term: {
-          published_status: true,
+          # published_status: true,
+          published_status: !false
         },
       }
     end
@@ -91,6 +93,9 @@ class ContentFeedSearch
             term: {
               business_id: @business.id,
             },
+            term: {
+              import_pending: false,
+            },
           },
         ],
       },
@@ -98,7 +103,8 @@ class ContentFeedSearch
     if @unpublished == 'true' && @published != 'true'
       dsl2[:filter][:and] << {
         term: {
-          published_status: (false || nil),
+          # published_status: (false || nil),
+          published_status: false
         },
       }
     end
@@ -106,7 +112,8 @@ class ContentFeedSearch
     if @unpublished != 'true' && @published == 'true'
       dsl2[:filter][:and] << {
         term: {
-          published_status: true,
+          # published_status: true,
+          published_status: !false,
         },
       }
     end

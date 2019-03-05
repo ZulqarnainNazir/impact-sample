@@ -1,3 +1,4 @@
+# This parser process ical feeds via an ICS file
 require 'icalendar'
 
 module Feeds

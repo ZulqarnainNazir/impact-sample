@@ -1,6 +1,7 @@
+# This parser processes Google Calendar feeds via JSON
 module Feeds
   module Parsers
-    class JsonParser < Feeds::BaseParser
+    class GoogleCalendarParser < Feeds::BaseParser
       def parse(url)
         doc = open(url).read
         json = JSON.parse(doc)
