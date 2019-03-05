@@ -35,9 +35,11 @@
       .col-xs-4.no-padding
         = link_to [@business, :crm, 'company_lists'] do
 
-          .widget.bg-success.m-xxs.p-xxs
+          .widget.bg-success.m-xxs style="padding: 10px;"
             h5 Supporting
-            h1.m-xs
+            h1.m-t-xs.m-b-xs.hidden-xs
+              strong= companies.uniq.size
+            h2.m-t-xs.m-b-xs.visible-xs
               strong= companies.uniq.size
             small
               - if recent_follows.length > 0
@@ -51,9 +53,11 @@
 
       .col-xs-4.no-padding
         = link_to [@business, :crm, 'company_lists', 'following'] do
-          .widget.bg-info.m-xxs.p-xxs
+          .widget.bg-info.m-xxs style="padding: 10px;"
             h5 Supporters
-            h1.m-xs
+            h1.m-t-xs.m-b-xs.hidden-xs
+              strong= followers.length
+            h2.m-t-xs.m-b-xs.visible-xs
               strong= followers.length
             small
               - if recent_followers.length > 0
@@ -63,10 +67,16 @@
                 | No New Supporters
       .col-xs-4.no-padding
         / = link_to [@business, :crm, 'company_lists', 'following'] do
-        .widget.bg-primary.m-xxs.p-xxs
+        .widget.bg-primary.m-xxs style="padding: 10px;"
           h5
             | Reach&nbsp
-          h1.m-xs
+          h1.m-t-xs.m-b-xs.hidden-xs
+            strong
+              - if @business.reach && @business.reach.present?
+                = @business.reach
+              -else
+                | 0
+          h2.m-t-xs.m-b-xs.visible-xs
             strong
               - if @business.reach && @business.reach.present?
                 = @business.reach
