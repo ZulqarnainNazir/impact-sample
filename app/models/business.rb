@@ -290,6 +290,7 @@ class Business < ActiveRecord::Base
   end
 
   def support_local_directory_installed
+    # return false #Testing
     #if DirectoryWidet.status == true
     DirectoryWidget.where(business_id: self.id).each do |w|
       if w.status == true
@@ -300,6 +301,7 @@ class Business < ActiveRecord::Base
   end
 
   def community_calendar_installed
+    # return false #Testing
     #if calendarWidet.status == true && calendarWidget includes a company listing
      CalendarWidget.where(business_id: self.id).each do |w|
       if w.status == true && w.company_list_ids.count > 1
@@ -310,6 +312,7 @@ class Business < ActiveRecord::Base
   end
 
   def community_content_feed_installed
+    # return false #Testing
     #if ContentFeedWidet.status == true && contentfeedWidget includes a company listing
     #note that web builder doesnt currently use ContentFeedWidget so that needs to be updated
     ContentFeedWidget.where(business_id: self.id).each do |w|
@@ -318,6 +321,7 @@ class Business < ActiveRecord::Base
      end
    end
    return false
+
   end
 
   def community_content_feed_installed_with_jobs
