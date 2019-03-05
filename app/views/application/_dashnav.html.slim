@@ -125,7 +125,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
         ul.nav.nav-second-level class=('collapse' unless events_active)
           li class=('active' if controller_path.match(/\Abusinesses\/content/) && !controller_path.match(/\Abusinesses\/content\/(new|events|event_imports|quick_posts|offers|jobs|galleries|before_afters|posts|category_tag_management)/))
             / Need to add eventdefintions and inmportedeventdefintion?
-            = link_to "Manage Events", [@business, :content_root, query: 'post_types=event']
+            = link_to "Manage Events", [@business, :content_root, post_types: 'event']
           li class=('active' if controller_path.match(/\Abusinesses\/content\/events/))
             = link_to "New Event", [:new, @business, :content_event_definition]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
