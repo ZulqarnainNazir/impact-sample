@@ -1,7 +1,7 @@
 # encoding: utf-8
 module Feeds
   module Parsers
-    class ChamberMasterEventParser < ChamberMasterParser
+    class ChamberMasterWebsterCityParser < ChamberMasterParser
       def event_from_entry(event)
         event_metadata = event_metadata_hash(event)
         parsed_title   = Nickel.parse(event.title)

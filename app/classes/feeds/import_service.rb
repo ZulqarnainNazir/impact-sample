@@ -138,9 +138,9 @@ module Feeds
     def parser_from_url
       case event_feed.url
       when  -> (event_feed_url) { known_chambermaster_event_hosts.any? { |host| event_feed_url.include? host }  }
-        Feeds::Parsers::ChamberMasterEventParser.new
+        Feeds::Parsers::ChamberMasterWebsterCityParser.new
       when -> (event_feed_url) { known_ics_event_hosts.any? { |host| event_feed_url.include? host }  }
-        Feeds::Parsers::IcalFileParser.new
+        Feeds::Parsers::IcalWebsterCityParser.new
       when /.*chambermaster|chamberorganizer/
         Feeds::Parsers::ChamberMasterParser.new
       when /\.rss|\.xml/
@@ -160,8 +160,7 @@ module Feeds
     end
 
     def known_ics_event_hosts
-      ['https://webstercity.com/?plugin=all-in-one-event-calendar&controller=ai1ec_exporter_controller&action=export_events',
-       'https://srv2-advancedview.rschooltoday.com/public/conference/ical/u/49ba913bbf720506d413e899d070c959']
+      ['https://webstercity.com/', 'https://srv2-advancedview.rschooltoday.com/public/conference/ical/u/']
     end
 
     def no_new_info?

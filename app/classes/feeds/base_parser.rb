@@ -15,11 +15,11 @@ module Feeds
       return {} unless search.present?
 
       Feeds::Location.new({
+        street1: "#{search.house_number} #{search.street}",
+        city: search.city,
         state: search.state_code,
         zip_code: search.postal_code,
-        city: search.city,
-        street1: search.street_address,
-        name: search.neighborhood
+        name: search.neighbourhood
       })
     end
   end
