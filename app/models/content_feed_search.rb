@@ -26,13 +26,14 @@ class ContentFeedSearch
             term: {
               business_id: @business.id,
             },
-            term: {
-              import_pending: false,
-            },
+            # term: {
+            #   import_pending: false,
+            # },
           },
         ],
       },
     }
+
     if @unpublished == 'true' && @published != 'true'
       dsl1[:filter][:and] << {
         term: {
@@ -93,9 +94,9 @@ class ContentFeedSearch
             term: {
               business_id: @business.id,
             },
-            term: {
-              import_pending: false,
-            },
+            # term: {
+            #   import_pending: false,
+            # },
           },
         ],
       },
@@ -206,7 +207,7 @@ class ContentFeedSearch
 
     end
 
-
+    # byebug
 
     # content_classes = [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost]
     # content_classes_without_post = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer]
