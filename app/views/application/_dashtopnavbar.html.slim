@@ -148,7 +148,7 @@
             / span.float-left.m-t-xs
 
           span.text-muted.text-xs
-            strong= @business.name
+            strong= truncate(@business.name, length: 28)
             b.caret
             br
             p.m-b-0= current_user.name
