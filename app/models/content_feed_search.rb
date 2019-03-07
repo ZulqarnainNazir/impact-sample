@@ -32,12 +32,6 @@ class ContentFeedSearch
       },
     }
 
-    # dsl1[:filter][:and] << {
-    #   term: {
-    #     import_pending: false,
-    #   },
-    # }
-
     if @unpublished == 'true' && @published != 'true'
       dsl1[:filter][:and] << {
         term: {
@@ -98,9 +92,6 @@ class ContentFeedSearch
             term: {
               business_id: @business.id,
             },
-            # term: {
-            #   import_pending: false,
-            # },
           },
         ],
       },
@@ -183,7 +174,14 @@ class ContentFeedSearch
       content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
     end
 
-    #determining which query above to use depending on request
+    # if @content_types.present?
+    #   formatted = @content_types.classify.constantize
+    #   content_classes = [formatted]
+    # else
+    #   content_classes = [QuickPost, Gallery, BeforeAfter, Offer, Post, Job]
+    # end
+
+    # determining which query above to use depending on request
     if @query.blank? && content_classes.count > 1
       #if the user searches for no query string, and specifies no specific content types,
       #search for everything in all content types.
@@ -211,7 +209,19 @@ class ContentFeedSearch
 
     end
 
-    # byebug
+    # content_classes = [Post]
+
+    # if content_classes.count == 1 && content_classes.include?(Post)
+    #   #if the user specifies no query string, and specifies content type Post:
+    #
+    #   Elasticsearch::Model.search(dsl2, content_classes).records.to_a
+    #
+    # else
+    #
+    #   Elasticsearch::Model.search(dsl1, content_classes).records.to_a
+    #
+    # end
+
 
     # content_classes = [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost]
     # content_classes_without_post = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer]
