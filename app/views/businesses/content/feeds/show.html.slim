@@ -59,45 +59,69 @@
             .ibox-content
               = form_tag business_content_root_path(@business), method: :get do
                 .row
-                  .col-md-8
+                  .col-md-2.p-xs
                     .form-group
                       - if @results.present?
                         span
-                          = link_to "All (#{@results.count}) ", business_content_root_path
+                          = link_to "All ", business_content_root_path
                           = ' | '
                       span
                         = link_to_unless params[:published], ' Published ', business_content_root_path(published: true)
                         = ' | '
                       span
                         = link_to_unless params[:unpublished], ' Drafts ', business_content_root_path(unpublished: true)
-                        = ' | '
+                        / = ' | '
                       / span
                       /  | Excluded from Feed
-                  .col-md-4
+                  .col-md-2.p-xs
+                    .form-group
+                      = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
+                  .col-md-2.p-xs
+                    .form-group
+                      = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
+                  .col-md-2.p-xs
+                    .form-group
+                      = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
+                  .col-md-4.p-xs
                     .input-group
                       = text_field_tag '[query]', params[:query], placeholder: 'Search for...', class: 'form-control'
                       .input-group-btn
                         = button_tag class: 'btn btn-default' do
                           ' Search
 
-                #content-feed-filters
-                  .row
-                    .col-md-3
-                      .form-group
-                        = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
-                    .col-md-3
-                      .form-group
-                        = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
-                    .col-md-3
-                      .form-group
-                        = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
-                    .col-md-3
-                      .form-group
-                        = button_tag class: 'btn btn-default' do
-                          ' Filter
-                        br
-                      = link_to business_content_root_path(@business), role: :button do
-                          'Clear Search
+                      .input-group-btn
+                        = link_to business_content_root_path(@business), role: :button, class: 'btn btn-default' do
+                          ' Clear
+
+
+
+
+                        / .col-md-3
+                        /   .form-group
+                        /     = button_tag class: 'btn btn-default' do
+                        /       ' Filter
+                        /     br
+                        / = link_to business_content_root_path(@business), role: :button do
+                        /       'Clear Search
+
+                / #content-feed-filters
+                /   .row
+                /     .col-md-3
+                /       .form-group
+                /         = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
+                /     .col-md-3
+                /       .form-group
+                /         = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
+                /     .col-md-3
+                /       .form-group
+                /         = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
+                /     .col-md-3
+                /       .form-group
+                /         = button_tag class: 'btn btn-default' do
+                /           ' Filter
+                /         br
+                /       = link_to business_content_root_path(@business), role: :button do
+                /           'Clear Search
 
               - if @results.empty?
                 .row
