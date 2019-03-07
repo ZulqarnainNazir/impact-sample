@@ -212,16 +212,14 @@ class ContentFeedSearch
     # content_classes = [Post]
 
     if !@query.blank?
-      #if the user specifies no query string, and specifies content type Post:
-
-      # Elasticsearch::Model.search(dsl2, content_classes).records.to_a
-
-
-      if content_classes.count == 1 && content_classes.include?(Post)
-        content_classes << PostSection
-        Elasticsearch::Model.search(dsl2, content_classes).records
+      if content_classes.count == 1
+        if content_classes.include?(Post)
+          content_classes << PostSection
+          Elasticsearch::Model.search(dsl2, content_classes).records
+        else
+          Elasticsearch::Model.search(dsl1, content_classes).records
+        end
       else
-
         content_classes.delete(Post)
         dsl2_classes = [Post, PostSection]
 
@@ -230,12 +228,9 @@ class ContentFeedSearch
         (Elasticsearch::Model.search(dsl2, dsl2_classes).records)
         ).to_a.sort_by {|obj| obj.published_at}.reverse!
 
-
       end
     else
-
       Elasticsearch::Model.search(dsl1, content_classes).records.to_a
-
     end
 
 
