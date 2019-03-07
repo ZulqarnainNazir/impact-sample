@@ -217,6 +217,7 @@ class ContentFeedSearch
       # Elasticsearch::Model.search(dsl2, content_classes).records.to_a
 
       if content_classes.count == 1
+        content_classes << PostSection
         Elasticsearch::Model.search(dsl2, content_classes).records
       else
 
@@ -224,7 +225,7 @@ class ContentFeedSearch
 
         (
         (Elasticsearch::Model.search(dsl1, content_classes).records) +
-        (Elasticsearch::Model.search(dsl2, [Post]).records)
+        (Elasticsearch::Model.search(dsl2, [Post, PostSection]).records)
         ).to_a.sort_by {|obj| obj.published_at}.reverse!
 
       end
