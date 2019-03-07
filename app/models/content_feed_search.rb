@@ -174,7 +174,7 @@ class ContentFeedSearch
     #   content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
     # end
 
-    if @content_types.present?
+    if @content_types.present? && !content_types.empty?
       formatted = @content_types.classify.constantize
       content_classes = [formatted]
     else
@@ -211,22 +211,25 @@ class ContentFeedSearch
 
     # content_classes = [Post]
 
-    if !@query.blank? && content_classes.include?(Post)
+    if !@query.blank?
       #if the user specifies no query string, and specifies content type Post:
 
       # Elasticsearch::Model.search(dsl2, content_classes).records.to_a
 
-      if content_classes.count == 1
+
+      if content_classes.count == 1 && content_classes.include?(Post)
         content_classes << PostSection
         Elasticsearch::Model.search(dsl2, content_classes).records
       else
 
-        content_classes = content_classes.delete(Post)
+        content_classes.delete(Post)
+        dsl2_classes = [Post, PostSection]
 
         (
         (Elasticsearch::Model.search(dsl1, content_classes).records) +
-        (Elasticsearch::Model.search(dsl2, [Post, PostSection]).records)
+        (Elasticsearch::Model.search(dsl2, dsl2_classes).records)
         ).to_a.sort_by {|obj| obj.published_at}.reverse!
+
 
       end
     else
