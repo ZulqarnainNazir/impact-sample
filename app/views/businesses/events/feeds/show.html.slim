@@ -1,0 +1,129 @@
+- title 'Manage Events'
+
+.row.admin-dash
+  .col-md-12
+    .fluid-nav
+      ul.nav.navbar-top-links
+        li
+          strong.p-sm
+            i.fa.fa-chevron-right
+            i.fa.fa-chevron-right
+        li = link_to [:new, @business, :content_quick_post] do
+          i.fa.fa-bolt.hidden-xs
+          i.fa.fa-2x.fa-bolt.text-center.visible-xs
+          span
+            | New Quick Post
+        li = link_to [:new, @business, :content_event_definition] do
+          i.fa.fa-calendar.hidden-xs
+          i.fa.fa-2x.fa-calendar.text-center.visible-xs
+          span
+            | New Event
+        li = link_to [:new, @business, :content_offer] do
+          i.fa.fa-ticket.hidden-xs
+          i.fa.fa-2x.fa-ticket.text-center.visible-xs
+          span
+            | New Offer
+        li = link_to [:new, @business, :content_job] do
+          i.fa.fa-briefcase.hidden-xs
+          i.fa.fa-2x.fa-briefcase.text-center.visible-xs
+          span
+            | New Job/Volunteer Opening
+        li = link_to [:new, @business, :content_gallery] do
+          i.fa.fa-camera.hidden-xs
+          i.fa.fa-2x.fa-camera.text-center.visible-xs
+          span
+            | New Gallery
+        li = link_to [:new, @business, :content_before_after] do
+          i.fa.fa-columns.hidden-xs
+          i.fa.fa-2x.fa-columns.text-center.visible-xs
+          span
+            | New Before & After
+        li = link_to [:new, @business, :content_post] do
+          i.fa.fa-file-text-o.hidden-xs
+          i.fa.fa-2x.fa-file-text-o.text-center.visible-xs
+          span
+            | New Custom Post
+        li
+          strong.p-sm
+            i.fa.fa-chevron-left
+            i.fa.fa-chevron-left
+
+.row.m-t-xs
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              - if @results.present?
+                = form_tag business_events_root_path(@business), method: :get do
+                  .row
+                    .col-md-8
+                      .form-group
+
+                        span
+                          = link_to "All", business_events_root_path
+                          = ' | '
+                        span
+                          = link_to_unless params[:upcoming], ' Upcoming ', business_events_root_path(upcoming: true)
+                          = ' | '
+                        span
+                            = link_to_unless params[:past], ' Past ', business_events_root_path(past: true)
+                            = ' | '
+                        span
+                            = link_to_unless params[:drafts], ' Drafts ', business_events_root_path(drafts: true)
+
+                    .col-md-4
+                      .input-group
+                        = text_field_tag '[query]', params[:query], placeholder: 'Search for...', class: 'form-control'
+                        .input-group-btn
+                          = button_tag class: 'btn btn-default' do
+                            ' Search
+                        .input-group-btn
+                          = link_to business_events_root_path(@business), role: :button, class: 'btn btn-default' do
+                            ' Clear
+
+
+                / #content-feed-filters
+                /   .row
+                /     / .col-md-3
+                /     /   .form-group
+                /     /     = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
+                /     / .col-md-3
+                /     /   .form-group
+                /     /     = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
+                /     / .col-md-3
+                /     /   .form-group
+                /     /     = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
+                /     .col-md-3
+                /       .form-group
+                /         = button_tag class: 'btn btn-default' do
+                /           ' Filter
+                /         br
+                /       = link_to business_events_root_path(@business), role: :button do
+                /           'Clear Search
+
+              - if @results.empty?
+
+                .row
+                  .col-lg-4.col-lg-offset-4
+                    .p-a-3.text-center
+                      = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Content%20blog%20marketing%20posts.png', style: 'max-height: 220px', class: 'img-responsive center-block')
+                      h3 Looks like we don't have any events. Why not add one?
+                      /  = link_to 'Create a New Contact Form', [:new, @business, :crm_contact_form], class: 'text-navy'
+                      p
+                        | Google, Facebook, and Locable's Local Connections
+                        sup TM&nbsp
+                        | love content!
+              - else
+                / = @business.id
+                / = @results.to_json
+                p
+                  = page_entries_info @results, entry_name: 'item'
+                  - if params[:query].to_s.strip.present?
+                    '  matching
+                    strong: em = params[:query].to_s.strip
+                  | .
+              = render @results
+              hr
+              = paginate @results

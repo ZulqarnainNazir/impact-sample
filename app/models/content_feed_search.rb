@@ -26,13 +26,17 @@ class ContentFeedSearch
             term: {
               business_id: @business.id,
             },
-            # term: {
-            #   import_pending: false,
-            # },
+
           },
         ],
       },
     }
+
+    # dsl1[:filter][:and] << {
+    #   term: {
+    #     import_pending: false,
+    #   },
+    # }
 
     if @unpublished == 'true' && @published != 'true'
       dsl1[:filter][:and] << {

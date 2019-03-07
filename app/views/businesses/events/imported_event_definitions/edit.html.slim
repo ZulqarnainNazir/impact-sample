@@ -1,0 +1,20 @@
+- title 'Edit Imported Event'
+
+.row.border-bottom.white-bg.dashboard-header
+  ol.breadcrumb
+    li = link_to icon('home'), :root
+    li = link_to @business.name, [@business, :dashboard]
+    li = link_to 'Feeds', [@business, :content, :event_imports]
+    li = link_to 'Feed Events', [@business, :content, @event_feed]
+    li.active Edit Imported Event
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-content
+              = errors_for @event_definition
+              = form_for @event_definition, url: business_content_event_feed_imported_event_definition_path(@business, @event_feed, @event_definition), html: { class: 'save-once' } do |form|
+                = render partial: 'businesses/content/event_definitions/form', locals: { form: form }
