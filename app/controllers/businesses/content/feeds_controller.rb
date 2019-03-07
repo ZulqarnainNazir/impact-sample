@@ -16,7 +16,7 @@ class Businesses::Content::FeedsController < Businesses::Content::BaseController
     @categories = @business.content_categories
     @tags = @business.content_tags
     # @post_types = @business.enabled_content_types #%w(event quick_post post before_after gallery offer job)
-    @post_types = %w(event quick_post post before_after gallery offer job)
+    @post_types = %w(quick_post post before_after gallery offer job)
     @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
   end
 end

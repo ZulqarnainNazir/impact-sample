@@ -1,6 +1,4 @@
-- title 'Manage Existing Business Content'
-
-/ = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Marketing Messages', :fp => :content_root, :an => 'Manage Posts'}
+- title 'Manage Events'
 
 .row.admin-dash
   .col-md-12
@@ -57,83 +55,69 @@
         .col-lg-12
           .ibox.float-e-margins
             .ibox-content
-              = form_tag business_content_root_path(@business), method: :get do
+
+              = form_tag business_events_root_path(@business), method: :get do
                 .row
-                  .col-md-2.p-xs
+                  .col-md-8
                     .form-group
 
                       span
-                        = link_to "All ", business_content_root_path
+                        = link_to "All", business_events_root_path
                         = ' | '
                       span
-                        = link_to_unless params[:published], ' Published ', business_content_root_path(published: true)
+                        = link_to_unless params[:upcoming], ' Upcoming ', business_events_root_path(upcoming: true)
                         = ' | '
                       span
-                        = link_to_unless params[:unpublished], ' Drafts ', business_content_root_path(unpublished: true)
-                        / = ' | '
-                      / span
-                      /  | Excluded from Feed
-                  .col-md-2.p-xs
-                    .form-group
-                      = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
-                  .col-md-2.p-xs
-                    .form-group
-                      = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
-                  .col-md-2.p-xs
-                    .form-group
-                      = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
-                  .col-md-4.p-xs
+                          = link_to_unless params[:past], ' Past ', business_events_root_path(past: true)
+                          = ' | '
+                      span
+                          = link_to_unless params[:drafts], ' Drafts ', business_events_root_path(drafts: true)
+
+                  .col-md-4
                     .input-group
                       = text_field_tag '[query]', params[:query], placeholder: 'Search for...', class: 'form-control'
                       .input-group-btn
                         = button_tag class: 'btn btn-default' do
                           ' Search
-
                       .input-group-btn
-                        = link_to business_content_root_path(@business), role: :button, class: 'btn btn-default' do
+                        = link_to business_events_root_path(@business), role: :button, class: 'btn btn-default' do
                           ' Clear
 
 
-
-
-                        / .col-md-3
-                        /   .form-group
-                        /     = button_tag class: 'btn btn-default' do
-                        /       ' Filter
-                        /     br
-                        / = link_to business_content_root_path(@business), role: :button do
-                        /       'Clear Search
-
                 / #content-feed-filters
                 /   .row
-                /     .col-md-3
-                /       .form-group
-                /         = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
-                /     .col-md-3
-                /       .form-group
-                /         = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
-                /     .col-md-3
-                /       .form-group
-                /         = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
+                /     / .col-md-3
+                /     /   .form-group
+                /     /     = select_tag 'categories', options_for_select(@categories.collect{ |u| [u.name, u.id] }, params[:categories]), prompt: "Categories", class: 'form-control'
+                /     / .col-md-3
+                /     /   .form-group
+                /     /     = select_tag 'tags', options_for_select(@tags.collect{ |u| [u.name, u.id] }, params[:tags]), prompt: "Tags", class: 'form-control'
+                /     / .col-md-3
+                /     /   .form-group
+                /     /     = select_tag 'post_types', options_for_select(@post_types.collect{|u| [u.titleize, u] }, params[:post_types]), prompt: "Post Types", class: 'form-control'
                 /     .col-md-3
                 /       .form-group
                 /         = button_tag class: 'btn btn-default' do
                 /           ' Filter
                 /         br
-                /       = link_to business_content_root_path(@business), role: :button do
+                /       = link_to business_events_root_path(@business), role: :button do
                 /           'Clear Search
 
               - if @results.empty?
+
                 .row
                   .col-lg-4.col-lg-offset-4
                     .p-a-3.text-center
                       = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Content%20blog%20marketing%20posts.png', style: 'max-height: 220px', class: 'img-responsive center-block')
-                      h2 Looks like we don't have any content. Why not create something?
-                      h4 Choose the type of content you'd like to create above.
+                      h3 Looks like we don't have any events. Why not add one?
                       /  = link_to 'Create a New Contact Form', [:new, @business, :crm_contact_form], class: 'text-navy'
-                      p.text-left.m-t-md.strong Quickly post content to engage locals and increase your reach
-                      p.text-left Google, Social Media, website visitors and Locable's Local Connections options love content, you should create some.
+                      p
+                        | Google, Facebook, and Locable's Local Connections
+                        sup TM&nbsp
+                        | love content!
               - else
+                / = @business.id
+                / = @results.to_json
                 p
                   = page_entries_info @results, entry_name: 'item'
                   - if params[:query].to_s.strip.present?
