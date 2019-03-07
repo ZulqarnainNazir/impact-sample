@@ -174,7 +174,7 @@ class ContentFeedSearch
     #   content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
     # end
 
-    if @content_types.present? && !content_types.empty?
+    if @content_types.present? && !@content_types.empty?
       formatted = @content_types.classify.constantize
       content_classes = [formatted]
     else
