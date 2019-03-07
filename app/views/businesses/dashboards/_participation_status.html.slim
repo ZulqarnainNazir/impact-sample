@@ -7,27 +7,27 @@
     / Need to add check to see if 1)  company list with companoes are included and 2) whether its installed and add to below
 
     .row
-      .col-xs-4
+      .col-xs-4.text-center
         = link_to [@business, :tools_calendar_widgets] do
           button.btn.m-b-sm type="button" class="#{@business.community_calendar_installed ? 'btn-primary' : 'btn-danger'}"
             i.fa.fa-4x class="#{@business.community_calendar_installed ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
           br
-          .text-muted.text-uppercase
+          .text-muted.text-uppercase style= "font-size: .8em;"
             | Calendar
-      .col-xs-4
+      .col-xs-4.text-center
         = link_to [@business, :tools_directory_widgets] do
           button.btn.btn-primary.m-b-sm type="button" class="#{@business.support_local_directory_installed ? 'btn-primary' : 'btn-danger'}"
             i.fa.fa-4x class="#{@business.support_local_directory_installed ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
           br
-          .text-muted.text-uppercase
+          .text-muted.text-uppercase style= "font-size: .8em;"
             | Directory
       / Temporary removal until content feed installation status for Web Builder components is updated.
-      / .col-xs-4
+      / .col-xs-4.text-center
       /   = link_to [@business, :tools_content_feed_widgets] do
       /     button.btn.m-b-sm type="button" class="#{@business.community_content_feed_installed ? 'btn-primary' : 'btn-danger'}"
       /       i.fa.fa-4x class="#{@business.community_content_feed_installed ? 'fa-check-circle-o' : 'fa-times-circle-o'}"
       /     br
-      /     .text-muted.text-uppercase
+      /     .text-muted.text-uppercase style= "font-size: .8em;"
       /       | Content Feed
 
     .row.m-t-md

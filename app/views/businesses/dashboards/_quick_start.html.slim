@@ -35,7 +35,7 @@
                       .col-xs-10.text-right
                         span.font-bold Complete Your Company Profile
               .col-lg-12.col-md-6.col-sm-12
-                - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true) && !current_user.super_user?
+                - if (@business.is_on_engage_plan? || @business.build_plan_no_setup_fee == true)
                   = link_to new_website_business_website_add_website_path, method: :get
                     .widget.bg-success
                       .row.vertical-align
@@ -46,10 +46,10 @@
                 -else
 
                   = link_to [@business, :website_root] do
-                    .widget class="#{((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && @business.to_dos.where(status: 0).count == 0) ? 'gray-bg' : 'bg-success'}"
+                    .widget class="#{((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && (@business.to_dos_enabled? ? @business.to_dos.where(status: 0).count == 0 : 'true')) ? 'gray-bg' : 'bg-success'}"
                       .row.vertical-align
                         .col-xs-2
-                          -if ((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && @business.to_dos.where(status: 0).count == 0)
+                          -if ((!@business.is_on_engage_plan? || !@business.build_plan_no_setup_fee == true) && (@business.to_dos_enabled? ? @business.to_dos.where(status: 0).count == 0 : 'true'))
                             i.fa.fa-check.fa-3x
                           -else
                             i.fa.fa-desktop.fa-3x
