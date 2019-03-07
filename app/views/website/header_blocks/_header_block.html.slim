@@ -29,7 +29,7 @@
     - if header_block.logo_vertical_position == 'inside' && header_block.logo_horizontal_position == 'center' && header_block.navigation_horizontal_position == 'center'
       - if webpages.length.even?
         ul.nav.navbar-nav.navbar-abs-half-left
-          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2 - 1)], locals: { style: webpages }
+          = render partial: 'website/nav_links/nav_link', collection: webpages[0..(webpages.length / 2 - 1)], locals: { style: navbar_nav_style }
         ul.nav.navbar-nav.navbar-abs-half-right
           = render partial: 'website/nav_links/nav_link', collection: webpages[(webpages.length / 2)..-1], locals: { style: navbar_nav_style }
       - else
