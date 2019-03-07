@@ -61,10 +61,10 @@
                 .row
                   .col-md-2.p-xs
                     .form-group
-                      - if @results.present?
-                        span
-                          = link_to "All ", business_content_root_path
-                          = ' | '
+
+                      span
+                        = link_to "All ", business_content_root_path
+                        = ' | '
                       span
                         = link_to_unless params[:published], ' Published ', business_content_root_path(published: true)
                         = ' | '

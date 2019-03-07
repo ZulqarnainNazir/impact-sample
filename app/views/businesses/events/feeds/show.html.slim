@@ -55,33 +55,33 @@
         .col-lg-12
           .ibox.float-e-margins
             .ibox-content
-              - if @results.present?
-                = form_tag business_events_root_path(@business), method: :get do
-                  .row
-                    .col-md-8
-                      .form-group
 
-                        span
-                          = link_to "All", business_events_root_path
-                          = ' | '
-                        span
-                          = link_to_unless params[:upcoming], ' Upcoming ', business_events_root_path(upcoming: true)
-                          = ' | '
-                        span
-                            = link_to_unless params[:past], ' Past ', business_events_root_path(past: true)
-                            = ' | '
-                        span
-                            = link_to_unless params[:drafts], ' Drafts ', business_events_root_path(drafts: true)
+              = form_tag business_events_root_path(@business), method: :get do
+                .row
+                  .col-md-8
+                    .form-group
 
-                    .col-md-4
-                      .input-group
-                        = text_field_tag '[query]', params[:query], placeholder: 'Search for...', class: 'form-control'
-                        .input-group-btn
-                          = button_tag class: 'btn btn-default' do
-                            ' Search
-                        .input-group-btn
-                          = link_to business_events_root_path(@business), role: :button, class: 'btn btn-default' do
-                            ' Clear
+                      span
+                        = link_to "All", business_events_root_path
+                        = ' | '
+                      span
+                        = link_to_unless params[:upcoming], ' Upcoming ', business_events_root_path(upcoming: true)
+                        = ' | '
+                      span
+                          = link_to_unless params[:past], ' Past ', business_events_root_path(past: true)
+                          = ' | '
+                      span
+                          = link_to_unless params[:drafts], ' Drafts ', business_events_root_path(drafts: true)
+
+                  .col-md-4
+                    .input-group
+                      = text_field_tag '[query]', params[:query], placeholder: 'Search for...', class: 'form-control'
+                      .input-group-btn
+                        = button_tag class: 'btn btn-default' do
+                          ' Search
+                      .input-group-btn
+                        = link_to business_events_root_path(@business), role: :button, class: 'btn btn-default' do
+                          ' Clear
 
 
                 / #content-feed-filters
