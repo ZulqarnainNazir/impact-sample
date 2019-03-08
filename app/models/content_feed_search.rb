@@ -26,9 +26,7 @@ class ContentFeedSearch
             term: {
               business_id: @business.id,
             },
-            # term: {
-            #   import_pending: false,
-            # },
+
           },
         ],
       },
@@ -94,9 +92,6 @@ class ContentFeedSearch
             term: {
               business_id: @business.id,
             },
-            # term: {
-            #   import_pending: false,
-            # },
           },
         ],
       },
@@ -167,47 +162,77 @@ class ContentFeedSearch
 #END OF DSL2
 
     #all content types submitted, or all types
-    if !@content_types.present?
-      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
-    elsif @content_types.present?
+    # if !@content_types.present?
+    #   content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
+    # elsif @content_types.present?
+    #   formatted = @content_types.classify.constantize
+    #   if formatted == Event
+    #     formatted = EventDefinition
+    #   end
+    #   content_classes = [formatted]
+    # else
+    #   content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
+    # end
+
+    if @content_types.present? && !@content_types.empty?
       formatted = @content_types.classify.constantize
-      if formatted == Event
-        formatted = EventDefinition
-      end
       content_classes = [formatted]
     else
-      content_classes = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer, Post, Job]
+      content_classes = [QuickPost, Gallery, BeforeAfter, Offer, Post, Job]
     end
 
-    #determining which query above to use depending on request
-    if @query.blank? && content_classes.count > 1
-      #if the user searches for no query string, and specifies no specific content types,
-      #search for everything in all content types.
+    # determining which query above to use depending on request
+    # if @query.blank? && content_classes.count > 1
+    #   #if the user searches for no query string, and specifies no specific content types,
+    #   #search for everything in all content types.
+    #
+    #   Elasticsearch::Model.search(dsl1, content_classes).records.to_a
+    #
+    # elsif @query.blank? && content_classes.count == 1 && content_classes.include?(Post)
+    #   #if the user specifies no query string, and specifies content type Post:
+    #
+    #   Elasticsearch::Model.search(dsl2, content_classes).records.to_a
+    #
+    # elsif !@query.blank? && content_classes.count == 1 && content_classes.include?(Post)
+    #   #if the user has specified a query string, and has specified Post as content type:
+    #
+    #   Elasticsearch::Model.search(dsl2, content_classes).records.to_a
+    #
+    # elsif !@query.blank? && content_classes.count == 1 && !content_classes.include?(Post)
+    #   #if the user has specified a query string, and has *not* specified Post as content type:
+    #
+    #   Elasticsearch::Model.search(dsl1, content_classes).records.to_a
+    #
+    # else
+    #
+    #   Elasticsearch::Model.search(dsl1, content_classes).records.to_a
+    #
+    # end
 
-      Elasticsearch::Model.search(dsl1, content_classes).records.to_a
+    # content_classes = [Post]
 
-    elsif @query.blank? && content_classes.count == 1 && content_classes.include?(Post)
-      #if the user specifies no query string, and specifies content type Post:
+    if !@query.blank?
+      if content_classes.count == 1
+        if content_classes.include?(Post)
+          content_classes << PostSection
+          Elasticsearch::Model.search(dsl2, content_classes).records
+        else
+          Elasticsearch::Model.search(dsl1, content_classes).records
+        end
+      else
+        content_classes.delete(Post)
+        dsl2_classes = [Post, PostSection]
 
-      Elasticsearch::Model.search(dsl2, content_classes).records.to_a
+        (
+        (Elasticsearch::Model.search(dsl1, content_classes).records) +
+        (Elasticsearch::Model.search(dsl2, dsl2_classes).records)
+        ).to_a.sort_by {|obj| obj.published_at}.reverse!
 
-    elsif !@query.blank? && content_classes.count == 1 && content_classes.include?(Post)
-      #if the user has specified a query string, and has specified Post as content type:
-
-      Elasticsearch::Model.search(dsl2, content_classes).records.to_a
-
-    elsif !@query.blank? && content_classes.count == 1 && !content_classes.include?(Post)
-      #if the user has specified a query string, and has *not* specified Post as content type:
-
-      Elasticsearch::Model.search(dsl1, content_classes).records.to_a
-
+      end
     else
-
       Elasticsearch::Model.search(dsl1, content_classes).records.to_a
-
     end
 
-    # byebug
 
     # content_classes = [BeforeAfter, EventDefinition, Gallery, Offer, Post, QuickPost]
     # content_classes_without_post = [QuickPost, EventDefinition, Gallery, BeforeAfter, Offer]

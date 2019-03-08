@@ -206,6 +206,10 @@ Rails.application.routes.draw do
             end
           end
 
+        namespace :events do
+          root to: 'feeds#show'
+        end
+
         namespace :content do
           root to: 'feeds#show'
           get '/new', to: 'roots#show'

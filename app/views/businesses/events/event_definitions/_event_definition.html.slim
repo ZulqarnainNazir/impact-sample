@@ -1,0 +1,117 @@
+
+- event = event_definition.events.first
+- unless event.nil?
+  .timeline-item
+    .row
+      - if !event.occurs_on.nil?
+        .col-xs-3.date
+          => icon 'calendar'
+          |  #{event.occurs_on.in_time_zone("Pacific Time (US & Canada)").strftime('%b %e')}
+          br
+          small.text-navy
+            - if event.occurs_on > DateTime.now
+              | in #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")}
+            - else
+              | #{time_ago_in_words event.occurs_on.in_time_zone("Pacific Time (US & Canada)")} ago
+      .col-xs-7.content
+        .feed-event
+          .feed-item-meta
+            strong> Event
+            - if event_definition.published_status == false
+              code
+                small Draft
+            span.pull-right
+              - if event_definition.content_categories.any? || event_definition.content_tags.any?
+                span.text-muted> Posted in
+                - (event_definition.content_categories + event_definition.content_tags).each_with_index do |classification, i|
+                  - if @business.webhost_primary?
+                    - if event_definition.published_status == false
+                      = link_to classification.name, [:website, :generic_post, :preview, :type => "event_definitions", only_path: false, :host => @business.website.host, protocol: :http, :id => event_definition.id], target: :_blank
+                    - else
+                      = link_to classification.name, [:website, classification, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
+                  - else
+                    = classification.name
+                  - if i < event_definition.content_categories.count + event_definition.content_tags.count - 1
+                    ' ,
+              span.btn-group.btn-group-sm style="margin-left:8px"
+
+                - if share_authorized?(@business) && shared?(event_definition, @business)
+                  /= link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default'
+                  /= link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default'
+                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
+                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
+                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
+                - elsif share_authorized?(@business) && !shared?(event_definition, @business)
+                  /= link_to icon('share-alt'), [:new, @business, :content, event_definition, :share], class: 'btn btn-default'
+                  /= link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-not-shared', id: event_definition.id
+                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
+                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
+                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
+                - elsif !share_authorized?(@business)
+                  /= link_to icon('share-alt'), [:new, @business, :content,  event_definition, :share], class: 'btn btn-default event-definition-unauthorized'
+                  /= link_to icon('line-chart'), [@business, :content, event_definition, :sharing_insights], class: 'btn btn-default event-definition-unauthorized'
+                  = link_to icon('pencil'), [:edit, @business, :content, event_definition], class: 'btn btn-default', title: ' Edit Event'
+                  = link_to icon('copy'), [:clone, @business, :content, event_definition], class: 'btn btn-default', title: ' Copy Event'
+                  = link_to icon('trash'), [@business, :content, event_definition], method: :delete, class: 'btn btn-danger', title: ' Delete Event', data: { confirm: 'Are you sure?' }
+          .event-widget
+            .event
+              time.event-datetime datetime=event.occurs_on
+                span.day = event.occurs_on.day
+                span.month = event.occurs_on.strftime('%b')
+                span.year = event.occurs_on.year
+                span.time = event_definition.start_time
+              - placement = event_definition.event_image_placement
+              - if placement && !placement.embeds? && placement.image
+                = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'event-photo'
+              .event-info
+                - if @business.webhost_primary?
+                  - if event_definition.published_status != true
+                    h4.event-title = link_to event_definition.title, [:website, :generic_post, :preview, :type => "events", only_path: false, :host => @business.website.host, protocol: :http, :id => event.id], target: :_blank
+                  - else
+                    h4.event-title = link_to event_definition.title, [:website, event, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
+                  .event-desc.truncate = truncate sanitize(event_definition.description), length: 250
+                - elsif !@business.webhost_primary? && @business.has_plan?
+                  h4 = link_to event_definition.title, listing_path_content_url(@business, event.id, 'event'), target: :_blank
+                - else
+                  h4 = event_definition.title
+
+  javascript:
+
+    $('.event-definition-unauthorized').click(function (e) {
+      e.preventDefault();
+      swal({
+          title: "You must link your account first!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Go Link!",
+          closeOnConfirm: true
+      }, function (confirmed) {
+        if(confirmed) {
+          var url = window.location.href;
+          var splitUrl = url.split('/content')[0];
+           window.location.href = splitUrl + '/accounts/facebook/edit';
+            }
+        }
+      )
+    });
+
+    $('.event-definition-not-shared').click(function (e) {
+      e.preventDefault();
+      var postId = this.id;
+      swal({
+          title: "You must share this post first!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Go share!",
+          closeOnConfirm: true
+      }, function (confirmed) {
+        if(confirmed) {
+          var url = window.location.href;
+          var splitUrl = url.split('/feed')[0];
+           window.location.href = splitUrl + '/events/' + postId +'/shares/new';
+            }
+        }
+      )
+    });
