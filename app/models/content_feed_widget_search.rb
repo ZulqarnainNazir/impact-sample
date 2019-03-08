@@ -303,9 +303,6 @@ class ContentFeedWidgetSearch
       content_classes_just_post = [Post]
     end
 
-    puts "Content Classes: #{content_classes}"
-    puts dsl1
-
     #combining the payloads delivered to app by ElasticSearch
     if @query.blank? && @content_types.count == 0
       #if the user searches for nothing, and specifies no specific content types,
