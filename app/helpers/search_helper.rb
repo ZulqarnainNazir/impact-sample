@@ -1,4 +1,5 @@
 module SearchHelper
+  include EventSearchConcern
 
   def order_the_events(array)
     # FIXME: Why?
@@ -178,13 +179,22 @@ module SearchHelper
     end_date_to_filter = Date.parse end_date rescue nil
 
     if search_string.present?
-      event_definitions = ContentFeedWidgetSearch.new(
-          widget,
-          business,
-          search_string,
-          content_types: ['Event'],
-          include_past: date_to_filter.present?
-        ).search
+      # event_definitions = ContentFeedWidgetSearch.new(
+      #     widget,
+      #     business,
+      #     search_string,
+      #     content_types: ['Event'],
+      #     include_past: date_to_filter.present?
+      #   ).search
+      #intriduces first query concern
+      event_definitions = search_event(
+        widget,
+        business,
+        search_string,
+        [],
+        [],
+        date_to_filter.present?
+      )
       if date_to_filter.present?
         events = Event.includes(:event_definition, :business).where(
           event_definition_id: event_definitions).order(:occurs_on)
