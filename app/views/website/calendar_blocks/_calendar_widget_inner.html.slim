@@ -51,7 +51,7 @@
     limit: @calendar_widget.max_items)
 
 / For Agenda view, we also need a count of events on other days of the week
-- if container_view == 'agenda' && params[:start_date].present? || params[:blog_search].present?
+- if container_view == 'agenda' && (params[:start_date].present? || params[:blog_search].present?)
   - week_events = calendar_widget_search(@calendar_widget,
       @calendar_widget.business,
       params[:blog_search],
