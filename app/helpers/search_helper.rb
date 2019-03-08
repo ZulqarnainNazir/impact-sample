@@ -186,7 +186,7 @@ module SearchHelper
       #     content_types: ['Event'],
       #     include_past: date_to_filter.present?
       #   ).search
-      #intriduces first query concern
+      #introduces first query concern
       event_definitions = search_event(
         widget,
         business,
