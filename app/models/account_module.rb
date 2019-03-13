@@ -1,4 +1,4 @@
-# class AccountModule < ActiveRecord::Base
+class AccountModule < ActiveRecord::Base
 #   belongs_to :business
 #
 #   store_accessor :settings, :post, :before_after, :event, :quick_post, :job, :offer, :gallery
@@ -128,4 +128,4 @@
 #   #   # website: 5
 #   #   "Appcues.track('module #{event}: #{message} ')"
 #   # end
-# end
+end

@@ -1,4 +1,6 @@
 class Widgets::CalendarWidgetsController < Widgets::BaseController
+  include EventSearchConcern
+  
   def index
     @calendar_widget = CalendarWidget.where(:uuid => params[:uuid]).first
     @business = @calendar_widget.business
