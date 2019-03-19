@@ -119,7 +119,7 @@ module PostSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 

@@ -1,129 +1,42 @@
 module DirectoryContentSearchConcern
   extend ActiveSupport::Concern
 
-  def search_directory_content(widget, business, query = '', content_category_ids = [], content_tag_ids = [], include_past = false)
+  def search_directory_content(business, query = '', content_category_ids = [], content_tag_ids = [])
+    # Finds content for a given business for display in widget, web builder or listings
 
-    @widget = widget
-    @business = business
-    @business_ids = @widget.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
-    if @widget.show_our_content == true
-      @business_ids << @business.id #includes parent business' content
-    end
+    # @widget = widget
+    # @business = business
+    # @business_ids = @widget.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
+    # if @widget.show_our_content == true
+    @business_id = business.id #includes parent business' content
+    # end
     @query = query.to_s.strip
     # @content_types = content_types
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
     # @include_past = include_past
 
+    offers = OfferSearchConcern.new
+    offers = offers.search_event([], @business_id, @query = '', @content_category_ids, @content_tag_ids)
 
-    dsl1 = {
-      size: 800,
+    galleries = GallerySearchConcern.new
+    galleries = galleries.search_event([], @business_id, @query = '', @content_category_ids, @content_tag_ids)
 
-      filter: {
-        and: [
-          {
-            terms: {
-              business_id: @business_ids,
-            },
-          },
-          # {
-          #   or: [
-          #     {
-          #       missing: {
-          #         field: :published_on,
-          #       },
-          #     },
-          #     {
-          #       range: {
-          #         published_on: {
-          #           lte: Time.zone.now,
-          #         },
-          #       },
-          #     },
-          #   ],
-          # },
-          # {
-          #   or: [
-          #     {
-          #       missing: {
-          #         field: :valid_until,
-          #       },
-          #     },
-          #     {
-          #       range: {
-          #         valid_until: {
-          #           gte: Time.zone.now,
-          #         },
-          #       },
-          #     },
-          #   ],
-          # },
-        ],
-      },
-    }
+    posts = PostSearchConcern.new
+    posts = posts.search_event([], @business_id, @query = '', @content_category_ids, @content_tag_ids)
 
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
-      },
-    }
+    quick_posts = QuickPostSearchConcern.new
+    quick_posts = quick_posts.search_event([], @business_id, @query = '', @content_category_ids, @content_tag_ids)
 
-    dsl1[:filter][:and] << {
-      term: {
-        import_pending: false,
-      },
-    }
+    before_afters = BeforeAfterSearchConcern.new
+    before_afters = before_afters.search_event([], @business_id, @query = '', @content_category_ids, @content_tag_ids)
 
-    if !@include_past
-      dsl1[:filter][:and] << {
-        or: [
-          {
-            missing: {
-              field: :occurs_on,
-            },
-          },
-          {
-            range: {
-              occurs_on: {
-                gte: Time.zone.now,
-              },
-            },
-          },
-        ],
-      }
-    end
+    jobs = JobSearchConcern.new
+    jobs = jobs.search_event([], @business_id, @query = '', @content_category_ids, @content_tag_ids)
 
-    if @content_category_ids.present?
-      dsl1[:filter][:and] << {
-        terms: {
-          content_category_ids: @content_category_ids,
-        },
-      }
-    end
 
-    if @content_tag_ids.present?
-      dsl1[:filter][:and] << {
-        terms: {
-          content_tag_ids: @content_tag_ids,
-        },
-      }
-    end
 
-    if @query.present?
-      dsl1[:query] = {
-        query_string: {
-          fields: %w[title^2 subtitle description],
-          # query: "#{@query}~", #tilde is for fuzzy searches
-          query: @query,
-        }
-      }
-    else
-      dsl1[:sort] = {
-        sorting_date: :desc,
-      }
-    end
-
-    Elasticsearch::Model.search(dsl1, [EventDefinition]).records.to_a
+    (offers + galleries + posts + quick_posts + before_afters).sort_by {|obj| obj.published_at}.reverse!
 
   end
 end

@@ -168,9 +168,9 @@ class Job < ActiveRecord::Base
     as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
   end
 
-  def sorting_date
-    created_at
-  end
+  # def sorting_date
+  #   created_at
+  # end
 
   def published_at
     #published_at is used in content_feed_search.rb and content_blog_search.rb to

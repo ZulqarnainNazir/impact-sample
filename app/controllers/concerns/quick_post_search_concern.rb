@@ -1,7 +1,7 @@
 module QuickPostSearchConcern
   extend ActiveSupport::Concern
 
-  def search_quick_post(widget, business, query = '', content_category_ids = [], content_tag_ids = [], include_past = false)
+  def search_quick_post(widget, business, query = '', content_category_ids = [], content_tag_ids = [])
 
     @widget = widget
     @business = business
@@ -13,7 +13,7 @@ module QuickPostSearchConcern
     # @content_types = content_types
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
-    @include_past = include_past
+    # @include_past = include_past
 
 
     dsl1 = {
@@ -26,38 +26,6 @@ module QuickPostSearchConcern
               business_id: @business_ids,
             },
           },
-          # {
-          #   or: [
-          #     {
-          #       missing: {
-          #         field: :published_on,
-          #       },
-          #     },
-          #     {
-          #       range: {
-          #         published_on: {
-          #           lte: Time.zone.now,
-          #         },
-          #       },
-          #     },
-          #   ],
-          # },
-          # {
-          #   or: [
-          #     {
-          #       missing: {
-          #         field: :valid_until,
-          #       },
-          #     },
-          #     {
-          #       range: {
-          #         valid_until: {
-          #           gte: Time.zone.now,
-          #         },
-          #       },
-          #     },
-          #   ],
-          # },
         ],
       },
     }
@@ -68,30 +36,6 @@ module QuickPostSearchConcern
       },
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        import_pending: false,
-      },
-    }
-
-    if !@include_past
-      dsl1[:filter][:and] << {
-        or: [
-          {
-            missing: {
-              field: :occurs_on,
-            },
-          },
-          {
-            range: {
-              occurs_on: {
-                gte: Time.zone.now,
-              },
-            },
-          },
-        ],
-      }
-    end
 
     if @content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -119,11 +63,11 @@ module QuickPostSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 
-    Elasticsearch::Model.search(dsl1, [EventDefinition]).records.to_a
+    Elasticsearch::Model.search(dsl1, [QuickPost]).records.to_a
 
   end
 end

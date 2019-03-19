@@ -43,21 +43,6 @@ module JobSearchConcern
           #   ],
           # },
           # {
-          #   or: [
-          #     {
-          #       missing: {
-          #         field: :valid_until,
-          #       },
-          #     },
-          #     {
-          #       range: {
-          #         valid_until: {
-          #           gte: Time.zone.now,
-          #         },
-          #       },
-          #     },
-          #   ],
-          # },
         ],
       },
     }
@@ -68,30 +53,24 @@ module JobSearchConcern
       },
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        import_pending: false,
-      },
-    }
-
-    if !@include_past
-      dsl1[:filter][:and] << {
-        or: [
-          {
-            missing: {
-              field: :occurs_on,
-            },
-          },
-          {
-            range: {
-              occurs_on: {
-                gte: Time.zone.now,
-              },
-            },
-          },
-        ],
-      }
-    end
+    # if !@include_past
+    #   dsl1[:filter][:and] << {
+    #     or: [
+    #       {
+    #         missing: {
+    #           field: :occurs_on,
+    #         },
+    #       },
+    #       {
+    #         range: {
+    #           occurs_on: {
+    #             gte: Time.zone.now,
+    #           },
+    #         },
+    #       },
+    #     ],
+    #   }
+    # end
 
     if @content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -119,7 +98,7 @@ module JobSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 
