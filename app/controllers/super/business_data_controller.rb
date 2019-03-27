@@ -8,7 +8,16 @@ class Super::BusinessDataController < SuperController
   	#business table holds core business data for all firms, including those that have
   	#records in the Business table (firms with records in Business table are those that
   		# have accounts on IMPACT, i.e., have active websites)
-    @businesses = Business.includes(:communities).order("id").search(params[:search]) #.page(params[:page]).per(20)
+    respond_to do |format|
+
+      # @businesses = Business.includes(:communities).order("id").search(params[:search]) #.page(params[:page]).per(20)
+      format.html
+      # format.json {render @businsses.as_json(only: [:id, :name, :communities.map(&:label).join(', '), :owned_companies.count, :in_impact, :merge, :updated_at])}
+      format.json {render json: SuperBusinessDatumDatatable.new(view_context)}
+
+    end
+
+
   end
 
   def edit
