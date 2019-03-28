@@ -79,10 +79,10 @@ class SuperBusinessDatumDatatable < ApplicationDatatable
 
     # @businesses = Business.includes(:communities).order("id").search(params[:search]) #.page(params[:page]).per(20)
     businesses = businesses.page(page).per(per_page)
-    # if params[:search][:value]
+    if params[:search][:value]
       #businesses = businesses.where(search_string.join(' or '), search: "%#{params[:search][:value]}%")
-    businesses = businesses.where('lower(name) like ?', "%#{params[:search][:value].downcase}%" )
-    # end
+      businesses = businesses.where('lower(name) like ?', "%#{params[:search][:value].downcase}%" )
+    end
   end
 
   def columns
