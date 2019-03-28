@@ -22,10 +22,10 @@ class ApplicationDatatable
   end
 
   def per_page
-    params[:length].to_i > 0 ? params[:length].to_i : 100
+    params[:length].to_i > 0 ? params[:length].to_i : 25
   end
 
-  def sort_colum
+  def sort_column
     columns[params[:order]['0'][:column].to_i]
   end
 

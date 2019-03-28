@@ -1,25 +1,15 @@
-div id="companies-partial"
-  .table-responsive
-    / table.table.table-striped.table-bordered.table-hover.datatable data-url="#{super_business_data_path(format: 'json')}" data-columns="[
-    /       { "data": "id" },
-    /       { "data": "name" },
-    /       { "data": "communities" },
-    /       { "data": "crm_businesses" },
-    /       { "data": "active" },
-    /       { "data": "merge" },
-    /       { "data": "updated_at" },
-    / ]"
-    table.table.table-striped.table-bordered.table-hover.datatable data-url="#{super_business_data_path(format: :json)}"
-      thead
-        th Business ID
-        th Name
-        th Communtities
-        th # of Companies in CRM
-        th Status
-        th Last Updated On
-        th Manage
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover.serverside-datatable data-url="#{super_business_data_path(format: :json)}"
+    thead
+      th Business ID
+      th Name
+      th Comunities
+      th.no-sort # of Companies in CRM
+      th Status
+      th Last Updated On
+      th.no-sort Manage
 
-      tbody
+    tbody
       /   - @businesses.each do |a|
       /     tr
       /       td = a.id
@@ -36,20 +26,3 @@ div id="companies-partial"
       /       td = a.in_impact
       /       td = link_to 'Go', merge_with_super_business_datum_path(a)
       /       td = a.updated_at.to_date.to_formatted_s(:long_ordinal)
-
-/ div id="businesses-partial"
-/ 	table class="table table-striped"
-/ 		thead
-/ 			tr
-/ 			  th ID
-/ 			  th Name
-/ 			  th Created at
-/ 			  th Updated at
-/ 		tbody
-/ 			- @companies.each do |a|
-/ 			    tr
-/ 			       td = a.id
-/ 				   td = link_to edit_super_business_datum_path(a) do
-/ 					   = a.name
-/ 			       td = a.created_at.to_date.to_formatted_s(:long_ordinal)
-/ 			       td = a.updated_at.to_date.to_formatted_s(:long_ordinal)
