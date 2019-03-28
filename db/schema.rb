@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190222180623) do
+ActiveRecord::Schema.define(version: 20190328190754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -316,8 +316,9 @@ ActiveRecord::Schema.define(version: 20190222180623) do
   create_table "communities", force: :cascade do |t|
     t.string   "label"
     t.string   "boundry_coordinates"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.boolean  "private",             default: false
   end
 
   create_table "community_businesses", force: :cascade do |t|
@@ -327,6 +328,7 @@ ActiveRecord::Schema.define(version: 20190222180623) do
     t.boolean  "champion"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "recommended"
   end
 
   add_index "community_businesses", ["business_id"], name: "index_community_businesses_on_business_id", using: :btree
