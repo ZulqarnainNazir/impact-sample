@@ -5,7 +5,7 @@ class Super::CommunitiesController < SuperController
   # GET /communities
   # GET /communities.json
   def index
-    @communities = Community.all
+    @communities = Community.all.includes(:community_businesses).includes(:businesses)
   end
 
   # GET /communities/1
@@ -70,6 +70,6 @@ class Super::CommunitiesController < SuperController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def community_params
-      params.require(:community).permit(:label, :boundry_coordinates, :private, community_businesses_attributes: [:id, :anchor, :champion])
+      params.require(:community).permit(:label, :boundry_coordinates, :private, community_businesses_attributes: [:id, :anchor, :champion, :recommended])
     end
 end

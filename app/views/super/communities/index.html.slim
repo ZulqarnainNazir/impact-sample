@@ -14,7 +14,9 @@ div class="ibox float-e-margins"
               th Claimed Accounts in Community
               th Paid Accounts in Community
               th Total Related Businesses in CRM
-              th # of Ambassadors
+              th Anchors
+              th Champions
+              th Recommended Businesses
               th Private
               th Manage
 
@@ -26,7 +28,10 @@ div class="ibox float-e-margins"
                 td = community.accounts_count(community)
                 td = community.paid_accounts_count(community)
                 td = community.related_businesses_count(community)
-                td = community.ambassador_count(community)
+                / td = community.ambassador_count(community)
+                td = community.community_businesses.where(anchor: true).count
+                td = community.community_businesses.where(champion: true).count
+                td = community.community_businesses.where(recommended: true).count
                 td = community.private
                 td
                   = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"

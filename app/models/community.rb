@@ -47,15 +47,15 @@ class Community < ActiveRecord::Base
     return count
   end
 
-  def ambassador_count(community)
-    count = 0
-    community.community_businesses.each do | b |
-      if b.anchor? || b.champion?
-        # if b.is_anchor? || b.is_champion?
-        count += 1
-      end
-    end
-    return count
-  end
+  # def ambassador_count(community)
+  #   count = 0
+  #   community.community_businesses.each do | b |
+  #     if b.anchor? || b.champion?
+  #       # if b.is_anchor? || b.is_champion?
+  #       count += 1
+  #     end
+  #   end
+  #   return count
+  # end
 
 end

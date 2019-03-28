@@ -18,7 +18,7 @@
               th Business
               th Anchor
               th Champion
-              / th Recommneded
+              th Recommended
 
           tbody
             = f.simple_fields_for :community_businesses do |cbf|
@@ -28,7 +28,7 @@
                 td = business.name
                 td = cbf.check_box :anchor
                 td = cbf.check_box :champion
-                / td = cbf.check_box :recommneded
+                td = cbf.check_box :recommended
   -else
     p No Business in this Community yet.
 
