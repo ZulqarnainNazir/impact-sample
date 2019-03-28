@@ -4,9 +4,11 @@
   .form-inputs
     = f.input :label, label: 'Community Name: '
     = f.input :boundry_coordinates, label: 'Defining Coordinates for Community(Not Implemented): '
+    = f.label "Mark as Private (defaults to false): "
+    = f.check_box :private
 
   h2 Select Ambassadors
-  p Note: Anchors are paid and have cobranding while Champions are unpaid and are only follow recommendations for new accounts.
+  p Note: Anchors are paid and have cobranding while Champions are unpaid but critical players. Recommneded business are follow recommendations for new accounts.
   -if @community.community_businesses.present?
     div class="row m-t-3"
       div class="col-md-12"
@@ -16,6 +18,7 @@
               th Business
               th Anchor
               th Champion
+              / th Recommneded
 
           tbody
             = f.simple_fields_for :community_businesses do |cbf|
@@ -25,6 +28,7 @@
                 td = business.name
                 td = cbf.check_box :anchor
                 td = cbf.check_box :champion
+                / td = cbf.check_box :recommneded
   -else
     p No Business in this Community yet.
 

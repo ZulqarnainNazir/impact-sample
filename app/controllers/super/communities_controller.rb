@@ -70,6 +70,6 @@ class Super::CommunitiesController < SuperController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def community_params
-      params.require(:community).permit(:label, :boundry_coordinates, community_businesses_attributes: [:id, :anchor, :champion])
+      params.require(:community).permit(:label, :boundry_coordinates, :private, community_businesses_attributes: [:id, :anchor, :champion])
     end
 end
