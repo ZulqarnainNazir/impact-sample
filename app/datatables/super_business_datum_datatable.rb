@@ -65,16 +65,15 @@ class SuperBusinessDatumDatatable < ApplicationDatatable
 
     if sort_column == 'communities'
       businesses = Business.includes(:communities).order("communities.label #{sort_direction}")
-      # elsif sort_colum == 'crm_companies'
-      #   businesses = Business.includes(:communities)
-      #   if sort_direction == 'asc'
-      #     businesses = businesses.sort_by(&:owned_companies.count)
-      #   else
-      #     businesses = businesses.sort_by(&:owned_companies.count).reverse
-      #   end
+      # elsif sort_column == 'crm_companies'
+      # businesses = Business.includes(:communities).order("owned_companies.count #{sort_direction}")
+      # businesses = Business.includes(:communities)
+      # if sort_direction == 'asc'
+      #   businesses = businesses.sort_by(&:owned_companies.count)
+      # else
+      #   businesses = businesses.sort_by(&:owned_companies.count).reverse
+      # end
     else
-
-
       businesses = Business.includes(:communities).order("#{sort_column} #{sort_direction}")
     end
 
