@@ -4,6 +4,7 @@ class Listing::CalendarsController < ApplicationController
   include ApplicationHelper
   include SearchHelper
   include ContentSearchConcern
+  include EventSearchConcern
 
   before_action do
     @business = Business.listing_lookup(params[:lookup])
@@ -18,9 +19,10 @@ class Listing::CalendarsController < ApplicationController
     @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
     @content_feed_widget.business = @business
     @content_feed_widget.max_items = 12
+    #Does this content types params need to be here?
     params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
-    #TODO - Need to replace with events query
-    @posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
+    # @posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
+    @posts = get_events(@content_feed_widget.business, embed: @content_feed_widget, content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], per_page: @content_feed_widget.max_items)
 
   end
 

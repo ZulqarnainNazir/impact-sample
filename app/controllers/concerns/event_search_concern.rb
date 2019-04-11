@@ -3,7 +3,7 @@ module EventSearchConcern
 
   #Originally search_event...need to find places in master branch that need to be updated after merge inlucding new fields / field order
   # Finds events for a given business for display in widget, web builder or listings
-  def get_events(business, embed: nil, query: nil, kinds: ["Event", "Class", "Deadline"], content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'desc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
+  def get_events(business, embed: nil, query: nil, kinds: nil, content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'desc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
     #TODO - Add a filter for defined categories from a local network
     #TODO - Add filter for defined sources from feeds
 
@@ -155,6 +155,15 @@ module EventSearchConcern
       }
     end
 
+    #TODO - Need to renable
+    # if @kinds.present?
+    #   dsl1[:filter][:and] << {
+    #     terms: {
+    #       content_category_ids: @kinds,
+    #     },
+    #   }
+    # end
+
     if @content_category_ids.present?
       dsl1[:filter][:and] << {
         terms: {
@@ -182,12 +191,13 @@ module EventSearchConcern
     else
       dsl1[:sort] = {
         sorting_date: @order,
-        # occurs_on: :desc,
+        # occurs_on: @order,
       }
     end
 
     # Content Types = Event / EventDefintion / ImportedEventDefinition - Does this properly scope imported events?
-    @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition, Event]).records.to_a
+    # @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition, ImportedEventDefinition]).records.includes(:events).to_a
+    @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition]).records.to_a
 
     #Sort and return content objects
     # Kaminari.paginate_array(@all_events.sort_by {|obj| obj.published_at}.reverse!).page(@page).per(@per_page)

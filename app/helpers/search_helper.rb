@@ -29,13 +29,13 @@ module SearchHelper
   #
   # end
 
-  def events(business, page: 1, limit: 4)
-    business.events.joins(:event_definition).where(:event_definitions => {published_status: true}).
-      where('occurs_on >= ?', Time.zone.now).
-      order(occurs_on: :asc).
-      page(page).
-      per(limit)
-  end
+  # def events(business, page: 1, limit: 4)
+  #   business.events.joins(:event_definition).where(:event_definitions => {published_status: true}).
+  #     where('occurs_on >= ?', Time.zone.now).
+  #     order(occurs_on: :asc).
+  #     page(page).
+  #     per(limit)
+  # end
 
   ###.joins(:event_definition).where(:event_definitions => {published_status: true})
 
@@ -47,72 +47,72 @@ module SearchHelper
   #     per(limit)
   # end
 
-  def events_organized_desc(blog_feed_block, business, content_category_ids: [], content_tag_ids: [], include_past: false, page: 1, limit: 4)
-
-    #this method is used to display events on a consumer-facing feed
-    #on the client's website.
-    #first, it pulls all events for the given business.
-    #then, if the user has designated that only events with a certain tag and/or category
-    #should appear, it plucks those and gives them to Kaminari to paginate.
-    #otherwise, it shows all events.
-    #keep in mind that "all events" means those that will occur in the future
-    #...unless include_past is true
-
-    @blog_feed_block = blog_feed_block
-    @business = business
-    @business_ids = []
-    if @blog_feed_block != nil
-      @business_ids = @blog_feed_block.get_business_ids #returns array of Business ids, or empty array
-      unless @blog_feed_block.show_our_content == false
-        @business_ids << @business.id #includes parent business' content
-      end
-    else
-      @business_ids << @business.id
-    end
-
-    @events = []
-
-    if include_past
-      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
-                          .where({business_id: @business_ids})
-                          .where(event_definitions: { published_status: true })
-    else
-      found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
-                          .where(business_id: @business_ids)
-                          .where('occurs_on >= ?', Time.zone.now)
-                          .where(event_definitions: { published_status: true })
-    end
-
-    found_events.
-    order(occurs_on: :desc).find_each do |x|
-        tag_ids = x.content_tag_ids
-        category_ids = x.content_category_ids
-
-        if !content_category_ids.empty? || !content_tag_ids.empty?
-
-          tag_ids.each do |n|
-            if content_tag_ids.include?(n)
-              @events << x
-            end
-          end
-
-
-          if !@events.include?(x)
-            category_ids.each do |n|
-              if content_category_ids.include?(n)
-                @events << x
-              end
-            end
-          end
-
-        else
-          @events << x
-        end
-
-      end
-
-      return Kaminari.paginate_array(@events.reverse).page(page).per(limit)
-  end
+  # def events_organized_desc(blog_feed_block, business, content_category_ids: [], content_tag_ids: [], include_past: false, page: 1, limit: 4)
+  #
+  #   #this method is used to display events on a consumer-facing feed
+  #   #on the client's website.
+  #   #first, it pulls all events for the given business.
+  #   #then, if the user has designated that only events with a certain tag and/or category
+  #   #should appear, it plucks those and gives them to Kaminari to paginate.
+  #   #otherwise, it shows all events.
+  #   #keep in mind that "all events" means those that will occur in the future
+  #   #...unless include_past is true
+  #
+  #   @blog_feed_block = blog_feed_block
+  #   @business = business
+  #   @business_ids = []
+  #   if @blog_feed_block != nil
+  #     @business_ids = @blog_feed_block.get_business_ids #returns array of Business ids, or empty array
+  #     unless @blog_feed_block.show_our_content == false
+  #       @business_ids << @business.id #includes parent business' content
+  #     end
+  #   else
+  #     @business_ids << @business.id
+  #   end
+  #
+  #   @events = []
+  #
+  #   if include_past
+  #     found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
+  #                         .where({business_id: @business_ids})
+  #                         .where(event_definitions: { published_status: true })
+  #   else
+  #     found_events = Event.includes(business: [:website], event_definition: [:main_image, :event_image_placement, :location, :event_image, :content_categories, :content_tags])
+  #                         .where(business_id: @business_ids)
+  #                         .where('occurs_on >= ?', Time.zone.now)
+  #                         .where(event_definitions: { published_status: true })
+  #   end
+  #
+  #   found_events.
+  #   order(occurs_on: :desc).find_each do |x|
+  #       tag_ids = x.content_tag_ids
+  #       category_ids = x.content_category_ids
+  #
+  #       if !content_category_ids.empty? || !content_tag_ids.empty?
+  #
+  #         tag_ids.each do |n|
+  #           if content_tag_ids.include?(n)
+  #             @events << x
+  #           end
+  #         end
+  #
+  #
+  #         if !@events.include?(x)
+  #           category_ids.each do |n|
+  #             if content_category_ids.include?(n)
+  #               @events << x
+  #             end
+  #           end
+  #         end
+  #
+  #       else
+  #         @events << x
+  #       end
+  #
+  #     end
+  #
+  #     return Kaminari.paginate_array(@events.reverse).page(page).per(limit)
+  # end
 
 
   # def posts(blog_feed_block, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
@@ -158,77 +158,76 @@ module SearchHelper
   #     ).page(page).per(limit)
   # end
 
-  #TODO a few more event quesries that still use this as of 4/10/19
-  def content_feed_widget_base(widget, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
-    #excluding search queries
-    Kaminari.paginate_array(
-        ContentFeedWidgetSearch.new(
-          widget,
-          business,
-          '',
-          content_types: content_types,
-          content_category_ids: content_category_ids,
-          content_tag_ids: content_tag_ids
-        ).search
-      ).page(page).per(limit)
-  end
+  # def content_feed_widget_base(widget, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+  #   #excluding search queries
+  #   Kaminari.paginate_array(
+  #       ContentFeedWidgetSearch.new(
+  #         widget,
+  #         business,
+  #         '',
+  #         content_types: content_types,
+  #         content_category_ids: content_category_ids,
+  #         content_tag_ids: content_tag_ids
+  #       ).search
+  #     ).page(page).per(limit)
+  # end
 
-  def calendar_widget_search(widget, business, search_string, start_date, end_date, filter_kinds: [], page: 1, limit: 4)
-
-    # Find this first, because if we are looking for one date, we may need old events
-    date_to_filter = Date.parse start_date rescue nil
-    end_date_to_filter = Date.parse end_date rescue nil
-
-    if search_string.present?
-      event_definitions = ContentFeedWidgetSearch.new(
-          widget,
-          business,
-          search_string,
-          content_types: ['Event'],
-          include_past: date_to_filter.present?
-        ).search
-      if date_to_filter.present?
-        events = Event.includes(:event_definition, :business).where(
-          event_definition_id: event_definitions).order(:occurs_on)
-      else
-        events = Event.includes(:event_definition, :business).where(
-          event_definition_id: event_definitions
-        ).where("occurs_on >= ?", Time.zone.now).order(:occurs_on)
-      end
-
-    else
-      events = events_organized_desc(
-        widget,
-        business,
-        include_past: date_to_filter.present?,
-        page: 1,
-        limit: 800)
-    end
-
-    if filter_kinds.present?
-      events = events.select { |e|
-        filter_kinds.include?(e.event_definition.kind)
-      }
-    end
-
-    if date_to_filter.present?
-      events = events.select { |e|
-        (e.occurs_on >= date_to_filter) &&
-        (end_date_to_filter.blank? || e.occurs_on <= end_date_to_filter)
-      }
-    end
-
-    sorted_events = events.sort { |a,b|
-      if a.occurs_on == b.occurs_on
-        a.event_definition.start_time - b.event_definition.start_time
-      else
-        a.occurs_on - b.occurs_on
-      end
-    }
-
-    Kaminari.paginate_array(sorted_events).page(page).per(limit)
-
-  end
+  # def calendar_widget_search(widget, business, search_string, start_date, end_date, filter_kinds: [], page: 1, limit: 4)
+  #
+  #   # Find this first, because if we are looking for one date, we may need old events
+  #   date_to_filter = Date.parse start_date rescue nil
+  #   end_date_to_filter = Date.parse end_date rescue nil
+  #
+  #   if search_string.present?
+  #     event_definitions = ContentFeedWidgetSearch.new(
+  #         widget,
+  #         business,
+  #         search_string,
+  #         content_types: ['Event'],
+  #         include_past: date_to_filter.present?
+  #       ).search
+  #     if date_to_filter.present?
+  #       events = Event.includes(:event_definition, :business).where(
+  #         event_definition_id: event_definitions).order(:occurs_on)
+  #     else
+  #       events = Event.includes(:event_definition, :business).where(
+  #         event_definition_id: event_definitions
+  #       ).where("occurs_on >= ?", Time.zone.now).order(:occurs_on)
+  #     end
+  #
+  #   else
+  #     events = events_organized_desc(
+  #       widget,
+  #       business,
+  #       include_past: date_to_filter.present?,
+  #       page: 1,
+  #       limit: 800)
+  #   end
+  #
+  #   if filter_kinds.present?
+  #     events = events.select { |e|
+  #       filter_kinds.include?(e.event_definition.kind)
+  #     }
+  #   end
+  #
+  #   if date_to_filter.present?
+  #     events = events.select { |e|
+  #       (e.occurs_on >= date_to_filter) &&
+  #       (end_date_to_filter.blank? || e.occurs_on <= end_date_to_filter)
+  #     }
+  #   end
+  #
+  #   sorted_events = events.sort { |a,b|
+  #     if a.occurs_on == b.occurs_on
+  #       a.event_definition.start_time - b.event_definition.start_time
+  #     else
+  #       a.occurs_on - b.occurs_on
+  #     end
+  #   }
+  #
+  #   Kaminari.paginate_array(sorted_events).page(page).per(limit)
+  #
+  # end
 
   #get_content_types method is a critical method for
   #getting the right content types to show, as scoped by type.

@@ -42,14 +42,16 @@ div.col-xs-12.m-t-lg
   - @calendar_widget.max_items = 12
 
   / Find the events to display
-  - events = calendar_widget_search(@calendar_widget,
-      @calendar_widget.business,
-      params[:blog_search],
-      start_date,
-      end_date,
-      filter_kinds: filter_kinds,
-      page: params[:page],
-      limit: @calendar_widget.max_items)
+  / - events = calendar_widget_search(@calendar_widget,
+  /     @calendar_widget.business,
+  /     params[:blog_search],
+  /     start_date,
+  /     end_date,
+  /     filter_kinds: filter_kinds,
+  /     page: params[:page],
+  /     limit: @calendar_widget.max_items)
+
+  - events = get_events(@calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: start_date, end_date: end_date)
 
   - week_events = []
   - counts = [0, 0, 0, 0, 0, 0, 0]

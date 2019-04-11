@@ -5,11 +5,11 @@
 /
 - business = event.business
 
-- product_image = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.event_definition.slug}" do
-  - if event.event_definition.main_image
-    = image_tag event.event_definition.main_image.attachment_url(:small)
+- product_image = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.slug}" do
+  - if event.main_image
+    = image_tag event.main_image.attachment_url(:small)
   - else
-    - placement = event.event_definition.event_image_placement
+    - placement = event.event_image_placement
     - if placement
       - cache placement
         - if placement.try(:embeds?)
@@ -20,36 +20,36 @@
     - else
       = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
-- title = link_to "#", id: "event-#{event.id}-2", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'title calendar-card', 'data-slug'=>"#{event.event_definition.slug}" do
-  = truncate sanitize_simple(event.event_definition.title.titleize),
+- title = link_to "#", id: "event-#{event.id}-2", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'title calendar-card', 'data-slug'=>"#{event.slug}" do
+  = truncate sanitize_simple(event.title.titleize),
       length: 60,
       omission: '... '
 
 - time_range = capture do
-  = event.event_definition.start_time.strftime('%l:%M %P')
-  - if event.event_definition.end_time.present?
-    = event.event_definition.end_time.strftime(' - %l:%M %P')
+  = event.start_time.strftime('%l:%M %P')
+  - if event.end_time.present?
+    = event.end_time.strftime(' - %l:%M %P')
 
 - date_time = capture do
   .date
     i.fa.fa-calendar.m-r-xs
-    = event.occurs_on.strftime('%b %d, %Y')
+    = event.events.last.occurs_on.strftime('%b %d, %Y')
   .start-time
     i.fa.fa-clock-o.m-r-xs
-    = event.event_definition.start_time.strftime('%I:%M %p')
+    = event.start_time.strftime('%I:%M %p')
 
 - location = capture do
-  - if event.event_definition.location.present?
+  - if event.location.present?
     .street1
       i.fa.fa-map-marker.m-r-xs
-      = truncate sanitize(event.event_definition.location.street1.titleize)
+      = truncate sanitize(event.location.street1.titleize)
     .city-state-zip
       i.icon-block.m-r-xs
-      = truncate sanitize(event.event_definition.location.city.titleize) + ', '
-      = truncate sanitize(event.event_definition.location.state.upcase) + ' '
-      = truncate sanitize(event.event_definition.location.zip_code)
+      = truncate sanitize(event.location.city.titleize) + ', '
+      = truncate sanitize(event.location.state.upcase) + ' '
+      = truncate sanitize(event.location.zip_code)
 
-- description = truncate sanitize_simple(event.event_definition.description),
+- description = truncate sanitize_simple(event.description),
     length: 140,
     omission: '... '
 
@@ -77,7 +77,7 @@
       .description
         = description
 
-      = link_to "#", id: "event-#{event.id}-3", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'read-more calendar-card', 'data-slug'=>"#{event.event_definition.slug}" do
+      = link_to "#", id: "event-#{event.id}-3", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'read-more calendar-card', 'data-slug'=>"#{event.slug}" do
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right
 
@@ -86,7 +86,7 @@
           | Posted by #{business.name}
 
 
-div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
+div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.slug}"
   .modal-dialog.modal-lg
     .modal-content
       .modal-header
@@ -102,7 +102,7 @@ div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog"
 
 javascript:
   $('#event-modal-#{event.id}').on('shown.bs.modal', function () {
-    window.location.hash = '#{event.event_definition.slug}';
+    window.location.hash = '#{event.slug}';
   })
 
   $('#event-modal-#{event.id}').on('hidden.bs.modal', function (e) {

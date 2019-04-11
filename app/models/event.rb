@@ -50,7 +50,7 @@ class Event < ActiveRecord::Base
     #values for content_category_ids, or title, or description, etc.
     #e.g., if title has value 'foo', and is the first event to have
     #a title, then title is then added to mapping, where before it was not present.
-    as_json(methods: %i[content_category_ids content_tag_ids sorting_date title description subtitle published_status])
+    as_json(methods: %i[content_category_ids content_tag_ids occurs_on title description subtitle published_status])
   end
 
   def content_category_ids
@@ -63,9 +63,9 @@ class Event < ActiveRecord::Base
     @content_tag_ids ||= event_definition&.content_tag_ids || []
   end
 
-  def sorting_date
-    occurs_on
-  end
+  # def sorting_date
+  #   occurs_on
+  # end
 
   def share_image_url
     event_definition.event_image.try(:attachment_full_url, :original)
