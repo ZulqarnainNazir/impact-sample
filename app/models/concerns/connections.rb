@@ -11,7 +11,7 @@ module Concerns
       companies = []
       business.listed_by_business.each {|company| companies << company.company}
 
-      companies.uniq
+      companies.uniq # Note this is still not completely unique as it counts when part of multiple networks
 
     end
 
