@@ -1,30 +1,27 @@
 module EventSearchConcern
   extend ActiveSupport::Concern
 
-  # order asc and desc by occurs_on
-  # strat date to end date range / include past / currnet (occurs on > now) / all
-  #published / unpublished
-  # Content Types = Event / EventDefintion? / ImportedEventDefinition??
-  # event kinds = class, deadline, ?
-  # new categorization
-
   #Originally search_event...need to find places in master branch that need to be updated after merge inlucding new fields / field order
   # Finds events for a given business for display in widget, web builder or listings
-  def get_events(business, embed = '', query = '', content_types = ["EventDefinition", "Event"], content_category_ids = [], content_tag_ids = [], order = "desc", page = 1, per_page = 10, , include_past = false, start_date = '', end_date = '')
+  def get_events(business, embed: nil, query: nil, kinds: ["Event", "Class", "Deadline"], content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'desc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
+    #TODO - Add a filter for defined categories from a local network
+    #TODO - Add filter for defined sources from feeds
 
     # Initialize
     @business = business
     @embed = embed
     @query = query.to_s.strip
-    @content_types = content_types
+    @kinds = kinds
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
+    @filter = filter
     @order = order
     @page = page
     @per_page = per_page
     @include_past = include_past
     @start_date = start_date
     @end_date = end_date
+    @limit = limit
 
     # Apply Business Logic
     @business_ids = []
@@ -50,30 +47,7 @@ module EventSearchConcern
               business_id: @business_ids,
             },
           },
-          # {
-          #   or: [
-          #     {
-          #       missing: {
-          #         field: :published_on,
-          #       },
-          #     },
-          #     {
-          #       range: {
-          #         published_on: {
-          #           lte: Time.zone.now,
-          #         },
-          #       },
-          #     },
-          #   ],
-          # },
-
         ],
-      },
-    }
-
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
       },
     }
 
@@ -83,7 +57,27 @@ module EventSearchConcern
       },
     }
 
-    if !@include_past
+    # drafts / published / all
+
+    if @filter == "Drafts"
+
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+
+    end
+
+    if !@include_drafts || @filter == "Published"
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: true,
+        },
+      }
+    end
+
+    if !@include_past && (!@start_date.present? || !@end_date.present?)
       dsl1[:filter][:and] << {
         or: [
           {
@@ -95,6 +89,65 @@ module EventSearchConcern
             range: {
               occurs_on: {
                 gte: Time.zone.now,
+              },
+            },
+          },
+        ],
+      }
+    end
+
+    if @start_date.present?
+      dsl1[:filter][:and] << {
+        or: [
+          {
+            missing: {
+              field: :occurs_on,
+            },
+          },
+          {
+            range: {
+              occurs_on: {
+                gte: @start_date,
+              },
+            },
+          },
+        ],
+      }
+
+    end
+
+    if @end_date.present?
+      dsl1[:filter][:and] << {
+        or: [
+          {
+            missing: {
+              field: :occurs_on,
+            },
+          },
+          {
+            range: {
+              occurs_on: {
+                lte: @end_date,
+              },
+            },
+          },
+        ],
+      }
+
+    end
+
+    if @limit
+      dsl1[:filter][:and] << {
+        or: [
+          {
+            missing: {
+              field: :occurs_on,
+            },
+          },
+          {
+            range: {
+              occurs_on: {
+                lte: Time.zone.now + 12.months,
               },
             },
           },
@@ -128,11 +181,12 @@ module EventSearchConcern
       }
     else
       dsl1[:sort] = {
-        # sorting_date: :desc,
-        occurs_on: :desc,
+        sorting_date: @order,
+        # occurs_on: :desc,
       }
     end
 
+    # Content Types = Event / EventDefintion / ImportedEventDefinition - Does this properly scope imported events?
     @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition, Event]).records.to_a
 
     #Sort and return content objects
