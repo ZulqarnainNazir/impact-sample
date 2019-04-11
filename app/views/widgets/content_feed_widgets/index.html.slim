@@ -38,7 +38,7 @@
             - else
               / = posts.to_partial_path
               = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
-        / - elsif !posts.present? || posts.empty?
+          / - elsif !posts.present? || posts.empty?
         - else
           div.col-xs-9
           h2 Nothing matched your search or there is no content here yet...
