@@ -2,35 +2,30 @@ module Concerns
   module Connections
     extend ActiveSupport::Concern
 
+    #Supporter (Supported By/Follower/Followed By)
+    ######################################################
+
     def supporters(business)
+      # Returns object of all unique companies Supporting this business
 
-      business.listed_by_business
+      companies = []
+      business.listed_by_business.each {|company| companies << company.company}
 
-    end
-
-    # Get new supporters since last sign in
-    def recent_supporters(business)
-
-      last_sign_in_at = current_user.last_sign_in_at
-      supporters(business).select { |supporter| last_sign_in_at - supporter.created_at <= 0 }
+      companies.uniq
 
     end
+
+    #Supporting (Following)
+    ######################################################
 
     def supporting(business)
+      # Returns object of all unqiue companies this business is Supporting
 
       companies = []
       business.company_lists.each {|list| companies = companies.concat(list.companies)}
 
-      companies = companies.uniq
-      # companies = companies.pluck(:user_business_id).compact
-      return companies
+      companies.uniq
 
-    end
-
-    # Get new supporting since last sign in
-    def recent_supporting(business)
-      last_sign_in_at = current_user.last_sign_in_at
-      supporting(business).uniq.select {|supporting| last_sign_in_at - supporting.created_at <= 0}
     end
 
   end

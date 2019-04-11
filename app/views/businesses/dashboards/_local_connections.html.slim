@@ -1,11 +1,11 @@
-- last_sign_in_at = current_user.last_sign_in_at
-
-- followers = business.listed_by_business
-- recent_followers = followers.select { |follower| last_sign_in_at - follower.created_at <= 0 }
-
-- companies = []
-- @business.company_lists.each {|list| companies = companies.concat(list.companies)}
--recent_follows = companies.uniq.select {|company| last_sign_in_at - company.created_at <= 0}
+/ - last_sign_in_at = current_user.last_sign_in_at
+/
+/ - followers = business.listed_by_business
+/ - recent_followers = followers.select { |follower| last_sign_in_at - follower.created_at <= 0 }
+/
+/ - companies = []
+/ - @business.company_lists.each {|list| companies = companies.concat(list.companies)}
+/ -recent_follows = companies.uniq.select {|company| last_sign_in_at - company.created_at <= 0}
 
 .ibox
   .ibox-title
@@ -38,13 +38,18 @@
           .widget.bg-success.m-xxs style="padding: 10px;"
             h5 Supporting
             h1.m-t-xs.m-b-xs.hidden-xs
-              strong= companies.uniq.size
+              / strong= companies.uniq.size
+              strong= @supporting.count
             h2.m-t-xs.m-b-xs.visible-xs
-              strong= companies.uniq.size
+              / strong= companies.uniq.size
+              strong= @supporting.count
             small
-              - if recent_follows.length > 0
+              / - if recent_follows.length > 0
+              /   .fa.fa-plus
+              /   = recent_follows.length.to_s + " New"
+              - if @recent_supporting.length > 0
                 .fa.fa-plus
-                = recent_follows.length.to_s + " New"
+                = @recent_supporting.length.to_s + " New"
               -else
                 | No New
             / | 2 New
@@ -56,13 +61,18 @@
           .widget.bg-info.m-xxs style="padding: 10px;"
             h5 Supporters
             h1.m-t-xs.m-b-xs.hidden-xs
-              strong= followers.length
+              / strong= followers.length
+              strong= @supporters.count
             h2.m-t-xs.m-b-xs.visible-xs
-              strong= followers.length
+              / strong= followers.length
+              strong= @supporters.count
             small
-              - if recent_followers.length > 0
+              / - if recent_followers.length > 0
+              /   .fa.fa-plus
+              /   = recent_followers.length.to_s + " New"
+              - if @recent_supporters.length > 0
                 .fa.fa-plus
-                = recent_followers.length.to_s + " New"
+                = @recent_supporters.length.to_s + " New"
               -else
                 | No New
       .col-xs-4.no-padding
