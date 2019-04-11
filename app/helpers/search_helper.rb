@@ -39,13 +39,13 @@ module SearchHelper
 
   ###.joins(:event_definition).where(:event_definitions => {published_status: true})
 
-  def events_organized_desc_listings(business, page: 1, limit: 4)
-    Kaminari.paginate_array(business.events.includes(:event_definition).where(event_definitions: { published_status: true }).
-      where('occurs_on >= ?', Time.zone.now).
-      order(occurs_on: :desc)).
-      page(page).
-      per(limit)
-  end
+  # def events_organized_desc_listings(business, page: 1, limit: 4)
+  #   Kaminari.paginate_array(business.events.includes(:event_definition).where(event_definitions: { published_status: true }).
+  #     where('occurs_on >= ?', Time.zone.now).
+  #     order(occurs_on: :desc)).
+  #     page(page).
+  #     per(limit)
+  # end
 
   def events_organized_desc(blog_feed_block, business, content_category_ids: [], content_tag_ids: [], include_past: false, page: 1, limit: 4)
 

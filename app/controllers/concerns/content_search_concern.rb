@@ -4,7 +4,7 @@ module ContentSearchConcern
   # Finds content for a given business for display in widget, web builder or listings
   def get_content(business, embed = '', query = '', content_types = [], content_category_ids = [], content_tag_ids = [], order = "desc", page = 1, per_page = 10)
     # Notes:
-    # Need to use scopes for published/draft/all for admin views
+    # Need to use scopes for published/draft/all for admin views by changing published query
 
     # Initialize
     @business = business

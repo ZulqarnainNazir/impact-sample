@@ -1,21 +1,45 @@
 module EventSearchConcern
   extend ActiveSupport::Concern
 
-  def search_event(widget, business, query = '', content_category_ids = [], content_tag_ids = [], include_past = false)
+  # order asc and desc by occurs_on
+  # strat date to end date range / include past / currnet (occurs on > now) / all
+  #published / unpublished
+  # Content Types = Event / EventDefintion? / ImportedEventDefinition??
+  # event kinds = class, deadline, ?
+  # new categorization
 
-    @widget = widget
+  #Originally search_event...need to find places in master branch that need to be updated after merge inlucding new fields / field order
+  # Finds events for a given business for display in widget, web builder or listings
+  def get_events(business, embed = '', query = '', content_types = ["EventDefinition", "Event"], content_category_ids = [], content_tag_ids = [], order = "desc", page = 1, per_page = 10, , include_past = false, start_date = '', end_date = '')
+
+    # Initialize
     @business = business
-    @business_ids = @widget.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
-    if @widget.show_our_content == true
-      @business_ids << @business.id #includes parent business' content
-    end
+    @embed = embed
     @query = query.to_s.strip
-    # @content_types = content_types
+    @content_types = content_types
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
+    @order = order
+    @page = page
+    @per_page = per_page
     @include_past = include_past
+    @start_date = start_date
+    @end_date = end_date
+
+    # Apply Business Logic
+    @business_ids = []
+    if @embed.present?
+      @business_ids = @embed.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
+
+      if @embed.show_our_content == true
+        @business_ids << @business.id #includes parent business' content
+      end
+    else
+      @business_ids << @business.id
+    end
 
 
+    # Perfom Elsticsearch query
     dsl1 = {
       size: 800,
 
@@ -42,22 +66,7 @@ module EventSearchConcern
           #     },
           #   ],
           # },
-          # {
-          #   or: [
-          #     {
-          #       missing: {
-          #         field: :valid_until,
-          #       },
-          #     },
-          #     {
-          #       range: {
-          #         valid_until: {
-          #           gte: Time.zone.now,
-          #         },
-          #       },
-          #     },
-          #   ],
-          # },
+
         ],
       },
     }
@@ -119,11 +128,16 @@ module EventSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        # sorting_date: :desc,
+        occurs_on: :desc,
       }
     end
 
-    Elasticsearch::Model.search(dsl1, [EventDefinition]).records.to_a
+    @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition, Event]).records.to_a
+
+    #Sort and return content objects
+    # Kaminari.paginate_array(@all_events.sort_by {|obj| obj.published_at}.reverse!).page(@page).per(@per_page)
+    Kaminari.paginate_array(@all_events).page(@page).per(@per_page)
 
   end
 end
