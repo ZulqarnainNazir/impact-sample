@@ -2,7 +2,7 @@ module ContentSearchConcern
   extend ActiveSupport::Concern
 
   # Finds content for a given business for display in widget, web builder or listings
-  def get_content(business, embed = '', query = '', content_types = [], content_category_ids = [], content_tag_ids = [], order = "DESC", per_page = '10')
+  def get_content(business, embed = '', query = '', content_types = [], content_category_ids = [], content_tag_ids = [], order = "desc", page = 1, per_page = 10)
     # Notes:
     # Need to use scopes for published/draft/all for admin views
 
@@ -14,7 +14,10 @@ module ContentSearchConcern
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
     @order = order
+    @page = page
     @per_page = per_page
+
+    # byebug
 
     # Apply Business Logic
     @business_ids = []
@@ -22,10 +25,10 @@ module ContentSearchConcern
       @business_ids = @embed.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
 
       if @embed.show_our_content == true
-        @business_id << business.id #includes parent business' content
+        @business_ids << @business.id #includes parent business' content
       end
     else
-      @business_ids << business.id
+      @business_ids << @business.id
     end
 
 
@@ -54,9 +57,12 @@ module ContentSearchConcern
       end
     end
 
+    # byebug
+
     #Sort and return content objects
     # (@quick_posts + @posts + @offers + @jobs + @galleries + @before_afters).sort_by {|obj| obj.published_at}.reverse!
-    Kaminari.paginate_array(@all_content.sort_by {|obj| obj.published_at}.reverse!).page(1).per(@per_page)
+    Kaminari.paginate_array(@all_content.sort_by {|obj| obj.published_at}.reverse!).page(@page).per(@per_page)
+
 
   end
 
@@ -108,7 +114,7 @@ module ContentSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 
@@ -180,7 +186,7 @@ module ContentSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 
@@ -253,7 +259,7 @@ module ContentSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 
@@ -309,7 +315,7 @@ module ContentSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 
@@ -365,7 +371,7 @@ module ContentSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 
@@ -421,7 +427,7 @@ module ContentSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: :desc,
+        published_at: :desc,
       }
     end
 

@@ -19,7 +19,8 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.left_label_text
               hr
           ul class="list-unstyled"
-            - (posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[QuickPost Gallery BeforeAfter Post], content_category_ids: Array(@business.website.footer_block.left_category_ids)).search.first(@business.website.footer_block.left_number_of_feed_items.to_i));nil
+            / - (posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[QuickPost Gallery BeforeAfter Post], content_category_ids: Array(@business.website.footer_block.left_category_ids)).search.first(@business.website.footer_block.left_number_of_feed_items.to_i));nil
+            - posts = get_content(@business, '', '', ["QuickPost", "Gallery", "BeforeAfter", "Post"], Array(@business.website.footer_block.left_category_ids), '', 'desc', '', @business.website.footer_block.left_number_of_feed_items.to_i)
             - posts.each do |post|
               li
                 = link_to [:website, post, only_path: false, host: business.website.host], class: "grid-feed-title m-b-0" do
@@ -48,6 +49,7 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.right_label_text
               hr
           ul class="list-unstyled"
+            / TODO - This needs to be replaced with event query before removing ContentBlogSearch from helper
             - posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[Event], content_category_ids: Array(@business.website.footer_block.right_category_ids)).search.select{ |event| event.is_a? Event }.sort_by(&:occurs_on).first(@business.website.footer_block.right_number_of_feed_items.to_i)
             - posts.each do |event|
               li.m-b-lg

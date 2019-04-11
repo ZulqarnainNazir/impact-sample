@@ -68,6 +68,8 @@
         .col-sm-4
           .show-sidebar-grid
             - if @website.content_blog_sidebar?
-              = render posts(nil, @business), small: true
+              / = render posts(nil, @business), small: true
+              / TODO: Make it so that the correct content types below are passed into the get_content method instead of hard coded
+              = render get_content(@business, '', '', ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], '', '', 'desc', '', '4'), small: true
             - if @website.events_sidebar?
               = render events(@business), small: true

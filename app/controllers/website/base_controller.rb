@@ -1,8 +1,10 @@
 require 'search_helper'
 class Website::BaseController < ApplicationController
   include SearchHelper
+  include ContentSearchConcern
 
-  helper_method :events, :posts, :order_the_events, :blog_search_base, :events_organized_desc, :get_content_types
+  # a) I need to remove the referneces to old seach helpers b) is adding :get_content the best way to give access to the view or should this be moved to controller?
+  helper_method :events, :posts, :order_the_events, :blog_search_base, :events_organized_desc, :get_content_types, :get_content
 
   before_action do
     if !params[:uuid].blank?

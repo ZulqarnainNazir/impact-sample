@@ -1,6 +1,10 @@
 require 'search_helper'
 class Widgets::BaseController < ApplicationController
   include SearchHelper
+  include ContentSearchConcern
+
+  helper_method :get_content
+
   layout "website_embed"
 
   before_action do

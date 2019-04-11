@@ -1,6 +1,8 @@
 #IMPORTANT: Look at the comments *at the end* of the code below for guidance on how
 #the code works, why it was set-up the way it was as of 3.19.17, and for info RE associated
 #rake tasks.
+
+# Only thing using this is Footer events as of 4/10/19
 class ContentBlogSearch
   def initialize(blog_feed_block, business, query = '', content_types: [], content_category_ids: [], content_tag_ids: [])
     @business = business

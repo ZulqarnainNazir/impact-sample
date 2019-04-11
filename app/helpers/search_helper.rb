@@ -114,49 +114,51 @@ module SearchHelper
       return Kaminari.paginate_array(@events.reverse).page(page).per(limit)
   end
 
-  def posts(blog_feed_block, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
-    #this method is being used not only for /blog pages, but also for directory modals as of 2.21.18 - Taylor Barnette
-    Kaminari.paginate_array(
-        ContentBlogSearch.new(
-          blog_feed_block,
-          business,
-          '',
-          content_types: content_types,
-          content_category_ids: content_category_ids,
-          content_tag_ids: content_tag_ids
-        ).search
-      ).page(page).per(limit)
-  end
 
-  def blog_search_base(blog_feed_block, business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
-    Kaminari.paginate_array(
-        ContentBlogSearch.new(
-          blog_feed_block,
-          business,
-          search_string,
-          content_types: content_types,
-          content_category_ids: content_category_ids,
-          content_tag_ids: content_tag_ids
-        ).search
-      ).page(page).per(limit)
-  end
+  # def posts(blog_feed_block, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+  #   #this method is being used not only for /blog pages, but also for directory modals as of 2.21.18 - Taylor Barnette
+  #   Kaminari.paginate_array(
+  #       ContentBlogSearch.new(
+  #         blog_feed_block,
+  #         business,
+  #         '',
+  #         content_types: content_types,
+  #         content_category_ids: content_category_ids,
+  #         content_tag_ids: content_tag_ids
+  #       ).search
+  #     ).page(page).per(limit)
+  # end
+  #
+  # def blog_search_base(blog_feed_block, business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
+  #   Kaminari.paginate_array(
+  #       ContentBlogSearch.new(
+  #         blog_feed_block,
+  #         business,
+  #         search_string,
+  #         content_types: content_types,
+  #         content_category_ids: content_category_ids,
+  #         content_tag_ids: content_tag_ids
+  #       ).search
+  #     ).page(page).per(limit)
+  # end
 
   #CONTENT FEED WIDGET HELPERS FOR ELASTICSEARCH QUERIES
-  def content_feed_widget_base_search(widget, business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], include_past: false, page: 1, limit: 4)
-    #for search queries
-    Kaminari.paginate_array(
-        ContentFeedWidgetSearch.new(
-          widget,
-          business,
-          search_string,
-          content_types: content_types,
-          content_category_ids: content_category_ids,
-          content_tag_ids: content_tag_ids,
-          include_past: include_past
-        ).search
-      ).page(page).per(limit)
-  end
+  # def content_feed_widget_base_search(widget, business, search_string, content_types: [], content_category_ids: [], content_tag_ids: [], include_past: false, page: 1, limit: 4)
+  #   #for search queries
+  #   Kaminari.paginate_array(
+  #       ContentFeedWidgetSearch.new(
+  #         widget,
+  #         business,
+  #         search_string,
+  #         content_types: content_types,
+  #         content_category_ids: content_category_ids,
+  #         content_tag_ids: content_tag_ids,
+  #         include_past: include_past
+  #       ).search
+  #     ).page(page).per(limit)
+  # end
 
+  #TODO a few more event quesries that still use this as of 4/10/19
   def content_feed_widget_base(widget, business, content_types: [], content_category_ids: [], content_tag_ids: [], page: 1, limit: 4)
     #excluding search queries
     Kaminari.paginate_array(
@@ -234,46 +236,47 @@ module SearchHelper
   #this method should be used in the
   #home_pages_controller.
 
-  def render_content_type_partial(object, engage)
-    if engage == false
-      if object.class.name == "Job"
-        render 'website/jobs/job', job: object
-      elsif object.class.name == "Post"
-        render 'website/posts/post', post: object
-      elsif object.class.name == "Offer"
-        render 'website/offers/offer', offer: object
-      elsif object.class.name == "BeforeAfter"
-        render 'website/before_afters/before_after', before_after: object
-      elsif object.class.name == "Gallery"
-        render 'website/galleries/gallery', gallery: object
-      elsif object.class.name == "Event"
-        render 'website/events/event', event: object
-      elsif object.class.name == "EventDefinition"
-        render 'website/event_definitions/event_definition', event_definition: object
-      elsif object.class.name == "QuickPost"
-        render 'website/quick_posts/quick_post', quick_post: object
-      end
-    elsif engage == true
-      # if object.class.name == "Job"
-      #   render 'listing/listings/job', job: object
-      if object.class.name == "Post"
-        render 'listing/listings/post', post: object
-      elsif object.class.name == "Offer"
-        render 'listing/listings/offer', offer: object
-      elsif object.class.name == "BeforeAfter"
-        render 'listing/listings/before_after', before_after: object
-      elsif object.class.name == "Gallery"
-        render 'listing/listings/gallery', gallery: object
-      elsif object.class.name == "Event"
-        render 'listing/listings/event', event: object
-      elsif object.class.name == "EventDefinition"
-        render 'listing/listings/event_definition', event_definition: object
-      elsif object.class.name == "QuickPost"
-        render 'listing/listings/quick_post', quick_post: object
-      end
-    end
-  end
+  # def render_content_type_partial(object, engage)
+  #   if engage == false
+  #     if object.class.name == "Job"
+  #       render 'website/jobs/job', job: object
+  #     elsif object.class.name == "Post"
+  #       render 'website/posts/post', post: object
+  #     elsif object.class.name == "Offer"
+  #       render 'website/offers/offer', offer: object
+  #     elsif object.class.name == "BeforeAfter"
+  #       render 'website/before_afters/before_after', before_after: object
+  #     elsif object.class.name == "Gallery"
+  #       render 'website/galleries/gallery', gallery: object
+  #     elsif object.class.name == "Event"
+  #       render 'website/events/event', event: object
+  #     elsif object.class.name == "EventDefinition"
+  #       render 'website/event_definitions/event_definition', event_definition: object
+  #     elsif object.class.name == "QuickPost"
+  #       render 'website/quick_posts/quick_post', quick_post: object
+  #     end
+  #   elsif engage == true
+  #     # if object.class.name == "Job"
+  #     #   render 'listing/listings/job', job: object
+  #     if object.class.name == "Post"
+  #       render 'listing/listings/post', post: object
+  #     elsif object.class.name == "Offer"
+  #       render 'listing/listings/offer', offer: object
+  #     elsif object.class.name == "BeforeAfter"
+  #       render 'listing/listings/before_after', before_after: object
+  #     elsif object.class.name == "Gallery"
+  #       render 'listing/listings/gallery', gallery: object
+  #     elsif object.class.name == "Event"
+  #       render 'listing/listings/event', event: object
+  #     elsif object.class.name == "EventDefinition"
+  #       render 'listing/listings/event_definition', event_definition: object
+  #     elsif object.class.name == "QuickPost"
+  #       render 'listing/listings/quick_post', quick_post: object
+  #     end
+  #   end
+  # end
 
+  #Need to see whereelse this is used beside feed blocks....looks like its used for events too???
   def get_content_types(group_type, page_instance_variable)
     if defined?(page_instance_variable.content_types) || page_instance_variable.groups.where(type: group_type).first.try(:blocks)
       if defined?(page_instance_variable.content_types)
@@ -282,7 +285,7 @@ module SearchHelper
         @content_types_all = page_instance_variable.groups.where(type: group_type).first.blocks.first.content_types
       end
       if @content_types_all.nil? || @content_types_all.empty? # ||....<=checks to see if "", empty string, is in db, signifying "show all content types"
-        @content_types_all = "Event Gallery BeforeAfter Offer Post Job"
+        @content_types_all = "QuickPost Gallery BeforeAfter Offer Post Job"
       end
       if @content_types_all.present?
         @content_types_all = @content_types_all.split
@@ -300,32 +303,33 @@ module SearchHelper
 
   def prune_content_types_all(content_types_all)
 
-    if @business.quick_posts.empty?
-      content_types_all.delete("QuickPost")
-    end
-    if @business.events.empty?
-      content_types_all.delete("Event")
-    end
-    if @business.galleries.empty?
-      content_types_all.delete("Gallery")
-    end
-    if @business.before_afters.empty?
-      content_types_all.delete("BeforeAfter")
-    end
-    if @business.offers.empty?
-      content_types_all.delete("Offer")
-    end
-    if @business.posts.empty?
-      content_types_all.delete("CustomPost")
-    end
-    if @business.jobs.empty?
-      content_types_all.delete("Job")
-    end
+    # if @business.quick_posts.empty?
+    #   content_types_all.delete("QuickPost")
+    # end
+    # if @business.events.empty?
+    #   content_types_all.delete("Event")
+    # end
+    # if @business.galleries.empty?
+    #   content_types_all.delete("Gallery")
+    # end
+    # if @business.before_afters.empty?
+    #   content_types_all.delete("BeforeAfter")
+    # end
+    # if @business.offers.empty?
+    #   content_types_all.delete("Offer")
+    # end
+    # if @business.posts.empty?
+    #   content_types_all.delete("CustomPost")
+    # end
+    # if @business.jobs.empty?
+    #   content_types_all.delete("Job")
+    # end
 
     #ElasticSearch will search for 'CustomPost' and 'QuickPost' via just 'Post'
-    if @content_types_all.include?('CustomPost') || @content_types_all.include?('QuickPost')
+    # if @content_types_all.include?('CustomPost') || @content_types_all.include?('QuickPost')
+    if @content_types_all.include?('CustomPost')
       @content_types_all.delete('CustomPost')
-      @content_types_all.delete('QuickPost')
+      # @content_types_all.delete('QuickPost')
       @content_types_all << 'Post'
     end
 

@@ -151,7 +151,7 @@ module ApplicationHelper
     if Rails.env.production?
       "https://#{host}"
     else
-      "http://#{host}:#{request ? request.port : 3000}"
+      "http://#{host}:#{request ? request.port : 5000}"
     end
   end
 end

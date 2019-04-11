@@ -80,7 +80,7 @@ class Post < ActiveRecord::Base
 
   def as_indexed_json(options = {})
     as_json(
-      methods: %i[content_category_ids content_tag_ids sorting_date content heading],
+      methods: %i[content_category_ids content_tag_ids published_at content heading],
       include: { post_sections: {only: [:content, :heading, :ancestry, :created_at, :id, :kind, :position, :post_id, :updated_at]} }
     )
   end

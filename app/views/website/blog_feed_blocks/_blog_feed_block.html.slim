@@ -3,38 +3,41 @@
 - cache_unless params[:blog_search].present? || params[:content_types].present?, [blog_feed_block, blog_feed_block.cache_sensitive_key(params)] do
     div.col-xs-12.b-p-h-xl class=blog_feed_block.custom_class id="content-feed-widget-#{blog_feed_block.id}" style="color: #{blog_feed_block.foreground_color};"
       a id=blog_feed_block.custom_anchor_id
-      - Rails.logger.info "BLOG FEED BLOCK id: #{blog_feed_block.id}"
-      - Rails.logger.info "BLOG FEED BLOCK params: #{params.to_json}"
-      - if params[:blog_search].present? && !params[:blog_search].empty?
-        - Rails.logger.info "BLOG FEED BLOCK Case 1"
-        - posts = blog_search_base(blog_feed_block, blog_feed_block.business, params[:blog_search], content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
-      - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
-        - Rails.logger.info "BLOG FEED BLOCK Case 2"
+      / - Rails.logger.info "BLOG FEED BLOCK id: #{blog_feed_block.id}"
+      / - Rails.logger.info "BLOG FEED BLOCK params: #{params.to_json}"
+      / - if params[:blog_search].present? && !params[:blog_search].empty?
+      /   - Rails.logger.info "BLOG FEED BLOCK Case 1"
+      /   - posts = blog_search_base(blog_feed_block, blog_feed_block.business, params[:blog_search], content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
+      / - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
+      /   - Rails.logger.info "BLOG FEED BLOCK Case 2"
+      /
+      /   - posts = events_organized_desc(blog_feed_block, blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
+      / - else
+      /   - Rails.logger.info "BLOG FEED BLOCK Case 3"
+      /   - posts = posts(blog_feed_block, blog_feed_block.business, content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
 
-        - posts = events_organized_desc(blog_feed_block, blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
-      - else
-        - Rails.logger.info "BLOG FEED BLOCK Case 3"
-        - posts = posts(blog_feed_block, blog_feed_block.business, content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
+      / get_content(business, embed = '', query = '', content_types = [], content_category_ids = [], content_tag_ids = [], order = "DESC", per_page = '10')
+      - posts = get_content(blog_feed_block.business, blog_feed_block, params[:blog_search], params[:content_types], blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), 'desc', params[:page], blog_feed_block.items_limit)
+
       a name="blog-feed"
       - if blog_feed_block.include_search == "true"
-        div.row style="padding-top:30px; text-align:center;"
-          = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
+        = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
       .grid
         - if posts&.any?
-          - if params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
-            - posts.to_a.each do |posts|
-              - reach_occurences << posts.business.id
-              - if blog_feed_block.business == posts.business
-                = render posts
-              - else
-                = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
-          - else
-            - order_the_events(posts.to_a).each do |post|
-              - reach_occurences << post.business.id
-              - if blog_feed_block.business == post.business
-                = render post
-              - else
-                = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
+          / - if params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
+          - posts.to_a.each do |post|
+            /     - reach_occurences << posts.business.id
+            /     - if blog_feed_block.business == posts.business
+            /       = render posts
+            /     - else
+            /       = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
+            / - else
+            / - order_the_events(posts.to_a).each do |post|
+            - reach_occurences << post.business.id
+            - if blog_feed_block.business.id == post.business.id
+              = render post
+            - else
+              = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
 
         - elsif !posts.present? || posts.empty?
           div.col-xs-9

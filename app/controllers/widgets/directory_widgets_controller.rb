@@ -1,5 +1,4 @@
 class Widgets::DirectoryWidgetsController < Widgets::BaseController
-  include SearchHelper
 
   def index
     @directory = DirectoryWidget.where(:uuid => params[:uuid]).first

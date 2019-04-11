@@ -118,12 +118,13 @@
       /       span.label.label-primary=business.jobs.size
       - if business.has_active_content?
         h2 Recent Content
+        h1 helloz
         .tab-content
           .tab-pane.active id="tab-All-#{business.id}"
             / - raise StandardError, business.offers.merge(business.event_definitions).to_json
-            - content = Kaminari.paginate_array((business.offers.where(published_status:true) + business.event_definitions.where(published_status:true) + business.posts.where(published_status:true) + business.quick_posts.where(published_status:true) + business.galleries.where(published_status:true) + business.jobs.where(published_status: true)).sort_by(&:published_at).reverse).page(params[:page]).per(8)
+            / - content = Kaminari.paginate_array((business.offers.where(published_status:true) + business.event_definitions.where(published_status:true) + business.posts.where(published_status:true) + business.quick_posts.where(published_status:true) + business.galleries.where(published_status:true) + business.jobs.where(published_status: true)).sort_by(&:published_at).reverse).page(params[:page]).per(8)
             / - content = posts(nil, business, content_types: %w[QuickPost Event Gallery BeforeAfter Offer Post Job], content_category_ids: [], content_tag_ids: [], page: params[:page], limit: 8)
-            -
+            - content = get_content(business, '', '', ["QuickPost", "Gallery", "BeforeAfter", "Offer", "Post", "Job"], '', '', 'desc', params[:page], '8')
             - content.each do |thing|
               / - case thing.class
               - if thing.class == Offer
