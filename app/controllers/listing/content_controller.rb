@@ -12,9 +12,6 @@ class Listing::ContentController < ApplicationController
     @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
     @content_feed_widget.business = @business
     @content_feed_widget.max_items = 12
-
-    # params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost", "Post",""]
-    # @posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
     params[:content_types] = ["QuickPost", "Gallery", "BeforeAfter", "Offer", "Job", "Post"]
     @posts = get_content(@content_feed_widget.business, @content_feed_widget, '', params[:content_types], @content_feed_widget.content_category_ids.to_s.split(' ').map(&:to_i), @content_feed_widget.content_tag_ids.to_s.split(' ').map(&:to_i), 'desc', params[:page], @content_feed_widget.max_items)
 
@@ -24,7 +21,6 @@ class Listing::ContentController < ApplicationController
 
     @business = Business.listing_lookup(params[:lookup])
     @masonry = true #tells content partials to use masonry format
-    #params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
 
     #code below is overriding code found in search_helper
     @content_types_all = "QuickPost Gallery BeforeAfter Offer Post Job CustomPost".split

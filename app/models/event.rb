@@ -63,9 +63,6 @@ class Event < ActiveRecord::Base
     @content_tag_ids ||= event_definition&.content_tag_ids || []
   end
 
-  # def sorting_date
-  #   occurs_on
-  # end
 
   def share_image_url
     event_definition.event_image.try(:attachment_full_url, :original)

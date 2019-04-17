@@ -1,7 +1,6 @@
 - title "Category – #{@content_category.name}"
 - canonical_url website_content_category_url(@content_category)
 
-/ posts(nil, @business, content_category_ids: [@content_category.id], page: params[:page], limit: 12)
 - posts = get_content(@business, '', '', '', @content_category.id, '', 'desc', params[:page], '12')
 
 .container.blog-content
@@ -15,10 +14,6 @@
     / div class=(@website.content_blog_sidebar? ? 'search-container' : 'col-sm-12 m-t-lg')
     div.search-container.mt-lg
       .grid
-        / = render posts(nil, @business, content_category_ids: [@content_category.id], page: params[:page], limit: 12)
         = render posts
-    / - if @website.content_blog_sidebar?
-    /   .search-sidebar
-    /     .show-sidebar-grid
-    /       = render posts(@business), small: true
+
     = paginate posts

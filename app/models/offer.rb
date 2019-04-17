@@ -84,11 +84,6 @@ class Offer < ActiveRecord::Base
     as_json(methods: %i[content_category_ids content_tag_ids published_at])
   end
 
-  # def sorting_date
-  #   #change made to published_at, see comments there as of 2.16.17
-  #   published_at
-  # end
-
   def published_at
     #method was originaly designed to provide published_on dates, and in lieu of that,
     #updated_at. This is used primarily for searches and ordering via ElasticSearch,

@@ -160,11 +160,6 @@ class Post < ActiveRecord::Base
     self.post_sections.find { |ps| ps.post_section_image }.try(:post_section_image).try(:attachment_url, :jumbo).nil?
   end
 
-  # def sorting_date
-  #   #change made to published_at, see comments there as of 2.16.17
-  #   published_at
-  # end
-
   def published_at
     #method was originaly designed to provide published_on dates, and in lieu of that,
     #updated_at. This is used primarily for searches and ordering via ElasticSearch,

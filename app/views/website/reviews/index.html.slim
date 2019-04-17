@@ -22,6 +22,5 @@
       - if @website.content_blog_sidebar_on_reviews?
         .col-sm-4
           .show-sidebar-grid
-            / = render posts(nil, @business), small: true
             / TODO: Make it so that the correct content types below are passed into the get_content method instead of hard coded
             = render get_content(@business, '', '', ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], '', '', 'desc', '', '4'), small: true

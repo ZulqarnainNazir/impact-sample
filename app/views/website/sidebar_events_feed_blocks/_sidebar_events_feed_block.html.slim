@@ -1,7 +1,6 @@
 - cache [sidebar_events_feed_block, sidebar_events_feed_block.cache_sensitive_key(params)] do
   .sidebar-events class=sidebar_events_feed_block.custom_class
     a id=sidebar_events_feed_block.custom_anchor_id
-    / - posts = events(sidebar_events_feed_block.business, limit: sidebar_events_feed_block.items_limit)
     - posts = get_events(sidebar_events_feed_block.business, page: 1, per_page: sidebar_events_feed_block.items_limit)
     = render posts
     - if sidebar_events_feed_block.link_version == 'link_paginate'

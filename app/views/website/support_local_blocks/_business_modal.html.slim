@@ -113,7 +113,6 @@
       /       span.label.label-primary=business.galleries.size
       - if business.has_active_content?
         h2 Recent Content
-        h1 Hellow
         .tab-content
           .tab-pane.active id="tab-All-#{business.id}"
             / - raise StandardError, business.offers.merge(business.event_definitions).to_json

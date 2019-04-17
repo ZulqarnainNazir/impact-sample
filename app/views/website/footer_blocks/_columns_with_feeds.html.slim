@@ -19,7 +19,6 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.left_label_text
               hr
           ul class="list-unstyled"
-            / - (posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[QuickPost Gallery BeforeAfter Post], content_category_ids: Array(@business.website.footer_block.left_category_ids)).search.first(@business.website.footer_block.left_number_of_feed_items.to_i));nil
             - posts = get_content(@business, '', '', ["QuickPost", "Gallery", "BeforeAfter", "Post"], Array(@business.website.footer_block.left_category_ids), '', 'desc', '', @business.website.footer_block.left_number_of_feed_items.to_i)
             - posts.each do |post|
               li
