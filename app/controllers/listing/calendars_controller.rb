@@ -6,6 +6,8 @@ class Listing::CalendarsController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
 
+  helper_method :get_events
+
   before_action do
     @business = Business.listing_lookup(params[:lookup])
     @calendar_widgets = @business.calendar_widgets

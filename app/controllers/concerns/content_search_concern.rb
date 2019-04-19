@@ -18,8 +18,6 @@ module ContentSearchConcern
     @per_page = per_page
     @published = published
 
-    # byebug
-
     # Apply Business Logic
     @business_ids = []
     if @embed.present?
@@ -31,7 +29,6 @@ module ContentSearchConcern
     else
       @business_ids << @business.id
     end
-
 
     # Perfom Elsticsearch queries
     @all_content = []
@@ -52,12 +49,8 @@ module ContentSearchConcern
       end
     end
 
-    # byebug
-
     #Sort and return content objects
-    # (@quick_posts + @posts + @offers + @jobs + @galleries + @before_afters).sort_by {|obj| obj.published_at}.reverse!
     Kaminari.paginate_array(@all_content.sort_by {|obj| obj.published_at}.reverse!).page(@page).per(@per_page)
-
 
   end
 
@@ -208,7 +201,6 @@ module ContentSearchConcern
     Elasticsearch::Model.search(dsl1, [Post, PostSection]).records.to_a
 
   end
-
 
   def search_offers(business_ids, content_category_ids, content_tag_ids, query, order, published)
 

@@ -1,6 +1,6 @@
 module SearchHelper
 
-  #Need to see whereelse this is used beside feed blocks....looks like its used for events too???
+  # TODO - Need to see whereelse this is used beside feed blocks....looks like its used for events too??? and remove it/refactor it
   def get_content_types(group_type, page_instance_variable)
     if defined?(page_instance_variable.content_types) || page_instance_variable.groups.where(type: group_type).first.try(:blocks)
       if defined?(page_instance_variable.content_types)
@@ -26,8 +26,6 @@ module SearchHelper
   end
 
   def prune_content_types_all(content_types_all)
-
-
 
     #ElasticSearch will search for 'CustomPost' and 'QuickPost' via just 'Post'
     # if @content_types_all.include?('CustomPost') || @content_types_all.include?('QuickPost')

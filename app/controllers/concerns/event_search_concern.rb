@@ -1,13 +1,14 @@
 module EventSearchConcern
   extend ActiveSupport::Concern
 
-  #Originally search_event...need to find places in master branch that need to be updated after merge inlucding new fields / field order
+  # TODO - Originally search_event. Need to find places in master branch that need to be updated after merge inlucding new fields / field order
   # Finds events for a given business for display in widget, web builder or listings
   def get_events(business: nil, embed: nil, query: nil, kinds: nil, content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'desc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
     raise "Business is Required" unless business.present?
 
     #TODO - Add a filter for defined categories from a local network
     #TODO - Add filter for defined sources from feeds
+    #TODO - Need to renable KINDS
 
     # Initialize
     @business = business
@@ -37,7 +38,6 @@ module EventSearchConcern
       @business_ids << @business.id
     end
 
-
     # Perfom Elsticsearch query
     dsl1 = {
       size: 800,
@@ -59,8 +59,7 @@ module EventSearchConcern
       },
     }
 
-    # drafts / published / all
-
+    # TODO - Combine DRAFTS, PUBLISHED into one field where Published = True, Published = false, Published = '' (all) and update controller to call based on params
     if @filter == "Drafts"
 
       dsl1[:filter][:and] << {
@@ -157,7 +156,6 @@ module EventSearchConcern
       }
     end
 
-    #TODO - Need to renable
     # if @kinds.present?
     #   dsl1[:filter][:and] << {
     #     terms: {
@@ -197,12 +195,10 @@ module EventSearchConcern
       }
     end
 
-    # Content Types = Event / EventDefintion / ImportedEventDefinition - Does this properly scope imported events?
-    # @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition, ImportedEventDefinition]).records.includes(:events).to_a
+    # TODO - Content Types = Event / EventDefintion / ImportedEventDefinition - Does this properly scope imported events?
     @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition]).records.to_a
 
-    #Sort and return content objects
-    # Kaminari.paginate_array(@all_events.sort_by {|obj| obj.published_at}.reverse!).page(@page).per(@per_page)
+    #Sort and return content object
     Kaminari.paginate_array(@all_events).page(@page).per(@per_page)
 
   end
