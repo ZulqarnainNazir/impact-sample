@@ -4,7 +4,7 @@ module EventSearchConcern
   #Originally search_event...need to find places in master branch that need to be updated after merge inlucding new fields / field order
   # Finds events for a given business for display in widget, web builder or listings
   def get_events(business: nil, embed: nil, query: nil, kinds: nil, content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'desc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
-    return unless business.present?
+    raise "Business is Required" unless business.present?
 
     #TODO - Add a filter for defined categories from a local network
     #TODO - Add filter for defined sources from feeds

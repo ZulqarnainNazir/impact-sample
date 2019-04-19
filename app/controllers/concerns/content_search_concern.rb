@@ -3,7 +3,7 @@ module ContentSearchConcern
 
   # Finds content for a given business for display in widget, web builder or listings
   def get_content(business: nil, embed: nile, query: nil, content_types: [], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10)
-    return unless business.present? #Should this be raise error unstead of return?
+    raise "Business is Required" unless business.present?
 
     # Notes:
     # Need to use scopes for published/draft/all for admin views by changing published query
