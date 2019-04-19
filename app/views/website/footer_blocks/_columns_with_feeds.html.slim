@@ -48,8 +48,7 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.right_label_text
               hr
           ul class="list-unstyled"
-            / TODO - This needs to be replaced with event query before removing ContentBlogSearch from helper
-            - posts = ContentBlogSearch.new(nil, @business, '', content_types: %w[Event], content_category_ids: Array(@business.website.footer_block.right_category_ids)).search.select{ |event| event.is_a? Event }.sort_by(&:occurs_on).first(@business.website.footer_block.right_number_of_feed_items.to_i)
+            - posts = get_events(business: @business, content_types: ['Event'], content_category_ids: Array(@business.website.footer_block.right_category_ids), per_page: @business.website.footer_block.right_number_of_feed_items.to_i)
             - posts.each do |event|
               li.m-b-lg
                 = link_to [:website, event, only_path: false, host: business.website.host], class: "h4 m-b-0" do
