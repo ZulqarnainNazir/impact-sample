@@ -38,4 +38,4 @@
             = render get_content(business: @business, content_types: ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], order: 'desc', per_page: '4'), small: true
           - if @website.events_sidebar?
             .row
-              = render get_events(@business, page: 1, per_page: 4), small: true, stack: true
+              = render get_events(business: @business, page: 1, per_page: 4), small: true, stack: true

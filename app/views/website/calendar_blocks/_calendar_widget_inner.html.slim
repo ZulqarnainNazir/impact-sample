@@ -41,7 +41,7 @@
   - filter_kinds = event_kinds
 
 
-- events = get_events(@calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: start_date, end_date: end_date)
+- events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: start_date, end_date: end_date)
 
 / For Agenda view, we also need a count of events on other days of the week
 - if container_view == 'agenda' && params[:start_date].present? || params[:blog_search].present?

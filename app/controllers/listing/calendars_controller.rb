@@ -21,7 +21,7 @@ class Listing::CalendarsController < ApplicationController
     @content_feed_widget.max_items = 12
     #Does this content types params need to be here?
     params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
-    @posts = get_events(@content_feed_widget.business, embed: @content_feed_widget, content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], per_page: @content_feed_widget.max_items)
+    @posts = get_events(business: @content_feed_widget.business, embed: @content_feed_widget, content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], per_page: @content_feed_widget.max_items)
 
   end
 

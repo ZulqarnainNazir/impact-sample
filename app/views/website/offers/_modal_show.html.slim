@@ -71,4 +71,4 @@
               / TODO: Make it so that the correct content types below are passed into the get_content method instead of hard coded
               = render get_content(business: @business, content_types: ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], order: 'desc', per_page: '4'), small: true
             - if @website.events_sidebar?
-              = render get_events(@business, page: 1, per_page: 4), small: true
+              = render get_events(business: @business, page: 1, per_page: 4), small: true
