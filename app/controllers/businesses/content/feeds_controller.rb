@@ -1,18 +1,14 @@
 class Businesses::Content::FeedsController < Businesses::Content::BaseController
-  def show
-    @results =
-      Kaminari.paginate_array(
-        ContentFeedSearch.new(
-          @business,
-          params[:unpublished],
-          params[:published],
-          params[:query],
-          params[:post_types],
-          content_category_ids: params[:categories],
-          content_tag_ids: params[:tags]
-        ).search
-      ).page(params[:page]).per(20)
+  include ContentSearchConcern
 
+  def show
+    if params[:unpublished]
+      @results = get_content(business: @business, query: params[:query], content_types: (params[:post_types].present? ? params[:post_types] : ['QuickPost', 'Post', 'BeforeAfter', 'Gallery', 'Offer', 'Job']), content_category_ids: params[:categories], content_tag_ids: params[:tags], page: params[:page], per_page: 20, published: false)
+    elsif params[:published]
+      @results = get_content(business: @business, query: params[:query], content_types: (params[:post_types].present? ? params[:post_types] : ['QuickPost', 'Post', 'BeforeAfter', 'Gallery', 'Offer', 'Job']), content_category_ids: params[:categories], content_tag_ids: params[:tags], page: params[:page], per_page: 20, published: true)
+    else
+      @results = get_content(business: @business, query: params[:query], content_types: (params[:post_types].present? ? params[:post_types] : ['QuickPost', 'Post', 'BeforeAfter', 'Gallery', 'Offer', 'Job']), content_category_ids: params[:categories], content_tag_ids: params[:tags], page: params[:page], per_page: 20, published: '')
+    end
     @categories = @business.content_categories
     @tags = @business.content_tags
     # @post_types = @business.enabled_content_types #%w(event quick_post post before_after gallery offer job)

@@ -2,11 +2,9 @@ module ContentSearchConcern
   extend ActiveSupport::Concern
 
   # Finds content for a given business for display in widget, web builder or listings
-  def get_content(business: nil, embed: nil, query: nil, content_types: [], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10)
+  # publised can have 3 values true, false or nil where nil = all, defulat is true
+  def get_content(business: nil, embed: nil, query: nil, content_types: [], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10, published: true)
     raise "Business is Required" unless business.present?
-
-    # Notes:
-    # Need to use scopes for published/draft/all for admin views by changing published query
 
     # Initialize
     @business = business
@@ -18,6 +16,7 @@ module ContentSearchConcern
     @order = order
     @page = page
     @per_page = per_page
+    @published = published
 
     # byebug
 
@@ -39,17 +38,17 @@ module ContentSearchConcern
     @content_types.each do |type|
       case type
       when 'QuickPost'
-        @all_content += search_quick_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
+        @all_content += search_quick_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
       when 'Post'
-        @all_content += search_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
+        @all_content += search_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
       when 'Offer'
-        @all_content += search_offers(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
+        @all_content += search_offers(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
       when 'Job'
-        @all_content += search_jobs(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
+        @all_content += search_jobs(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
       when 'Gallery'
-        @all_content += search_galleries(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
+        @all_content += search_galleries(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
       when 'BeforeAfter'
-        @all_content += search_before_afters(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
+        @all_content += search_before_afters(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
       end
     end
 
@@ -62,7 +61,7 @@ module ContentSearchConcern
 
   end
 
-  def search_quick_posts(business_ids, content_category_ids, content_tag_ids, query, order)
+  def search_quick_posts(business_ids, content_category_ids, content_tag_ids, query, order, published)
 
     dsl1 = {
       size: 800,
@@ -78,11 +77,21 @@ module ContentSearchConcern
       },
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
-      },
-    }
+    if published == true
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: true,
+        },
+      }
+    end
+
+    if published == false
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
 
     if content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -118,7 +127,7 @@ module ContentSearchConcern
 
   end
 
-  def search_posts(business_ids, content_category_ids, content_tag_ids, query, order)
+  def search_posts(business_ids, content_category_ids, content_tag_ids, query, order, published)
 
     dsl1 = {
       size: 800,
@@ -134,11 +143,21 @@ module ContentSearchConcern
       },
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
-      },
-    }
+    if published == true
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: true,
+        },
+      }
+    end
+
+    if published == false
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
 
     if content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -191,7 +210,7 @@ module ContentSearchConcern
   end
 
 
-  def search_offers(business_ids, content_category_ids, content_tag_ids, query, order)
+  def search_offers(business_ids, content_category_ids, content_tag_ids, query, order, published)
 
     dsl1 = {
       size: 800,
@@ -223,11 +242,21 @@ module ContentSearchConcern
       }
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
-      },
-    }
+    if published == true
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: true,
+        },
+      }
+    end
+
+    if published == false
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
 
     if content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -263,7 +292,7 @@ module ContentSearchConcern
 
   end
 
-  def search_jobs(business_ids, content_category_ids, content_tag_ids, query, order)
+  def search_jobs(business_ids, content_category_ids, content_tag_ids, query, order, published)
 
     dsl1 = {
       size: 800,
@@ -279,11 +308,21 @@ module ContentSearchConcern
       },
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
-      },
-    }
+    if published == true
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: true,
+        },
+      }
+    end
+
+    if published == false
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
 
     if content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -319,7 +358,7 @@ module ContentSearchConcern
 
   end
 
-  def search_galleries(business_ids, content_category_ids, content_tag_ids, query, order)
+  def search_galleries(business_ids, content_category_ids, content_tag_ids, query, order, published)
 
     dsl1 = {
       size: 800,
@@ -335,11 +374,21 @@ module ContentSearchConcern
       },
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
-      },
-    }
+    if published == true
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: true,
+        },
+      }
+    end
+
+    if published == false
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
 
     if content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -375,7 +424,7 @@ module ContentSearchConcern
 
   end
 
-  def search_before_afters(business_ids, content_category_ids, content_tag_ids, query, order)
+  def search_before_afters(business_ids, content_category_ids, content_tag_ids, query, order, published)
 
     dsl1 = {
       size: 800,
@@ -391,11 +440,21 @@ module ContentSearchConcern
       },
     }
 
-    dsl1[:filter][:and] << {
-      term: {
-        published_status: true,
-      },
-    }
+    if published == true
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: true,
+        },
+      }
+    end
+
+    if published == false
+      dsl1[:filter][:and] << {
+        term: {
+          published_status: false,
+        },
+      }
+    end
 
     if content_category_ids.present?
       dsl1[:filter][:and] << {
