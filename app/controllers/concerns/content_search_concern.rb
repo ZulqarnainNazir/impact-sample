@@ -37,23 +37,17 @@ module ContentSearchConcern
     @content_types.each do |type|
       case type
       when 'QuickPost'
-        quick_posts = search_quick_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
-        @all_content += quick_posts
+        @all_content += search_quick_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
       when 'Post'
-        posts = search_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
-        @all_content += posts
+        @all_content += search_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
       when 'Offer'
-        offers = search_offers(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
-        @all_content += offers
+        @all_content += search_offers(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
       when 'Job'
-        jobs = search_jobs(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
-        @all_content += jobs
+        @all_content += search_jobs(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
       when 'Gallery'
-        galleries = search_galleries(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
-        @all_content += galleries
+        @all_content += search_galleries(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
       when 'BeforeAfter'
-        before_afters = search_before_afters(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
-        @all_content += before_afters
+        @all_content += search_before_afters(@business_ids, @content_category_ids, @content_tag_ids, @query, @order)
       end
     end
 
