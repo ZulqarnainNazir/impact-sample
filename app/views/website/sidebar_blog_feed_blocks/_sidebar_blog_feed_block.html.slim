@@ -2,7 +2,7 @@
   div class=sidebar_blog_feed_block.custom_class
     a id=sidebar_blog_feed_block.custom_anchor_id
     / TODO: Not sure if these content types will work as formatted.
-    - posts = get_content(sidebar_blog_feed_block.business, '', '', sidebar_blog_feed_block.content_types.to_s.split(' '), sidebar_blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), sidebar_blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), 'desc', '', sidebar_blog_feed_block.items_limit)
+    - posts = get_content(business: sidebar_blog_feed_block.business, content_types: sidebar_blog_feed_block.content_types.to_s.split(' '), content_category_ids: idebar_blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: idebar_blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', per_page: sidebar_blog_feed_block.items_limit)
     = render posts
     - if sidebar_blog_feed_block.link_version == 'link_paginate'
       .text-center.clear-container

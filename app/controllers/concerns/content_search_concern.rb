@@ -2,7 +2,7 @@ module ContentSearchConcern
   extend ActiveSupport::Concern
 
   # Finds content for a given business for display in widget, web builder or listings
-  def get_content(business: nil, embed: nile, query: nil, content_types: [], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10)
+  def get_content(business: nil, embed: nil, query: nil, content_types: [], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10)
     raise "Business is Required" unless business.present?
 
     # Notes:

@@ -6,7 +6,7 @@
       .col-md-12
         h1 = @content_feed_widget.public_label
     div
-      - posts = get_content(@content_feed_widget.business, @content_feed_widget, params[:blog_search], params[:content_types], @content_feed_widget.content_category_ids.to_s.split(' ').map(&:to_i), @content_feed_widget.content_tag_ids.to_s.split(' ').map(&:to_i), 'desc', params[:page], @content_feed_widget.max_items)
+      - posts = get_content(business: @content_feed_widget.business, embed: @content_feed_widget, query: params[:blog_search], content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', page: params[:page], per_page: @content_feed_widget.max_items)
       / h1= posts
 
       a name="blog-feed"

@@ -23,4 +23,4 @@
         .col-sm-4
           .show-sidebar-grid
             / TODO: Make it so that the correct content types below are passed into the get_content method instead of hard coded
-            = render get_content(@business, '', '', ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], '', '', 'desc', '', '4'), small: true
+            = render get_content(business: @business, content_types: ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], order: 'desc', per_page: '4'), small: true

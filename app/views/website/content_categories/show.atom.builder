@@ -1,5 +1,5 @@
 # posts = posts(nil, @business, content_category_ids: [@content_category.id])
-posts = get_content(@business, '', '', '', @content_category.id, '', 'desc', '', '')
+posts = get_content(business: @business, content_category_ids: @content_category.id, order: 'desc')
 
 
 atom_feed do |atom|

@@ -121,7 +121,7 @@
         .tab-content
           .tab-pane.active id="tab-All-#{business.id}"
 
-            - content = get_content(business, '', '', ["QuickPost", "Gallery", "BeforeAfter", "Offer", "Post", "Job"], '', '', 'desc', params[:page], '8')
+            - content = get_content(business: business, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Offer", "Post", "Job"], order: 'desc', page: params[:page], per_page: '8')
             - content.each do |thing|
               - if thing.class == Offer
                 = render partial: 'website/offers/offer', locals: { business: business, offer: thing }
