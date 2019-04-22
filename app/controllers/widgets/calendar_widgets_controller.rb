@@ -2,7 +2,7 @@ class Widgets::CalendarWidgetsController < Widgets::BaseController
   def index
     @calendar_widget = CalendarWidget.where(:uuid => params[:uuid]).first
     @business = @calendar_widget.business
-    get_content_types(nil, @calendar_widget)
+    # get_content_types(nil, @calendar_widget)
 
     if @content_feed.blank?
       return false

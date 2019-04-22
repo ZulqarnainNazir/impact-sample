@@ -1,6 +1,7 @@
 - title "Category – #{@content_category.name}"
 - canonical_url website_content_category_url(@content_category)
 
+/ TODO - Replace content params with feed content types or default to all
 - posts = get_content(business: @business, content_category_ids: @content_category.id, order: 'desc', page: params[:page], per_page: '12')
 
 .container.blog-content

@@ -8,7 +8,7 @@
 - if month_header_is_visible
   .month-header
     span.month-header-inner
-      = event.sorting_date.strftime('%B&nbsp;%Y').html_safe
+      = event.occurs_on.strftime('%B&nbsp;%Y').html_safe
 
 .event-block.list-item
 
@@ -38,7 +38,7 @@
       .start-datetime
         i.fa.fa-clock-o.m-r-xs
         = event.start_time.strftime('%I:%M %p, ')
-        = event.sorting_date.strftime('%b %d, %Y')
+        = event.occurs_on.strftime('%b %d, %Y')
 
     .location
       - if event.location.present?

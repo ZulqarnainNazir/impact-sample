@@ -2,7 +2,6 @@ class Listing::CalendarsController < ApplicationController
   layout "listing"
 
   include ApplicationHelper
-  include SearchHelper
   include ContentSearchConcern
   include EventSearchConcern
 

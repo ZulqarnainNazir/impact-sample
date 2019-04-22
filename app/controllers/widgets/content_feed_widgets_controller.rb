@@ -2,7 +2,7 @@ class Widgets::ContentFeedWidgetsController < Widgets::BaseController
   def index
     @content_feed_widget = ContentFeedWidget.where(:uuid => params[:uuid]).first
     @business = @content_feed_widget.business
-    get_content_types(nil, @content_feed_widget)
+    # get_content_types(nil, @content_feed_widget)
 
     if @content_feed.blank?
       return false

@@ -190,13 +190,16 @@ module EventSearchConcern
       }
     else
       dsl1[:sort] = {
-        sorting_date: @order,
-        # occurs_on: @order,
+        # sorting_date: @order,
+        occurs_on: @order,
       }
     end
 
-    # TODO - Content Types = Event / EventDefintion / ImportedEventDefinition - Does this properly scope imported events?
-    @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition]).records.to_a
+    # TODO - This should be Event and includes(:event_definition)
+    @all_events = Elasticsearch::Model.search(dsl1, [Event]).records.to_a
+    # byebug
+    # @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition]).includes(:event_definitions).records.to_a
+    # @all_events = Event.search(dsl1).records.includes(:event_definitions).to_a
 
     #Sort and return content object
     Kaminari.paginate_array(@all_events).page(@page).per(@per_page)

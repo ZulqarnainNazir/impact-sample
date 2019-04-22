@@ -3,7 +3,7 @@ module ContentSearchConcern
 
   # Finds content for a given business for display in widget, web builder or listings
   # publised can have 3 values true, false or nil where nil = all, defulat is true
-  def get_content(business: nil, embed: nil, query: nil, content_types: [], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10, published: true)
+  def get_content(business: nil, embed: nil, query: nil, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Offer", "Job" ,"Post"], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10, published: true)
     raise "Business is Required" unless business.present?
 
     # Initialize

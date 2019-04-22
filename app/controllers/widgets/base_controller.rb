@@ -1,6 +1,6 @@
 require 'search_helper'
 class Widgets::BaseController < ApplicationController
-  include SearchHelper
+
   include ContentSearchConcern
 
   helper_method :get_content
