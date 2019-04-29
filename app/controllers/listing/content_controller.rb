@@ -1,4 +1,4 @@
-require 'search_helper'
+# require 'search_helper'
 class Listing::ContentController < ApplicationController
   layout "listing"
 

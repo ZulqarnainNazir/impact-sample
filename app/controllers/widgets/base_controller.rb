@@ -1,4 +1,4 @@
-require 'search_helper'
+# require 'search_helper'
 class Widgets::BaseController < ApplicationController
 
   include ContentSearchConcern

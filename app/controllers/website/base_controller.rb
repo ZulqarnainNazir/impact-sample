@@ -1,4 +1,4 @@
-require 'search_helper'
+# require 'search_helper'
 class Website::BaseController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
