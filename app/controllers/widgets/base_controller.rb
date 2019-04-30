@@ -4,8 +4,6 @@ class Widgets::BaseController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
 
-  helper_method :get_events
-
   layout "website_embed"
 
   before_action do
@@ -18,6 +16,7 @@ class Widgets::BaseController < ApplicationController
   end
 
   private
+
   def allow_iframe
     response.headers.except! 'X-Frame-Options'
   end

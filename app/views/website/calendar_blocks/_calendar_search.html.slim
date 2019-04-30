@@ -28,7 +28,7 @@
 
       label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
         'Start Date
-        = text_field_tag :start_date, start_date_parsed&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%m/%d/%Y"), class: 'form-control', data: {provide: 'datepicker'}, placeholder: Date.today.strftime('%b %d %Y')
+        = text_field_tag :start_date, @start_date_parsed&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%m/%d/%Y"), class: 'form-control', data: {provide: 'datepicker'}, placeholder: Date.today.strftime('%b %d %Y')
       label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
         'Search
         = text_field_tag :blog_search, params[:blog_search], placeholder: 'Keyword', class: 'form-control'
@@ -58,7 +58,7 @@
         i.fa.fa-list-alt.m-r-sm
         'Agenda View
 
-  - if event_kinds.size != 1
+  - if event_kinds && event_kinds.size != 1
 
     .panel.panel-default.p-sm.p-t-0.p-b-0
 

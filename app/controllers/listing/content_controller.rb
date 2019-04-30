@@ -5,8 +5,6 @@ class Listing::ContentController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
 
-  helper_method :get_events
-
   before_action :index do
     @business = Business.listing_lookup(params[:lookup])
     @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
@@ -44,6 +42,37 @@ class Listing::ContentController < ApplicationController
   #TODO - THis is dumb - I think this will be fixed by seans routes work
   def event
     @event = @business.events.find_by(id: params[:content_type])
+  end
+
+  def quick_post
+    @post = @business.quick_posts.find_by(slug: params[:content_type])
+  end
+
+  def before_after
+    @post = @business.before_afters.find_by(slug: params[:content_type])
+  end
+
+  def offer
+    @post = @business.offers.find_by(slug: params[:content_type])
+  end
+
+  def post
+    @post = @business.posts.find_by(slug: params[:content_type])
+  end
+
+  def job
+    @post = @business.jobs.find_by(slug: params[:content_type])
+  end
+
+  def gallery_image #in routes, a child of content_type (specficially, gallery)
+    @gallery = @business.galleries.find_by(slug: params[:content_type])
+    @gallery_image = GalleryImage.find(params[:gallery_image])
+    if @gallery_image == GalleryImage.find(params[:gallery_image])
+      render 'gallery_image'
+      return
+    else
+      raise ActiveRecord::RecordNotFound
+    end
   end
 
   def listing

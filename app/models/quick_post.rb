@@ -71,7 +71,7 @@ class QuickPost < ActiveRecord::Base
   end
 
   def as_indexed_json(options = {})
-    as_json(methods: %i[content_category_ids content_tag_ids published_at])
+    as_json(methods: %i[content_category_ids content_tag_ids published_at published_status])
   end
 
   def published_at

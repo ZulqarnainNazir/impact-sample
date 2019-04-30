@@ -1,164 +1,139 @@
 - title 'Calendars'
 
+- request_url = url_for({ controller: params[:controller], action: params[:action] })
+
+- container_view = 'list'
+
+/ Pick a tab to view in Agenda
+- if params[:view_date].present?
+  - agenda_view_date = Date.parse(params[:view_date]) rescue Date.today
+- elsif @start_date_parsed.present?
+  - agenda_view_date = @start_date_parsed
+- else
+  - agenda_view_date = Date.today
+
+- monday = (agenda_view_date-1) - (agenda_view_date-1).wday + 1
+
+- week_events = []
+- counts = [0, 0, 0, 0, 0, 0, 0]
 
 = render 'application/alerts'
-.page-header
-  h1.h2
-    ' Calendars
 
 .row
+  .col-xs-12.m-t-lg
+    .page-header
+      h1.h2
+        ' Calendars
 
-div.col-xs-12.m-t-lg
-  a
+/ The Actual Widget
+.row.calendar-widget
 
-  - request_url = url_for({ controller: params[:controller], action: params[:action] })
+  - if @calendar_widget.enable_search == true
+    = render partial: 'listing/calendars/calendar_search', locals: {request_url: request_url, event_kinds: @event_kinds}
 
-  / Are we searching for a particular day?
-  - start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
+  .col-xs-12
+    .panel.p-sm class=container_view
 
-  - container_view = 'list'
+      / Event count for list view
+      .event-count.m-b-md.m-t-sm
+        = "Displaying #{@events.total_count} Events:"
 
-  / Pick a tab to view in Agenda
-  - if params[:view_date].present?
-    - agenda_view_date = Date.parse(params[:view_date]) rescue Date.today
-  - elsif start_date_parsed.present?
-    - agenda_view_date = start_date_parsed
-  - else
-    - agenda_view_date = Date.today
+      / Tabs for agenda view
+      - if container_view == 'agenda'
+        .agenda-header.row
+          .tabs-title.col-xs-12.col-sm-6.col-sm-push-3.m-t-sm Events This Week:
+          = link_to url_for(params.merge(:view_date => agenda_view_date - 7)), class: "week-prev col-xs-6 col-sm-3 col-sm-pull-6 m-t-md m-b-md" do
+            i.fa.fa-long-arrow-left
+            '  Last Week
+          = link_to url_for(params.merge(:view_date => agenda_view_date + 7)), class: "week-next col-xs-6 col-sm-3 m-t-md m-t-md" do
+            ' Next Week
+            i.fa.fa-long-arrow-right
 
-  - monday = (agenda_view_date-1) - (agenda_view_date-1).wday + 1
-
-  / Are we looking for events starting on a particular day?
-  - start_date = start_date_parsed.strftime('%F') rescue ''
-  - end_date = ''
-
-  / Are we filtering any event kinds?
-  - event_kinds = [0, 1, 2]
-  - filter_kinds = event_kinds
-
-  / Fake a calendar widget
-  - @calendar_widget.show_our_content = true
-  - @calendar_widget.business = @business
-  - @calendar_widget.max_items = 12
-
-  - events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: start_date, end_date: end_date)
-
-  - week_events = []
-  - counts = [0, 0, 0, 0, 0, 0, 0]
-
-  / The Actual Widget
-  .row.calendar-widget
-
-    /- if @calendar_widget.public_label.present?
-      .col-xs-12
-        h1 = @calendar_widget.public_label
-
-    - if @calendar_widget.enable_search == true
-      = render partial: 'listing/calendars/calendar_search', locals: {request_url: request_url, event_kinds: event_kinds}
-
-    .col-xs-12
-      .panel.p-sm class=container_view
-
-        / Event count for list view
-        .event-count.m-b-md.m-t-sm
-          = "Displaying #{events.total_count} Events:"
-
-        / Tabs for agenda view
-        - if container_view == 'agenda'
-          .agenda-header.row
-            .tabs-title.col-xs-12.col-sm-6.col-sm-push-3.m-t-sm Events This Week:
-            = link_to url_for(params.merge(:view_date => agenda_view_date - 7)), class: "week-prev col-xs-6 col-sm-3 col-sm-pull-6 m-t-md m-b-md" do
-              i.fa.fa-long-arrow-left
-              '  Last Week
-            = link_to url_for(params.merge(:view_date => agenda_view_date + 7)), class: "week-next col-xs-6 col-sm-3 m-t-md m-t-md" do
-              ' Next Week
-              i.fa.fa-long-arrow-right
-
-            .tabs-container.col-xs-12.m-t-sm
-              ol.tabs class=('with-counts' if params[:start_date].present? || params[:blog_search].present?)
-                li.day class=('active' if agenda_view_date == monday + 0)
-                  - if agenda_view_date == monday + 0
+          .tabs-container.col-xs-12.m-t-sm
+            ol.tabs class=('with-counts' if params[:start_date].present? || params[:blog_search].present?)
+              li.day class=('active' if agenda_view_date == monday + 0)
+                - if agenda_view_date == monday + 0
+                  .wday = (monday + 0).strftime('%A')
+                  .date = (monday + 0).strftime('%B %d')
+                  .count = counts[0]
+                - else
+                  = link_to url_for(params.merge(:view_date => monday + 0)) do
                     .wday = (monday + 0).strftime('%A')
                     .date = (monday + 0).strftime('%B %d')
                     .count = counts[0]
-                  - else
-                    = link_to url_for(params.merge(:view_date => monday + 0)) do
-                      .wday = (monday + 0).strftime('%A')
-                      .date = (monday + 0).strftime('%B %d')
-                      .count = counts[0]
-                li.day class=('active' if agenda_view_date == monday + 1)
-                  - if agenda_view_date == monday + 1
+              li.day class=('active' if agenda_view_date == monday + 1)
+                - if agenda_view_date == monday + 1
+                  .wday = (monday + 1).strftime('%A')
+                  .date = (monday + 1).strftime('%B %d')
+                  .count = counts[1]
+                - else
+                  = link_to url_for(params.merge(:view_date => monday + 1)) do
                     .wday = (monday + 1).strftime('%A')
                     .date = (monday + 1).strftime('%B %d')
                     .count = counts[1]
-                  - else
-                    = link_to url_for(params.merge(:view_date => monday + 1)) do
-                      .wday = (monday + 1).strftime('%A')
-                      .date = (monday + 1).strftime('%B %d')
-                      .count = counts[1]
-                li.day class=('active' if agenda_view_date == monday + 2)
-                  - if agenda_view_date == monday + 2
+              li.day class=('active' if agenda_view_date == monday + 2)
+                - if agenda_view_date == monday + 2
+                  .wday = (monday + 2).strftime('%A')
+                  .date = (monday + 2).strftime('%B %d')
+                  .count = counts[2]
+                - else
+                  = link_to url_for(params.merge(:view_date => monday + 2)) do
                     .wday = (monday + 2).strftime('%A')
                     .date = (monday + 2).strftime('%B %d')
                     .count = counts[2]
-                  - else
-                    = link_to url_for(params.merge(:view_date => monday + 2)) do
-                      .wday = (monday + 2).strftime('%A')
-                      .date = (monday + 2).strftime('%B %d')
-                      .count = counts[2]
-                li.day class=('active' if agenda_view_date == monday + 3)
-                  - if agenda_view_date == monday + 3
+              li.day class=('active' if agenda_view_date == monday + 3)
+                - if agenda_view_date == monday + 3
+                  .wday = (monday + 3).strftime('%A')
+                  .date = (monday + 3).strftime('%B %d')
+                  .count = counts[3]
+                - else
+                  = link_to url_for(params.merge(:view_date => monday + 3)) do
                     .wday = (monday + 3).strftime('%A')
                     .date = (monday + 3).strftime('%B %d')
                     .count = counts[3]
-                  - else
-                    = link_to url_for(params.merge(:view_date => monday + 3)) do
-                      .wday = (monday + 3).strftime('%A')
-                      .date = (monday + 3).strftime('%B %d')
-                      .count = counts[3]
-                li.day class=('active' if agenda_view_date == monday + 4)
-                  - if agenda_view_date == monday + 4
+              li.day class=('active' if agenda_view_date == monday + 4)
+                - if agenda_view_date == monday + 4
+                  .wday = (monday + 4).strftime('%A')
+                  .date = (monday + 4).strftime('%B %d')
+                  .count = counts[4]
+                - else
+                  = link_to url_for(params.merge(:view_date => monday + 4)) do
                     .wday = (monday + 4).strftime('%A')
                     .date = (monday + 4).strftime('%B %d')
                     .count = counts[4]
-                  - else
-                    = link_to url_for(params.merge(:view_date => monday + 4)) do
-                      .wday = (monday + 4).strftime('%A')
-                      .date = (monday + 4).strftime('%B %d')
-                      .count = counts[4]
-                li.day class=('active' if agenda_view_date == monday + 5)
-                  - if agenda_view_date == monday + 5
+              li.day class=('active' if agenda_view_date == monday + 5)
+                - if agenda_view_date == monday + 5
+                  .wday = (monday + 5).strftime('%A')
+                  .date = (monday + 5).strftime('%B %d')
+                  .count = counts[5]
+                - else
+                  = link_to url_for(params.merge(:view_date => monday + 5)) do
                     .wday = (monday + 5).strftime('%A')
                     .date = (monday + 5).strftime('%B %d')
                     .count = counts[5]
-                  - else
-                    = link_to url_for(params.merge(:view_date => monday + 5)) do
-                      .wday = (monday + 5).strftime('%A')
-                      .date = (monday + 5).strftime('%B %d')
-                      .count = counts[5]
-                li.day class=('active' if agenda_view_date == monday + 6)
-                  - if agenda_view_date == monday + 6
+              li.day class=('active' if agenda_view_date == monday + 6)
+                - if agenda_view_date == monday + 6
+                  .wday = (monday + 6).strftime('%A')
+                  .date = (monday + 6).strftime('%B %d')
+                  .count = counts[6]
+                - else
+                  = link_to url_for(params.merge(:view_date => monday + 6)) do
                     .wday = (monday + 6).strftime('%A')
                     .date = (monday + 6).strftime('%B %d')
                     .count = counts[6]
-                  - else
-                    = link_to url_for(params.merge(:view_date => monday + 6)) do
-                      .wday = (monday + 6).strftime('%A')
-                      .date = (monday + 6).strftime('%B %d')
-                      .count = counts[6]
 
-        .row
-          - if events.present? && !events.empty?
-            - reach_occurences = []
-            - events.each_with_index do |event, index|
-              - reach_occurences << event.business.id
-              = render :partial => "listing/listings/partials/events/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : events[index-1]}
-          - else
-            div.col-xs-12.col-sm-8.col-sm-push-2
-              h2 Nothing matched your search or there is no content here yet...
+      .row
+        - if @events.present? && !@events.empty?
+          - reach_occurences = []
+          - @events.each_with_index do |event, index|
+            - reach_occurences << event.business.id
+            = render :partial => "listing/listings/partials/events/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : @events[index-1]}
+        - else
+          div.col-xs-12.col-sm-8.col-sm-push-2
+            h2 Nothing matched your search or there is no content here yet...
 
-    .text-center.clear-container
-      = paginate events
+  .text-center.clear-container
+    = paginate @events
 
 javascript:
   console.log("Recording Reach");

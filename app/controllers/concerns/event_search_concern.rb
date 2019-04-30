@@ -3,7 +3,7 @@ module EventSearchConcern
 
   # TODO - Originally search_event. Need to find places in master branch that need to be updated after merge inlucding new fields / field order
   # Finds events for a given business for display in widget, web builder or listings
-  def get_events(business: nil, embed: nil, query: nil, kinds: nil, content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'desc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
+  def get_events(business: nil, embed: nil, query: nil, kinds: [], content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'desc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
     raise "Business is Required" unless business.present?
 
     #TODO - Add a filter for defined categories from a local network
@@ -156,13 +156,13 @@ module EventSearchConcern
       }
     end
 
-    # if @kinds.present?
-    #   dsl1[:filter][:and] << {
-    #     terms: {
-    #       content_category_ids: @kinds,
-    #     },
-    #   }
-    # end
+    if @kinds.present?
+      dsl1[:filter][:and] << {
+        terms: {
+          kind: @kinds,
+        },
+      }
+    end
 
     if @content_category_ids.present?
       dsl1[:filter][:and] << {
@@ -197,7 +197,6 @@ module EventSearchConcern
 
     # TODO - This should be Event and includes(:event_definition)
     @all_events = Elasticsearch::Model.search(dsl1, [Event]).records.to_a
-    # byebug
     # @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition]).includes(:event_definitions).records.to_a
     # @all_events = Event.search(dsl1).records.includes(:event_definitions).to_a
 
