@@ -1,20 +1,17 @@
 - title "Category – #{@content_category.name}"
 - canonical_url website_content_category_url(@content_category)
 
-/ TODO - Replace content params with feed content types or default to all
-- posts = get_content(business: @business, content_category_ids: @content_category.id, order: 'desc', page: params[:page], per_page: '12')
-
 .container.blog-content
   .row.p-md
     ol.breadcrumb
       li = link_to icon('home'), :website_root
       li.active
-        ' Category
-        strong “#{@content_category.name}”
+        | Categorized as&nbsp
+        strong= "#{@content_category.name}"
     .m-t-lg
     / div class=(@website.content_blog_sidebar? ? 'search-container' : 'col-sm-12 m-t-lg')
     div.search-container.mt-lg
       .grid
-        = render posts
+        = render @posts
 
-    = paginate posts
+    = paginate @posts

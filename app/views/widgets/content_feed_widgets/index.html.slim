@@ -6,31 +6,26 @@
       .col-md-12
         h1 = @content_feed_widget.public_label
     div
-      - posts = get_content(business: @content_feed_widget.business, embed: @content_feed_widget, query: params[:blog_search], content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', page: params[:page], per_page: @content_feed_widget.max_items)
-      / h1= posts
-
       a name="blog-feed"
       - if @content_feed_widget.enable_search == true
         div.row style="padding-top:30px; text-align:center;"
           = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
       .m-t-lg
       .grid
-        - if posts.present? && !posts.empty?
+        - if @posts.present? && !@posts.empty?
           - reach_occurences = []
-          - posts.to_a.each do |post|
+          - @posts.to_a.each do |post|
 
             - reach_occurences << post.business.id
             - if @content_feed_widget.business.id == post.business.id
-              / = posts.to_partial_path
               = render :partial => "website/#{post.to_partial_path}", :object => post
             - else
-              / = posts.to_partial_path
               = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
         - else
           div.col-xs-9
           h2 Nothing matched your search or there is no content here yet...
       .text-center.clear-container
-        = paginate posts
+        = paginate @posts
       div.text-center
         p
           span Powered by

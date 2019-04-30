@@ -5,7 +5,7 @@ class Listing::ListingsController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
 
-  helper_method :get_events
+  helper_method :get_events, :get_content
 
   before_action do
     @business = Business.listing_lookup(params[:lookup])
@@ -17,7 +17,14 @@ class Listing::ListingsController < ApplicationController
     @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
     @content_feed_widget.business = @business
     @content_feed_widget.max_items = 12
-    @posts = get_content(business: @content_feed_widget.business, embed: @content_feed_widget, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Offer", "Job", "Post"], content_category_ids: @content_feed_widget.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', page: params[:page], per_page: @content_feed_widget.max_items)
+
+    if params[:content_types]
+        @content_types = params[:content_types]
+    else
+      @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    end
+
+    @posts = get_content(business: @content_feed_widget.business, embed: @content_feed_widget, content_types: @content_types, content_category_ids: @content_feed_widget.content_category_ids, content_tag_ids: @content_feed_widget.content_tag_ids, order: 'desc', page: params[:page], per_page: @content_feed_widget.max_items)
 
     @truncate_rev = true
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)

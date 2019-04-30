@@ -17,7 +17,7 @@
       - if event.main_image
         = image_tag event.main_image.attachment_url(:small)
       - else
-        - placement = event.event_image_placement
+        - placement = event.event_definition.event_image_placement
         - if placement
           - cache placement
             - if placement.try(:embeds?)
@@ -41,11 +41,11 @@
         = event.occurs_on.strftime('%b %d, %Y')
 
     .location
-      - if event.location.present?
+      - if event.event_definition.location.present?
         .city-state
           i.fa.fa-map-marker.m-r-xs
-          = truncate sanitize_simple(event.location.city.titleize) + ', '
-          = truncate sanitize_simple(event.location.state.upcase)
+          = truncate sanitize_simple(event.event_definition.location.city.titleize) + ', '
+          = truncate sanitize_simple(event.event_definition.location.state.upcase)
 
 
     .description

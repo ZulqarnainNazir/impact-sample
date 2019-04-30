@@ -8,6 +8,9 @@ class Widgets::CalendarWidgetsController < Widgets::BaseController
       return false
     end
 
+
+    
+
     if !params[:widget_layout].blank?
       @widget.layout = params[:widget_layout]
     end

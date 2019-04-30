@@ -5,7 +5,7 @@
       div.ibox-content.product-box
         - cache job do
           div.product-imitation
-            = link_to listing_job_path(@business, job.slug), target: :_blank do
+            = link_to listing_job_path(@business, job.slug) do
               - placement = job.job_image_placement
               - if placement.try(:embeds?)
                 = placement.embed.html_safe
@@ -19,7 +19,7 @@
               span.event-tags
                 i.fa.fa-calendar.m-r-xs
                 = job.start_date.strftime('%b %d, %Y ')
-            = link_to listing_job_path(@business, job.slug), target: :_blank, class: 'grid-feed-title'
+            = link_to listing_job_path(@business, job.slug), class: 'grid-feed-title'
                = truncate sanitize_simple(job.title.titleize), length: 60, omission: '... '
 
             - if !job.paid?

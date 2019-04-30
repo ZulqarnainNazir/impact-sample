@@ -200,6 +200,7 @@ module ContentSearchConcern
 
     Elasticsearch::Model.search(dsl1, [Post, PostSection]).records.to_a
 
+
   end
 
   def search_offers(business_ids, content_category_ids, content_tag_ids, query, order, published)
@@ -335,7 +336,9 @@ module ContentSearchConcern
     if query.present?
       dsl1[:query] = {
         query_string: {
-          fields: %w[title^2 subtitle description compensation_type compensation_range],
+          # fields: %w[title^2 subtitle description compensation_type compensation_range],
+          #TODO - Coompensation_type and Compentsation_range where causing type mismatch - Would be nice to be able to search on these in the future but maybe better as a fiter instead of a query
+          fields: %w[title^2 subtitle description],
           # query: "#{@query}~", #tilde is for fuzzy searches
           query: query,
         }
