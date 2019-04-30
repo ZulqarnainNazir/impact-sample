@@ -7,7 +7,7 @@ div
       - reach_occurences = []
       - @posts.to_a.each do |post|
         - reach_occurences << post.business.id
-        - if @content_feed_widget.business.id == post.business.id
+        - if @business.id == post.business.id
           = render :partial => "listing/listings/partials/#{post.to_partial_path}", :object => post
         - else
           = render :partial => "listing/listings/partials/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
@@ -17,6 +17,8 @@ div
   .text-center.clear-container
     = paginate @posts
 
+/ ahoy.track("Reach", {type: "Listing Overview Content", type_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href });
+/ TOOD - Ensure below updates make sesne for tracking
 javascript:
   console.log("Recording Reach");
-  ahoy.track("Reach", {type: "Listing Overview Content", type_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href });
+  ahoy.track("Reach", {type: "Listing Overview Content", type_id: "", business_id: "#{@business.id}", company_ids: "#{[@business.id]}", occurences: "#{reach_occurences}", site: window.location.href });

@@ -1,12 +1,8 @@
-# posts = posts(nil, @business, content_category_ids: [@content_category.id])
-posts = get_content(business: @business, content_category_ids: @content_category.id, order: 'desc')
-
-
 atom_feed do |atom|
   atom.title "Category – #{@content_category.name}"
   atom.updated posts.first.updated_at if posts.first
 
-  posts.each do |post|
+  @posts.each do |post|
     atom.entry post, url: website_generic_post_url(post.to_generic_param) do |entry|
       entry.title post.title, type: 'html'
 

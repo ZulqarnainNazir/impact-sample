@@ -14,7 +14,7 @@ module ContentSearchConcern
     @content_category_ids = content_category_ids
     @content_tag_ids = content_tag_ids
     @order = order
-    @page = page
+    @page_no = page
     @per_page = per_page
     @published = published
 
@@ -50,7 +50,7 @@ module ContentSearchConcern
     end
 
     #Sort and return content objects
-    Kaminari.paginate_array(@all_content.sort_by {|obj| obj.published_at}.reverse!).page(@page).per(@per_page)
+    Kaminari.paginate_array(@all_content.sort_by {|obj| obj.published_at}.reverse!).page(@page_no).per(@per_page)
 
   end
 

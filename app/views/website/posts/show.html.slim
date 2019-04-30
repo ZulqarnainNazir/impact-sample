@@ -34,8 +34,7 @@
       .col-sm-4.m-t-lg
         .show-sidebar-grid
           - if @website.content_blog_sidebar?
-            / TODO: Make it so that the correct content types below are passed into the get_content method instead of hard coded
-            = render get_content(business: @business, content_types: ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], order: 'desc', per_page: '4'), small: true
+            = render @sidebar_content, small: true
           - if @website.events_sidebar?
             .row
-              = render get_events(business: @business, page: 1, per_page: 4), small: true, stack: true
+              = render @sidebar_events, small: true, stack: true

@@ -46,6 +46,8 @@ class Website::BaseController < ApplicationController
     end
   end
 
+
+
   before_action do
     @business = @website.business
     @location = @business.location
@@ -55,6 +57,27 @@ class Website::BaseController < ApplicationController
     elsif @business.free?
       redirect_to website_root_path, status: 302
     end
+  end
+
+  before_action do
+
+    if @website.content_blog_sidebar?
+      @sidebar_content = get_content(business: @business, content_types: ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], per_page: '4')
+    end
+
+    if @website.events_sidebar?
+      @sidebar_events = get_events(business: @business, per_page: 4)
+    end
+
+  end
+
+  before_action do
+
+    if @website.footer_block
+      @footer_content = get_content(business: @business, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Post"], content_category_ids: Array(@business.website.footer_block.left_category_ids), per_page: @business.website.footer_block.left_number_of_feed_items.to_i)
+      @footer_events = get_events(business: @business, content_category_ids: Array(@business.website.footer_block.right_category_ids), per_page: @business.website.footer_block.right_number_of_feed_items.to_i)
+    end
+
   end
 
   rescue_from 'ActionController::InvalidAuthenticityToken' do |exception|

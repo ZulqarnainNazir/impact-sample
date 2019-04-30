@@ -21,40 +21,40 @@ class Listing::DirectoriesController < ApplicationController
 
   end
 
-  def index
-    @business = Business.listing_lookup(params[:lookup])
-    @directories = @business.directory_widgets
-    if @directories.size == 0
-      return false
-    end
-    if @directories.size == 1
-      redirect_to listing_directory_path(@business, @business.directory_widgets.first.id)
-    end
-
-    default = {:id => @directories.first.id}
-    if params[:directory].nil? && !params[:directory_same].nil?
-      params[:directory] = {:id => params[:directory_same]}
-    elsif params[:directory].nil?
-      params[:directory] = default
-    end
-    @directory = DirectoryWidget.find(params[:directory][:id])
-
-
-    @businesses = @directory.company_list.companies.includes(:company_location, :reviews, business: [:logo, :location, :reviews, :offers, :categories])
-    @categories_search = @categories = @directory.company_list.company_list_categories
-
-    if !params[:query].blank?
-      @businesses = @businesses.where("companies.name ILIKE ?", "%#{params[:query]}%")
-    end
-    if !params[:category].blank?
-      @categories_search = @categories_search.where("company_list_categories.id = ?", params[:category])
-    end
-    @business = @directory.business
-    if !params[:widget_layout].blank?
-      @widget.layout = params[:widget_layout]
-    end
-
-  end
+  # def index
+  #   @business = Business.listing_lookup(params[:lookup])
+  #   @directories = @business.directory_widgets
+  #   if @directories.size == 0
+  #     return false
+  #   end
+  #   if @directories.size == 1
+  #     redirect_to listing_directory_path(@business, @business.directory_widgets.first.id)
+  #   end
+  #
+  #   default = {:id => @directories.first.id}
+  #   if params[:directory].nil? && !params[:directory_same].nil?
+  #     params[:directory] = {:id => params[:directory_same]}
+  #   elsif params[:directory].nil?
+  #     params[:directory] = default
+  #   end
+  #   @directory = DirectoryWidget.find(params[:directory][:id])
+  #
+  #
+  #   @businesses = @directory.company_list.companies.includes(:company_location, :reviews, business: [:logo, :location, :reviews, :offers, :categories])
+  #   @categories_search = @categories = @directory.company_list.company_list_categories
+  #
+  #   if !params[:query].blank?
+  #     @businesses = @businesses.where("companies.name ILIKE ?", "%#{params[:query]}%")
+  #   end
+  #   if !params[:category].blank?
+  #     @categories_search = @categories_search.where("company_list_categories.id = ?", params[:category])
+  #   end
+  #   @business = @directory.business
+  #   if !params[:widget_layout].blank?
+  #     @widget.layout = params[:widget_layout]
+  #   end
+  #
+  # end
 
   def show
     @business = Business.listing_lookup(params[:lookup])

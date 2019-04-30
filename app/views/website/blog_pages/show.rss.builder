@@ -1,8 +1,8 @@
-blog_feed_group = @page.groups.where(type: 'BlogFeedGroup').first
-blog_feed_block = blog_feed_group.blocks.where(type: 'BlogFeedBlock').first if blog_feed_group
-blog_feed_posts = get_content(business: blog_feed_block.business, embed: blog_feed_block, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', per_page:  blog_feed_block.items_limit) if blog_feed_block
+# blog_feed_group = @page.groups.where(type: 'BlogFeedGroup').first
+# blog_feed_block = blog_feed_group.blocks.where(type: 'BlogFeedBlock').first if blog_feed_group
+# blog_feed_posts = get_content(business: blog_feed_block.business, embed: blog_feed_block, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', per_page:  blog_feed_block.items_limit) if blog_feed_block
 
-if blog_feed_group && blog_feed_block
+if @posts.any?
   xml.instruct! :xml, version: '1.0', encoding: 'UTF-8'
   xml.rss version: '2.0', 'xmlns:media' => 'http://search.yahoo.com/mrss/', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
     xml.channel do
@@ -13,7 +13,7 @@ if blog_feed_group && blog_feed_block
       xml.ttl '40'
       xml.description @page.description
 
-      blog_feed_posts.each do |post|
+      @posts.each do |post|
         xml.item do
           xml.title { |x| x.cdata! post.title }
           xml.pubDate post.respond_to?(:published_at) ? post.published_at.rfc822 : post.created_at.rfc822

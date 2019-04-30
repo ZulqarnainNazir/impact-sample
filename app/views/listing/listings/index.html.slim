@@ -1,1 +1,66 @@
-h1 =request.subdomains
+.row
+  .col-sm-3
+    .vcard
+        - if @business.location.phone_number? && !@business.location.hide_phone?
+          p.tel = link_to number_to_phone(@business.location.phone_number), "tel:#{@business.location.phone_number.gsub(/[^0-9]/, '')}", itemprop: 'telephone'
+        - if !@business.location.hide_address?
+          - if !@business.location.latitude.nil? && !@business.location.longitude.nil?
+            p.adr = link_to "http://maps.google.com/maps?ll=#{@business.location.latitude}, #{@business.location.longitude}", itemprop: 'address', target: :_blank do
+              span
+                => @business.location.address_line_one
+                br>
+                = @business.location.address_line_two
+          - else
+            p.adr itemprop="address"
+              => @business.location.address_line_one
+              br>
+              = @business.location.address_line_two
+        - if @business.location.email? && !@business.location.hide_email?
+          p = link_to @business.location.email, "mailto:#{@business.location.email}", class: 'email', itemprop: 'email'
+        = render partial: 'website/contact_pages/opening', collection: @business.location.openings
+  .col-sm-5
+    .listing-desc-container.m-t-sm
+      input.listing-show-more-desc type="checkbox" id="listing-desc-1"
+      p = sanitize_simple(@business.description)
+      label.show-more-desc-trigger for="listing-desc-1"
+        a
+          = "Read more"
+  #map-col-id.col-sm-4
+    - if !@business.location.hide_address?
+      - if @business.location && !@business.location.latitude.nil? && !@business.location.longitude.nil?
+        - map_params = { center: [@business.location.latitude, @business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
+          q: [@business.location.address_line_one, @business.location.address_line_two].reject(&:blank?).join(' '), zoom: 12 }.to_param
+        iframe width="100%" height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+.row
+  .col-sm-9
+    - if @posts.size > 0
+      .row
+        .col-sm-12
+          = render partial: 'listing/listings/partials/content_feed'
+    - if @business.events.present?
+      .row
+        .col-sm-12
+          = render partial: 'listing/listings/partials/calendar_feed'
+  .col-sm-3
+    - if @business.reviews.published.size > 0
+      hr
+      - business = @business
+      - reviews = @business.reviews.published.order(reviewed_at: :desc).limit(6)
+      h3 = link_to 'Reviews', listing_reviews_path()
+      p = page_entries_info @reviews, entry_name: 'reviews'
+      - if reviews.count == 0
+        p This business has no reviews at this time.
+      - elsif reviews.count > 0
+        - reviews.each do |review|
+          = render partial: 'listing/reviews/review', locals: {review: review}
+
+javascript:
+
+  if($('.listing-desc-container p').height() > $('#map-col-id').height()){
+    $('.listing-desc-container p').addClass('paragraph-desc');
+    $('.show-more-desc-trigger').show();
+  }
+
+  $('.show-more-desc-trigger').click(function() {
+    $('.show-more-desc-trigger').hide();
+  })

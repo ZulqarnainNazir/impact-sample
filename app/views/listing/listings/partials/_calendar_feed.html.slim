@@ -28,11 +28,12 @@ div.col-xs-12.m-t-lg
   - filter_kinds = event_kinds
 
   / Fake a calendar widget
-  - @calendar_widget.show_our_content = true
-  - @calendar_widget.business = @business
-  - @calendar_widget.max_items = 12
+  / - @calendar_widget.show_our_content = true
+  / - @calendar_widget.business = @business
+  / - @calendar_widget.max_items = 12
 
-  - events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: start_date, end_date: end_date)
+  / - events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: start_date, end_date: end_date)
+  - events = get_events(business: @business, query: params[:blog_search], kinds: filter_kinds, page: params[:page], per_page: 12, start_date: start_date, end_date: end_date)
 
   - week_events = []
   - counts = [0, 0, 0, 0, 0, 0, 0]
@@ -140,7 +141,7 @@ div.col-xs-12.m-t-lg
             - reach_occurences = []
             - events.each_with_index do |event, index|
               - reach_occurences << event.business.id
-              = render :partial => "listing/events/content/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : events[index-1]}
+              = render :partial => "listing/events/content/event_#{container_view}_item", locals: {event: event, main_biz: @business, prev: index <= 0 ? nil : events[index-1]}
           - else
             div.col-xs-12.col-sm-8.col-sm-push-2
               h2 Nothing matched your search or there is no content here yet...
@@ -148,6 +149,8 @@ div.col-xs-12.m-t-lg
     .text-center.clear-container
       = paginate events
 
+/ ahoy.track("Reach", {type: "Listing Overview Events", type_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });
+/ TODO - CHeck below metrics to ensure proper reporting given changes
 javascript:
   console.log("Recording Reach");
   var isInIframe = (parent !== window),parentUrl = null;
@@ -158,4 +161,4 @@ javascript:
     parentUrl = window.location.href;
     type = "Website Calendar Feed";
   }
-  ahoy.track("Reach", {type: "Listing Overview Events", type_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });
+  ahoy.track("Reach", {type: "Listing Overview Events", type_id: "", business_id: "#{@business.id}", company_ids: "#{[@business.id]}", occurences: "#{reach_occurences}", site: parentUrl });

@@ -19,7 +19,7 @@ module EventSearchConcern
     @content_tag_ids = content_tag_ids
     @filter = filter
     @order = order
-    @page = page
+    @page_no = page
     @per_page = per_page
     @include_past = include_past
     @start_date = start_date
@@ -202,7 +202,7 @@ module EventSearchConcern
     # @all_events = Event.search(dsl1).records.includes(:event_definitions).to_a
 
     #Sort and return content object
-    Kaminari.paginate_array(@all_events).page(@page).per(@per_page)
+    Kaminari.paginate_array(@all_events).page(@page_no).per(@per_page)
 
   end
 end

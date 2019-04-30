@@ -19,8 +19,7 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.left_label_text
               hr
           ul class="list-unstyled"
-            - posts = get_content(business: @business, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Post"], content_category_ids: Array(@business.website.footer_block.left_category_ids), order: 'desc', per_page: @business.website.footer_block.left_number_of_feed_items.to_i)
-            - posts.each do |post|
+            - @footer_content.each do |post|
               li
                 = link_to [:website, post, only_path: false, host: business.website.host], class: "grid-feed-title m-b-0" do
                   = post.title
@@ -48,8 +47,7 @@ footer.site-footer.site-footer-columns
               = @business.website.footer_block.right_label_text
               hr
           ul class="list-unstyled"
-            - posts = get_events(business: @business, content_types: ['Event'], content_category_ids: Array(@business.website.footer_block.right_category_ids), per_page: @business.website.footer_block.right_number_of_feed_items.to_i)
-            - posts.each do |event|
+            - @footer_events.each do |event|
               li.m-b-lg
                 = link_to [:website, event, only_path: false, host: business.website.host], class: "h4 m-b-0" do
                   = event.title

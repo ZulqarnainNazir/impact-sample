@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do
     root to: 'listings#index'
-    match '/:lookup', to: 'listings#overview', via: :get
+    match '/:lookup', to: 'listings#index', via: :get
     match '/:lookup/directories', to: 'directories#index', :as => 'directories', via: :get
     match '/:lookup/directories/:id', to: 'directories#show', :as => 'directory', via: :get
     match '/:lookup/calendars', to: 'calendars#index', :as => 'calendars', via: :get

@@ -9,12 +9,13 @@ class Widgets::CalendarWidgetsController < Widgets::BaseController
     end
 
 
-    
+
 
     if !params[:widget_layout].blank?
       @widget.layout = params[:widget_layout]
     end
   end
+  
   def show
     @calendar_widget = CalendarWidget.where(:uuid => params[:uuid]).first
     if @calendar_widget.blank?
