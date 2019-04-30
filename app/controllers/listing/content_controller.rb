@@ -5,7 +5,7 @@ class Listing::ContentController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
 
-  helper_method :get_events, :get_content
+  helper_method :get_events
 
   before_action :index do
     @business = Business.listing_lookup(params[:lookup])

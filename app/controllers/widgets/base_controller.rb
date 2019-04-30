@@ -4,7 +4,7 @@ class Widgets::BaseController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
 
-  helper_method :get_content, :get_events
+  helper_method :get_events
 
   layout "website_embed"
 

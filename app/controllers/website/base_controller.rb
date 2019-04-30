@@ -4,7 +4,7 @@ class Website::BaseController < ApplicationController
   include EventSearchConcern
 
   # TODO - Remove Helper methods after these methods are moved to their coresponding controllers
-  helper_method :get_content, :get_events
+  helper_method :get_events
 
   before_action do
     if !params[:uuid].blank?

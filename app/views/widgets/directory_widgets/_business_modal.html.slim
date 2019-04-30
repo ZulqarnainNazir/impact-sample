@@ -84,38 +84,38 @@
                     = link_to "Read More", "#", class: 'btn btn-default js-read-more'
                 = sanitize_simple business.description
 
-      ul.nav.nav-tabs
-        li.active
-          a.count-info style="padding: 20px 14px" href="#tab-All-#{business.id}" data-toggle="tab"
-
-            | All
-            i.fa.fa-book
-            span.label.label-primary=business.offers.size + business.events.size + business.posts.length + business.quick_posts.length + business.galleries.size
-        li
-          a.count-info style="padding: 20px 14px" href="#tab-Offers-#{business.id}" data-toggle="tab"
-            | Offers
-            i.fa.fa-ticket
-            span.label.label-primary=business.offers.size
-        li
-          a.count-info style="padding: 20px 14px" href="#tab-Events-#{business.id}" data-toggle="tab"
-            | Events
-            i.fa.fa-calendar
-            span.label.label-primary=business.events.size
-        li
-          a.count-info style="padding: 20px 14px" href="#tab-Posts-#{business.id}" data-toggle="tab"
-            | Posts
-            i.fa.fa-edit
-            span.label.label-primary=business.posts.length + business.quick_posts.length
-        li
-          a.count-info style="padding: 20px 14px" href="#tab-Galleries-#{business.id}" data-toggle="tab"
-            | Galleries
-            i.fa.fa-photo
-            span.label.label-primary=business.galleries.size
-        li
-          a.count-info style="padding: 20px 14px" href="#tab-Jobs-#{business.id}" data-toggle="tab"
-            | Jobs
-            i.fa.fa-photo
-            span.label.label-primary=business.jobs.size
+      / ul.nav.nav-tabs
+      /   li.active
+      /     a.count-info style="padding: 20px 14px" href="#tab-All-#{business.id}" data-toggle="tab"
+      /
+      /       | All
+      /       i.fa.fa-book
+      /       span.label.label-primary=business.offers.size + business.events.size + business.posts.length + business.quick_posts.length + business.galleries.size
+      /   li
+      /     a.count-info style="padding: 20px 14px" href="#tab-Offers-#{business.id}" data-toggle="tab"
+      /       | Offers
+      /       i.fa.fa-ticket
+      /       span.label.label-primary=business.offers.size
+      /   li
+      /     a.count-info style="padding: 20px 14px" href="#tab-Events-#{business.id}" data-toggle="tab"
+      /       | Events
+      /       i.fa.fa-calendar
+      /       span.label.label-primary=business.events.size
+      /   li
+      /     a.count-info style="padding: 20px 14px" href="#tab-Posts-#{business.id}" data-toggle="tab"
+      /       | Posts
+      /       i.fa.fa-edit
+      /       span.label.label-primary=business.posts.length + business.quick_posts.length
+      /   li
+      /     a.count-info style="padding: 20px 14px" href="#tab-Galleries-#{business.id}" data-toggle="tab"
+      /       | Galleries
+      /       i.fa.fa-photo
+      /       span.label.label-primary=business.galleries.size
+      /   li
+      /     a.count-info style="padding: 20px 14px" href="#tab-Jobs-#{business.id}" data-toggle="tab"
+      /       | Jobs
+      /       i.fa.fa-photo
+      /       span.label.label-primary=business.jobs.size
       - if business.has_active_content?
         h2 Recent Content
         .tab-content
