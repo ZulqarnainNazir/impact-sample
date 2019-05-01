@@ -1,11 +1,19 @@
 class Website::CustomPagesController < Website::BaseController
   # TODO - Ideally we get rid of this but how do we do so while still allowing mutlple embeds on the same page?
-  helper_method :get_events
+  helper_method :get_events, :get_content
 
   before_action do
     @page = @website.webpages.custom.find_by_pathname!(params[:id])
 
-    # TODO - I think this should be in widget controller not on cutom pages...
+  end
+
+  def show
+
+    @content_types_all = "QuickPost Offer Job Gallery BeforeAfter Post".split
+
+    #TODO - How to do this and still allow multiple emebeds on page?
+  
+    # Get Posts - Curerntly in view partial
     # if params[:content_types]
     #     @content_types = params[:content_types]
     # elsif @page.groups.where(type: 'BlogFeedGroup').first.try(:blocks)
@@ -18,18 +26,10 @@ class Website::CustomPagesController < Website::BaseController
     #   @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
     # end
 
-    # @content_types_all = "QuickPost Offer Job Gallery BeforeAfter Post".split
-
-
-    #TODO - THis cant be in this controller...it needs to be in feeds controller or somewhere so we can have mutliplte embeds on a page...
     # block = @page.groups.where(type: 'BlogFeedGroup').last.blocks.last
-    #
     # @posts = get_content(business: block.business, embed: block, query: params[:blog_search], content_types: @content_types, content_category_ids: block.content_category_ids ? block.content_category_ids.split : '', content_tag_ids: block.content_tag_ids ? block.content_tag_ids.split : '', page: params[:page], per_page: block.items_limit)
 
-  end
-
-  def show
-
+    # Get Events - Currently in view partial
     # if @page.groups.where(type: 'CalendarGroup').first.present?
     #   @calendar_widget = CalendarWidget.find_by(id: @page.groups.where(type: 'CalendarGroup').first.blocks.first.widget_id)
 
