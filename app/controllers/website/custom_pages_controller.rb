@@ -1,6 +1,4 @@
 class Website::CustomPagesController < Website::BaseController
-  # TODO - Ideally we get rid of this but how do we do so while still allowing mutlple embeds on the same page?
-  helper_method :get_events, :get_content
 
   before_action do
     @page = @website.webpages.custom.find_by_pathname!(params[:id])
@@ -9,10 +7,8 @@ class Website::CustomPagesController < Website::BaseController
 
   def show
 
-    @content_types_all = "QuickPost Offer Job Gallery BeforeAfter Post".split
-
     #TODO - How to do this and still allow multiple emebeds on page?
-  
+
     # Get Posts - Curerntly in view partial
     # if params[:content_types]
     #     @content_types = params[:content_types]

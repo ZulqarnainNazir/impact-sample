@@ -2,6 +2,13 @@ class Website::BaseController < ApplicationController
   include ContentSearchConcern
   include EventSearchConcern
 
+  # TODO - Ideally we get rid of this but how do we do so while still allowing mutlple embeds on the same page?
+  helper_method :get_events, :get_content
+
+  before_action do
+    @content_types_all = "QuickPost Offer Job Gallery BeforeAfter Post".split
+  end
+
   before_action do
     if !params[:uuid].blank?
       @content_feed_widget = ContentFeedWidget.where(:uuid => params[:uuid]).first
