@@ -27,7 +27,7 @@ class Widgets::ContentFeedWidgetsController < Widgets::BaseController
       @widget.layout = params[:widget_layout]
     end
   end
-  
+
   def show
     @content_feed = ContentFeedWidget.where(:uuid => params[:uuid]).first
     if @content_feed.blank?

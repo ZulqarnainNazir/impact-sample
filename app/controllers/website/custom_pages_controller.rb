@@ -2,6 +2,7 @@ class Website::CustomPagesController < Website::BaseController
   before_action do
     @page = @website.webpages.custom.find_by_pathname!(params[:id])
 
+    # TODO - I think this should be in widget controller not on cutom pages...
     if params[:content_types]
         @content_types = params[:content_types]
     elsif @page.groups.where(type: 'BlogFeedGroup').first.try(:blocks)
@@ -15,6 +16,13 @@ class Website::CustomPagesController < Website::BaseController
     end
 
     @content_types_all = "QuickPost Offer Job Gallery BeforeAfter Post".split
+
+
+    #TODO - THis cant be in this controller...it needs to be in feeds controller or somewhere so we can have mutliplte embeds on a page...
+    # block = @page.groups.where(type: 'BlogFeedGroup').last.blocks.last
+    #
+    # @posts = get_content(business: block.business, embed: block, query: params[:blog_search], content_types: @content_types, content_category_ids: block.content_category_ids ? block.content_category_ids.split : '', content_tag_ids: block.content_tag_ids ? block.content_tag_ids.split : '', page: params[:page], per_page: block.items_limit)
+
 
   end
 
