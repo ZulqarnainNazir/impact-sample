@@ -11,6 +11,7 @@ class Website::BaseController < ApplicationController
     else
       self.class.layout 'website'
     end
+
   end
 
   after_action do
