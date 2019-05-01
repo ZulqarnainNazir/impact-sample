@@ -9,8 +9,10 @@ class Widgets::ContentFeedWidgetsController < Widgets::BaseController
       # TODO - Below returns wrong types so should update source to pass correct types (remove event, change custompost to post) so don't need the delete and add functions
       @content_types = @content_feed_widget.content_types.join(" ").split
       @content_types.delete('Event')
-      @content_types.delete('CustomPost')
-      @content_types << 'Post'
+      if @content_types.include?('CustomPost')
+        @content_types.delete('CustomPost')
+        @content_types << 'Post'
+      end
     else
       @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
     end

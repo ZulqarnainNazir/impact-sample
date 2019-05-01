@@ -5,19 +5,20 @@
   / TODO - How to move this to view while still allowing multiple embeds on page?
 
   - if params[:content_types]
-    - @content_types = params[:content_types]
+    - content_types = params[:content_types]
   / - elsif @page.groups.where(type: 'BlogFeedGroup').first.try(:blocks)
   - elsif blog_feed_block.content_types.present?
     / TODO - Below returns wrong types so should update source to pass correct types (remove event, change custompost to post) so don't need the delete and add functions
     / - @content_types = @page.groups.where(type: 'BlogFeedGroup').first.blocks.first.content_types.split
-    - @content_types = blog_feed_block.content_types.split
-    - @content_types.delete('Event')
-    - @content_types.delete('CustomPost')
-    - @content_types << 'Post'
+    - content_types = blog_feed_block.content_types.split
+    - content_types.delete('Event')
+    - if content_types.include?('CustomPost')
+      - content_types.delete('CustomPost')
+      - content_types << 'Post'
   - else
-    - @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    - content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
 
-  - posts = get_content(business: blog_feed_block.business, embed: blog_feed_block, query: params[:blog_search], content_types: @content_types, content_category_ids: blog_feed_block.content_category_ids ? blog_feed_block.content_category_ids.split : '', content_tag_ids: blog_feed_block.content_tag_ids ? blog_feed_block.content_tag_ids.split : '', page: params[:page], per_page: blog_feed_block.items_limit)
+  - posts = get_content(business: blog_feed_block.business, embed: blog_feed_block, query: params[:blog_search], content_types: content_types, content_category_ids: blog_feed_block.content_category_ids ? blog_feed_block.content_category_ids.split : '', content_tag_ids: blog_feed_block.content_tag_ids ? blog_feed_block.content_tag_ids.split : '', page: params[:page], per_page: blog_feed_block.items_limit)
 
   div.col-xs-12.b-p-h-xl class=blog_feed_block.custom_class id="content-feed-widget-#{blog_feed_block.id}" style="color: #{blog_feed_block.foreground_color};"
     a id=blog_feed_block.custom_anchor_id
