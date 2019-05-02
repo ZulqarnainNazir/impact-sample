@@ -45,17 +45,17 @@
           - if event.start_time.present?
               = event.start_time.strftime('%I:%M %p, ')
       .location
-        - if event.event_defintion.location.present?
+        - if event.event_definition.location.present?
           .city-state
             i.fa.fa-map-marker.m-r-xs
-            = truncate sanitize(event.event_defintion.location.city.titleize) + ', '
-            = truncate sanitize(event.event_defintion.location.state.upcase)
+            = truncate sanitize(event.event_definition.location.city.titleize) + ', '
+            = truncate sanitize(event.event_definition.location.state.upcase)
 
       .description
         = truncate sanitize_simple(event.description),
             length: 140,
             omission: '... '
 
-      = link_to [:website, :event, only_path: false, host: event.business.website.host, protocol: :http], target: :_blank , class: 'read-more'
+      = link_to [website, :event, only_path: false, host: event.business.website.host, protocol: :http], target: :_blank , class: 'read-more'
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right

@@ -1,69 +1,52 @@
+event./
 
-
-/
-/ Logic for rendering local variables
-/
 - business = event.business
 
-- product_image = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.event_definition.slug}" do
-  - if event.event_definition.main_image
-    = image_tag event.event_definition.main_image.attachment_url(:small)
-  - else
-    - placement = event.event_definition.event_image_placement
-    - if placement
-      - cache placement
-        - if placement.try(:embeds?)
-          = placement.embed.html_safe
-        - elsif placement.try(:image)
-          - if placement.image.present?
-            = image_tag placement.image.attachment_url(:small)
-    - else
-      = image_tag "impact_gs.jpg", alt: "image", title: "image"
-- title = link_to "#", id: "event-#{event.id}-2", class: "title", "data-toggle" => "modal", 'data-target' => "event-modal-#{event.id}", class: "title", 'data-slug'=>"#{event.event_definition.slug}" do
-  = truncate sanitize_simple(event.event_definition.title.titleize),
-      length: 60,
-      omission: '... '
-
-- date_time = capture do
-  .date
-    i.fa.fa-calendar.m-r-xs
-    = event.occurs_on.strftime('%b %d, %Y')
-  .start-time
-    i.fa.fa-clock-o.m-r-xs
-    = event.event_definition.start_time.strftime('%I:%M %p')
-
-- location = capture do
-  - if event.event_definition.location.present?
-    .street1
-      i.fa.fa-map-marker.m-r-xs
-      = truncate sanitize(event.event_definition.location.street1.titleize)
-    .city-state-zip
-      i.icon-block.m-r-xs
-      = truncate sanitize(event.event_definition.location.city.titleize) + ', '
-      = truncate sanitize(event.event_definition.location.state.upcase) + ' '
-      = truncate sanitize(event.event_definition.location.zip_code)
-
-/
-/ Generic grid block layout
-/
 .col-xs-12.col-sm-6.col-md-4
 
   .event-block.card.m-b
 
     .product-imitation
-      = product_image
+      = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.event_definition.slug}" do
+        - if event.event_definition.main_image
+          = image_tag event.event_definition.main_image.attachment_url(:small)
+        - else
+          - placement = event.event_definition.event_image_placement
+          - if placement
+            - cache placement
+              - if placement.try(:embeds?)
+                = placement.embed.html_safe
+              - elsif placement.try(:image)
+                - if placement.image.present?
+                  = image_tag placement.image.attachment_url(:small)
+          - else
+            = image_tag "impact_gs.jpg", alt: "image", title: "image"
 
     .product-desc
-      = title
+      = link_to "#", id: "event-#{event.id}-2", class: "title", "data-toggle" => "modal", 'data-target' => "event-modal-#{event.id}", class: "title", 'data-slug'=>"#{event.event_definition.slug}" do
+        = truncate sanitize_simple(event.event_definition.title.titleize),
+            length: 60,
+            omission: '... '
 
       .time
-        = date_time
+        .date
+          i.fa.fa-calendar.m-r-xs
+          = event.occurs_on.strftime('%b %d, %Y')
+        .start-time
+          i.fa.fa-clock-o.m-r-xs
+          = event.event_definition.start_time.strftime('%I:%M %p')
 
-      - if business == main_biz
-        .location
-          = location
-      - else
-        div
+      / - if business == main_biz
+      .location
+        - if event.event_definition.location.present?
+          .street1
+            i.fa.fa-map-marker.m-r-xs
+            = truncate sanitize(event.event_definition.location.street1.titleize)
+          .city-state-zip
+            i.icon-block.m-r-xs
+            = truncate sanitize(event.event_definition.location.city.titleize) + ', '
+            = truncate sanitize(event.event_definition.location.state.upcase) + ' '
+            = truncate sanitize(event.event_definition.location.zip_code)
 
       = link_to "#", id: "event-#{event.id}-3", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'read-more calendar-card', 'data-slug'=>"#{event.event_definition.slug}"
         |Read More&nbsp;
@@ -74,7 +57,7 @@
           bg-warning
             | Posted by #{business.name}
 
-div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.event_definition.slug}"
+div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.slug}"
   .modal-dialog.modal-lg
     .modal-content
       .modal-header
@@ -90,9 +73,10 @@ div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog"
 
 javascript:
   $('#event-modal-#{event.id}').on('shown.bs.modal', function () {
-    window.location.hash = '#{event.event_definition.slug}';
+    window.location.hash = '#{event.slug}';
   })
 
   $('#event-modal-#{event.id}').on('hidden.bs.modal', function (e) {
+    $("#event-modal-#{event.id} .modal-content").empty();
     window.location.hash = '';
   })

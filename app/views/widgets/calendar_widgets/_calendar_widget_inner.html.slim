@@ -107,8 +107,10 @@
           - @events.each_with_index do |event, index|
             - reach_occurences << event.business.id
             - if event.business == @calendar_widget.business
+              | Website
               = render :partial => "website/events/event_#{@container_view}_item", object: event, as: :event, locals: {prev: index <= 0 ? nil : @events[index-1], website: event.business.website}
             - else
+              | Modal
               = render "widgets/calendar_widgets/content/event_#{@container_view}_item", event: event, business: event.business, website: event.business.website, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : @events[index-1]
           .text-center.clear-container
             = paginate @events
