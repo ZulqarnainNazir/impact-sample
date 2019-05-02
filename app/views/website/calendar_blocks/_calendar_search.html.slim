@@ -2,7 +2,7 @@
 
 - start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
 
-- has_clear_search = params[:blog_search].present? || params[:start_date].present? || params[:filter_kinds].present?
+- has_clear_search = params[:blog_search].present? || params[:start_date].present? || params[:filter_kinds].present? || params[:feed_id].present?
 
 = form_tag request_url + '#' + feedname, method: :get, class: "search-events col-xs-12", name: "feedname" do
 
@@ -32,6 +32,12 @@
       label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
         'Search
         = text_field_tag :blog_search, params[:blog_search], placeholder: 'Keyword', class: 'form-control'
+
+      - if @sources.any?
+        label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
+          | Source
+          = select_tag "feed_id", options_for_select(@sources, params[:feed_id]), include_blank: true, class: 'form-control'
+
 
       - if has_clear_search
         .col-xs-6.col-md-2
@@ -64,7 +70,7 @@
         'Filter Event Types
         i.fa.fa-chevron-down.m-l-xs
         i.fa.fa-chevron-up.m-l-xs
-      
+
       #search-event-filter.collapse.col-xs-12 class=("in" unless params[:filter_kinds].blank?)
         .row
           - kind_names = ['events', 'classes', 'deadlines']

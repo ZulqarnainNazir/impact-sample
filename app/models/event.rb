@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
     #values for content_category_ids, or title, or description, etc.
     #e.g., if title has value 'foo', and is the first event to have
     #a title, then title is then added to mapping, where before it was not present.
-    as_json(methods: %i[title subtitle description price url phone start_time end_time meta_description facebook_id slug published_status hide_full_address import_pending main_image content_category_ids content_tag_ids event_image_placement kind])
+    as_json(methods: %i[title subtitle description price url phone start_time end_time meta_description facebook_id slug published_status hide_full_address import_pending main_image content_category_ids content_tag_ids event_image_placement kind event_feed_id])
   end
 
   def title
@@ -115,7 +115,11 @@ class Event < ActiveRecord::Base
     event_definition.kind.to_s
   end
   # embed: text
+
   # event_feed_id: integer
+  def event_feed_id
+    event_definition.event_feed_id
+  end
 
   def import_pending
     #leveraged in as_indexed_json for ElasticSearch

@@ -3,7 +3,7 @@ module EventSearchConcern
 
   # TODO - Originally search_event. Need to find places in master branch that need to be updated after merge inlucding new fields / field order
   # Finds events for a given business for display in widget, web builder or listings
-  def get_events(business: nil, embed: nil, query: nil, kinds: [], content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'asc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false)
+  def get_events(business: nil, embed: nil, query: nil, kinds: [], content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'asc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false, feed_id: nil)
     raise "Business is Required" unless business.present?
 
     #TODO - Add a filter for defined categories from a local network
@@ -24,6 +24,7 @@ module EventSearchConcern
     @start_date = start_date
     @end_date = end_date
     @limit = limit
+    @feed_id = feed_id
 
     # Apply Business Logic
     @business_ids = []
@@ -179,6 +180,14 @@ module EventSearchConcern
       }
     end
 
+    if @feed_id.present?
+      dsl1[:filter][:and] << {
+        term: {
+          event_feed_id: @feed_id,
+        },
+      }
+    end
+
     if @query.present?
       dsl1[:query] = {
         query_string: {
@@ -199,6 +208,7 @@ module EventSearchConcern
     # @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition]).includes(:event_definitions).records.to_a
     # @all_events = Event.search(dsl1).records.includes(:event_definitions).to_a
 
+    # byebug
     #Sort and return content object
     Kaminari.paginate_array(@all_events).page(@page_no).per(@per_page)
 
