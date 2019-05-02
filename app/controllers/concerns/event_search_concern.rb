@@ -3,7 +3,7 @@ module EventSearchConcern
 
   # TODO - Originally search_event. Need to find places in master branch that need to be updated after merge inlucding new fields / field order
   # Finds events for a given business for display in widget, web builder or listings
-  def get_events(business: nil, embed: nil, query: nil, kinds: [], content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'asc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false, feed_id: nil)
+  def get_events(business: nil, embed: nil, query: nil, kinds: [], content_category_ids: [], content_tag_ids: [], filter: 'All', order: 'asc', page: 1, per_page: 10, include_past: false, include_drafts: false, start_date: nil, end_date: nil, limit: false, source_id: nil)
     raise "Business is Required" unless business.present?
 
     #TODO - Add a filter for defined categories from a local network
@@ -24,7 +24,7 @@ module EventSearchConcern
     @start_date = start_date
     @end_date = end_date
     @limit = limit
-    @feed_id = feed_id
+    @source_id = source_id
 
     # Apply Business Logic
     @business_ids = []
@@ -180,12 +180,20 @@ module EventSearchConcern
       }
     end
 
-    if @feed_id.present?
-      dsl1[:filter][:and] << {
-        term: {
-          event_feed_id: @feed_id,
-        },
-      }
+    if @source_id.present?
+      if EventFeed.where(id: @source_id).present?
+          dsl1[:filter][:and] << {
+            term: {
+              event_feed_id: @source_id,
+            },
+          }
+      else
+        dsl1[:filter][:and] << {
+          term: {
+            business_id: @source_id,
+          },
+        }
+      end
     end
 
     if @query.present?

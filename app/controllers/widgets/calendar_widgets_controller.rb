@@ -48,14 +48,17 @@ class Widgets::CalendarWidgetsController < Widgets::BaseController
       @filter_kinds = []
     end
 
-    @sources = EventFeed.where(business_id: @calendar_widget.business.id).pluck(:name, :id).uniq
+    ids = @calendar_widget.get_business_ids << @calendar_widget.business.id
+    feed_source = EventFeed.where(business_id: ids).pluck(:name, :id).uniq
+    business_source = Business.where(id: ids).pluck(:name, :id).uniq
+    @sources = ( feed_source + business_source ).sort_by(&:first)
 
-    @events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: @filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: @start_date, end_date: @end_date, feed_id: (params[:feed_id].present? ? params[:feed_id] : ''))
+    @events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: @filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: @start_date, end_date: @end_date, source_id: (params[:source_id].present? ? params[:source_id] : ''))
 
     # For Agenda view, we also need a count of events on other days of the week
     if @container_view == 'agenda' && params[:start_date].present? || params[:blog_search].present?
 
-      @week_events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: @filter_kinds, page: 1, per_page: 800, start_date: @monday.strftime('%F'), end_date: (@monday + 6).strftime('%F'), feed_id: (params[:feed_id].present? ? params[:feed_id] : ''))
+      @week_events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: @filter_kinds, page: 1, per_page: 800, start_date: @monday.strftime('%F'), end_date: (@monday + 6).strftime('%F'), source_id: (params[:source_id].present? ? params[:source_id] : ''))
 
       @counts = [\
           @week_events.count{|x|x.occurs_on == @monday + 0},
