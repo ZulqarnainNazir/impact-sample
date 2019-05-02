@@ -1,5 +1,3 @@
-- business = event.business
-
 .col-xs-12.col-sm-6.col-md-12
   .event-block.agenda-item.m-t
     .time-range
@@ -7,10 +5,10 @@
       - if event.end_time.present?
         = event.end_time.strftime(' - %l:%M %P')
     .product-imitation
-      = link_to [website,
-          :event,
+      = link_to [:website,
+          event,
           only_path: false,
-          host: business.website.host,
+          host: event.business.website.host,
           protocol: :http], target: :_blank do
         - if event.main_image
           = image_tag event.main_image.attachment_url(:small)
@@ -26,10 +24,10 @@
           - else
             = image_tag "impact_gs.jpg", alt: "image", title: "image"
     .product-desc
-      = link_to [website,
-          :event,
+      = link_to [:website,
+          event,
           only_path: false,
-          host: business.website.host,
+          host: event.business.website.host,
           protocol: :http], target: :_blank, class: 'title'
         = truncate sanitize_simple(event.title.titleize),
             length: 60,
@@ -56,6 +54,6 @@
         = truncate sanitize_simple(event.description),
             length: 140,
             omission: '... '
-      = link_to [website, :event, only_path: false, host: business.website.host, protocol: :http], target: :_blank , class: 'read-more'
+      = link_to [:website, event, only_path: false, host: event.business.website.host, protocol: :http], target: :_blank , class: 'read-more'
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right

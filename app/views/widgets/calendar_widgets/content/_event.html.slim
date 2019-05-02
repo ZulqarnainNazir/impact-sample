@@ -3,7 +3,7 @@
   - description "This post is not yet published"
 - else
   / FIXME: Why?
-  / - upcoming_events = event.event_definition.events.where.not(id: event.id).where('occurs_on >= ?', Time.zone.now).order(occurs_on: :asc).page(1).per(4)
+  - upcoming_events = event.event_definition.events.where.not(id: event.id).where('occurs_on >= ?', Time.zone.now).order(occurs_on: :asc).page(1).per(4)
   - title event.event_definition.title.titleize
   - description event.event_definition.meta_description
   -image event.event_definition.main_image.try(:attachment_url) || event.event_definition.try(:event_image_placement).try(:attachment_url)
@@ -105,8 +105,8 @@ div.row
         = event.event_definition.embed.html_safe
 
     / TODO - add back upcoming events
-    / - if @upcoming_events.any?
-    /   .col-sm-12
-    /     h4 Other Upcoming Instances
-    /     .grid
-    /       = render partial: 'website/events/event', collection: @upcoming_events, locals: { small: true, business: event.business, website: event.business.website, event: event }
+    - if @upcoming_events.any?
+      .col-sm-12
+        h4 Other Upcoming Instances
+        .grid
+          = render partial: 'website/events/event', collection: @upcoming_events, locals: { small: true, business: event.business, website: event.business.website, event: event }

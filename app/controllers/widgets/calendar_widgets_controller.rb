@@ -56,18 +56,18 @@ class Widgets::CalendarWidgetsController < Widgets::BaseController
     @events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: @filter_kinds, page: params[:page], per_page: @calendar_widget.max_items, start_date: @start_date, end_date: @end_date, source_id: (params[:source_id].present? ? params[:source_id] : ''))
 
     # For Agenda view, we also need a count of events on other days of the week
-    if @container_view == 'agenda' && params[:start_date].present? || params[:blog_search].present?
+    if @container_view == 'agenda' # && params[:start_date].present? || params[:blog_search].present?
 
-      @week_events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: @filter_kinds, page: 1, per_page: 800, start_date: @monday.strftime('%F'), end_date: (@monday + 6).strftime('%F'), source_id: (params[:source_id].present? ? params[:source_id] : ''))
+      @week_events = get_events(business: @calendar_widget.business, embed: @calendar_widget, query: params[:blog_search], kinds: @filter_kinds, start_date: @monday.strftime('%F'), end_date: (@monday + 6).strftime('%F'), source_id: (params[:source_id].present? ? params[:source_id] : ''))
 
-      @counts = [\
-          @week_events.count{|x|x.occurs_on == @monday + 0},
-          @week_events.count{|x|x.occurs_on == @monday + 1},
-          @week_events.count{|x|x.occurs_on == @monday + 2},
-          @week_events.count{|x|x.occurs_on == @monday + 3},
-          @week_events.count{|x|x.occurs_on == @monday + 4},
-          @week_events.count{|x|x.occurs_on == @monday + 5},
-          @week_events.count{|x|x.occurs_on == @monday + 6}]
+      @counts = []
+      @counts[0] = @week_events.count{|x| x.occurs_on == (@monday + 0)}
+      @counts[1] = @week_events.count{|x| x.occurs_on == (@monday + 1)}
+      @counts[2] = @week_events.count{|x| x.occurs_on == (@monday + 2)}
+      @counts[3] = @week_events.count{|x| x.occurs_on == (@monday + 3)}
+      @counts[4] = @week_events.count{|x| x.occurs_on == (@monday + 4)}
+      @counts[5] = @week_events.count{|x| x.occurs_on == (@monday + 5)}
+      @counts[6] = @week_events.count{|x| x.occurs_on == (@monday + 6)}
     else
       @week_events = []
       @counts = [0, 0, 0, 0, 0, 0, 0]

@@ -1,11 +1,6 @@
-event./
-
-- business = event.business
-
+/ event./
 .col-xs-12.col-sm-6.col-md-4
-
   .event-block.card.m-b
-
     .product-imitation
       = link_to "#", id: "event-#{event.id}-1", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: "calendar-card", 'data-slug'=>"#{event.event_definition.slug}" do
         - if event.event_definition.main_image
@@ -21,13 +16,11 @@ event./
                   = image_tag placement.image.attachment_url(:small)
           - else
             = image_tag "impact_gs.jpg", alt: "image", title: "image"
-
     .product-desc
       = link_to "#", id: "event-#{event.id}-2", class: "title", "data-toggle" => "modal", 'data-target' => "event-modal-#{event.id}", class: "title", 'data-slug'=>"#{event.event_definition.slug}" do
         = truncate sanitize_simple(event.event_definition.title.titleize),
             length: 60,
             omission: '... '
-
       .time
         .date
           i.fa.fa-calendar.m-r-xs
@@ -35,8 +28,6 @@ event./
         .start-time
           i.fa.fa-clock-o.m-r-xs
           = event.event_definition.start_time.strftime('%I:%M %p')
-
-      / - if business == main_biz
       .location
         - if event.event_definition.location.present?
           .street1
@@ -47,15 +38,13 @@ event./
             = truncate sanitize(event.event_definition.location.city.titleize) + ', '
             = truncate sanitize(event.event_definition.location.state.upcase) + ' '
             = truncate sanitize(event.event_definition.location.zip_code)
-
       = link_to "#", id: "event-#{event.id}-3", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'read-more calendar-card', 'data-slug'=>"#{event.event_definition.slug}"
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right
-
-      - if business != main_biz
+      - if event.business.id != main_biz.id
         .description
           bg-warning
-            | Posted by #{business.name}
+            | Posted by #{event.business.name}
 
 div class="modal fade calendar-modal" id="event-modal-#{event.id}" role="dialog" data-slug="#{event.slug}"
   .modal-dialog.modal-lg

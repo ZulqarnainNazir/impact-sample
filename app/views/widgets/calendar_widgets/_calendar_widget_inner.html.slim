@@ -29,7 +29,8 @@
             i.fa.fa-long-arrow-right
 
           .tabs-container.col-xs-12.m-t-sm
-            ol.tabs class=('with-counts' if params[:start_date].present? || params[:blog_search].present?)
+            / ol.tabs class=('with-counts' if params[:start_date].present? || params[:blog_search].present?)
+            ol.tabs class=('with-counts')
               li.day class=('active' if @agenda_view_date == @monday + 0)
                 - if @agenda_view_date == @monday + 0
                   .wday = (@monday + 0).strftime('%A')
@@ -106,7 +107,7 @@
           - reach_occurences = []
           - @events.each_with_index do |event, index|
             - reach_occurences << event.business.id
-            - if event.business == @calendar_widget.business
+            - if widget == false && (event.business.id == @calendar_widget.business.id)
               = render :partial => "website/events/event_#{@container_view}_item", object: event, as: :event, locals: {prev: index <= 0 ? nil : @events[index-1], website: event.business.website}
             - else
               = render "widgets/calendar_widgets/content/event_#{@container_view}_item", event: event, business: event.business, website: event.business.website, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : @events[index-1]
@@ -115,9 +116,6 @@
         - else
           div.col-xs-12.col-sm-8.col-sm-push-2
             h2 Nothing matched your search or there is no content here yet...
-
-
-
 
 javascript:
   console.log("Recording Reach");

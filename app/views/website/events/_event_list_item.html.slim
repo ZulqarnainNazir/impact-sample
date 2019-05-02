@@ -1,18 +1,13 @@
-/ - month_header_is_visible = prev.blank? || prev.occurs_on.month != event.occurs_on.month || prev.occurs_on.year != event.occurs_on.year
-/ - month_year = capture do
-/   = event.occurs_on.strftime('%B&nbsp;%Y').html_safe
-
-/
-/ - if month_header_is_visible
-/   .month-header
-/     span.month-header-inner
-/       = month_year
-
+- month_header_is_visible = prev.blank? || prev.occurs_on.month != event.occurs_on.month || prev.occurs_on.year != event.occurs_on.year
+- if month_header_is_visible
+  .month-header
+    span.month-header-inner
+      = event.occurs_on.strftime('%B&nbsp;%Y').html_safe
 .event-block.list-item
   .event-details
     .product-imitation
-      = link_to [website,
-          :event,
+      = link_to [:website,
+          event,
           only_path: false,
           host: event.business.website.host,
           protocol: :http], target: :_blank do
@@ -29,10 +24,9 @@
                   = image_tag placement.image.attachment_url(:small)
           - else
             = image_tag "impact_gs.jpg", alt: "image", title: "image"
-
     .product-desc
-      = link_to [website,
-          :event,
+      = link_to [:website,
+          event,
           only_path: false,
           host: event.business.website.host,
           protocol: :http], target: :_blank, class: 'title'
@@ -50,12 +44,10 @@
             i.fa.fa-map-marker.m-r-xs
             = truncate sanitize(event.event_definition.location.city.titleize) + ', '
             = truncate sanitize(event.event_definition.location.state.upcase)
-
       .description
         = truncate sanitize_simple(event.description),
             length: 140,
             omission: '... '
-
-      = link_to [website, :event, only_path: false, host: event.business.website.host, protocol: :http], target: :_blank , class: 'read-more'
+      = link_to [:website, event, only_path: false, host: event.business.website.host, protocol: :http], target: :_blank , class: 'read-more'
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right
