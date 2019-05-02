@@ -8,7 +8,6 @@ module EventSearchConcern
 
     #TODO - Add a filter for defined categories from a local network
     #TODO - Add filter for defined sources from feeds
-    #TODO - Need to renable KINDS
 
     # Initialize
     @business = business

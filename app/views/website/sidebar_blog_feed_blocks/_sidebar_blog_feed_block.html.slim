@@ -1,7 +1,7 @@
 - cache [sidebar_blog_feed_block, sidebar_blog_feed_block.cache_sensitive_key(params)] do
   div class=sidebar_blog_feed_block.custom_class
     a id=sidebar_blog_feed_block.custom_anchor_id
-    / TODO: I've commented out the below line as we are no longer using the get_content view helper (its moved to a controller concern). The assumption is that this is no longer being used but if we find an error this will need to be addressed.
+    / TODO - I've commented out the below line as we are no longer using the get_content view helper (its moved to a controller concern). The assumption is that this is no longer being used but if we find an error this will need to be addressed.
     / - posts = get_content(business: sidebar_blog_feed_block.business, content_types: sidebar_blog_feed_block.content_types.to_s.split(' '), content_category_ids: idebar_blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: idebar_blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', per_page: sidebar_blog_feed_block.items_limit)
     = render @posts
     - if sidebar_blog_feed_block.link_version == 'link_paginate'
