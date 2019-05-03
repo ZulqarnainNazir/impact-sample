@@ -28,14 +28,15 @@ class Listing::ListingsController < ApplicationController
 
   def index
 
-    if params[:content_types]
-        @content_types = params[:content_types]
-    else
-      @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
-    end
+    @business = Business.listing_lookup(params[:lookup])
 
-    # @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
-    @posts = get_content(business: @business)
+    # if params[:content_types]
+    #     @content_types = params[:content_types]
+    # else
+    @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    # end
+
+    @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
 
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
 
@@ -45,8 +46,7 @@ class Listing::ListingsController < ApplicationController
 
     @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : []
 
-    # @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
-    @events = get_events(business: @business)
+    @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
 
 
   end
