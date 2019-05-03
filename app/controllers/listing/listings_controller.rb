@@ -34,15 +34,19 @@ class Listing::ListingsController < ApplicationController
       @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
     end
 
+    @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+
     @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
 
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
 
     @start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
     @start_date = @start_date_parsed.strftime('%F') rescue ''
+    @start_date = ''
     @end_date = ''
 
     @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : []
+    @event_kinds = []
 
 
     @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
