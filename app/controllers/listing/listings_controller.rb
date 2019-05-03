@@ -34,7 +34,7 @@ class Listing::ListingsController < ApplicationController
       @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
     end
 
-    @posts = get_content(business: @business, content_types: @content_types, order: 'desc', page: params[:page], per_page: 12)
+    @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
 
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
 
