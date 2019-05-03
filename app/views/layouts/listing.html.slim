@@ -103,7 +103,7 @@ html lang="en"
                             - @business.calendar_widgets.each do |cal|
                               li[style="display:block"]
                                 = link_to cal.name, listing_path_calendar_url(@business, cal)
-                    - if @posts.size > 0
+                    - if @posts.present?
                       li
                         = link_to "Content", listing_contents_path
               .col-xs-12.visible-xs
@@ -125,7 +125,7 @@ html lang="en"
                         li
                           a.cal-menu
                             span = "Calendars"
-                    - if @posts.size > 0
+                    - if @posts.present?
                       li
                         = link_to "Content", listing_contents_path
               .col-xs-12.show-nav-dir
