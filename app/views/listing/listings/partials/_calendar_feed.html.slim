@@ -18,7 +18,7 @@
     .panel.p-sm class= 'list'
 
       / Event count for list view
-      - if @events.any?
+      - if @events.present?
         .event-count.m-b-md.m-t-sm
           = "Displaying #{@events.total_count} Events:"
 
@@ -107,7 +107,7 @@
       /               .count = counts[6]
 
       .row
-        - if @events.any?
+        - if @events.present?
           - reach_occurences = []
           - @events.each_with_index do |event, index|
             - reach_occurences << event.business.id

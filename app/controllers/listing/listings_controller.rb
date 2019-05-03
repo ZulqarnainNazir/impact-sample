@@ -42,7 +42,7 @@ class Listing::ListingsController < ApplicationController
     @start_date = @start_date_parsed.strftime('%F') rescue ''
     @end_date = ''
 
-    @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : [0, 1, 2]
+    @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : []
 
 
     @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
