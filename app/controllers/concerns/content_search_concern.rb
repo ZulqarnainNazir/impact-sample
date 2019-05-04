@@ -43,52 +43,6 @@ module ContentSearchConcern
     #Sort and return content objects
     Kaminari.paginate_array(all_content.sort_by {|obj| obj.published_at}.reverse!).page(page).per(per_page)
 
-    # # Initialize
-    # @business = business
-    # @embed = embed
-    # @query = query.to_s.strip
-    # @content_types = content_types
-    # @content_category_ids = content_category_ids
-    # @content_tag_ids = content_tag_ids
-    # @order = order
-    # @page_no = page
-    # @per_page = per_page
-    # @published = published
-    #
-    # # Apply Business Logic
-    # @business_ids = []
-    # if @embed.present?
-    #   @business_ids = @embed.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
-    #
-    #   if @embed.show_our_content == true
-    #     @business_ids << @business.id #includes parent business' content
-    #   end
-    # else
-    #   @business_ids << @business.id
-    # end
-    #
-    # # Perfom Elsticsearch queries
-    # @all_content = []
-    # @content_types.each do |type|
-    #   case type
-    #   when 'QuickPost'
-    #     @all_content += search_quick_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
-    #   when 'Post'
-    #     @all_content += search_posts(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
-    #   when 'Offer'
-    #     @all_content += search_offers(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
-    #   when 'Job'
-    #     @all_content += search_jobs(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
-    #   when 'Gallery'
-    #     @all_content += search_galleries(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
-    #   when 'BeforeAfter'
-    #     @all_content += search_before_afters(@business_ids, @content_category_ids, @content_tag_ids, @query, @order, @published)
-    #   end
-    # end
-    #
-    # #Sort and return content objects
-    # Kaminari.paginate_array(@all_content.sort_by {|obj| obj.published_at}.reverse!).page(@page_no).per(@per_page)
-
   end
 
   def search_quick_posts(business_ids, content_category_ids, content_tag_ids, query, order, published)
