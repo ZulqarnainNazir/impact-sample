@@ -11,11 +11,12 @@ div
           = render :partial => "listing/listings/partials/#{post.to_partial_path}", :object => post
         - else
           = render :partial => "listing/listings/partials/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
+      .text-center.clear-container
+        = paginate @posts
     - else
       div.col-xs-9
-      h2 There is no content here yet...
-  .text-center.clear-container
-    = paginate @posts
+        h2 There is no content here yet...
+
 
 / ahoy.track("Reach", {type: "Listing Overview Content", type_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href });
 / TOOD - Ensure below updates make sesne for tracking
