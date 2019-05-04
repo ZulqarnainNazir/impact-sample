@@ -28,11 +28,13 @@ class Listing::ListingsController < ApplicationController
 
   def index
 
-    if params[:content_types]
-        @content_types = params[:content_types]
-    else
-      @content_types = "QuickPost Offer Job Gallery BeforeAfter".split
-    end
+    # if params[:content_types]
+    #     @content_types = params[:content_types]
+    # else
+    #   @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    # end
+
+    @content_types = "QuickPost Offer Job Gallery BeforeAfter".split
 
     @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
 
