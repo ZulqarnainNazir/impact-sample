@@ -23,17 +23,14 @@ class Listing::ListingsController < ApplicationController
       end
     end
 
+    # TODO - Why does this not work if below is in index....works locally but not on heroku...
     if params[:content_types]
       @content_types = params[:content_types]
     else
       @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
     end
 
-    puts "Content Types: #{@content_types}"
-
     @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
-
-    puts "Post Results: #{ @posts}"
 
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
 
@@ -41,16 +38,9 @@ class Listing::ListingsController < ApplicationController
     @start_date = @start_date_parsed.strftime('%F') rescue ''
     @end_date = ''
 
-    puts "Start Date: #{@start_date}"
-    puts "End Date: #{@end_date}"
-
     @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : []
 
-    puts "Kinds: #{@event_kinds}"
-
     @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
-
-    puts "Event Object: #{@events}"
 
   end
 
