@@ -28,26 +28,23 @@ class Listing::ListingsController < ApplicationController
 
   def index
 
-    # if params[:content_types]
-    #     @content_types = params[:content_types]
-    # else
-    #   @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
-    # end
+    if params[:content_types]
+        @content_types = params[:content_types]
+    else
+      @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    end
 
-
-    # @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
-    @posts = get_content(business: @business, page: params[:page], per_page: 12)
+    @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
 
     @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
 
-    # @start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
-    # @start_date = @start_date_parsed.strftime('%F') rescue ''
-    # @end_date = ''
-    #
-    # @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : []
+    @start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
+    @start_date = @start_date_parsed.strftime('%F') rescue ''
+    @end_date = ''
 
-    # @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
-    @events = get_events(business: @business, page: params[:page], per_page: 12)
+    @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : []
+
+    @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
 
   end
 
