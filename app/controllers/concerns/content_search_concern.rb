@@ -12,8 +12,7 @@ module ContentSearchConcern
     # Apply Business Logic
     business_ids = []
     if embed.present?
-      business_ids = embed.get_business_ids #business_ids should be an array; returns array of Business ids, or empty array
-
+      business_ids = embed.get_business_ids.compact #business_ids should be an array; returns array of Business ids, or empty array
       if embed.show_our_content == true
         business_ids << business.id #includes parent business' content
       end
