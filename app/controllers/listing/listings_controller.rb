@@ -11,7 +11,6 @@ class Listing::ListingsController < ApplicationController
     @truncate_rev = true
     @masonry = true
 
-
     # TODO - Where should this live?
     @og_title = @business.name
     if @business.location.city.present? || @business.location.state.present?
@@ -23,10 +22,6 @@ class Listing::ListingsController < ApplicationController
         @og_title = @og_title + ' ' + @business.location.state
       end
     end
-
-  end
-
-  def index
 
     if params[:content_types]
       @content_types = params[:content_types]
@@ -56,6 +51,12 @@ class Listing::ListingsController < ApplicationController
     @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
 
     puts "Event Object: #{@events}"
+
+  end
+
+  def index
+
+
   end
 
 
