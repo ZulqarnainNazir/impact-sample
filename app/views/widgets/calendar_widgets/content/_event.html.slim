@@ -104,9 +104,8 @@ div.row
       - if event.event_definition.embed?
         = event.event_definition.embed.html_safe
 
-    / TODO - add back upcoming events
     - if upcoming_events.any?
       .col-sm-12
         h4 Other Upcoming Instances
         .grid
-          = render partial: 'website/events/event', collection: upcoming_events, locals: { small: true, business: event.business, website: event.business.website, event: event }
+          = render partial: 'website/events/upcoming_event', collection: upcoming_events
