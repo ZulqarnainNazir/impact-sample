@@ -5,8 +5,8 @@
 
 .p-h-md
   .row
-    div.webpage-container-blog
-      = render partial: 'search_full', locals: {request_url: '/blog'}
-      = render partial: 'search_collapsed', locals: {request_url: '/blog'}
+    / div.webpage-container-blog
+    /   = render partial: 'search_full', locals: {request_url: '/blog'}
+    /   = render partial: 'search_collapsed', locals: {request_url: '/blog'}
     div.webpage-container-blog
       = render partial: 'website/groups/group', collection: @page.groups.container, locals: { sidebar_position: @page.sidebar_position }

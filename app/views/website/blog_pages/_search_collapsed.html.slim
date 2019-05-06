@@ -1,5 +1,7 @@
-- unless @content_types_all.nil?
-	div.row.search-collapsed
+/ TODO - Dont think this is used any more. Remove?
+- unless @content_types.nil?
+	/ div.row.search-collapsed
+	div.row style="padding-top:30px; text-align:center;"
 		div.col-lg-9
 			= form_tag request_url + '#blog-feed', method: :get do
 
@@ -17,7 +19,7 @@
 		                'Filter
 		                .span.caret
 					div.collapse.dropdown-menu.panel.panel-default#types aria-labelledby="dropdownMenu1"
-						div.panel-body 
+						div.panel-body
 							span style="font-size:16px; padding-right:5px; font-weight: bold;"
 								'View:
 							- @content_types_all.each do |n|

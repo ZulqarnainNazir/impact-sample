@@ -11,21 +11,34 @@ div class="ibox float-e-margins"
             tr
               th Community ID
               th Community Label
-              th Claimed Accounts in Community
-              th Paid Accounts in Community
-              th Total Related Businesses in CRM
-              th # of Ambassadors
-              th
+              th Claimed Accounts
+              th Paid Accounts
+              / th Total Related Businesses in CRM
+              th Anchors
+              th Champions
+              th Recommended Businesses
+              th Supporting
+              th Supporters
+              th Total Reach
+              th Private
+              th Manage
 
           tbody
             - @communities.each do |community|
               tr
                 td = community.id
                 td = community.label
-                td = community.accounts_count(community)
-                td = community.paid_accounts_count(community)
-                td = community.related_businesses_count(community)
-                td = community.ambassador_count(community)
+                td = community.businesses.where(in_impact: true).count
+                td = community.businesses.includes(:subscription).where('subscriptions.subscription_plan_id > ?', 1).references(:subscriptions).count
+                td = community.community_businesses.where(anchor: true).count
+                td = community.community_businesses.where(champion: true).count
+                td = community.community_businesses.where(recommended: true).count
+                / should make this a cache counter on business model
+                td = community.supporting_count(community)
+                / should make this a cache counter on business model
+                td = community.supporters_count(community)
+                td = community.businesses.sum(:reach)
+                td = community.private
                 td
                   = link_to 'Edit', edit_super_community_path(community), class: "btn btn-sm btn-success"
                   = link_to 'Destroy', super_community_path(community), data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-sm btn-danger"

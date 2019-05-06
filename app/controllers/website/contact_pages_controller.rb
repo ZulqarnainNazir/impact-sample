@@ -4,7 +4,7 @@ class Website::ContactPagesController < Website::BaseController
   before_action do
     @page = @website.contact_page or raise ActiveRecord::RecordNotFound
     @contact_message = @business.contact_messages.new
-    get_content_types("BlogFeedGroup", @page)
+    # get_content_types("BlogFeedGroup", @page)
   end
 
   def create

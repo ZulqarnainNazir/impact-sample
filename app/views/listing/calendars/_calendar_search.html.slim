@@ -2,7 +2,7 @@
 
 - start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
 
-- has_clear_search = params[:blog_search].present? || params[:start_date].present?
+- has_clear_search = params[:blog_search].present? || params[:start_date].present? || params[:filter_kinds].present?
 
 = form_tag request_url + '#' + feedname, method: :get, class: "search-events col-xs-12", name: "feedname" do
 
@@ -17,7 +17,6 @@
           i.fa.fa-chevron-down.m-r-sm
           i.fa.fa-chevron-up.m-r-sm
           'Add Search Criteria
-
 
       .col-xs-6
         a.btn.btn-primary.view-toggle aria-expanded="false" data-toggle="collapse" type="button" aria-haspopup="true" style="cursor: pointer;" data-target="#search-event-views"
@@ -42,36 +41,23 @@
           i.fa.fa-search.m-r-sm
           'Find Events
 
+  .panel.panel-default.p-sm.p-t-0.p-b-0
 
+    .row
 
-  - if event_kinds.size != 1
+      a.filter-toggle.col-xs-12.m-t-xs.m-b-xs aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-event-filter"
+        'Filter Results
+        i.fa.fa-chevron-down.m-l-xs
+        i.fa.fa-chevron-up.m-l-xs
 
-    .panel.panel-default.p-sm.p-t-0.p-b-0
+      #search-event-filter.collapse.col-xs-12 class=("in" unless params[:filter_kinds].blank?)
+        .row
+          - kind_names = ['events', 'classes', 'deadlines']
+          - kind_names.each_index do |i|
+            label.col-xs-8.col-sm-3.m-t-xs
+              = kind_names[i].titlecase
+              = check_box_tag "filter_kinds[]", "#{i}", event_kinds.include?(i.to_s) ? true : false, class: '', style: 'margin-left: 10px; vertical-align: text-top'
 
-      .row
-
-        a.filter-toggle.col-xs-12.m-t-xs.m-b-xs aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-event-filter"
-          'Filter Results
-          i.fa.fa-chevron-down.m-l-xs
-          i.fa.fa-chevron-up.m-l-xs
-
-        #search-event-filter.collapse.col-xs-12 class=("in" unless params[:filter_kinds].blank?)
-
-          .row
-
-            - kind_names = ['events', 'classes', 'deadlines']
-
-            - kind_names.each_index do |i|
-
-              - if event_kinds.include?(i)
-
-                - n = kind_names[i]
-                - val = params[:filter_kinds]&.include?(i.to_s)
-
-                label.col-xs-8.col-sm-3.m-t-xs
-                  = n.titlecase
-                  = check_box_tag "filter_kinds[]", "#{i}", val, class: '', style: 'margin-left: 10px; vertical-align: text-top'
-
-            .col-xs-4.col-sm-3
-              button.btn.btn-primary.m-b-sm style="float: right"
-                | Submit
+          .col-xs-4.col-sm-3
+            button.btn.btn-primary.m-b-sm style="float: right"
+              | Submit

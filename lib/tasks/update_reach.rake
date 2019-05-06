@@ -11,7 +11,7 @@ task :update_reach => :environment do
       end
     end
 
-    # TODO: Add in Contnet View counts as well
+    # TODO - Add in Contnet View counts as well
 
     reach_counts = aggregate_occurences.flatten.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
 

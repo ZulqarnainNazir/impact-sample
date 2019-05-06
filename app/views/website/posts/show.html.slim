@@ -34,7 +34,7 @@
       .col-sm-4.m-t-lg
         .show-sidebar-grid
           - if @website.content_blog_sidebar?
-            = render posts(nil, @business), small: true
+            = render @sidebar_content, small: true
           - if @website.events_sidebar?
             .row
-              = render events(@business), small: true, stack: true
+              = render @sidebar_events, small: true, stack: true

@@ -1,9 +1,15 @@
 class Async::WidgetsController < ApplicationController
+  include EventSearchConcern
+  include ContentSearchConcern
 
   def calendar
     @event = Event.find(params.dig(:event))
     @business = @event.business
     @website = @business.website
+
+    # TODO - Change this to use elasticsearch get_events with an option to exlude current event
+    # @upcoming_events = get_events(business: @event.business, per_page: 4)
+    @upcoming_events = @event.event_definition.events.where.not(id: @event.id).where('occurs_on >= ?', Time.zone.now).order(occurs_on: :asc).page(1).per(4)
     render layout: false
   end
 

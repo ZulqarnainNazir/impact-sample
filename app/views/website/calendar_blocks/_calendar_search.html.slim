@@ -2,7 +2,7 @@
 
 - start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
 
-- has_clear_search = params[:blog_search].present? || params[:start_date].present?
+- has_clear_search = params[:blog_search].present? || params[:start_date].present? || params[:filter_kinds].present? || params[:source_id].present?
 
 = form_tag request_url + '#' + feedname, method: :get, class: "search-events col-xs-12", name: "feedname" do
 
@@ -28,10 +28,21 @@
 
       label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
         'Start Date
-        = text_field_tag :start_date, start_date_parsed&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%m/%d/%Y"), class: 'form-control', data: {provide: 'datepicker'}, placeholder: Date.today.strftime('%b %d %Y')
+        = text_field_tag :start_date, @start_date_parsed&.in_time_zone("Pacific Time (US & Canada)")&.strftime("%m/%d/%Y"), class: 'form-control', data: {provide: 'datepicker'}, placeholder: Date.today.strftime('%b %d %Y')
       label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
         'Search
         = text_field_tag :blog_search, params[:blog_search], placeholder: 'Keyword', class: 'form-control'
+
+      - if @sources.any?
+        label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
+          | Source
+          = select_tag "source_id", options_for_select(@sources, params[:source_id]), include_blank: true, class: 'form-control'
+
+      / - if @categories.any?
+      /   label.col-xs-12 class=(has_clear_search ? 'col-md-2' : 'col-md-3')
+      /     | Categories
+      /     = select_tag "category_id", options_for_select(@categories, params[:category_id]), include_blank: true, class: 'form-control'
+      /
 
       - if has_clear_search
         .col-xs-6.col-md-2
@@ -58,34 +69,17 @@
         i.fa.fa-list-alt.m-r-sm
         'Agenda View
 
-  - if event_kinds.size != 1
+    .row
 
-    .panel.panel-default.p-sm.p-t-0.p-b-0
+      a.filter-toggle.col-xs-12.m-t-xs.m-b-xs aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-event-filter"
+        'Filter Event Types
+        i.fa.fa-chevron-down.m-l-xs
+        i.fa.fa-chevron-up.m-l-xs
 
-      .row
-
-        a.filter-toggle.col-xs-12.m-t-xs.m-b-xs aria-expanded="false" data-toggle="collapse" type="button" style="cursor: pointer;" data-target="#search-event-filter"
-          'Filter Results
-          i.fa.fa-chevron-down.m-l-xs
-          i.fa.fa-chevron-up.m-l-xs
-
-        #search-event-filter.collapse.col-xs-12 class=("in" unless params[:filter_kinds].blank?)
-
-          .row
-
-            - kind_names = ['events', 'classes', 'deadlines']
-
-            - kind_names.each_index do |i|
-
-              - if event_kinds.include?(i)
-
-                - n = kind_names[i]
-                - val = params[:filter_kinds]&.include?(i.to_s)
-
-                label.col-xs-8.col-sm-3.m-t-xs
-                  = n.titlecase
-                  = check_box_tag "filter_kinds[]", "#{i}", val, class: '', style: 'margin-left: 10px; vertical-align: text-top'
-
-            .col-xs-4.col-sm-3
-              button.btn.btn-primary.m-b-sm style="float: right"
-                | Submit
+      #search-event-filter.collapse.col-xs-12 class=("in" unless params[:filter_kinds].blank?)
+        .row
+          - kind_names = ['events', 'classes', 'deadlines']
+          - kind_names.each_index do |i|
+            label.col-xs-8.col-sm-3.m-t-xs
+              = kind_names[i].titlecase
+              = check_box_tag "filter_kinds[]", "#{i}", event_kinds.include?(i) ? true : false, class: '', style: 'margin-left: 10px; vertical-align: text-top'

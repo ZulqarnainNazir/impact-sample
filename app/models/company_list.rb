@@ -16,6 +16,8 @@ class CompanyList < ActiveRecord::Base
     )
   }
 
+  validates :name, presence: true
+
   def calendar_widgets
     CalendarWidget.where('(?) = ANY (company_list_ids)', self.id.to_s)
   end
@@ -27,7 +29,5 @@ class CompanyList < ActiveRecord::Base
   def self.select_collection(business_id)
     select("company_lists.id, company_lists.name").where(:business_id => business_id)
   end
-
-  validates :name, presence: true
 
 end

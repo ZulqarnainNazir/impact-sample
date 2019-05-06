@@ -1,49 +1,46 @@
 - request_url = url_for({ controller: params[:controller], action: params[:action] })
 - reach_occurences = []
 - cache_unless params[:blog_search].present? || params[:content_types].present?, [blog_feed_block, blog_feed_block.cache_sensitive_key(params)] do
-    div.col-xs-12.b-p-h-xl class=blog_feed_block.custom_class id="content-feed-widget-#{blog_feed_block.id}" style="color: #{blog_feed_block.foreground_color};"
-      a id=blog_feed_block.custom_anchor_id
-      - Rails.logger.info "BLOG FEED BLOCK id: #{blog_feed_block.id}"
-      - Rails.logger.info "BLOG FEED BLOCK params: #{params.to_json}"
-      - if params[:blog_search].present? && !params[:blog_search].empty?
-        - Rails.logger.info "BLOG FEED BLOCK Case 1"
-        - posts = blog_search_base(blog_feed_block, blog_feed_block.business, params[:blog_search], content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
-      - elsif params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
-        - Rails.logger.info "BLOG FEED BLOCK Case 2"
 
-        - posts = events_organized_desc(blog_feed_block, blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
-      - else
-        - Rails.logger.info "BLOG FEED BLOCK Case 3"
-        - posts = posts(blog_feed_block, blog_feed_block.business, content_types: params[:content_types], content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), page: params[:page], limit: blog_feed_block.items_limit)
-      a name="blog-feed"
-      - if blog_feed_block.include_search == "true"
-        div.row style="padding-top:30px; text-align:center;"
-          = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
-      .grid
-        - if posts&.any?
-          - if params[:content_types].present? && params[:content_types].count == 1 && params[:content_types].first == "Event"
-            - posts.to_a.each do |posts|
-              - reach_occurences << posts.business.id
-              - if blog_feed_block.business == posts.business
-                = render posts
-              - else
-                = render :partial => "website/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
+  / TODO - How to move this to view while still allowing multiple embeds on page?
+
+  - if params[:content_types]
+    - content_types = params[:content_types]
+  / - elsif @page.groups.where(type: 'BlogFeedGroup').first.try(:blocks)
+  - elsif blog_feed_block.content_types.present?
+    / TODO - Below returns wrong types so should update source to pass correct types (remove event, change custompost to post) so don't need the delete and add functions
+    / - @content_types = @page.groups.where(type: 'BlogFeedGroup').first.blocks.first.content_types.split
+    - content_types = blog_feed_block.content_types.split
+    - content_types.delete('Event')
+    - if content_types.include?('CustomPost')
+      - content_types.delete('CustomPost')
+      - content_types << 'Post'
+  - else
+    - content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+
+  - posts = get_content(business: blog_feed_block.business, embed: blog_feed_block, query: params[:blog_search], content_types: content_types, content_category_ids: blog_feed_block.content_category_ids ? blog_feed_block.content_category_ids.split : '', content_tag_ids: blog_feed_block.content_tag_ids ? blog_feed_block.content_tag_ids.split : '', page: params[:page], per_page: blog_feed_block.items_limit)
+
+  div.col-xs-12.b-p-h-xl class=blog_feed_block.custom_class id="content-feed-widget-#{blog_feed_block.id}" style="color: #{blog_feed_block.foreground_color};"
+    a id=blog_feed_block.custom_anchor_id
+    a name="blog-feed"
+    - if blog_feed_block.include_search == "true"
+      = render partial: 'website/blog_pages/search_collapsed', locals: {request_url: request_url}
+    .grid
+      - if posts&.any?
+        - posts.to_a.each do |post|
+          - reach_occurences << post.business.id
+          - if blog_feed_block.business.id == post.business.id
+            = render post
           - else
-            - order_the_events(posts.to_a).each do |post|
-              - reach_occurences << post.business.id
-              - if blog_feed_block.business == post.business
-                = render post
-              - else
-                = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
-
-        - elsif !posts.present? || posts.empty?
-          div.col-xs-9
-          h2 Nothing matched your search or there is no content here yet...
-      - if blog_feed_block.link_version == 'link_paginate'
-        .text-center.clear-container
-          = paginate posts
-      - elsif blog_feed_block.link?
-        p.clear-container = link_to blog_feed_block.link_label, blog_feed_block.link_location, class: 'btn btn-default', role: 'button', target: (blog_feed_block.link_target_blank ? :_blank : nil), rel: (blog_feed_block.link_no_follow ? 'no-follow' : nil)
+            = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
+      - else
+        div.col-xs-9
+        h2 Nothing matched your search or there is no content here yet...
+    - if blog_feed_block.link_version == 'link_paginate'
+      .text-center.clear-container
+        = paginate posts
+    - elsif blog_feed_block.link?
+      p.clear-container = link_to blog_feed_block.link_label, blog_feed_block.link_location, class: 'btn btn-default', role: 'button', target: (blog_feed_block.link_target_blank ? :_blank : nil), rel: (blog_feed_block.link_no_follow ? 'no-follow' : nil)
 
 javascript:
   console.log("Recording Reach");
