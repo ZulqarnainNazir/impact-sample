@@ -3,6 +3,7 @@
 class Super::BusinessDataController < SuperController
   before_action :set_business, except: [:index]
   layout 'businesses'
+  include Concerns::Connections
 
   def index #index of master copies of firms
   	#business table holds core business data for all firms, including those that have
@@ -22,6 +23,12 @@ class Super::BusinessDataController < SuperController
 
   def edit
   	@location = @business.location
+
+    @supporters = supporters(@business)
+    @recent_supporters = @supporters.select { |supporter_company| current_user.last_sign_in_at - supporter_company.created_at <= 0 }
+
+    @supporting = supporting(@business)
+    @recent_supporting = @supporting.select {|supporting_company| current_user.last_sign_in_at - supporting_company.created_at <= 0}
   end
 
   def update
