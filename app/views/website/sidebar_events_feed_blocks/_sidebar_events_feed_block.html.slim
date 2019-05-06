@@ -1,10 +1,10 @@
 - cache [sidebar_events_feed_block, sidebar_events_feed_block.cache_sensitive_key(params)] do
   .sidebar-events class=sidebar_events_feed_block.custom_class
     a id=sidebar_events_feed_block.custom_anchor_id
-    / TODO - NEeds to be moved to controller
+    / TODO - Needs to be moved to controller
     / - posts = get_events(business: sidebar_events_feed_block.business, page: 1, per_page: sidebar_events_feed_block.items_limit)
-    - get_content(business: sidebar_events_feed_block.business, page: 1, per_page: sidebar_events_feed_block.items_limit)
-    = render @posts
+    - posts = get_content(business: sidebar_events_feed_block.business, page: 1, per_page: sidebar_events_feed_block.items_limit)
+    = render posts
     - if sidebar_events_feed_block.link_version == 'link_paginate'
       = paginate posts
     - elsif sidebar_events_feed_block.link?
