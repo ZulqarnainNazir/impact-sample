@@ -156,7 +156,7 @@ class Website::BaseController < ApplicationController
 
   before_action do
 
-    if @website.footer_block
+    if @website.footer_block && @website.footer_block.theme == 'columns_with_feeds'
       @footer_content = get_content(business: @business, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Post"], content_category_ids: Array(@business.website.footer_block.left_category_ids), per_page: @business.website.footer_block.left_number_of_feed_items.to_i)
       @footer_events = get_events(business: @business, content_category_ids: Array(@business.website.footer_block.right_category_ids), per_page: @business.website.footer_block.right_number_of_feed_items.to_i)
     end
