@@ -22,6 +22,36 @@ $(document).ready(function(){
     });
   };
 
+  if (!$.fn.dataTable.isDataTable('table.datatable')) {
+    var table = $('table.serverside-datatable').DataTable({
+      processing: true,
+      serverSide: true,
+      // sAjaxDataProp: "",
+      ajax: $(table).data('url'),
+      pageLength: 10,
+      responsive: true,
+      "columnDefs": [ {
+          "targets": 'no-sort',
+          "orderable": false,
+      } ],
+      dom: '<"html5buttons"B>lTfgitp',
+      buttons: [
+        {extend: 'copy'},
+        {extend: 'csv'},
+        {extend: 'excel', title: 'Export'},
+        {extend: 'pdf', title: 'Export'},
+        {extend: 'print', customize: function (win) {
+          $(win.document.body).addClass('white-bg');
+          $(win.document.body).css('font-size', '10px');
+          $(win.document.body).find('table')
+                              .addClass('compact')
+                              .css('font-size', 'inherit');
+          }
+        }
+      ]
+    });
+  };
+
   if (!$.fn.dataTable.isDataTable('table.simple-datatable')) {
     var table = $('table.simple-datatable').DataTable({
         paging: false,

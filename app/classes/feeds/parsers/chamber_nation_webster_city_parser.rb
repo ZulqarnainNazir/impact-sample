@@ -5,7 +5,7 @@ module Feeds
     class ChamberNationWebsterCityParser < Feeds::Parsers::RssParser
       def event_from_entry(event)
         event_metadata = event_metadata_hash(event)
-        parsed_title   = Nickel.parse(event.title)
+        parsed_title   = Nickel.parse(event.title.gsub(/Weekly|Daily|Monthly/, ''))
         occurence      = parsed_title.occurrences[0]
         orig_title     = event.title
         title          = parsed_title.message.sub(': ', '')

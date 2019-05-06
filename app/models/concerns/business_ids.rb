@@ -3,7 +3,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     def get_business_ids
-      CompanyList.where(id: company_list_ids).includes(:companies).pluck('companies.company_business_id')
+      CompanyList.where(id: company_list_ids).includes(:companies).pluck('companies.company_business_id').compact
     end
   end
 end
