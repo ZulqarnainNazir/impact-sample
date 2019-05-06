@@ -1,11 +1,10 @@
 .container
-  = render 'website/calendar_blocks/calendar_widget_inner'
+  / = render 'website/calendar_blocks/calendar_widget_inner'
+  = render 'widgets/calendar_widgets/calendar_widget_inner', widget: true
   div.text-center
     p
       span Powered by
       = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-review", target: "_blank"
-
-
 
 javascript:
 		$(document).ready(function() {
@@ -14,13 +13,13 @@ javascript:
 		    var modal = $('.calendar-modal[data-slug="' + slug + '"]');
 		      modal.modal('show');
 
-		    var url = modal.parent().find("a[data-toggle='modal']").data('url');
-
-		    $(".modal-body").html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
-
-		    $.get(url, function(response) {
-		      $(".modal-body").html(response)
-		    });
+		    // var url = modal.parent().find("a[data-toggle='modal']").data('url');
+        //
+		    // $(".modal-body").html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+        //
+		    // $.get(url, function(response) {
+		    //   $(".modal-body").html(response)
+		    // });
 		  }
 		});
 

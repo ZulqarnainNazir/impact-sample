@@ -117,7 +117,6 @@
           .tab-pane.active id="tab-All-#{business.id}"
             / - raise StandardError, business.offers.merge(business.event_definitions).to_json
             - content = Kaminari.paginate_array((business.offers.where(published_status:true) + business.event_definitions.where(published_status:true) + business.posts.where(published_status:true) + business.quick_posts.where(published_status:true) + business.galleries.where(published_status:true) + business.jobs.where(published_status: true)).sort_by(&:published_at).reverse).page(params[:page]).per(8)
-            -
             - content.each do |thing|
               / - case thing.class
               - if thing.class == Offer

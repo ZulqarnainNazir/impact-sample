@@ -1,4 +1,6 @@
 class Businesses::DashboardsController < Businesses::BaseController
+  include Concerns::Connections
+
   before_action if: :user_signed_in? do
     unless current_user.authorized_businesses.any?
       redirect_to :new_onboard_website_business
@@ -27,6 +29,12 @@ class Businesses::DashboardsController < Businesses::BaseController
     @show_campaigns = self.show_campaigns
     @show_community_content_feed = self.show_community_content_feed
     @show_participation_status = self.show_participation_status
+
+    @supporters = supporters(@business)
+    @recent_supporters = @supporters.select { |supporter_company| current_user.last_sign_in_at - supporter_company.created_at <= 0 }
+
+    @supporting = supporting(@business)
+    @recent_supporting = @supporting.select {|supporting_company| current_user.last_sign_in_at - supporting_company.created_at <= 0}
   end
 
   protected

@@ -1,19 +1,17 @@
 .row
   .col-sm-12
     div
-      - posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
       a name="blog-feed"
       .m-t-lg
       .grid
-        - if posts.present? && !posts.empty?
-          / h1 =@content_feed_widget.content_types.to_s.split(' ')
-          - order_the_events(posts.to_a).each do |posts|
-            - if @content_feed_widget.business.id == posts.business.id
-              = render :partial => "listing/listings/partials/#{posts.to_partial_path}", :object => posts
+        - if @posts.present? && !@posts.empty?
+          - @posts.to_a.each do |post|
+            - if @content_feed_widget.business.id == post.business.id
+              = render :partial => "listing/listings/partials/#{post.to_partial_path}", :object => post
             - else
-              = render :partial => "listing/listings/partials/#{posts.to_partial_path}" + "_modal", :object => posts, as: posts.class.name.underscore
-        - elsif !posts.present? || posts.empty?
+              = render :partial => "listing/listings/partials/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
+        - else
           div.col-xs-9
           h2 There is no content here yet...
       .text-center.clear-container
-        = paginate posts
+        = paginate @posts

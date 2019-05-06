@@ -81,12 +81,7 @@ class Offer < ActiveRecord::Base
   end
 
   def as_indexed_json(options = {})
-    as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
-  end
-
-  def sorting_date
-    #change made to published_at, see comments there as of 2.16.17
-    published_at
+    as_json(methods: %i[content_category_ids content_tag_ids published_at])
   end
 
   def published_at

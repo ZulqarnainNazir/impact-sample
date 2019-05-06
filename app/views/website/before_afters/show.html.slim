@@ -3,7 +3,7 @@
   - description @before_after.meta_description
   - image @before_after.main_image.try(:attachment_url, :jumbo) || @before_after.before_image.try(:attachment_url, :jumbo) || @before_after.after_image.try(:attachment_url, :jumbo)
   - unless @before_after.after_image.nil? || @before_after.image_size.nil?
-    - image_width = image_og_width(@before_after.image_size[0]) 
+    - image_width = image_og_width(@before_after.image_size[0])
     - image_height = image_og_height(@before_after.image_size[1])
   - canonical_url website_generic_post_url(@before_after.to_generic_param)
 - else
@@ -21,7 +21,7 @@
             h1 = @before_after.title
             / span.text-muted> Posted #{time_ago_in_words @before_after.published_at} ago
             - if @before_after.content_categories.any?
-              span.text-muted> in 
+              span.text-muted> in
               - (@before_after.content_categories + @before_after.content_tags).each_with_index do |classification, i|
                 = link_to classification.name.titleize , [:website, classification]
                 - if i < @before_after.content_categories.count + @before_after.content_tags.count - 1
@@ -41,10 +41,10 @@
 
           p.m-t-md = sanitize_html @before_after.description
     - if @website.content_blog_sidebar? || @website.events_sidebar?
-      .col-sm-4.m-t-lg 
+      .col-sm-4.m-t-lg
         .show-sidebar-grid
           - if @website.content_blog_sidebar?
-            = render posts(nil, @business), small: true
+            = render @sidebar_content, small: true
           - if @website.events_sidebar?
             .row
-              = render events(@business), small: true, stack: true
+              = render @sidebar_events, small: true, stack: true

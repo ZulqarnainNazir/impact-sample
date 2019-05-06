@@ -67,7 +67,7 @@ class Businesses::SuperSettingsController < Businesses::BaseController
 
   def add_legacy_plan
     if params[:add_legacy] == "true"
-      
+
       if !@business.subscription.nil?
         @subscription = @business.subscription
         @subscription.plan = SubscriptionPlan.legacy_plan
@@ -77,7 +77,7 @@ class Businesses::SuperSettingsController < Businesses::BaseController
         @subscription.subscriber = @business
       end
 
-      if @subscription.save && @business.create_and_enable_all_modules
+      if @subscription.save
         flash[:notice] = "This business is now on the Legacy Plan."
       else
         flash[:notice] = "Legacy Plan Add Failed. Try Again."

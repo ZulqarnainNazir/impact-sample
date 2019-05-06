@@ -1,78 +1,57 @@
-require 'search_helper'
 class Listing::ListingsController < ApplicationController
   layout "listing"
 
-  include SearchHelper
-  helper_method :events, :posts
+  include ContentSearchConcern
+  include EventSearchConcern
+
   before_action do
     @business = Business.listing_lookup(params[:lookup])
 
-    if @business.events.any?
-      @calendar_widget = CalendarWidget.new         # empty "fake" calendar widget in order to display business events
-    end
-
-    @content_feed_widget = ContentFeedWidget.new  # empty "fake" content widget in order to display business content
-    @content_feed_widget.business = @business
-    @content_feed_widget.max_items = 12
-    params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost", "Post",""]
-    @posts = content_feed_widget_base(@content_feed_widget, @content_feed_widget.business, content_types: params[:content_types], content_category_ids: @content_feed_widget.content_category_ids.map(&:to_i), content_tag_ids: @content_feed_widget.content_tag_ids.map(&:to_i), page: params[:page], limit: @content_feed_widget.max_items)
-
-
+    # TODO - Move to variables and pass to partial.
     @truncate_rev = true
-    @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
+    @masonry = true
 
-    @masonry = true #tells content partials to use masonry format
-    #params[:content_types] = ["QuickPost","Gallery", "BeforeAfter", "Offer", "Job" ,"CustomPost",""]
-
-    #code below is overriding code found in search_helper
-    @content_types_all = "QuickPost Gallery BeforeAfter Offer Post Job CustomPost".split
-    if !params[:content_types].present? && !@content_types_all.nil?
-      params[:content_types] = @content_types_all
-    elsif params[:content_types].present?
-      @content_types = params[:content_types]
-    end
-    if @content_types_all.present?
-      prune_content_types_all(@content_types_all)
-    end
-    #end of overriding-code
-
+    # TODO - Where should this live?
     @og_title = @business.name
-
     if @business.location.city.present? || @business.location.state.present?
       @og_title = @og_title + ','
+      if @business.location.city.present?
+        @og_title = @og_title + ' ' + @business.location.city
+      end
+      if @business.location.state.present?
+        @og_title = @og_title + ' ' + @business.location.state
+      end
     end
 
-    if @business.location.city.present?
-      @og_title = @og_title + ' ' + @business.location.city
-    end
-
-    if @business.location.state.present?
-      @og_title = @og_title + ' ' + @business.location.state
-    end
-
-  end
-
-  def setup_content_types
-    @masonry = true #tells content partials to use masonry format
-
-    #code below is overriding code found in search_helper
-    @content_types_all = "Event Gallery BeforeAfter Offer Post Job".split
-    if !params[:content_types].present? && !@content_types_all.nil?
-      params[:content_types] = @content_types_all
-    elsif params[:content_types].present?
+    # TODO - Why does this not work if below is in index....works locally but not on heroku...
+    if params[:content_types]
       @content_types = params[:content_types]
+    else
+      @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
     end
-    if @content_types_all.present?
-      prune_content_types_all(@content_types_all)
-    end
-    #end of overriding-code
+
+    @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)
+
+    @reviews = @business.reviews.published.order(reviewed_at: :desc).page(params[:page]).per(20)
+
+    @start_date_parsed = Date.strptime(params[:start_date], '%m/%d/%Y') rescue Date.parse(params[:start_date]) rescue nil
+    @start_date = @start_date_parsed.strftime('%F') rescue ''
+    @end_date = ''
+
+    @event_kinds = params[:filter_kinds] ? params[:filter_kinds] : []
+
+    @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
+
   end
 
   def index
 
+
   end
 
+
   #CONTENT TYPES
+  # TODO - This has to do with weird routes for lookup that sean is working on.
   def content_type
     if params[:content] == 'before_after'
       @post = @business.before_afters.find_by(slug: params[:content_type])
@@ -111,22 +90,9 @@ class Listing::ListingsController < ApplicationController
   end
 
   def listing
+    # TODO - Move to variables and pass to partial.
   	@masonry = true #tells content partials to use masonry format
 
-  	#code below is overriding code found in search_helper
-  	@content_types_all = "Event Gallery BeforeAfter Offer Post Job".split
-    if !params[:content_types].present? && !@content_types_all.nil?
-      params[:content_types] = @content_types_all
-    elsif params[:content_types].present?
-      @content_types = params[:content_types]
-    end
-    if @content_types_all.present?
-      prune_content_types_all(@content_types_all)
-    end
-    #end of overriding-code
-  end
-
-  def overview
   end
 
   def local_connections

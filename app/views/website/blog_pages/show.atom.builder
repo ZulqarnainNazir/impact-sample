@@ -1,13 +1,13 @@
-blog_feed_group = @page.groups.where(type: 'BlogFeedGroup').first
-blog_feed_block = blog_feed_group.blocks.where(type: 'BlogFeedBlock').first if blog_feed_group
-blog_feed_posts = posts(blog_feed_block, blog_feed_block.business, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), limit: blog_feed_block.items_limit) if blog_feed_block
+# blog_feed_group = @page.groups.where(type: 'BlogFeedGroup').first
+# blog_feed_block = blog_feed_group.blocks.where(type: 'BlogFeedBlock').first if blog_feed_group
+# blog_feed_posts = get_content(business: blog_feed_block.business, embed: blog_feed_block, content_category_ids: blog_feed_block.content_category_ids.to_s.split(' ').map(&:to_i), content_tag_ids: blog_feed_block.content_tag_ids.to_s.split(' ').map(&:to_i), order: 'desc', per_page: blog_feed_block.items_limit) if blog_feed_block
 
-if blog_feed_group && blog_feed_block
+if @posts.any?
   atom_feed do |atom|
     atom.title @page.title
     atom.updated blog_feed_posts.first.updated_at if blog_feed_posts.first
 
-    blog_feed_posts.each do |post|
+    @posts.each do |post|
       atom.entry post, url: website_generic_post_url(post.to_generic_param) do |entry|
         entry.title post.title, type: 'html'
 

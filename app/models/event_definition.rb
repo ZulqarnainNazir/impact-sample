@@ -111,6 +111,10 @@ class EventDefinition < ActiveRecord::Base
     created_at
   end
 
+  # def occurs_on
+  #   event.created_at
+  # end
+
   def published_at
     #published_at is used in content_feed_search.rb and content_blog_search.rb to
     #as the method an each loop leverages to sort content types before displaying them.

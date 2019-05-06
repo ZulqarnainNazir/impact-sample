@@ -165,11 +165,7 @@ class Job < ActiveRecord::Base
   end
 
   def as_indexed_json(options = {})
-    as_json(methods: %i[content_category_ids content_tag_ids sorting_date])
-  end
-
-  def sorting_date
-    created_at
+    as_json(methods: %i[content_category_ids content_tag_ids published_at])
   end
 
   def published_at
