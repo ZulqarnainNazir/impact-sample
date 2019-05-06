@@ -144,7 +144,7 @@ class Website::BaseController < ApplicationController
 
   before_action do
 
-    if @website.content_blog_sidebar?
+    if @website.content_blog_sidebar? || @website.content_blog_sidebar_on_reviews?
       @sidebar_content = get_content(business: @business, content_types: ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], per_page: '4')
     end
 
