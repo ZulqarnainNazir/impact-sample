@@ -1,6 +1,7 @@
 desc 'Custom Elasticsearch Import'
 task custom_elasticsearch_import: [:environment] do
 
+	Job.import force: true
 	Gallery.import force: true
 	QuickPost.import force: true
 	EventDefinition.import force: true
