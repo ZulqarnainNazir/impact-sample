@@ -2,6 +2,7 @@ class Listing::ReviewsController < ApplicationController
   layout :resolve_layout
 
   include ApplicationHelper
+  include ContentSearchConcern
 
   before_action do
     @business = Business.listing_lookup(params[:lookup])
