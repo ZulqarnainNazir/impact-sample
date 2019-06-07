@@ -64,7 +64,8 @@ module EventSearchConcern
     end
 
     # if !include_past && (!start_date.present? || !end_date.present?)
-    if !include_past && !(start_date.present? && start_date <= today) && !(end_date.present? && end_date <= today)
+    # if !include_past && !(start_date.present? && start_date <= today) && !(end_date.present? && end_date <= today)
+    if !include_past || !start_date.present? || !end_date.present)
 
       dsl1[:filter][:and] << {
         or: [
@@ -95,7 +96,7 @@ module EventSearchConcern
           {
             range: {
               occurs_on: {
-                gte: start_date.beginning_of_day,
+                gte: start_date,
               },
             },
           },
@@ -115,7 +116,7 @@ module EventSearchConcern
           {
             range: {
               occurs_on: {
-                lte: end_date.beginning_of_day,
+                lte: end_date,
               },
             },
           },
@@ -197,6 +198,8 @@ module EventSearchConcern
         occurs_on: order,
       }
     end
+
+    puts dsl1
 
     # TODO - This should be Event and includes(:event_definition)
     all_events = Elasticsearch::Model.search(dsl1, [Event]).records.to_a
