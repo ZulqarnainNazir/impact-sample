@@ -65,7 +65,7 @@ module EventSearchConcern
 
     # if !include_past && (!start_date.present? || !end_date.present?)
     # if !include_past && !(start_date.present? && start_date <= today) && !(end_date.present? && end_date <= today)
-    if !include_past || !start_date.present? || !end_date.present)
+    if !include_past || !start_date.present? || !end_date.present
 
       dsl1[:filter][:and] << {
         or: [
