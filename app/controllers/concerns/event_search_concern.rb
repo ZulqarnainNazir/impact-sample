@@ -9,6 +9,8 @@ module EventSearchConcern
 
     # Initialize
     query = query.to_s.strip
+    t = Time.zone.now # is this still off by 7.hours...may need to adjust further but not sure how that will be affected by timezones.
+    today = t.beginning_of_day
 
     # Apply Business Logic
     business_ids = []
@@ -61,7 +63,9 @@ module EventSearchConcern
       }
     end
 
-    if !include_past && (!start_date.present? || !end_date.present?)
+    # if !include_past && (!start_date.present? || !end_date.present?)
+    if !include_past && !(start_date.present? && start_date <= today) && !(end_date.present? && end_date <= today)
+
       dsl1[:filter][:and] << {
         or: [
           {
@@ -72,7 +76,7 @@ module EventSearchConcern
           {
             range: {
               occurs_on: {
-                gte: Time.zone.now,
+                gte: today,
               },
             },
           },
@@ -91,7 +95,7 @@ module EventSearchConcern
           {
             range: {
               occurs_on: {
-                gte: start_date,
+                gte: start_date.beginning_of_day,
               },
             },
           },
@@ -111,7 +115,7 @@ module EventSearchConcern
           {
             range: {
               occurs_on: {
-                lte: end_date,
+                lte: end_date.beginning_of_day,
               },
             },
           },
