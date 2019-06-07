@@ -9,8 +9,6 @@ module EventSearchConcern
 
     # Initialize
     query = query.to_s.strip
-    t = Time.zone.now # is this still off by 7.hours...may need to adjust further but not sure how that will be affected by timezones.
-    today = t.beginning_of_day
 
     # Apply Business Logic
     business_ids = []
@@ -63,8 +61,7 @@ module EventSearchConcern
       }
     end
 
-    # if !include_past && (!start_date.present? || !end_date.present?)
-    if !include_past && !(start_date.present? && start_date <= today) && !(end_date.present? && end_date <= today)
+    if !include_past && !(start_date.present? || end_date.present?)
       dsl1[:filter][:and] << {
         or: [
           {
@@ -75,7 +72,8 @@ module EventSearchConcern
           {
             range: {
               occurs_on: {
-                gte: today,
+                # Note this means that if events are on this date but already happend today then they will still be displayed. To fix, we need to add a time to occurs_on or somehow use start time in the filter.
+                gte: Time.zone.now.to_date,
               },
             },
           },
