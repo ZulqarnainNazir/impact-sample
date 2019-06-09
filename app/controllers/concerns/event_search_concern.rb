@@ -195,8 +195,6 @@ module EventSearchConcern
       }
     end
 
-    puts dsl1
-
     # TODO - This should be Event and includes(:event_definition)
     all_events = Elasticsearch::Model.search(dsl1, [Event]).records.to_a
     # @all_events = Elasticsearch::Model.search(dsl1, [EventDefinition]).includes(:event_definitions).records.to_a
