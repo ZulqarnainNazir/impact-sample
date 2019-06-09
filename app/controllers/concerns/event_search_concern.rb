@@ -61,7 +61,7 @@ module EventSearchConcern
       }
     end
 
-    if !include_past && (!start_date.present? || !end_date.present?)
+    if !include_past && !(start_date.present? || end_date.present?)
       dsl1[:filter][:and] << {
         or: [
           {
@@ -72,7 +72,8 @@ module EventSearchConcern
           {
             range: {
               occurs_on: {
-                gte: Time.zone.now,
+                # Note this means that if events are on this date but already happend today then they will still be displayed. To fix, we need to add a time to occurs_on or somehow use start time in the filter.
+                gte: Time.zone.now.to_date,
               },
             },
           },
@@ -193,6 +194,8 @@ module EventSearchConcern
         occurs_on: order,
       }
     end
+
+    puts dsl1
 
     # TODO - This should be Event and includes(:event_definition)
     all_events = Elasticsearch::Model.search(dsl1, [Event]).records.to_a
