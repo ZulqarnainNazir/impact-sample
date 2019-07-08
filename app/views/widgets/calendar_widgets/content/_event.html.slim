@@ -92,10 +92,10 @@ div.row
 
       - if !event.event_definition.virtual_event?
         - if location && !event.event_definition.hide_full_address? && !event.event_definition.show_city_only?
-          - map_params = { center: [location.latitude, location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298', q: [location.address_line_one, location.address_line_two].reject(&:blank?).join(' '), zoom: 15}.to_param
+          - map_params = map_params_for_full_address(location)
           /iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
         - elsif location && event.event_definition.show_city_only?
-          - map_params = { key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298', q: location.city_and_state, zoom: 10}.to_param
+          - map_params = map_params_for_city_and_state(location)
           /iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
       - elsif event.event_definition.virtual_event?
           div style="": strong Virtual Event

@@ -28,8 +28,7 @@
   #map-col-id.col-sm-4
     - if !@business.location.hide_address?
       - if @business.location && !@business.location.latitude.nil? && !@business.location.longitude.nil?
-        - map_params = { center: [@business.location.latitude, @business.location.longitude].reject(&:blank?).join(','), key: 'AIzaSyCA09Ziec6NhT3FboPtVnHEfCaLBzqk298',
-          q: [@business.location.address_line_one, @business.location.address_line_two].reject(&:blank?).join(' '), zoom: 12 }.to_param
+        - map_params = map_params_for_location(@business.location, zoom: 12)
         iframe width="100%" height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
 .row
   .col-sm-9
