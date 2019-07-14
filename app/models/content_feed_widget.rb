@@ -23,7 +23,8 @@ class ContentFeedWidget < ActiveRecord::Base
      ["Gallery", "Galleries"],
      ["BeforeAfter", "Before & Afters"],
      ["Offer", "Offers"],
-     ["Job", "Jobs"],
+     ["PaidJob", "Paid Jobs"],
+     ["VolunteerJob", "Volunteer Jobs"],
      ["CustomPost", "Custom Posts"]]
   end
 end

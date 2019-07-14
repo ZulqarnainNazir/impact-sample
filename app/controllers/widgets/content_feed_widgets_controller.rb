@@ -14,10 +14,10 @@ class Widgets::ContentFeedWidgetsController < Widgets::BaseController
         @content_types << 'Post'
       end
     else
-      @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+      @content_types = "QuickPost Offer PaidJob VolunteerJob Gallery BeforeAfter Post".split
     end
 
-    @content_types_all = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    @content_types_all = "QuickPost Offer PaidJob VolunteerJob Gallery BeforeAfter Post".split
 
     @posts = get_content(business: @business, embed: @content_feed_widget, query: params[:blog_search], content_types: @content_types, content_category_ids: @content_feed_widget.content_category_ids, content_tag_ids: @content_feed_widget.content_tag_ids, order: 'desc', page: params[:page], per_page: @content_feed_widget.max_items)
 

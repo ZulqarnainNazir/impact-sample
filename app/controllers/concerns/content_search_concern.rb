@@ -3,7 +3,7 @@ module ContentSearchConcern
 
   # Finds content for a given business for display in widget, web builder or listings
   # publised can have 3 values true, false or nil where nil = all, defulat is true
-  def get_content(business: nil, embed: nil, query: nil, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Offer", "Job" ,"Post"], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10, published: true)
+  def get_content(business: nil, embed: nil, query: nil, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Offer", "VolunteerJob", "PaidJob" ,"Post"], content_category_ids: [], content_tag_ids: [], order: "desc", page: 1, per_page: 10, published: true)
     raise "Business is Required" unless business.present?
 
     # Initialize
@@ -30,8 +30,8 @@ module ContentSearchConcern
         all_content += search_posts(business_ids, content_category_ids, content_tag_ids, query, order, published)
       when 'Offer'
         all_content += search_offers(business_ids, content_category_ids, content_tag_ids, query, order, published)
-      when 'Job'
-        all_content += search_jobs(business_ids, content_category_ids, content_tag_ids, query, order, published)
+      when 'PaidJob', 'VolunteerJob'
+        all_content += search_jobs(type, business_ids, content_category_ids, content_tag_ids, query, order, published)
       when 'Gallery'
         all_content += search_galleries(business_ids, content_category_ids, content_tag_ids, query, order, published)
       when 'BeforeAfter'
@@ -275,8 +275,7 @@ module ContentSearchConcern
 
   end
 
-  def search_jobs(business_ids, content_category_ids, content_tag_ids, query, order, published)
-
+  def search_jobs(type, business_ids, content_category_ids, content_tag_ids, query, order, published)
     dsl1 = {
       size: 800,
 
@@ -321,6 +320,14 @@ module ContentSearchConcern
           content_tag_ids: content_tag_ids,
         },
       }
+    end
+
+    if type.present?
+      if type == 'PaidJob'
+        dsl1[:filter][:and] << { terms: { kind: [Job::KIND_PAID] } }
+      elsif type == 'VolunteerJob'
+        dsl1[:filter][:and] << { terms: { kind: [Job::KIND_VOLUNTEER] } }
+      end
     end
 
     if query.present?

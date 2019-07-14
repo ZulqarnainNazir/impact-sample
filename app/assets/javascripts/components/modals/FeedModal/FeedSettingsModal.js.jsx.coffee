@@ -133,7 +133,12 @@ FeedSettingsModal = React.createClass
               </div>
               <div className="col-xs-4">
                 <div className="checkbox" style={{ margin: 0 }}>
-                  <label><input className="feed_settings_content_type" id="feed_settings_content_type_job" type="checkbox" data-type="Job" defaultChecked="true" /> Jobs</label>
+                  <label><input className="feed_settings_content_type" id="feed_settings_content_type_job_paid" type="checkbox" data-type="PaidJob" defaultChecked="true" /> Paid Jobs</label>
+                </div>
+              </div>
+              <div className="col-xs-4">
+                <div className="checkbox" style={{ margin: 0 }}>
+                  <label><input className="feed_settings_content_type" id="feed_settings_content_type_job_volunteer" type="checkbox" data-type="VolunteerJob" defaultChecked="true" /> Volunteer Jobs</label>
                 </div>
               </div>
             </div>
