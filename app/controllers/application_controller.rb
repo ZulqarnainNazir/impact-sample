@@ -3,6 +3,17 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # This is used in many contexts, be sure to search the project and become aware of them all before updating this.
+  ALL_CONTENT_TYPES = [
+    'QuickPost',
+    'Gallery',
+    'BeforeAfter',
+    'Offer',
+    'PaidJob',
+    'VolunteerJob',
+    'Post'
+  ].freeze
+
   # Permit additional parameters in Devise registration controllers.
   before_action if: :devise_controller? do
     devise_parameter_sanitizer.for(:sign_up) << %i[first_name last_name]

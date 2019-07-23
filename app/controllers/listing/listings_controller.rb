@@ -27,7 +27,7 @@ class Listing::ListingsController < ApplicationController
     if params[:content_types]
       @content_types = params[:content_types]
     else
-      @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+      @content_types = ALL_CONTENT_TYPES
     end
 
     @posts = get_content(business: @business, content_types: @content_types, page: params[:page], per_page: 12)

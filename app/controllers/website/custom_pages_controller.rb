@@ -2,11 +2,9 @@ class Website::CustomPagesController < Website::BaseController
 
   before_action do
     @page = @website.webpages.custom.find_by_pathname!(params[:id])
-
   end
 
   def show
-
     #TODO - How to do this and still allow multiple emebeds on page?
 
     # Get Posts - Curerntly in view partial
@@ -28,7 +26,5 @@ class Website::CustomPagesController < Website::BaseController
     # Get Events - Currently in view partial
     # if @page.groups.where(type: 'CalendarGroup').first.present?
     #   @calendar_widget = CalendarWidget.find_by(id: @page.groups.where(type: 'CalendarGroup').first.blocks.first.widget_id)
-
   end
-
 end

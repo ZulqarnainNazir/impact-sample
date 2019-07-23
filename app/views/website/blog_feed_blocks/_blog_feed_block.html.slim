@@ -16,7 +16,7 @@
       - content_types.delete('CustomPost')
       - content_types << 'Post'
   - else
-    - content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    - content_types = ApplicationController::ALL_CONTENT_TYPES
 
   - posts = get_content(business: blog_feed_block.business, embed: blog_feed_block, query: params[:blog_search], content_types: content_types, content_category_ids: blog_feed_block.content_category_ids ? blog_feed_block.content_category_ids.split : '', content_tag_ids: blog_feed_block.content_tag_ids ? blog_feed_block.content_tag_ids.split : '', page: params[:page], per_page: blog_feed_block.items_limit)
 
@@ -32,7 +32,7 @@
           - if blog_feed_block.business.id == post.business.id
             = render post
           - else
-            = render :partial => "website/#{post.to_partial_path}" + "_modal", :object => post, as: post.class.name.underscore
+            = render partial: "website/#{post.to_partial_path}" + "_modal", object: post, as: post.class.name.underscore
       - else
         div.col-xs-9
         h2 Nothing matched your search or there is no content here yet...

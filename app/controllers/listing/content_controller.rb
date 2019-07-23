@@ -12,20 +12,26 @@ class Listing::ContentController < ApplicationController
     @content_feed_widget.max_items = 12
 
     if params[:content_types]
-        @content_types = params[:content_types]
+      @content_types = params[:content_types]
     else
-      @content_types = "QuickPost Offer Job Gallery BeforeAfter Post".split
+      @content_types = ALL_CONTENT_TYPES
     end
 
-    @posts = get_content(business: @content_feed_widget.business, embed: @content_feed_widget, content_types: @content_types, content_category_ids: @content_feed_widget.content_category_ids, content_tag_ids: @content_feed_widget.content_tag_ids, order: 'desc', page: params[:page], per_page: @content_feed_widget.max_items)
-
+    @posts = get_content(
+      business: @content_feed_widget.business,
+      embed: @content_feed_widget,
+      content_types: @content_types,
+      content_category_ids: @content_feed_widget.content_category_ids,
+      content_tag_ids: @content_feed_widget.content_tag_ids,
+      order: 'desc',
+      page: params[:page],
+      per_page: @content_feed_widget.max_items
+    )
   end
 
   def index
-
     @business = Business.listing_lookup(params[:lookup])
     @masonry = true #tells content partials to use masonry format
-
   end
 
   #CONTENT TYPES

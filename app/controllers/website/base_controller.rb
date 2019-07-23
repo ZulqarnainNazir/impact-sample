@@ -6,7 +6,7 @@ class Website::BaseController < ApplicationController
   helper_method :get_events, :get_content
 
   before_action do
-    @content_types_all = "QuickPost Offer Job Gallery BeforeAfter Post".split
+    @content_types_all = ALL_CONTENT_TYPES
   end
 
   before_action do
@@ -143,24 +143,20 @@ class Website::BaseController < ApplicationController
   # end
 
   before_action do
-
     if @website.content_blog_sidebar? || @website.content_blog_sidebar_on_reviews?
-      @sidebar_content = get_content(business: @business, content_types: ["QuickPost", "Post", "Offer", "Job", "Gallery", "BeforeAfter"], per_page: '4')
+      @sidebar_content = get_content(business: @business, content_types: ALL_CONTENT_TYPES, per_page: '4')
     end
 
     if @website.events_sidebar?
       @sidebar_events = get_events(business: @business, per_page: 4)
     end
-
   end
 
   before_action do
-
     if @website.footer_block && @website.footer_block.theme == 'columns_with_feeds'
       @footer_content = get_content(business: @business, content_types: ["QuickPost", "Gallery", "BeforeAfter", "Post"], content_category_ids: Array(@business.website.footer_block.left_category_ids), per_page: @business.website.footer_block.left_number_of_feed_items.to_i)
       @footer_events = get_events(business: @business, content_category_ids: Array(@business.website.footer_block.right_category_ids), per_page: @business.website.footer_block.right_number_of_feed_items.to_i)
     end
-
   end
 
   rescue_from 'ActionController::InvalidAuthenticityToken' do |exception|
