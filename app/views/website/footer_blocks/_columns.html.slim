@@ -14,7 +14,6 @@ footer.site-footer.site-footer-columns
             p.h3.fn.org = location.name
             - if location.phone_number? && !location.hide_phone?
               p.tel = link_to number_to_phone(location.phone_number), "tel:#{location.phone_number.gsub(/[^0-9]/, '')}", itemprop: "telephone"
-            = render partial: 'website/contact_pages/opening', collection: @business.location.openings
             - if !location.hide_address?
               - if location.latitude? && location.longitude?
                 p.adr = link_to "//maps.google.com/maps?ll=#{location.latitude},#{location.longitude}", itemprop: 'address', target: :_blank do
@@ -27,6 +26,7 @@ footer.site-footer.site-footer-columns
                   => location.address_line_one
                   br>
                   = location.address_line_two
+            p = render partial: 'website/contact_pages/opening', collection: @business.location.openings
             - if location.email? && !location.hide_email?
               p = link_to location.email, "mailto:#{location.email}", class: 'email'
   .container.text-center
