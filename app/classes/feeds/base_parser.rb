@@ -9,17 +9,17 @@ module Feeds
     end
 
     def get_location(location_search)
-      searches = Geocoder.search(location_search)
+      searches = MultiGeocoderService.search(location_search)
       search = searches.first
 
       return {} unless search.present?
 
       Feeds::Location.new({
-        street1: "#{search.house_number} #{search.street}",
+        street1: search.address,
         city: search.city,
         state: search.state_code,
         zip_code: search.postal_code,
-        name: search.neighbourhood
+        name: search.name
       })
     end
   end

@@ -1,6 +1,7 @@
 class Location < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  include MultiGeocodable
 
   belongs_to :business, touch: true
 
@@ -25,11 +26,6 @@ class Location < ActiveRecord::Base
     validates :zip_code, presence: true
   end
 
-  Geocoder.configure(:timeout => 30)
-  geocoded_by :full_address
-
-  after_validation :geocode, if: :requires_geocode?
-
   after_commit do
     self.__elasticsearch__.index_document
     event_definitions.each(&:touch)
@@ -50,27 +46,6 @@ class Location < ActiveRecord::Base
     )
   end
 
-  def address_line_one
-    [street1, street2].reject(&:blank?).join(', ')
-  end
-
-  def address_line_two
-    [[city, state].reject(&:blank?).join(', '), zip_code].reject(&:blank?).join(' ')
-  end
-
-  def city_and_state
-    [[city, state].reject(&:blank?).join(', ')].reject(&:blank?).join(' ')
-  end
-
-  def full_address
-    address = [address_line_one, address_line_two].reject(&:blank?).join(', ')
-    address.blank? ? nil : address
-  end
-
-  def requires_geocode?
-    !(latitude && longitude) || street1_changed? || street2_changed? || city_changed? || state_changed? || zip_code_changed?
-  end
-
   def update_attributes_only_if_blank(attributes, create = false)
     attributes.each { |k,v| attributes.delete(k) unless read_attribute(k).blank? }
     if create == false
@@ -78,5 +53,4 @@ class Location < ActiveRecord::Base
     end
     update_attributes(attributes)
   end
-
 end
