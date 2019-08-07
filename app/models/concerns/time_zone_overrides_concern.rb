@@ -35,8 +35,8 @@ module TimeZoneOverridesConcern
     before_zone = Time.zone
     Time.zone = associated_time_zone
     self.time_zone = associated_time_zone
-    offset = start_date.in_time_zone(associated_time_zone).formatted_offset
     date = start_date || end_date || Date.today
+    offset = date.in_time_zone(associated_time_zone).formatted_offset
     datetime = build_date_time_with_zone(date, Time.parse(value), associated_time_zone, offset)
     write_attribute :start_time, datetime.utc
   ensure
