@@ -31,6 +31,7 @@ module TimeZoneOverridesConcern
 
   def start_time=(value)
     return unless value.present?
+    value = value.to_s
     before_zone = Time.zone
     Time.zone = associated_time_zone
     self.time_zone = associated_time_zone
@@ -44,6 +45,7 @@ module TimeZoneOverridesConcern
 
   def end_time=(value)
     return unless value.present?
+    value = value.to_s
     before_zone = Time.zone
     Time.zone = associated_time_zone
     self.time_zone = associated_time_zone
