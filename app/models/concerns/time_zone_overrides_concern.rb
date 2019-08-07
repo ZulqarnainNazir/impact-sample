@@ -14,7 +14,8 @@ module TimeZoneOverridesConcern
     before_zone = Time.zone
     zone = force_time_zone || associated_time_zone
     Time.zone = zone
-    build_date_time_with_zone(start_date, read_attribute(:start_time), zone)
+    date = start_date || end_date || Date.today
+    build_date_time_with_zone(date, read_attribute(:start_time), zone)
   ensure
     Time.zone = before_zone
   end
@@ -24,7 +25,8 @@ module TimeZoneOverridesConcern
     before_zone = Time.zone
     zone = force_time_zone || associated_time_zone
     Time.zone = zone
-    build_date_time_with_zone((end_date||start_date), read_attribute(:end_time), zone)
+    date = end_date || start_date || Date.today
+    build_date_time_with_zone(date, read_attribute(:end_time), zone)
   ensure
     Time.zone = before_zone
   end
