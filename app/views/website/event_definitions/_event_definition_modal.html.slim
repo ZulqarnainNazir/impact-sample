@@ -30,7 +30,7 @@
                   = event.occurs_on.strftime('%b %d, %Y ')
                   br
                   i.fa.fa-clock-o.m-r-xs 
-                  = event_definition.start_time.strftime(' %I:%M %p')
+                  = event_definition.start_time(@business&.time_zone).strftime(' %I:%M %p %Z')
               = link_to "#", id: "event-definition-#{event_definition.id}-2", class: 'grid-feed-title content-card', "data-toggle" => "modal", 'data-target' => "event-definition-modal-#{event_definition.id}", 'data-slug'=>"#{event_definition.slug}"
 
                  = truncate sanitize(event_definition.title.titleize), length: 60, omission: '... '

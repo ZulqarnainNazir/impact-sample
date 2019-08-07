@@ -4,12 +4,12 @@ class EventFeed < ActiveRecord::Base
   # Users areable to create feeds for unclaimed businesses.
   belongs_to :creator, class_name: 'User'
 
-  has_many :imported_event_definitions
+  has_many :imported_event_definitions, dependent: :destroy
 
   belongs_to :location
   accepts_nested_attributes_for :location, allow_destroy: true, reject_if: :all_blank
 
-  validates :name, :url, presence: true
+  validates :name, :url, :time_zone, presence: true
   validate :uniq_url, :ensure_parsable
 
   after_save :import

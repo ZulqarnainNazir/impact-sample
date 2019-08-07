@@ -24,18 +24,18 @@
   'Travel & Destinations',
   'Weddings & Parties',
 ].each do |category_name|
-  Category.create!(name: category_name)
+  Category.where(name: category_name).first_or_create
 end
 
 case Rails.env
 when "development"
-  User.create!(
+  User.where(
     first_name: "Dev",
     last_name: "Admin",
     email: "dev@email.com",
     super_user: true,
-    password: "password",
-  )
+    password: "password"
+  ).first_or_create
 when "production"
 
 end

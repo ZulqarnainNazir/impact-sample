@@ -31,6 +31,8 @@ class Location < ActiveRecord::Base
     event_definitions.each(&:touch)
   end
 
+  after_save :update_business_timezone, if: :requires_geocode?
+
   if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
     settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end
@@ -52,5 +54,13 @@ class Location < ActiveRecord::Base
       attributes.delete :email
     end
     update_attributes(attributes)
+  end
+
+  private
+
+  def update_business_timezone
+    return unless business
+    business.record_timezone(refresh: true)
+    business.save
   end
 end

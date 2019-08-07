@@ -37,8 +37,6 @@ class ImportedEventDefinition < EventDefinition
     validates_presence_of :start_time
   end
 
-
-
   def self.model_name
     EventDefinition.model_name
   end

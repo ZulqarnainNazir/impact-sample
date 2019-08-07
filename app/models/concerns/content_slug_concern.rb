@@ -7,7 +7,7 @@ module ContentSlugConcern
   end
 
   def generate_slug
-    self.slug = find_available_slug(title.gsub(/['’]/, '').gsub(/,/, '').parameterize, 1) if title.present?
+    self.slug ||= find_available_slug(title.gsub(/['’]/, '').gsub(/,/, '').parameterize, 1) if title.present?
   end
 
   def validate_presence_of_slug?

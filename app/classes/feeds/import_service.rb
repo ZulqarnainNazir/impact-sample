@@ -36,7 +36,7 @@ module Feeds
     end
 
     def run
-      imported_events = parser.parse(event_feed.url)
+      imported_events = parser.parse(event_feed)
       imported_events.map do |event|
         stats[:total] += 1
 

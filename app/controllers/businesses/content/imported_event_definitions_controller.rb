@@ -6,6 +6,12 @@ class Businesses::Content::ImportedEventDefinitionsController < Businesses::Cont
   before_action :set_event_definition
 
   before_action only: %i[create update] do
+    if params[:event_definition]
+      if params[:event_definition][:repetition] == 'null'
+        params[:event_definition][:repetition] = ''
+      end
+    end
+
     if params[:imported_event_definition]
       if params[:imported_event_definition][:repetition] == 'null'
         params[:imported_event_definition][:repetition] = ''

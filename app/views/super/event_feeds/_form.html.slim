@@ -6,8 +6,11 @@
         = f.label :name, 'Name*', class: 'control-label'
         = f.text_field :name, class: 'form-control'
       .form-group
-        = f.label :url, class: 'control-label'
+        = f.label :url, 'URL*', class: 'control-label'
         = f.text_area :url, class: 'form-control'
+      .form-group
+        = f.label :time_zone, 'Time Zone*', class: 'control-label'
+        = f.collection_select :time_zone, ActiveSupport::TimeZone.us_zones, :name, :to_s, { include_blank: true }, class: 'form-control'
       .form-group
         = f.label :business_id, 'Business', class: 'control-label'
         = f.collection_select :business_id, Business.all, :id, :name, {},class: 'form-control'

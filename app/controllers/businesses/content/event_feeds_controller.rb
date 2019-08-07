@@ -93,7 +93,7 @@ class Businesses::Content::EventFeedsController < Businesses::Content::BaseContr
   end
 
   def event_feed_params
-    params.require(:event_feed).permit(:name, :url, :business_id, location_attributes: [
+    params.require(:event_feed).permit(:name, :url, :business_id, :time_zone, location_attributes: [
                                        :id, :name, :email, :street1, :street2, :city, :state,
                                        :zip_code, :phone_number, :business_id, :_destroy ])
   end

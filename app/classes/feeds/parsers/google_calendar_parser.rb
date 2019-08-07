@@ -2,15 +2,15 @@
 module Feeds
   module Parsers
     class GoogleCalendarParser < Feeds::BaseParser
-      def parse(url)
-        doc = open(url).read
+      def parse(feed)
+        doc = open(feed.url).read
         json = JSON.parse(doc)
         json.dig('items').map do |entry|
-          event_from_entry(entry)
+          event_from_entry(entry, feed)
         end
       end
 
-      def event_from_entry(entry)
+      def event_from_entry(entry, feed)
         Feeds::Event.new({
           event_id: "#{entry.dig('id')}#{entry.dig('iCalUID')}",
           url: entry.dig('htmlLink'),

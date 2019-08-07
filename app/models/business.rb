@@ -109,6 +109,7 @@ class Business < ActiveRecord::Base
 
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
   before_save :generate_slug, unless: :slug?
+  before_save :record_timezone, unless: :time_zone?
   # after_create :generate_intercom_company
 
   def business_basics_completeness
@@ -743,6 +744,10 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def time_zone_abbreviation
+    Time.now.in_time_zone(time_zone).strftime('%Z')
+  end
+
   def account_status
     #checks the ownership and user relationships with business
     if self.owners.present?
@@ -963,6 +968,14 @@ class Business < ActiveRecord::Base
   def review_rating_average
     rating = self.reviews.map {|n| n.overall_rating}.sum / self.reviews.count
     rating.round(1)
+  end
+
+  def record_timezone(refresh: false)
+    return if time_zone.present? && !refresh
+    logger.info "Attaching timezone for Business #{id}"
+    if location && location.latitude && location.longitude
+      self.time_zone = Timezone.lookup(location.latitude, location.longitude).to_s
+    end
   end
 
   private

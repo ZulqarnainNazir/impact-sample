@@ -10,6 +10,11 @@
     = f.text_field :url, class: 'form-control', placeholder: 'Include full feed url - will start with http or https'
     - if f.object.errors[:url].any?
       label class="error" = f.object.errors[:url].first
+  .form-group
+    = f.label :time_zone, 'Time Zone', class: 'control-label'
+    = f.collection_select :time_zone, ActiveSupport::TimeZone.us_zones, :name, :to_s, { include_blank: true }, class: 'form-control'
+    - if f.object.errors[:time_zone].any?
+      label class="error" = f.object.errors[:time_zone].first
 
   .m-y-3
     h4 Default Location

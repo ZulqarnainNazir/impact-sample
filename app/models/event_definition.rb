@@ -1,8 +1,10 @@
 class EventDefinition < ActiveRecord::Base
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  # These are implemented explicitly below
+  # include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
+  include TimeZoneOverridesConcern
 
   # enum kind: { event: 0, is_aclass: 1, deadline: 2 }
 
@@ -21,6 +23,8 @@ class EventDefinition < ActiveRecord::Base
   has_placed_image :main_image
 
   accepts_nested_attributes_for :event_definition_location, allow_destroy: true, reject_if: :all_blank
+
+  after_initialize :init
 
   validates_presence_of :business, if: :not_draft?
   # validates :event_definition_location, presence: true, unless: :is_virtual_event?
@@ -43,6 +47,28 @@ class EventDefinition < ActiveRecord::Base
     LocableEventsExportJob.perform_later(business)
   end
 
+  # This is trying to fix a strange issue where an elasticsearch exception would be raised preventing the destroy
+  # of an event. More details are available here: https://github.com/elastic/elasticsearch-rails/issues/567#issuecomment-265376318
+  after_commit on: [:create] { __elasticsearch__.index_document }
+  after_commit on: [:update] { __elasticsearch__.index_document }
+  after_commit on: [:destroy] do
+    begin
+      __elasticsearch__.delete_document
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      logger.warn "No document is indexed for EventDefinition##{id} to delete"
+    end
+  end
+
+  if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
+    settings index: { number_of_shards: 1, number_of_replicas: 0 }
+  end
+
+  def init
+    if repetition == 'null'
+      self.repetition = nil
+    end
+  end
+
   def end_date_cannot_before_start_date
     if ( !end_time.blank? || !end_time.nil? ) && ( !end_date.blank? || !end_date.nil? )
       time_comparison = if !end_time.blank? || !end_time.nil?
@@ -59,10 +85,6 @@ class EventDefinition < ActiveRecord::Base
       errors.add(:end_date, "can't be before start date") if
         ( !end_date.blank? || !end_time.nil? ) and time_comparison
     end
-  end
-
-  if ENV['REDUCE_ELASTICSEARCH_REPLICAS'].present?
-    settings index: { number_of_shards: 1, number_of_replicas: 0 }
   end
 
   def share_callback_url
@@ -89,6 +111,10 @@ class EventDefinition < ActiveRecord::Base
     elsif kind == 2
       "Deadline"
     end
+  end
+
+  def imported?
+    type == 'ImportedEventDefinition'
   end
 
   def not_draft?

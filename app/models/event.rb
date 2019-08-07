@@ -64,14 +64,14 @@ class Event < ActiveRecord::Base
     event_definition.phone
   end
 
-  def start_time
+  def start_time(force_time_zone = nil)
     #leveraged in as_indexed_json for ElasticSearch
-    event_definition.start_time
+    event_definition.start_time(force_time_zone)
   end
 
-  def end_time
+  def end_time(force_time_zone = nil)
     #leveraged in as_indexed_json for ElasticSearch
-    event_definition.end_time
+    event_definition.end_time(force_time_zone)
   end
 
   def meta_description

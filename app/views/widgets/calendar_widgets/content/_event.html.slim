@@ -54,10 +54,10 @@ div.row
             = event.occurs_on.strftime('%b %d, %Y')
           .block
             i.fa.fa-clock-o
-            = event.event_definition.start_time.strftime('%I:%M %p')
-            - if event.event_definition.end_time.present?
+            = event.event_definition.start_time(@business.time_zone).strftime('%I:%M %p %Z')
+            - if event.event_definition.end_time(@business.time_zone).present?
               | &nbsp;to
-              = event.event_definition.end_time.strftime('%I:%M %p')
+              = event.event_definition.end_time(@business.time_zone).strftime('%I:%M %p %Z')
           - if event.event_definition.price?
             .block
               i.fa.fa-money

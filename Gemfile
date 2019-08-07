@@ -20,7 +20,6 @@ gem 'aws-sdk', '~> 2'
 
 gem 'rails_autoscale_agent'
 
-
 gem 'bcrypt'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
@@ -62,6 +61,7 @@ gem 'sanitize'
 gem 'sass-rails'
 gem 'sidekiq'
 gem 'slim-rails'
+gem 'timezone', '~> 1'
 gem 'turbolinks'
 gem 'twitter-typeahead-rails'
 gem 'uglifier'

@@ -36,8 +36,8 @@
       .time
         .start-datetime
           i.fa.fa-clock-o.m-r-xs
-          - if event.start_time.present?
-            = event.start_time.strftime('%I:%M %p, ')
+          - if event.start_time(@business&.time_zone).present?
+            = event.start_time(@business&.time_zone).strftime('%I:%M %p %Z, ')
           = event.occurs_on.strftime('%b %d, %Y')
       .location
         - if event.event_definition.location.present? && event.event_definition.location.city.present? && event.event_definition.location.state.present?

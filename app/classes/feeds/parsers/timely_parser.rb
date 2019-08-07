@@ -3,16 +3,16 @@
 module Feeds
   module Parsers
     class TimelyParser < Feeds::BaseParser
-      def parse(url)
-        xml = URI(url).read
+      def parse(feed)
+        xml = URI(feed.url).read
 
         events = Hash.from_xml(xml).dig('vcalendar', 'vevent')
         events.map do |entry|
-          event_from_entry(entry)
+          event_from_entry(entry, feed)
         end
       end
 
-      def event_from_entry(entry)
+      def event_from_entry(entry, feed)
         Feeds::Event.new({
           event_id: entry.dig('uid'),
           title: entry.dig('summary').try(:force_encoding, 'utf-8'),

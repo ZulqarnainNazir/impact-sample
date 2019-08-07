@@ -4,7 +4,7 @@
 module Feeds
   module Parsers
     class ChamberMasterParser < Feeds::Parsers::RssParser
-      def event_from_entry(entry)
+      def event_from_entry(entry, feed)
         parsed_title = Nickel.parse(entry.title)
         occurence    = parsed_title.occurrences[0]
         orig_title   = entry.title
@@ -23,8 +23,8 @@ module Feeds
           title: title,
           start_date: start_date,
           end_date: end_date,
-          start_time: desc_occurence&.start_time&.to_time,
-          end_time: desc_occurence&.end_time&.to_time
+          start_time: parse_time(feed, desc_occurence&.start_time&.to_time, start_date),
+          end_time: parse_time(feed, desc_occurence&.end_time&.to_time, end_date)
         )
       end
 

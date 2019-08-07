@@ -38,6 +38,6 @@ class Super::EventFeedsController < SuperController
   end
 
   def event_feed_params
-    params.require(:event_feed).permit(:name, :url, :business_id)
+    params.require(:event_feed).permit(:name, :url, :business_id, :time_zone)
   end
 end

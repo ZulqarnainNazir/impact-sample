@@ -21,7 +21,7 @@
                 = event.occurs_on.strftime('%b %d, %Y ')
                 br
                 i.fa.fa-clock-o.m-r-xs 
-                = event.event_definition.start_time.strftime(' %I:%M %p')
+                = event.event_definition.start_time&.strftime(' %I:%M %p %Z')
             = link_to listing_content_type_path(business.generate_listing_segment, event.id, content: 'event'), target: :_blank, class: 'grid-feed-title'
                = truncate sanitize(event.event_definition.title.titleize), length: 60, omission: '... '
             - if event.event_definition.try(:location)

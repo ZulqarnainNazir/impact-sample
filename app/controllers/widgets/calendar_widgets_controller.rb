@@ -83,16 +83,14 @@ class Widgets::CalendarWidgetsController < Widgets::BaseController
     if !params[:widget_layout].blank?
       @widget.layout = params[:widget_layout]
     end
-
   end
 
   def show
     @calendar_widget = CalendarWidget.where(:uuid => params[:uuid]).first
+    @business = @calendar_widget.business
     if @calendar_widget.blank?
       return false
     end
     @page = @calendar_widget.business.owned_companies.find(params[:business_id])
-
-
   end
 end

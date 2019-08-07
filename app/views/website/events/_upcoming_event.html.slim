@@ -27,7 +27,7 @@ div class=(stacked ?  'col-xs-12' : 'col-xs-12 col-sm-6 col-md-4')
         - if upcoming_event.event_definition.start_time.present?
             .start-time
               i.fa.fa-clock-o.m-r-xs
-              = upcoming_event.event_definition.start_time.strftime('%I:%M %p')
+              = upcoming_event.event_definition.start_time(@business&.time_zone).strftime('%I:%M %p %Z')
       .location
         - if upcoming_event.event_definition.location.present?
           .street1

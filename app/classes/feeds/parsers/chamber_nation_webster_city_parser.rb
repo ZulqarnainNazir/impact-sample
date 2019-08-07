@@ -3,7 +3,7 @@
 module Feeds
   module Parsers
     class ChamberNationWebsterCityParser < Feeds::Parsers::RssParser
-      def event_from_entry(event)
+      def event_from_entry(event, feed)
         event_metadata = event_metadata_hash(event)
         parsed_title   = Nickel.parse(event.title.gsub(/Weekly|Daily|Monthly/, ''))
         occurence      = parsed_title.occurrences[0]
@@ -13,15 +13,19 @@ module Feeds
         description = Nokogiri::HTML(event.summary).text
 
         digest_key = "#{event.url}_#{event_metadata.dig(:start_date)}"
+        start_date = event_metadata.dig(:start_date)
+        end_date   = event_metadata.dig(:end_date)
+        start_time = event_metadata.dig(:start_time)
+        end_time   = event_metadata.dig(:end_time)
 
         Feeds::Event.new event.to_h.merge(
           summary: description,
           event_id: digest(digest_key),
           title: title,
-          start_date: event_metadata.dig(:start_date),
-          start_time: event_metadata.dig(:start_time),
-          end_date:  event_metadata.dig(:end_date),
-          end_time: event_metadata.dig(:end_time),
+          start_date: start_date,
+          start_time: parse_time(feed, start_time, start_date),
+          end_date:  end_date,
+          end_time: parse_time(feed, end_time, end_date),
           url: event_metadata.dig(:url),
           location: get_location(event_metadata.dig(:google_maps_url), event_metadata.dig(:location_name))
         )
@@ -56,9 +60,8 @@ module Feeds
         event_hash[:location_name] = find_value_by_text(doc: doc, text: 'Location')&.split(',')&.first
         event_hash[:google_maps_url] = doc.css('a').map { |link| link['href'] if link['href'].include?('maps.google') }.compact.first
         if time
-          # FIXME: this is a hack to convert central time to UTC?
-          event_hash[:start_time] = ("#{time.first} Central".to_time - 6.hours)
-          event_hash[:end_time] = ("#{time.last} Central".to_time - 6.hours)
+          event_hash[:start_time] = time.first
+          event_hash[:end_time] = time.last
         end
 
         event_hash

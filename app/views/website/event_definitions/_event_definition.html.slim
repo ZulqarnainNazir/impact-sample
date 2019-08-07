@@ -30,7 +30,7 @@
                   = event.occurs_on.strftime('%b %d, %Y ')
                   br
                   i.fa.fa-clock-o.m-r-xs 
-                  = event_definition.start_time.strftime(' %I:%M %p')
+                  = event_definition.start_time(@business&.time_zone).strftime(' %I:%M %p %Z')
               = link_to [:website, event, only_path: false, host: business.website.host, protocol: :http], target: :_blank, class: 'grid-feed-title'
                  = truncate sanitize(event_definition.title.titleize), length: 60, omission: '... '
               - if event_definition.try(:location)

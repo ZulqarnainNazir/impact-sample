@@ -6,11 +6,14 @@ module MultiGeocodable
   end
 
   def multi_geocode
-    result = MultiGeocoderService.search(full_address)
-    if result
-      self.latitude = result.latitude
-      self.longitude = result.longitude
+    if multi_geocode_result
+      self.latitude = multi_geocode_result.latitude
+      self.longitude = multi_geocode_result.longitude
     end
+  end
+
+  def multi_geocode_result
+    @multi_geocode_result ||= MultiGeocoderService.search(full_address)
   end
 
   def full_address
