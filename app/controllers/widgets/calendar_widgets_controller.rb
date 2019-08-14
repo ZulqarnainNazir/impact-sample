@@ -47,7 +47,7 @@ class Widgets::CalendarWidgetsController < Widgets::BaseController
     if params[:filter_kinds].present?
       @filter_kinds = params[:filter_kinds].map { |s| s.to_i }.select { |e| @filterable_kinds.include?(e) }
     else
-      @filter_kinds = []
+      @filter_kinds = @calendar_widget.filter_kinds.compact
     end
 
     ids = @calendar_widget.get_business_ids << @calendar_widget.business.id
