@@ -52,27 +52,27 @@ module ApplicationHelper
 
 
   def listing_path_url(business)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}"
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}"
   end
 
   def listing_path_url_with_segment(business)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_segment}"
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_segment}"
   end
 
   def listing_path_content_url(business, content, content_type)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/#{content}?content=#{content_type}"
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/#{content}?content=#{content_type}"
   end
 
   def listing_path_review_url(business, review)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/show/#{review.to_param}"
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/show/#{review.to_param}"
   end
 
   def listing_path_calendar_url(business, calendar)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/calendars/#{calendar.to_param}"
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/calendars/#{calendar.to_param}"
   end
 
   def listing_path_directory_url(business, directory)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/directories/#{directory.to_param}"
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/directories/#{directory.to_param}"
   end
 
   def listing_path_event_url(business, event)
@@ -80,7 +80,7 @@ module ApplicationHelper
   end
 
   def listing_path_new_review_url(business, score, token)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/new?feedback_score=#{score}&feedback_token=#{token}"
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/new?feedback_score=#{score}&feedback_token=#{token}"
   end
 
   def shared?(post, business)

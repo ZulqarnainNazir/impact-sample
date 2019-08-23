@@ -215,7 +215,7 @@ html lang="en"
           = render @website.footer_block
           .text-center.locable-footer style="margin: 1em 0"
             = link_to 'https://www.locable.com', target: :_blank do
-              = image_tag 'Locable_Dark_Logo.png', protocol: :https, alt: 'Locable&#39;s Marketing Platform for Local Businesses'
+              img src="https://assets.locable.com/r/logo_small/d3dc23f4-8813-4fee-8b71-f03687efec36/Locable%20Logo%203a3a3a%20Gray.png" alt='Locable Web Platform for Marketing & Cross-Promotion'
             = @website.footer_injection.try(:html_safe)
     = yield :javascript
     = intercom_tag
