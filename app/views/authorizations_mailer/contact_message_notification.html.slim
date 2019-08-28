@@ -1,7 +1,6 @@
 div style="max-width: 600px; margin-left: auto; margin-right: auto;"
   h3 You have a new message!
   p A form has been submitted to your Locable account at #{link_to @authorization.business.name, [@authorization.business, :crm_contact_messages]}.
-  small Please do NOT reply to this message directly, use the email address included below...
   br
   br
   h4 First Name
@@ -15,4 +14,3 @@ div style="max-width: 600px; margin-left: auto; margin-right: auto;"
   h4 Message
   p = @contact_message.message
   br
-  small Again, please do NOT reply to this message directly! Use the email address included and view the entire submission in your account.
