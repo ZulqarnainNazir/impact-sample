@@ -316,4 +316,18 @@ namespace :scheduled do
   task trigger_weekly_new_follower_emails: :environment do
     trigger_summary_new_follower_emails('weekly', 86400 * 7, 86400 * 6.5)
   end
+
+  desc 'Remove suspicious users'
+  task remove_suspicious_users: :environment do
+    suspicious_email_domains = ENV.fetch('EMAIL_DOMAINS', 'tutanota.com,protonmail.com,inbox.lv,zoho.eu,netcourrier.com,mailfence.com,zoho.com,scryptmail.com,seznam.cz,msgsafe.io,fastmail.com')
+    suspicious_email_domains = suspicious_email_domains.split(',')
+    suspicious_email_domains.each do |suspicious_email_domain|
+      suspicious_users = User.where('users.email LIKE ?', "%@#{suspicious_email_domain}")
+      puts "Found #{suspicious_users.count} users with the #{suspicious_email_domain} domain"
+      suspicious_users.each do |suspicious_user|
+        puts "Destroying #{suspicious_user.attributes.slice('id', 'first_name', 'last_name', 'email').to_json}"
+        suspicious_user.destroy
+      end
+    end
+  end
 end

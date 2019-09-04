@@ -1,6 +1,7 @@
 class SuperBusinessDatumDatatable < ApplicationDatatable
   delegate :edit_super_business_datum_path, to: :@view
   delegate :merge_with_super_business_datum_path, to: :@view
+  delegate :business_authorizations_path, to: :@view
 
   private
 
@@ -19,8 +20,12 @@ class SuperBusinessDatumDatatable < ApplicationDatatable
           communities =  "None"
         end
 
+        user = business.owners.first || business.managers.first || business.users.first
+
         column << communities
         column << business.owned_companies.count
+        column << link_to("#{business.website_url}", business.website_url, target: '_blank')
+        column << link_to(user&.email, (business_authorizations_path(business) rescue '#'), target: '_blank')
 
         if business.in_impact
           status = "Active"
@@ -88,7 +93,7 @@ class SuperBusinessDatumDatatable < ApplicationDatatable
   def columns
     #columns you want to be searchable here
     # %w(id name in_impact updated_at)
-    %w(id name communities crm_companies in_impact updated_at)
+    %w(id name communities crm_companies website_url email in_impact updated_at)
   end
 
 end
