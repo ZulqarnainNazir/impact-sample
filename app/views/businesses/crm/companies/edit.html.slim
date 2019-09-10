@@ -43,7 +43,7 @@
             = form_for @company, url: [@business, :crm, @company], html: { class: "company-form form-horizontal"} do |form|
               .ibox.float-e-margins
                 .ibox-title
-                  h5 Company Details (Private)
+                  h5 Company Details
                   / .ibox-tools
                   /   a.collapse-link.btn.btn-default
                   /     | Manage Private Information
@@ -108,7 +108,7 @@
 
                   .ibox.collapsed
                     .ibox-title
-                      h5 Company General Information
+                      h5 Company General Information (Private)
                       .ibox-tools
                         a.collapse-link.btn.btn-default
                           | Edit Custom Details
@@ -130,7 +130,7 @@
 
                   .ibox.collapsed
                     .ibox-title
-                      h5 Company Location Information
+                      h5 Company Location Information (Private)
                       .ibox-tools
                         a.collapse-link.btn.btn-default
                           | Edit Private Address
@@ -177,7 +177,7 @@
                           .clearfix
 
                   .ibox-footer
-                    = form.button 'Save Private Changes', class: 'btn btn-primary btn-block'
+                    = form.button 'Save Company Detail Changes', class: 'btn btn-primary btn-block'
       .ibox.float-e-margins
         .ibox-title
           h4 Related People
