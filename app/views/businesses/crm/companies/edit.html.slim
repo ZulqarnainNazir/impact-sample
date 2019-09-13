@@ -29,8 +29,7 @@
                   = @company.business.location.phone_number
               p.m-b-none
                 | Website:
-                a href="#{@company.business.website_url}"
-                  = @company.business.website_url
+                = link_to(@company.business.website_url, @company.business.website_url, target: '_blank')
               p Description: #{@company.business.description && @company.business.description.length > 100 ? "#{@company.business.description[0..100]}..." : @company.business.description}
               a.company-view-more.btn.btn-sm.btn-white href="#company-more-collapse" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="company-profile-collapse"
                 i.fa.fa-chevron-down>

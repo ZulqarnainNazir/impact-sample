@@ -45,7 +45,7 @@ tr
         | Request Support
   td
     = company.business.get_estimated_reach
-  td = company.business.website_url
+  td = link_to("#{company.business.website_url}", company.business.website_url, target: '_blank')
   td = company.business.location.phone_number? ? company.business.location.phone_number : '--'
   td = company.business.location.street1
   td = company.business.location.city
