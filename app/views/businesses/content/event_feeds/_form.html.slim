@@ -17,6 +17,20 @@
       label class="error" = f.object.errors[:time_zone].first
 
   .m-y-3
+    hr
+      .row
+        .col-lg-4
+          div style=""
+            = react_component 'ImagePlacement',
+              imagesPath: business_images_path(@business),
+              inputPrefix: 'event_feed[default_event_image_placement_attributes]',
+              label: 'Default Event Image',
+              placement: f.object.default_event_image_placement_json,
+              presignedPost: s3_logo_presigned_post_hash,
+              bulkUploadPath: new_business_content_images_upload_path(@business),
+              showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+
+  .m-y-3
     h4 Default Location
 
     .input-group

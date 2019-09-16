@@ -1,4 +1,6 @@
 class Businesses::Content::EventFeedsController < Businesses::Content::BaseController
+  include PlacementAttributesConcern
+
   before_action except: [:new, :create] do
     @event_feed = EventFeed.find(params[:id])
   end
@@ -92,9 +94,21 @@ class Businesses::Content::EventFeedsController < Businesses::Content::BaseContr
     @event_feed.url = upload.public_url.to_s
   end
 
+  def location_attributes
+    [ :id, :name, :email, :street1, :street2, :city, :state, :zip_code,
+      :phone_number, :business_id, :_destroy ]
+  end
+
   def event_feed_params
-    params.require(:event_feed).permit(:name, :url, :business_id, :time_zone, location_attributes: [
-                                       :id, :name, :email, :street1, :street2, :city, :state,
-                                       :zip_code, :phone_number, :business_id, :_destroy ])
+    params.require(:event_feed).permit(
+      :name,
+      :url,
+      :business_id,
+      :time_zone,
+      location_attributes: location_attributes,
+      default_event_image_placement_attributes: placement_attributes
+    ).tap do |safe_params|
+      merge_placement_image_attributes safe_params, :default_event_image_placement_attributes
+    end
   end
 end

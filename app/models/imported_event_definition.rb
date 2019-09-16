@@ -7,6 +7,7 @@ class ImportedEventDefinition < EventDefinition
   document_type :event_definition
 
   after_save :reschedule_events!
+  after_save :ensure_default_image_if_none_present
 
   scope :pending, -> { where(import_pending: true) }
   scope :published, -> { where(import_pending: false)  }
@@ -57,6 +58,17 @@ class ImportedEventDefinition < EventDefinition
   end
 
   private
+
+  def ensure_default_image_if_none_present
+    return unless event_feed && event_feed.default_event_image.present?
+
+    unless self.main_image.present?
+      self.main_image = event_feed.default_event_image
+    end
+    unless self.event_image.present?
+      self.event_image = event_feed.default_event_image
+    end
+  end
 
   def venue_attached
     unless location.present? &&

@@ -1,4 +1,5 @@
 class EventFeed < ActiveRecord::Base
+  include PlacedImageConcern
   belongs_to :business
   # Creator isn't neccessarily a member of the associated business.
   # Users areable to create feeds for unclaimed businesses.
@@ -12,7 +13,10 @@ class EventFeed < ActiveRecord::Base
   validates :name, :url, :time_zone, presence: true
   validate :uniq_url, :ensure_parsable
 
+  has_placed_image :default_event_image
+
   after_save :import
+  after_save :update_event_images!
 
   def import(always_notify = true)
     FeedImportJob.perform_later id, always_notify
@@ -28,6 +32,12 @@ class EventFeed < ActiveRecord::Base
 
   def self.for_business(business)
     EventFeed.where('business_id IN (?)', business.owned_businesses.select{ |b| !b.in_impact }.map(&:id) + [business.id])
+  end
+
+  def update_event_images!
+    return unless default_event_image
+
+    EventFeedDefaultImageCopyJob.perform_later(id)
   end
 
   private
