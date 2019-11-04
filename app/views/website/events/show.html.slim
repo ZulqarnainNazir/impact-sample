@@ -44,61 +44,61 @@
 
             - unless @event.event_definition.hide_full_address? || @event.event_definition.virtual_event?
               - if !@event.event_definition.hide_full_address? && !@event.event_definition.show_city_only?
-                .block
+                .block.event-address
                   i.fa.fa-map-marker
                   span itemprop="address" itemtype="http://schema.org/PostalAddress" = location.full_address
               - if @event.event_definition.show_city_only?
-                .block
+                .block.event-address
                   i.fa.fa-map-marker
                   span itemprop="address" itemtype="http://schema.org/PostalAddress" = location.city_and_state
             - if @event.occurs_on.present?
-              .block
+              .block.event-time
                 i.fa.fa-calendar
                 span itemprop="startDate" = @event.occurs_on.strftime('%b %d, %Y')
             - if @event.event_definition.start_time.present?
-              .block
+              .block.event-time
                 i.fa.fa-clock-o
                 span itemprop="doorTime" = @event.event_definition.start_time(@business&.time_zone).strftime('%I:%M %p %Z')
                 - if @event.event_definition.end_time.present?
                   | &nbsp;to&nbsp;
                   = @event.event_definition.end_time(@business&.time_zone).strftime('%I:%M %p %Z')
             - if @event.event_definition.price?
-              .block
+              .block.event-price
                 i.fa.fa-money
                 = @event.event_definition.price, itemprop='price'
             - if !@event.event_definition.private?
-                .block
+                .block.event-private
                   strong.m-r-xs Private:
                   |No
             - elsif @event.event_definition.private?
-                .block
+                .block.event-private
                   strong.m-r-xs Private:
                   |Yes
 
             - if !@event.event_definition.rsvp_required?
-                .block
+                .block.event-rsvp
                   strong.m-r-xs RSVP Required:
                   |No
             - elsif @event.event_definition.rsvp_required?
-                .block
+                .block.event-rsvp
                   strong.m-r-xs RSVP Required:
                   |Yes
 
             - if @event.event_definition.url?
-                .block
+                .block.event-url
                   strong.m-r-xs
                     = link_to 'Click for More Info', url_with_http(@event.event_definition.url)
-
-        - if !@event.event_definition.virtual_event?
-          - if location && !@event.event_definition.hide_full_address? && !@event.event_definition.show_city_only?
-            - map_params = map_params_for_full_address(location)
-            iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
-          - elsif location && @event.event_definition.show_city_only?
-            - map_params = map_params_for_city_and_state(location)
-            iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
-        - elsif @event.event_definition.virtual_event?
-            div style="": strong Virtual Event
-            p Please note that this is a virtual event and has no physical location.
+        .event-map
+          - if !@event.event_definition.virtual_event?
+            - if location && !@event.event_definition.hide_full_address? && !@event.event_definition.show_city_only?
+              - map_params = map_params_for_full_address(location)
+              iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+            - elsif location && @event.event_definition.show_city_only?
+              - map_params = map_params_for_city_and_state(location)
+              iframe width="100%" height="210" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
+          - elsif @event.event_definition.virtual_event?
+              div style="": strong Virtual Event
+              p Please note that this is a virtual event and has no physical location.
 
         - if @event.event_definition.embed?
           = @event.event_definition.embed.html_safe
