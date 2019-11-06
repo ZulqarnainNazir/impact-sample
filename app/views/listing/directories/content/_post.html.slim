@@ -10,7 +10,7 @@
       - elsif post.published_status == false
         | Unpublished
       - else
-        |  #{post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%l:%M %P')}
+        |  #{post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%-l:%M %P')}
         br
         small.text-navy
           | #{time_ago_in_words post.published_at.in_time_zone("Pacific Time (US & Canada)")} ago
@@ -46,7 +46,7 @@
           .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
         - elsif placement.try(:image).try(:attachment_url, :thumbnail)
           = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive thumbnail pull-left', style: 'margin-right: 10px'
-          
+
         - if post.meta_description && post.meta_description.length > 0
           = truncate post.meta_description, length: 250
         - else

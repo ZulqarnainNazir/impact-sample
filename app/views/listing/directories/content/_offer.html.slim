@@ -10,7 +10,7 @@
       - elsif offer.published_status == false
         | Unpublished
       - else
-        |  #{offer.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%l:%M %P')}
+        |  #{offer.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%-l:%M %P')}
         br
         small.text-navy
           | #{time_ago_in_words offer.published_at.in_time_zone("Pacific Time (US & Canada)")} ago

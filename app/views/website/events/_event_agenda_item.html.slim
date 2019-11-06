@@ -1,9 +1,9 @@
 .col-xs-12.col-sm-6.col-md-12
   .event-block.agenda-item.m-t
     .time-range
-      = event.start_time(@business&.time_zone).strftime('%l:%M %P %Z')
+      = event.start_time(@business&.time_zone).strftime('%-l:%M %P %Z')
       - if event.end_time.present?
-        = event.end_time(@business&.time_zone).strftime(' - %l:%M %P %Z')
+        = event.end_time(@business&.time_zone).strftime(' - %-l:%M %P %Z')
     .product-imitation
       = link_to [:website,
           event,
@@ -39,7 +39,7 @@
         - if event.start_time(@business&.time_zone).present?
             .start-time
               i.fa.fa-clock-o.m-r-xs
-              = event.start_time(@business&.time_zone).strftime('%I:%M %p %Z')
+              = event.start_time(@business&.time_zone).strftime('%-l:%M %p %Z')
       .location
         - if event.event_definition.location.present? && event.event_definition.location.street1.present? && event.event_definition.location.city.present? && event.event_definition.location.state.present? && event.event_definition.location.zip_code.present?
           .street1
