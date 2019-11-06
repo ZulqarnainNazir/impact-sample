@@ -13,6 +13,8 @@
     p This post has not been published by the business owner yet. Check back later!
   - else
     h1 = event.event_definition.title
+    -if event.event_definition.subtitle.present?
+      h3= event.event_definition.subtitle
 .row
   .col-sm-6
     - placement = event.event_definition.event_image_placement

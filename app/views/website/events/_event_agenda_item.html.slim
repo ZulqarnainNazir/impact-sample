@@ -51,9 +51,12 @@
             = truncate sanitize(event.event_definition.location.state.upcase) + ' '
             = truncate sanitize(event.event_definition.location.zip_code)
       .description
-        = truncate sanitize_simple(event.description),
-            length: 140,
-            omission: '... '
+        -if event.subtitle.present?
+          = event.subtitle
+        -else
+          = truncate sanitize_simple(event.description),
+              length: 140,
+              omission: '... '
       = link_to [:website, event, only_path: false, host: event.business.website.host, protocol: :http], target: :_blank , class: 'read-more'
         |Read More&nbsp;
         i.pad-lt-3.fa.fa-long-arrow-right

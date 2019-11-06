@@ -68,7 +68,10 @@
       = location
 
     .description
-      = description
+      - if event.event_definition.subtitle.present?
+        =event.event_definition.subtitle
+      -else
+        = description
 
     = link_to listing_content_type_path(business, event.id, "event"), {class: 'read-more calendar-card'} do
       |Read More&nbsp;

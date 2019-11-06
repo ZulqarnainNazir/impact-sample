@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(version: 20190726212342) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "account_modules", force: :cascade do |t|
     t.integer  "business_id"
@@ -92,17 +92,17 @@ ActiveRecord::Schema.define(version: 20190726212342) do
   add_index "ahoy_visits", ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true, using: :btree
 
   create_table "authorizations", force: :cascade do |t|
-    t.integer  "business_id",                                  null: false
-    t.integer  "user_id",                                      null: false
-    t.integer  "role",                                         null: false
+    t.integer  "business_id",                                     null: false
+    t.integer  "user_id",                                         null: false
+    t.integer  "role",                                            null: false
     t.json     "settings"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.boolean  "contact_message_notifications", default: true, null: false
-    t.boolean  "review_notifications",          default: true, null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.boolean  "contact_message_notifications", default: true,    null: false
+    t.boolean  "review_notifications",          default: true,    null: false
     t.string   "invite_message"
-    t.boolean  "event_import_notifications",    default: true, null: false
-    t.string   "follower_notifications"
+    t.string   "follower_notifications",        default: "never", null: false
+    t.boolean  "event_import_notifications",    default: true,    null: false
   end
 
   add_index "authorizations", ["business_id"], name: "index_authorizations_on_business_id", using: :btree
@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(version: 20190726212342) do
   end
 
   create_table "businesses", force: :cascade do |t|
-    t.string   "name",                                                                  null: false
+    t.string   "name",                                           null: false
     t.string   "tagline"
     t.string   "website_url"
     t.string   "facebook_id"
@@ -226,11 +226,11 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.string   "twitter_id"
     t.string   "youtube_id"
     t.text     "description"
-    t.integer  "kind",                           default: 0,                            null: false
+    t.integer  "kind",                           default: 0,     null: false
     t.integer  "year_founded"
     t.json     "settings"
-    t.datetime "created_at",                                                            null: false
-    t.datetime "updated_at",                                                            null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.string   "citysearch_id"
     t.string   "instagram_id"
     t.string   "pinterest_id"
@@ -239,7 +239,7 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.text     "history"
     t.text     "vision"
     t.text     "community_involvement"
-    t.integer  "plan",                           default: 0,                            null: false
+    t.integer  "plan",                           default: 0,     null: false
     t.integer  "cce_id"
     t.text     "cce_url"
     t.text     "facebook_token"
@@ -258,7 +258,6 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.boolean  "membership_org",                 default: false
     t.text     "slug"
     t.integer  "reach"
-    t.string   "timezone",                       default: "Pacific Time (US & Canada)"
     t.string   "time_zone"
   end
 
@@ -903,17 +902,6 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.json     "settings"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.string   "business_street_1"
-    t.string   "business_street_2"
-    t.string   "business_city"
-    t.string   "business_state"
-    t.string   "business_zip_code"
-    t.string   "business_fax_number"
-    t.boolean  "hide_business_address"
-    t.boolean  "hide_business_fax"
-    t.float    "business_lat"
-    t.float    "business_long"
-    t.string   "timezone"
   end
 
   add_index "locations", ["business_id"], name: "index_locations_on_business_id", using: :btree
@@ -1234,8 +1222,8 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.text     "customer_phone"
     t.integer  "contact_id"
     t.boolean  "published",                              default: false, null: false
-    t.integer  "feedback_id"
     t.date     "serviced_at"
+    t.integer  "feedback_id"
     t.boolean  "hide",                                   default: false, null: false
     t.integer  "read_by",                                default: [],    null: false, array: true
     t.text     "facebook_id"
@@ -1245,13 +1233,6 @@ ActiveRecord::Schema.define(version: 20190726212342) do
   add_index "reviews", ["business_id"], name: "index_reviews_on_business_id", using: :btree
   add_index "reviews", ["company_id"], name: "index_reviews_on_company_id", using: :btree
   add_index "reviews", ["contact_id"], name: "index_reviews_on_contact_id", using: :btree
-
-  create_table "scheduled_shares", force: :cascade do |t|
-    t.integer  "share_id"
-    t.string   "job_id"
-    t.string   "network"
-    t.datetime "share_date_time"
-  end
 
   create_table "schedules", force: :cascade do |t|
     t.integer  "share_id"
@@ -1347,10 +1328,10 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.integer  "subscription_discount_id"
     t.integer  "subscription_affiliate_id"
     t.integer  "user_limit"
-    t.boolean  "annual",                                             default: false
     t.integer  "downgrade_to"
     t.integer  "upgrade_to"
     t.boolean  "flagged_for_annual",                                 default: false
+    t.boolean  "annual",                                             default: false
   end
 
   add_index "subscriptions", ["subscriber_id", "subscriber_type"], name: "index_subscriptions_on_subscriber", using: :btree
@@ -1476,8 +1457,6 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.integer  "cce_id"
     t.boolean  "app_marketing_reminders",   default: true,  null: false
     t.boolean  "email_marketing_reminders", default: true,  null: false
-    t.string   "provider"
-    t.string   "uid"
     t.boolean  "added_to_account",          default: false
     t.boolean  "invited_to_account",        default: false
   end
@@ -1528,8 +1507,6 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.boolean  "content_blog_sidebar",            default: true, null: false
     t.boolean  "events_sidebar",                  default: true, null: false
     t.boolean  "content_blog_sidebar_on_reviews", default: true, null: false
-    t.boolean  "embed_on_landing"
-    t.boolean  "embed_on_blog"
     t.text     "footer_embed"
     t.boolean  "hide_embed_on_landing"
     t.boolean  "hide_embed_on_blog"

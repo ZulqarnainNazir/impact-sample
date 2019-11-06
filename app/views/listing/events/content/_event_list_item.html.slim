@@ -49,9 +49,12 @@
 
 
     .description
-      = truncate sanitize_simple(event.description),
-        length: 140,
-        omission: '... '
+      - if event.subtitle.present?
+        = event.subtitle
+      -else
+        = truncate sanitize_simple(event.description),
+          length: 140,
+          omission: '... '
 
     = link_to listing_event_path(business, event.id), {class: 'read-more calendar-card'} do
       |Read More&nbsp;

@@ -37,9 +37,12 @@
           = truncate sanitize(event.event_definition.location.city.titleize) + ', '
           = truncate sanitize(event.event_definition.location.state.upcase)
     .description
-      = truncate sanitize_simple(event.description),
-        length: 140,
-        omission: '... '
+      - if event.subtitle.present?
+        = event.subtitle
+      -else
+        = truncate sanitize_simple(event.description),
+          length: 140,
+          omission: '... '
     = link_to "#", id: "event-#{event.id}-3", "data-toggle" => "modal", 'data-target' => "#event-modal-#{event.id}", class: 'read-more calendar-card', 'data-slug'=>"#{event.slug}"
       |Read More&nbsp;
       i.pad-lt-3.fa.fa-long-arrow-right

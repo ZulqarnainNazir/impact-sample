@@ -20,6 +20,9 @@
     .page-header
       h1.no-margins itemprop="name"
         => @event.event_definition.title
+      -if @event.event_definition.subtitle.present?
+        h3
+          = @event.event_definition.subtitle
       - if (@event.event_definition.published_status == false && !@preview)
         p This post has not been published by the business owner yet. Check back later!
     .row
