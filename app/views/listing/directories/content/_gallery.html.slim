@@ -10,7 +10,7 @@
       - elsif gallery.published_status == false
         | Unpublished
       - else
-        |  #{gallery.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%l:%M %P')}
+        |  #{gallery.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%-l:%M %P')}
         br
         small.text-navy
           | #{time_ago_in_words gallery.published_at.in_time_zone("Pacific Time (US & Canada)")} ago

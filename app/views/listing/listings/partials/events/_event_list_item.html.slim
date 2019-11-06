@@ -28,7 +28,7 @@
   .start-datetime
     i.fa.fa-clock-o.m-r-xs
     - if event.event_definition.start_time(@business.time_zone)
-      = event.event_definition.start_time(@business.time_zone).strftime('%I:%M %p %Z, ')
+      = event.event_definition.start_time(@business.time_zone).strftime('%-l:%M %p %Z, ')
     = event.occurs_on.strftime('%b %d, %Y')
 
 - month_header_is_visible = prev.blank? || prev.occurs_on.month != event.occurs_on.month || prev.occurs_on.year != event.occurs_on.year

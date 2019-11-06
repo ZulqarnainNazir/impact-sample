@@ -37,7 +37,7 @@
     .time
       .start-datetime
         i.fa.fa-clock-o.m-r-xs
-        = event.start_time.strftime('%I:%M %p, ')
+        = event.start_time.strftime('%-l:%M %p, ')
         = event.occurs_on.strftime('%b %d, %Y')
 
     .location
