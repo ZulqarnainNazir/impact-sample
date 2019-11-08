@@ -33,6 +33,10 @@ WebpageContainer = React.createClass
       newCalendarPath: this.props.newCalendarPath,
       newContactFormPath: this.props.newContactFormPath,
 
+      contentFeedWidgets: this.props.contentFeedWidgets,
+      contentFeedWidgetsPath: this.props.contentFeedWidgetsPath,
+      newContentFeedWidgetsPath: this.props.newContentFeedWidgetsPath,
+
       contentCategories: this.props.contentCategories,
       contentTags: this.props.contentTags,
       groupTypes: this.props.groupTypes,
@@ -91,7 +95,6 @@ WebpageContainer = React.createClass
   componentDidMount: () ->
     # console.log this.props.groups
     $('#link_modal').on 'change', 'input[type="radio"]', linkHelpers.toggleLinkOptions
-    $('#feed_settings_modal').on 'change', 'input[type="radio"]', feedHelpers.toggleFeedLinkOptions
     $('.webpage-save-toggle-on').on 'click', ->
       $('.webpage-save').addClass 'webpage-save-visible'
       $('.webpage-save-toggle-on').hide()
@@ -105,8 +108,6 @@ WebpageContainer = React.createClass
     sortHelpers.enableSortables this
     linkHelpers.resetLink()
     linkHelpers.toggleLinkOptions()
-    feedHelpers.resetFeedSettings()
-    feedHelpers.toggleFeedLinkOptions()
     mediaHelpers.resetMedia this
     $('.webpage-save span.btn-default').popover
       container: 'body'

@@ -9,6 +9,8 @@ class ContentFeedWidget < ActiveRecord::Base
 
   validates :name, presence: true
 
+  enum link_version: { link_none: 0, link_internal: 1, link_external: 2, link_paginate: 3 }
+
   def init
     self.uuid ||= SecureRandom.uuid
   end
