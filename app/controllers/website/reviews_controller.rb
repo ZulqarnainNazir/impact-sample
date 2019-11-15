@@ -1,4 +1,6 @@
 class Website::ReviewsController < Website::BaseController
+  include FeedbackConcern
+
   before_action only: new_actions do
     @feedback = @business.feedbacks.where(token: params[:feedback_token]).first!
 
@@ -8,12 +10,7 @@ class Website::ReviewsController < Website::BaseController
       @feedback.update(completed_at: Time.now)
     end
 
-    @feedback.build_review(
-      business: @business,
-      customer_name: @feedback.contact.name,
-      customer_email: @feedback.contact.email,
-      customer_phone: @feedback.contact.phone,
-    )
+    render_feedback_form
   end
 
   before_action only: member_actions do

@@ -3,6 +3,7 @@ class Listing::ReviewsController < ApplicationController
 
   include ApplicationHelper
   include ContentSearchConcern
+  include FeedbackConcern
 
   before_action do
     @business = Business.listing_lookup(params[:lookup])
@@ -31,12 +32,7 @@ class Listing::ReviewsController < ApplicationController
       @feedback.update(completed_at: Time.now)
     end
 
-    @feedback.build_review(
-      business: @business,
-      customer_name: @feedback.contact.name,
-      customer_email: @feedback.contact.email,
-      customer_phone: @feedback.contact.phone,
-    )
+    render_feedback_form
   end
 
   before_action only: [:show] do

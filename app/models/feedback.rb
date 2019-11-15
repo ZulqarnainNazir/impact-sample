@@ -31,4 +31,8 @@ class Feedback < ActiveRecord::Base
   def serviced_at=(*args)
     super DatepickerParser.parse(*args)
   end
+
+  def review_desired?
+    score.to_i >= business.automated_feedbacks_publishing.to_i
+  end
 end
