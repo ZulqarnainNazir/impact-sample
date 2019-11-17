@@ -30,8 +30,9 @@ class Businesses::Content::EventDefinitionsController < Businesses::Content::Bas
   end
 
   def create
-    @event_definition = EventDefinition.new(event_definition_params)
+    @event_definition = EventDefinition.new
     @event_definition.business = @business
+    @event_definition.assign_attributes(event_definition_params)
     if @business.facebook_id? && @business.facebook_token? && params[:facebook_publish]
       page_graph = Koala::Facebook::API.new(@business.facebook_token)
       result = page_graph.put_connections @business.facebook_id, 'feed', event_definition_facebook_params
