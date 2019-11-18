@@ -4,7 +4,7 @@ FeedSettingsModal = React.createClass
       return
 
     return this.props.contentFeedWidgets.map (widget) ->
-      return `<option key={widget.id} value={widget.id} data-items-limit={widget.items_limit}
+      return `<option key={widget.id} value={widget.id} data-items-limit={widget.max_items}
                                                         data-link-version={widget.link_version}
                                                         data-link-id={widget.link_id}
                                                         data-link-external={widget.link_external_url}
@@ -13,11 +13,10 @@ FeedSettingsModal = React.createClass
                                                         data-link-label={widget.link_label}
                                                         data-enable-search={widget.enable_search}
                                                         data-our-content={widget.show_our_content}
-                                                        data-company-list={widget.company_list_ids.join(' ').trim()}
-                                                        data-content-types={widget.content_types.join(' ').trim()}
-                                                        data-content-category={widget.content_category_ids.join(' ').trim()}
-                                                        data-content-tag={widget.content_tag_ids.join(' ').trim()} > {widget.name} </option>`
-
+                                                        data-company-list={widget.company_list_ids}
+                                                        data-content-types={widget.content_types}
+                                                        data-content-category={widget.content_category_ids}
+                                                        data-content-tag={widget.content_tag_ids} > {widget.name} </option>`
   render: ->
     # Not sure why but modal-open is being removed before render
     $('body').addClass('modal-open')

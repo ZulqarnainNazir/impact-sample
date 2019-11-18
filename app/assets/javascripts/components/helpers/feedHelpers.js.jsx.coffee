@@ -30,10 +30,10 @@ feedHelpers = {
       include_search:       (selected.attr('data-enable-search') == 'true')
       link_target_blank:    (selected.attr('data-link-target') == 'true')
       show_our_content:     (selected.attr('data-our-content') == 'true')
-      company_list_ids:     (selected.attr('data-company-list') || "")
-      content_tag_ids:      (selected.attr('data-content-tag') || "")
-      content_types:        (selected.attr('data-content-types') || "")
-      content_category_ids: (selected.attr('data-content-category') || "")
+      company_list_ids:     (selected.attr('data-company-list') || "").replace(/,/g, ' ').trim()
+      content_tag_ids:      (selected.attr('data-content-tag') || "").replace(/,/g, ' ').trim()
+      content_types:        (selected.attr('data-content-types') || "").replace(/,/g, ' ').trim()
+      content_category_ids: (selected.attr('data-content-category') || "").replace(/,/g, ' ').trim()
 }
 
 window.feedHelpers = feedHelpers

@@ -20,8 +20,8 @@ wrapper.wrapper-content.edit-content-embed
             = form.text_field :public_label, class: 'form-control'
 
           .form-group
-            = form.label :items_limit, "Maximum Number of Feed Items to Display"
-            = form.text_field :items_limit, class: 'form-control', :value => 4
+            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
+            = form.text_field :max_items, class: 'form-control'
 
           .link-versions
             .radio
@@ -56,9 +56,6 @@ wrapper.wrapper-content.edit-content-embed
             = form.check_box :link_no_follow
             = form.label :link_no_follow, "Add 'no-follow' to the link?", class: 'control-checkbox-label'
 
-          .form-group
-            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
-            = form.text_field :max_items, class: 'form-control'
           .form-group
             = form.label :link_label, "View More Button Label", class: 'control-label'
             = form.text_field :link_label, class: 'form-control'
