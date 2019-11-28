@@ -17,8 +17,7 @@
             .col-sm-8.col-md-6
               = form.label :serviced_at, class: 'control-label'
               .input-group
-                = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: :
-                picker }
+                = form.text_field :serviced_at, value: form.object.serviced_at.try(:strftime, '%m/%d/%Y'), class: 'form-control', class: 'form-control', data: { provide: :picker }
                 span.input-group-addon: i.fa.fa-calendar
         hr
         = form.fields_for :review do |form|
