@@ -836,7 +836,7 @@ class Business < ActiveRecord::Base
   end
 
   def automated_feedbacks_publishing
-    self.automated_feedbacks_publishing ||= DEFAULT_AUTOMATED_FEEDBACKS_PUBLISHING_THRESHOLD
+    super&.to_i || DEFAULT_AUTOMATED_FEEDBACKS_PUBLISHING_THRESHOLD
   end
 
   def automated_reviews_publishing
