@@ -218,37 +218,37 @@ const GroupContainer = React.createClass({
 
   renderMoveHandle() {
     if (this.props.editing) {
-      return <span className="fa fa-reorder webpage-group-sort-handle" style={{color: 'black'}}/>;
+      return <span className="fa fa-reorder webpage-group-sort-handle text-shadow-light" style={{color: 'black'}}/>;
     }
   },
 
   renderCustomHandle() {
     if (this.props.editing) {
-      return <span onClick={groupHelpers.editCustomGroup.bind(null, this.props.group)} className="fa fa-cog webpage-group-custom-handle" style={{ color: 'black' }}/>;
+      return <span onClick={groupHelpers.editCustomGroup.bind(null, this.props.group)} className="fa fa-cog webpage-group-custom-handle text-shadow-light" style={{ color: 'black' }}/>;
     }
   },
 
   renderBackgroundHandle() {
     if (this.props.editing && (this.props.group.type !== 'HeroGroup')) {
-      return <span onClick={() => this.editMedia('group_background', null)} className="fa fa-area-chart webpage-group-background-handle" style={{ color: 'black' }}/>;
+      return <span onClick={() => this.editMedia('group_background', null)} className="fa fa-area-chart webpage-group-background-handle text-shadow-light" style={{ color: 'black' }}/>;
     }
   },
 
   renderSidebarSwitcher() {
     if (this.props.editing && (this.props.group.type === 'SidebarGroup')) {
-      return <span onClick={this.props.switchSidebarPosition} className="fa webpage-group-sidebar-handle" style={{ color: 'black' }}/>;
+      return <span onClick={this.props.switchSidebarPosition} className="fa webpage-group-sidebar-handl text-shadow-lighte" style={{ color: 'black' }}/>;
     }
   },
 
   renderCallToActionSizeChanger() {
     if (this.props.editing && (this.props.group.type === 'CallToActionGroup')) {
-      return <strong onClick={this.props.updateGroup.bind(null, this.props.group.uuid, { maxBlocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle" style={{ color: 'black' }}>{this.props.group.maxBlocks}x</strong>;
+      return <strong onClick={this.props.updateGroup.bind(null, this.props.group.uuid, { maxBlocks: this.nextMaxBlocksValue() })} className="webpage-group-call-to-action-size-handle text-shadow-light" style={{ color: 'black' }}>{this.props.group.maxBlocks}x</strong>;
     }
   },
 
   renderHeroToggles() {
     if (this.props.editing && (this.props.group.type === 'HeroGroup')) {
-      return (<ul className="webpage-group-hero-handles">
+      return (<ul className="webpage-group-hero-handles text-shadow-light">
         <ul className="sortable-hero-handles text-shadow-light" data-group-uuid={this.props.group.uuid} style={{ color: 'black' }}>
           {this.renderHeroSwitchers()}
           {this.renderHeroAdder()}
