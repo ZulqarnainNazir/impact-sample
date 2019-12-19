@@ -3,7 +3,14 @@ FeedSettingsModal = React.createClass
     if !this.props.contentFeedWidgets
       return
 
-    return this.props.contentFeedWidgets.map (widget) ->
+    allCategories = this.props.contentCategories.map (c) -> return c.id
+    allTags = this.props.contentTags.map (t) -> return t.id
+    contentCategoriesWidget = this.props.contentFeedWidgetsCategories
+    contentTagsWidget = this.props.contentFeedWidgetsTags
+
+    return this.props.contentFeedWidgets.map (widget, index) ->
+      category = contentCategoriesWidget[index][0]
+      tag = contentTagsWidget[index][0]
       return `<option key={widget.id} value={widget.id} data-items-limit={widget.max_items}
                                                         data-link-version={widget.link_version}
                                                         data-link-id={widget.link_id}
@@ -11,12 +18,12 @@ FeedSettingsModal = React.createClass
                                                         data-link-target={widget.link_target_blank}
                                                         data-link-no-follow={widget.link_no_follow}
                                                         data-link-label={widget.link_label}
-                                                        data-enable-search={widget.enable_search}
+                                                        data-enable-search={widget.enable_search || false}
                                                         data-our-content={widget.show_our_content}
                                                         data-company-list={widget.company_list_ids}
                                                         data-content-types={widget.content_types}
-                                                        data-content-category={widget.content_category_ids}
-                                                        data-content-tag={widget.content_tag_ids} > {widget.name} </option>`
+                                                        data-content-category={category || allCategories}
+                                                        data-content-tag={tag || allTags} > {widget.name} </option>`
   render: ->
     # Not sure why but modal-open is being removed before render
     $('body').addClass('modal-open')

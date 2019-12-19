@@ -34,6 +34,8 @@ WebpageContainer = React.createClass
       newContactFormPath: this.props.newContactFormPath,
 
       contentFeedWidgets: this.props.contentFeedWidgets,
+      contentFeedWidgetsCategories: this.props.contentFeedWidgetsCategories,
+      contentFeedWidgetsTags: this.props.contentFeedWidgetsTags,
       contentFeedWidgetsPath: this.props.contentFeedWidgetsPath,
       newContentFeedWidgetsPath: this.props.newContentFeedWidgetsPath,
 
