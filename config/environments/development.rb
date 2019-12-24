@@ -11,8 +11,6 @@ Rails.application.configure do
   config.eager_load = false
 
   config.action_controller.perform_caching = false
-  config.action_controller.asset_host = "http://#{Rails.application.secrets.host}"
-  config.action_mailer.asset_host = "http://#{Rails.application.secrets.host}"
   config.action_mailer.default_url_options = { host: Rails.application.secrets.host }
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :letter_opener
