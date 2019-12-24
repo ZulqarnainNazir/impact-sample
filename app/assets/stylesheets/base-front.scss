@@ -107,7 +107,7 @@ video {
 }
 
 /* Adding before filters */
-p, li, .lead, h1, h2, h3, h4, h5, h6, img {
+p, li, .lead, h1, h2, h3, h4, h5, h6, img, div, ul {
   &:before, &:after {
     content: "";
   }
