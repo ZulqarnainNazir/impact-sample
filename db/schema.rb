@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190726212342) do
+ActiveRecord::Schema.define(version: 20191113125347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -553,12 +553,17 @@ ActiveRecord::Schema.define(version: 20190726212342) do
     t.integer  "max_items"
     t.string   "link_label"
     t.boolean  "enable_search"
-    t.string   "content_types",                                array: true
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.text     "company_list_ids", default: [],                array: true
-    t.boolean  "show_our_content", default: true
+    t.string   "content_types",                                 array: true
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.text     "company_list_ids",  default: [],                array: true
+    t.boolean  "show_our_content",  default: true
     t.boolean  "status"
+    t.integer  "link_id"
+    t.string   "link_external_url"
+    t.boolean  "link_target_blank"
+    t.boolean  "link_no_follow"
+    t.integer  "link_version"
   end
 
   add_index "content_feed_widgets", ["business_id"], name: "index_content_feed_widgets_on_business_id", using: :btree

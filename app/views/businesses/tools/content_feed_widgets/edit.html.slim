@@ -43,7 +43,7 @@ wrapper.wrapper-content.edit-content-embed
             .form-group#internal-link
               = form.label :link_id, "Locable's Marketing Suite Webpage"
               br
-              = form.select :link_id, options_from_collection_for_select(@business.website.webpages, 'id', 'name')
+              = form.select :link_id, options_from_collection_for_select(@business.website.webpages.where(active: true), 'id', 'name', @content_feed_widget.link_id)
             .form-group#external-link
               = form.label :link_external_url, "External URL"
               = form.text_field :link_external_url, class: 'form-control', placeholder: "http://"

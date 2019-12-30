@@ -29,4 +29,8 @@ class ContentFeedWidget < ActiveRecord::Base
      ["VolunteerJob", "Volunteer Jobs"],
      ["CustomPost", "Custom Posts"]]
   end
+
+  def internal_link_location
+    self.link_id.blank? ? '/' : Rails.application.routes.url_helpers.website_custom_page_path(Business.find(self.business_id).website.webpages.find(self.link_id).pathname)
+  end
 end
