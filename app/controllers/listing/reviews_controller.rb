@@ -25,6 +25,7 @@ class Listing::ReviewsController < ApplicationController
 
   before_action only: new_actions do
     @feedback = @business.feedbacks.where(token: params[:feedback_token]).first!
+    @form_url = listing_create_review_path(@business.generate_listing_segment)
 
     if params[:feedback_score]
       @feedback.update(completed_at: Time.now, score: params[:feedback_score].to_i)
@@ -79,7 +80,6 @@ class Listing::ReviewsController < ApplicationController
   end
 
   def new
-
   end
 
   private
