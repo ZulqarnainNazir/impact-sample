@@ -32,8 +32,14 @@ class Listing::ReviewsController < ApplicationController
     else
       @feedback.update(completed_at: Time.now)
     end
+  end
 
+  before_action only: :new do
     render_feedback_form
+  end
+
+  before_action only: :create do
+    render_feedback_form(with_render: false)
   end
 
   before_action only: [:show] do
