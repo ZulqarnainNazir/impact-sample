@@ -1,8 +1,8 @@
 / TODO - Dont think this is used any more. Remove?
 - unless @content_types_all.nil?
-	div.row.search-full
+	div.row.search-full style="padding: 10px 0;"
 		= form_tag request_url, method: :get do
-			div.col-md-7.form-inline style="padding-top: .5%;"
+			.col-md-8.form-inline style="padding-top: .5%;"
 				div.form-group
 					/ - if @business.any_content_type_active?
 					span style="font-size:16px; padding-right:5px; font-weight: bold;"

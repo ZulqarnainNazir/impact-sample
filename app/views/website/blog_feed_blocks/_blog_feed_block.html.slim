@@ -19,16 +19,6 @@
   - else
     - content_types = ApplicationController::ALL_CONTENT_TYPES
 
-
-
-  = content_types
-  br
-  = @content_feed_widget.content_category_ids
-  br
-  = @content_feed_widget.content_tag_ids
-  br
-  = @content_feed_widget.to_json
-
   - posts = get_content(business: @content_feed_widget.business, embed: @content_feed_widget, query: params[:blog_search], content_types: content_types, content_category_ids: @content_feed_widget.content_category_ids.present? ? @content_feed_widget.content_category_ids : '', content_tag_ids: @content_feed_widget.content_tag_ids.present? ? @content_feed_widget.content_tag_ids : '', page: params[:page], per_page: @content_feed_widget.max_items)
 
   div.col-xs-12.b-p-h-xl class=blog_feed_block.custom_class id="content-feed-widget-#{blog_feed_block.id}" style="color: #{blog_feed_block.foreground_color};"
@@ -52,9 +42,8 @@
 
     - if @content_feed_widget.link_version == 'link_paginate'
       .text-center.clear-container
-      = paginate posts
+        = paginate posts
     - elsif @content_feed_widget.link_version == 'link_internal'
-      / @business.website.webpages.find(@content_feed_widget.link_id).pathname
       p.clear-container = link_to @content_feed_widget.link_label, "#{@content_feed_widget.internal_link_location}", class: 'btn btn-default', role: 'button', target: (@content_feed_widget.link_target_blank ? :_blank : nil), rel: (@content_feed_widget.link_no_follow ? 'no-follow' : nil)
     -elsif @content_feed_widget.link_version == 'link_external'
       p.clear-container = link_to @content_feed_widget.link_label, @content_feed_widget.link_external_url, class: 'btn btn-default', role: 'button', target: (@content_feed_widget.link_target_blank ? :_blank : nil), rel: (@content_feed_widget.link_no_follow ? 'no-follow' : nil)
