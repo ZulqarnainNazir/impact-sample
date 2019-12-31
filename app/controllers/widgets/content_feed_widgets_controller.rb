@@ -20,7 +20,7 @@ class Widgets::ContentFeedWidgetsController < Widgets::BaseController
     @content_types_all = ALL_CONTENT_TYPES
 
     @posts = get_content(
-      business: @business,
+      business: @content_feed_widget.business,
       embed: @content_feed_widget,
       query: params[:blog_search],
       content_types: @content_types,
