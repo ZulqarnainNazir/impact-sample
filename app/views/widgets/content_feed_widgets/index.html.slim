@@ -46,4 +46,4 @@ javascript:
   if (isInIframe) {
     parentUrl = document.referrer;
   }
-  ahoy.track("Reach", {type: "Content Widget", type_id: "#{@content_feed_widget.id}", business_id: "#{@business.id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });
+  ahoy.track("Reach", {type: "Content Widget", type_id: "#{@content_feed_widget.id}", business_id: "#{@content_feed_widget.business_id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });
