@@ -324,11 +324,11 @@
   background-position: center center;
 }
 
-.search-full {
-  @media (max-width: $screen-lg-min) {
-    display:none;
-  }
-}
+// .search-full {
+//   @media (max-width: $screen-lg-min) {
+//     display:none;
+//   }
+// }
 
 .search-collapsed {
   display: none;
