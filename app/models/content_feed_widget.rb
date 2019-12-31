@@ -30,7 +30,16 @@ class ContentFeedWidget < ActiveRecord::Base
      ["CustomPost", "Custom Posts"]]
   end
 
-  def internal_link_location
-    self.link_id.blank? ? '/' : Rails.application.routes.url_helpers.website_custom_page_path(Business.find(self.business_id).website.webpages.find(self.link_id).pathname)
+  def link_internal_url
+
+    webpage = self.business.website.webpages.find(self.link_id)
+
+    if webpage.type == 'HomePage'
+        Rails.application.routes.url_helpers.website_root_url(host: self.business.website.host)
+    else
+      # self.link_id.blank? ? '/' : Rails.application.routes.url_helpers.website_custom_page_path(Business.find(self.business_id).website.webpages.find(self.link_id).pathname)
+      self.link_id.blank? ? '/' : Rails.application.routes.url_helpers.website_custom_page_path(webpage.pathname)
+    end
   end
+
 end
