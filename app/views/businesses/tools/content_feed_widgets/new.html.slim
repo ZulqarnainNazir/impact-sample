@@ -42,7 +42,7 @@ wrapper.wrapper-content.new-content-embed
               .radio
                 label
                   = form.radio_button :link_version, 'link_none', checked: true
-                  | Don‘t include a linked button
+                  | Don‘t include a linked button (web builder only)
               .radio
                 label
                   = form.radio_button :link_version, 'link_paginate'
@@ -50,11 +50,11 @@ wrapper.wrapper-content.new-content-embed
               .radio#internal
                 label
                   = form.radio_button :link_version, 'link_internal'
-                  | Link to an internal webpage on your site
+                  | Link to an internal webpage on your site (web builder only)
               .radio
                 label
                   = form.radio_button :link_version, 'link_external'
-                  | Link to an external webpage
+                  | Link to an external webpage (web builder only)
               .form-group#internal-link
                 = form.label :link_id, "Locable's Marketing Suite Webpage"
                 br
