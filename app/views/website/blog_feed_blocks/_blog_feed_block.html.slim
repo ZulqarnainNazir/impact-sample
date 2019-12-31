@@ -1,53 +1,52 @@
 - request_url = url_for({ controller: params[:controller], action: params[:action] })
 - reach_occurences = []
-- cache_unless params[:blog_search].present? || params[:content_types].present?, [blog_feed_block, blog_feed_block.cache_sensitive_key(params)] do
+/ TODO - How to move this to view while still allowing multiple embeds on page?
+/ Note- This instance variable has to be different than @content_feed_widget to avoid conflict when embed and widget are installed on same page
+- @content_feed_embed = ContentFeedWidget.find(blog_feed_block.widget_id)
+/ - cache_unless params[:blog_search].present? || params[:content_types].present?, [blog_feed_block, blog_feed_block.cache_sensitive_key(params)] do
 
-  / TODO - How to move this to view while still allowing multiple embeds on page?
-  / Note- This instance variable has to be different than @content_feed_widget to avoid conflict when embed and widget are installed on same page
-  - @content_feed_embed = ContentFeedWidget.find(blog_feed_block.widget_id)
+- if params[:content_types]
+  - content_types = params[:content_types]
+/ - elsif @page.groups.where(type: 'BlogFeedGroup').first.try(:blocks)
+- elsif @content_feed_embed.content_types.present?
+  / TODO - Below returns wrong types so should update source to pass correct types (remove event, change custompost to post) so don't need the delete and add functions
+  / - @content_types = @page.groups.where(type: 'BlogFeedGroup').first.blocks.first.content_types.split
+  - content_types = @content_feed_embed.content_types
+  - content_types.delete('Event')
+  - if content_types.include?('CustomPost')
+    - content_types.delete('CustomPost')
+    - content_types << 'Post'
+- else
+  - content_types = ApplicationController::ALL_CONTENT_TYPES
 
-  - if params[:content_types]
-    - content_types = params[:content_types]
-  / - elsif @page.groups.where(type: 'BlogFeedGroup').first.try(:blocks)
-  - elsif @content_feed_embed.content_types.present?
-    / TODO - Below returns wrong types so should update source to pass correct types (remove event, change custompost to post) so don't need the delete and add functions
-    / - @content_types = @page.groups.where(type: 'BlogFeedGroup').first.blocks.first.content_types.split
-    - content_types = @content_feed_embed.content_types
-    - content_types.delete('Event')
-    - if content_types.include?('CustomPost')
-      - content_types.delete('CustomPost')
-      - content_types << 'Post'
-  - else
-    - content_types = ApplicationController::ALL_CONTENT_TYPES
+- posts = get_content(business: @content_feed_embed.business, embed: @content_feed_embed, query: params[:blog_search], content_types: content_types, content_category_ids: @content_feed_embed.content_category_ids.present? ? @content_feed_embed.content_category_ids : '', content_tag_ids: @content_feed_embed.content_tag_ids.present? ? @content_feed_embed.content_tag_ids : '', page: params[:page], per_page: @content_feed_embed.max_items)
 
-  - posts = get_content(business: @content_feed_embed.business, embed: @content_feed_embed, query: params[:blog_search], content_types: content_types, content_category_ids: @content_feed_embed.content_category_ids.present? ? @content_feed_embed.content_category_ids : '', content_tag_ids: @content_feed_embed.content_tag_ids.present? ? @content_feed_embed.content_tag_ids : '', page: params[:page], per_page: @content_feed_embed.max_items)
+div.col-xs-12.b-p-h-xl class=blog_feed_block.custom_class id="content-feed-widget-#{blog_feed_block.id}" style="color: #{blog_feed_block.foreground_color};"
+  - if @content_feed_embed.public_label.present?
+    h1 = @content_feed_embed.public_label
+  a id=blog_feed_block.custom_anchor_id
+  a name="blog-feed"
+  - if @content_feed_embed.enable_search == true
+    = render partial: 'website/blog_pages/search_full', locals: {request_url: request_url}
+  .grid
+    - if posts&.any?
+      - posts.to_a.each do |post|
+        - reach_occurences << post.business.id
+        - if @content_feed_embed.business.id == post.business.id
+          = render post
+        - else
+          = render partial: "website/#{post.to_partial_path}" + "_modal", object: post, as: post.class.name.underscore
+    - else
+      div.col-xs-9
+      h2 Nothing matched your search or there is no content here yet...
 
-  div.col-xs-12.b-p-h-xl class=blog_feed_block.custom_class id="content-feed-widget-#{blog_feed_block.id}" style="color: #{blog_feed_block.foreground_color};"
-    - if @content_feed_embed.public_label.present?
-      h1 = @content_feed_embed.public_label
-    a id=blog_feed_block.custom_anchor_id
-    a name="blog-feed"
-    - if @content_feed_embed.enable_search == true
-      = render partial: 'website/blog_pages/search_full', locals: {request_url: request_url}
-    .grid
-      - if posts&.any?
-        - posts.to_a.each do |post|
-          - reach_occurences << post.business.id
-          - if @content_feed_embed.business.id == post.business.id
-            = render post
-          - else
-            = render partial: "website/#{post.to_partial_path}" + "_modal", object: post, as: post.class.name.underscore
-      - else
-        div.col-xs-9
-        h2 Nothing matched your search or there is no content here yet...
-
-    - if @content_feed_embed.link_version == 'link_paginate'
-      .text-center.clear-container
-        = paginate posts
-    - elsif @content_feed_embed.link_version == 'link_internal'
-      p.clear-container = link_to @content_feed_embed.link_label, "#{@content_feed_embed.internal_link_location}", class: 'btn btn-default', role: 'button', target: (@content_feed_embed.link_target_blank ? :_blank : nil), rel: (@content_feed_embed.link_no_follow ? 'no-follow' : nil)
-    -elsif @content_feed_embed.link_version == 'link_external'
-      p.clear-container = link_to @content_feed_embed.link_label, @content_feed_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@content_feed_embed.link_target_blank ? :_blank : nil), rel: (@content_feed_embed.link_no_follow ? 'no-follow' : nil)
+  - if @content_feed_embed.link_version == 'link_paginate'
+    .text-center.clear-container
+      = paginate posts
+  - elsif @content_feed_embed.link_version == 'link_internal'
+    p.clear-container = link_to @content_feed_embed.link_label, "#{@content_feed_embed.internal_link_location}", class: 'btn btn-default', role: 'button', target: (@content_feed_embed.link_target_blank ? :_blank : nil), rel: (@content_feed_embed.link_no_follow ? 'no-follow' : nil)
+  -elsif @content_feed_embed.link_version == 'link_external'
+    p.clear-container = link_to @content_feed_embed.link_label, @content_feed_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@content_feed_embed.link_target_blank ? :_blank : nil), rel: (@content_feed_embed.link_no_follow ? 'no-follow' : nil)
 
 javascript:
   console.log("Recording Reach");
