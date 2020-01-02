@@ -1,6 +1,5 @@
 - title 'Leave a Customer Review'
 
-
 .row
   .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
     p.lead.text-center Thank you for taking the time to leave a review for <strong>#{@business.name}</strong>. This should only take a minute.
@@ -9,7 +8,7 @@
     /     .panel-heading
     /       strong Oops! Looks like you've missed filling in a required field.
     / = errors_for @feedback
-    = form_for @feedback, url: listing_create_review_path(@business.generate_listing_segment), method: :post do |form|
+    = form_for @feedback, url: @form_url, method: :post do |form|
       = hidden_field_tag :feedback_token, params[:feedback_token]
       hr
       = form.fields_for :review do |form|

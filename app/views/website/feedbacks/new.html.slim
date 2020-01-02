@@ -6,7 +6,7 @@
     p.lead.text-center Thanks for taking the time to leave us some feedback.
     br
     = errors_for @feedback
-    = form_for @feedback, url: :website_feedback, method: :post do |form|
+    = form_for @feedback, url: (@form_url || :website_feedback), method: :post do |form|
       = hidden_field_tag :feedback_token, params[:feedback_token]
       .form-group
         = form.label :description, 'Please provide any additional feedback you have', class: 'control-label'
