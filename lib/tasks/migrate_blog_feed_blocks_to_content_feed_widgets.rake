@@ -4,7 +4,7 @@
 desc 'Migrate Blog Feed Blocks to Content Feed Widgets'
 task migrate_blog_feed_blocks_to_cotent_feed_widgets: [:environment] do
 
-  all_category_ids = ContentCateogry.pluck(:id)
+  all_category_ids = ContentCategory.pluck(:id)
   all_tag_ids = ContentTag.pluck(:id)
 
   BlogFeedBlock.all.each_with_index do |block, i|
