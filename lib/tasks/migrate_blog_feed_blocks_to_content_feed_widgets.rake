@@ -12,18 +12,22 @@ task migrate_blog_feed_blocks_to_cotent_feed_widgets: [:environment] do
     puts "Processing #{i} - #{block&.business&.id} (Block ID: #{block&.id})"
 
     category_ids = block.settings['content_category_ids']&.split
-    category_ids.each do |id|
-      if !all_category_ids.include?(id)
-        category_ids.delete(id)
+    if category_ids.present?
+      category_ids.each do |id|
+        if !all_category_ids.include?(id)
+          category_ids.delete(id)
+        end
       end
     end
 
     puts "Clean Category IDs: #{category_ids}"
 
     tag_ids = block.settings['content_tag_ids']&.split
-    tag_ids.each do |id|
-      if !all_tag_ids.include?(id)
-        tag_ids.delete(id)
+    if tag_ids.present?
+      tag_ids.each do |id|
+        if !all_tag_ids.include?(id)
+          tag_ids.delete(id)
+        end
       end
     end
 
