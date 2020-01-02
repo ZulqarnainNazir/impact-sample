@@ -13,7 +13,7 @@
               = link_to [:new, @business, :crm_contact], class: 'btn btn-sm btn-default' do
                 => icon 'plus-circle'
                 | Invite a Contact
-              
+
               - if @feedbacks.empty?
                 p style="margin:2em 0"
                   em No feedback found. #{link_to 'Add a contact', [:new, @business, :crm_contact]} to send them an email prompting for their feedback.
@@ -45,10 +45,10 @@
                       tbody
                         = render @feedbacks
                 / = paginate @feedbacks
-              
+
               = form_for @business, url: [@business, :crm, :feedbacks_automation] do |form|
                 .text-center style="margin-top:2em"
                   span> Automatically prompt contacts to leave a review when their feedback score is above
-                  => form.select :automated_feedbacks_publishing, options_for_select((1..10).map { |n| [n, n] }, selected: form.object.automated_feedbacks_publishing), include_blank: true
+                  => form.select :automated_feedbacks_publishing, options_for_select((1..10).map { |n| [n, n] }, selected: form.object.automated_feedbacks_publishing)
                   span.text-muted> –
                   = form.button 'Save', class: 'btn btn-xs btn-default'
