@@ -12,6 +12,7 @@ Rails.application.configure do
 
   config.action_controller.perform_caching = false
   config.action_mailer.default_url_options = { host: Rails.application.secrets.host }
+  config.action_mailer.asset_host = Rails.application.secrets.email_host
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
