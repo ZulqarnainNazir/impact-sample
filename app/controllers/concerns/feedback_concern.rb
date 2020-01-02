@@ -11,7 +11,12 @@ module FeedbackConcern
       )
       render action: :new if with_render
     else
-      render template: 'website/feedbacks/new' if with_render
+      if @feedback.score == 0
+        redirect_to listing_path(@business), notice: "Thanks for letting us know. You will not recieve further requests for feedback." if with_render
+      else
+        # TODO - this partial should be moved to listings/
+        render template: 'website/feedbacks/new' if with_render
+      end
     end
   end
 end
