@@ -6,7 +6,7 @@ task migrate_blog_feed_blocks_to_cotent_feed_widgets: [:environment] do
 
 BlogFeedBlock.all.each_with_index do |block, i|
 
-  puts "Processing #{i} - #{block&.business&.id}"
+  puts "Processing #{i} - #{block&.business&.id} (Block ID: #{block&.id})"
 
   # NOTES: UUID auto generate, What does status do?, public_name excluded by design
   feed = ContentFeedWidget.create(
