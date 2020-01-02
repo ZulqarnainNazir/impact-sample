@@ -19,7 +19,7 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
   config.action_controller.asset_host = Rails.application.secrets.aws_cloudfront_host
 
-  config.action_mailer.asset_host = Rails.application.secrets.aws_cloudfront_host
+  config.action_mailer.asset_host = Rails.application.secrets.aws_cloudfront_email_host
   config.action_mailer.default_url_options = { host: "#{Rails.application.secrets.host}" }
   config.action_mailer.smtp_settings = {
     address: Rails.application.secrets.aws_ses_smtp_address,
