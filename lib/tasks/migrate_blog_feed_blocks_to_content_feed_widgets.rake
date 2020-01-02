@@ -19,7 +19,7 @@ BlogFeedBlock.all.each_with_index do |block, i|
     max_items: block.settings['items_limit'],
     link_label: block.link_label,
     enable_search: block.settings['include_search'],
-    content_types: block.settings['content_types'],
+    content_types: block.settings['content_types']&.split,
     company_list_ids: block.settings['company_list_ids'],
     show_our_content: block.show_our_content,
     link_id: block.link_id,
