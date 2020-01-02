@@ -58,7 +58,7 @@ class Listing::ReviewsController < ApplicationController
         customer_email: @feedback.contact.email,
         serviced_at: @feedback.serviced_at,
         feedback_score: @feedback.score,
-        overall_rating: @feedback.review.overall_rating,
+        overall_rating: @feedback&.review&.overall_rating,
       }
 
       if @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
