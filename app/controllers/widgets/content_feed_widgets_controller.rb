@@ -1,7 +1,7 @@
 class Widgets::ContentFeedWidgetsController < Widgets::BaseController
   def index
     @content_feed_widget = ContentFeedWidget.where(:uuid => params[:uuid]).first
-    @business = @content_feed_widget.business
+    # @business = @content_feed_widget.business
 
     if params[:content_types]
         @content_types = params[:content_types]
@@ -20,7 +20,7 @@ class Widgets::ContentFeedWidgetsController < Widgets::BaseController
     @content_types_all = ALL_CONTENT_TYPES
 
     @posts = get_content(
-      business: @business,
+      business: @content_feed_widget.business,
       embed: @content_feed_widget,
       query: params[:blog_search],
       content_types: @content_types,

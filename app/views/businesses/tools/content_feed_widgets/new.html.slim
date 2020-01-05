@@ -33,11 +33,45 @@ wrapper.wrapper-content.new-content-embed
                 a.text-center data-toggle="modal" data-target="#modal"
                   => icon 'cog'
                   span.advanced-button Manage Businesses
-          / hr
+
           .form-group
             = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
             = form.text_field :max_items, class: 'form-control', :value => 12
-          .form-group
+
+            .link-versions{data = {webpages: @business.website.webpages.count}}
+              .radio
+                label
+                  = form.radio_button :link_version, 'link_none', checked: true
+                  | Don‘t include a linked button (web builder only)
+              .radio
+                label
+                  = form.radio_button :link_version, 'link_paginate'
+                  | Paginate current page
+              .radio#internal
+                label
+                  = form.radio_button :link_version, 'link_internal'
+                  | Link to an internal webpage on your site (web builder only)
+              .radio
+                label
+                  = form.radio_button :link_version, 'link_external'
+                  | Link to an external webpage (web builder only)
+              .form-group#internal-link
+                = form.label :link_id, "Locable's Marketing Suite Webpage"
+                br
+                = form.select :link_id, options_from_collection_for_select(@business.website.webpages.where(active: true), 'id', 'name')
+              .form-group#external-link
+                = form.label :link_external_url, "External URL"
+                = form.text_field :link_external_url, class: 'form-control', placeholder: "http://"
+
+            .form-group#link-options
+              br
+              = form.check_box :link_target_blank
+              = form.label :link_target_blank, "Open link in a new window?", class: 'control-checkbox-label'
+              br
+              = form.check_box :link_no_follow
+              = form.label :link_no_follow, "Add 'no-follow' to the link?", class: 'control-checkbox-label'
+
+          .form-group#view-more-button
             = form.label :link_label, "View More Button Label", class: 'control-label'
             = form.text_field :link_label, class: 'form-control', :value => "View More"
           .form-group
