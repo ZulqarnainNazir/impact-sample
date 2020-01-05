@@ -18,7 +18,7 @@
             = link_to [:new, @business, :tools_content_feed_widget], class: 'btn btn-sm btn-primary' do
               => icon 'plus-circle'
               | Add Content Embed
-            / <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kjip2iZDWHjSmajfUPL')">What is this?</a>  
+            / <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kjip2iZDWHjSmajfUPL')">What is this?</a>
 
           - if @content_feed_widgets.empty?
             .row
@@ -32,7 +32,7 @@
                   p.text-left Create any number of embeddable content feeds to highlight specific content, content types, or even include content from your Local Networks.
           - else
             p style="margin:2em 0" = page_entries_info @content_feed_widgets
-            table.footable.table.table-stripped
+            table.table.table-stripped
               thead
                 tr
                   th
@@ -40,7 +40,7 @@
                   td
               tbody
                 = render @content_feed_widgets
-          = paginate @content_feed_widgets
+            = paginate @content_feed_widgets
 
 - content_for :javascript do
   javascript:
@@ -75,7 +75,3 @@
         }
       });
     };
-
-    $(function() {
-      $('.footable').footable();
-    });
