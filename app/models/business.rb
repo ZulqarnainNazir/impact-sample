@@ -2,6 +2,8 @@
 class Business < ActiveRecord::Base
   include PlacedImageConcern
 
+  DEFAULT_AUTOMATED_FEEDBACKS_PUBLISHING_THRESHOLD = 7
+
   store_accessor :settings,
     :automated_export_facebook_reviews,
     :automated_export_locable_events,
@@ -834,8 +836,7 @@ class Business < ActiveRecord::Base
   end
 
   def automated_feedbacks_publishing
-    value = super
-    value.to_i > 0 ? value.to_i : 6
+    super&.to_i || DEFAULT_AUTOMATED_FEEDBACKS_PUBLISHING_THRESHOLD
   end
 
   def automated_reviews_publishing

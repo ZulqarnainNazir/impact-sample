@@ -3,6 +3,7 @@ class Listing::ReviewsController < ApplicationController
 
   include ApplicationHelper
   include ContentSearchConcern
+  include FeedbackConcern
 
   before_action do
     @business = Business.listing_lookup(params[:lookup])
@@ -24,19 +25,21 @@ class Listing::ReviewsController < ApplicationController
 
   before_action only: new_actions do
     @feedback = @business.feedbacks.where(token: params[:feedback_token]).first!
+    @form_url = listing_create_review_path(@business.generate_listing_segment)
 
     if params[:feedback_score]
       @feedback.update(completed_at: Time.now, score: params[:feedback_score].to_i)
     else
       @feedback.update(completed_at: Time.now)
     end
+  end
 
-    @feedback.build_review(
-      business: @business,
-      customer_name: @feedback.contact.name,
-      customer_email: @feedback.contact.email,
-      customer_phone: @feedback.contact.phone,
-    )
+  before_action only: :new do
+    render_feedback_form
+  end
+
+  before_action only: :create do
+    render_feedback_form(with_render: false)
   end
 
   before_action only: [:show] do
@@ -62,19 +65,18 @@ class Listing::ReviewsController < ApplicationController
         customer_email: @feedback.contact.email,
         serviced_at: @feedback.serviced_at,
         feedback_score: @feedback.score,
-        overall_rating: @feedback.review.overall_rating,
+        overall_rating: @feedback&.review&.overall_rating,
       }
 
-      if @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
+      if @business.automated_reviews_publishing && @feedback.review.present? && (@feedback.review.overall_rating >= @business.automated_reviews_publishing)
         @feedback.review.update_column :published, true
-      end
-
-      if @business.automated_reviews_publishing && @feedback.review.overall_rating >= @business.automated_reviews_publishing
         redirect_to listing_share_path(@business.generate_listing_segment, review_url: listing_path_review_url(@business, @feedback.review))
-      elsif !@business.automated_reviews_publishing && @feedback.review.overall_rating >= 4.0
+      elsif !@business.automated_reviews_publishing && @feedback.review.present? && @feedback.review.overall_rating >= 4.0
         redirect_to listing_share_path(@business.generate_listing_segment)
+      elsif @feedback.review.present?
+        redirect_to :action => 'index', notice: 'Thanks for leaving your Review.'
       else
-        redirect_to :action => 'index', notice: t('.notice')
+        redirect_to :action => 'index', notice: 'Thanks for leaving your Feedback.'
       end
     else
       flash.now.alert = t('.alert')
@@ -83,7 +85,6 @@ class Listing::ReviewsController < ApplicationController
   end
 
   def new
-
   end
 
   private

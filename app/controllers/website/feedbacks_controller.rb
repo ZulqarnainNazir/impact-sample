@@ -16,8 +16,6 @@ class Website::FeedbacksController < Website::BaseController
   private
 
   def feedback_params
-    params.require(:feedback).permit(
-      :description,
-    )
+    params.require(:feedback).permit(:description)
   end
 end

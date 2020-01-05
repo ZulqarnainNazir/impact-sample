@@ -5,7 +5,9 @@ tr class=('unread' unless feedback.read_by.include?(current_user.id))
   td = feedback.score || '--'
   td = feedback.description? ? link_to(truncate(feedback.description, length: 140), [feedback.business, :crm, feedback]) : '--'
   td
-    - if feedback.score?
+    - if feedback.score == 0
+      | Declined
+    -elsif feedback.score.present?
       | Yes
     - else
       ' No

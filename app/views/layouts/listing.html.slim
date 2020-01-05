@@ -146,6 +146,8 @@ html lang="en"
                     = link_to @business.website_url, rel: 'nofollow', target: :_blank do
                       i.fa.fa-external-link
                       span  Website
+            h2.text-center= params[:notice]
+            h2.text-center= flash[:notice]
             = yield
           .row
             .m-md
