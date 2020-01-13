@@ -8,11 +8,13 @@ feedHelpers = {
   editFeedSettings: (groupId, block) ->
     $('#feed_settings_group_uuid').val groupId
     $('#feed_settings_block_uuid').val block.uuid
-
     $('#feed_settings_custom_class').val block.custom_class
     $('#feed_settings_custom_anchor_id').val block.custom_anchor_id
     $('#feed_settings_modal').modal('show')
 
+    if block.settings
+      selected_widget_id = block.settings.widget_id
+      $("#content_feed_embed_id").val(selected_widget_id)
 
   updateFeedSettings: (component) ->
     selected = $('#content_feed_embed_id').children('option:selected')
