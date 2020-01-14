@@ -421,8 +421,8 @@ WebpageContainer.propTypes = {
   imagesPath: React.PropTypes.string,
   reviewsPath: React.PropTypes.string,
 
-  contentCategories: React.PropTypes.arrayOf(React.PropTypes.string),
-  contentTags: React.PropTypes.arrayOf(React.PropTypes.string),
+  contentCategories: React.PropTypes.arrayOf(React.PropTypes.object),
+  contentTags: React.PropTypes.arrayOf(React.PropTypes.object),
   groupTypes: React.PropTypes.arrayOf(React.PropTypes.string),
   internalWebpages: React.PropTypes.arrayOf(React.PropTypes.object),
   groups: React.PropTypes.arrayOf(React.PropTypes.object),
