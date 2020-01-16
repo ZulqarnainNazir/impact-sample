@@ -109,6 +109,8 @@ class Business < ActiveRecord::Base
     validates :category_ids, presence: true
   end
 
+  after_touch :save
+
   before_save :bootstrap_to_dos, if: :to_dos_enabled_changed?
   before_save :generate_slug, unless: :slug?
   before_save :record_timezone, unless: :time_zone?

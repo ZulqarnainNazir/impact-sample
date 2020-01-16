@@ -7,8 +7,6 @@ class Businesses::Data::LocationsController < Businesses::BaseController
     update_resource @location, location_params, location: [:edit, @business, :data_location] do |success|
       if success
         @location.event_definitions.each(&:touch)
-        @location.business.record_timezone(refresh: true)
-        @location.business.save
       end
     end
   end
