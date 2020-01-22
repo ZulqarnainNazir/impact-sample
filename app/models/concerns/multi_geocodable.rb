@@ -22,7 +22,11 @@ module MultiGeocodable
   end
 
   def requires_geocode?
-    !(latitude && longitude) || street1_changed? || street2_changed? || city_changed? || state_changed? || zip_code_changed?
+    geocode_missing? || street1_changed? || street2_changed? || city_changed? || state_changed? || zip_code_changed?
+  end
+
+  def geocode_missing?
+    latitude.blank? || longitude.blank?
   end
 
   def city_and_state
