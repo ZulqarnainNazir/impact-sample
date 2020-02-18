@@ -9,6 +9,9 @@ class Webpage < ActiveRecord::Base
   has_many :linked_blocks, as: :link, class_name: Block.name
   has_many :nav_links, dependent: :destroy
 
+  has_many   :cloned_pages, class_name: 'Webpage', foreign_key: 'cloned_from_id'
+  belongs_to :cloned_page,  class_name: 'Webpage'
+
   has_placed_image :main_image
 
   with_options allow_destroy: true, reject_if: :all_blank do
@@ -23,11 +26,31 @@ class Webpage < ActiveRecord::Base
 
   before_validation do
     self.name = title if !name? && title?
-    self.pathname = title.parameterize if !pathname? && title? && type != 'HomePage'
+    self.pathname = set_pathame
   end
 
   def self.custom
     where(type: 'CustomPage')
+  end
+
+  def clone!
+    if cloneable?
+      cloned_webpage = dup
+      cloned_webpage.groups << groups
+      cloned_webpage.linked_blocks << linked_blocks
+      cloned_webpage.nav_links << nav_links
+      # FIXME: not sure what to do with this yet
+      # cloned_webpage.main_image = self.main_image
+      cloned_webpage.cloned_from_id = id
+      cloned_webpage.pathname = nil
+      cloned_webpage.type = 'CustomPage'
+      cloned_webpage.save!
+      return cloned_webpage
+    end
+  end
+
+  def cloneable?
+    %w[HomePage CustomPage].include? type
   end
 
   def main_image
@@ -35,6 +58,16 @@ class Webpage < ActiveRecord::Base
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_background).try(:attachment_url, :jumbo) ||
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url, :jumbo) ||
       Block.where(type: 'ContentBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url, :jumbo)
+  end
+
+  def set_pathame
+    if !pathname? && title?
+      if cloned_from_id.present?
+        "#{title.parameterize}-clone-of-#{cloned_from_id}"
+      else
+        title.parameterize
+      end
+    end
   end
 
   def sidebar_position

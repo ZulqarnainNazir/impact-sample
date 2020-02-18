@@ -10,6 +10,7 @@ tr
       span.text-muted Draft
   td
     .btn-group.btn-group-xs
+      = render 'clone_button', webpage: webpage, business: business
       - if webpage.active?
         = link_to 'Make Draft', business_website_webpage_publications_path(business, webpage), method: :delete, class: 'btn btn-default'
       - else

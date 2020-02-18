@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191113125347) do
+ActiveRecord::Schema.define(version: 20200218041420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1484,17 +1484,18 @@ ActiveRecord::Schema.define(version: 20191113125347) do
   add_index "webhosts", ["website_id"], name: "index_webhosts_on_website_id", using: :btree
 
   create_table "webpages", force: :cascade do |t|
-    t.integer  "website_id",                  null: false
-    t.boolean  "active",      default: false, null: false
-    t.string   "type",                        null: false
-    t.string   "pathname",    default: "",    null: false
-    t.string   "name",                        null: false
-    t.string   "title",                       null: false
+    t.integer  "website_id",                     null: false
+    t.boolean  "active",         default: false, null: false
+    t.string   "type",                           null: false
+    t.string   "pathname",       default: "",    null: false
+    t.string   "name",                           null: false
+    t.string   "title",                          null: false
     t.string   "description"
     t.json     "settings"
     t.text     "custom_css"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cloned_from_id"
   end
 
   add_index "webpages", ["website_id", "pathname"], name: "index_webpages_on_website_id_and_pathname", unique: true, using: :btree
