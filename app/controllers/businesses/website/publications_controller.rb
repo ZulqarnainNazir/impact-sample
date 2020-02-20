@@ -8,7 +8,7 @@ class Businesses::Website::PublicationsController < Businesses::Website::BaseCon
   def create
     if params[:clone]
       if @cloned_page = @webpage.clone!
-        flash[:notice] = "#{@webpage.title} has been cloned successfully"
+        flash[:notice] = "#{@webpage.title} has been cloned successfully, enter a title for your new page."
         redirect_to edit_business_website_custom_page_url(@business.id, @cloned_page.id )
         return
       else

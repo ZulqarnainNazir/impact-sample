@@ -3,6 +3,8 @@ class Webpage < ActiveRecord::Base
 
   store_accessor :settings, :external_line_id, :sidebar_position, :page_head_injection
 
+  attr_accessor :skip_clone_validation
+
   belongs_to :website
 
   has_many :groups, dependent: :destroy
@@ -18,10 +20,10 @@ class Webpage < ActiveRecord::Base
     accepts_nested_attributes_for :groups
   end
 
-  validates :pathname, uniqueness: { scope: :website, case_sensitive: false }
+  validates :pathname, uniqueness: { scope: :website, case_sensitive: false }, unless: -> { !skip_clone_validation.blank? }
   validates :pathname, absence: true, if: -> { type == 'HomePage' }
-  validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: -> { type == 'HomePage' }
-  validates :title, presence: true
+  validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: -> { skip_pathname_validation? }
+  validates :title, presence: true, unless: :skip_clone_validation, unless: -> { :skip_clone_validation }
   validates :type, presence: true, exclusion: { in: %w[Webpage] }
 
   before_validation do
@@ -44,6 +46,8 @@ class Webpage < ActiveRecord::Base
       cloned_webpage.cloned_from_id = id
       cloned_webpage.pathname = nil
       cloned_webpage.type = 'CustomPage'
+      cloned_webpage.title = ''
+      cloned_webpage.skip_clone_validation = true
       cloned_webpage.save!
       return cloned_webpage
     end
@@ -63,7 +67,7 @@ class Webpage < ActiveRecord::Base
   def set_pathame
     if !pathname? && title?
       if cloned_from_id.present?
-        "#{title.parameterize}-clone-of-#{cloned_from_id}-#{SecureRandom.hex(2)}"
+        ''
       else
         title.parameterize
       end
@@ -76,6 +80,10 @@ class Webpage < ActiveRecord::Base
 
   def sidebar_reverse_position
     sidebar_position == 'left' ? 'right' : 'left'
+  end
+
+  def skip_pathname_validation?
+    !skip_clone_validation || type != 'HomePage'
   end
 
   def in_navbar?

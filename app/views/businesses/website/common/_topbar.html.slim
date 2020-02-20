@@ -39,6 +39,11 @@
 
   ul.nav.navbar-nav.navbar-right.navbar-no-collapse
 
+    - if webpage.cloned_from_id?
+      li
+        = link_to business_website_webpage_path(@business, @custom_page), method: :delete, data: { confirm: 'Are you sure you want to delete this page?' }, class: 'btn btn-danger pull-right', title: 'Remove Cloned Page' do
+          span.hidden-xs Destroy Cloned Page &nbsp;
+          i.fa.fa-trash style='margin-right: 0;'
     li
       = render "jumpto"
 
