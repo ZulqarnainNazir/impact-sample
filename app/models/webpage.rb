@@ -36,7 +36,6 @@ class Webpage < ActiveRecord::Base
   def clone!
     if cloneable?
       cloned_webpage = dup
-      byebug
       cloned_webpage.groups << groups.map(&:clone!)
       cloned_webpage.linked_blocks << linked_blocks.map(&:clone!)
       cloned_webpage.nav_links << nav_links.map(&:clone!)
@@ -64,7 +63,7 @@ class Webpage < ActiveRecord::Base
   def set_pathame
     if !pathname? && title?
       if cloned_from_id.present?
-        "#{title.parameterize}-clone-of-#{cloned_from_id}"
+        "#{title.parameterize}-clone-of-#{cloned_from_id}-#{SecureRandom.hex(2)}"
       else
         title.parameterize
       end
