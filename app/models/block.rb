@@ -47,7 +47,12 @@ class Block < ActiveRecord::Base
     false
   end
 
-  def cache_sensitive_key(params)
+  def cache_sensitive_key(params); end
+
+  def clone!
+    cloned_block = dup
+    cloned_block.save!
+    return cloned_block
   end
 
   def height=(value)
