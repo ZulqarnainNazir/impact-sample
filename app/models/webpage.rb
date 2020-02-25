@@ -41,8 +41,7 @@ class Webpage < ActiveRecord::Base
       cloned_webpage.groups << groups.map(&:clone!)
       cloned_webpage.linked_blocks << linked_blocks.map(&:clone!)
       cloned_webpage.nav_links << nav_links.map(&:clone!)
-      # FIXME: not sure what to do with this yet
-      cloned_webpage.main_image = main_image.clone! if main_image
+      cloned_webpage.main_image = main_image(clone: true).clone! if main_image.present?
       cloned_webpage.cloned_from_id = id
       cloned_webpage.pathname = nil
       cloned_webpage.type = 'CustomPage'
@@ -58,7 +57,8 @@ class Webpage < ActiveRecord::Base
     %w[HomePage CustomPage].include? type
   end
 
-  def main_image
+  def main_image(clone: false)
+    super if clone
     super.try(:attachment_url, :jumbo) ||
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_background).try(:attachment_url, :jumbo) ||
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url, :jumbo) ||
