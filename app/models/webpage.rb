@@ -23,7 +23,7 @@ class Webpage < ActiveRecord::Base
   validates :pathname, uniqueness: { scope: :website, case_sensitive: false }, unless: -> { skip_pathname_validation? }
   validates :pathname, absence: true, if: -> { type == 'HomePage' }
   validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: -> { skip_pathname_validation? }
-  validates :title, presence: true, unless: -> { :skip_clone_validation }
+  #validates :title, presence: true, unless: :skip_clone_validation
   validates :type, presence: true, exclusion: { in: %w[Webpage] }
 
   before_validation do
@@ -41,7 +41,8 @@ class Webpage < ActiveRecord::Base
       cloned_webpage.groups << groups.map(&:clone!)
       cloned_webpage.linked_blocks << linked_blocks.map(&:clone!)
       cloned_webpage.nav_links << nav_links.map(&:clone!)
-      cloned_webpage.main_image = main_image(clone: true).clone! if main_image.present?
+      # FIXME:  
+      # cloned_webpage.main_image = main_image.clone! if main_image.present?
       cloned_webpage.cloned_from_id = id
       cloned_webpage.pathname = nil
       cloned_webpage.type = 'CustomPage'
@@ -57,8 +58,7 @@ class Webpage < ActiveRecord::Base
     %w[HomePage CustomPage].include? type
   end
 
-  def main_image(clone: false)
-    return super if clone
+  def main_image
     super.try(:attachment_url, :jumbo) ||
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_background).try(:attachment_url, :jumbo) ||
       Block.where(type: 'HeroBlock', frame_type: 'Group', frame_id: group_ids).first.try(:block_image).try(:attachment_url, :jumbo) ||
