@@ -20,7 +20,7 @@ class Webpage < ActiveRecord::Base
     accepts_nested_attributes_for :groups
   end
 
-  validates :pathname, uniqueness: { scope: :website, case_sensitive: false }, unless: -> { !skip_clone_validation.blank? }
+  validates :pathname, uniqueness: { scope: :website, case_sensitive: false }, unless: -> { skip_pathname_validation? }
   validates :pathname, absence: true, if: -> { type == 'HomePage' }
   validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: -> { skip_pathname_validation? }
   validates :title, presence: true, unless: :skip_clone_validation, unless: -> { :skip_clone_validation }
@@ -65,11 +65,15 @@ class Webpage < ActiveRecord::Base
   end
 
   def set_pathame
-    if !pathname? && title?
-      if cloned_from_id.present?
-        ''
+    unless type == 'HomePage'
+      if !pathname? && title?
+        if cloned_from_id.present? && skip_clone_validation
+          ''
+        else
+          title.parameterize
+        end
       else
-        title.parameterize
+        pathname
       end
     end
   end
@@ -83,7 +87,7 @@ class Webpage < ActiveRecord::Base
   end
 
   def skip_pathname_validation?
-    !skip_clone_validation || type != 'HomePage'
+    skip_clone_validation || type == 'HomePage'
   end
 
   def in_navbar?
