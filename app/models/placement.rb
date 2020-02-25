@@ -17,6 +17,14 @@ class Placement < ActiveRecord::Base
     self.kind = 'images' unless kind?
   end
 
+  def clone!
+    cloned_placement = dup
+    cloned_placement.image = image.clone! if images?
+    cloned_placement.embed = embed if embed?
+    cloned_placement.save!
+    return cloned_placement
+  end
+
   def placer_location
     case context
     when 'logo'

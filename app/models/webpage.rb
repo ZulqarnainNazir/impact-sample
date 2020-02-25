@@ -42,7 +42,7 @@ class Webpage < ActiveRecord::Base
       cloned_webpage.linked_blocks << linked_blocks.map(&:clone!)
       cloned_webpage.nav_links << nav_links.map(&:clone!)
       # FIXME: not sure what to do with this yet
-      # cloned_webpage.main_image = self.main_image
+      cloned_webpage.main_image = main_image.clone!
       cloned_webpage.cloned_from_id = id
       cloned_webpage.pathname = nil
       cloned_webpage.type = 'CustomPage'

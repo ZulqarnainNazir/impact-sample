@@ -14,10 +14,6 @@ class Businesses::Website::CustomPagesController < Businesses::Website::BaseCont
     @original_pathname = @custom_page.pathname
   end
 
-  def new
-    byebug
-  end
-
   def create
     pathname = params[:custom_page][:pathname]
     if @website.webpages.find_by(pathname: pathname)

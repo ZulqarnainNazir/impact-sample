@@ -42,6 +42,12 @@ class Image < ActiveRecord::Base
     placements.each(&:touch)
   end
 
+  def clone!
+    cloned_image = dup
+    cloned_image.save!
+    return cloned_image
+  end
+
   def facebook?
     attachment_cache_url.present? &&
       ( attachment_cache_url.include?('_fb') || attachment_cache_url.include?('fbcdn.net') )
