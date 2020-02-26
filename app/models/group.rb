@@ -25,4 +25,15 @@ class Group < ActiveRecord::Base
   def self.default_scope
     order(position: :asc, created_at: :asc)
   end
+
+  def self.clone
+
+  end
+
+  def clone!
+    cloned_group = dup
+    cloned_group.blocks << blocks.map(&:clone!)
+    cloned_group.save!
+    return cloned_group
+  end
 end

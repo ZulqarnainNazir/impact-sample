@@ -32,6 +32,12 @@ class NavLink < ActiveRecord::Base
     self.label = url if !label? && external? && url?
   end
 
+  def clone!
+    cloned_nav_link = dup
+    cloned_nav_link.save!
+    return cloned_nav_link
+  end
+
   def internal_value
     webpage_id? ? webpage_id : webpath
   end
