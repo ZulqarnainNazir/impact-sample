@@ -23,7 +23,7 @@ class Webpage < ActiveRecord::Base
   validates :pathname, uniqueness: { scope: :website, case_sensitive: false }, unless: -> { skip_pathname_validation? }
   validates :pathname, absence: true, if: -> { type == 'HomePage' }
   validates :pathname, presence: true, format: { with: /\A\w+[\w\-\/]*\w+\z/ }, unless: -> { skip_pathname_validation? }
-  #validates :title, presence: true, unless: :skip_clone_validation
+  validates :title, presence: true, unless: :skip_clone_validation
   validates :type, presence: true, exclusion: { in: %w[Webpage] }
 
   before_validation do
