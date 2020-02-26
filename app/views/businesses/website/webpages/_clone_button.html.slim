@@ -1,2 +1,2 @@
 - if webpage.cloneable?
-  = link_to 'Clone', business_website_webpage_publications_path(business, webpage, clone: true), method: :create, data: { confirm: 'This will create a new custom page from this page' }, class: 'btn btn-primary'
+  = link_to 'Clone', business_website_webpage_publications_path(business, webpage, clone: true), method: :create, data: { confirm: 'This will create a copy of this page. Images and embeds will not be copied.' }, class: 'btn btn-primary'
