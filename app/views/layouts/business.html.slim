@@ -16,7 +16,7 @@ html
           div
             strong
               | Copyright
-            |  Locable © 2019
+            |  Locable © #{Time.zone.now.year}
     = yield :javascript
     - if @business.free?
       javascript:
