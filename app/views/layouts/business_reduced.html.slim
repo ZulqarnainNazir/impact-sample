@@ -16,7 +16,7 @@ html lang="en"
           div
             strong
               | Copyright
-            |  Locable © 2017
+            |  Locable © #{Time.zone.now.year}
     = yield :javascript
     = intercom_tag
     / = render 'appcues_user_info'

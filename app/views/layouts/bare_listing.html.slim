@@ -17,6 +17,6 @@ html lang="en"
         div
           strong
             | Copyright
-          |  Locable © 2019
+          |  Locable © #{Time.zone.now.year}
     = yield :javascript
     = intercom_tag
