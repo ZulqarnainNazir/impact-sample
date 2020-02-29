@@ -1,0 +1,5 @@
+- title 'Edit Your Highlight a Creation Post'.html_safe
+
+= errors_for @creation_post
+= form_for @creation_post, url: [@business, :content, @creation_post], html: { class: 'save-once' } do |form|
+  = render form

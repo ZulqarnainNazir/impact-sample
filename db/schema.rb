@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200220211914) do
+ActiveRecord::Schema.define(version: 20200228233002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -587,6 +587,19 @@ ActiveRecord::Schema.define(version: 20200220211914) do
   end
 
   add_index "content_tags", ["business_id"], name: "index_content_tags_on_business_id", using: :btree
+
+  create_table "creation_posts", force: :cascade do |t|
+    t.integer  "business_id"
+    t.text     "title"
+    t.text     "meta_description"
+    t.text     "facebook_id"
+    t.text     "slug"
+    t.datetime "published_time"
+    t.boolean  "published_status", default: false, null: false
+    t.datetime "published_on"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
 
   create_table "crm_notes", force: :cascade do |t|
     t.integer  "contact_id"

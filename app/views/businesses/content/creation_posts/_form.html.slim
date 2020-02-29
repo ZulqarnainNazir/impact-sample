@@ -1,0 +1,172 @@
+.wrapper.wrapper-content
+  / <a class="btn btn-primary pull-right btn-sm btn-outline" href="javascript:Appcues.show('-KjjedDv3uzHEB-lx4fj')">See Help Tips</a>
+
+  .row
+    .col-md-8.col-md-offset-1.no-padding
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Highlight a Creation
+          .ibox-tools
+
+            button.btn.btn-primary.btn-sm.btn-outline.m-b-0 data-target="#myModal" data-toggle="modal" type="button"
+              | What's This?
+            #myModal.modal.inmodal aria-hidden="true" role="dialog" tabindex="-1"
+              .modal-dialog
+                .modal-content.animated.bounceInRight
+                  .modal-header
+                    button.close data-dismiss="modal" type="button"
+                      span aria-hidden="true"  &times;
+                      span.sr-only Close
+                    i.fa.fa-bolt.modal-icon
+                    h4.modal-title Hightlight a Creation
+                    small.font-bold Highlight a Creation to share your expertise
+                  .modal-body.text-left
+
+                    p With a Highlight a Creation post you can quickly:
+                    ul
+                      li Share the outcome
+                      li Describe the Process
+                      li Introduce a Unique perspective
+                      li Describe any challenges you faced and how you handled them
+                    p
+                      | When you use a Highlight a Creation Post, you can still share it to social media but you will also get the benefit of it appearing on your site which is good for search engines. Plus it'll appear on other local websites automatically thanks to our free Local Connections
+                      sup TM &nbsp
+                      | tools.
+                    p This means, more locals will see more of your content!
+
+
+                    / p
+                    /   strong Lorem Ipsum is simply dummy
+                    /   | text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                    /   | printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                    /   | remaining essentially unchanged.
+                    / .form-group
+                    /   label Sample Input
+                    /   input.form-control placeholder=("Enter your email") type="email" /
+                  .modal-footer
+                    button.btn.btn-white data-dismiss="modal" type="button"  Close
+                    / button.btn.btn-primary type="button"  Save changes
+        .ibox-content
+          .form-group
+            - if @creation_post.persisted?
+              - if @creation_post.published_status == false
+                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "creation_post", only_path: false, :host => @business.website.host, protocol: :http, :id => @creation_post.id], class: 'btn btn-block btn-default', :target => "_blank"
+              - else
+                - if @business.webhost_primary?
+                  = link_to "View Post", [:website, @creation_post, only_path: false, host: @business.website.host, protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
+                - if !@business.webhost_primary? && @business.has_plan?
+                  = link_to "View Post", listing_path_content_url(@business, @creation_post.slug, 'creation_post'), class: 'btn btn-block btn-default', :target => "_blank"
+
+            = react_component 'ImagePlacement',
+                    imagesPath: business_images_path(form.object.business),
+                    inputPrefix: 'creation_post[creation_post_image_placement_attributes]',
+                    label: 'Image',
+                    placement: form.object.creation_post_image_placement_json,
+                    presignedPost: s3_presigned_post_hash,
+                    bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+                    buttonSize: 'small',
+                    allowEmbed: true,
+                    showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+            = form.label "Title *", class: 'control-label'
+            = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re posting.'
+            br>
+            / = @prompts
+            - @prompts.each do |key, value|
+              h4
+                = value[:prompt]
+              p
+                = value[:description]
+              em
+                = value[:type]
+
+            / .form-group
+            /   = form.label "Content *", class: 'control-label'
+            /   = react_component 'RichTextEditor',
+            /       name: 'creation_post[content]',
+            /       html: @creation_post.content,
+            /       rows: 8
+            br>
+            br>
+            br>
+            br>
+            br>
+.webpage-save
+  = hidden_field_tag 'draft', nil, :id => "draftField"
+  .row
+    - if (form.object.persisted? && form.object.published_status == false)
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', name: "publish", type: "button"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Save Draft', class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+    - elsif form.object.persisted?
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Update Post', class: 'btn btn-block btn-primary', name: "publish", type: "button"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Unpublish & Revert to Draft', class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+    - else
+      .col-sm-4.col-sm-offset-2.col-xs-6
+         = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', name: 'publish'
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Save Draft', class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h1 Advanced
+      .modal-body
+        .form-group
+          = form.label :published_on, class: 'control-label'
+          .input-group.date#datetimepicker
+            = form.text_field :published_on, :value => (@creation_post.published_at.present? ? @creation_post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %p %z") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %p %z")), :class => "form-control"
+            span.input-group-addon
+              span.fa.fa-calendar
+        = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
+        = render partial: 'businesses/content/classification', locals: {form: form}
+javascript:
+  $(function () {
+    $('#datetimepicker').datetimepicker({
+        format: 'MMM D YYYY h:mm A ZZ'
+    });
+    // $('button[name="draft"]').click(function () {
+    //   $('[name="quick_post[content]"]').rules('remove');
+    //   $('#draftField').val(1);
+    //   $(".save-once").submit();
+    // });
+
+    // $('button[name="publish"]').click(function () {
+    //   $('[name="quick_post[content]"]').rules('add', {
+    //     required: true
+    //   });
+    //   $(".save-once").submit();
+    // });
+
+    $('button[name="draft"]').off('click');
+    $('button[name="draft"]').click(function () {
+      $('#draftField').val(1);
+      $(this).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+      $(".save-once").submit();
+    });
+
+    $('button[name="publish"]').off('click');
+    $('button[name="publish"]').click(function () {
+      $(this).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+      $(".save-once").submit();
+    });
+  });

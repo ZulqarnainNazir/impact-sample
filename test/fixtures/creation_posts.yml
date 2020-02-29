@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  business_id: 1
+  title: MyText
+  meta_description: MyText
+  facebook_id: MyText
+  slug: MyText
+  published_time: MyString
+  datetime: MyString
+  published_status: MyString
+  boolean: MyString
+  published_on: 2020-02-28 15:30:02
+
+two:
+  business_id: 1
+  title: MyText
+  meta_description: MyText
+  facebook_id: MyText
+  slug: MyText
+  published_time: MyString
+  datetime: MyString
+  published_status: MyString
+  boolean: MyString
+  published_on: 2020-02-28 15:30:02

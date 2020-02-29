@@ -26,6 +26,7 @@ class Business < ActiveRecord::Base
     has_many :content_categories
     has_many :content_tags
     has_many :contacts
+    has_many :creation_posts
     has_many :event_definitions
     has_many :jobs
     has_many :feedbacks
