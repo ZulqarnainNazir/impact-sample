@@ -9,6 +9,16 @@ class CreationPost < ActiveRecord::Base
 
 
   belongs_to :business, touch: true
+  has_many :guided_post_sections, as: :sectionable, dependent: :destroy
+
+  accepts_nested_attributes_for :guided_post_sections, allow_destroy: true, reject_if: proc { |a|
+    a['_destroy'] == '1' || (
+      a['heading'].blank? &&
+      a['description'].blank? &&
+      a['post_section_placement_attributes'].kind_of?(Hash) &&
+      a['post_section_placement_attributes'].select { |k,_| !%w[kind image_business image_user].include?(k) }.values.all?(&:blank?)
+    )
+  }
 
   has_many :content_categories, through: :content_categorizations
   has_many :content_categorizations, as: :content_item
@@ -106,4 +116,5 @@ class CreationPost < ActiveRecord::Base
       slug.to_s
     ]
   end
+
 end

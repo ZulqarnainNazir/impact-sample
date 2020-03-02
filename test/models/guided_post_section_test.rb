@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GuidedPostFieldTest < ActiveSupport::TestCase
+class GuidedPostSectionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

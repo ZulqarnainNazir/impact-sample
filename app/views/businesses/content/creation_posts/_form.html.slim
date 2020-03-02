@@ -2,7 +2,7 @@
   / <a class="btn btn-primary pull-right btn-sm btn-outline" href="javascript:Appcues.show('-KjjedDv3uzHEB-lx4fj')">See Help Tips</a>
 
   .row
-    .col-md-8.col-md-offset-1.no-padding
+    .col-md-10.col-md-offset-1.no-padding
       .ibox.float-e-margins
         .ibox-title
           h5 Highlight a Creation
@@ -57,40 +57,28 @@
                 - if !@business.webhost_primary? && @business.has_plan?
                   = link_to "View Post", listing_path_content_url(@business, @creation_post.slug, 'creation_post'), class: 'btn btn-block btn-default', :target => "_blank"
 
-            = react_component 'ImagePlacement',
-                    imagesPath: business_images_path(form.object.business),
-                    inputPrefix: 'creation_post[creation_post_image_placement_attributes]',
-                    label: 'Image',
-                    placement: form.object.creation_post_image_placement_json,
-                    presignedPost: s3_presigned_post_hash,
-                    bulkUploadPath: new_business_content_images_upload_path(form.object.business),
-                    buttonSize: 'small',
-                    allowEmbed: true,
-                    showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-            = form.label "Title *", class: 'control-label'
-            = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re posting.'
-            br>
-            / = @prompts
-            / = @prompts.size
-            - @prompts.each do |prompt|
-              h4
-                = prompt.prompt
-              p
-                = prompt.description
-              em
-                = prompt.section_type
-
-            / .form-group
-            /   = form.label "Content *", class: 'control-label'
-            /   = react_component 'RichTextEditor',
-            /       name: 'creation_post[content]',
-            /       html: @creation_post.content,
-            /       rows: 8
-            br>
-            br>
-            br>
-            br>
-            br>
+            / = react_component 'ImagePlacement',
+            /         imagesPath: business_images_path(form.object.business),
+            /         inputPrefix: 'creation_post[creation_post_image_placement_attributes]',
+            /         label: 'Image',
+            /         placement: form.object.creation_post_image_placement_json,
+            /         presignedPost: s3_presigned_post_hash,
+            /         bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+            /         buttonSize: 'small',
+            /         allowEmbed: true,
+            /         showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+            / = form.label "Title *", class: 'control-label'
+            / = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re posting.'
+            ol.post-sections-associations style="margin: 20px 20px 20px 20px;"
+              - @prompts.each do |prompt|
+                / - form.object.creation_post_sections.build
+                / = render partial: 'businesses/content/creation_post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form, prompts: @prompts }
+                = render partial: 'businesses/content/guided_post_sections/form', object: form.object.guided_post_sections.new, as: :post_section, locals: { post_form: form, prompt: prompt }
+            / br>
+            / br>
+            / br>
+            / br>
+            / br>
 .webpage-save
   = hidden_field_tag 'draft', nil, :id => "draftField"
   .row
@@ -140,6 +128,9 @@
               span.fa.fa-calendar
         = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
         = render partial: 'businesses/content/classification', locals: {form: form}
+
+/ = render partial: 'application/guided_blog_posts_tips'
+
 javascript:
   $(function () {
     $('#datetimepicker').datetimepicker({

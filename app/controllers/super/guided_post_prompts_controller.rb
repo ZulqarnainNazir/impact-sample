@@ -49,6 +49,7 @@ class Super::GuidedPostPromptsController < SuperController
     params.require(:guided_post_prompt).permit(
       :prompt,
       :description,
+      :heading_prompt,
       :post_type,
       :section_type,
       :industry,

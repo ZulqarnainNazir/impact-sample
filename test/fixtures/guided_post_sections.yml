@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  heading: MyText
+  content: MyText
+  kind: 1
+  sectionable_id: 
+  sectionable_type: Sectionable
+
+two:
+  heading: MyText
+  content: MyText
+  kind: 1
+  sectionable_id: 
+  sectionable_type: Sectionable
