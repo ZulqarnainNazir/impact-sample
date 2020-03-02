@@ -3,7 +3,10 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
 
   before_action only: new_actions do
     @creation_post = @business.creation_posts.new
-    @prompts = YAML.load_file('config/content_type_prompts/creation_post_prompts.yml')
+    # @prompts = YAML.load_file('config/content_type_prompts/creation_post_prompts.yml')
+
+    @prompts = GuidedPostPrompt.where(post_type: 'creation_post', industry: 'general').order('section_type asc')
+
 
   end
 

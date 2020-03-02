@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200228233002) do
+ActiveRecord::Schema.define(version: 20200302174609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -800,6 +800,20 @@ ActiveRecord::Schema.define(version: 20200228233002) do
   end
 
   add_index "groups", ["webpage_id"], name: "index_groups_on_webpage_id", using: :btree
+
+  create_table "guided_post_prompts", force: :cascade do |t|
+    t.text     "prompt"
+    t.text     "description"
+    t.integer  "post_type"
+    t.integer  "section_type"
+    t.integer  "industry"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "guided_post_prompts", ["industry"], name: "index_guided_post_prompts_on_industry", using: :btree
+  add_index "guided_post_prompts", ["post_type"], name: "index_guided_post_prompts_on_post_type", using: :btree
+  add_index "guided_post_prompts", ["section_type"], name: "index_guided_post_prompts_on_section_type", using: :btree
 
   create_table "images", force: :cascade do |t|
     t.integer  "business_id",             null: false

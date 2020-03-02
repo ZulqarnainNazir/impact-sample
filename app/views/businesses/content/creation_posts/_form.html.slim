@@ -71,13 +71,14 @@
             = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re posting.'
             br>
             / = @prompts
-            - @prompts.each do |key, value|
+            / = @prompts.size
+            - @prompts.each do |prompt|
               h4
-                = value[:prompt]
+                = prompt.prompt
               p
-                = value[:description]
+                = prompt.description
               em
-                = value[:type]
+                = prompt.section_type
 
             / .form-group
             /   = form.label "Content *", class: 'control-label'

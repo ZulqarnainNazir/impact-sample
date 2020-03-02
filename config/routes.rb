@@ -94,6 +94,9 @@ Rails.application.routes.draw do
       resources :missions do
         get :custom, on: :collection
       end
+      resources :guided_post_prompts do
+        # get :custom, on: :collection
+      end
       resources :billing_dashboard, only: [:none] do
         collection do
 
