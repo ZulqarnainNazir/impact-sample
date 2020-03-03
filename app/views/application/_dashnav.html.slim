@@ -79,9 +79,9 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Local Networks", [@business, :crm_company_lists]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists\/following/))
             = link_to "Supporters", [@business, :crm, 'company_lists', 'following']
-          li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
-            = link_to [@business, :tools_directory_widgets] do
-              | Directory Embeds
+          / li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
+          /   = link_to [@business, :tools_directory_widgets] do
+          /     | Directory Embeds
           / li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
           /   = link_to "Import Contacts", [@business, :crm_imports]
 
@@ -92,6 +92,31 @@ nav.navbar-default.navbar-static-side[role="navigation"]
       /     span.nav-label[data-i18n="nav.dashboard"]
       /       | Campaigns
 
+      / li title="Manage Content for Feeds, Campaigns & Your Website" class=('active' if contents_active)
+      /   = link_to "#"
+      /     i.fa.fa-bullhorn
+      /     span.nav-label[data-i18n="nav.manage_content"]
+      /       | Marketing Messages
+      /     span.fa.arrow
+      /   ul.nav.nav-second-level class=('collapse' unless contents_active)
+      /     li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !events_active))
+      /       = link_to "Manage Posts", [@business, :content_root]
+      /     li  class=('active' if controller_path.match(/\Abusinesses\/content\/new/))
+      /       = link_to "New Post", [@business, :content_new]
+      /     li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
+      /       = link_to [@business, :tools_content_feed_widgets] do
+      /         | Content Feed Embeds
+      /     li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
+      /       = link_to "Images & PDFs", [@business, :content_images]
+      /     / li class='disabled'
+      /     /   = link_to "#" do
+      /     /     |  Manage Job & Volunteer Board Widgets
+      /     /     span.badge
+      /     /       = "Coming Soon"
+      /     li class=('active' if controller_path.match(/\Abusinesses\/content\/category_tag_management/))
+      /       = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
+
+      / TEMP
       li title="Manage Content for Feeds, Campaigns & Your Website" class=('active' if contents_active)
         = link_to "#"
           i.fa.fa-bullhorn
@@ -99,15 +124,22 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             | Marketing Messages
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless contents_active)
-          li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !events_active))
-            = link_to "Manage Posts", [@business, :content_root]
           li  class=('active' if controller_path.match(/\Abusinesses\/content\/new/))
             = link_to "New Post", [@business, :content_new]
-          li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
-            = link_to [@business, :tools_content_feed_widgets] do
-              | Content Feed Embeds
+          li  class=('active' if (controller_path.match(/\Abusinesses\/content/) && !events_active))
+            = link_to "Manage Content", [@business, :content_root]
+          / li  class=('active' if controller_path.match(/\Abusinesses\/content\/new/))
+          /   = link_to "New Post", [@business, :content_new]
+          li class=('active' if controller_path.match(/\Abusinesses\/events/))
+            / Need to add eventdefintions and inmportedeventdefintion?
+            = link_to "Manage Events", [@business, :events_root]
+          / li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
+          /   = link_to [@business, :tools_content_feed_widgets] do
+          /     | Content Feed Embeds
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
+            = link_to "Event Import Feeds", [@business, :content, :event_imports]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
-            = link_to "Images & PDFs", [@business, :content_images]
+            = link_to "Media Library", [@business, :content_images]
           / li class='disabled'
           /   = link_to "#" do
           /     |  Manage Job & Volunteer Board Widgets
@@ -116,23 +148,41 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/category_tag_management/))
             = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
 
-      li title="Manage Events & Calendar Feeds" class=('active' if events_active)
-        = link_to [@business, :dashboard] do
-          i.fa.fa-calendar
-          span.nav-label[data-i18n="nav.dashboard"]
-            | Events
-          span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless events_active)
-          li class=('active' if controller_path.match(/\Abusinesses\/events/))
-            / Need to add eventdefintions and inmportedeventdefintion?
-            = link_to "Manage Events", [@business, :events_root]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/events/))
-            = link_to "New Event", [:new, @business, :content_event_definition]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
-            = link_to "Event Feeds", [@business, :content, :event_imports]
-          li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
-            = link_to [@business, :tools_calendar_widgets] do
-              | Calendar Embeds
+      / li title="Manage Events & Calendar Feeds" class=('active' if events_active)
+      /   = link_to [@business, :dashboard] do
+      /     i.fa.fa-calendar
+      /     span.nav-label[data-i18n="nav.dashboard"]
+      /       | Events
+      /     span.fa.arrow
+      /   ul.nav.nav-second-level class=('collapse' unless events_active)
+      /     li class=('active' if controller_path.match(/\Abusinesses\/events/))
+      /       / Need to add eventdefintions and inmportedeventdefintion?
+      /       = link_to "Manage Events", [@business, :events_root]
+      /     li class=('active' if controller_path.match(/\Abusinesses\/content\/events/))
+      /       = link_to "New Event", [:new, @business, :content_event_definition]
+      /     li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
+      /       = link_to "Event Feeds", [@business, :content, :event_imports]
+      /     li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
+      /       = link_to [@business, :tools_calendar_widgets] do
+      /         | Calendar Embeds
+
+
+
+      / li title="Manage Events & Calendar Feeds" class=('active' if events_active)
+      /   = link_to [@business, :dashboard] do
+      /     i.fa.fa-calendar
+      /     span.nav-label[data-i18n="nav.dashboard"]
+      /       | Manage Feeds/Embeds
+      /     span.fa.arrow
+      /   ul.nav.nav-second-level class=('collapse' unless events_active)
+      /     li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
+      /       = link_to [@business, :tools_calendar_widgets] do
+      /         | Calendars
+      /     li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
+      /       = link_to [@business, :tools_content_feed_widgets] do
+      /         | Content Widgets
+      /     li class=('active' if controller_path.match(/\Abusinesses\/crm\/company_lists/))
+      /       = link_to "Directories", [@business, :crm_company_lists]
 
       li title="Manage & Enhance Your Website" class=('active' if controller_path.match(/\Abusinesses\/website/) || controller_path.match(/\Abusinesses\/to_dos/))
         = link_to "#"
@@ -173,7 +223,23 @@ nav.navbar-default.navbar-static-side[role="navigation"]
               li class=('active' if controller_path.match(/\Abusinesses\/to_dos/))
                  = link_to [@business, :to_dos] do
                     | Website Launch Tasks
+
+
       / Add Landing Pages and Call-to-Action Builder to this section and renmae to Conversions
+
+      li = link_to [@business, :tools_calendar_widgets] do
+        i.fa.fa-calendar
+        span.nav-label[data-i18n="nav.dashboard"]
+          | Calendars
+      li = link_to [@business, :tools_content_feed_widgets] do
+        i.fa.fa-th
+        span.nav-label[data-i18n="nav.dashboard"]
+          | Content Feeds
+      li = link_to [@business, :tools_directory_widgets] do
+        i.fa.fa-sitemap
+        span.nav-label[data-i18n="nav.dashboard"]
+          | Directories
+
       li title="Manage Forms & Instant Contact Page" class=('active' if forms_active)
         = link_to "#"
           i.fa.fa-filter
