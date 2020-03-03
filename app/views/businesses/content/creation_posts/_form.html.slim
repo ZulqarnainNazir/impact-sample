@@ -34,19 +34,10 @@
                       | tools.
                     p This means, more locals will see more of your content!
 
-
-                    / p
-                    /   strong Lorem Ipsum is simply dummy
-                    /   | text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
-                    /   | printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-                    /   | remaining essentially unchanged.
-                    / .form-group
-                    /   label Sample Input
-                    /   input.form-control placeholder=("Enter your email") type="email" /
                   .modal-footer
                     button.btn.btn-white data-dismiss="modal" type="button"  Close
                     / button.btn.btn-primary type="button"  Save changes
-        .ibox-content
+        .ibox-content.guided-overlay
           .form-group
             - if @creation_post.persisted?
               - if @creation_post.published_status == false
@@ -69,16 +60,21 @@
             /         showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
             / = form.label "Title *", class: 'control-label'
             / = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re posting.'
-            ol.post-sections-associations style="margin: 20px 20px 20px 20px;"
-              - @prompts.each do |prompt|
-                / - form.object.creation_post_sections.build
-                / = render partial: 'businesses/content/creation_post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form, prompts: @prompts }
-                = render partial: 'businesses/content/guided_post_sections/form', object: form.object.guided_post_sections.new, as: :post_section, locals: { post_form: form, prompt: prompt }
-            / br>
-            / br>
-            / br>
-            / br>
-            / br>
+            .well.guided-exposed
+              h5 All Good Web Content...
+              ul
+                li Includes at least 1 Relevant Image (or Video if you're feeling adventerous)
+                li Incorporates Power Words in each Title/Subtitle (View this handy list)
+                li Adds Links at Every Opportunity
+                li Is Easily Scanable (A Subtitle plus 3-4 Sentences for each Section)
+              buttom.btn.btn-success Get Started
+            .post-sections-associations style="margin: 20px 20px 20px 20px;"
+
+                - @prompts.each do |prompt|
+                  / - form.object.creation_post_sections.build
+                  / = render partial: 'businesses/content/creation_post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form, prompts: @prompts }
+                  = render partial: 'businesses/content/guided_post_sections/form', object: form.object.guided_post_sections.new, as: :post_section, locals: { post_form: form, prompt: prompt }
+
 .webpage-save
   = hidden_field_tag 'draft', nil, :id => "draftField"
   .row

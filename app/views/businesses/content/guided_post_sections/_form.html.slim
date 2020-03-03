@@ -21,7 +21,7 @@
         - if prompt.section_type == 'main_image'
           = react_component 'ImagePlacement',
                   imagesPath: business_images_path(post_form.object.business),
-                  inputPrefix: 'creation_post[creation_post_image_placement_attributes]',
+                  inputPrefix: 'creation_post[guided_post_image_placement_attributes]',
                   label: 'Image',
                   placement: post_form.object.creation_post_image_placement_json,
                   presignedPost: s3_presigned_post_hash,
@@ -36,7 +36,7 @@
           = post_form.fields_for :post_sections, post_section, child_index: appended ? 98765432101 : nil do |form|
             = form.label :content, class: 'control-label sr-only'
             = react_unmounted_component 'RichTextEditor',
-                name: "post[post_sections_attributes][#{form.options[:child_index]}][content]",
+                name: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][content]",
                 html: post_section.content,
                 rows: 12
         -else
@@ -57,7 +57,7 @@
                     .col-sm-5
                       .center-block
                         = react_unmounted_component 'ImagePlacement',
-                                inputPrefix: "post[post_sections_attributes][#{form.options[:child_index]}][post_section_image_placement_attributes]",
+                                inputPrefix: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][guided_post_section_image_placement_attributes]",
                                 imagesPath: business_images_path(post_form.object.business),
                                 presignedPost: s3_presigned_post_hash,
                                 placement: form.object.post_section_image_placement_json,
@@ -71,7 +71,7 @@
                       .form-group
                         = form.label :content, class: 'control-label sr-only'
                         = react_unmounted_component 'RichTextEditor',
-                            name: "post[post_sections_attributes][#{form.options[:child_index]}][content]",
+                            name: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][content]",
                             html: post_section.content,
                             rows: 12
                 .post-section-fields-warning.text-muted: em This Section will be removed upon Save
@@ -82,7 +82,7 @@
                       i.fa.fa-caret-left
                     span.btn.btn-default.post-section-fields-next
                       i.fa.fa-caret-right
-                  span.post-section-fields-kind style="margin-left:5px" = form.object.kind.try(:titleize) || 'Image Right'
+                  span.post-section-fields-kind style="margin-left:5px" = form.object.kind.try(:titleize) || kind_class
                 = form.label :_destroy, class: 'btn' do
                   => form.check_box :_destroy
                   ' Remove
@@ -92,8 +92,8 @@
           = prompt.prompt
         p
           = prompt.description
-        em
-          = prompt.section_type
+        / em
+        /   = prompt.section_type
 / - if post_section.cached_children && post_section.cached_children.any?
 /   ol
 /     = render partial: 'businesses/content/post_sections/form', collection: post_section.cached_children, as: :post_section, locals: { post_form: post_form }

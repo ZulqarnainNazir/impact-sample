@@ -1,5 +1,4 @@
 class GuidedPostSection < ActiveRecord::Base
-
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
@@ -19,6 +18,6 @@ class GuidedPostSection < ActiveRecord::Base
   validates :post, presence: true
 
   before_validation do
-    self.kind = 'image_right' unless kind?
+    self.kind = 'full_text' unless kind?
   end
 end

@@ -3,11 +3,7 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
 
   before_action only: new_actions do
     @creation_post = @business.creation_posts.new
-    # @prompts = YAML.load_file('config/content_type_prompts/creation_post_prompts.yml')
-
     @prompts = GuidedPostPrompt.where(post_type: 'creation_post', industry: 'general').order('section_type asc')
-
-
   end
 
   before_action only: member_actions do
@@ -38,10 +34,11 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
     else
       @creation_post.published_status = true
     end
+
     respond_to do |format|
       if @creation_post.save
         # flash[:appcues_event] = "Appcues.track('created quick post')"
-        @creation_post.__elasticsearch__.index_document
+        # @creation_post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully created.'
         format.html { redirect_to edit_business_content_creation_post_path(@business, @creation_post), notice: "Draft created successfully" } if params[:draft].present?
         format.html { redirect_to edit_business_content_creation_post_path(@business, @creation_post) } if !params[:draft].present?
@@ -50,8 +47,8 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
         format.html { render :action => "new" }
       end
     end
-    CreationPost.__elasticsearch__.refresh_index!
-    intercom_event 'created-highlight-creation'
+    # CreationPost.__elasticsearch__.refresh_index!
+    intercom_event 'created-creation-post'
   end
 
   def edit
@@ -59,7 +56,7 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
     post_path = website_creation_post_path(@creation_post)
     @preview_url = @creation_post.published_status != false ? @business.website.host + port + post_path : [:website, :generic_post, :preview, :type => "creation_posts", only_path: false, :host => @business.website.host, protocol: :http, :id => @creation_post.id]
 
-    @prompts = YAML.load_file('config/content_type_prompts/creation_post_prompts.yml')
+    @prompts = GuidedPostPrompt.where(post_type: 'creation_post', industry: 'general').order('section_type asc')
 
   end
 
@@ -71,7 +68,7 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
     end
     respond_to do |format|
       if @creation_post.update(creation_post_params)
-        @creation_post.__elasticsearch__.index_document
+        # @creation_post.__elasticsearch__.index_document
         flash[:notice] = 'Post was successfully updated.'
 
         format.html { redirect_to edit_business_content_creation_post_path(@business, @creation_post), notice: "Draft updated." } if params[:draft].present?
@@ -88,9 +85,9 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
 
   def destroy
     destroy_resource @creation_post, location: [@business, :content_root] do |success|
-      if success
-        CreationPost.__elasticsearch__.refresh_index!
-      end
+      # if success
+      #   CreationPost.__elasticsearch__.refresh_index!
+      # end
     end
   end
 
