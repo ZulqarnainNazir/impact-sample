@@ -78,6 +78,7 @@
                     = render partial: 'businesses/content/guided_post_sections/form', object: form.object.guided_post_sections.new, as: :post_section, locals: { post_form: form, prompt: prompt }
 
               .col-sm-4 style='border-left: 1px dotted gray;'
+                / .affix style="width: inherit !important;"
                 h5 All Good Web Content...
                 / a.pull-right href="#powerWords" data-toggle="collapse"
                 /   | View
@@ -86,7 +87,7 @@
                   | Incorporates Power Words
                   a href="#powerWords" data-toggle="collapse"
                     |  like these
-                  |  in each Title/Subtitle
+                  |  in each title/subtitle
                 .collapse id="powerWords"
                   .table-responsive
                     table.table
@@ -131,8 +132,8 @@
                         td Hurry
                         td Save
 
-                p Includes at least 1 relevant Image (or Video if you're feeling adventerous)
-                p Is easily scanable (i.e. includes a subtitle plus 3-4 sentences for each Section)
+                p Includes at least 1 relevant image (or video if you're feeling adventerous)
+                p Is easily scanable (i.e. includes a subtitle plus 3-4 sentences for each section)
                 p Adds links at every opportunity
 .webpage-save
   = hidden_field_tag 'draft', nil, :id => "draftField"

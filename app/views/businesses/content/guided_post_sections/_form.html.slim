@@ -43,7 +43,7 @@
                   showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
       -elsif prompt.section_type == 'title'
         .panel-body
-          = post_form.label "Title *", class: 'control-label'
+          / = post_form.label "Title *", class: 'control-label'
           = post_form.text_field :title, class: 'form-control simple-input', placeholder: "#{prompt.heading_prompt.present? ? prompt.heading_prompt : 'Add a 5-12 word summary of you’re post.'}"
       -elsif prompt.section_type == 'cta_section'
         .panel-body
