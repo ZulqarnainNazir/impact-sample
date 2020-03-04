@@ -53,6 +53,7 @@ class Super::GuidedPostPromptsController < SuperController
       :post_type,
       :section_type,
       :industry,
+      :kind,
     )
   end
 end

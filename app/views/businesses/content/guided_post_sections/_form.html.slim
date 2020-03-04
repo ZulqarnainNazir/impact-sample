@@ -2,15 +2,15 @@
 - image_placement_json = post_section.post_section_image_placement_json.with_indifferent_access
 - image_json = image_placement_json[:image]
 - appended = post_section.new_record? && post_section.errors.empty? && post_section.heading.blank? && post_section.content.blank? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
-- case prompt.section_type
-- when 'main_image'
-  - kind_class = 'full_image'
-- when 'main_section'
-  - kind_class = 'image_left'
-- else
-  - kind_class = 'full_text'
+/ - case prompt.section_type
+/ - when 'main_image'
+/   - kind_class = 'full_image'
+/ - when 'main_section'
+/   - kind_class = 'image_left'
+/ - else
+/   - kind_class = 'full_text'
 
-.post-section-fields class=[post_section.kind || kind_class]
+.post-section-fields class=[prompt.kind || 'full_text']
 
 
   / class=[appended ? 'is-appended' : nil, post_section.kind || 'image_right'].reject(&:blank?).join(' ')

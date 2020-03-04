@@ -15,10 +15,13 @@
         = f.text_area :heading_prompt, class: 'form-control'
       .form-group
         = f.label :section_type, '* Section Type', class: 'control-label'
-        = f.select :section_type, GuidedPostPrompt.section_types.keys.map {|section_type| [section_type.titleize,section_type]}, {include_blank: ''}, class: 'form-control'
+        = f.select :section_type, GuidedPostPrompt.section_types.keys.map {|section_type| [section_type.titleize, section_type]}, {include_blank: ''}, class: 'form-control'
       .form-group
         = f.label :industry, '* Industry', class: 'control-label'
-        = f.select :industry, GuidedPostPrompt.industries.keys.map {|industry| [industry.titleize,industry]}, {include_blank: ''}, class: 'form-control'
+        = f.select :industry, GuidedPostPrompt.industries.keys.map {|industry| [industry.titleize, industry]}, {include_blank: ''}, class: 'form-control'
+      .form-group
+        = f.label :kind, '* Kind', class: 'control-label'
+        = f.select :kind, GuidedPostPrompt.kinds.keys.map {|kinds| [kinds.titleize, kinds]}, {include_blank: ''}, class: 'form-control'
       .text-center
         = link_to 'Cancel', super_guided_post_prompts_path, class: 'btn btn-default m-r-1'
         = f.submit 'Submit', class: 'btn btn-primary'
