@@ -60,21 +60,80 @@
             /         showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
             / = form.label "Title *", class: 'control-label'
             / = form.text_field :title, class: 'form-control simple-input', placeholder: 'Add a 5-12 word description of what you’re posting.'
-            .well.guided-exposed
-              h5 All Good Web Content...
-              ul
-                li Includes at least 1 Relevant Image (or Video if you're feeling adventerous)
-                li Incorporates Power Words in each Title/Subtitle (View this handy list)
-                li Adds Links at Every Opportunity
-                li Is Easily Scanable (A Subtitle plus 3-4 Sentences for each Section)
-              buttom.btn.btn-success Get Started
-            .post-sections-associations style="margin: 20px 20px 20px 20px;"
+            / .well.guided-exposed
+            /   h5 All Good Web Content...
+            /   ul
+            /     li Includes at least 1 Relevant Image (or Video if you're feeling adventerous)
+            /     li Incorporates Power Words in each Title/Subtitle (View this handy list)
+            /     li Adds Links at Every Opportunity
+            /     li Is Easily Scanable (A Subtitle plus 3-4 Sentences for each Section)
+            /   buttom.btn.btn-success Get Started
 
-                - @prompts.each do |prompt|
-                  / - form.object.creation_post_sections.build
-                  / = render partial: 'businesses/content/creation_post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form, prompts: @prompts }
-                  = render partial: 'businesses/content/guided_post_sections/form', object: form.object.guided_post_sections.new, as: :post_section, locals: { post_form: form, prompt: prompt }
+            .row
+              .col-sm-8
+                .post-sections-associations style="margin: 20px 20px 20px 20px;"
+                  - @prompts.each do |prompt|
+                    / - form.object.creation_post_sections.build
+                    / = render partial: 'businesses/content/creation_post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form, prompts: @prompts }
+                    = render partial: 'businesses/content/guided_post_sections/form', object: form.object.guided_post_sections.new, as: :post_section, locals: { post_form: form, prompt: prompt }
 
+              .col-sm-4 style='border-left: 1px dotted gray;'
+                h5 All Good Web Content...
+                / a.pull-right href="#powerWords" data-toggle="collapse"
+                /   | View
+                /   .fa.fa-chevron-up
+                p
+                  | Incorporates Power Words
+                  a href="#powerWords" data-toggle="collapse"
+                    |  like these
+                  |  in each Title/Subtitle
+                .collapse id="powerWords"
+                  .table-responsive
+                    table.table
+                      tr
+                        td Secret
+                        td Convenient
+                        td Carefree
+                      tr
+                        td Behind the Scenes
+                        td Easy
+                        td Try
+                      tr
+                        td Confession
+                        td Guarentee
+                        td Free
+                      tr
+                        td Miracle
+                        td Now
+                        td New
+                      tr
+                        td Proven
+                        td Reliable
+                        td Genuine
+                      tr
+                        td Quick
+                        td Cheerful
+                        td Efficient
+                      tr
+                        td Instant
+                        td Helpful
+                        td Imagine
+                      tr
+                        td Accurate
+                        td Daring
+                        td You
+                      tr
+                        td Only
+                        td Risk-free
+                        td Because
+                      tr
+                        td Discover
+                        td Hurry
+                        td Save
+
+                p Includes at least 1 relevant Image (or Video if you're feeling adventerous)
+                p Is easily scanable (i.e. includes a subtitle plus 3-4 sentences for each Section)
+                p Adds links at every opportunity
 .webpage-save
   = hidden_field_tag 'draft', nil, :id => "draftField"
   .row
