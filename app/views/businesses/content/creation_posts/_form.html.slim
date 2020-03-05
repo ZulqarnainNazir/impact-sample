@@ -71,7 +71,8 @@
 
             .row
               .col-sm-8
-                .post-sections-associations style="margin: 20px 20px 20px 20px;"
+                .post-sections-associations
+                  / style="margin: 20px 20px 20px 20px;"
                   - @prompts.each do |prompt|
                     / - form.object.creation_post_sections.build
                     / = render partial: 'businesses/content/creation_post_sections/form', collection: form.object.keyed_arranged_sections, as: :post_section, locals: { post_form: form, prompts: @prompts }
