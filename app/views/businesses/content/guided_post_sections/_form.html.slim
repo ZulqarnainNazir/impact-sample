@@ -1,115 +1,46 @@
-
-- image_placement_json = post_section.post_section_image_placement_json.with_indifferent_access
-- image_json = image_placement_json[:image]
-- appended = post_section.new_record? && post_section.errors.empty? && post_section.heading.blank? && post_section.content.blank? && image_placement_json[:id].blank? && image_json[:id].blank? && image_json[:attachment_cache_url].blank?
-/ - case prompt.section_type
-/ - when 'main_image'
-/   - kind_class = 'full_image'
-/ - when 'main_section'
-/   - kind_class = 'image_left'
-/ - else
-/   - kind_class = 'full_text'
-
-.post-section-fields class=[prompt.kind || 'full_text']
-
-
-  / class=[appended ? 'is-appended' : nil, post_section.kind || 'image_right'].reject(&:blank?).join(' ')
-  / data-key=post_section.key
+.post-section-fields class=[prompt.kind || 'full_text'].reject(&:blank?).join(' ')
   .post-section-tolerance.bg-muted.p-xs
-    / i.fa.fa-reorder.post-section-handle
-
     .well.bg-info
       h4
         = prompt.prompt.upcase
         a.text-white.pull-right href="#promptDescription#{prompt.id.to_s}" data-toggle="collapse" type="button"
           .fa.fa-chevron-up
-
       p.collapse.in id="promptDescription#{prompt.id.to_s}"
         = prompt.description
-
     .panel.panel-default
-
-      - if prompt.section_type == 'main_image'
+      - if prompt.section_type == 'title'
         .panel-body
-          = react_component 'ImagePlacement',
-                  imagesPath: business_images_path(post_form.object.business),
-                  inputPrefix: 'creation_post[guided_post_image_placement_attributes]',
-                  label: 'Image',
-                  placement: post_form.object.creation_post_image_placement_json,
-                  presignedPost: s3_presigned_post_hash,
-                  bulkUploadPath: new_business_content_images_upload_path(post_form.object.business),
-                  buttonSize: 'small',
-                  allowEmbed: true,
-                  showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-      -elsif prompt.section_type == 'title'
-        .panel-body
-          / = post_form.label "Title *", class: 'control-label'
           = post_form.text_field :title, class: 'form-control simple-input', placeholder: "#{prompt.heading_prompt.present? ? prompt.heading_prompt : 'Add a 5-12 word summary of you’re post.'}"
-      -elsif prompt.section_type == 'cta_section'
-        .panel-body
-          = post_form.fields_for :post_sections, post_section, child_index: appended ? 98765432101 : nil do |form|
-            = form.label :content, class: 'control-label sr-only'
-            = react_unmounted_component 'RichTextEditor',
-                name: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][content]",
-                html: post_section.content,
-                rows: 12
-      -else
-
-        = post_form.fields_for :post_sections, post_section, child_index: appended ? 98765432101 : nil do |form|
+      - else
+        = post_form.fields_for :guided_post_sections, guided_post_section, child_index: index do |form|
           .post-section-hidden-fields
-            / = form.hidden_field :key
-            / = form.hidden_field :parent_key
-            = form.hidden_field :kind
-            / = form.hidden_field :position
-            / .panel.panel-default
+            = form.hidden_field :kind, value: prompt.kind
+            = form.hidden_field :position, value: index
+          - unless prompt.section_type == 'main_image' || prompt.section_type == 'cta_section'
             .panel-heading
               = form.label :heading, class: 'control-label sr-only'
               = form.text_field :heading, class: 'form-control', placeholder: "#{prompt.heading_prompt.present? ? prompt.heading_prompt : 'Summarize the section below to make it scanable.'}"
-            .panel-body
-              .post-section-fields-content
-                .row.clearfix
-                  .col-sm-5
-                    .center-block
-                      = react_unmounted_component 'ImagePlacement',
-                              inputPrefix: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][guided_post_section_image_placement_attributes]",
-                              imagesPath: business_images_path(post_form.object.business),
-                              presignedPost: s3_presigned_post_hash,
-                              placement: form.object.post_section_image_placement_json,
-                              bulkUploadPath: new_business_content_images_upload_path(post_form.object.business),
-                              buttonSize: 'small',
-                              buttonRemove: false,
-                              allowEmbed: true,
-                              post_sections: false,
-                              showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
-                  .col-sm-7
-                    .form-group
-                      = form.label :content, class: 'control-label sr-only'
-                      = react_unmounted_component 'RichTextEditor',
-                          name: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][content]",
-                          html: post_section.content,
-                          rows: 12
-                  .post-section-fields-warning.text-muted: em This Section will be removed upon Save
-                / .panel-footer.text-right
-                /   .post-section-fields-content.pull-left style="margin:4px"
-                /     span.btn-group.btn-group-xs>
-                /       span.btn.btn-default.post-section-fields-prev
-                /         i.fa.fa-caret-left
-                /       span.btn.btn-default.post-section-fields-next
-                /         i.fa.fa-caret-right
-                /     span.post-section-fields-kind style="margin-left:5px" = form.object.kind.try(:titleize) || kind_class
-                /   = form.label :_destroy, class: 'btn' do
-                /     => form.check_box :_destroy
-                /     ' Remove
-                /     i.fa.fa-trash-o
-
-                / buttom.btn.btn-success Get Started
-                / h4
-                /   = prompt.prompt
-                / p
-                /   = prompt.description
-                / em
-                /   = prompt.section_type
-  / hr
-/ - if post_section.cached_children && post_section.cached_children.any?
-/   ol
-/     = render partial: 'businesses/content/post_sections/form', collection: post_section.cached_children, as: :post_section, locals: { post_form: post_form }
+          .panel-body
+            .post-section-fields-content
+              .row.clearfix
+                .col-sm-5
+                  .center-block
+                    = react_component 'ImagePlacement',
+                            inputPrefix: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][guided_post_section_image_placement_attributes]",
+                            imagesPath: business_images_path(post_form.object.business),
+                            presignedPost: s3_presigned_post_hash,
+                            placement: form.object.guided_post_section_image_placement_json,
+                            bulkUploadPath: new_business_content_images_upload_path(post_form.object.business),
+                            buttonSize: 'small',
+                            buttonRemove: false,
+                            allowEmbed: true,
+                            post_sections: false,
+                            showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+                .col-sm-7
+                  .form-group
+                    = form.label :content, class: 'control-label sr-only'
+                    = react_component 'RichTextEditor',
+                        name: "creation_post[guided_post_sections_attributes][#{form.options[:child_index]}][content]",
+                        html: guided_post_section.content,
+                        rows: 12
+                .post-section-fields-warning.text-muted: em This Section will be removed upon Save

@@ -1,31 +1,32 @@
 class CreationPost < ActiveRecord::Base
 
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  # include Elasticsearch::Model
+  # include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
   include ContentSlugConcern
   include Rails.application.routes.url_helpers
   include ExternalUrlHelper
 
-
   belongs_to :business, touch: true
   has_many :guided_post_sections, as: :sectionable, dependent: :destroy
 
-  accepts_nested_attributes_for :guided_post_sections, allow_destroy: true, reject_if: proc { |a|
-    a['_destroy'] == '1' || (
-      a['heading'].blank? &&
-      a['description'].blank? &&
-      a['post_section_placement_attributes'].kind_of?(Hash) &&
-      a['post_section_placement_attributes'].select { |k,_| !%w[kind image_business image_user].include?(k) }.values.all?(&:blank?)
-    )
-  }
+  accepts_nested_attributes_for :guided_post_sections, allow_destroy: true
+  # , reject_if: proc { |a|
+  #   a['_destroy'] == '1' || (
+  #     a['heading'].blank? &&
+  #     a['content'].blank?
+  #     # &&
+  #     # a['guided_post_section_placement_attributes'].kind_of?(Hash) &&
+  #     # a['guided_post_section_placement_attributes'].select { |k,_| !%w[image_id].include?(k) }.values.all?(&:blank?)
+  #   )
+  # }
+
 
   has_many :content_categories, through: :content_categorizations
   has_many :content_categorizations, as: :content_item
   has_many :content_taggings, as: :content_item
   has_many :content_tags, through: :content_taggings
-  has_many :shares, as: :shareable, dependent: :destroy
-  has_placed_image :creation_post_image
+  # has_many :shares, as: :shareable, dependent: :destroy
   has_placed_image :main_image
 
   validates_presence_of :published_on, if: :not_draft?

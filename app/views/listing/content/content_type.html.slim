@@ -13,3 +13,5 @@
   = render 'quick_post', quick_post: @post
 - elsif params[:content] == 'job'
   = render 'job', job: @post
+- elsif params[:content] == 'creation_post'
+  = render 'creation_post', creation_post: @post

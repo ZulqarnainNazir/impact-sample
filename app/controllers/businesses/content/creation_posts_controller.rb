@@ -11,15 +11,15 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
     @creation_post = @business.creation_posts.find(params[:id])
   end
 
-  def clone
-    cloned_post = @business.creation_posts.find(params[:id])
-    cloned_attributes = cloned_post.attributes.slice(*cloneable_attributes)
-    @creation_post = @business.creation_posts.new(cloned_attributes)
-    @creation_post.content_category_ids = cloned_post.content_category_ids
-    @creation_post.content_tag_ids = cloned_post.content_tag_ids
-    @creation_post.creation_post_image_placement_attributes = { image_id: cloned_post.creation_post_image.try(:attachment_url) }
-    render :new
-  end
+  # def clone
+  #   cloned_post = @business.creation_posts.find(params[:id])
+  #   cloned_attributes = cloned_post.attributes.slice(*cloneable_attributes)
+  #   @creation_post = @business.creation_posts.new(cloned_attributes)
+  #   @creation_post.content_category_ids = cloned_post.content_category_ids
+  #   @creation_post.content_tag_ids = cloned_post.content_tag_ids
+  #   @creation_post.creation_post_image_placement_attributes = { image_id: cloned_post.creation_post_image.try(:attachment_url) }
+  #   render :new
+  # end
 
   def create
     modified_creation_post_params = creation_post_params
@@ -86,38 +86,57 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
   def destroy
     destroy_resource @creation_post, location: [@business, :content_root] do |success|
       # if success
-      #   CreationPost.__elasticsearch__.refresh_index!
+      #   begin
+      #     if @business.facebook_id? && @business.facebook_token? && @post.facebook_id?
+      #       page_graph = Koala::Facebook::API.new(@business.facebook_token)
+      #       page_graph.delete_object @post.facebook_id
+      #     end
+      #   rescue
+      #   end
+      #   Post.__elasticsearch__.refresh_index!
       # end
     end
   end
 
-  def sharing_insights
-    @creation_post = CreationPost.find(params[:creation_post_id])
-    @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
-  end
+  # def sharing_insights
+  #   @creation_post = CreationPost.find(params[:creation_post_id])
+  #   @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)
+  # end
 
   private
 
   def creation_post_params
     params.require(:creation_post).permit(
-      :content,
       :meta_description,
       :published_on,
       :published_time,
       :title,
       content_category_ids: [],
       content_tag_ids: [],
-      creation_post_image_placement_attributes: placement_attributes,
       main_image_placement_attributes: placement_attributes,
+      guided_post_sections_attributes: [
+        :id,
+        :kind,
+        :heading,
+        :content,
+        :position,
+        :_destroy,
+        guided_post_section_image_placement_attributes: placement_attributes,
+      ],
     ).tap do |safe_params|
-      merge_placement_image_attributes safe_params, :creation_post_image_placement_attributes
       merge_placement_image_attributes safe_params, :main_image_placement_attributes
+      merge_placement_image_attributes_array safe_params[:guided_post_sections_attributes], :guided_post_section_image_placement_attributes
+      if safe_params[:guided_post_sections_attributes]
+        safe_params[:guided_post_sections_attributes].each do |_, attr|
+          attr.merge! sectionable_id: @creation_post.id
+        end
+      end
       safe_params[:content_category_ids] = [] unless safe_params[:content_category_ids]
       safe_params[:content_tag_ids] = [] unless safe_params[:content_tag_ids]
     end
   end
 
-  def cloneable_attributes
-    %w[title content]
-  end
+  # def cloneable_attributes
+  #   %w[title description meta_description guided_post_sections_attributes content_category_ids content_tag_ids main_image_placement_attributes]
+  # end
 end

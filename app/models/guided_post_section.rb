@@ -1,6 +1,6 @@
 class GuidedPostSection < ActiveRecord::Base
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  # include Elasticsearch::Model
+  # include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
   belongs_to :sectionable, polymorphic: true
@@ -12,10 +12,11 @@ class GuidedPostSection < ActiveRecord::Base
     full_image: 3,
   }
 
-  has_placed_image :post_section_image
+  has_placed_image :guided_post_section_image
 
   validates :kind, presence: true
-  validates :post, presence: true
+  # validates :sectionable, presence: true
+  validates :position, presence: true
 
   before_validation do
     self.kind = 'full_text' unless kind?
