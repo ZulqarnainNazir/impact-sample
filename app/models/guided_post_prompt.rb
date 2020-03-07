@@ -1,6 +1,6 @@
 class GuidedPostPrompt < ActiveRecord::Base
 
-  enum post_type: {creation_post: 0}
+  enum post_type: {creation_post: 0, profile_post: 1}
   enum section_type: {title: 0, main_image: 1, intro_section: 2, main_section: 3, other_section: 4, outcome_section: 5, cta_section: 6 }
   enum industry: {general: 0, professional_services: 1, retail: 2, restaurant: 3 }
   enum kind: {

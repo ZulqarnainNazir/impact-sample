@@ -274,9 +274,14 @@ Rails.application.routes.draw do
             get :clone, on: :member
           end
           resources :creation_posts, only: %i[new create edit update destroy] do
-            resources :shares, only: %i[new create]
-            get :sharing_insights
-            get :clone, on: :member
+            # resources :shares, only: %i[new create]
+            # get :sharing_insights
+            # get :clone, on: :member
+          end
+          resources :profile_posts, only: %i[new create edit update destroy] do
+            # resources :shares, only: %i[new create]
+            # get :sharing_insights
+            # get :clone, on: :member
           end
         end
 
@@ -472,6 +477,7 @@ Rails.application.routes.draw do
     resources :posts, only: %i[show]
     resources :quick_posts, only: %i[show]
     resources :creation_posts, only: %i[show]
+    resources :profile_posts, only: %i[show]
     resources :reviews, only: %i[index show new create]
 
     get '/:type/preview/:id', to: 'generic_posts#preview', as: :generic_post_preview
