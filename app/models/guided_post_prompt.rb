@@ -12,15 +12,8 @@ class GuidedPostPrompt < ActiveRecord::Base
     full_image: 3,
   }
 
-  # scope :admin_created, -> { where(business_id: nil) }
-  # scope :recommended, -> { where(globally_recommended: true) }
-
   validates :prompt, :description, :post_type, :section_type, :industry, :kind, presence: true
   validates :heading_prompt, presence: true, unless: Proc.new { |guided_post_prompt| guided_post_prompt.section_type == 'title' || guided_post_prompt.section_type == 'main_image' || guided_post_prompt.section_type == 'intro_section' || guided_post_prompt.section_type == 'cta_section' }
-
   validates :post_type, uniqueness: {scope: [:section_type, :industry]}, unless: Proc.new { |guided_post_prompt| guided_post_prompt.section_type == 'other_section' }
-  # validates :post_type, uniqueness: {scope: [:industry]}
-
-  private
 
 end

@@ -27,14 +27,22 @@
 
               .row style='margin: 0 0 25px 0;'
                 - if post_section.image_right?
-                  .col-sm-5.col-sm-push-7
+                  / .col-sm-5.col-sm-push-7
+                  /   - if post_section.guided_post_section_image_placement.try(:embeds?)
+                  /     = post_section.guided_post_section_image_placement.embed.html_safe
+                  /   - elsif post_section.guided_post_section_image
+                  /     = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'
+                  / .col-sm-7.col-sm-pull-5
+                  /   h3 = post_section.heading
+                  /   p = sanitize_html post_section.content
+
+                  .col-12
+                    h3 = post_section.heading
+                    p = sanitize_html post_section.content
                     - if post_section.guided_post_section_image_placement.try(:embeds?)
                       = post_section.guided_post_section_image_placement.embed.html_safe
                     - elsif post_section.guided_post_section_image
-                      = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'
-                  .col-sm-7.col-sm-pull-5
-                    h3 = post_section.heading
-                    p = sanitize_html post_section.content
+                      = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive pull-right', style: 'max-width: 35%; margin-left: 25px; margin-botton: 5px;'
                 - elsif post_section.image_left?
                   / .row
                   /   .col-sm-5
