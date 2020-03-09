@@ -12,62 +12,62 @@
         p This post has not been published by the business owner yet. Check back later!
       - else
         .feed-item-meta
-        - cache creation_post do
-          h2 = creation_post.title
-          span.text-muted> Posted #{time_ago_in_words creation_post.published_at} ago
-          - if creation_post.content_categories.any? || creation_post.content_tags.any?
-            span.text-muted> in
-            - (creation_post.content_categories + creation_post.content_tags).each_with_index do |classification, i|
-              = classification.name
-              - if i < creation_post.content_categories.count + creation_post.content_tags.count - 1
-                ' ,
-          hr
-          - creation_post.guided_post_sections.order(:position).each do |post_section|
-            - unless post_section.heading.blank? && post_section.content.blank? && post_section.guided_post_section_image.blank?
+        / - cache creation_post do
+        h2 = creation_post.title
+        span.text-muted> Posted #{time_ago_in_words creation_post.published_at} ago
+        - if creation_post.content_categories.any? || creation_post.content_tags.any?
+          span.text-muted> in
+          - (creation_post.content_categories + creation_post.content_tags).each_with_index do |classification, i|
+            = classification.name
+            - if i < creation_post.content_categories.count + creation_post.content_tags.count - 1
+              ' ,
+        hr
+        - creation_post.guided_post_sections.order(:position).each do |post_section|
+          - unless post_section.heading.blank? && post_section.content.blank? && post_section.guided_post_section_image.blank?
 
-              .row style='margin: 0 0 25px 0;'
-                - if post_section.image_right?
-                  / .col-sm-5.col-sm-push-7
-                  /   - if post_section.guided_post_section_image_placement.try(:embeds?)
-                  /     = post_section.guided_post_section_image_placement.embed.html_safe
-                  /   - elsif post_section.guided_post_section_image
-                  /     = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'
-                  / .col-sm-7.col-sm-pull-5
-                  /   h3 = post_section.heading
-                  /   p = sanitize_html post_section.content
+            .row style='margin: 0 0 25px 0;'
+              - if post_section.image_right?
+                / .col-sm-5.col-sm-push-7
+                /   - if post_section.guided_post_section_image_placement.try(:embeds?)
+                /     = post_section.guided_post_section_image_placement.embed.html_safe
+                /   - elsif post_section.guided_post_section_image
+                /     = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'
+                / .col-sm-7.col-sm-pull-5
+                /   h3 = post_section.heading
+                /   p = sanitize_html post_section.content
 
-                  .col-12
-                    h3 = post_section.heading
-                    p = sanitize_html post_section.content
-                    - if post_section.guided_post_section_image_placement.try(:embeds?)
-                      = post_section.guided_post_section_image_placement.embed.html_safe
-                    - elsif post_section.guided_post_section_image
-                      = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive pull-right', style: 'max-width: 35%; margin-left: 25px; margin-botton: 5px;'
+                .col-12
+                  h3 = post_section.heading
+                  p = sanitize_html post_section.content
+                  - if post_section.guided_post_section_image_placement.try(:embeds?)
+                    = post_section.guided_post_section_image_placement.embed.html_safe
+                  - elsif post_section.guided_post_section_image
+                    = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive pull-right', style: 'max-width: 35%; margin-left: 25px; margin-botton: 5px;'
 
-                - elsif post_section.image_left?
-                  / .row
-                  /   .col-sm-5
-                  /     - if post_section.guided_post_section_image_placement.try(:embeds?)
-                  /       = post_section.guided_post_section_image_placement.embed.html_safe
-                  /     - elsif post_section.guided_post_section_image
-                  /       = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'
-                  /   .col-sm-7
-                  /     h3 = post_section.heading
-                  /     p = sanitize_html post_section.content
-                  .col-12
-                    - if post_section.guided_post_section_image_placement.try(:embeds?)
-                      = post_section.guided_post_section_image_placement.embed.html_safe
-                    - elsif post_section.guided_post_section_image
-                      = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive pull-left', style: 'max-width: 35%; margin-right: 25px; margin-botton: 5px;'
-                    h3 = post_section.heading
-                    p = sanitize_html post_section.content
-                - elsif post_section.full_text?
-                  .col-12
-                    h3 = post_section.heading
-                    p = sanitize_html post_section.content
-                - elsif post_section.full_image?
-                  .col-12
-                    - if post_section.guided_post_section_image_placement.try(:embeds?)
-                      = post_section.guided_post_section_image_placement.embed.html_safe
-                    - elsif post_section.guided_post_section_image
-                      = image_tag post_section.guided_post_section_image.attachment_url(:large_fixed), alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'
+              - elsif post_section.image_left?
+                / .row
+                /   .col-sm-5
+                /     - if post_section.guided_post_section_image_placement.try(:embeds?)
+                /       = post_section.guided_post_section_image_placement.embed.html_safe
+                /     - elsif post_section.guided_post_section_image
+                /       = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'
+                /   .col-sm-7
+                /     h3 = post_section.heading
+                /     p = sanitize_html post_section.content
+                .col-12
+                  - if post_section.guided_post_section_image_placement.try(:embeds?)
+                    = post_section.guided_post_section_image_placement.embed.html_safe
+                  - elsif post_section.guided_post_section_image
+                    = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive pull-left', style: 'max-width: 35%; margin-right: 25px; margin-botton: 5px;'
+                  h3 = post_section.heading
+                  p = sanitize_html post_section.content
+              - elsif post_section.full_text?
+                .col-12
+                  h3 = post_section.heading
+                  p = sanitize_html post_section.content
+              - elsif post_section.full_image?
+                .col-12
+                  - if post_section.guided_post_section_image_placement.try(:embeds?)
+                    = post_section.guided_post_section_image_placement.embed.html_safe
+                  - elsif post_section.guided_post_section_image
+                    = image_tag post_section.guided_post_section_image.attachment_url(:large_fixed), alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive'

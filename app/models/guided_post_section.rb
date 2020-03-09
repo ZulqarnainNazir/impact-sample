@@ -20,6 +20,6 @@ class GuidedPostSection < ActiveRecord::Base
   validates :position, presence: true
 
   before_validation do
-    self.kind = 'full_text' unless kind?
+    self.kind = 'full_text' unless self.kind?
   end
 end
