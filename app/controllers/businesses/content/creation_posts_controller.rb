@@ -1,4 +1,6 @@
 class Businesses::Content::CreationPostsController < Businesses::Content::BaseController
+  before_action :ensure_admin
+
   include PlacementAttributesConcern
 
   before_action only: new_actions do
