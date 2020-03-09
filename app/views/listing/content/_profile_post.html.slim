@@ -37,12 +37,12 @@
                 /   p = sanitize_html post_section.content
 
                 .col-12
-                  h3 = post_section.heading
-                  p = sanitize_html post_section.content
                   - if post_section.guided_post_section_image_placement.try(:embeds?)
                     = post_section.guided_post_section_image_placement.embed.html_safe
                   - elsif post_section.guided_post_section_image
-                    = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive pull-right', style: 'max-width: 35%; margin-left: 25px; margin-botton: 5px;'
+                    = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive img-right'
+                  h3 = post_section.heading
+                  p = sanitize_html post_section.content
               - elsif post_section.image_left?
                 / .row
                 /   .col-sm-5
@@ -57,7 +57,7 @@
                   - if post_section.guided_post_section_image_placement.try(:embeds?)
                     = post_section.guided_post_section_image_placement.embed.html_safe
                   - elsif post_section.guided_post_section_image
-                    = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive pull-left', style: 'max-width: 35%; margin-right: 25px; margin-botton: 5px;'
+                    = image_tag post_section.guided_post_section_image.attachment_medium_url, alt: post_section.guided_post_section_image.alt, title: post_section.guided_post_section_image.title, class: 'img-responsive img-left'
                   h3 = post_section.heading
                   p = sanitize_html post_section.content
               - elsif post_section.full_text?

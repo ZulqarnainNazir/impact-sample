@@ -19,7 +19,7 @@ class GuidedPostSection < ActiveRecord::Base
   validates :guided_post_prompt, presence: true
   validates :position, presence: true
 
-  before_validation do
-    self.kind = 'full_text' unless self.kind?
-  end
+  # before_validation do
+  #   self.kind = 'full_text' unless self.kind?
+  # end
 end

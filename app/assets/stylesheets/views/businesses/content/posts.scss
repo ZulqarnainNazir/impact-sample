@@ -1,0 +1,19 @@
+@media only screen and (min-width: 600px) {
+  .post-show .img-left {
+    // .pull_left();
+    float: left !important;
+    max-width: 35%;
+    margin-right: 25px;
+    margin-botton: 5px;
+  }
+
+  .post-show .img-right {
+    // .pull_right();
+    float: right !important;
+    max-width: 35%;
+    margin-left: 25px;
+    margin-botton: 5px;
+
+  }
+
+}
