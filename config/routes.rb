@@ -94,6 +94,9 @@ Rails.application.routes.draw do
       resources :missions do
         get :custom, on: :collection
       end
+      resources :guided_post_prompts do
+        # get :custom, on: :collection
+      end
       resources :billing_dashboard, only: [:none] do
         collection do
 
@@ -269,6 +272,16 @@ Rails.application.routes.draw do
             resources :shares, only: %i[new create]
             get :sharing_insights
             get :clone, on: :member
+          end
+          resources :creation_posts, only: %i[new create edit update destroy] do
+            # resources :shares, only: %i[new create]
+            # get :sharing_insights
+            # get :clone, on: :member
+          end
+          resources :profile_posts, only: %i[new create edit update destroy] do
+            # resources :shares, only: %i[new create]
+            # get :sharing_insights
+            # get :clone, on: :member
           end
         end
 
@@ -463,6 +476,8 @@ Rails.application.routes.draw do
     resources :offers, only: %i[show]
     resources :posts, only: %i[show]
     resources :quick_posts, only: %i[show]
+    resources :creation_posts, only: %i[show]
+    resources :profile_posts, only: %i[show]
     resources :reviews, only: %i[index show new create]
 
     get '/:type/preview/:id', to: 'generic_posts#preview', as: :generic_post_preview

@@ -1,0 +1,184 @@
+.wrapper.wrapper-content
+  / <a class="btn btn-primary pull-right btn-sm btn-outline" href="javascript:Appcues.show('-KjjedDv3uzHEB-lx4fj')">See Help Tips</a>
+
+  .row
+    .col-md-10.col-md-offset-1.no-padding
+      .ibox.float-e-margins
+        .ibox-title
+          h5 Profile a Business or Cause
+          .ibox-tools
+            button.btn.btn-primary.btn-sm.btn-outline.m-b-0 data-target="#myModal" data-toggle="modal" type="button"
+              | What's This?
+            #myModal.modal.inmodal aria-hidden="true" role="dialog" tabindex="-1"
+              .modal-dialog
+                .modal-content.animated.bounceInRight
+                  .modal-header
+                    button.close data-dismiss="modal" type="button"
+                      span aria-hidden="true"  &times;
+                      span.sr-only Close
+                    i.fa.fa-bolt.modal-icon
+                    h4.modal-title Hightlight a Creation
+                    small.font-bold Highlight a Creation to share your expertise
+                  .modal-body.text-left
+
+                    p With a Highlight a Creation post you can quickly:
+                    ul
+                      li Share the outcome
+                      li Describe the Process
+                      li Introduce a Unique perspective
+                      li Describe any challenges you faced and how you handled them
+                    p
+                      | When you use a Highlight a Creation Post, you can still share it to social media but you will also get the benefit of it appearing on your site which is good for search engines. Plus it'll appear on other local websites automatically thanks to our free Local Connections
+                      sup TM &nbsp
+                      | tools.
+                    p This means, more locals will see more of your content!
+
+                  .modal-footer
+                    button.btn.btn-white data-dismiss="modal" type="button"  Close
+                    / button.btn.btn-primary type="button"  Save changes
+        .ibox-content.guided-overlay
+          .form-group
+            - if @profile_post.persisted?
+              - if @profile_post.published_status == false
+                = link_to "Preview Post", [:website, :generic_post, :preview, :type => "profile_post", only_path: false, :host => @business.website.host, protocol: :http, :id => @profile_post.id], class: 'btn btn-block btn-default', :target => "_blank"
+              - else
+                - if @business.webhost_primary?
+                  = link_to "View Post", [:website, @profile_post, only_path: false, host: @business.website.host, protocol: :http], class: 'btn btn-block btn-default', :target => "_blank"
+                - if !@business.webhost_primary? && @business.has_plan?
+                  = link_to "View Post", listing_path_content_url(@business, @profile_post.slug, 'profile_post'), class: 'btn btn-block btn-default', :target => "_blank"
+
+            .row
+              .col-sm-8
+                - @prompts.each_with_index do |prompt, i|
+                  - if prompt.section_type == 'title'
+                    = render partial: 'businesses/content/guided_post_sections/profile_form', object: form.object, as: :guided_post_section, locals: { post_form: form, prompt: prompt, index: i }
+                  -elsif @profile_post.persisted? && form.object.guided_post_sections.present?
+                    = render partial: 'businesses/content/guided_post_sections/profile_form', object: form.object.guided_post_sections.where(guided_post_prompt_id: prompt.id).first.present? ? form.object.guided_post_sections.where(guided_post_prompt_id: prompt.id).first : form.object.guided_post_sections.new, as: :guided_post_section, locals: { post_form: form, prompt: prompt, index: i }
+                  - else
+                    = render partial: 'businesses/content/guided_post_sections/profile_form', object: form.object.guided_post_sections.new, as: :guided_post_section, locals: { post_form: form, prompt: prompt, index: i }
+
+              .col-sm-4 style='border-left: 1px dotted gray;'
+                h5 All Good Web Content...
+                p
+                  | Incorporates Power Words
+                  a href="#powerWords" data-toggle="collapse"
+                    |  like these
+                  |  in each title/subtitle
+                .collapse id="powerWords"
+                  .table-responsive
+                    table.table
+                      tr
+                        td Secret
+                        td Convenient
+                        td Carefree
+                      tr
+                        td Behind the Scenes
+                        td Easy
+                        td Try
+                      tr
+                        td Confession
+                        td Guarentee
+                        td Free
+                      tr
+                        td Miracle
+                        td Now
+                        td New
+                      tr
+                        td Proven
+                        td Reliable
+                        td Genuine
+                      tr
+                        td Quick
+                        td Cheerful
+                        td Efficient
+                      tr
+                        td Instant
+                        td Helpful
+                        td Imagine
+                      tr
+                        td Accurate
+                        td Daring
+                        td You
+                      tr
+                        td Only
+                        td Risk-free
+                        td Because
+                      tr
+                        td Discover
+                        td Hurry
+                        td Save
+
+                p Includes at least 1 relevant image (or video if you're feeling adventerous)
+                p Is easily scanable (i.e. includes a subtitle plus 3-4 sentences for each section)
+                p Adds links at every opportunity
+.webpage-save
+  = hidden_field_tag 'draft', nil, :id => "draftField"
+  .row
+    - if (form.object.persisted? && form.object.published_status == false)
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', name: "publish", type: "button"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Save Draft', class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+    - elsif form.object.persisted?
+      .col-sm-4.col-sm-offset-2.col-xs-6
+        = form.button 'Update Post', class: 'btn btn-block btn-primary', name: "publish", type: "button"
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Unpublish & Revert to Draft', class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+    - else
+      .col-sm-4.col-sm-offset-2.col-xs-6
+         = form.button 'Publish Post and Share', class: 'btn btn-block btn-primary', name: 'publish'
+      .col-sm-2.col-xs-1.text-center.no-padding
+        a.text-center data-toggle="modal" data-target="#modal"
+          span.fa.fa-cog.fa-2x
+          span.hidden-xs.advanced-button Advanced
+      .col-sm-4.col-xs-4
+        .form-group.m-b-none
+          = form.button 'Save Draft', class: 'btn-link secondary-btn', name: "draft", value: "draft", type: "button"
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h1 Advanced
+      .modal-body
+        .form-group
+          = form.label :published_on, class: 'control-label'
+          .input-group.date#datetimepicker
+            = form.text_field :published_on, :value => (@profile_post.published_at.present? ? @profile_post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %p %z") : DateTime.now.in_time_zone("Pacific Time (US & Canada)").strftime("%b %d %Y %H:%M %p %z")), :class => "form-control"
+            span.input-group-addon
+              span.fa.fa-calendar
+        = render partial: 'businesses/content/advanced_settings', locals: {form: form, main_image: true}
+        = render partial: 'businesses/content/classification', locals: {form: form}
+
+
+javascript:
+  $(function () {
+
+    $('#datetimepicker').datetimepicker({
+        format: 'MMM D YYYY h:mm A ZZ'
+    });
+
+    $('button[name="draft"]').off('click');
+    $('button[name="draft"]').click(function () {
+      $('#draftField').val(1);
+      $(this).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+      $(".save-once").submit();
+    });
+
+    $('button[name="publish"]').off('click');
+    $('button[name="publish"]').click(function () {
+      $(this).prop('disabled', true).removeClass('btn-primary').addClass('btn-default').prepend('<i class="fa fa-spinner fa-spin" style="margin-right:0.5em">')
+      $(".save-once").submit();
+    });
+  });

@@ -1,0 +1,5 @@
+- title 'Edit Your Profile a Business or Cause Post'.html_safe
+
+= errors_for @profile_post
+= form_for @profile_post, url: [@business, :content, @profile_post], html: { class: 'save-once' } do |form|
+  = render form

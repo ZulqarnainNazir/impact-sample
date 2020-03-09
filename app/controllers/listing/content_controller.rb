@@ -59,6 +59,10 @@ class Listing::ContentController < ApplicationController
       @post = @business.quick_posts.find_by(slug: params[:content_type])
     elsif params[:content] == 'job'
       @post = @business.jobs.find_by(slug: params[:content_type])
+    elsif params[:content] == "creation_post"
+      @post = @business.creation_posts.find_by(slug: params[:content_type])
+    elsif params[:content] == "profile_post"
+      @post = @business.profile_posts.find_by(slug: params[:content_type])
     end
   end
 
@@ -96,6 +100,14 @@ class Listing::ContentController < ApplicationController
 
   def job
     @post = @business.jobs.find_by(slug: params[:content_type])
+  end
+
+  def creation_post
+    @post = @business.creation_posts.find_by(slug: params[:content_type])
+  end
+
+  def profile_post
+    @post = @business.profile_posts.find_by(slug: params[:content_type])
   end
 
   def gallery_image #in routes, a child of content_type (specficially, gallery)

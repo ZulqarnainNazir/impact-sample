@@ -1,0 +1,5 @@
+- title 'Highlight a Creation'.html_safe
+
+= errors_for @creation_post
+= form_for @creation_post, url: [@business, :content_creation_posts], html: { class: 'save-once' } do |form|
+  = render form

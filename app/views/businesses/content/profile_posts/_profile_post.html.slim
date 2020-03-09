@@ -1,0 +1,121 @@
+.timeline-item
+  .row
+    .col-xs-3.date
+      => icon 'bolt'
+      - if profile_post.published_at > DateTime.now && profile_post.published_status != false
+        |  Will post in
+        br
+        small.text-navy
+          | #{time_ago_in_words profile_post.published_at.in_time_zone("Pacific Time (US & Canada)")}
+      - elsif profile_post.published_status == false
+        | Unpublished
+      - else
+        |  #{profile_post.published_at.in_time_zone("Pacific Time (US & Canada)").strftime('%l:%M %P')}
+        br
+        small.text-navy
+          | #{time_ago_in_words profile_post.published_at.in_time_zone("Pacific Time (US & Canada)")} ago
+    .col-xs-7.content
+      strong> Hightlight a Creation
+      - if profile_post.published_status == false
+        code
+          small Draft
+      span.pull-right
+        - if profile_post.content_categories.any? || profile_post.content_tags.any?
+          span.text-muted> Posted in
+          - (profile_post.content_categories + profile_post.content_tags).each_with_index do |classification, i|
+            - if @business.webhost_primary?
+              = link_to classification.name, [:website, classification, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
+            - else
+              = classification.name
+            - if i < profile_post.content_categories.count + profile_post.content_tags.count - 1
+              ' ,
+        span.btn-group.btn-group-sm style="margin-left:8px"
+          - if share_authorized?(@business) && shared?(profile_post, @business)
+            /= link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default'
+            = link_to icon('pencil'), [:edit, @business, :content, profile_post], class: 'btn btn-default', title: ' Edit Post'
+            = link_to icon('trash'), [@business, :content, profile_post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }
+          - elsif share_authorized?(@business) && !shared?(profile_post, @business)
+            /= link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default'
+            /= link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default quick-post-not-shared', id: quick_post.id
+            = link_to icon('pencil'), [:edit, @business, :content, profile_post], class: 'btn btn-default', title: ' Edit Post'
+            = link_to icon('trash'), [@business, :content, profile_post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }
+          - elsif !share_authorized?(@business)
+            /= link_to icon('share-alt'), [:new, @business, :content, quick_post, :share], class: 'btn btn-default quick-post-unauthorized'
+            /= link_to icon('line-chart'), [@business, :content, quick_post, :sharing_insights], class: 'btn btn-default quick-post-unauthorized'
+
+            = link_to icon('pencil'), [:edit, @business, :content, profile_post], class: 'btn btn-default', title: ' Edit Post'
+            = link_to icon('trash'), [@business, :content, profile_post], method: :delete, class: 'btn btn-danger', title: ' Delete Post', data: { confirm: 'Are you sure?' }
+      .m-t-md
+        - if @business.webhost_primary?
+          - if profile_post.published_status == false
+            h4 = link_to profile_post.title, [:website, :generic_post, :preview, :type => "profile_post", only_path: false, :host => @business.website.host, protocol: :http, :id => profile_post.id], target: :_blank
+          - else
+            - if Rails.env.development? || Rails.env.test?
+              h4 = link_to profile_post.title, [:website, profile_post, only_path: false, host: @business.website.host, protocol: :http], target: :_blank
+            - elsif Rails.env.production?
+              h4 = link_to profile_post.title, "http://#{@business.website.host}/#{path_to_external_content(profile_post)}", only_path: false, protocol: :http, target: :_blank
+        - elsif !@business.webhost_primary? && @business.has_plan?
+          h4 = link_to profile_post.title, listing_path_content_url(@business, profile_post.slug, 'profile_post'), target: :_blank
+        - else
+          h4 = profile_post.title
+        - placement = profile_post.profile_post_image_placement
+        - if placement.try(:embeds?)
+          .embed-responsive.embed-responsive-4by3 = placement.embed.html_safe
+        - elsif placement.try(:image).try(:attachment_url, :thumbnail)
+          = image_tag placement.image.attachment_url(:thumbnail), alt: placement.image.alt, title: placement.image.title, class: 'img-responsive pull-left', style: 'margin-right: 10px; max-height: 90px;'
+        .p-w-sm
+          = truncate sanitize(profile_post.content), length: 250
+          - if shared?(profile_post, @business)
+            .container-fluid
+              ul.list-inline
+                li Comments
+                li = @graph.get_total_post_comment_count(profile_post.facebook_id)
+                li Likes
+                li = @graph.get_total_post_like_count(profile_post.facebook_id)
+                li Clicks
+                li = @graph.get_total_post_click_count(profile_post.facebook_id)
+                li Reach
+                li = @graph.get_total_post_reach_count(profile_post.facebook_id)
+
+
+  javascript:
+
+    $('.highlight-creation-unauthorized').click(function (e) {
+      e.preventDefault();
+      swal({
+          title: "You must link your account first!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Go Link!",
+          closeOnConfirm: true
+      }, function (confirmed) {
+        if(confirmed) {
+          var url = window.location.href;
+          var splitUrl = url.split('/content')[0];
+           window.location.href = splitUrl + '/accounts/facebook/edit';
+            }
+        }
+      )
+    });
+
+    $('.highlight-creation-not-shared').click(function (e) {
+      e.preventDefault();
+      var postId = this.id;
+      swal({
+          title: "You must share this post first!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Go share!",
+          closeOnConfirm: true
+      }, function (confirmed) {
+        if(confirmed) {
+          var url = window.location.href;
+          var splitUrl = url.split('/feed')[0];
+           window.location.href = splitUrl + '/profile_post/' + postId +'/shares/new';
+            }
+        }
+      )
+    });

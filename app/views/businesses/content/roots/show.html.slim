@@ -59,10 +59,20 @@
           .ibox.float-e-margins
             .ibox-title
               h5
-                | What would you like to create?
+                | What type of post would you like to create?
             .ibox-content
+              - if current_user.super_user?
+                .row style="margin: 20px 0;"
+                  .col-xs-12
+                  | Demo Links:
+                  .col-xs-12
+                    = link_to [:new, @business, :content_creation_post] do
+                      Demo Highlight a Creation
+                  .col-xs-3
+                    = link_to [:new, @business, :content_profile_post] do
+                      Demo Profile a Business or Cause
               .row.dashboard-root-secondary-panels
-                .col-xs-12.col-sm-6.col-lg-3
+                .col-xs-12.col-sm-6.col-lg-4
                   = link_to [:new, @business, :content_quick_post] do
                     .panel.panel-primary
                       .panel-heading
@@ -72,9 +82,9 @@
                           .col-xs-9
                             span Perfect for company news, annoucements, and highlights.
                       .panel-footer.text-right
-                        span.pull-left New Quick Post
+                        span.pull-left Quick Post
                         i.fa.fa-arrow-circle-right
-                .col-xs-12.col-sm-6.col-lg-3
+                .col-xs-12.col-sm-6.col-lg-4
                   = link_to [:new, @business, :content_event_definition] do
                     .panel.panel-primary
                       .panel-heading
@@ -84,9 +94,102 @@
                           .col-xs-9
                             span Share your events and classes with the community.
                       .panel-footer.text-right
-                        span.pull-left New Event
+                        span.pull-left Event
                         i.fa.fa-arrow-circle-right
-                .col-xs-12.col-sm-6.col-lg-3
+                .col-xs-12.col-sm-6.col-lg-4
+                  / = link_to [:new, @business, :content_creation_post] do
+                  = link_to "" do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-cogs.fa-3x.float-left
+                          .col-xs-9
+                            .badge.badge-secondary Coming Soon
+                            span Share your expertise.
+                      .panel-footer.text-right
+                        span.pull-left Highlight a Creation
+                        i.fa.fa-arrow-circle-right
+                / .col-xs-12.col-sm-6.col-lg-3
+                /   = link_to [:new, @business, :content_creation_post] do
+                /     .panel.panel-primary
+                /       .panel-heading
+                /         .row
+                /           .col-xs-3
+                /             i.fa.fa-lightbulb-o.fa-3x.float-left
+                /           .col-xs-9
+                /             .badge.badge-secondary Coming Soon
+                /             span Spotlight an Experience to share your expertise.
+                /       .panel-footer.text-right
+                /         span.pull-left Spotlight an Experience
+                /         i.fa.fa-arrow-circle-right
+                / .col-xs-12.col-sm-6.col-lg-3
+                /   = link_to [:new, @business, :content_creation_post] do
+                /     .panel.panel-primary
+                /       .panel-heading
+                /         .row
+                /           .col-xs-3
+                /             i.fa.fa-archive.fa-3x.float-left
+                /           .col-xs-9
+                /             .badge.badge-secondary Coming Soon
+                /             span Review a product to share its' unique value.
+                /       .panel-footer.text-right
+                /         span.pull-left Product Overview/Unboxing
+                /         i.fa.fa-arrow-circle-right
+                / .col-xs-12.col-sm-6.col-lg-3
+                /   = link_to [:new, @business, :content_creation_post] do
+                /     .panel.panel-primary
+                /       .panel-heading
+                /         .row
+                /           .col-xs-3
+                /             i.fa.fa-wrench.fa-3x.float-left
+                /           .col-xs-9
+                /             .badge.badge-secondary Coming Soon
+                /             span Highlight your work to show how you can solve a problem.
+                /       .panel-footer.text-right
+                /         span.pull-left Professional Services Example
+                /         i.fa.fa-arrow-circle-right
+                / .col-xs-12.col-sm-6.col-lg-3
+                /   = link_to [:new, @business, :content_creation_post] do
+                /     .panel.panel-primary
+                /       .panel-heading
+                /         .row
+                /           .col-xs-3
+                /             i.fa.fa-user-circle.fa-3x.float-left
+                /           .col-xs-9
+                /             .badge.badge-secondary Coming Soon
+                /             span Recognize an emloyee.
+                /       .panel-footer.text-right
+                /         span.pull-left Employee Recognition
+                /         i.fa.fa-arrow-circle-right
+                / .col-xs-12.col-sm-6.col-lg-3
+                /   = link_to [:new, @business, :content_creation_post] do
+                /     .panel.panel-primary
+                /       .panel-heading
+                /         .row
+                /           .col-xs-3
+                /             i.fa.fa-user-circle-o.fa-3x.float-left
+                /           .col-xs-9
+                /             .badge.badge-secondary Coming Soon
+                /             span Recognize a volunteer.
+                /       .panel-footer.text-right
+                /         span.pull-left Volunteer Recognition
+                /         i.fa.fa-arrow-circle-right
+                .col-xs-12.col-sm-6.col-lg-4
+                  / = link_to [:new, @business, :content_profile_post] do
+                  = link_to "" do
+                    .panel.panel-primary
+                      .panel-heading
+                        .row
+                          .col-xs-3
+                            i.fa.fa-building-o.fa-3x.float-left
+                          .col-xs-9
+                            .badge.badge-secondary Coming Soon
+                            span Highlight your comminity.
+                      .panel-footer.text-right
+                        span.pull-left Profile a Business or Cause
+                        i.fa.fa-arrow-circle-right
+                .col-xs-12.col-sm-6.col-lg-4
                   = link_to [:new, @business, :content_offer] do
                     .panel.panel-primary
                       .panel-heading
@@ -96,9 +199,9 @@
                           .col-xs-9
                             span Post your offers, coupons, and discounts.
                       .panel-footer.text-right
-                        span.pull-left New Offer
+                        span.pull-left Offer/Coupon
                         i.fa.fa-arrow-circle-right
-                .col-xs-12.col-sm-6.col-lg-3
+                .col-xs-12.col-sm-6.col-lg-4
                   = link_to [:new, @business, :content_job] do
                     .panel.panel-primary
                       .panel-heading
@@ -108,10 +211,10 @@
                           .col-xs-9
                             span Highlight your job openings & volunteer opportunities.
                       .panel-footer.text-right
-                        span.pull-left New Job/Volunteer Post
+                        span.pull-left Job/Volunteer Post
                         i.fa.fa-arrow-circle-right
-              .row.dashboard-root-secondary-panels
-                .col-xs-12.col-sm-6.col-lg-3.requires-plan-upgrade
+                / .row.dashboard-root-secondary-panels
+                .col-xs-12.col-sm-6.col-lg-4.requires-plan-upgrade
                   = link_to [:new, @business, :content_gallery] do
                     .panel.panel-primary
                       .panel-heading
@@ -121,9 +224,9 @@
                           .col-xs-9
                             span Share your photos.
                       .panel-footer.text-right
-                        span.pull-left New Gallery
+                        span.pull-left Quick Gallery
                         i.fa.fa-arrow-circle-right
-                .col-xs-12.col-sm-6.col-lg-3.requires-plan-upgrade
+                .col-xs-12.col-sm-6.col-lg-4.requires-plan-upgrade
                   = link_to [:new, @business, :content_before_after] do
                     .panel.panel-primary
                       .panel-heading
@@ -133,10 +236,10 @@
                           .col-xs-9
                             span Share your work with a before and after picture.
                       .panel-footer.text-right
-                        span.pull-left New Before & After
+                        span.pull-left Before & After
                         i.fa.fa-arrow-circle-right
 
-                .col-xs-12.col-sm-6.col-lg-3.requires-plan-upgrade
+                .col-xs-12.col-sm-6.col-lg-4.requires-plan-upgrade
                   = link_to [:new, @business, :content_post] do
                     .panel.panel-primary
                       .panel-heading
@@ -146,7 +249,7 @@
                           .col-xs-9
                             span Create a custom blog post.
                       .panel-footer.text-right
-                        span.pull-left New Custom Post
+                        span.pull-left Custom Post
                         i.fa.fa-arrow-circle-right
 hr
 p Select from the post types above to quickly post impactful updates or create a #{link_to 'Custom Post', [:new, @business, :content_post], class: 'requires-plan-upgrade'} if you don't see a match.

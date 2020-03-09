@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200220211914) do
+ActiveRecord::Schema.define(version: 20200309161305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -588,6 +588,19 @@ ActiveRecord::Schema.define(version: 20200220211914) do
 
   add_index "content_tags", ["business_id"], name: "index_content_tags_on_business_id", using: :btree
 
+  create_table "creation_posts", force: :cascade do |t|
+    t.integer  "business_id"
+    t.text     "title"
+    t.text     "meta_description"
+    t.text     "facebook_id"
+    t.text     "slug"
+    t.datetime "published_time"
+    t.boolean  "published_status", default: false, null: false
+    t.datetime "published_on"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
   create_table "crm_notes", force: :cascade do |t|
     t.integer  "contact_id"
     t.text     "content",    null: false
@@ -787,6 +800,36 @@ ActiveRecord::Schema.define(version: 20200220211914) do
   end
 
   add_index "groups", ["webpage_id"], name: "index_groups_on_webpage_id", using: :btree
+
+  create_table "guided_post_prompts", force: :cascade do |t|
+    t.text     "prompt"
+    t.text     "description"
+    t.integer  "post_type"
+    t.integer  "section_type"
+    t.integer  "industry"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.text     "heading_prompt"
+    t.integer  "kind"
+  end
+
+  add_index "guided_post_prompts", ["industry"], name: "index_guided_post_prompts_on_industry", using: :btree
+  add_index "guided_post_prompts", ["post_type"], name: "index_guided_post_prompts_on_post_type", using: :btree
+  add_index "guided_post_prompts", ["section_type"], name: "index_guided_post_prompts_on_section_type", using: :btree
+
+  create_table "guided_post_sections", force: :cascade do |t|
+    t.text     "heading"
+    t.text     "content"
+    t.integer  "kind"
+    t.integer  "sectionable_id"
+    t.string   "sectionable_type"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "guided_post_prompt_id"
+    t.integer  "position"
+  end
+
+  add_index "guided_post_sections", ["sectionable_type", "sectionable_id"], name: "index_on_sectionable", using: :btree
 
   create_table "images", force: :cascade do |t|
     t.integer  "business_id",             null: false
@@ -1165,6 +1208,19 @@ ActiveRecord::Schema.define(version: 20200220211914) do
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
   add_index "posts", ["id", "slug"], name: "index_posts_on_id_and_slug", unique: true, using: :btree
+
+  create_table "profile_posts", force: :cascade do |t|
+    t.integer  "business_id"
+    t.text     "title"
+    t.text     "meta_description"
+    t.text     "facebook_id"
+    t.text     "slug"
+    t.datetime "published_time"
+    t.boolean  "published_status", default: false, null: false
+    t.datetime "published_on"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
 
   create_table "quick_posts", force: :cascade do |t|
     t.integer  "business_id"

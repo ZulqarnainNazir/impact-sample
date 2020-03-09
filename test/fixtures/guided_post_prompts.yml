@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  prompt: MyText
+  description: MyText
+  post_type: 1
+  section_type: 1
+  industry: 1
+
+two:
+  prompt: MyText
+  description: MyText
+  post_type: 1
+  section_type: 1
+  industry: 1

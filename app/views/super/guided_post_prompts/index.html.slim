@@ -1,0 +1,34 @@
+.row.m-t-3
+  .col-md-12
+    = link_to 'Add New Prompt', new_super_guided_post_prompt_path, class: 'btn btn-primary pull-right'
+
+.ibox-content.m-t-3
+  .table-responsive
+    table.table.table-striped.table-bordered.table-hover.datatable
+      thead
+        th Post Type
+        th Prompt
+        th Description
+        th Industry
+        th Section Type
+        th
+      tbody
+        - @prompts.each do |prompt|
+          tr
+            td
+              = prompt.post_type.titleize
+            td
+              = prompt.prompt
+            td
+              = prompt.description
+            td
+              = prompt.industry.titleize
+            td
+              = prompt.section_type.titleize
+            td
+              = link_to edit_super_guided_post_prompt_path(prompt), class: 'btn btn-primary btn-circle m-r-1' do
+                i.fa.fa-pencil-square-o
+              = link_to super_guided_post_prompt_path(prompt), class: 'btn btn-danger btn-circle', method: :delete, data: { confirm: 'Are you sure?' } do
+                i.fa.fa-trash
+
+  = paginate @prompts

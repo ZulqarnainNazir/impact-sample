@@ -1,0 +1,47 @@
+.post-section-fields class=[prompt.kind || 'full_text'].reject(&:blank?).join(' ')
+  .post-section-tolerance.bg-muted.p-xs
+    .well.bg-info
+      h4
+        = prompt.prompt.upcase
+        a.text-white.pull-right href="#promptDescription#{prompt.id.to_s}" data-toggle="collapse" type="button"
+          .fa.fa-chevron-up
+      p.collapse.in id="promptDescription#{prompt.id.to_s}"
+        = prompt.description
+    .panel.panel-default
+      - if prompt.section_type == 'title'
+        .panel-body
+          = post_form.text_field :title, class: 'form-control simple-input', placeholder: "#{prompt.heading_prompt.present? ? prompt.heading_prompt : 'Add a 5-12 word summary of you’re post.'}"
+      - else
+        = post_form.fields_for :guided_post_sections, guided_post_section, child_index: index do |form|
+          .post-section-hidden-fields
+            = form.hidden_field :kind, value: prompt.kind
+            = form.hidden_field :guided_post_prompt_id, value: prompt.id
+            = form.hidden_field :position, value: index
+          - unless prompt.section_type == 'main_image' || prompt.section_type == 'cta_section'
+            .panel-heading
+              = form.label :heading, class: 'control-label sr-only'
+              = form.text_field :heading, class: 'form-control', placeholder: "#{prompt.heading_prompt.present? ? prompt.heading_prompt : 'Summarize the section below to make it scanable.'}"
+          .panel-body
+            .post-section-fields-content
+              .row.clearfix
+                .col-sm-5
+                  .center-block
+                    = react_component 'ImagePlacement',
+                            inputPrefix: "profile_post[guided_post_sections_attributes][#{form.options[:child_index]}][guided_post_section_image_placement_attributes]",
+                            imagesPath: business_images_path(post_form.object.business),
+                            presignedPost: s3_presigned_post_hash,
+                            placement: form.object.guided_post_section_image_placement_json,
+                            bulkUploadPath: new_business_content_images_upload_path(post_form.object.business),
+                            buttonSize: 'small',
+                            buttonRemove: false,
+                            allowEmbed: true,
+                            post_sections: false,
+                            showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+                .col-sm-7
+                  .form-group
+                    = form.label :content, class: 'control-label sr-only'
+                    = react_component 'RichTextEditor',
+                        name: "profile_post[guided_post_sections_attributes][#{form.options[:child_index]}][content]",
+                        html: guided_post_section.content,
+                        rows: 12
+                .post-section-fields-warning.text-muted: em This Section will be removed upon Save
