@@ -3,6 +3,7 @@ class GuidedPostSection < ActiveRecord::Base
   # include Elasticsearch::Model::Callbacks
   include PlacedImageConcern
 
+  belongs_to :guided_post_prompt
   belongs_to :sectionable, polymorphic: true
 
   enum kind: {
@@ -15,7 +16,7 @@ class GuidedPostSection < ActiveRecord::Base
   has_placed_image :guided_post_section_image
 
   validates :kind, presence: true
-  # validates :sectionable, presence: true
+  validates :guided_post_prompt, presence: true
   validates :position, presence: true
 
   before_validation do

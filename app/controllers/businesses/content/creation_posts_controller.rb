@@ -120,6 +120,7 @@ class Businesses::Content::CreationPostsController < Businesses::Content::BaseCo
         :heading,
         :content,
         :position,
+        :guided_post_prompt_id,
         :_destroy,
         guided_post_section_image_placement_attributes: placement_attributes,
       ],

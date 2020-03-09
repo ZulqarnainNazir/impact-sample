@@ -15,6 +15,7 @@
         = post_form.fields_for :guided_post_sections, guided_post_section, child_index: index do |form|
           .post-section-hidden-fields
             = form.hidden_field :kind, value: prompt.kind
+            = form.hidden_field :guided_post_prompt_id, value: prompt.id
             = form.hidden_field :position, value: index
           - unless prompt.section_type == 'main_image' || prompt.section_type == 'cta_section'
             .panel-heading

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200306225326) do
+ActiveRecord::Schema.define(version: 20200309161305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -823,8 +823,9 @@ ActiveRecord::Schema.define(version: 20200306225326) do
     t.integer  "kind"
     t.integer  "sectionable_id"
     t.string   "sectionable_type"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "guided_post_prompt_id"
     t.integer  "position"
   end
 
