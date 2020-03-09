@@ -137,6 +137,8 @@
     display: none;
 }
 
+.calendar-preview .calendar-widget .text-center, .calendar-preview .event-count {display: none;}
+
 /* Summernote overrides */
 .webpage-block .summernote-editor .note-editor .note-statusbar {
     display: none;
