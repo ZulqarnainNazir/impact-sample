@@ -22,7 +22,7 @@
               - if i < profile_post.content_categories.count + profile_post.content_tags.count - 1
                 ' ,
           hr
-          - profile_post.guided_post_sections.each do |post_section|
+          - profile_post.guided_post_sections.order(:position).each do |post_section|
             - unless post_section.heading.blank? && post_section.content.blank? && post_section.guided_post_section_image.blank?
 
               .row style='margin: 0 0 25px 0;'

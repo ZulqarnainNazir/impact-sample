@@ -53,7 +53,7 @@
                   - if prompt.section_type == 'title'
                     = render partial: 'businesses/content/guided_post_sections/creation_form', object: form.object, as: :guided_post_section, locals: { post_form: form, prompt: prompt, index: i }
                   -elsif @creation_post.persisted? && form.object.guided_post_sections.present?
-                    = render partial: 'businesses/content/guided_post_sections/creation_form', object: form.object.guided_post_sections.where(guided_post_prompt_id: prompt.id).first, as: :guided_post_section, locals: { post_form: form, prompt: prompt, index: i }
+                    = render partial: 'businesses/content/guided_post_sections/creation_form', object: form.object.guided_post_sections.where(guided_post_prompt_id: prompt.id).first.present? ? form.object.guided_post_sections.where(guided_post_prompt_id: prompt.id).first : form.object.guided_post_sections.new,, as: :guided_post_section, locals: { post_form: form, prompt: prompt, index: i }
                   - else
                     = render partial: 'businesses/content/guided_post_sections/creation_form', object: form.object.guided_post_sections.new, as: :guided_post_section, locals: { post_form: form, prompt: prompt, index: i }
 
