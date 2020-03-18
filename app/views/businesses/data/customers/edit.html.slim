@@ -1,4 +1,4 @@
-- title 'Who is you ideal customer and what needs/problems do you solve?'
+- title 'Who is your ideal customer and what needs/problems do you solve?'
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Business Data', :fp => :data_root, :an => ' Product/Service Lines'}
 
@@ -10,7 +10,7 @@
           = errors_for @business
           = form_for @business, url: [@business, :data_customers] do |form|
             .ibox-title
-              h1.h4 Who is you ideal customer and what needs/problems do you solve?
+              h1.h4 Who is your ideal customer and what needs/problems do you solve?
             .ibox-content
               = form.fields_for :lines do |line_form|
                 .form-group

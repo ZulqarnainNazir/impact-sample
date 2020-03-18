@@ -10,7 +10,7 @@
     .panel.panel-default
       - if prompt.section_type == 'title'
         .panel-body
-          = post_form.text_field :title, class: 'form-control simple-input', placeholder: "#{prompt.heading_prompt.present? ? prompt.heading_prompt : 'Add a 5-12 word summary of you’re post.'}"
+          = post_form.text_field :title, class: 'form-control simple-input', placeholder: "#{prompt.heading_prompt.present? ? prompt.heading_prompt : 'Add a 5-12 word summary of your post.'}"
       - else
         = post_form.fields_for :guided_post_sections, guided_post_section, child_index: index do |form|
           .post-section-hidden-fields
