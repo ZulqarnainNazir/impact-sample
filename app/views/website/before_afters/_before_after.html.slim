@@ -24,7 +24,7 @@
             /         '  |
             = link_to [:website, before_after, only_path: false, host: business.website.host, protocol: :http], target: :_blank, class: 'grid-feed-title'
               = truncate sanitize(before_after.title.titleize), length: 50, omission: '... '
-            small.m-t-xs
+            small.m-t-xs.before-after-label
               i BEFORE & AFTER
             div
               - if before_after.meta_description.present?

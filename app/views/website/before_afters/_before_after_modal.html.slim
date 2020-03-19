@@ -24,7 +24,7 @@
             /         '  |
             = link_to "#", id: "before-after-#{before_after.id}-2", "data-toggle" => "modal", 'data-target' => "#before-after-modal-#{before_after.id}", class: "before-after-card grid-feed-title", 'data-slug'=>"#{before_after.slug}" do
               = truncate sanitize(before_after.title.titleize), length: 50, omission: '... '
-            small.m-t-xs
+            small.m-t-xs.before-after-label
               i BEFORE & AFTER
             div
               - if before_after.meta_description.present?
