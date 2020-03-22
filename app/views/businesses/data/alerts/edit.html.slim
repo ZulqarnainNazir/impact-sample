@@ -1,0 +1,82 @@
+- title 'Edit Business Alert'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :an => ' Alerts'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h4 Edit Your Business Alert
+              p Please describe your operational status, current hours, and situation given COVID-19 and make sure to select the proper Alert Type so that our readers know how to support you in this difficult time.
+            .ibox-content
+                = errors_for @alert
+                = form_for @alert, url: [@business, :data_alert], method: :put do |form|
+                  .form-group
+                    = form.label :alert_type, 'Alert Type: '
+                    = form.select :alert_type, options_for_select([['No Alert', 'default'], ['Normal Operations', 'normal_operations'], ['Modified Hours/Limited Operations', 'modified_operations'], ['Temporarily Closed', 'temporarily_closed']], form.object&.alert_type), class: 'form-control'
+                  .form-group
+                    = form.label :message, 'Alert Message: '
+                    = form.text_area :message, rows: 10, class: 'form-control', placeholder: "Example: We have limited hours with curbside pickup available. We're open 3-9pm M-F and 10-4 Sat. Please place an order online and call 999.999.9999 you get here, we'll bring it out! Thank you for your support and stay well!"
+                    small Limited to 240 characters.
+                  / .form-group
+                  /   = form.label :name, class: 'control-label'
+                  /   = form.text_field :name, value: @location.name.present? ? @location.name : @business.name, class: 'form-control'
+                  / hr
+                  / .form-group
+                  /   = form.label :street1, class: 'control-label'
+                  /   = form.text_field :street1, class: 'form-control'
+                  /   = form.text_field :street2, class: 'form-control', style: 'margin-top: 5px'
+                  / .form-group
+                  /   = form.label :city, class: 'control-label'
+                  /   = form.text_field :city, class: 'form-control'
+                  / .row
+                  /   .col-sm-8
+                  /     .form-group
+                  /       = form.label :state, class: 'control-label'
+                  /       = form.select :state, options_for_select(UsStates.to_a, form.object.state), { include_blank: true, prompt: '– Select State –' }, class: 'form-control'
+                  /   .col-sm-4
+                  /     .form-group
+                  /       = form.label :zip_code, class: 'control-label'
+                  /       = form.text_field :zip_code, class: 'form-control'
+                  / .checkbox.text-muted.text-right
+                  /   = form.label :hide_address do
+                  /     => form.check_box :hide_address
+                  /     ' Hide Street Address from Public?
+                  / hr
+                  / .form-group
+                  /   = form.label :phone_number, class: 'control-label'
+                  /   = form.phone_field :phone_number, class: 'form-control'
+                  / .checkbox.text-muted.text-right
+                  /   = form.label :hide_phone do
+                  /     => form.check_box :hide_phone
+                  /     ' Hide Phone Number from Public?
+                  / hr
+                  / .form-group
+                  /   = form.label :email, class: 'control-label'
+                  /   = form.email_field :email, class: 'form-control'
+                  / .checkbox.text-muted.text-right
+                  /   = form.label :hide_email do
+                  /     => form.check_box :hide_email
+                  /     ' Hide Email Address from Public?
+                  / hr
+                  / .checkbox.text-muted.js-external-service-area
+                  /   = form.label :external_service_area do
+                  /     => form.check_box :external_service_area
+                  /     ' Does this location have an offsite service area?
+                  / .form-group.js-service-area
+                  /   br
+                  /   = form.label :service_area, class: 'control-label'
+                  /   = form.text_area :service_area, rows: 4, class: 'form-control'
+                  / javascript:
+                  /   if ($('.js-external-service-area input:checked').length > 0) {
+                  /     $('.js-service-area').show();
+                  /   } else {
+                  /     $('.js-service-area').hide();
+                  /   }
+                  /   $('.js-external-service-area input').change(function() {
+                  /     $('.js-service-area').toggle();
+                  /   });
+                  = form.button 'Save', class: 'btn btn-primary btn-block'
