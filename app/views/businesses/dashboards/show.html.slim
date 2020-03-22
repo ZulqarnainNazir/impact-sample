@@ -73,6 +73,26 @@
             i.fa.fa-chevron-left
 
 / = render partial: 'businesses/dashboards/welcome_messages', locals: { business: @business }
+
+
+- if (@business.alert.present? && @business.alert.alert_type != 'default')
+  = render partial: 'businesses/dashboards/alert', locals: { alert: @business.alert }
+- elsif @business.alert.nil?
+  .alert.bg-warning.m-t-sm.m-b-sm
+    .row
+      .col-xs-12
+        h1.text-center
+          .fa.fa-bell-o
+          strong Current COVID-19 Alert Status
+    .row
+      .col-xs-12
+        .text-center.m-b-sm None set, why not let your customers know your status?
+    .row
+      .col-xs-12
+        .text-center
+          = link_to 'Update Status', [:edit, @business, :data_alert], class: 'btn btn-outline btn-default'
+
+
 - if @business.to_dos_enabled
   div.alert.alert-warning.alert-dismissable.m-t-sm.m-b-sm
     h1

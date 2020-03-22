@@ -1,0 +1,7 @@
+en:
+  businesses:
+    data:
+      alerts:
+        update:
+          notice: Ok, your alert status was saved successfully.
+          alert: There was a problem saving your alert status.

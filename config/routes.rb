@@ -288,6 +288,7 @@ Rails.application.routes.draw do
 
         namespace :data do
           root to: 'roots#show'
+          resource :alert, only: %i[edit update]
           resource :customers, only: %i[edit update]
           resource :delivery, only: %i[edit update]
           resource :details, only: %i[edit update]

@@ -51,6 +51,7 @@ class Business < ActiveRecord::Base
     has_many :company_lists
     has_many :contact_forms
     has_many :form_submissions
+    has_one :alert
     has_one :mission_notification_setting
     has_one :location, -> { order created_at: :asc }
     has_one :website
@@ -85,6 +86,7 @@ class Business < ActiveRecord::Base
   has_placed_image :logo
   has_placed_image :hero
 
+  # accepts_nested_attributes_for :alert, allow_destroy: true
   accepts_nested_attributes_for :location, update_only: true
   accepts_nested_attributes_for :website
 

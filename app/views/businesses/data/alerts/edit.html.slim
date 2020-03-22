@@ -1,0 +1,24 @@
+- title 'Edit Business Alert'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :an => ' Alerts'}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h4 Edit Your Business Alert
+              p Please describe your operational status, current hours, and situation given COVID-19 and make sure to select the proper Alert Type so that our readers know how to support you in this difficult time.
+            .ibox-content
+                = errors_for @alert
+                = form_for @alert, url: [@business, :data_alert], method: :put do |form|
+                  .form-group
+                    = form.label :alert_type, 'Alert Type: '
+                    = form.select :alert_type, options_for_select([['No Alert', 'default'], ['Normal Operations', 'normal_operations'], ['Modified Hours/Limited Operations', 'modified_operations'], ['Temporarily Closed', 'temporarily_closed']], form.object&.alert_type), class: 'form-control'
+                  .form-group
+                    = form.label :message, 'Alert Message: '
+                    = form.text_area :message, rows: 10, class: 'form-control', placeholder: "Example: We have limited hours with curbside pickup available. We're open 3-9pm M-F and 10-4 Sat. Please place an order online and call 999.999.9999 you get here, we'll bring it out! Thank you for your support and stay well!"
+                    small Limited to 240 characters.
+                  = form.button 'Save', class: 'btn btn-primary btn-block'

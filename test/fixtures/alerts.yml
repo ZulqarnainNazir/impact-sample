@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+default:
+  alert_type: 0
+  message: nil
+  business_id: default
+
+normal:
+  alert_type: 1
+  message: We're still open!
+  business_id: default
+
+modified:
+  alert_type: 2
+  message: We're under new hours/limited operations.
+  business_id: default
+
+closed:
+  alert_type: 3
+  message: We are temporarily closed.
+  business_id: default

@@ -303,6 +303,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Social Profiles", [:edit, @business, :data_social_profiles]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/team_members/))
             = link_to "Team Members", [@business, :data_team_members]
+          li class=('active' if controller_path.match(/\Abusinesses\/data\/alerts/))
+            = link_to "COVID-19 Alerts", [:edit, @business, :data_alert]
           / li class=('active' if controller_path.match(/\Abusinesses\/data\/lines/))
             = link_to "Business Lines", [:edit, @business, :data_lines]
           / - if @business.lines.any?(&:persisted?)

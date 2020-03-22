@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200309161305) do
+ActiveRecord::Schema.define(version: 20200322190248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,14 @@ ActiveRecord::Schema.define(version: 20200309161305) do
   end
 
   add_index "ahoy_visits", ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true, using: :btree
+
+  create_table "alerts", force: :cascade do |t|
+    t.integer  "alert_type",  default: 0, null: false
+    t.text     "message"
+    t.integer  "business_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "business_id",                                     null: false
