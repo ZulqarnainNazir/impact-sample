@@ -1,0 +1,12 @@
+.alert.bg-warning.m-t-sm.m-b-sm
+  .row
+    .col-xs-12
+      h1.text-center
+        .fa.fa-bell-o
+        strong Current COVID-19 Alert Status
+
+  = render partial: 'businesses/data/alerts/alert', object: @business.alert, as: :alert
+  .row
+    .col-xs-12
+      .text-center
+        = link_to 'Update Status', [:edit, @business, :data_alert], class: 'btn btn-outline btn-default'
