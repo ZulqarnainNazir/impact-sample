@@ -2,6 +2,8 @@
   .col-sm-3
     .contact-box.center-version id="business-#{business.id}"
       a.business-card data-business-id=business.id href = listing_path(business)
+        - if business.alert.present? && business.alert.alert_type  != "default"
+          .text-danger.text-center See COVID-19 Status
         - if business.logo
           = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; max-width: 100%; height: auto;'
         h3.m-b-xs: strong=business.name
@@ -52,4 +54,3 @@
             a.btn.btn-xs.btn-white href=business.website_url target="_blank"
               i.fa.fa-external-link
               |  Website
-

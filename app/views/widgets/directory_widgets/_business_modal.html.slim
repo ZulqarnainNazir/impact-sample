@@ -7,6 +7,7 @@
             - map_params = map_params_for_location(business.location, zoom: 18, q: [business.location.address_line_one, business.location.address_line_two].reject(&:blank?).join(' '))
             iframe width="100%" height="200" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?#{map_params}"
         .ibox-content.profile-content
+
           h4: strong=business.name
           - if !business.reviews.blank?
             p

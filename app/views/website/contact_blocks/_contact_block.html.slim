@@ -3,5 +3,13 @@
       div.row.p-w-sm
         header.page-header.col-sm-12
           h1 Contact
+      - if contact_block.business.alert.present? && contact_block.business.alert.alert_type != 'default'
+        .row.m-b-sm
+          .col-xs-12
+            .alert.bg-warning.m-t-sm.m-b-sm
+              h4.text-center.m-n
+                .fa.fa-bell-o
+                strong COVID-19 Alert
+              = render partial: 'businesses/data/alerts/alert', object: contact_block.business.alert, as: :alert
       .col-xs-12 itemscope="" itemtype="http://schema.org/LocalBusiness" logo=(contact_block.business.logo.attachment_url(:logo_large) if contact_block.business.logo.present?)
         = render partial: "website/contact_blocks/#{contact_block.theme}", object: contact_block, as: :block, locals: { business: contact_block.business, location: contact_block.business.location, website: contact_block.business.website, contact_form: @contact_form }

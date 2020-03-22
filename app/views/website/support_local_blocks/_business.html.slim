@@ -1,6 +1,8 @@
 .col-sm-3
   .contact-box.center-version id="business-#{business.id}"
     = link_to '#', class: 'business-card', data: { 'business-id' => business.id, toggle: 'modal', url: "#{impact_url}#{widgets_directory_widget_path(uuid: directory.uuid, business_id: business.id)}", target: "#business-modal-#{business.id}", 'slug' => business.slug } do
+      - if business.alert.present? && business.alert.alert_type  != "default"
+        .text-danger.text-center See COVID-19 Status
       - if business.logo
         = image_tag business.logo.attachment_url(:logo_large), alt: 'Logo image', class: 'logo-large', style: 'width: auto; max-width: 100%; height: auto;'
       h3.m-b-xs: strong=business.name
@@ -60,6 +62,18 @@
           span.close data-dismiss="modal"
             | &times;
           h1.h4=business.name
+          - if business.alert.present? && business.alert.alert_type != "default"
+            .row.m-b-sm
+              .col-xs-12
+                .alert.bg-warning.m-t-sm.m-b-sm
+                  h4.text-center.m-n
+                    .fa.fa-bell-o
+                    strong COVID-19 Alert
+                  / Note: This partial doesnt work on both embed types for some reason that I suspect is related to the way the modals are loaded.
+                  = render partial: 'businesses/data/alerts/alert', object: business.alert, as: :alert
+
+                  / h2.text-center= alert_message(business.alert.alert_type)
+                  / p.text-center= business.alert.message
         .modal-body
         .modal-footer
           button.btn.btn-default data-dismiss="modal"

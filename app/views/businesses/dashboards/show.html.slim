@@ -77,12 +77,6 @@
 
 - if @business.alert.present? && @business.alert.alert_type != 'default'
   = render partial: 'businesses/dashboards/alert', locals: { alert: @business.alert }
-  / - if @business.alert.alert_type  == "nomral_operations"
-  /   span.text-info= alert_message(@business.alert.alert_type)
-  / - else
-  /   span.text-danger= alert_message(@business.alert.alert_type)
-  / span
-  /   small= link_to 'Update Status', [:edit, @business, :data_alert]
 
 - if @business.to_dos_enabled
   div.alert.alert-warning.alert-dismissable.m-t-sm.m-b-sm
