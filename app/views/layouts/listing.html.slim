@@ -106,6 +106,9 @@ html lang="en"
                     - if @posts.present?
                       li
                         = link_to "Content", listing_contents_path
+                    - if @products.present?
+                      li
+                        = link_to "Shop", listing_products_path
               .col-xs-12.visible-xs
                 .fluid-nav
                   ul.nav.navbar-top-links.dir-menu-custom
@@ -128,6 +131,9 @@ html lang="en"
                     - if @posts.present?
                       li
                         = link_to "Content", listing_contents_path
+                    - if @products.present?
+                      li
+                        = link_to "Shop", listing_products_path
               .col-xs-12.show-nav-dir
                 .fluid-nav
                   ul.nav.navbar-top-links.dir-menu-custom

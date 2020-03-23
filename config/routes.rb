@@ -43,7 +43,8 @@ Rails.application.routes.draw do
     match '/:lookup/job/:content_type/', to: 'content#job', :as => 'job', via: :get
     match '/:lookup/quick_post/:content_type/', to: 'content#quick_post', :as => 'quick_post', via: :get
     match '/:lookup/event/:content_type/', to: 'content#event', :as => 'event', via: :get
-
+    match '/:lookup/products', to: 'products#index', :as => 'products', via: :get
+    match '/:lookup/products/:id', to: 'products#show', :as => 'product', via: :get
     match '/:lookup/reviews/create', to: 'reviews#create', :as => 'create_review', via: :post
     match '/:lookup/reviews/new', to: 'reviews#new', :as => 'new_review', via: :get
     match '/:lookup/reviews', to: 'reviews#index', :as => 'reviews', via: :get
