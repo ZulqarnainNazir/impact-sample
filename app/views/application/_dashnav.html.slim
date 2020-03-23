@@ -299,6 +299,8 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           / Add Locations??
           li class=('active' if controller_path.match(/\Abusinesses\/data\/openings/))
             = link_to "Business Hours", [:edit, @business, :data_openings]
+          li class=('active' if controller_path.match(/\Abusinesses\/data\/products/))
+            = link_to "Products", [@business, :data_products]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/social_profiles/))
             = link_to "Social Profiles", [:edit, @business, :data_social_profiles]
           li class=('active' if controller_path.match(/\Abusinesses\/data\/team_members/))

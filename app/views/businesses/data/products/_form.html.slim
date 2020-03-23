@@ -1,0 +1,18 @@
+/ = react_component 'ImagePlacement',
+/   imagesPath: business_images_path(form.object.business),
+/   inputPrefix: 'team_member[team_member_profile_placement_attributes]',
+/   label: 'Profile Image',
+/   placement: form.object.team_member_profile_placement_json,
+/   presignedPost: s3_presigned_post_hash,
+/   bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+/   showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+hr
+.form-group
+  => form.label :name, class: 'control-label'
+  = form.text_field :name, class: 'form-control'
+.form-group
+  => form.label :description, class: 'control-label'
+  = form.text_area :description, class: 'form-control wysihtml-editor'
+.form-group
+  => form.label :price, class: 'control-label'
+  = form.text_field :price, class: 'form-control'

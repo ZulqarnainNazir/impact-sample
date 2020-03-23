@@ -1,0 +1,8 @@
+tr
+  td = product.name
+  td = product.description.html_safe
+  td = product.price
+  td
+    .btn-group
+      = link_to 'Edit Details', [:edit, product.business, :data, product], class: 'btn btn-default btn-xs'
+      = link_to 'Delete', [product.business, :data, product], method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }

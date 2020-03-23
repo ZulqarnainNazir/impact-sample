@@ -34,6 +34,7 @@ class Business < ActiveRecord::Base
     has_many :lines
     has_many :offers
     has_many :posts
+    has_many :products
     has_many :profile_posts
     has_many :quick_posts
     has_many :reviews

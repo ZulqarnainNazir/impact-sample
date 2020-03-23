@@ -295,6 +295,7 @@ Rails.application.routes.draw do
           resource :lines, only: %i[edit update]
           resource :location, only: %i[edit update]
           resource :openings, only: %i[edit update]
+          resources :products, only: %i[index new create edit update destroy]
           resource :social_profiles, only: %i[edit update]
           resource :team_members_positions, only: %i[edit update]
           resource :values, only: %i[edit update]

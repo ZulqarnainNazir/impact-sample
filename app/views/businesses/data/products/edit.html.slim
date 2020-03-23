@@ -1,0 +1,17 @@
+- title 'Edit Product'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :sn => 'Products', :sp => :data_products, :an => ' Edit Product'}
+
+.row
+  .col-md-8
+    = errors_for @product
+    = form_for [@business, :data, @product] do |form|
+      .panel.panel-default
+        .panel-heading
+          h1.h3.panel-title Edit Product
+        .panel-body
+          = render form
+          div
+            hr
+            => form.button 'Update Product', class: 'btn btn-primary pull-right'
+            = link_to 'Cancel', [@business, :data_products], class: 'btn btn-link'
