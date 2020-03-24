@@ -7,7 +7,7 @@
       ul.nav.pull-right
         li = link_to listing_path_checkout_url(@business) do
           - if @cart.cart_items.present?
-            i.fa.fa-shopping-cart.fa-2x data-count="#{@cart.cart_item_count}"
+            i.fa.fa-shopping-cart.fa-2x data-count="#{@cart.cart_item_count(@business)}"
           - else
             i.fa.fa-shopping-cart.fa-2x
         - if user_signed_in?

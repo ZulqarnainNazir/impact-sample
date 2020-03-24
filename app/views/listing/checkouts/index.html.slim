@@ -10,7 +10,9 @@
 
 .row.m-lg
   .col-xs-12
-    - if @cart.cart_items.present?
+    - @items = @cart.cart_items.joins(:product).where(products: {business_id: @business.id})
+    = @cart.cart_items.to_json
+    - if @items.present?
       / - reach_occurences = []
         / - @products.each_with_index do |product|
         / - reach_occurences << event.business.id
@@ -27,10 +29,10 @@
                 th Quantity
                 th
             tbody
-              = render partial: 'listing/checkouts/item', collection: @cart.cart_items, as: :item
+              = render partial: 'listing/checkouts/item', collection: @items, as: :item
       .row
         .col-xs-12
-          h3.pull-right Total: #{number_to_currency(@cart.cart_total)}
+          h3.pull-right Total: #{number_to_currency(@cart.cart_total(@business))}
       .row.m-t-sm
         .col-xs-12
 
