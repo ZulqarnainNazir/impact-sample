@@ -1,6 +1,7 @@
-= product.name
-br
-= product.description.html_safe
-= product.price
-br
-br
+.col-xs-12.col-sm-3
+  .text-center= image_tag "https://via.placeholder.com/150"
+  h4.text-center.text-uppercase= product.name
+  / br
+  / = product.description.html_safe
+  p.text-center.text-muted $#{product.price}
+  .text-center= link_to "Add to Cart", listing_path_product_url(@business, product), class: 'btn btn-primary btn-sm text-center'

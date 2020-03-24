@@ -7,4 +7,9 @@ class Listing::ProductsController < ApplicationController
     @products = @business.products
   end
 
+  def show
+    @business = Business.listing_lookup(params[:lookup])
+    @product = @business.products.find(params[:id])
+  end
+
 end

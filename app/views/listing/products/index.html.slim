@@ -6,17 +6,18 @@
 .row
   .col-xs-12
     .page-header
-      h1.h2
+      h3
        | Shop
 
-.row
+.row.m-t-lg.m-b-lg
   .col-xs-12
     - if @products.present?
       / - reach_occurences = []
         / - @products.each_with_index do |product|
         / - reach_occurences << event.business.id
         / = render :partial => "listing/listings/partials/events/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : @events[index-1]}
-      = render @products
+      .row
+        = render @products
     - else
       div.col-xs-12.col-sm-8.col-sm-push-2
         h2 No products yet...
