@@ -28,7 +28,7 @@ end
 Rails.application.routes.draw do
 
 
-  resources :cart_items, only: [:create, :edit, :update, :destroy]
+  resources :cart_items, only: [:create, :update, :destroy]
 
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do
     root to: 'listings#index'

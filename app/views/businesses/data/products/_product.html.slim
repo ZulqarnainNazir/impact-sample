@@ -1,7 +1,7 @@
 tr
-  td = product.name
-  td = product.description.html_safe
-  td = product.price
+  td= product.name
+  td= product.description.html_safe
+  td= number_to_currency(product.price)
   td
     .btn-group
       = link_to 'Edit Details', [:edit, product.business, :data, product], class: 'btn btn-default btn-xs'

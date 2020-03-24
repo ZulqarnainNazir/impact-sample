@@ -8,4 +8,10 @@ class Cart < ActiveRecord::Base
     end.reduce(:+) # map will put the multiplication of (quantity * Unit) into an array then reduce will sum them up
   end
 
+  def cart_item_count
+    cart_items.map do |item|
+      item.quantity
+    end.reduce(:+) # map will put the multiplication of (quantity * Unit) into an array then reduce will sum them up
+  end
+
 end
