@@ -1,0 +1,13 @@
+= form_for :update_qty, url: "#" do |f|
+  tr
+
+  td= image_tag "https://via.placeholder.com/50"
+  td
+    strong= item.product.name
+  td= truncate item.product.description.html_safe, length: 100, ommission: '...'
+  td= number_to_currency(item.product.price)
+  td
+    = f.text_field :quantity, value: item.quantity, size: 10, class: 'text-center'
+  td
+    small.pull-right= link_to "Update", "#"
+    small.pull-right= link_to "Remove", "#"

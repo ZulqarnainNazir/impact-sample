@@ -1,10 +1,17 @@
 - title "#Shop for #{@product.name}"
 
-.row.m-t-lg.m-b-lg
-  .col-xs-12.col-sm-4.col-sm-offset-1
-    .text-center= image_tag "https://via.placeholder.com/300"
-  .col-xs-12.col-sm-6
-    h4.text-uppercase= @product.name
-    p= @product.description.html_safe
-    p.text-muted $#{@product.price}
-    = link_to "Add to Cart", listing_path_product_url(@business, @product), class: 'btn btn-primary btn-sm text-center'
+=@cart.id
+=@cart.cart_items.to_json
+= form_for :cart_item, url: cart_items_path, html: { class: ""} do |f|
+  =f.hidden_field :product_id, value: @product.id
+  =f.hidden_field :cart_id, value: @cart.id
+
+  .row.m-t-lg.m-b-lg
+    .col-xs-12.col-sm-4.col-sm-offset-1
+      .text-center= image_tag "https://via.placeholder.com/300"
+    .col-xs-12.col-sm-6
+      h4.text-uppercase= @product.name
+      p= @product.description.html_safe
+      p.text-muted= number_to_currency(@product.price)
+      / = link_to "Add to Cart", cart_items_path(@cart), class: 'btn btn-primary btn-sm text-center'
+      = f.submit "Add to Cart", class: 'btn btn-primary btn-sm text-center'

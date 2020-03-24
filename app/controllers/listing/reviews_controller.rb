@@ -1,4 +1,4 @@
-class Listing::ReviewsController < ApplicationController
+class Listing::ReviewsController < Listing::BaseController
   layout :resolve_layout
 
   include ApplicationHelper

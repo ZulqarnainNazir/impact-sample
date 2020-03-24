@@ -1,5 +1,5 @@
 # require 'search_helper'
-class Listing::ProductsController < ApplicationController
+class Listing::ProductsController < Listing::BaseController
   layout "listing"
 
   def index
@@ -10,6 +10,8 @@ class Listing::ProductsController < ApplicationController
   def show
     @business = Business.listing_lookup(params[:lookup])
     @product = @business.products.find(params[:id])
+
+    @products = @business.products
   end
 
 end

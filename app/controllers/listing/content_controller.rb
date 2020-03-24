@@ -1,5 +1,5 @@
 # require 'search_helper'
-class Listing::ContentController < ApplicationController
+class Listing::ContentController < Listing::BaseController
   layout "listing"
 
   include ContentSearchConcern

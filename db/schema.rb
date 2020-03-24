@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200323030047) do
+ActiveRecord::Schema.define(version: 20200324160859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -286,6 +286,22 @@ ActiveRecord::Schema.define(version: 20200323030047) do
   end
 
   add_index "calendar_widgets", ["business_id"], name: "index_calendar_widgets_on_business_id", using: :btree
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "cart_id"
+    t.integer  "quantity",   default: 1, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "cart_items", ["cart_id"], name: "index_cart_items_on_cart_id", using: :btree
+  add_index "cart_items", ["product_id"], name: "index_cart_items_on_product_id", using: :btree
+
+  create_table "carts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
@@ -1597,6 +1613,8 @@ ActiveRecord::Schema.define(version: 20200323030047) do
   add_index "websites", ["business_id"], name: "index_websites_on_business_id", using: :btree
   add_index "websites", ["subdomain"], name: "index_websites_on_subdomain", unique: true, using: :btree
 
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "products"
   add_foreign_key "contact_form_form_fields", "contact_forms"
   add_foreign_key "contact_form_form_fields", "form_fields"
   add_foreign_key "contact_forms", "businesses"

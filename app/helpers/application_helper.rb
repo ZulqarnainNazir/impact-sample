@@ -71,6 +71,10 @@ module ApplicationHelper
     "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products/#{product.to_param}"
   end
 
+  def listing_path_checkout_url(business)
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout"
+  end
+
   def listing_path_calendar_url(business, calendar)
     "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/calendars/#{calendar.to_param}"
   end

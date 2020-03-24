@@ -1,4 +1,4 @@
-class Listing::ListingsController < ApplicationController
+class Listing::ListingsController < Listing::BaseController
   layout "listing"
 
   include ContentSearchConcern

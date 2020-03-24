@@ -1,4 +1,4 @@
-class Listing::DirectoriesController < ApplicationController
+class Listing::DirectoriesController < Listing::BaseController
   layout "listing"
 
   include ApplicationHelper

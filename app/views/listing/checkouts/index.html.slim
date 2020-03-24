@@ -1,0 +1,48 @@
+- title 'Checkout'
+
+= render 'application/alerts'
+
+.row
+  .col-xs-12
+    .page-header
+      h3
+       | Checkout
+
+.row.m-lg
+  .col-xs-12
+    - if @cart.cart_items.present?
+      / - reach_occurences = []
+        / - @products.each_with_index do |product|
+        / - reach_occurences << event.business.id
+        / = render :partial => "listing/listings/partials/events/event_#{container_view}_item", locals: {event: event, main_biz: @calendar_widget.business, prev: index <= 0 ? nil : @events[index-1]}
+      .row
+        .cox-xs-12
+          table class="table table-striped"
+            thead
+              tr
+                th
+                th Product
+                th Description
+                th Price
+                th Quantity
+                th
+            tbody
+              = render partial: 'listing/checkouts/item', collection: @cart.cart_items, as: :item
+      .row
+        .col-xs-12
+          h3.pull-right Total: #{number_to_currency(@cart.cart_total)}
+      .row.m-t-sm
+        .col-xs-12
+
+          = link_to "Checkout", "#", class: 'btn btn-primary pull-right'
+
+    - else
+      div.col-xs-12.col-sm-8.col-sm-push-2
+        h2.text-center.text-muted No items in cart, why not browse our shop?
+
+    / .text-center.clear-container
+    /   = paginate @events
+
+// javascript:
+//   console.log("Recording Reach");
+//   ahoy.track("Reach", {type: "Listing Calendar Index", type_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href });

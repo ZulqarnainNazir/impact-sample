@@ -1,4 +1,4 @@
-class Listing::CalendarsController < ApplicationController
+class Listing::CalendarsController < Listing::BaseController
   layout "listing"
 
   include ApplicationHelper
