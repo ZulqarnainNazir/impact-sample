@@ -33,6 +33,7 @@ class Onboard::BusinessesController < ApplicationController
   end
 
   def create
+    @business.assign_attributes(initial_business_params)
     @business.attributes.merge(business_params)
     @business.build_location(business_location_params.merge(name: initial_business_params[:name]))
     @business.build_website ({
@@ -40,7 +41,6 @@ class Onboard::BusinessesController < ApplicationController
       header_block_attributes: {},
       footer_block_attributes: {},
     })
-    @business.assign_attributes(initial_business_params)
     if @business.save!
       build_subscription
       @business.create_default_directories
