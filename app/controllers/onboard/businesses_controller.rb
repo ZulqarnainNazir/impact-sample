@@ -33,31 +33,16 @@ class Onboard::BusinessesController < ApplicationController
   end
 
   def create
-    @business.location_attributes= { name: initial_business_params[:name] }
-    @business.website_attributes = {
+    @business.assign_attributes(initial_business_params)
+    @business.attributes.merge(business_params)
+    @business.build_location(business_location_params.merge(name: initial_business_params[:name]))
+    @business.build_website ({
       subdomain: Subdomain.available(initial_business_params[:name]),
       header_block_attributes: {},
       footer_block_attributes: {},
-    }
-    # create_resource @business, initial_business_params, template: "onboard/businesses/new"
-    @business.assign_attributes(initial_business_params)
-    if @business.save
+    })
+    if @business.save!
       build_subscription
-      #this code block creates the default subscription for businesses, i.e.,
-      #the "Engage", or Free plan.
-      # @subscription = @business.build_subscription
-      # @subscription.plan = SubscriptionPlan.engage_plan
-      # @subscription.state = 'active'
-      # @subscription.subscriber = @business
-      # unless cookies[:affiliate_token].nil?
-      #   @affiliate = SubscriptionAffiliate.find_by(token: cookies[:affiliate_token])
-      #   unless !@affiliate.business.affiliate_activated?
-      #     @subscription.affiliate = @affiliate
-      #   end
-      # end
-      # @subscription.save!
-      @business.update!(business_params)
-      @business.location.update!(business_location_params)
       @business.create_default_directories
     end
     render :show
@@ -91,6 +76,7 @@ class Onboard::BusinessesController < ApplicationController
 
   def business_params
     params.require(:business).permit(
+      :name,
       :description,
       :kind,
       :name,
@@ -116,6 +102,8 @@ class Onboard::BusinessesController < ApplicationController
       :youtube_id,
       :zillow_id,
       category_ids: [],
+      location: [],
+      categories: [],
       logo_placement_attributes: placement_attributes,
     ).deep_merge(
       logo_placement_attributes: {
