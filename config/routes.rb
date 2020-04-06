@@ -67,6 +67,9 @@ Rails.application.routes.draw do
   scope constraints: PlatformConstraint.new do
     get :authenticate_facebook_page, to: 'authentications#facebook_page'
 
+    get 'stripe/connect/authorize', :to => 'businesses/accounts/stripe_authorizations#update'
+    delete 'stripe/connect/deauthorize', :to => 'businesses/accounts/stripe_authorizations#destroy'
+
     devise_for :users, controllers: {
       confirmations: 'users/confirmations',
       passwords: 'users/passwords',

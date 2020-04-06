@@ -19,7 +19,7 @@ h2.h3 Link your external business accounts
         = render :partial => 'businesses/accounts/facebooks/facebook_linked', :locals => { :business => @business }
       - else
         = render :partial => 'businesses/accounts/facebooks/facebook_unlinked', :locals => { :business => @business }
-      - if false
+      - if @business.stripe_connected_account_id.present?
         = render :partial => 'businesses/accounts/stripe/stripe_linked', :locals => { :business => @business }
       - else
         = render :partial => 'businesses/accounts/stripe/stripe_unlinked', :locals => { :business => @business }
