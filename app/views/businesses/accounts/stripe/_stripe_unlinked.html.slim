@@ -1,0 +1,18 @@
+
+.col-md-3
+  .contact-box.center-version
+    a href=""
+      .fa.fa-cc-stripe.fa-5x
+      h2.h4.text-center.m-md  Connect your Stipe account to accept payments
+      hr
+
+    .content-box-footer
+      .text-center
+        .accounts-button-container
+          .m-t-xs.btn-group
+           / = link_to 'Link Account', "#", class: 'btn btn-primary btn-xs'
+
+           -# TODO- Use a better token than ID for site identification on callback per https://stackoverflow.com/questions/33199457/passing-parameters-to-the-server-oauth-callback-in-stripe-connect
+           = link_to "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=#{ENV['STRIPE_CLIENT_ID']}&scope=read_write&state=#{business.id}", target: '_blank' do
+             .btn.btn-primary.btn-xs
+               | Link Account
