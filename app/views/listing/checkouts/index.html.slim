@@ -2,6 +2,11 @@
 
 = render 'application/alerts'
 
+= content_for(:page_specific_javascript_libraries) do
+  = javascript_include_tag 'https://js.stripe.com/v3/'
+  javascript:
+    var stripe = Stripe("#{ENV['STRIPE_PUBLIC_KEY']}", {stripeAccount: "#{@business.stripe_connected_account_id}"});
+
 .row
   .col-xs-12
     .page-header
@@ -36,7 +41,7 @@
       .row.m-t-sm
         .col-xs-12
 
-          = link_to "Checkout", "#", class: 'btn btn-primary pull-right'
+          = link_to "Checkout", "#", id: 'checkout-button', class: 'btn btn-primary pull-right', data: {url: listing_path_checkout_session_url(@business)}
 
     - else
       div.col-xs-12.col-sm-8.col-sm-push-2

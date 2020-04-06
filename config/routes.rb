@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     root to: 'listings#index'
     match '/:lookup', to: 'listings#index', via: :get
     match '/:lookup/checkout', to: 'checkouts#index', :as => 'checkout', via: :get
+    match '/:lookup/checkout_session', to: 'checkouts#stripe_session', :as => 'checkout_session', via: :get
     match '/:lookup/directories', to: 'directories#index', :as => 'directories', via: :get
     match '/:lookup/directories/:id', to: 'directories#show', :as => 'directory', via: :get
     match '/:lookup/calendars', to: 'calendars#index', :as => 'calendars', via: :get

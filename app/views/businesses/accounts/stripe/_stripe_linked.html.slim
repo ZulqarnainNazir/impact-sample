@@ -26,6 +26,7 @@
               i.fa.fa-exclamation-triangle
               / | Unlink Account
 
+              / TODO I dont like this method cause it allows any id. Need to use nested route so param is passed automatically?
               = link_to "/stripe/connect/deauthorize?business=#{business.id}", method: :delete do
                 .btn.btn-danger.btn-xs
                   | Disconnect Stripe
