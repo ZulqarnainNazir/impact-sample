@@ -33,7 +33,7 @@
             = link_to listing_content_type_path(@business, gallery.slug, 'gallery'), target: :_blank
               div.grid-feed-title  = truncate sanitize_simple(gallery.title), length: 75, omission: '... '
               / p.slider-text.slider-text-sub
-            small.m-t-xs #{pluralize(gallery.gallery_images.count, 'photo').upcase}
+            / small.m-t-xs #{pluralize(gallery.gallery_images.count, 'photo').upcase}
             div
               - if gallery.meta_description.present?
                 small.m-t-xs = truncate sanitize_simple(gallery.meta_description), length: 90, omission: '... '
