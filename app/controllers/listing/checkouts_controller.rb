@@ -7,28 +7,35 @@ class Listing::CheckoutsController < Listing::BaseController
     @products = @business.products
   end
 
-  def stripe_session
+  def new
     business = Business.listing_lookup(params[:lookup])
     cart = Cart.find(session[:cart_id])
     items = cart.cart_items.joins(:product).where(products: {business_id: business.id})
-    # amount = cart.cart_total(business)
 
     stripe = StripeService.new(request)
-    session = stripe.create_checkout_session(business, items, "http://listings.impact.test:5000/NH-171-mountain-view-publishing-proud-publisher-of-here-in-hanover-image-and-woodstock-magazine", "http://listings.impact.test:5000/NH-171-mountain-view-publishing-proud-publisher-of-here-in-hanover-image-and-woodstock-magazine")
+    session = stripe.create_checkout_session(business, items, "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout/create", "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout")
 
-    puts session.id
     render json: { session_id: session.id }
 
   end
 
   def create
-    flash[:success] = "Thank you for your purchase!"
+
+    business = Business.listing_lookup(params[:lookup])
+    cart = Cart.find(session[:cart_id])
+    items = cart.cart_items.joins(:product).where(products: {business_id: business.id})
+
 
     # Record Order
-    # Empty cart
+    # Order.new(business, items, status)
 
-    # Redirect to lisitng path
-    redirect_to root_path
+    # Empty cart
+    items.delete_all
+
+
+    # Redirect to lisitng product path
+    flash[:success] = "Thank you for your purchase! You will recieve an email confirmation for your order shortly."
+    redirect_to "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products"
   end
 
 

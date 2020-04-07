@@ -71,8 +71,12 @@ module ApplicationHelper
     "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products/#{product.to_param}"
   end
 
-  def listing_path_checkout_session_url(business)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout_session"
+  def listing_path_checkout_new_url(business)
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout/new"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout/new"
+    end
   end
 
   def listing_path_checkout_url(business)

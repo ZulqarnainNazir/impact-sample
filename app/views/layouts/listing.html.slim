@@ -156,6 +156,8 @@ html lang="en"
               h2.text-center= params[:notice]
             - if flash[:notice]
               h2.text-center= flash[:notice]
+            - if flash[:success]
+              h2.text-center= flash[:success]
             = yield
           .row
             .m-md

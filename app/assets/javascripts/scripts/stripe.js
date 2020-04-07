@@ -2,8 +2,6 @@
 $(document).on('click', '#checkout-button', function(e) {
   e.preventDefault();
   var url = $(this).data('url');
-  url = "http://listings.impact.test:5000/NH-171-mountain-view-publishing-proud-publisher-of-here-in-hanover-image-and-woodstock-magazine/checkout_session"
-  console.log(url);
   var jqxhr = $.ajax({
       url: url,
       type: 'GET',
@@ -11,7 +9,6 @@ $(document).on('click', '#checkout-button', function(e) {
       dataType: 'json'
     });
     jqxhr.done(function(response) {
-      console.log(response);
       stripe.redirectToCheckout({
         // Make the id field from the Checkout Session creation API response
         // available to this file, so you can provide it as parameter here

@@ -24,42 +24,39 @@ class StripeService
 
   def create_checkout_session(business, items, success_url, cancel_url)
 
-    # Build line_items hash needed in session from items object
+    # Build line_items hash needed in session from items object. Example:
     # line_items: [{
     #   name: "Cucumber from Roger's Farm",
     #   amount: 200,
     #   currency: 'usd',
     #   quantity: 10,
     # }]
-    # line_items = []
-    # items.each do |item|
-    #   new_line_item = {}
-    #   new_line_item[:name] = item.product.name
-    #
-    #   line_item = "{name: '#{item.product.name}', amount: #{item.product.price}, currency: 'usd', item: #{item.quantity}},".to_json
-    #
-    #
-    #   # line_items.push(name: "#{item.product.name}", amount: "#{item.product.price}", currency: "usd", item: "#{item.quantity}")
-    #   # line_item = "{name: '#{item.product.name}', amount: '#{item.product.price}', currency: 'usd', item: '#{item.quantity}'}"
-    #   line_item = {name: "#{item.product.name}", amount: "#{item.product.price}", currency: "usd", item: "#{item.quantity}"}
-    #   line_item << {:name => "#{item.product.name}", amount: "#{item.product.price}", currency: "usd", item: "#{item.quantity}"}
-    #
-    #   # line_items << line_item
-    #   # line_items << ","
-    #
-    # end
-    # puts "Array of Line Item Hashes:"
-    # puts line_items
+
+    line_items = []
+    items.each do |item|
+      new_line_item = {}
+      new_line_item[:name] = "#{item.product.name}"
+      new_line_item[:amount] = (item.product.price * 100).to_i
+      new_line_item[:currency] = "usd"
+      new_line_item[:quantity] = item.quantity
+      line_items.push(new_line_item)
+    end
 
     session = Stripe::Checkout::Session.create({
       payment_method_types: ['card'],
-      # line_items: line_items,
-      line_items: [{
-        name: "Cucumber from Roger's Farm",
-        amount: 200,
-        currency: 'usd',
-        quantity: 10,
-      }],
+      line_items: line_items,
+      # line_items: [{
+      #   name: "Cucumber from Roger's Farm",
+      #   amount: 200,
+      #   currency: 'usd',
+      #   quantity: 10,
+      # },
+      # {
+      #   name: "Avacadoes from Roger's Farm",
+      #   amount: 400,
+      #   currency: 'usd',
+      #   quantity: 1,
+      # }],
       # payment_intent_data: {
       #   application_fee_amount: 200,
       # },
@@ -67,7 +64,6 @@ class StripeService
       cancel_url: "#{cancel_url}",
     }, {stripe_account: "#{business.stripe_connected_account_id}"})
 
-    puts session
     return session
   end
 
