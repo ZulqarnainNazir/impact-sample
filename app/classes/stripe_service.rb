@@ -39,10 +39,17 @@ class StripeService
       new_line_item[:amount] = (item.product.price * 100).to_i
       new_line_item[:currency] = "usd"
       new_line_item[:quantity] = item.quantity
+      new_line_item[:description] = item.product.description
+      new_line_item[:images] = ['https://example.com/t-shirt.png']
+
       line_items.push(new_line_item)
     end
 
     session = Stripe::Checkout::Session.create({
+      billing_address_collection: 'auto',
+      shipping_address_collection: {
+        allowed_countries: ['US', 'CA'],
+      },
       payment_method_types: ['card'],
       line_items: line_items,
       # line_items: [{
@@ -180,34 +187,34 @@ class StripeService
 #     # TODO- save plan (id) to product table in database
 #
 #   end
-#
-# def stripe_response(stripe_call: nil)
-#   begin
-#     stripe_call
-#   rescue Stripe::CardError => e
-#     puts "Status is: #{e.http_status}"
-#     puts "Type is: #{e.error.type}"
-#     puts "Charge ID is: #{e.error.charge}"
-#     # The following fields are optional
-#     puts "Code is: #{e.error.code}" if e.error.code
-#     puts "Decline code is: #{e.error.decline_code}" if e.error.decline_code
-#     puts "Param is: #{e.error.param}" if e.error.param
-#     puts "Message is: #{e.error.message}" if e.error.message
-#   rescue Stripe::RateLimitError => e
-#     # Too many requests made to the API too quickly
-#   rescue Stripe::InvalidRequestError => e
-#     # Invalid parameters were supplied to Stripe's API
-#   rescue Stripe::AuthenticationError => e
-#     # Authentication with Stripe's API failed
-#     # (maybe you changed API keys recently)
-#   rescue Stripe::APIConnectionError => e
-#     # Network communication with Stripe failed
-#   rescue Stripe::StripeError => e
-#     # Display a very generic error to the user, and maybe send
-#     # yourself an email
-#   rescue => e
-#     # Something else happened, completely unrelated to Stripe
-#   end
-# end
+
+def stripe_response(stripe_call: nil)
+  begin
+    stripe_call
+  rescue Stripe::CardError => e
+    puts "Status is: #{e.http_status}"
+    puts "Type is: #{e.error.type}"
+    puts "Charge ID is: #{e.error.charge}"
+    # The following fields are optional
+    puts "Code is: #{e.error.code}" if e.error.code
+    puts "Decline code is: #{e.error.decline_code}" if e.error.decline_code
+    puts "Param is: #{e.error.param}" if e.error.param
+    puts "Message is: #{e.error.message}" if e.error.message
+  rescue Stripe::RateLimitError => e
+    # Too many requests made to the API too quickly
+  rescue Stripe::InvalidRequestError => e
+    # Invalid parameters were supplied to Stripe's API
+  rescue Stripe::AuthenticationError => e
+    # Authentication with Stripe's API failed
+    # (maybe you changed API keys recently)
+  rescue Stripe::APIConnectionError => e
+    # Network communication with Stripe failed
+  rescue Stripe::StripeError => e
+    # Display a very generic error to the user, and maybe send
+    # yourself an email
+  rescue => e
+    # Something else happened, completely unrelated to Stripe
+  end
+end
 
 end
