@@ -22,7 +22,7 @@ class StripeService
     })
   end
 
-  def create_checkout_session(business, items, success_url, cancel_url)
+  def create_checkout_session(business, items, shipping_required, success_url, cancel_url)
 
     # Build line_items hash needed in session from items object. Example:
     # line_items: [{
@@ -39,37 +39,33 @@ class StripeService
       new_line_item[:amount] = (item.product.price * 100).to_i
       new_line_item[:currency] = "usd"
       new_line_item[:quantity] = item.quantity
-      new_line_item[:description] = item.product.description
-      new_line_item[:images] = ['https://example.com/t-shirt.png']
+      new_line_item[:description] = ActionView::Base.full_sanitizer.sanitize(item.product.description)
+      new_line_item[:images] = ["https:#{item.product.image&.attachment_thumbnail_url}"]
 
       line_items.push(new_line_item)
     end
 
-    session = Stripe::Checkout::Session.create({
-      billing_address_collection: 'auto',
-      shipping_address_collection: {
-        allowed_countries: ['US', 'CA'],
-      },
-      payment_method_types: ['card'],
-      line_items: line_items,
-      # line_items: [{
-      #   name: "Cucumber from Roger's Farm",
-      #   amount: 200,
-      #   currency: 'usd',
-      #   quantity: 10,
-      # },
-      # {
-      #   name: "Avacadoes from Roger's Farm",
-      #   amount: 400,
-      #   currency: 'usd',
-      #   quantity: 1,
-      # }],
-      # payment_intent_data: {
-      #   application_fee_amount: 200,
-      # },
-      success_url: "#{success_url}",
-      cancel_url: "#{cancel_url}",
-    }, {stripe_account: "#{business.stripe_connected_account_id}"})
+    if shipping_required
+
+      session = Stripe::Checkout::Session.create({
+        billing_address_collection: 'auto',
+        shipping_address_collection: {
+          allowed_countries: ['US', 'CA'],
+        },
+        payment_method_types: ['card'],
+        line_items: line_items,
+        success_url: "#{success_url}",
+        cancel_url: "#{cancel_url}",
+      }, {stripe_account: "#{business.stripe_connected_account_id}"})
+    else
+      session = Stripe::Checkout::Session.create({
+        billing_address_collection: 'auto',
+        payment_method_types: ['card'],
+        line_items: line_items,
+        success_url: "#{success_url}",
+        cancel_url: "#{cancel_url}",
+      }, {stripe_account: "#{business.stripe_connected_account_id}"})
+    end
 
     return session
   end

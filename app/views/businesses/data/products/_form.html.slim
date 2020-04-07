@@ -11,8 +11,28 @@ hr
   => form.label :name, class: 'control-label'
   = form.text_field :name, class: 'form-control'
 .form-group
+  = react_component 'ImagePlacement',
+    imagesPath: business_images_path(form.object.business),
+    inputPrefix: 'product[image_placement_attributes]',
+    label: 'Product Image',
+    placement: form.object.image_placement_json,
+    allowEmbed: true,
+    presignedPost: s3_logo_presigned_post_hash,
+    bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+    showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+
+.form-group
   => form.label :description, class: 'control-label'
   = form.text_area :description, class: 'form-control wysihtml-editor'
 .form-group
   => form.label :price, class: 'control-label'
   = form.text_field :price, class: 'form-control'
+.form-group
+  = form.label :require_shipping_address, class: 'control-label' do
+    => form.check_box :require_shipping_address, class: ''
+    | Shipping Required?
+
+/ .form-group
+/   = form.label 'rsvp_required', class: 'control-label' do
+/     => form.check_box :rsvp_required, class: ''
+/     | RSVP Required

@@ -11,9 +11,10 @@ class Listing::CheckoutsController < Listing::BaseController
     business = Business.listing_lookup(params[:lookup])
     cart = Cart.find(session[:cart_id])
     items = cart.cart_items.joins(:product).where(products: {business_id: business.id})
+    shipping_required = items.where(products: {require_shipping_address: true}).present?
 
     stripe = StripeService.new(request)
-    session = stripe.create_checkout_session(business, items, "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout/create", "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout")
+    session = stripe.create_checkout_session(business, items, shipping_required, "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout/create", "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout")
 
     render json: { session_id: session.id }
 

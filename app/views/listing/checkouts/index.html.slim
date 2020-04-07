@@ -11,12 +11,11 @@
   .col-xs-12
     .page-header
       h3
-       | Checkout
+       | Shopping Cart
 
 .row.m-lg
   .col-xs-12
     - @items = @cart.cart_items.joins(:product).where(products: {business_id: @business.id})
-    = @cart.cart_items.to_json
     - if @items.present?
       / - reach_occurences = []
         / - @products.each_with_index do |product|

@@ -32,12 +32,14 @@ class Businesses::Data::ProductsController < Businesses::BaseController
       :name,
       :description,
       :price,
-      #   team_member_profile_placement_attributes: placement_attributes,
-      # ).deep_merge(
-      #   team_member_profile_placement_attributes: {
-      #     image_user: current_user,
-      #     image_business: @business,
-      #   },
+      :require_shipping_address,
+      image_placement_attributes: placement_attributes,
+    ).deep_merge(
+      image_placement_attributes: {
+        image_user: current_user,
+        image_business: @business,
+      },
     )
+
   end
 end

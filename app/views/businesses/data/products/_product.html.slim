@@ -1,7 +1,12 @@
 tr
+  td= image_tag product.image&.attachment_thumbnail_url, alt: "#{product.name} Image", class: 'img-responsive'
   td= product.name
   td= product.description.html_safe
   td= number_to_currency(product.price)
+  td
+    - if product.require_shipping_address?
+      .text-center
+        .fa.fa-check
   td
     .btn-group
       = link_to 'Edit Details', [:edit, product.business, :data, product], class: 'btn btn-default btn-xs'

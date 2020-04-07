@@ -1,14 +1,13 @@
 - title "Shop for #{@product.name}"
 
-=@cart.id
-=@cart.cart_items.to_json
 = form_for :cart_item, url: cart_items_path, html: { class: ""} do |f|
   =f.hidden_field :product_id, value: @product.id
   =f.hidden_field :cart_id, value: @cart.id
 
   .row.m-t-lg.m-b-lg
     .col-xs-12.col-sm-4.col-sm-offset-1
-      .text-center= image_tag "https://via.placeholder.com/300"
+      / .text-center= image_tag "https://via.placeholder.com/300"
+      = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
     .col-xs-12.col-sm-6
       h4.text-uppercase= @product.name
       p= @product.description.html_safe
