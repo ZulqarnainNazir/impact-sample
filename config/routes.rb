@@ -27,14 +27,14 @@ end
 
 Rails.application.routes.draw do
 
-  resources :cart_items, only: [:create, :update, :destroy]
+  resources :line_items, only: [:create, :update, :destroy]
 
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do
     root to: 'listings#index'
     match '/:lookup', to: 'listings#index', via: :get
-    match '/:lookup/checkout', to: 'checkouts#index', :as => 'checkout', via: :get
-    match '/:lookup/checkout/new', to: 'checkouts#new', :as => 'new', via: :get
-    match '/:lookup/checkout/create', to: 'checkouts#create', :as => 'create', via: :get
+    match '/:lookup/cart', to: 'carts#index', :as => 'cart', via: :get
+    match '/:lookup/cart/new', to: 'carts#new', :as => 'new', via: :get
+    match '/:lookup/cart/create', to: 'carts#create', :as => 'create', via: :get
     match '/:lookup/directories', to: 'directories#index', :as => 'directories', via: :get
     match '/:lookup/directories/:id', to: 'directories#show', :as => 'directory', via: :get
     match '/:lookup/calendars', to: 'calendars#index', :as => 'calendars', via: :get

@@ -1,4 +1,4 @@
-- title 'Checkout'
+- title 'Shopping Cart'
 
 = render 'application/alerts'
 
@@ -15,7 +15,7 @@
 
 .row.m-lg
   .col-xs-12
-    - @items = @cart.cart_items.joins(:product).where(products: {business_id: @business.id})
+    - @items = @cart.line_items.joins(:product).where(products: {business_id: @business.id})
     - if @items.present?
       / - reach_occurences = []
         / - @products.each_with_index do |product|
@@ -33,14 +33,14 @@
                 th Quantity
                 th
             tbody
-              = render partial: 'listing/checkouts/item', collection: @items, as: :item
+              = render partial: 'listing/carts/line_item', collection: @items, as: :item
       .row
         .col-xs-12
           h3.pull-right Total: #{number_to_currency(@cart.cart_total(@business))}
       .row.m-t-sm
         .col-xs-12
 
-          = link_to "Checkout", "#", id: 'checkout-button', class: 'btn btn-primary pull-right', data: {url: listing_path_checkout_new_url(@business)}
+          = link_to "Checkout", "#", id: 'checkout-button', class: 'btn btn-primary pull-right', data: {url: listing_path_cart_new_url(@business)}
 
     - else
       div.col-xs-12.col-sm-8.col-sm-push-2

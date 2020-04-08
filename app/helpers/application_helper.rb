@@ -71,16 +71,16 @@ module ApplicationHelper
     "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products/#{product.to_param}"
   end
 
-  def listing_path_checkout_new_url(business)
+  def listing_path_cart_new_url(business)
     if Rails.env.development?
-      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout/new"
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart/new"
     else
-      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout/new"
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart/new"
     end
   end
 
-  def listing_path_checkout_url(business)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/checkout"
+  def listing_path_cart_url(business)
+    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart"
   end
 
   def listing_path_calendar_url(business, calendar)
