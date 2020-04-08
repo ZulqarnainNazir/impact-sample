@@ -19,6 +19,10 @@
   controller_path.match(/\Abusinesses\/crm\/(feedbacks|reviews)/) ||\
   controller_path.match(/\Abusinesses\/tools\/review_widgets/))
 
+- ecommerce_active = (\
+  controller_path.match(/\Abusinesses\/(orders)/) ||\
+  controller_path.match(/\Abusinesses\/data\/products/))
+
     / feedbacks reviews tools/review_widgets
 
 - forms_active = (\
@@ -266,6 +270,21 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
             = link_to [@business, :tools_review_widgets] do
               | Reviews Widgets
+
+      li title="Manage Products and Orders" class=('active' if ecommerce_active)
+        = link_to "#"
+          i.fa.fa-comment
+          span.nav-label[data-i18n="nav.contacts"]
+            | E-commerce
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless reviews_active)
+          li class=('active' if controller_path.match(/\Abusinesses\/orders/))
+            = link_to "Orders", [@business, :orders]
+          / li class=('active' if controller_path.match(/\Abusinesses\/crm\/feedbacks/))
+          /   = link_to "Private Feedback", [@business, :crm_feedbacks]
+          / li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
+          /   = link_to [@business, :tools_review_widgets] do
+          /     | Reviews Widgets
 
       li title="Find Marketing Missions & Manage Marketing Tasks" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders|marketing_assistant)/))
         = link_to "#"

@@ -409,6 +409,7 @@ Rails.application.routes.draw do
         resources :images, only: %i[index]
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
+        resources :orders, only: [:index, :show, :create]
         resources :reminders, only: :index
         resources :activity_calendar, only: :index do
           get :timeline, on: :collection
