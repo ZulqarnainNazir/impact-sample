@@ -27,6 +27,8 @@ end
 
 Rails.application.routes.draw do
 
+  mount StripeEvent::Engine, at: "/stripe_events", :via => :post
+
   resources :line_items, only: [:create, :update, :destroy]
 
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do

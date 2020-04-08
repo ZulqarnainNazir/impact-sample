@@ -52,23 +52,43 @@ module ApplicationHelper
 
 
   def listing_path_url(business)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}"
+    end
   end
 
   def listing_path_url_with_segment(business)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_segment}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_segment}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_segment}"
+    end
   end
 
   def listing_path_content_url(business, content, content_type)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/#{content}?content=#{content_type}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/#{content}?content=#{content_type}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/#{content}?content=#{content_type}"
+    end
   end
 
   def listing_path_review_url(business, review)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/show/#{review.to_param}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/show/#{review.to_param}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/show/#{review.to_param}"
+    end
   end
 
   def listing_path_product_url(business, product)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products/#{product.to_param}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products/#{product.to_param}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products/#{product.to_param}"
+    end
   end
 
   def listing_path_cart_new_url(business)
@@ -80,23 +100,43 @@ module ApplicationHelper
   end
 
   def listing_path_cart_url(business)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart"
+    end
   end
 
   def listing_path_calendar_url(business, calendar)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/calendars/#{calendar.to_param}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/calendars/#{calendar.to_param}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/calendars/#{calendar.to_param}"
+    end
   end
 
   def listing_path_directory_url(business, directory)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/directories/#{directory.to_param}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/directories/#{directory.to_param}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/directories/#{directory.to_param}"
+    end
   end
 
   def listing_path_event_url(business, event)
-    "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/events/show/#{event.to_param}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/events/show/#{event.to_param}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/events/show/#{event.to_param}"
+    end
   end
 
   def listing_path_new_review_url(business, score, token)
-    "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/new?feedback_score=#{score}&feedback_token=#{token}"
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/new?feedback_score=#{score}&feedback_token=#{token}"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/reviews/new?feedback_score=#{score}&feedback_token=#{token}"
+    end
   end
 
   def shared?(post, business)

@@ -1,9 +1,14 @@
 tr
+  td
+    -if order.stripe_checkout_session_id.present?
+      | Pending
   td= order.full_name
   td= order.email
   td= order.shipping_address
-  td= number_to_currency(order.amount)
+  td
+    - if order.total_amount.present?
+      = number_to_currency(order.total_amount)
   td
     .btn-group
-      = link_to 'Show Details', [:edit, order.business, order], class: 'btn btn-default btn-xs'
+      / = link_to 'Show Details', business_order_path(order.business), class: 'btn btn-default btn-xs'
       / = link_to 'Delete', [product.business, :data, product], method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }

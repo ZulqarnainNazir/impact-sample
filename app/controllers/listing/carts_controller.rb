@@ -14,7 +14,10 @@ class Listing::CartsController < Listing::BaseController
     shipping_required = items.where(products: {require_shipping_address: true}).present?
 
     stripe = StripeService.new(request)
-    session = stripe.create_checkout_session(business, items, shipping_required, "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart/create", "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart")
+    session = stripe.create_checkout_session(business, items, shipping_required, "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart/create", "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart")
+
+
+    Order.create!(business_id: business.id, stripe_checkout_session_id: session.id)
 
     render json: { session_id: session.id }
 
@@ -38,7 +41,7 @@ class Listing::CartsController < Listing::BaseController
 
     # Redirect to lisitng product path
     flash[:success] = "Thank you for your purchase! You will recieve an email confirmation for your order shortly."
-    redirect_to "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products"
+    redirect_to "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products"
   end
 
 
