@@ -24,7 +24,8 @@ class Listing::CartsController < Listing::BaseController
 
   def show
     @business = Business.listing_lookup(params[:lookup])
-    @order = Order.find_by!(stripe_checkout_session_id: params[:session_id])
+    @order = Order.find_by(stripe_checkout_session_id: params[:session_id])
+    @products = @business.products
 
   end
 

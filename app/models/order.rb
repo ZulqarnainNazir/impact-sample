@@ -5,10 +5,7 @@ class Order < ActiveRecord::Base
   enum status: {
     pending: 0,
     paid: 1,
-    fulfilled: 2,
+    delivered: 2,
   }
 
-  def full_name
-    "#{first_name} #{last_name}"
-  end
 end

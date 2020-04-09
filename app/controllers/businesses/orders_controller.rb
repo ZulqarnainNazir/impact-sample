@@ -1,6 +1,6 @@
 class Businesses::OrdersController < Businesses::BaseController
   def index
-    @orders = @business.orders.where.not(status: 0)
+    @orders = @business.orders.where.not(status: 0).order('created_at desc')
   end
 
   def show
@@ -12,18 +12,8 @@ class Businesses::OrdersController < Businesses::BaseController
   # end
 
   def create
-    @order = @business.order.new(order_params)
-
-    # @current_cart.line_items.each do |item|
-    #   @order.line_items << item
-    #   item.cart_id = nil
-    # end
-
-    @order.save
-
-    # Cart.destroy(session[:cart_id])
-    # session[:cart_id] = nil
-
+    @order = @business.order.create(order_params)
+    # @order.save
     # redirect_to root_path
   end
 

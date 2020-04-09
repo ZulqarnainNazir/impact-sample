@@ -4,30 +4,64 @@
 /   =f.hidden_field :product_id, value: @product.id
 /   =f.hidden_field :cart_id, value: @cart.id
 
-.row.m-t-lg.m-b-lg
+.row.m-lg
   .col-xs-12
     / = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
     / h4.text-uppercase= @product.name
     / p= @product.description.html_safe
     / p.text-muted= number_to_currency(@product.price)
 
+    - if @order.present? && !@order.pending?
+      .row.m-t-lg.m-b-lg
+        .cox-xs-12
+          h2.text-uppercase Thank you for your purchase!
+          p You will recieve an email confirmation for your order shortly.
+      .row.m-t-lg.m-b-lg
+        .col-xs-12.col-sm-4
+          h4
+           u Contact Info
+          p
+            strong> Name:
+            = @order.name
+          p
+           strong> Email:
+           = @order.email
+
+        .col-xs-12.col-sm-4
+          h4
+            u Shipping Info
+          p= @order.shipping_address
+        .col-xs-12.col-sm-4
+          h4
+            u Order Details
+          - if @order.status == "paid"
+            p
+              strong> Order ID:
+              = @order.id
+            p
+              strong> Order Status:
+              = @order.status.titleize
+              | , Pending Delivery
+          - else
+            h4= @order.status.titleize
 
 
-    h4= @order.status
-    h4= @order.full_name
-    h4= @order.email
-    h4= @order.shipping_address
-    h4= number_to_currency(@order.total_amount)
+      .row
+        .cox-xs-12
+          table class="table table-striped"
+            thead
+              tr
+                th
+                th Product
+                th Description
+                th Price
+                th Quantity
+            tbody
+              = render partial: 'listing/carts/order_line_item', collection: @order.line_items, as: :item
 
-    .row
-      .cox-xs-12
-        table class="table table-striped"
-          thead
-            tr
-              th
-              th Product
-              th Description
-              th Price
-              th Quantity
-          tbody
-            = render partial: 'listing/products/line_item', collection: @order.line_items, as: :item
+      .row
+        .col-xs-12
+          h3.pull-right Order Total: #{number_to_currency(@order.total_amount)}
+
+    - else
+      | Looks like something went wrong, please contact support.

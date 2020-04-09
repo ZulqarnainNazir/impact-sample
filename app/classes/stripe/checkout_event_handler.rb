@@ -2,6 +2,7 @@ module Stripe
   class CheckoutEventHandler
     def call(event)
       begin
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY']
         method = "handle_" + event.type.tr('.', '_')
         self.send method, event
       rescue JSON::ParserError => e
@@ -26,27 +27,36 @@ module Stripe
 
       session = event.data.object
 
-      # puts "############ Session Obj ################"
-      # puts session
+      puts "############ Session Obj ################"
+      puts session
 
       order = ::Order.find_by!(stripe_checkout_session_id: session[:id])
 
-      # get customer object for name and email and store along with customer_id
-
-      # stripe = StripeService.new(request)
-      # customer = stripe.get_customer_info(session[:customer])
-
-      # puts "############ Customer Obj ################"
-      # puts customer
-
-      address = "#{session[:shipping][:name]}, #{session[:shipping][:address][:line1]}, #{session[:shipping][:address][:line2]}, #{session[:shipping][:address][:city]}, #{session[:shipping][:address][:state]} #{session[:shipping][:address][:postal]}, #{session[:shipping][:address][:country]}"
+      # Doesn't use Stripe Service Object because request variable doesn't exist here
+      # customer = Stripe::Customer.retrieve(session[:customer], stripe_account: order.business.stripe_connected_account_id)
 
       # binding.pry
-      order.update_attributes!(first_name: "Ryan", last_name: "Frisch", email: "ryan+test@locable.com", shipping_address: address, status: 'paid',  stripe_customer_id: session[:customer])
+      customer = Stripe::PaymentIntent.retrieve(session[:payment_intent], stripe_account: order.business.stripe_connected_account_id)
 
-      items = Cart.find(order.cart_id).line_items.joins(:product).where(products: {business_id: order.business_id})
+      puts "############ Customer Obj ################"
+      puts customer
+
+      if session[:shipping]
+        address = "#{session[:shipping][:name]}, #{session[:shipping][:address][:line1]}, #{session[:shipping][:address][:line2]}, #{session[:shipping][:address][:city]}, #{session[:shipping][:address][:state]} #{session[:shipping][:address][:postal]}, #{session[:shipping][:address][:country]}"
+      else
+        address = "Not Applicable"
+      end
+
+      order.update_attributes!(name: customer[:charges][:data][0][:billing_details][:name], email: customer[:charges][:data][0][:billing_details][:email], shipping_address: address, status: 'paid', stripe_customer_id: session[:customer])
+
+      cart = Cart.find(order.cart_id)
+      items = cart.line_items.joins(:product).where(products: {business_id: order.business_id})
       items.update_all(cart_id: nil, order_id: order.id)
 
+      # Cleanup cart if empty (including other businesses)
+      unless cart.line_items.size > items.size
+        Cart.destroy(order.cart_id)
+      end
     end
 
     # def handle_customer_subscription_updated(event)

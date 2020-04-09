@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200409010311) do
+ActiveRecord::Schema.define(version: 20200409155712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1176,8 +1176,6 @@ ActiveRecord::Schema.define(version: 20200409010311) do
   add_index "openings", ["location_id"], name: "index_openings_on_location_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
     t.string   "email"
     t.text     "shipping_address"
     t.decimal  "total_amount",               precision: 8, scale: 2
@@ -1188,6 +1186,7 @@ ActiveRecord::Schema.define(version: 20200409010311) do
     t.datetime "updated_at",                                                     null: false
     t.integer  "status",                                             default: 0, null: false
     t.integer  "cart_id"
+    t.string   "name"
   end
 
   create_table "pdfs", force: :cascade do |t|
