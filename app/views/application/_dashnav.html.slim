@@ -8,7 +8,7 @@
 
 - contents_active = (\
   (controller_path.match(/\Abusinesses\/content/) &&\
-  !controller_path.match(/\Abusinesses\/content\/(events|event_imports|event_definitions|images|pdfs)/)) ||\
+  !controller_path.match(/\Abusinesses\/content\/(events|event_imports|event_definitions|images|pdfs|category_tag_management)/)) ||\
   controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
 
 - events_active = (\
@@ -22,7 +22,7 @@
     controller_path.match(/\Abusinesses\/(orders)/) ||\
     controller_path.match(/\Abusinesses\/tools\/review_widgets/))
 
-- conversions_active = (\
+- funnel_active = (\
   controller_path.match(/\Abusinesses\/products/) ||\
   controller_path.match(/\Abusinesses\/crm\/contact_forms/))
 
@@ -92,11 +92,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to [@business, :tools_content_feed_widgets] do
               | Content/Blog Feed Embeds
-          / li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
-          /   = link_to "Media Library", [@business, :content_images]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/category_tag_management/))
-            = link_to "Manage Tags & Categories", [@business, :content_category_tag_management_index]
-
       li title="Manage Events & Calendar Feeds" class=('active' if events_active)
         = link_to [@business, :dashboard] do
           i.fa.fa-calendar
@@ -181,13 +176,13 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           / li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
           /   = link_to "Import Contacts", [@business, :crm_imports]
 
-      li title="Manage Products & Forms" class=('active' if conversions_active)
+      li title="Manage Products & Forms" class=('active' if funnel_active)
         = link_to "#"
           i.fa.fa-filter
-          span.nav-label[data-i18n="nav.conversions"]
-            | Conversions
+          span.nav-label[data-i18n="nav.funnel"]
+            | Sales Funnel
           span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless conversions_active)
+        ul.nav.nav-second-level class=('collapse' unless funnel_active)
           li class=('active' if controller_path.match(/\Abusinesses\/products/))
             = link_to "Manage Ecommerce Products", [@business, :products]
           li class=('active' if controller_path.match(/\Abusinesses\/crm\/contact_forms/))
@@ -228,21 +223,6 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/accounts\/root/))
             = link_to "Linked Accounts", [@business, :accounts_root]
 
-      li title="Media Library" class=('active' if media_active)
-        = link_to "#"
-          i.fa.fa-picture-o
-          span.nav-label[data-i18n="nav.media-library"]
-            | Media Library
-          span.fa.arrow
-        ul.nav.nav-second-level class=('collapse' unless media_active)
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/images\z/))
-            = link_to "Images", [@business, :content_images]
-          / Add Gallery here
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/pdfs/))
-            = link_to "PDFs", [@business, :content_pdfs]
-          li class=('active' if controller_path.match(/\Abusinesses\/content\/images_upload/))
-            = link_to "Bulk Upload", [:new, @business, :content_images_upload]
-
       li title="Find Marketing Missions & Manage Marketing Tasks" class=('active' if controller_path.match(/\Abusinesses\/(activity_calendar|missions|reminders|marketing_assistant)/))
         = link_to "#"
           i.fa.fa-flag
@@ -261,6 +241,27 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           / li class=('active' if controller_path.match(/\Abusinesses\/marketing_assistant/))
             = link_to "To-Do Lists", [@business, :marketing_assistant_index]
 
+      li title="Media Library" class=('active' if media_active)
+        = link_to "#"
+          i.fa.fa-picture-o
+          span.nav-label[data-i18n="nav.media-library"]
+            | Media Library
+          span.fa.arrow
+        ul.nav.nav-second-level class=('collapse' unless media_active)
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/images\z/))
+            = link_to "Images", [@business, :content_images]
+          / Add Gallery here
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/pdfs/))
+            = link_to "PDFs", [@business, :content_pdfs]
+          li class=('active' if controller_path.match(/\Abusinesses\/content\/images_upload/))
+            = link_to "Bulk Upload", [:new, @business, :content_images_upload]
+
+      / Moved to Profile menu
+      / li class=('active' if controller_path.match(/\Abusinesses\/content\/category_tag_management/))
+      /   = link_to [@business, :content_category_tag_management_index] do
+      /     i.fa.fa-tags
+      /     span.nav-label[data-i18n="nav.categories"]
+      /       | Manage Categories & Tags
       li = link_to 'http://help.locable.com/', target: :_blank do
         i.fa.fa-life-ring>
         span.nav-label[data-i18n="nav.support"]
