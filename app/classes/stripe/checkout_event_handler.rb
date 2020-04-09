@@ -26,30 +26,26 @@ module Stripe
 
       session = event.data.object
 
-      puts "############ Session Obj ################"
-      puts session
+      # puts "############ Session Obj ################"
+      # puts session
 
-      order = Order.find_by(stripe_checkout_session_id: session.id)
+      order = ::Order.find_by!(stripe_checkout_session_id: session[:id])
 
-      puts "############ Order ID: ################"
-      puts "############ #{order.id} ################"
+      # get customer object for name and email and store along with customer_id
 
-      order.update_attributes!(first_name: "Ryan", last_name: "Frisch", email: "ryan-test@locable.com", shipping_address: "4309 Grafton Cir, Mather, CA 95655", amount: 99.99, status: 1)
+      # stripe = StripeService.new(request)
+      # customer = stripe.get_customer_info(session[:customer])
 
-      # User.last
-      #
-      # puts user.email
-      #
-      # Order.create!(business_id: 177, first_name: "Ryan", last_name: "Frisch", email: "ryan-test@locable.com", shipping_address: "4309 Grafton Cir, Mather, CA 95655", amount: 99.99)
-      # @order = @business.order.new(order_params)
-      #
-      # @current_cart.line_items.each do |item|
-      #   @order.line_items << item
-      #   item.cart_id = nil
-      # end
-      #
-      # @order.save
-      #
+      # puts "############ Customer Obj ################"
+      # puts customer
+
+      address = "#{session[:shipping][:name]}, #{session[:shipping][:address][:line1]}, #{session[:shipping][:address][:line2]}, #{session[:shipping][:address][:city]}, #{session[:shipping][:address][:state]} #{session[:shipping][:address][:postal]}, #{session[:shipping][:address][:country]}"
+
+      # binding.pry
+      order.update_attributes!(first_name: "Ryan", last_name: "Frisch", email: "ryan+test@locable.com", shipping_address: address, status: 'paid',  stripe_customer_id: session[:customer])
+
+      items = Cart.find(order.cart_id).line_items.joins(:product).where(products: {business_id: order.business_id})
+      items.update_all(cart_id: nil, order_id: order.id)
 
     end
 

@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     match '/:lookup/cart', to: 'carts#index', :as => 'cart', via: :get
     match '/:lookup/cart/new', to: 'carts#new', :as => 'new', via: :get
     match '/:lookup/cart/create', to: 'carts#create', :as => 'create', via: :get
+    match '/:lookup/cart/show', to: 'carts#show', :as => 'show', via: :get
     match '/:lookup/directories', to: 'directories#index', :as => 'directories', via: :get
     match '/:lookup/directories/:id', to: 'directories#show', :as => 'directory', via: :get
     match '/:lookup/calendars', to: 'calendars#index', :as => 'calendars', via: :get

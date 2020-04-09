@@ -1,0 +1,33 @@
+- title "Thank You for Shopping with Us!"
+
+/ = form_for :line_item, url: line_items_path, html: { class: ""} do |f|
+/   =f.hidden_field :product_id, value: @product.id
+/   =f.hidden_field :cart_id, value: @cart.id
+
+.row.m-t-lg.m-b-lg
+  .col-xs-12
+    / = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
+    / h4.text-uppercase= @product.name
+    / p= @product.description.html_safe
+    / p.text-muted= number_to_currency(@product.price)
+
+
+
+    h4= @order.status
+    h4= @order.full_name
+    h4= @order.email
+    h4= @order.shipping_address
+    h4= number_to_currency(@order.total_amount)
+
+    .row
+      .cox-xs-12
+        table class="table table-striped"
+          thead
+            tr
+              th
+              th Product
+              th Description
+              th Price
+              th Quantity
+          tbody
+            = render partial: 'listing/products/line_item', collection: @order.line_items, as: :item
