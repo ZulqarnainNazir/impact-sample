@@ -1,0 +1,67 @@
+- title "Order Details"
+
+= render :partial => 'dashbreadcrumb', :locals => { :lnk => :businesses, :fn => "Orders", :fp => :orders, :an => "Order ##{@order.id}" }
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h3.panel-title
+                | Order Details
+            .ibox-content
+              .row
+                .col-xs-12
+                  - if @order.present?
+                    .row.m-t-lg.m-b-lg
+                      .col-xs-12.col-sm-4
+                        h4
+                         u Customer Info
+                        p
+                          strong> Name:
+                          = @order.name
+                        p
+                         strong> Email:
+                         = @order.email
+
+                      .col-xs-12.col-sm-4
+                        h4
+                          u Shipping Info
+                        - if @order.shipping_address == "Not Applicable"
+                          p Not Applicable, In-store Pickup
+                        -else
+                          p= @order.shipping_address
+                      .col-xs-12.col-sm-4
+                        h4
+                          u Order Details
+                        - if @order.status == "paid"
+                          p
+                            strong> Order ID:
+                            = @order.id
+                          p.text-danger
+                            strong> Order Status:
+                            = @order.status.titleize
+                            | , Pending Delivery
+                          = link_to 'Mark Delivered', "#", class: 'btn btn-success btn-xs'
+                        - else
+                          h4= @order.status.titleize
+
+
+                    .row
+                      .cox-xs-12
+                        table class="table table-striped"
+                          thead
+                            tr
+                              th
+                              th Product
+                              th Description
+                              th Price
+                              th Quantity
+                          tbody
+                            = render partial: 'listing/carts/order_line_item', collection: @order.line_items, as: :item
+
+                    .row
+                      .col-xs-12
+                        h3.pull-right Order Total: #{number_to_currency(@order.total_amount)}

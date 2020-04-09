@@ -4,7 +4,7 @@ class Businesses::OrdersController < Businesses::BaseController
   end
 
   def show
-    @order = @business.order.find(params[:id])
+    @order = Order.find(params[:id])
   end
 
   # def new
@@ -13,8 +13,6 @@ class Businesses::OrdersController < Businesses::BaseController
 
   def create
     @order = @business.order.create(order_params)
-    # @order.save
-    # redirect_to root_path
   end
 
   private

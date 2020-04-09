@@ -70,10 +70,10 @@ class StripeService
     return session
   end
 
-  def retrieve_customer(customer_token, business)
-    # TODO - Need to rescue no customer for cases where account disconnected
-    Stripe::Customer.retrieve(customer_token, stripe_account: business.stripe_connected_account_id)
-  end
+  # def retrieve_customer(customer_token, business)
+  #   # TODO - Need to rescue no customer for cases where account disconnected
+  #   Stripe::Customer.retrieve(customer_token, stripe_account: business.stripe_connected_account_id)
+  # end
 
 #   def get_customer_token(site, user)
 #     StripePaymentCustomer.where(site: site, user: user).first&.stripe_customer_token

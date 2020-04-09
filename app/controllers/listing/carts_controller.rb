@@ -8,6 +8,8 @@ class Listing::CartsController < Listing::BaseController
   end
 
   def new
+    # Creates stripe session, pending order and redirects to Checkout
+
     business = Business.listing_lookup(params[:lookup])
     cart = Cart.find(session[:cart_id])
     items = cart.line_items.joins(:product).where(products: {business_id: business.id})
@@ -23,33 +25,14 @@ class Listing::CartsController < Listing::BaseController
   end
 
   def show
+    # Thank you page
     @business = Business.listing_lookup(params[:lookup])
     @order = Order.find_by(stripe_checkout_session_id: params[:session_id])
     @products = @business.products
 
+    unless @order.present? && !@order.pending?
+      flash[:notice] = "Looking for your order? The session may have expired. Please check your email for your order confirmation. If you did not receive one please contact support."
+      redirect_to "http://#{ENV['LISTING_HOST']}#{@business.generate_listing_path}/products"
+    end
   end
-
-  # def create
-  #
-  #   business = Business.listing_lookup(params[:lookup])
-  #   cart = Cart.find(session[:cart_id])
-  #   items = cart.line_items.joins(:product).where(products: {business_id: business.id})
-  #
-  #
-  #   # Record Order
-  #   # Order.new(business, items, status)
-  #
-  #   # Empty cart by assigning line items to order and setting cart_id to nil
-  #   # items.update_all(cart_id: nil, order_id: order.id)
-  #
-  #   # items.delete_all
-  #
-  #
-  #   # Redirect to lisitng product path
-  #   flash[:success] = "Thank you for your purchase! You will recieve an email confirmation for your order shortly."
-  #   redirect_to "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products"
-  # end
-
-
-
 end

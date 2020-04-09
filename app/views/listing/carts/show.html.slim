@@ -1,16 +1,7 @@
 - title "Thank You for Shopping with Us!"
 
-/ = form_for :line_item, url: line_items_path, html: { class: ""} do |f|
-/   =f.hidden_field :product_id, value: @product.id
-/   =f.hidden_field :cart_id, value: @cart.id
-
 .row.m-lg
   .col-xs-12
-    / = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
-    / h4.text-uppercase= @product.name
-    / p= @product.description.html_safe
-    / p.text-muted= number_to_currency(@product.price)
-
     - if @order.present? && !@order.pending?
       .row.m-t-lg.m-b-lg
         .cox-xs-12
@@ -19,7 +10,7 @@
       .row.m-t-lg.m-b-lg
         .col-xs-12.col-sm-4
           h4
-           u Contact Info
+           u Your Info
           p
             strong> Name:
             = @order.name
@@ -30,7 +21,11 @@
         .col-xs-12.col-sm-4
           h4
             u Shipping Info
-          p= @order.shipping_address
+          - if @order.shipping_address == "Not Applicable"
+            p Not Applicable, please pick up your order at:
+            p #{@business.location.street1}, #{@business.location.street2}, #{@business.location.city}, #{@business.location.state} #{@business.location.zip_code}
+          -else
+            p= @order.shipping_address
         .col-xs-12.col-sm-4
           h4
             u Order Details
@@ -42,6 +37,8 @@
               strong> Order Status:
               = @order.status.titleize
               | , Pending Delivery
+            p Please email #{@business.location.email} or call #{@business.location.phone_number} for more information.
+
           - else
             h4= @order.status.titleize
 
