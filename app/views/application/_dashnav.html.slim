@@ -91,7 +91,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Manage Posts", [@business, :content_root]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/content_feed_widgets/))
             = link_to [@business, :tools_content_feed_widgets] do
-              | Content Feed Embeds
+              | Content/Blog Feed Embeds
           / li class=('active' if controller_path.match(/\Abusinesses\/content\/images/))
           /   = link_to "Media Library", [@business, :content_images]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/category_tag_management/))
@@ -110,7 +110,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             / Need to add eventdefintions and inmportedeventdefintion?
             = link_to "Manage Events", [@business, :events_root]
           li class=('active' if controller_path.match(/\Abusinesses\/content\/event_imports/))
-            = link_to "Manage Import Feeds", [@business, :content, :event_imports]
+            = link_to "Manage Event Feeds", [@business, :content, :event_imports]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/calendar_widgets/))
             = link_to [@business, :tools_calendar_widgets] do
               | Calendar Embeds
@@ -176,7 +176,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
             = link_to "Reviews", [@business, :crm_reviews]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/review_widgets/))
             = link_to [@business, :tools_review_widgets] do
-              | Reviews Embed
+              | Reviews Embeds
           / Add import contacts and companies option
           / li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
           /   = link_to "Import Contacts", [@business, :crm_imports]
