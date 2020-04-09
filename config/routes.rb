@@ -305,7 +305,6 @@ Rails.application.routes.draw do
           resource :lines, only: %i[edit update]
           resource :location, only: %i[edit update]
           resource :openings, only: %i[edit update]
-          resources :products, only: %i[index new create edit update destroy]
           resource :social_profiles, only: %i[edit update]
           resource :team_members_positions, only: %i[edit update]
           resource :values, only: %i[edit update]
@@ -413,6 +412,7 @@ Rails.application.routes.draw do
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
         resources :orders, only: [:index, :show, :create]
+        resources :products, only: %i[index new create edit update destroy]
         resources :reminders, only: :index
         resources :activity_calendar, only: :index do
           get :timeline, on: :collection

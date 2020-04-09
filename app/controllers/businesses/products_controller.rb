@@ -1,4 +1,4 @@
-class Businesses::Data::ProductsController < Businesses::BaseController
+class Businesses::ProductsController < Businesses::BaseController
   include PlacementAttributesConcern
 
   before_action only: new_actions do
@@ -14,15 +14,15 @@ class Businesses::Data::ProductsController < Businesses::BaseController
   end
 
   def create
-    create_resource @product, product_params, location: [@business, :data_products]
+    create_resource @product, product_params, location: [@business, :products]
   end
 
   def update
-    update_resource @product, product_params, location: [@business, :data_products]
+    update_resource @product, product_params, location: [@business, :products]
   end
 
   def destroy
-    destroy_resource [@business, :data, @product]
+    destroy_resource [@business, @product]
   end
 
   private

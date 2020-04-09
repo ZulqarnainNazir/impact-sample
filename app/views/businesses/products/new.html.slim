@@ -1,6 +1,6 @@
 - title 'New Product'
 
-= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :sn => 'Product', :sp => :data_products, :an => ' New Product'}
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :sn => 'Product', :sp => :products, :an => ' New Product'}
 
 .row
   .col-lg-12
@@ -12,9 +12,9 @@
               h1.h3.panel-title Add a Product
             .ibox-content
               = errors_for @product
-              = form_for [@business, :data, @product] do |form|
+              = form_for [@business, @product] do |form|
                 = render form
                 div
                   hr
                   => form.button 'Create', class: 'btn btn-primary pull-right'
-                  = link_to 'Cancel', [@business, :data_products], class: 'btn btn-link'
+                  = link_to 'Cancel', [@business, :products], class: 'btn btn-link'
