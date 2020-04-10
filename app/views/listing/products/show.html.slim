@@ -1,8 +1,11 @@
 - title "Shop for #{@product.name}"
 
+= render 'application/alerts'
+
 = form_for :line_item, url: line_items_path, html: { class: ""} do |f|
   =f.hidden_field :product_id, value: @product.id
   =f.hidden_field :cart_id, value: @cart.id
+  =f.hidden_field :lookup, value: @product.business.generate_listing_segment
 
   .row.m-t-lg.m-b-lg
     .col-xs-12.col-sm-4.col-sm-offset-1

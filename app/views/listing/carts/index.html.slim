@@ -10,6 +10,7 @@
 .row
   .col-xs-12
     .page-header
+      = link_to "Continue Shopping", "https://#{ENV['LISTING_HOST']}#{@business.generate_listing_path}/products", class: 'btn btn-primary pull-right'
       h3
        | Shopping Cart
 
@@ -39,12 +40,13 @@
           h3.pull-right Total: #{number_to_currency(@cart.cart_total(@business))}
       .row.m-t-sm
         .col-xs-12
-
-          = link_to "Checkout", "#", id: 'checkout-button', class: 'btn btn-primary pull-right', data: {url: listing_path_cart_new_url(@business)}
+          .pull-right
+            = link_to "Continue Shopping", "https://#{ENV['LISTING_HOST']}#{@business.generate_listing_path}/products", class: 'btn btn-primary m-r-lg'
+            = link_to "Checkout", "#", id: 'checkout-button', class: 'btn btn-primary', data: {url: listing_path_cart_new_url(@business)}
 
     - else
       div.col-xs-12.col-sm-8.col-sm-push-2
-        h2.text-center.text-muted No items in cart, why not browse our shop?
+        h2.text-center.text-muted= link_to "No items in cart, why not browse our shop?", "https://#{ENV['LISTING_HOST']}#{@business.generate_listing_path}/products"
 
     / .text-center.clear-container
     /   = paginate @events

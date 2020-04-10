@@ -1,4 +1,6 @@
 tr
+  td= order.created_at.strftime("%-B %-e, %Y")
+
   td
     - if order.paid?
       p.text-danger Paid, Pending Delivery
@@ -8,7 +10,7 @@ tr
   td= order.email
   td
     - if order.shipping_address == "Not Applicable"
-      p Not Applicable, In-store Pickup
+      p Not Applicable
     -else
       p= order.shipping_address
   td
@@ -16,5 +18,5 @@ tr
       = number_to_currency(order.total_amount)
   td
     .btn-group
-      = link_to 'Show Details', business_order_path(order.business.id, order.id), target: '_blank', class: 'btn btn-default btn-xs'
+      = link_to 'Show Details', business_order_path(order.business.id, order.id), class: 'btn btn-default btn-xs'
       = link_to 'Mark Delivered', "#", class: 'btn btn-success btn-xs'
