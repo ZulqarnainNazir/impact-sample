@@ -1,4 +1,4 @@
-- cache [user_signed_in?, current_user].compact do
+- cache [user_signed_in?, current_user, @cart.line_item_count(@business)].compact do
   .container.main-nav
     nav.navbar.navbar-static-top style='margin-bottom:0;'
       = link_to image_tag('Locable_Dark_Logo.png', alt: 'Locable Marketing Platform', class: 'img-responsive'), "http://www.locable.com", class: 'navbar-brand', style: 'padding: 5px 15px;'

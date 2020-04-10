@@ -10,7 +10,7 @@ class LineItemsController < ApplicationController
       LineItem.create(product_id: params[:line_item][:product_id], cart_id: params[:line_item][:cart_id])
     end
 
-    redirect_to :back, notice: "Added to Cart. #{view_context.link_to("Ready to checkout?", listing_path_cart_url(@business))}"
+    redirect_to listing_path_shop_url(@business), notice: "Added to Cart. #{view_context.link_to("Ready to checkout?", listing_path_cart_url(@business))}"
 
   end
 

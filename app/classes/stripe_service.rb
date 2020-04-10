@@ -39,7 +39,7 @@ class StripeService
       new_line_item[:amount] = (item.product.price * 100).to_i
       new_line_item[:currency] = "usd"
       new_line_item[:quantity] = item.quantity
-      new_line_item[:description] = ActionView::Base.full_sanitizer.sanitize(item.product.description)
+      new_line_item[:description] = ActionView::Base.full_sanitizer.sanitize(item.product.description.html_safe)
 
       if item.product.image.present?
         new_line_item[:images] = ["https:#{item.product.image&.attachment_thumbnail_url}"]

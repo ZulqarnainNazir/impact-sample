@@ -13,6 +13,18 @@ module ProductsHelper
     end
   end
 
+  def fulfillment_types(order)
+    delivery_types = order.line_items.includes(:product).pluck('products.delivery_type').uniq
+
+    types =[]
+    delivery_types.each do |type|
+      types << delivery_type_label(Product.delivery_types.key(type))
+    end
+
+    types.join(', ')
+
+  end
+
   def fulfillment_info(order)
     delivery_type = order.line_items.includes(:product).pluck('products.delivery_type').uniq
 

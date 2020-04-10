@@ -91,6 +91,14 @@ module ApplicationHelper
     end
   end
 
+  def listing_path_shop_url(business)
+    if Rails.env.development?
+      "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products"
+    else
+      "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/products"
+    end
+  end
+
   def listing_path_cart_new_url(business)
     if Rails.env.development?
       "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart/new"
