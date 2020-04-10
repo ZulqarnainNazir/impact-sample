@@ -8,7 +8,7 @@
 /   showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
 hr
 .form-group
-  => form.label :name, class: 'control-label'
+  => form.label :name, "* Name", class: 'control-label'
   = form.text_field :name, class: 'form-control'
 .form-group
   = react_component 'ImagePlacement',
@@ -22,10 +22,10 @@ hr
     showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
 
 .form-group
-  => form.label :description, class: 'control-label'
+  => form.label :description, "* Description", class: 'control-label'
   = form.text_area :description, class: 'form-control wysihtml-editor'
 .form-group
-  => form.label :price, class: 'control-label'
+  => form.label :price, "* Price", class: 'control-label'
   = form.text_field :price, class: 'form-control'
 .form-group
   = form.label :delivery_type, class: 'control-label' do

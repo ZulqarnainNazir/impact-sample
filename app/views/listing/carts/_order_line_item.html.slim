@@ -1,9 +1,13 @@
 
 tr
-  td style='width: 150px;' = image_tag item.product.image&.attachment_thumbnail_url, alt: "#{item.product.name} Image", class: 'img-responsive'
+  td style='width: 150px;'
+    - if item.product.image.present?
+      = image_tag item.product.image&.attachment_thumbnail_url, alt: "#{item.product.name} Image", class: 'img-responsive'
+    - else
+      = image_tag "http://placehold.it/260x260&text=No Image", alt: '', class: 'lazy'
   td
     strong= item.product.name
-  td= truncate item.product.description.html_safe, length: 100, ommission: '...'
+  td style="width: 250px;"= truncate item.product.description.html_safe, length: 100, ommission: '...'
   td= delivery_type_label(item.product.delivery_type)
   td= number_to_currency(item.product.price)
   td= item.quantity

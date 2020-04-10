@@ -1,6 +1,9 @@
 .col-xs-12.col-sm-3
   / .text-center= image_tag "https://via.placeholder.com/150"
-  = image_tag product.image&.attachment_url(:small_fixed), alt: "#{product.name} Image", class: 'img-responsive'
+  - if product.image.present?
+    = image_tag product.image&.attachment_url(:small_fixed), alt: "#{product.name} Image", class: 'img-responsive'
+  - else
+    = image_tag "http://placehold.it/200x200&text=No Image", alt: '', class: 'lazy'
   h4.text-center.text-uppercase= product.name
   / br
   / = product.description.html_safe

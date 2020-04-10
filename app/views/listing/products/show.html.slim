@@ -9,7 +9,10 @@
 
   .row.m-t-lg.m-b-lg
     .col-xs-12.col-sm-4.col-sm-offset-1
-      = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
+      - if @product.image.present?
+        = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
+      - else
+        = image_tag "http://placehold.it/260x260&text=No Image", alt: '', class: 'lazy'
     .col-xs-12.col-sm-6
       h4.text-uppercase= @product.name
       h5= delivery_type_label(@product.delivery_type)

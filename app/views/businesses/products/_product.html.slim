@@ -1,7 +1,11 @@
 tr
-  td= image_tag product.image&.attachment_thumbnail_url, alt: "#{product.name} Image", class: 'img-responsive'
+  td
+    - if product.image.present?
+      = image_tag product.image&.attachment_thumbnail_url, alt: "#{product.name} Image", class: 'img-responsive'
+    - else
+      = image_tag "http://placehold.it/260x260&text=No Image", alt: '', class: 'lazy'
   td= product.name
-  td= product.description.html_safe
+  td style="width: 250px;"= product.description.html_safe
   td= number_to_currency(product.price)
   td= product.delivery_type.titleize
   td
