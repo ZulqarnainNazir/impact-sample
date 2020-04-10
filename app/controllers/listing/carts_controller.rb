@@ -16,7 +16,7 @@ class Listing::CartsController < Listing::BaseController
     shipping_required = items.where(products: {delivery_type: 3}).present?
 
     stripe = StripeService.new(request)
-    session = stripe.create_checkout_session(business, items, shipping_required, "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart/show?session_id={CHECKOUT_SESSION_ID}", "http://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart")
+    session = stripe.create_checkout_session(business, items, shipping_required, "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart/show?session_id={CHECKOUT_SESSION_ID}", "https://#{ENV['LISTING_HOST']}#{business.generate_listing_path}/cart")
 
     Order.create!(business_id: business.id, stripe_checkout_session_id: session.id, cart_id: cart.id, total_amount: cart.cart_total(business))
 
@@ -32,7 +32,7 @@ class Listing::CartsController < Listing::BaseController
 
     unless @order.present? && !@order.pending?
       flash[:notice] = "Looking for your order? The session may have expired. Please check your email for your order confirmation. If you did not receive one please contact support."
-      redirect_to "http://#{ENV['LISTING_HOST']}#{@business.generate_listing_path}/products"
+      redirect_to "https://#{ENV['LISTING_HOST']}#{@business.generate_listing_path}/products"
     end
   end
 end
