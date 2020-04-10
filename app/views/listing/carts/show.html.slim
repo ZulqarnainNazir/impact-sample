@@ -8,7 +8,7 @@
           h2.text-uppercase Thank you for your purchase!
           p You will recieve an email confirmation for your order shortly.
       .row.m-t-lg.m-b-lg
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-sm-3
           h4
            u Your Info
           p
@@ -18,29 +18,38 @@
            strong> Email:
            = @order.email
 
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-sm-3
           h4
             u Shipping Info
           - if @order.shipping_address == "Not Applicable"
-            p Not Applicable, please pick up your order at:
-            p #{@business.location.street1}, #{@business.location.street2.present? ? @business.location.street2 : ''}#{@business.location.street2.present? ? ',' : ''} #{@business.location.city}, #{@business.location.state} #{@business.location.zip_code}
+            p Order does not include shipping.
           -else
             p= @order.shipping_address
-        .col-xs-12.col-sm-4
+          p.text-danger= fulfillment_info(@order)
+        .col-xs-12.col-sm-3
           h4
             u Order Details
-          - if @order.status == "paid"
-            p
-              strong> Order ID:
-              = @order.id
-            p
-              strong> Order Status:
-              = @order.status.titleize
-              | , Pending Delivery
-            p Please email #{@business.location.email} or call #{@business.location.phone_number} for more information.
+          p
+            strong> Order ID:
+            = @order.id
+          strong> Order Status:
+          / - if @order.processing?
+          /   | Processing
+          / - else
+          = @order.status.titleize
 
-          - else
-            h4= @order.status.titleize
+        .col-xs-12.col-sm-3
+          h4
+            u Business Info
+          strong> Address:
+          p #{@business.location.street1}, #{@business.location.street2.present? ? @business.location.street2 : ''}#{@business.location.street2.present? ? ',' : ''} #{@business.location.city}, #{@business.location.state} #{@business.location.zip_code}
+          strong> Email:
+          p #{@business.location.email}
+          strong> Phone:
+          p #{@business.location.phone_number}
+
+
+
 
 
       .row
@@ -51,6 +60,7 @@
                 th
                 th Product
                 th Description
+                th Delivery Type
                 th Price
                 th Quantity
             tbody

@@ -10,7 +10,7 @@ class Businesses::ProductsController < Businesses::BaseController
   end
 
   def index
-    @products = @business.products
+    @products = @business.products.order('name asc')
   end
 
   def create
@@ -32,7 +32,7 @@ class Businesses::ProductsController < Businesses::BaseController
       :name,
       :description,
       :price,
-      :require_shipping_address,
+      :delivery_type,
       image_placement_attributes: placement_attributes,
     ).deep_merge(
       image_placement_attributes: {

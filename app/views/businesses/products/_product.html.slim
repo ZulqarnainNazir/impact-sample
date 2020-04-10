@@ -3,10 +3,7 @@ tr
   td= product.name
   td= product.description.html_safe
   td= number_to_currency(product.price)
-  td
-    - if product.require_shipping_address?
-      .text-center
-        .fa.fa-check
+  td= product.delivery_type.titleize
   td
     .btn-group
       = link_to 'Edit Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'

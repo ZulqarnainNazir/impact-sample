@@ -28,9 +28,9 @@ hr
   => form.label :price, class: 'control-label'
   = form.text_field :price, class: 'form-control'
 .form-group
-  = form.label :require_shipping_address, class: 'control-label' do
-    => form.check_box :require_shipping_address, class: ''
-    | Shipping Required?
+  = form.label :delivery_type, class: 'control-label' do
+    => form.select :delivery_type, Product.delivery_types.keys.map { |t| [t.humanize, t] }
+    | Delivery Type
 
 / .form-group
 /   = form.label 'rsvp_required', class: 'control-label' do

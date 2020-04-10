@@ -50,7 +50,7 @@ class StripeService
       session = Stripe::Checkout::Session.create({
         billing_address_collection: 'auto',
         shipping_address_collection: {
-          allowed_countries: ['US', 'CA'],
+          allowed_countries: ['US'],
         },
         payment_method_types: ['card'],
         line_items: line_items,

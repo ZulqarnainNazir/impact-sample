@@ -15,6 +15,18 @@ class Businesses::OrdersController < Businesses::BaseController
     @order = @business.order.create(order_params)
   end
 
+  def update
+
+    @order = Order.find(params[:id])
+
+    if @order.update_attributes(status: 'delivered')
+      render json: { text: 'Ok' }
+    else
+      render text: 'Error', status: 422
+    end
+
+  end
+
   private
 
   def order_params
@@ -23,6 +35,7 @@ class Businesses::OrdersController < Businesses::BaseController
       :last_name,
       :email,
       :shipping_address,
+      :order_date,
       :total_amount,
       :stripe_checkout_session_id,
       :stripe_customer_id,

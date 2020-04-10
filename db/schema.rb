@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200409155712) do
+ActiveRecord::Schema.define(version: 20200410015120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1187,6 +1187,7 @@ ActiveRecord::Schema.define(version: 20200409155712) do
     t.integer  "status",                                             default: 0, null: false
     t.integer  "cart_id"
     t.string   "name"
+    t.datetime "order_date"
   end
 
   create_table "pdfs", force: :cascade do |t|
@@ -1254,10 +1255,10 @@ ActiveRecord::Schema.define(version: 20200409155712) do
     t.integer  "business_id"
     t.string   "name"
     t.text     "description"
-    t.decimal  "price",                    precision: 8, scale: 2
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
-    t.boolean  "require_shipping_address",                         default: true, null: false
+    t.decimal  "price",         precision: 8, scale: 2
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.integer  "delivery_type",                         default: 0, null: false
   end
 
   create_table "profile_posts", force: :cascade do |t|

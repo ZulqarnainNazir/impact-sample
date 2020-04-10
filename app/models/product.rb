@@ -9,4 +9,11 @@ class Product < ActiveRecord::Base
 
   validates :business, :name, :description, :price, presence: true
 
+  enum delivery_type: {
+    pickup: 0,
+    electronic: 1,
+    delivery: 2,
+    ship: 3,
+  }
+
 end

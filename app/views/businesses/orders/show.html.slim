@@ -30,26 +30,34 @@
                         h4
                           u Shipping Info
                         - if @order.shipping_address == "Not Applicable"
-                          p Not Applicable, Please Contact Customer to Coordinate Delivery
+                          p Order does not include shipping.
                         -else
                           p= @order.shipping_address
-                      .col-xs-12.col-sm-4
+                        p.text-danger For items that don't include shipping (see fullfillment type below), please contact the customer to coordinate pickup or delivery, or send by email, where applicable.
+
+                      .col-xs-12.col-sm-4.order-row
                         h4
                           u Order Details
-                        - if @order.status == "paid"
+                        p
+                          strong> Order ID:
+                          = @order.id
+                        p
+                          strong> Order Date:
+                          = @order.order_date.in_time_zone.strftime("%-B %-e, %Y at %l:%M%P")
+                        - if @order.delivered?
                           p
-                            strong> Order ID:
-                            = @order.id
-                          p
-                            strong> Order Date:
-                            = @order.created_at.strftime("%-B %-e, %Y at %l:%M%P")
-                          p.text-danger
                             strong> Order Status:
                             = @order.status.titleize
-                            | , Pending Delivery
-                          = link_to 'Mark Delivered', "#", class: 'btn btn-success btn-xs'
                         - else
-                          h4= @order.status.titleize
+                          p.order-status-block.text-danger
+                            strong> Order Status:
+                            span.order-status= @order.status.titleize
+                            / | , Pending Delivery
+                          = link_to "", class: 'btn btn-xs btn-success fulfill-order-clicked', data: {'order-id': @order.id, 'business-id': @order.business.id} do
+                            .fa.fa-check
+                            | Mark Delivered
+                          .js-msg.m-xxs
+
 
 
                     .row
@@ -60,6 +68,7 @@
                               th
                               th Product
                               th Description
+                              th Fulfillment Type
                               th Price
                               th Quantity
                           tbody

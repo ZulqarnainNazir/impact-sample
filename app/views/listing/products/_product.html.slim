@@ -4,5 +4,6 @@
   h4.text-center.text-uppercase= product.name
   / br
   / = product.description.html_safe
+  p.text-center= delivery_type_label(product.delivery_type)
   p.text-center.text-muted= number_to_currency(product.price)
   .text-center= link_to "View Details", listing_path_product_url(@business, product), class: 'btn btn-primary btn-sm text-center'

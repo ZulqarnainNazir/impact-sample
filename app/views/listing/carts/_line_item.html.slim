@@ -9,6 +9,7 @@
     td
       strong= item.product.name
     td= truncate item.product.description.html_safe, length: 100, ommission: '...'
+    td= delivery_type_label(item.product.delivery_type)
     td= number_to_currency(item.product.price)
     td
       = f.text_field :quantity, value: item.quantity, size: 10, class: 'text-center'

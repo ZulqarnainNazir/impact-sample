@@ -411,7 +411,7 @@ Rails.application.routes.draw do
         resources :images, only: %i[index]
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
-        resources :orders, only: [:index, :show, :create]
+        resources :orders, only: [:index, :show, :create, :update]
         resources :products, only: %i[index new create edit update destroy]
         resources :reminders, only: :index
         resources :activity_calendar, only: :index do

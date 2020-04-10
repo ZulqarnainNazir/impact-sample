@@ -12,6 +12,7 @@
       = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
     .col-xs-12.col-sm-6
       h4.text-uppercase= @product.name
+      h5= delivery_type_label(@product.delivery_type)
       p= @product.description.html_safe
       p.text-muted= number_to_currency(@product.price)
       = f.submit "Add to Cart", class: 'btn btn-primary btn-sm text-center'

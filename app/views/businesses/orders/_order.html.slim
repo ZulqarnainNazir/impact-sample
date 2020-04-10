@@ -1,17 +1,17 @@
-tr
-  td= order.created_at.strftime("%-B %-e, %Y")
+tr.order-row
+  td= order.order_date.in_time_zone.strftime("%-B %-e, %Y")
 
   td
-    - if order.paid?
-      p.text-danger Paid, Pending Delivery
+    - if order.processing?
+      p.order-status.text-danger Processing
     -else
       p= order.status.titleize
   td= order.name
   td= order.email
   td
-    - if order.shipping_address == "Not Applicable"
-      p Not Applicable
-    -else
+    p= delivery_type_label(order&.line_items&.first&.product&.delivery_type)
+
+    - unless order.shipping_address == "Not Applicable"
       p= order.shipping_address
   td
     - if order.total_amount.present?
@@ -19,4 +19,8 @@ tr
   td
     .btn-group
       = link_to 'Show Details', business_order_path(order.business.id, order.id), class: 'btn btn-default btn-xs'
-      = link_to 'Mark Delivered', "#", class: 'btn btn-success btn-xs'
+      - unless order.delivered?
+        = link_to "", class: 'btn btn-xs btn-success fulfill-order-clicked', data: {'order-id': order.id, 'business-id': order.business.id} do
+          .fa.fa-check
+          | Mark Delivered
+        .js-msg.pull-right.m-xxs

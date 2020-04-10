@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
 
   enum status: {
     pending: 0,
-    paid: 1,
+    processing: 1,
     delivered: 2,
   }
 
