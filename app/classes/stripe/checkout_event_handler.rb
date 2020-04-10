@@ -27,8 +27,8 @@ module Stripe
 
       session = event.data.object
 
-      puts "############ Session Obj ################"
-      puts session
+      # puts "############ Session Obj ################"
+      # puts session
 
       order = ::Order.find_by!(stripe_checkout_session_id: session[:id])
 
@@ -38,11 +38,11 @@ module Stripe
       # binding.pry
       customer = Stripe::PaymentIntent.retrieve(session[:payment_intent], stripe_account: order.business.stripe_connected_account_id)
 
-      puts "############ Customer Obj ################"
-      puts customer
+      # puts "############ Customer Obj ################"
+      # puts customer
 
       if session[:shipping]
-        address = "#{session[:shipping][:name]}, #{session[:shipping][:address][:line1]}, #{session[:shipping][:address][:line2]}, #{session[:shipping][:address][:city]}, #{session[:shipping][:address][:state]} #{session[:shipping][:address][:postal]}, #{session[:shipping][:address][:country]}"
+        address = "#{session[:shipping][:name]}, #{session[:shipping][:address][:line1]}, #{session[:shipping][:address][:line2].present? ? session[:shipping][:address][:line2] : ''}#{session[:shipping][:address][:line2].present? ? ',' : ''} #{session[:shipping][:address][:city]}, #{session[:shipping][:address][:state]} #{session[:shipping][:address][:postal]}, #{session[:shipping][:address][:country]}"
       else
         address = "Not Applicable"
       end

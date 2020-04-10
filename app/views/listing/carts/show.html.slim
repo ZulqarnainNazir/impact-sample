@@ -23,7 +23,7 @@
             u Shipping Info
           - if @order.shipping_address == "Not Applicable"
             p Not Applicable, please pick up your order at:
-            p #{@business.location.street1}, #{@business.location.street2}, #{@business.location.city}, #{@business.location.state} #{@business.location.zip_code}
+            p #{@business.location.street1}, #{@business.location.street2.present? ? @business.location.street2 : ''}#{@business.location.street2.present? ? ',' : ''} #{@business.location.city}, #{@business.location.state} #{@business.location.zip_code}
           -else
             p= @order.shipping_address
         .col-xs-12.col-sm-4
