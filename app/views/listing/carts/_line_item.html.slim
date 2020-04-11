@@ -1,25 +1,20 @@
-= form_for :line_item, url: line_item_path(item), method: :patch do |f|
-  =f.hidden_field :product_id, value: item.product.id
-  =f.hidden_field :cart_id, value: @cart.id
-  =f.hidden_field :lookup, value: @business.generate_listing_segment
-  tr
-
-    / td= image_tag "https://via.placeholder.com/50"
-    td
-      - if item.product.image.present?
-        = image_tag item.product.image&.attachment_thumbnail_url, alt: "#{item.product.name} Image", class: 'img-responsive'
-      - else
-        = image_tag "http://placehold.it/125x125&text=No Image", alt: '', class: 'lazy'
-    td
-      strong= item.product.name
-    td= truncate item.product.description.html_safe, length: 100, ommission: '...'
-    td= delivery_type_label(item.product.delivery_type)
-    td= number_to_currency(item.product.price)
-    td
+tr
+  td
+    - if item.product.image.present?
+      = image_tag item.product.image&.attachment_thumbnail_url, alt: "#{item.product.name} Image", class: 'img-responsive'
+    - else
+      = image_tag "http://placehold.it/125x125&text=No Image", alt: '', class: 'lazy'
+  td
+    strong= item.product.name
+  td= truncate item.product.description.html_safe, length: 100, ommission: '...'
+  td= delivery_type_label(item.product.delivery_type)
+  td= number_to_currency(item.product.price)
+  td.quantity-form
+    = form_for :line_item, url: line_item_path(item), method: :patch do |f|
+      = f.hidden_field :product_id, value: item.product.id
+      = f.hidden_field :cart_id, value: @cart.id
+      = f.hidden_field :lookup, value: @business.generate_listing_segment
       = f.text_field :quantity, value: item.quantity, size: 10, class: 'text-center'
-    td
-      / small.pull-right= link_to "Update", "#"
-      small
-        .pull-right=f.submit "Update", class: 'btn btn-info btn-xs m-b-xs '
-      / small.pull-right= link_to "Remove", "#"
-      small.m-b-xs.pull-right= link_to 'Remove', line_item_path(id: item, lookup: @business.generate_listing_segment), method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
+  td
+    small.m-b-xs.pull-right= link_to 'Update', "#", class: 'cart-update-button btn btn-info btn-xs'
+    small.m-b-xs.pull-right= link_to 'Remove', line_item_path(id: item, lookup: @business.generate_listing_segment), method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }

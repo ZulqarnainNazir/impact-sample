@@ -131,7 +131,7 @@ html lang="en"
                     - if @posts.present?
                       li
                         = link_to "Content", listing_contents_path
-                    - if @products.present?
+                    - if @business.stripe_connected_account_id.present? && @products.present?
                       li
                         = link_to "Shop", listing_products_path
               .col-xs-12.show-nav-dir
@@ -152,12 +152,28 @@ html lang="en"
                     = link_to @business.website_url, rel: 'nofollow', target: :_blank do
                       i.fa.fa-external-link
                       span  Website
-            - if params[:notice]
-              h2.text-center= params[:notice]
-            - if flash[:notice]
-              h2.text-center= flash[:notice]
+
+            - if params[:notice] || flash[:notice]
+              .alert.alert-warning.alert-dismissable role="alert"
+                button.close type="button" data-dismiss="alert" aria-label="Close"
+                  span aria-hidden=true &times;
+                - if params[:notice]
+                  = params[:notice]
+                - if flash[:notice]
+                  = flash[:notice]
+
             - if flash[:success]
-              h2.text-center= flash[:success]
+              .alert.alert-success.alert-dismissable role="alert"
+                  button.close type="button" data-dismiss="alert" aria-label="Close"
+                    span aria-hidden=true &times;
+                  = flash[:success]
+            / - if params[:notice]
+            /   h2.text-center= params[:notice]
+            / - if flash[:notice]
+            /   h2.text-center= flash[:notice]
+            / - if flash[:success]
+            /   h2.text-center= flash[:success]
+
             = yield
           .row
             .m-md
