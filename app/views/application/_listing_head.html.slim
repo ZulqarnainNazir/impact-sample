@@ -40,7 +40,11 @@ head
 
   = javascript_include_tag 'application', data: { turbolinks_track: true }
   = javascript_include_tag "//maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}"
-  = yield :page_specific_javascript_libraries
+  / = yield :page_specific_javascript_libraries
+  = javascript_include_tag 'https://js.stripe.com/v3/'
+  javascript:
+    var stripe = Stripe("#{ENV['STRIPE_PUBLIC_KEY']}", {stripeAccount: "#{@business.stripe_connected_account_id}"});
+
   - if ENV['GOOGLE_ANALYTICS'].present?
     javascript:
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
