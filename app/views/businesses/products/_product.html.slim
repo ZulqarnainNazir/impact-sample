@@ -1,14 +1,24 @@
-tr
-  td
-    - if product.image.present?
-      = image_tag product.image&.attachment_thumbnail_url, alt: "#{product.name} Image", class: 'img-responsive'
-    - else
-      = image_tag "http://placehold.it/260x260&text=No Image", alt: '', class: 'lazy'
+tr.product-row
+  - unless product.archived?
+    td
+      - if product.image.present?
+        = image_tag product.image&.attachment_thumbnail_url, alt: "#{product.name} Image", class: 'img-responsive'
+      - else
+        = image_tag "http://placehold.it/260x260&text=No Image", alt: '', class: 'lazy'
   td= product.name
   td style="width: 250px;"= product.description.html_safe
   td= number_to_currency(product.price)
   td= product.delivery_type.titleize
+  td.product-status= product.status.titleize
   td
     .btn-group
-      = link_to 'Edit Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'
-      = link_to 'Delete', [product.business, product], method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
+      - if product.locked?
+        = link_to 'View Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'
+        - if product.archived?
+          = link_to 'Un-Archive', "", class: 'btn btn-danger btn-xs archive-product-button-clicked', data: { confirm: 'Are you sure?', 'product-id': product.id, 'business-id': product.business.id, 'new-product-status': 'active'}
+        - else
+          = link_to 'Archive', "", class: 'btn btn-danger btn-xs archive-product-button-clicked', data: { confirm: 'Are you sure?', 'product-id': product.id, 'business-id': product.business.id, 'new-product-status': 'archived'}
+      - else
+        = link_to 'Edit Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'
+        = link_to 'Delete', [product.business, product], method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
+      .js-msg

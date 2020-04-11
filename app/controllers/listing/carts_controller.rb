@@ -14,7 +14,7 @@ class Listing::CartsController < Listing::BaseController
 
   def index
     # @business = Business.listing_lookup(params[:lookup])
-    @products = @business.products
+    @products = @business.products.active
   end
 
   def new
@@ -22,7 +22,7 @@ class Listing::CartsController < Listing::BaseController
 
     # @business = Business.listing_lookup(params[:lookup])
     cart = Cart.find(session[:cart_id])
-    items = cart.line_items.joins(:product).where(products: {business_id: @business.id})
+    items = cart.line_items.joins(:product).where(products: {business_id: @business.id, status: 1})
     shipping_required = items.where(products: {delivery_type: 3}).present?
 
     stripe = StripeService.new(request)

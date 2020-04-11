@@ -3,7 +3,7 @@
   - if product.image.present?
     = image_tag product.image&.attachment_url(:small_fixed), alt: "#{product.name} Image", class: 'img-responsive'
   - else
-    = image_tag "http://placehold.it/200x200&text=No Image", alt: '', class: 'lazy'
+    = image_tag "http://placehold.it/250x250&text=No Image", alt: '', class: 'lazy'
   h4.text-center.text-uppercase= product.name
   / br
   / = product.description.html_safe

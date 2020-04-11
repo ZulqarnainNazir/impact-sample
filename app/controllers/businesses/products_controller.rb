@@ -10,7 +10,8 @@ class Businesses::ProductsController < Businesses::BaseController
   end
 
   def index
-    @products = @business.products.order('name asc')
+    @products = @business.products.not_archived.order('name asc')
+    @archived_products = @business.products.archived.order('name asc')
   end
 
   def create
@@ -18,11 +19,21 @@ class Businesses::ProductsController < Businesses::BaseController
   end
 
   def update
-    update_resource @product, product_params, location: [@business, :products]
+    if @product.locked?
+      if @product.update_attributes(status: params[:status])
+        render json: { text: 'Ok' }
+      else
+        render text: 'Error', status: 422
+      end
+    else
+      update_resource @product, product_params, location: [@business, :products]
+    end
   end
 
   def destroy
-    destroy_resource [@business, @product]
+    unless @product.locked?
+      destroy_resource [@business, @product]
+    end
   end
 
   private
@@ -33,6 +44,7 @@ class Businesses::ProductsController < Businesses::BaseController
       :description,
       :price,
       :delivery_type,
+      :status,
       image_placement_attributes: placement_attributes,
     ).deep_merge(
       image_placement_attributes: {

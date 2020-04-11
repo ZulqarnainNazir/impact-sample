@@ -1,0 +1,12 @@
+en:
+  businesses:
+    products:
+      create:
+        notice: Your Product was created successfully.
+        alert: There was a problem saving your Product.
+      update:
+        notice: Your Product was updated successfully.
+        alert: There was a problem saving your Product.
+      destroy:
+        notice: Product was deleted successfully.
+        alert: There was a problem removing your Product.

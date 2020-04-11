@@ -16,7 +16,7 @@
 
 .row.m-lg
   .col-xs-12
-    - @items = @cart.line_items.joins(:product).where(products: {business_id: @business.id})
+    - @items = @cart.line_items.joins(:product).where(products: {business_id: @business.id, status: 1})
     - if @items.present?
       / - reach_occurences = []
         / - @products.each_with_index do |product|

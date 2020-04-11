@@ -3,10 +3,6 @@ $(document).on('click', '.fulfill-order-clicked', function(e) {
   var item = $(this);
   var order_id = $(this).attr("data-order-id");
   var business_id = $(this).attr("data-business-id");
-  console.log(business_id);
-  console.log(order_id);
-  console.log('/businesses/' + business_id + '/orders');
-
   var jqxhr = $.ajax({
     type: 'POST',
     url: '/businesses/' + business_id + '/orders/' + order_id,

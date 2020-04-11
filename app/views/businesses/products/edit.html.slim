@@ -8,10 +8,22 @@
     = form_for [@business, @product] do |form|
       .panel.panel-default
         .panel-heading
-          h1.h3.panel-title Edit Product
+          - if @product.locked?
+            h1.h3.panel-title View Product
+          - else
+            h1.h3.panel-title Edit Product
         .panel-body
           = render form
           div
             hr
-            => form.button 'Update Product', class: 'btn btn-primary pull-right'
-            = link_to 'Cancel', [@business, :products], class: 'btn btn-link'
+            - if @product.locked?
+              = link_to 'Back', [@business, :products], class: 'btn btn-primary'
+              / = link_to 'Archive', "", class: 'btn btn-danger pull-right', data: { confirm: 'Are you sure?' }
+              - if @product.archived?
+                = link_to 'Un-Archive', "", class: 'btn btn-danger pull-right archive-product-button-clicked', data: { confirm: 'Are you sure?', 'product-id': @product.id, 'business-id': @product.business.id, 'new-product-status': 'active'}
+              - else
+                = link_to 'Archive', "", class: 'btn btn-danger pull-right archive-product-button-clicked', data: { confirm: 'Are you sure?', 'product-id': @product.id, 'business-id': @product.business.id, 'new-product-status': 'archived'}
+            - else
+              => form.button 'Update Product', class: 'btn btn-primary pull-right'
+              = link_to 'Cancel', [@business, :products], class: 'btn btn-link'
+            .js-msg

@@ -25,8 +25,30 @@
                         th Description
                         th Price
                         th Delivery Type
+                        th Status
                         th
                     tbody
                       = render @products
               - else
                 | Add a new product
+
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h3.panel-title
+                | Archived Products
+            .ibox-content
+              - if @archived_products.present?
+                .table-responsive
+                  table.table.table-striped style="margin-bottom:0; padding:10px 0;"
+                    thead
+                      tr
+                        th Name
+                        th Description
+                        th Price
+                        th Delivery Type
+                        th Status
+                        th
+                    tbody
+                      = render @archived_products

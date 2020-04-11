@@ -14,12 +14,12 @@ class Listing::ProductsController < Listing::BaseController
 
   def index
     # @business = Business.listing_lookup(params[:lookup])
-    @products = @business.products
+    @products = @business.products.active
   end
 
   def show
     # @business = Business.listing_lookup(params[:lookup])
-    @product = @business.products.find(params[:id])
+    @product = @business.products.active.find(params[:id])
 
     @products = @business.products
   end

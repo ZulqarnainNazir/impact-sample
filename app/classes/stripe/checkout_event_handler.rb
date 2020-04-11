@@ -50,7 +50,7 @@ module Stripe
       order.update_attributes!(name: customer[:charges][:data][0][:billing_details][:name], email: customer[:charges][:data][0][:billing_details][:email], shipping_address: address, status: 'processing', stripe_customer_id: session[:customer], order_date: DateTime.now)
 
       cart = Cart.find(order.cart_id)
-      items = cart.line_items.joins(:product).where(products: {business_id: order.business_id})
+      items = cart.line_items.joins(:product).where(products: {business_id: order.business_id, status: 1})
       items.update_all(cart_id: nil, order_id: order.id)
 
       # Cleanup cart if empty (including other businesses)
