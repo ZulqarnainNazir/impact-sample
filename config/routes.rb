@@ -412,7 +412,9 @@ Rails.application.routes.draw do
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
         resources :orders, only: [:index, :show, :create, :update]
-        resources :products, only: %i[index new create edit update destroy]
+        resources :products, only: %i[index new create edit update destroy] do
+          resource :archive, only: [:create, :destroy], controller: 'archive_products'
+        end
         resources :reminders, only: :index
         resources :activity_calendar, only: :index do
           get :timeline, on: :collection

@@ -19,13 +19,7 @@ class Businesses::ProductsController < Businesses::BaseController
   end
 
   def update
-    if @product.locked?
-      if @product.update_attributes(status: params[:status])
-        render json: { text: 'Ok' }
-      else
-        render text: 'Error', status: 422
-      end
-    else
+    unless @product.locked?
       update_resource @product, product_params, location: [@business, :products]
     end
   end

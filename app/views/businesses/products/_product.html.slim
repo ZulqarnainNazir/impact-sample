@@ -15,9 +15,9 @@ tr.product-row
       - if product.locked?
         = link_to 'View Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'
         - if product.archived?
-          = link_to 'Un-Archive', "", class: 'btn btn-danger btn-xs archive-product-button-clicked', data: { confirm: 'Are you sure?', 'product-id': product.id, 'business-id': product.business.id, 'new-product-status': 'active'}
+          = link_to 'Un-Archive', business_product_archive_path(@business.id, product.id), method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
         - else
-          = link_to 'Archive', "", class: 'btn btn-danger btn-xs archive-product-button-clicked', data: { confirm: 'Are you sure?', 'product-id': product.id, 'business-id': product.business.id, 'new-product-status': 'archived'}
+          = link_to 'Archive', business_product_archive_path(@business.id, product.id), method: :post, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
       - else
         = link_to 'Edit Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'
         = link_to 'Delete', [product.business, product], method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
