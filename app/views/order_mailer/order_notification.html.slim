@@ -1,0 +1,78 @@
+= render partial: "header"
+tr
+  td style="padding:0 20px;"
+    table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+      tr
+        td align="left" style="padding:50px 16px 12px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:28px;color:#000000;"
+          | You've received an order!
+      tr
+        td align="left" style="padding:0px 16px 20px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          p
+            span>= link_to "Click here", business_order_url(@order.business.id, @order.id, protocol: 'https'), target: "_blank"
+            | to view order details and ensure the order gets fulfilled.
+      tr
+        td align="left" style="padding:20px 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          p
+            strong> Order ID:
+            = @order.id
+          p
+            strong> Order Status:
+            = @order.status.titleize
+          p
+            strong> Order Name:
+            = @order.name
+          p
+           strong> Order Email:
+           = @order.email
+          p
+            strong> Fulfillment:
+            = fulfillment_types(@order)
+          p
+            strong> Shipping Info:
+            - if @order.shipping_address == "Not Applicable"
+              | Order does not include shipping.
+            -else
+              = @order.shipping_address
+          p
+            strong> Order Details:
+      tr
+        td style="padding:20px;"
+          table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+            thead
+              tr
+                th
+                th style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Product
+                th style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Price
+                th style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Quantity
+            tbody
+              - @line_items.each do |item|
+                tr
+                  td style='width: 150px;'
+                    - if item.product.image.present?
+                      = email_image_tag "https://#{item.product.image&.attachment_thumbnail_url}", alt: "#{item.product.name} Image", style: "display:block;width:100%;max-width:100px;", width: "100"
+                    - else
+                      = email_image_tag "http://placehold.it/134x134&text=No Image", alt: '', style: "display:block;width:100%;max-width:180px;", width: "180"
+                  td style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+                    strong= item.product.name
+                  td style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"= number_to_currency(item.product.price)
+                  td style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"= item.quantity
+
+      tr
+        td align="right" style="padding:20px 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+          h4 Order Total: #{number_to_currency(@order.total_amount)}
+
+      tr
+        td align="center" style="padding:40px 0;"
+          table bgcolor="#20BEEC" border="0" cellpadding="0" cellspacing="0" style="border-radius:2px;"
+            tr
+              td style="padding:18px 46px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px;color:#FFFFFF;"
+                = link_to "Complete Order", business_order_url(@order.business.id, @order.id, protocol: 'https'), style: "color:#FFFFFF;", target: "_blank"
+      tr
+        td align="center" style="padding:50px 16px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style:italic;font-size:20px;color:#839BA6;"
+          | Together We're Building Main Street for the 21st Century
+          small
+            sup TM
+      / tr
+      /   td.padding-0 align="center" style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:12px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+      /     | P.S. If you no longer wish to receive such invitation emails, please
+      /     = link_to 'unsubscribe here', mailkick_unsubscribe_url

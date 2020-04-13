@@ -22,7 +22,7 @@
           h4
             u Shipping Info
           - if @order.shipping_address == "Not Applicable"
-            p Order does not include shipping.
+            p Your order does not include shipping.
           -else
             p= @order.shipping_address
           p.text-danger= fulfillment_info(@order)

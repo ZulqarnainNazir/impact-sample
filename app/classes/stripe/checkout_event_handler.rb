@@ -27,19 +27,13 @@ module Stripe
 
       session = event.data.object
 
-      # puts "############ Session Obj ################"
-      # puts session
-
       order = ::Order.find_by!(stripe_checkout_session_id: session[:id])
 
+      # Get Customer Info from Payment Intent
       # Doesn't use Stripe Service Object because request variable doesn't exist here
-      # customer = Stripe::Customer.retrieve(session[:customer], stripe_account: order.business.stripe_connected_account_id)
-
-      # binding.pry
       customer = Stripe::PaymentIntent.retrieve(session[:payment_intent], stripe_account: order.business.stripe_connected_account_id)
-
-      # puts "############ Customer Obj ################"
-      # puts customer
+      name = customer[:charges][:data][0][:billing_details][:name]
+      email = customer[:charges][:data][0][:billing_details][:email]
 
       if session[:shipping]
         address = "#{session[:shipping][:name]}, #{session[:shipping][:address][:line1]}, #{session[:shipping][:address][:line2].present? ? session[:shipping][:address][:line2] : ''}#{session[:shipping][:address][:line2].present? ? ',' : ''} #{session[:shipping][:address][:city]}, #{session[:shipping][:address][:state]} #{session[:shipping][:address][:postal]}, #{session[:shipping][:address][:country]}"
@@ -47,11 +41,17 @@ module Stripe
         address = "Not Applicable"
       end
 
-      order.update_attributes!(name: customer[:charges][:data][0][:billing_details][:name], email: customer[:charges][:data][0][:billing_details][:email], shipping_address: address, status: 'processing', stripe_customer_id: session[:customer], order_date: DateTime.now)
+      order.update_attributes!(name: name, email: email, shipping_address: address, status: 'processing', stripe_customer_id: session[:customer], order_date: DateTime.now)
 
       cart = Cart.find(order.cart_id)
       items = cart.line_items.joins(:product).where(products: {business_id: order.business_id, status: 1})
       items.update_all(cart_id: nil, order_id: order.id)
+
+      #Send email confirmation and notification
+      OrdersMailer.order_confirmation(order).deliver_later
+      order.business.users.where.not(confirmed_at: nil).each do |user|
+        OrdersMailer.order_notification(user.email, order).deliver_later
+      end
 
       # Cleanup cart if empty (including other businesses)
       unless cart.line_items.size > items.size

@@ -20,6 +20,10 @@ class Businesses::OrdersController < Businesses::BaseController
     @order = Order.find(params[:id])
 
     if @order.update_attributes(status: 'delivered')
+
+      #Send fullfilment email confirmation
+      OrdersMailer.order_fulfillment_confirmation(order).deliver_later
+
       render json: { text: 'Ok' }
     else
       render text: 'Error', status: 422

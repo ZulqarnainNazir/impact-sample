@@ -29,7 +29,7 @@ module ProductsHelper
     delivery_type = order.line_items.includes(:product).pluck('products.delivery_type').uniq
 
     if delivery_type.include?(0)
-      "Some items may require in store pickup."
+      "If any of your items require in-store pickup, please stop by anytime during normal business hours to pickup your item(s)."
     end
 
   end
