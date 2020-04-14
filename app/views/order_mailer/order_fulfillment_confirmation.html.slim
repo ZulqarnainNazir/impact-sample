@@ -9,7 +9,7 @@ tr
         tr
           td
             a href="#{@business.website_url}" target="_blank"
-              = email_image_tag("https:#{@business&.logo&.attachment_url(:logo_small) }", style: "display:block;width:100%;max-width:180px;", width: "180")
+              = image_tag("https:#{@business&.logo&.attachment_url(:logo_small) }", style: "display:block;width:100%;max-width:180px;", width: "180")
     /![if gte mso 9]
       | </v:textbox
       | </v:rect
