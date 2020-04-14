@@ -42,7 +42,7 @@ class Listing::ListingsController < Listing::BaseController
 
     @events = get_events(business: @business, query: params[:blog_search], kinds: @event_kinds, page: params[:page], per_page: 12, start_date: @start_date, end_date: @end_date)
 
-    @products = @business.products
+    @products = @business.products.active
   end
 
   def index

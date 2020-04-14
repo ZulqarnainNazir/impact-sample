@@ -106,7 +106,7 @@ html lang="en"
                     - if @posts.present?
                       li
                         = link_to "Content", listing_contents_path
-                    - if @products.present?
+                    - if @business.stripe_connected_account_id.present? && @products.present? 
                       li
                         = link_to "Shop", listing_products_path
               .col-xs-12.visible-xs
