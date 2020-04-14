@@ -10,7 +10,7 @@ class OrderMailer < ApplicationMailer
       mail(
         to: @order.email,
         from: "#{@business.name} <#{Rails.application.secrets.support_email}>",
-        reply_to: @business.owners.first.email,
+        reply_to: @business.owners.first.email || Rails.application.secrets.support_email,
         subject: "We've Received Your Order - #{@business.name}",
       )
   end
@@ -22,7 +22,7 @@ class OrderMailer < ApplicationMailer
       mail(
         to: @order.email,
         from: "#{@business.name} <#{Rails.application.secrets.support_email}>",
-        reply_to: @business.owners.first.email,
+        reply_to: @business.owners.first.email || Rails.application.secrets.support_email,
         subject: "Order Processed by #{@business.name}",
       )
   end
