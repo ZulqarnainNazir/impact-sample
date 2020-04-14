@@ -17,6 +17,15 @@ class Businesses::Crm::CompaniesController < Businesses::BaseController
     end
 
     @companies = scope.order(companies_order) #.page(params[:page]).per(20)
+
+    respond_to do |format|
+
+      # @businesses = Business.includes(:communities).order("id").search(params[:search]) #.page(params[:page]).per(20)
+      format.html
+      # format.json {render @businsses.as_json(only: [:id, :name, :communities.map(&:label).join(', '), :owned_companies.count, :in_impact, :merge, :updated_at])}
+      format.json {render json: BusinessCrmCompaniesDatatable.new(view_context)}
+
+    end
   end
 
   def new

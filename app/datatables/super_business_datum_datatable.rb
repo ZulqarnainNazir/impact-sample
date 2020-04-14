@@ -25,7 +25,7 @@ class SuperBusinessDatumDatatable < ApplicationDatatable
         column << communities
         column << business.owned_companies.count
         column << link_to("#{business.website_url}", business.website_url, target: '_blank')
-        column << link_to(user&.email, (business_authorizations_path(business) rescue '#'), target: '_blank')
+        column << link_to("#{user&.email}", (business_authorizations_path(business) rescue '#'), target: '_blank')
 
         if business.in_impact
           status = "Active"
