@@ -51,9 +51,9 @@ tr
                 tr
                   td align="center" style='width: 100px;padding:4px 16px;'
                     - if item.product.image.present?
-                      = email_image_tag "https://#{item.product.image&.attachment_thumbnail_url}", alt: "#{item.product.name} Image", style: "display:block;width:100%;max-width:100px;", width: "100"
+                      = image_tag "https://#{item.product.image&.attachment_thumbnail_url}", alt: "#{item.product.name} Image", style: "display:block;width:100%;max-width:100px;", width: "100"
                     - else
-                      = email_image_tag "http://placehold.it/100x100&text=No Image", alt: '', style: "display:block;width:100%;max-width:100px;", width: "100"
+                      = image_tag "http://placehold.it/100x100&text=No Image", alt: '', style: "display:block;width:100%;max-width:100px;", width: "100"
                   td align="center" style="padding:4 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
                     strong= item.product.name
                   td align="center" style="padding:4 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"= number_to_currency(item.product.price)
