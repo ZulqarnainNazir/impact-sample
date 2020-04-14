@@ -11,7 +11,7 @@ class OrderMailer < ApplicationMailer
         to: @order.email,
         from: "#{@business.name} <#{Rails.application.secrets.support_email}>",
         reply_to: @business.owners.first.email,
-        subject: "Order Confirmation from #{@business.name}",
+        subject: "We've Received Your Order - #{@business.name}",
       )
   end
 
@@ -23,7 +23,7 @@ class OrderMailer < ApplicationMailer
         to: @order.email,
         from: "#{@business.name} <#{Rails.application.secrets.support_email}>",
         reply_to: @business.owners.first.email,
-        subject: "Order Completed by #{@business.name}",
+        subject: "Order Processed by #{@business.name}",
       )
   end
 

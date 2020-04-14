@@ -50,30 +50,32 @@ tr
               | Your order does not include shipping.
             -else
               = @order.shipping_address
-            = fulfillment_info(@order)
+          p= fulfillment_info(@order)
           p
             strong> Order Details:
       tr
-        td style="padding:20px;"
-          table border="0" cellpadding="0" cellspacing="0" style="n/a" width="100%"
+        td style="padding:10px;"
+          table border="0" cellpadding="0" cellspacing="0" style="" width="100%"
             thead
               tr
-                th
-                th style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Product
-                th style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Price
-                th style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Quantity
+                th align="center"
+                th align="center" style="padding:4 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Product
+                th align="center" style="padding:4 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Price
+                th align="center" style="padding:4 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;" Quantity
             tbody
               - @line_items.each do |item|
                 tr
-                  td style='width: 150px;'
+                  td colspan="4" style="border-top:1px solid #E0E0E0;line-height:10px;"  &nbsp;
+                tr
+                  td align="center" style='width: 100px; padding:4px 16px;'
                     - if item.product.image.present?
                       = email_image_tag "https://#{item.product.image&.attachment_thumbnail_url}", alt: "#{item.product.name} Image", style: "display:block;width:100%;max-width:100px;", width: "100"
                     - else
-                      = email_image_tag "http://placehold.it/134x134&text=No Image", alt: '', style: "display:block;width:100%;max-width:180px;", width: "180"
-                  td style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
+                      = email_image_tag "http://placehold.it/100x100&text=No Image", alt: '', style: "display:block;width:100%;max-width:100px;", width: "100"
+                  td align="center" style="padding:4px 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
                     strong= item.product.name
-                  td style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"= number_to_currency(item.product.price)
-                  td style="padding:0 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"= item.quantity
+                  td align="center" style="padding:4px 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"= number_to_currency(item.product.price)
+                  td align="center" style="padding:4px 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"= item.quantity
 
       tr
         td align="right" style="padding:20px 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"

@@ -22,7 +22,7 @@ class Businesses::OrdersController < Businesses::BaseController
     if @order.update_attributes(status: 'delivered')
 
       #Send fullfilment email confirmation
-      OrdersMailer.order_fulfillment_confirmation(order).deliver_later
+      OrderMailer.order_fulfillment_confirmation(@order).deliver_later
 
       render json: { text: 'Ok' }
     else

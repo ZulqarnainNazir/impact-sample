@@ -48,9 +48,11 @@ module Stripe
       items.update_all(cart_id: nil, order_id: order.id)
 
       #Send email confirmation and notification
-      OrdersMailer.order_confirmation(order).deliver_later
+
+      # order.send_notifications
+      OrderMailer.order_confirmation(order).deliver_later
       order.business.users.where.not(confirmed_at: nil).each do |user|
-        OrdersMailer.order_notification(user.email, order).deliver_later
+        OrderMailer.order_notification(user.email, order).deliver_later
       end
 
       # Cleanup cart if empty (including other businesses)
