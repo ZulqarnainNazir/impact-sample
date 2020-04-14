@@ -9,7 +9,7 @@ tr
         tr
           td
             a href="#{@business.website_url}" target="_blank"
-              = image_tag("https:#{@business&.logo&.attachment_url(:logo_small) }", style: "display:block;width:100%;max-width:180px;", width: "180")
+              = image_tag("https:#{@business&.logo&.attachment_url(:original) }", style: "display:block;width:100%;max-width:180px;", width: "180")
     /![if gte mso 9]
       | </v:textbox
       | </v:rect
@@ -70,7 +70,7 @@ tr
                 tr
                   td align="center" style='width: 100px; padding:4px 16px;'
                     - if item.product.image.present?
-                      = image_tag "https://#{item.product.image&.attachment_thumbnail_url}", alt: "#{item.product.name} Image", style: "display:block;width:100%;max-width:100px;", width: "100"
+                      = image_tag "https:#{item.product.image&.attachment_thumbnail_url}", alt: "#{item.product.name} Image", style: "display:block;width:100%;max-width:100px;", width: "100"
                     - else
                       = image_tag "http://placehold.it/100x100&text=No Image", alt: '', style: "display:block;width:100%;max-width:100px;", width: "100"
                   td align="center" style="padding:4 16px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Helvetica, Arial, sans-serif; font-size:16px;color:#5D5D5D;line-height:22px;letter-spacing:0.03em;"
