@@ -1,3 +1,4 @@
+# https://www.driftingruby.com/episodes/datatables
 class BusinessCrmCompaniesDatatable < ApplicationDatatable
   delegate :edit_business_crm_company_path, to: :@view
   delegate :business_crm_company_lists_path, to: :@view
