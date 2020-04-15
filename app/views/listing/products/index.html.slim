@@ -1,0 +1,29 @@
+- title 'Shop'
+- request_url = url_for({ controller: params[:controller], action: params[:action] })
+
+= render 'application/alerts'
+
+.row
+  .col-xs-12
+    .page-header
+      h3
+       | Shop
+
+.row.m-t-lg.m-b-lg
+  .col-xs-12
+    - if @products.present?
+      / - reach_occurences = []
+        / - @products.each_with_index do |product|
+        / - reach_occurences << event.business.id
+      .row
+        = render @products
+    - else
+      div.col-xs-12.col-sm-8.col-sm-push-2
+        h2 No products yet...
+
+    / .text-center.clear-container
+    /   = paginate @products
+
+// javascript:
+//   console.log("Recording Reach");
+//   ahoy.track("Reach", {type: "Listing Calendar Index", type_id: "#{@calendar_widget.id}", business_id: "#{@business.id}", company_ids: "#{@calendar_widget.get_business_ids}", occurences: "#{reach_occurences}", site: window.location.href });

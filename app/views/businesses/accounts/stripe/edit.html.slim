@@ -1,0 +1,23 @@
+- title 'Link Your Facebook Page'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Linked Accounts', :fp => :accounts_root, :an => ' Facebook'}
+
+
+.ibox-title
+  h2 Link Your Facebook Page
+.ibox-content
+  = form_for @business, url: [@business, :accounts_facebook] do |form|
+    .row
+      .col-sm-9
+        .form-group
+          = form.label :facebook_id, 'Specify your Facebook Page URL or slug', class: 'control-label'
+          = form.text_field :facebook_id, class: 'form-control'
+        p.help-block
+          ' e.g.
+          code
+            | /my-facebook-business
+      .col-sm-3
+        = form.button class: 'btn btn-block btn-sm btn-success', style: 'margin-top:2em' do
+          span.fa.fa-link>
+          | Link Accounts
+

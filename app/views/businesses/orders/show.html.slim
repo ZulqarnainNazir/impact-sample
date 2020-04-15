@@ -1,0 +1,79 @@
+- title "Order Details"
+
+= render :partial => 'dashbreadcrumb', :locals => { :lnk => :businesses, :fn => "Orders", :fp => :orders, :an => "Order ##{@order.id}" }
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              h1.h3.panel-title
+                | Order Details
+            .ibox-content
+              .row
+                .col-xs-12
+                  - if @order.present?
+                    .row.m-t-lg.m-b-lg
+                      .col-xs-12.col-sm-4
+                        h4
+                         u Customer Info
+                        p
+                          strong> Name:
+                          = @order.name
+                        p
+                         strong> Email:
+                         = @order.email
+
+                      .col-xs-12.col-sm-4
+                        h4
+                          u Shipping Info
+                        - if @order.shipping_address == "Not Applicable"
+                          p Order does not include shipping.
+                        -else
+                          p= @order.shipping_address
+                        p.text-danger For items that don't include shipping (see fullfillment type below), please contact the customer to coordinate pickup or delivery, or send by email, where applicable.
+
+                      .col-xs-12.col-sm-4.order-row
+                        h4
+                          u Order Details
+                        p
+                          strong> Order ID:
+                          = @order.id
+                        p
+                          strong> Order Date:
+                          = @order.order_date.in_time_zone.strftime("%-B %-e, %Y at %l:%M%P")
+                        - if @order.delivered?
+                          p
+                            strong> Order Status:
+                            = @order.status.titleize
+                        - else
+                          p.order-status-block.text-danger
+                            strong> Order Status:
+                            span.order-status= @order.status.titleize
+                            / | , Pending Delivery
+                          = link_to "", class: 'btn btn-xs btn-success fulfill-order-clicked', data: {'order-id': @order.id, 'business-id': @order.business.id} do
+                            .fa.fa-check
+                            | Mark Delivered
+                          .js-msg.m-xxs
+
+
+
+                    .row
+                      .cox-xs-12
+                        table class="table table-striped"
+                          thead
+                            tr
+                              th
+                              th Product
+                              th Description
+                              th Fulfillment Type
+                              th Price
+                              th Quantity
+                          tbody
+                            = render partial: 'listing/carts/order_line_item', collection: @order.line_items, as: :item
+
+                    .row
+                      .col-xs-12
+                        h3.pull-right Order Total: #{number_to_currency(@order.total_amount)}

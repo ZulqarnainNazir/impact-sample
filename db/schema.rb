@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200322190248) do
+ActiveRecord::Schema.define(version: 20200411180547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20200322190248) do
   end
 
   create_table "businesses", force: :cascade do |t|
-    t.string   "name",                                           null: false
+    t.string   "name",                                                   null: false
     t.string   "tagline"
     t.string   "website_url"
     t.string   "facebook_id"
@@ -234,11 +234,11 @@ ActiveRecord::Schema.define(version: 20200322190248) do
     t.string   "twitter_id"
     t.string   "youtube_id"
     t.text     "description"
-    t.integer  "kind",                           default: 0,     null: false
+    t.integer  "kind",                                   default: 0,     null: false
     t.integer  "year_founded"
     t.json     "settings"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.string   "citysearch_id"
     t.string   "instagram_id"
     t.string   "pinterest_id"
@@ -247,7 +247,7 @@ ActiveRecord::Schema.define(version: 20200322190248) do
     t.text     "history"
     t.text     "vision"
     t.text     "community_involvement"
-    t.integer  "plan",                           default: 0,     null: false
+    t.integer  "plan",                                   default: 0,     null: false
     t.integer  "cce_id"
     t.text     "cce_url"
     t.text     "facebook_token"
@@ -259,14 +259,16 @@ ActiveRecord::Schema.define(version: 20200322190248) do
     t.text     "tripadvisor_id"
     t.text     "houzz_id"
     t.boolean  "to_dos_enabled"
-    t.boolean  "in_impact",                      default: true
-    t.boolean  "bill_online",                    default: true
-    t.boolean  "subscription_billing_roadblock", default: false
-    t.boolean  "affiliate_activated",            default: false
-    t.boolean  "membership_org",                 default: false
+    t.boolean  "in_impact",                              default: true
+    t.boolean  "bill_online",                            default: true
+    t.boolean  "subscription_billing_roadblock",         default: false
+    t.boolean  "affiliate_activated",                    default: false
+    t.boolean  "membership_org",                         default: false
     t.text     "slug"
     t.integer  "reach"
     t.string   "time_zone"
+    t.string   "stripe_connected_account_id"
+    t.string   "stripe_connected_account_refresh_token"
   end
 
   create_table "calendar_widgets", force: :cascade do |t|
@@ -286,6 +288,11 @@ ActiveRecord::Schema.define(version: 20200322190248) do
   end
 
   add_index "calendar_widgets", ["business_id"], name: "index_calendar_widgets_on_business_id", using: :btree
+
+  create_table "carts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
@@ -921,6 +928,18 @@ ActiveRecord::Schema.define(version: 20200322190248) do
 
   add_index "line_images", ["line_id"], name: "index_line_images_on_line_id", using: :btree
 
+  create_table "line_items", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "cart_id"
+    t.integer  "quantity",   default: 1, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "order_id"
+  end
+
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
+
   create_table "lines", force: :cascade do |t|
     t.integer  "business_id"
     t.text     "type",                 null: false
@@ -1156,6 +1175,21 @@ ActiveRecord::Schema.define(version: 20200322190248) do
 
   add_index "openings", ["location_id"], name: "index_openings_on_location_id", using: :btree
 
+  create_table "orders", force: :cascade do |t|
+    t.string   "email"
+    t.text     "shipping_address"
+    t.decimal  "total_amount",               precision: 8, scale: 2
+    t.string   "stripe_checkout_session_id"
+    t.string   "stripe_customer_id"
+    t.integer  "business_id"
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
+    t.integer  "status",                                             default: 0, null: false
+    t.integer  "cart_id"
+    t.string   "name"
+    t.datetime "order_date"
+  end
+
   create_table "pdfs", force: :cascade do |t|
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
@@ -1216,6 +1250,17 @@ ActiveRecord::Schema.define(version: 20200322190248) do
 
   add_index "posts", ["business_id"], name: "index_posts_on_business_id", using: :btree
   add_index "posts", ["id", "slug"], name: "index_posts_on_id_and_slug", unique: true, using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.integer  "business_id"
+    t.string   "name"
+    t.text     "description"
+    t.decimal  "price",         precision: 8, scale: 2
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.integer  "delivery_type",                         default: 0, null: false
+    t.integer  "status",                                default: 0, null: false
+  end
 
   create_table "profile_posts", force: :cascade do |t|
     t.integer  "business_id"
@@ -1593,6 +1638,8 @@ ActiveRecord::Schema.define(version: 20200322190248) do
   add_foreign_key "contact_forms", "businesses"
   add_foreign_key "form_submissions", "contact_forms"
   add_foreign_key "form_submissions", "contacts"
+  add_foreign_key "line_items", "carts"
+  add_foreign_key "line_items", "products"
   add_foreign_key "lines", "businesses"
   add_foreign_key "pdfs", "businesses"
   add_foreign_key "pdfs", "users"

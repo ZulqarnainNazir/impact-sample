@@ -1,0 +1,21 @@
+- title "Shop for #{@product.name}"
+
+= render 'application/alerts'
+
+= form_for :line_item, url: line_items_path, html: { class: ""} do |f|
+  =f.hidden_field :product_id, value: @product.id
+  =f.hidden_field :cart_id, value: @cart.id
+  =f.hidden_field :lookup, value: @product.business.generate_listing_segment
+
+  .row.m-t-lg.m-b-lg
+    .col-xs-12.col-sm-4.col-sm-offset-1
+      - if @product.image.present?
+        = image_tag @product.image&.attachment_url(:small_fixed), alt: "#{@product.name} Image", class: 'img-responsive'
+      - else
+        = image_tag "http://placehold.it/260x260&text=No Image", alt: '', class: 'lazy'
+    .col-xs-12.col-sm-6
+      h4.text-uppercase= @product.name
+      h5= delivery_type_label(@product.delivery_type)
+      p= @product.description.html_safe
+      p.text-muted= number_to_currency(@product.price)
+      = f.submit "Add to Cart", class: 'btn btn-primary btn-sm text-center'

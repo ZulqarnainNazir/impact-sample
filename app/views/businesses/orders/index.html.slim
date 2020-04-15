@@ -1,0 +1,33 @@
+- title 'Orders'
+
+= render :partial => 'dashbreadcrumb', :locals => { :lnk => :businesses, :an => "Orders"}
+
+.row
+  .col-lg-12
+    .wrapper.wrapper-content
+      .row
+        .col-lg-12
+          .ibox.float-e-margins
+            .ibox-title
+              = link_to business_products_path, class: 'btn btn-primary btn-xs pull-right' do
+                i.fa.fa-plus-circle>
+                ' Manage Products
+              h1.h3.panel-title
+                | Manage Orders
+            .ibox-content
+              - if @orders.present?
+                .table-responsive
+                  table.table.table-striped style="margin-bottom:0; padding:10px 0;"
+                    thead
+                      tr
+                        th Order Date
+                        th Status
+                        th Name
+                        th Email
+                        th Fulfillment Type (Shipping Address)
+                        th Total Amount
+                        th Manage
+                    tbody
+                      = render @orders
+              - else
+                | No Orders

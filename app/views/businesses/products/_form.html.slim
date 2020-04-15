@@ -1,0 +1,35 @@
+- if form.object.locked?
+  h4.text-danger.text-center Products with past orders can not be edited or deleted. This is done to preserve order history. Intead, create a new product.
+  hr
+.form-group
+  => form.label :name, "* Name", class: 'control-label'
+  = form.text_field :name, disabled: form.object.locked?, class: 'form-control'
+.form-group
+  - if form.object.locked?
+    - if form.object.image.present?
+      = image_tag form.object.image&.attachment_thumbnail_url, alt: "#{form.object.name} Image", class: 'img-responsive'
+  - else
+    = react_component 'ImagePlacement',
+      imagesPath: business_images_path(form.object.business),
+      inputPrefix: 'product[image_placement_attributes]',
+      label: 'Product Image',
+      placement: form.object.image_placement_json,
+      allowEmbed: true,
+      presignedPost: s3_logo_presigned_post_hash,
+      bulkUploadPath: new_business_content_images_upload_path(form.object.business),
+      showLocalOnlyOption: current_user.businesses.count > 1 || current_user.super_user?
+
+.form-group
+  => form.label :description, "* Description", class: 'control-label'
+  = form.text_area :description, disabled: form.object.locked?, class: "form-control #{ form.object.locked? ? '' : 'wysihtml-editor'}"
+.form-group
+  => form.label :price, "* Price", class: 'control-label'
+  = form.text_field :price, disabled: form.object.locked?, class: 'form-control'
+.form-group
+  = form.label :delivery_type, class: 'control-label' do
+    => form.select :delivery_type, Product.delivery_types.keys.map { |t| [t.humanize, t] }, {}, {disabled: form.object.locked?}
+    | Delivery Type
+.form-group
+  = form.label :status, class: 'control-label' do
+    => form.select :status, Product.statuses.keys.map { |s| [s.humanize, s] }, {}, {disabled: form.object.locked?}
+    | Product Status

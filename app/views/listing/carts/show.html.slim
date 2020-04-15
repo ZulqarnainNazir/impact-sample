@@ -1,0 +1,74 @@
+- title "Thank You for Shopping with Us!"
+
+.row.m-lg
+  .col-xs-12
+    - if @order.present? && !@order.pending?
+      .row.m-t-lg.m-b-lg
+        .cox-xs-12
+          h2.text-uppercase Thank you for your purchase!
+          p You will recieve an email confirmation for your order shortly.
+      .row.m-t-lg.m-b-lg
+        .col-xs-12.col-sm-3
+          h4
+           u Your Info
+          p
+            strong> Name:
+            = @order.name
+          p
+           strong> Email:
+           = @order.email
+
+        .col-xs-12.col-sm-3
+          h4
+            u Shipping Info
+          - if @order.shipping_address == "Not Applicable"
+            p Your order does not include shipping.
+          -else
+            p= @order.shipping_address
+          p.text-danger= fulfillment_info(@order)
+        .col-xs-12.col-sm-3
+          h4
+            u Order Details
+          p
+            strong> Order ID:
+            = @order.id
+          strong> Order Status:
+          / - if @order.processing?
+          /   | Processing
+          / - else
+          = @order.status.titleize
+
+        .col-xs-12.col-sm-3
+          h4
+            u Business Info
+          strong> Address:
+          p #{@business.location.street1}, #{@business.location.street2.present? ? @business.location.street2 : ''}#{@business.location.street2.present? ? ',' : ''} #{@business.location.city}, #{@business.location.state} #{@business.location.zip_code}
+          strong> Email:
+          p #{@business.location.email}
+          strong> Phone:
+          p #{@business.location.phone_number}
+
+
+
+
+
+      .row
+        .cox-xs-12
+          table class="table table-striped"
+            thead
+              tr
+                th
+                th Product
+                th Description
+                th Delivery Type
+                th Price
+                th Quantity
+            tbody
+              = render partial: 'listing/carts/order_line_item', collection: @order.line_items, as: :item
+
+      .row
+        .col-xs-12
+          h3.pull-right Order Total: #{number_to_currency(@order.total_amount)}
+
+    - else
+      | Looks like something went wrong, please contact support.

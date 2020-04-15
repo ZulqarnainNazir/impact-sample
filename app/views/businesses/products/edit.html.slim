@@ -1,0 +1,28 @@
+- title 'Edit Product'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Company Profile', :fp => :data_root, :sn => 'Products', :sp => :products, :an => ' Edit Product'}
+
+.row
+  .col-md-8
+    = errors_for @product
+    = form_for [@business, @product] do |form|
+      .panel.panel-default
+        .panel-heading
+          - if @product.locked?
+            h1.h3.panel-title View Product
+          - else
+            h1.h3.panel-title Edit Product
+        .panel-body
+          = render form
+          div
+            hr
+            - if @product.locked?
+              = link_to 'Back', [@business, :products], class: 'btn btn-primary'
+              - if @product.archived?
+                = link_to 'Un-Archive', business_product_archive_path(@business.id, @product.id), method: :delete, class: 'btn btn-danger pull-right', data: { confirm: 'Are you sure?' }
+              - else
+                = link_to 'Archive', business_product_archive_path(@business.id, @product.id), method: :post, class: 'btn btn-danger pull-right', data: { confirm: 'Are you sure?' }
+            - else
+              => form.button 'Update Product', class: 'btn btn-primary pull-right'
+              = link_to 'Cancel', [@business, :products], class: 'btn btn-link'
+            .js-msg

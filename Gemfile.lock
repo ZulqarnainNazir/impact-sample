@@ -448,6 +448,10 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stripe (5.17.0)
+    stripe_event (2.3.0)
+      activesupport (>= 3.1)
+      stripe (>= 2.8, < 6)
     temple (0.7.5)
     thor (0.20.3)
     thread_safe (0.3.6)
@@ -569,6 +573,8 @@ DEPENDENCIES
   sitemap_generator
   slim-rails
   spring
+  stripe
+  stripe_event
   timezone (~> 1)
   turbolinks
   twitter-typeahead-rails
@@ -580,4 +586,4 @@ RUBY VERSION
    ruby 2.3.5
 
 BUNDLED WITH
-   2.1.4
+   1.17.3

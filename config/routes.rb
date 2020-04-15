@@ -27,11 +27,17 @@ end
 
 Rails.application.routes.draw do
 
+  mount StripeEvent::Engine, at: "/stripe_events", :via => :post
 
+  resources :line_items, only: [:create, :update, :destroy]
 
   scope module: :listing, as: :listing, constraints: ListingConstraint.new do
     root to: 'listings#index'
     match '/:lookup', to: 'listings#index', via: :get
+    match '/:lookup/cart', to: 'carts#index', :as => 'cart', via: :get
+    match '/:lookup/cart/new', to: 'carts#new', :as => 'new', via: :get
+    match '/:lookup/cart/create', to: 'carts#create', :as => 'create', via: :get
+    match '/:lookup/cart/show', to: 'carts#show', :as => 'show', via: :get
     match '/:lookup/directories', to: 'directories#index', :as => 'directories', via: :get
     match '/:lookup/directories/:id', to: 'directories#show', :as => 'directory', via: :get
     match '/:lookup/calendars', to: 'calendars#index', :as => 'calendars', via: :get
@@ -43,7 +49,8 @@ Rails.application.routes.draw do
     match '/:lookup/job/:content_type/', to: 'content#job', :as => 'job', via: :get
     match '/:lookup/quick_post/:content_type/', to: 'content#quick_post', :as => 'quick_post', via: :get
     match '/:lookup/event/:content_type/', to: 'content#event', :as => 'event', via: :get
-
+    match '/:lookup/products', to: 'products#index', :as => 'products', via: :get
+    match '/:lookup/products/:id', to: 'products#show', :as => 'product', via: :get
     match '/:lookup/reviews/create', to: 'reviews#create', :as => 'create_review', via: :post
     match '/:lookup/reviews/new', to: 'reviews#new', :as => 'new_review', via: :get
     match '/:lookup/reviews', to: 'reviews#index', :as => 'reviews', via: :get
@@ -63,6 +70,9 @@ Rails.application.routes.draw do
 
   scope constraints: PlatformConstraint.new do
     get :authenticate_facebook_page, to: 'authentications#facebook_page'
+
+    get 'stripe/connect/authorize', :to => 'businesses/accounts/stripe_authorizations#update'
+    delete 'stripe/connect/deauthorize', :to => 'businesses/accounts/stripe_authorizations#destroy'
 
     devise_for :users, controllers: {
       confirmations: 'users/confirmations',
@@ -401,6 +411,10 @@ Rails.application.routes.draw do
         resources :images, only: %i[index]
         resources :content_categories, only: %i[new create]
         resources :content_tags, only: %i[index create]
+        resources :orders, only: [:index, :show, :create, :update]
+        resources :products, only: %i[index new create edit update destroy] do
+          resource :archive, only: [:create, :destroy], controller: 'archive_products'
+        end
         resources :reminders, only: :index
         resources :activity_calendar, only: :index do
           get :timeline, on: :collection

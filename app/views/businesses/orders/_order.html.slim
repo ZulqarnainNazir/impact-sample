@@ -1,0 +1,29 @@
+tr.order-row
+  td= order.order_date.in_time_zone.strftime("%-B %-e, %Y")
+
+  td
+    - if order.processing?
+      p.order-status.text-danger Processing
+    -else
+      p= order.status.titleize
+  td= order.name
+  td= order.email
+  td
+    / p= delivery_type_label(order&.line_items&.first&.product&.delivery_type)
+    p= fulfillment_types(order)
+    - unless order.shipping_address == "Not Applicable"
+      p
+        |(
+        =order.shipping_address
+        |)
+  td
+    - if order.total_amount.present?
+      = number_to_currency(order.total_amount)
+  td
+    .btn-group
+      = link_to 'Show Details', business_order_path(order.business.id, order.id), class: 'btn btn-default btn-xs'
+      - unless order.delivered?
+        = link_to "", class: 'btn btn-xs btn-success fulfill-order-clicked', data: {'order-id': order.id, 'business-id': order.business.id} do
+          .fa.fa-check
+          | Mark Delivered
+        .js-msg.pull-right.m-xxs
