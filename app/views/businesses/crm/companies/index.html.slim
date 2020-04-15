@@ -34,32 +34,32 @@
                   p.text-left Go further by creating embeddable tools for your website like our self-updating directory, community calendar and more.
           - else
             / p style="margin:2em 0" = page_entries_info @companies
-            table.footable.table.table-stripped.datatable
+            table.table.table-stripped.serverside-datatable data-url="#{business_crm_companies_path(format: :json)}"
               thead
                 tr
                   th
                     | Name
                   / th
                   /   | Status
-                  th
+                  th.no-sort
                     | Supporting
-                  th
+                  th.no-sort
                     | Supporters
-                  th
+                  th.no-sort
                     | Estimated Monthly Reach
-                  th
+                  th.no-sort
                     | Website
-                  th
+                  th.no-sort
                     | Phone
-                  th
+                  th.no-sort
                     | Address
-                  th
+                  th.no-sort
                     | City
-                  th
+                  th.no-sort
                     | State
-                  th
+                  th.no-sort
               tbody
-                = render @companies
+                / = render @companies
           / = paginate @companies
 
 javascript:
