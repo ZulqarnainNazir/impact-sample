@@ -2,7 +2,7 @@ class BusinessCrmCompaniesDatatable < ApplicationDatatable
   delegate :edit_business_crm_company_path, to: :@view
   delegate :business_crm_company_lists_path, to: :@view
   delegate :new_business_crm_invite_path, to: :@view
-  delegate :business_crm_companies_path, to: :@view
+  delegate :business_crm_company_path, to: :@view
 
 
   private
@@ -33,14 +33,14 @@ class BusinessCrmCompaniesDatatable < ApplicationDatatable
         column << company.business.location.city
         column << company.business.location.state
 
-        column << link_to("Delete", business_crm_companies_path(params[:business_id], company.id), class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' })
+        column << link_to("Delete", business_crm_company_path(params[:business_id], company.id), class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' })
 
       end
     end
   end
 
   def count
-    companies.count
+    Business.find(params[:business_id]).owned_companies.count
   end
 
   def total_entries
