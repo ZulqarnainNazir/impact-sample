@@ -3,9 +3,9 @@ class Businesses::Accounts::StripeAuthorizationsController < ApplicationControll
   before_filter :stripe_init
 
   def update
-    unless params[:error]
-      business = Business.find(params[:state])
+    business = Business.find(params[:state])
 
+    unless params[:error]
       begin
         response = @stripe.authorize_connect_account(params[:code])
 
