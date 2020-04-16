@@ -23,7 +23,8 @@ $(document).ready(function(){
   };
 
   if (!$.fn.dataTable.isDataTable('table.datatable')) {
-    var table = $('table.serverside-datatable').DataTable({
+    var table = $('table.serverside-datatable')
+    table.DataTable({
       processing: true,
       serverSide: true,
       // sAjaxDataProp: "",
