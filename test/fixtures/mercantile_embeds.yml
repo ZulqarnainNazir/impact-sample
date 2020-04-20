@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  public_label: MyString
+  uuid: MyString
+  business_id_id: 
+  max_items: 1
+  company_list_ids: MyText
+  show_our_content: false
+  link_version: 1
+  link_id: 1
+  link_external_url: MyString
+  link_no_follow: false
+  link_target_blank: false
+
+two:
+  name: MyString
+  public_label: MyString
+  uuid: MyString
+  business_id_id: 
+  max_items: 1
+  company_list_ids: MyText
+  show_our_content: false
+  link_version: 1
+  link_id: 1
+  link_external_url: MyString
+  link_no_follow: false
+  link_target_blank: false

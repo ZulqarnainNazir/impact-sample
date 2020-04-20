@@ -164,6 +164,7 @@ Rails.application.routes.draw do
       get '/calendar_widgets/:uuid/:content_id', to: 'calendar_widgets#show'
       get '/contact_form_widgets/:uuid', to: 'contact_form_widgets#index'
       post '/contact_form_widgets/:uuid', to: 'contact_form_widgets#submit', as: :contact_form_submit
+      get '/mercantile_embeds/:uuid', to: 'mercantile_embeds#index'
     end
 
     namespace :onboard do
@@ -362,6 +363,7 @@ Rails.application.routes.draw do
           resources :directory_widgets, only: %i[index new create edit update destroy]
           resources :content_feed_widgets, only: %i[index new create edit update destroy]
           resources :calendar_widgets, only: %i[index new create edit update destroy]
+          resources :mercantile_embeds, only: %i[index new create edit update destroy]
         end
 
         namespace :website do

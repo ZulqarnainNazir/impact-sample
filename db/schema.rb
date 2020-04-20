@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200411180547) do
+ActiveRecord::Schema.define(version: 20200420162415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -995,6 +995,86 @@ ActiveRecord::Schema.define(version: 20200411180547) do
   add_index "mailkick_opt_outs", ["email"], name: "index_mailkick_opt_outs_on_email", using: :btree
   add_index "mailkick_opt_outs", ["user_id", "user_type"], name: "index_mailkick_opt_outs_on_user_id_and_user_type", using: :btree
 
+  create_table "menu_item_add_ons", force: :cascade do |t|
+    t.string   "option"
+    t.decimal  "price",        precision: 8, scale: 2
+    t.integer  "menu_item_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  create_table "menu_item_tags", force: :cascade do |t|
+    t.integer  "menu_item_id"
+    t.integer  "menu_tag_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "menu_item_tags", ["menu_item_id"], name: "index_menu_item_tags_on_menu_item_id", using: :btree
+  add_index "menu_item_tags", ["menu_tag_id"], name: "index_menu_item_tags_on_menu_tag_id", using: :btree
+
+  create_table "menu_items", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.decimal  "price",            precision: 8, scale: 2
+    t.integer  "status",                                   default: 0, null: false
+    t.text     "nutritional_info"
+    t.text     "notes"
+    t.integer  "menu_section_id"
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
+  create_table "menu_sections", force: :cascade do |t|
+    t.string   "label"
+    t.text     "summary"
+    t.integer  "menu_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "position"
+  end
+
+  create_table "menu_tags", force: :cascade do |t|
+    t.string   "name"
+    t.string   "label"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "business_id"
+  end
+
+  add_index "menu_tags", ["business_id"], name: "index_menu_tags_on_business_id", using: :btree
+
+  create_table "menus", force: :cascade do |t|
+    t.string   "name"
+    t.text     "summary"
+    t.integer  "status",      default: 0, null: false
+    t.integer  "business_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.text     "disclaimer"
+  end
+
+  create_table "mercantile_embeds", force: :cascade do |t|
+    t.string   "name"
+    t.string   "public_label"
+    t.string   "uuid"
+    t.integer  "business_id"
+    t.boolean  "show_our_content"
+    t.text     "company_list_ids",  default: [],              array: true
+    t.integer  "max_items"
+    t.integer  "link_version"
+    t.integer  "link_id"
+    t.string   "link_external_url"
+    t.string   "link_label"
+    t.boolean  "link_target_blank"
+    t.boolean  "link_no_follow"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "mercantile_embeds", ["business_id"], name: "index_mercantile_embeds_on_business_id", using: :btree
+
   create_table "mission_histories", force: :cascade do |t|
     t.integer  "actor_id"
     t.string   "action"
@@ -1641,6 +1721,10 @@ ActiveRecord::Schema.define(version: 20200411180547) do
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "products"
   add_foreign_key "lines", "businesses"
+  add_foreign_key "menu_item_tags", "menu_items"
+  add_foreign_key "menu_item_tags", "menu_tags"
+  add_foreign_key "menu_tags", "businesses"
+  add_foreign_key "mercantile_embeds", "businesses"
   add_foreign_key "pdfs", "businesses"
   add_foreign_key "pdfs", "users"
   add_foreign_key "post_sections", "posts"
