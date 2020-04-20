@@ -1,0 +1,50 @@
+/ - request_url = url_for({ controller: params[:controller], action: params[:action] })
+#reach
+  - if @mercantile_embed.public_label.present?
+    .row
+      .col-md-12
+        h1.text-center= @mercantile_embed.public_label
+  div
+    a name="blog-feed"
+    / - if @@mercantile_embed.enable_search == true
+    /   = render partial: 'website/blog_pages/search_full', locals: {request_url: request_url}
+    .m-t-lg
+    .row
+      - if @products.present? && !@products.empty?
+        / - reach_occurences = []
+        - @products.each do |product|
+
+          / - reach_occurences << product.business.id
+          / TODO- Add Website pages for products
+          / - if @mercantile_embed.business.website.host.present?
+          /   = render :partial => "businesses/#{product.to_partial_path}", :object => product, locals: {request_url: [:website, product, only_path: false, host: product.business.website.host, protocol: :http]}
+          / - else
+          = render :partial => "businesses/#{product.to_partial_path}", :object => product, locals: {request_url: listing_path_product_url(product.business, product)}
+
+      - else
+        .col-xs-9
+          h2 Nothing matched your search or there is no content here yet...
+
+    .text-center.clear-container
+      = paginate @products
+    / TODO- having trouble with links because it set 'X-Frame-Options' to 'sameorigin' error Need to address this after site modal refactor is completed
+    / - if @content_feed_widget.link_version == 'link_paginate'
+    /   .text-center.clear-container
+    /     = paginate @posts
+    / - elsif @content_feed_widget.link_version == 'link_internal'
+    /   p.clear-container = link_to @content_feed_widget.link_label, "#{@content_feed_widget.internal_link_location}", class: 'btn btn-default', role: 'button', target: (@content_feed_widget.link_target_blank ? :_blank : nil), rel: (@content_feed_widget.link_no_follow ? 'no-follow' : nil)
+    / -elsif @content_feed_widget.link_version == 'link_external'
+    /   p.clear-container = link_to @content_feed_widget.link_label, @content_feed_widget.link_external_url, class: 'btn btn-default', role: 'button', target: (@content_feed_widget.link_target_blank ? :_blank : nil), rel: (@content_feed_widget.link_no_follow ? 'no-follow' : nil)
+
+    div.text-center
+      p
+        span Powered by
+        = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-content", target: "_blank"
+
+// javascript:
+//   console.log("Recording Reach");
+//   var isInIframe = (parent !== window),parentUrl = null;
+//   if (isInIframe) {
+//     parentUrl = document.referrer;
+//   }
+//   ahoy.track("Reach", {type: "Content Widget", type_id: "#{@content_feed_widget.id}", business_id: "#{@content_feed_widget.business_id}", company_ids: "#{@content_feed_widget.get_business_ids}", occurences: "#{reach_occurences}", site: parentUrl });

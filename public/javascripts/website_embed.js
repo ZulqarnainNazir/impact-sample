@@ -62,6 +62,30 @@ var ContentFeedWidget = new function () {
     setTimeout(function() {iFrameResize({log: false, checkOrigin: false}, '#impact-content-feed-'+uuid); }, 1000);
   }
 }
+
+var MercantileEmbed = new function () {
+  this.load = function (uuid, site) {
+    window.addEventListener('message', receiveMercantileEmbedMessage, false);
+    var head = document.getElementsByTagName('head')[0],
+        script = document.createElement('script'),
+        widgetDiv = document.getElementById("mercantile-embed-"+uuid),
+        iframe = document.createElement('iframe');
+
+    script.src = site+'javascripts/iframeResizer.min.js';
+    if(typeof iFrameResize === "undefined") {
+      head.appendChild(script);
+    }
+
+    iframe.width = '100%';
+    iframe.height = '400px';
+    iframe.frameBorder = '0';
+    iframe.id = 'impact-mercantile-embed-'+uuid;
+    iframe.src = site+'widgets/mercantile_embeds/'+uuid
+    widgetDiv.appendChild(iframe);
+    setTimeout(function() {iFrameResize({log: false, checkOrigin: false}, '#impact-mercantile-embed-'+uuid); }, 1000);
+  }
+}
+
 var CalendarWidget = new function () {
   this.load = function (uuid, site) {
     window.addEventListener('message', receiveCalendarMessage, false);
@@ -133,6 +157,14 @@ function receiveContentFeedMessage(evt)
   if (evt.data.indexOf('scrollup') !== -1)
   {
     window.scrollTo(0, findPos(document.getElementById(evt.data.replace('scrollup', 'impact-content-feed'))));
+  }
+}
+
+function receiveMercantileEmbedMessage(evt)
+{
+  if (evt.data.indexOf('scrollup') !== -1)
+  {
+    window.scrollTo(0, findPos(document.getElementById(evt.data.replace('scrollup', 'impact-mercantile-emebd'))));
   }
 }
 
