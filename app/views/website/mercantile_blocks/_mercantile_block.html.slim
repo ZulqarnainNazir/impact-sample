@@ -1,0 +1,26 @@
+= render partial: "website/shared/block_assets"
+
+
+- @mercantile_embed = MercantileEmbed.find_by(id: mercantile_block.widget_id)
+
+- if @mercantile_embed
+  - business_ids = @mercantile_embed.get_business_ids.compact
+  - business_ids << @mercantile_embed.business.id if @mercantile_embed.show_our_content
+  - @products = Product.where(business_id: business_ids.uniq).active.order('name asc').limit(@mercantile_embed.max_items)
+  #reach
+  - if @mercantile_embed.public_label.present?
+    .row
+      .col-md-12
+        h1.text-center= @mercantile_embed.public_label
+  div
+    a name="blog-feed"
+    .m-t-lg
+    .row
+      - if @products.exists?
+        - @products.each do |product|
+          = render :partial => "businesses/#{product.to_partial_path}", :object => product, locals: {request_url: listing_path_product_url(product.business, product)}
+    div.text-center
+      p
+        span Powered by
+        = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-content", target: "_blank"
+

@@ -8,7 +8,8 @@ FeedContentModal = React.createClass
       'content-feed': { group: 'BlogFeedGroup', block: 'BlogFeedBlock', editFunc: feedHelpers.editFeedSettings },
       'local-network': { group: 'SupportLocalGroup', block: 'SupportLocalBlock', editFunc: supportLocalHelpers.editSupportLocalSettings },
       'contact-form': { group: 'ContactFormGroup', block: 'ContactFormBlock', editFunc: contactFormHelpers.editContactFormSettings },
-      'calendar': { group: 'CalendarGroup', block: 'CalendarBlock', editFunc: calendarHelpers.editCalendarSettings }
+      'calendar': { group: 'CalendarGroup', block: 'CalendarBlock', editFunc: calendarHelpers.editCalendarSettings },
+      'mercantile': { group: 'MercantileGroup', block: 'MercantileBlock', editFunc: mercantileHelpers.editMercantileSettings },
     }
 
   chooseReviews: (e) ->
@@ -30,6 +31,10 @@ FeedContentModal = React.createClass
   chooseCalendar: (e) ->
     e.preventDefault()
     this.updateChoice('calendar')
+
+  chooseMercantile: (e) ->
+    e.preventDefault()
+    this.updateChoice('mercantile')
 
   choiceColor: (choice) ->
     if this.state.selected == choice
@@ -111,6 +116,14 @@ FeedContentModal = React.createClass
                 <div className="review-stars text-center">
                   <i className="fa fa-calendar fa-4x"></i>
                   <h3>Calendar</h3>
+                </div>
+              </a>
+            </div>
+            <div className="col-sm-4 m-b-sm">
+              <a href="#" onClick={this.chooseMercantile} style={{color: this.choiceColor('mercantile')}}>
+                <div className="review-stars text-center">
+                  <i className="fa fa-shopping-bag fa-4x"></i>
+                  <h3>Mercantile</h3>
                 </div>
               </a>
             </div>

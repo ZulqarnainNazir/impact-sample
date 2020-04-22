@@ -252,5 +252,7 @@ Block = React.createClass
         `<ContactFormBlock {...this.props} />`
       when 'CalendarBlock'
         `<CalendarBlock {...this.props} />`
+      when 'MercantileBlock'
+        `<MercantileBlock {...this.props} />`
 
 window.Block = Block
