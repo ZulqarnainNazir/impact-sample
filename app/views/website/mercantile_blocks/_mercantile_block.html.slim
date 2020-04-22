@@ -6,7 +6,7 @@
 - if @mercantile_embed
   - business_ids = @mercantile_embed.get_business_ids.compact
   - business_ids << @mercantile_embed.business.id if @mercantile_embed.show_our_content
-  - @products = Product.where(business_id: business_ids.uniq).active.order('name asc').limit(@mercantile_embed.max_items)
+  - @products = Product.where(business_id: business_ids.uniq).active.order('name asc').page(params[:product_page]).per(@mercantile_embed.max_items)
   #reach
   - if @mercantile_embed.public_label.present?
     .row
@@ -18,7 +18,16 @@
     .row
       - if @products.exists?
         - @products.each do |product|
-          = render :partial => "businesses/#{product.to_partial_path}", :object => product, locals: {request_url: listing_path_product_url(product.business, product)}
+          = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
+
+    - if @mercantile_embed.link_version == 'link_paginate'
+      .text-center.clear-container
+        = paginate @products, param_name: :product_page
+    - elsif @mercantile_embed.link_version == 'link_internal'
+      p.clear-container = link_to @mercantile_embed.link_label, "#{@mercantile_embed.link_internal_url}", class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+    - elsif @mercantile_embed.link_version == 'link_external'
+      p.clear-container = link_to @mercantile_embed.link_label, @mercantile_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+
     div.text-center
       p
         span Powered by
