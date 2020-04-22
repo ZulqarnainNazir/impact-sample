@@ -36,6 +36,7 @@ Create the database and load the schema and seeds
 ```
 
 Note running `rake db:migrate` before loading the schema will return an error.
+
 **Setting Up Your Environment Variables**
 
 Make sure to set the following ENV variables in a `.env` file:
@@ -45,12 +46,16 @@ Make sure to set the following ENV variables in a `.env` file:
 * `AWS_S3_BUCKET`
 * `AWS_S3_REGION`
 
-See **Setting Up AWS** for more information on acquiring the necessary
+See **Setting Up AWS** in the Wiki for more information on acquiring the necessary
 credentials.
+
+**Starting the Server**
 
 Ensure the `foreman` gem is installed and start the application with:
 
 `foreman start`
+
+**Elasticsearch**
 
 To create all indices for the first time, run:
 
@@ -64,6 +69,7 @@ To refresh the indices at a later time, run:
 
 `rake environment elasticsearch:import:all`
 
+
 **First Time Login**
 
 Before first logging in, run the following tasks:
@@ -75,6 +81,7 @@ Before first logging in, run the following tasks:
 You can also edit the user in the database with an email confirmation time, like so:
 
 `impact_development=# update users set confirmed_at=now() update users set confirmed_at=now();`
+
 
 **What You Need Running in Terminal**
 
@@ -100,7 +107,8 @@ Foreman does not print server logs automatically like rails -s will. Here is the
 
 Provided you have completed all the steps mentioned up to this point in the documentation (including setting up AWS), you should be able to point your browser to http://impact.test:5000/ and have the homepage properly rendered. Don't forget to create a database, run migrations, and all the other fundamentals of installing a Rails app locally. Once you get all this set-up you'll also need to get a super admin set-up via terminal as well. Do this, then log in and proceed to create a business.
 
-## Test
+
+## Testing
 
 Make sure to set the following ENV variables in a `.env.test` file:
 
@@ -115,6 +123,7 @@ credentials.
 Run the test suite with:
 
 `rake test`
+
 
 ## Staging/Production
 
@@ -187,6 +196,7 @@ The application is now live. Open the application in your default web browser
 with:
 
 `heroku apps:open`
+
 
 ## Setting Up AWS
 
@@ -264,6 +274,7 @@ This completes the AWS setup for the "development" and "test" environments.
 For "staging" and "production" environments, a Cloudfront distribution and SES
 service will also need to be setup.
 
+
 ### AWS Cloudfront
 
 To serve assets from a CDN, create an AWS Cloudfront web distribution. Under
@@ -275,6 +286,7 @@ headers to the whitelist ("Access-Control-Request-Headers",
 
 Create the distribution and record its domain name as the `AWS_CLOUDFRONT_HOST`
 ENV variable.
+
 
 ### AWS SES
 
@@ -291,6 +303,7 @@ Finally, ensure that the support email ENV variable is either listed under
 "Verified Addresses" or that the email domain is a verified domain.
 
 For best results, "Request Production Access".
+
 
 ## Important Notes on ElasticSearch
 
@@ -311,38 +324,3 @@ For best results, "Request Production Access".
   There are two new rake tasks: `create_post_index` and `custom_elasticsearch_import`. If you need to import new data, use `custom_elasticsearch_import`. It will import data into all existing indices. If you need to destroy the Post or PostSection indices for any reason, or change their mappings (such as added a field), use/modify `create_post_index` accordingly. It will get the job done of creating and mapping the index on our Bonsai cluster the way you expect.
 
   Note: It is critical that you understand how the rake tasks work - review them. If you have any questions, ask Brian, so he can pull in another dev who's worked on ES before. Also, if you want to experiment with POST requests to Bonsai clusters, use the interface provided by Bonsai. Go the cluster management dashboard, and you'll see the option to do this. Of course, experiment on staging.
-
-## Commit Process
-
-DO NOT COMMIT DIRECTLY TO DEV OR MASTER
-
-To begin work on IMPACT, checkout the `dev` branch and run `git pull origin dev`
-to get a fresh copy of the dev branch.
-
-Checkout a new feature branch, identified by the work you are doing (presumably a
-Pivotal Tracker ID#). For example:
-
-`git checkout -b 123456_update_widget`
-
-Ensure all tests pass and commit your changes. Once you have been instructed to
-merge your branch into dev, first checkout the `dev` branch and ensure it is
-up-to-date: `git pull origin dev`.
-
-Then checkout your feature branch and rebase it against dev:
-
-```
-git checkout 123456_update_widget
-git rebase dev
-```
-
-Now that your feature branch is freshly rebased against the dev branch, checkout
-`dev` and merge in your work.
-
-```
-git checkout dev
-git merge 123456_update_widget
-```
-
-There should NOT BE ANY merge conflicts. Push the updated dev branch to origin:
-
-`git push origin dev`
