@@ -39,24 +39,7 @@ Note running `rake db:migrate` before loading the schema will return an error.
 
 **Setting Up Your Environment Variables**
 
-Make sure to set the following ENV variables in a `.env` file:
-
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-AWS_S3_BUCKET
-AWS_S3_REGION
-RECAPTCHA_API_KEY
-RECAPTCHA_API_SECRET
-GOOGLE_MAPS_API_KEY
-LISTING_HOST = 'listings.impact.test:5000'
-AWS_CLOUDFRONT_HOST #Needed when no cloudfront setup to point to S3 bucket directly
-GOOGLE_TIMEZONE_API_KEY
-STRIPE_CLIENT_ID #client ID for connect
-STRIPE_PUBLIC_KEY #publishable key
-STRIPE_SECRET_KEY #secret key
-LOCABLE_CORE_STRIPE_SIGNING_SECRET #Signing Secret for Webhook for Locable Core account
-CONNECTED_ACCOUNT_STRIPE_SIGNING_SECRET #Signing Secret for Webhook for connected account
-CLI_STRIPE_SIGNING_SECRET = #CLI Key
+See ENV file in Wiki for list of keys.
 
 
 See **Setting Up AWS** in the Wiki for more information on acquiring the necessary
@@ -123,24 +106,8 @@ Provided you have completed all the steps mentioned up to this point in the docu
 
 ## Testing
 
-Make sure to set the following ENV variables in a `.env.test` file:
+See ENV file in Wiki for list of keys.
 
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-AWS_S3_BUCKET
-AWS_S3_REGION
-RECAPTCHA_API_KEY
-RECAPTCHA_API_SECRET
-GOOGLE_MAPS_API_KEY
-LISTING_HOST = 'listings.impact.test:5000'
-AWS_CLOUDFRONT_HOST #Needed when no cloudfront setup to point to S3 bucket directly
-GOOGLE_TIMEZONE_API_KEY
-STRIPE_CLIENT_ID #client ID for connect
-STRIPE_PUBLIC_KEY #publishable key
-STRIPE_SECRET_KEY #secret key
-LOCABLE_CORE_STRIPE_SIGNING_SECRET #Signing Secret for Webhook for Locable Core account
-CONNECTED_ACCOUNT_STRIPE_SIGNING_SECRET #Signing Secret for Webhook for connected account
-CLI_STRIPE_SIGNING_SECRET = #CLI Key
 
 See **Setting Up AWS** for more information on acquiring the necessary
 credentials.
@@ -165,23 +132,8 @@ Add the following free addons:
 
 Open the Heroku application settings and the following config variables:
 
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-AWS_S3_BUCKET
-AWS_S3_REGION
-RECAPTCHA_API_KEY
-RECAPTCHA_API_SECRET
-GOOGLE_MAPS_API_KEY
-LISTING_HOST = 'listings.impact.test:5000'
-AWS_CLOUDFRONT_HOST #Needed when no cloudfront setup to point to S3 bucket directly
-GOOGLE_TIMEZONE_API_KEY
-STRIPE_CLIENT_ID #client ID for connect
-STRIPE_PUBLIC_KEY #publishable key
-STRIPE_SECRET_KEY #secret key
-LOCABLE_CORE_STRIPE_SIGNING_SECRET #Signing Secret for Webhook for Locable Core account
-CONNECTED_ACCOUNT_STRIPE_SIGNING_SECRET #Signing Secret for Webhook for connected account
-CLI_STRIPE_SIGNING_SECRET = #CLI Key
-* `AWS_SECRET_ACCESS_KEY`
+See ENV file for list of keys plus:
+
 * `AWS_SES_SMTP_ADDRESS`
 * `AWS_SES_SMTP_PASSWORD`
 * `AWS_SES_SMTP_PORT`
