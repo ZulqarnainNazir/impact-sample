@@ -26,6 +26,14 @@ class Product < ActiveRecord::Base
     archived: 2,
   }
 
+  enum product_kind: {
+    product: 0,
+    service: 1,
+    gift_card: 2,
+    ticket: 3,
+    other: 4,
+  }
+
   def locked?
     line_items.where.not(order_id: nil).present?
   end

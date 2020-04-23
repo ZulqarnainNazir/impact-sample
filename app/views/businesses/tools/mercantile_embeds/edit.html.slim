@@ -19,8 +19,23 @@ wrapper.wrapper-content.edit-menu-embed
             = form.text_field :public_label, class: 'form-control'
 
           .form-group
-            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
-            = form.text_field :max_items, class: 'form-control'
+            = form.label "Show content from:"
+            .form-group
+              = form.label :show_our_content, class: 'i-checks' do
+                = form.check_box :show_our_content
+                i
+                |  Our Content
+              br
+              | - And / Or -
+              .form-group
+                = form.label :company_list_id, "Choose or Add Local Network to Display", class: 'control-label'
+                = form.select :company_list_id, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
+
+                a.text-center data-toggle="modal" data-target="#modal"
+                  => icon 'cog'
+                  span.advanced-button Manage Businesses
+
+
 
           .link-versions{data = {webpages: @business.website.webpages.count}}
             .radio
@@ -59,6 +74,9 @@ wrapper.wrapper-content.edit-menu-embed
             = form.label :link_label, "View More Button Label", class: 'control-label'
             = form.text_field :link_label, class: 'form-control'
           .form-group
+            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
+            = form.text_field :max_items, class: 'form-control'
+          .form-group
             label Enable Search Bar
             br
             label.radio-inline
@@ -74,22 +92,7 @@ wrapper.wrapper-content.edit-menu-embed
           /     = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
           /   br style="clear:both;"
 
-          .form-group
-            = form.label "Show content from:"
-            .form-group
-              = form.label :show_our_content, class: 'i-checks' do
-                = form.check_box :show_our_content
-                i
-                |  Our Content
-              br
-              | - And / Or -
-              .form-group
-                = form.label :company_list_id, "Choose or Add Local Network to Display", class: 'control-label'
-                = form.select :company_list_id, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
 
-                a.text-center data-toggle="modal" data-target="#modal"
-                  => icon 'cog'
-                  span.advanced-button Manage Businesses
           / hr
           / .form-group
           /   = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'

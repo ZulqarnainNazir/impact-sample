@@ -16,6 +16,10 @@
   / - scope = Product.where(business_id: business_ids.uniq).joins(:business).active.order('products.name asc')
 
   - @merchants = Business.where(id: scope.pluck(:business_id)).select(:id, :name)
+  - @product_kinds = Product.product_kinds.map { |k,v| [k.humanize.titleize, v] }
+
+  - unless params[:product_kind].blank?
+    - scope = scope.where("products.product_kind = ?", params[:product_kind])
 
   - unless params[:query].blank?
     - scope = scope.where("products.name ILIKE ?", "%#{params[:query].downcase}%")
@@ -39,6 +43,9 @@
             .form-group
               label.sr-only for="query" Search Query
               = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
+            .form-group.m-l-5px
+              label.sr-only for="product_kind" Type
+              = select_tag :product_kind, options_for_select(@product_kinds, params[:product_kind]), prompt: "Search by Type", class: "form-control"
             - if @mercantile_embed.company_list.sort_by == 1
               .form-group.m-l-5px
                 label.sr-only for="category" Category
