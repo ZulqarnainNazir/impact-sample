@@ -27,8 +27,8 @@ wrapper.wrapper-content.new-content-embed
               br
               | - And / Or -
               .form-group
-                = form.label :company_list_ids, "Companies in These Local Networks i.e. Lists", class: 'control-label'
-                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_ids), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control', :multiple => true}
+                = form.label :company_list_id, "Choose or Add Local Network to Display", class: 'control-label'
+                = form.select :company_list_id, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
                 a.text-center data-toggle="modal" data-target="#modal"
                   => icon 'cog'
                   span.advanced-button Manage Businesses
@@ -73,15 +73,15 @@ wrapper.wrapper-content.new-content-embed
           .form-group#view-more-button
             = form.label :link_label, "View More Button Label", class: 'control-label'
             = form.text_field :link_label, class: 'form-control', :value => "View More"
-          / .form-group
-          /   label Enable Search Bar
-          /   br
-          /   label.radio-inline
-          /     = form.radio_button :enable_search, true
-          /     | Yes
-          /   label.radio-inline
-          /     = form.radio_button :enable_search, false
-          /     | No
+          .form-group
+            label Enable Search Bar
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
           / .form-group.content-type-checkboxes
           /   = form.label :content_types, "What Types of Content Do You Want to Include?", class: 'control-label'
           /   br

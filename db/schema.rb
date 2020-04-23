@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200420162415) do
+ActiveRecord::Schema.define(version: 20200423191211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -995,6 +995,26 @@ ActiveRecord::Schema.define(version: 20200420162415) do
   add_index "mailkick_opt_outs", ["email"], name: "index_mailkick_opt_outs_on_email", using: :btree
   add_index "mailkick_opt_outs", ["user_id", "user_type"], name: "index_mailkick_opt_outs_on_user_id_and_user_type", using: :btree
 
+  create_table "menu_embeds", force: :cascade do |t|
+    t.string   "name"
+    t.string   "public_label"
+    t.string   "uuid"
+    t.integer  "business_id"
+    t.boolean  "show_our_content"
+    t.text     "company_list_ids",  default: [],              array: true
+    t.integer  "max_items"
+    t.integer  "link_version"
+    t.integer  "link_id"
+    t.string   "link_external_url"
+    t.string   "link_label"
+    t.boolean  "link_target_blank"
+    t.boolean  "link_no_follow"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "menu_embeds", ["business_id"], name: "index_menu_embeds_on_business_id", using: :btree
+
   create_table "menu_item_add_ons", force: :cascade do |t|
     t.string   "option"
     t.decimal  "price",        precision: 8, scale: 2
@@ -1061,7 +1081,6 @@ ActiveRecord::Schema.define(version: 20200420162415) do
     t.string   "uuid"
     t.integer  "business_id"
     t.boolean  "show_our_content"
-    t.text     "company_list_ids",  default: [],              array: true
     t.integer  "max_items"
     t.integer  "link_version"
     t.integer  "link_id"
@@ -1069,8 +1088,10 @@ ActiveRecord::Schema.define(version: 20200420162415) do
     t.string   "link_label"
     t.boolean  "link_target_blank"
     t.boolean  "link_no_follow"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "company_list_id"
+    t.boolean  "enable_search",     default: false, null: false
   end
 
   add_index "mercantile_embeds", ["business_id"], name: "index_mercantile_embeds_on_business_id", using: :btree
@@ -1721,6 +1742,7 @@ ActiveRecord::Schema.define(version: 20200420162415) do
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "products"
   add_foreign_key "lines", "businesses"
+  add_foreign_key "menu_embeds", "businesses"
   add_foreign_key "menu_item_tags", "menu_items"
   add_foreign_key "menu_item_tags", "menu_tags"
   add_foreign_key "menu_tags", "businesses"

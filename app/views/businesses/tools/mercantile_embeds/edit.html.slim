@@ -2,7 +2,7 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Content', :sp => :tools_content_feed_widgets, :an => 'Edit Mercantile Embed'}
 
-wrapper.wrapper-content.edit-content-embed
+wrapper.wrapper-content.edit-menu-embed
 .row.animated.fadeInRight
   .col-md-6
     = form_for @mercantile_embed, url: [@business, :tools, @mercantile_embed] do |form|
@@ -58,15 +58,15 @@ wrapper.wrapper-content.edit-content-embed
           .form-group#view-more-button
             = form.label :link_label, "View More Button Label", class: 'control-label'
             = form.text_field :link_label, class: 'form-control'
-          / .form-group
-          /   label Enable Search Bar
-          /   br
-          /   label.radio-inline
-          /     = form.radio_button :enable_search, true
-          /     | Yes
-          /   label.radio-inline
-          /     = form.radio_button :enable_search, false
-          /     | No
+          .form-group
+            label Enable Search Bar
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
           / .form-group.content-type-checkboxes
           /   = form.label :content_types, "What Types of Content Do You Want to Include?", class: 'control-label'
           /   br
@@ -84,8 +84,9 @@ wrapper.wrapper-content.edit-content-embed
               br
               | - And / Or -
               .form-group
-                = form.label :company_list_ids, "Companies in These Local Networks i.e. Lists", class: 'control-label'
-                = form.select :company_list_ids, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_ids), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control', :multiple => true}
+                = form.label :company_list_id, "Choose or Add Local Network to Display", class: 'control-label'
+                = form.select :company_list_id, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
+
                 a.text-center data-toggle="modal" data-target="#modal"
                   => icon 'cog'
                   span.advanced-button Manage Businesses
@@ -144,12 +145,12 @@ wrapper.wrapper-content.edit-content-embed
         / <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
         h3 Create a Local Network
       .modal-body
-        - if @mercantile_embed.company_list_ids.second.nil?
+        - if @mercantile_embed.company_list_id.nil?
           = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: CompanyList.new }
         - else
-          = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: CompanyList.find(@mercantile_embed.company_list_ids.second)}
+          = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: CompanyList.find(@mercantile_embed.company_list_id)}
 
-= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'mercantile_embed_company_list_ids'}
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'mercantile_embed_company_list_id'}
 
 - content_for :javascript do
   javascript:
@@ -158,7 +159,7 @@ wrapper.wrapper-content.edit-content-embed
     }).observe($('#modal')[0], { attributes: true, childList: true });
     $(".modal-dialog").css({"height":"90%"});
 
-    $('#mercantile_embed_company_list_ids').change(function() {
+    $('#mercantile_embed_company_list_id').change(function() {
       var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
       clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
       $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
