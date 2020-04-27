@@ -61,4 +61,4 @@
                         th Status
                         th
                     tbody
-                      = render @archived_products
+                      = render partial: "product_row", collection: @archived_products, as: :product
