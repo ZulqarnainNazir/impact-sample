@@ -120,4 +120,5 @@
       contentFeedWidgetsCategories: form.object.website.business.content_feed_widgets.map { |c| c.content_category_ids },
       contentFeedWidgetsTags: form.object.website.business.content_feed_widgets.map { |c| c.content_tag_ids },
       contentFeedWidgetsPath: business_tools_content_feed_widgets_path(form.object.website.business),
-      newContentFeedWidgetsPath: new_business_tools_content_feed_widget_path(form.object.website.business)
+      newContentFeedWidgetsPath: new_business_tools_content_feed_widget_path(form.object.website.business),
+      mercantileEnabled: form.object.website.business.mercantile_enabled

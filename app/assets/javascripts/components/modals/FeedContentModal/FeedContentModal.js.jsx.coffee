@@ -119,7 +119,7 @@ FeedContentModal = React.createClass
                 </div>
               </a>
             </div>
-            <div className="col-sm-4 m-b-sm">
+            <div className="col-sm-4 m-b-sm" hidden={!this.props.mercantileEnabled}>
               <a href="#" onClick={this.chooseMercantile} style={{color: this.choiceColor('mercantile')}}>
                 <div className="review-stars text-center">
                   <i className="fa fa-shopping-bag fa-4x"></i>

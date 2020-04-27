@@ -5,6 +5,7 @@ WebpageContainer = React.createClass
     return {
       directoryWidgets: this.props.directoryWidgets,
       mercantileEmbeds: this.props.mercantileEmbeds,
+      mercantileEnabled: this.props.mercantileEnabled,
       calendarWidgets: this.props.calendarWidgets,
       contactForms: this.props.contactForms,
       companyLists: this.props.companyLists,
@@ -417,6 +418,7 @@ WebpageContainer.propTypes = {
 
   showOnlyLocalMediaLibraryOption: React.PropTypes.bool,
   hasMultipleBusinesses: React.PropTypes.bool,
+  mercantileEnabled: React.PropTypes.bool,
 
   browserButtonsSrc: React.PropTypes.string,
   bulkUploadPath: React.PropTypes.string,
