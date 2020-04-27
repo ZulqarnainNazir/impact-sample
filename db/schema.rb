@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200423201842) do
+ActiveRecord::Schema.define(version: 20200427171219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1021,6 +1021,7 @@ ActiveRecord::Schema.define(version: 20200423201842) do
     t.integer  "menu_item_id"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.integer  "position"
   end
 
   create_table "menu_item_tags", force: :cascade do |t|
@@ -1043,6 +1044,7 @@ ActiveRecord::Schema.define(version: 20200423201842) do
     t.integer  "menu_section_id"
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
+    t.integer  "position"
   end
 
   create_table "menu_sections", force: :cascade do |t|
@@ -1092,6 +1094,7 @@ ActiveRecord::Schema.define(version: 20200423201842) do
     t.datetime "updated_at",                        null: false
     t.integer  "company_list_id"
     t.boolean  "enable_search",     default: false, null: false
+    t.text     "product_kinds",                                  array: true
   end
 
   add_index "mercantile_embeds", ["business_id"], name: "index_mercantile_embeds_on_business_id", using: :btree

@@ -13,6 +13,21 @@ class MercantileEmbed < ActiveRecord::Base
     self.uuid ||= SecureRandom.uuid
   end
 
+    # enum product_kind: {
+    #   product: 0,
+    #   service: 1,
+    #   gift_card: 2,
+    #   ticket: 3,
+    #   other: 4,
+    # }
+  def self.product_kinds
+    [["Products", "0"],
+     ["Services", "1"],
+     ["Gift Cards", "2"],
+     ["Tickets", "3"],
+     ["Other", "4"]]
+  end
+
   def link_internal_url
 
     webpage = self.business.website.webpages.find(self.link_id)

@@ -41,7 +41,7 @@ class Businesses::Tools::MercantileEmbedsController < Businesses::BaseController
   def mercantile_embed_params
     params.require(:mercantile_embed).permit(:name, :public_label, :max_items, :link_version, :link_id, :link_external_url,
                                                 :link_label, :link_target_blank, :link_no_follow, :show_our_content, :company_list_id,
-                                                :enable_search
+                                                :enable_search, :product_kinds => []
                                                 )
   end
 

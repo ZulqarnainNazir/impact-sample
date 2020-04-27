@@ -85,12 +85,12 @@ wrapper.wrapper-content.edit-menu-embed
             label.radio-inline
               = form.radio_button :enable_search, false
               | No
-          / .form-group.content-type-checkboxes
-          /   = form.label :content_types, "What Types of Content Do You Want to Include?", class: 'control-label'
-          /   br
-          /   = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last) do |b|
-          /     = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
-          /   br style="clear:both;"
+          .form-group.content-type-checkboxes
+            = form.label :product_kinds, "What Types of Products Do You Want to Include?", class: 'control-label'
+            br
+            = form.collection_check_boxes(:product_kinds, MercantileEmbed.product_kinds, :last, :first) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
 
 
           / hr
