@@ -83,6 +83,10 @@ ol.breadcrumb
         = form.label :to_dos_enabled do
           => form.check_box :to_dos_enabled
           | ToDo's Enabled
+      .checkbox
+        = form.label :mercantile_enabled do
+          => form.check_box :mercantile_enabled
+          | Mercantile Enabled
   = form.button 'Save', class: 'btn btn-primary'
 br
 - if !@business.is_affiliate?

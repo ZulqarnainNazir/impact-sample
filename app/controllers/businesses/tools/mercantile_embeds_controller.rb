@@ -1,5 +1,11 @@
 class Businesses::Tools::MercantileEmbedsController < Businesses::BaseController
-  #before_action -> { confirm_module_activated(1) }
+
+  before_action do
+    unless @business.mercantile_enabled
+      redirect_to [@business, :dashboard], alert: 'You are not permitted there.'
+    end
+  end
+
   before_action only: new_actions do
     @mercantile_embed = @business.mercantile_embeds.new
   end

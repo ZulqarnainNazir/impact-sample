@@ -1,76 +1,81 @@
 / - request_url = url_for({ controller: params[:controller], action: params[:action] })
 #reach
-  - if @mercantile_embed.public_label.present?
+  -if @mercantile_embed.business.mercantile_enabled
+    - if @mercantile_embed.public_label.present?
+      .row
+        .col-md-12
+          h1.text-center= @mercantile_embed.public_label
+
+    div
+      a name="blog-feed"
+      - if @mercantile_embed.enable_search
+        .row
+          .col-md-12.m-b-5px
+            = form_tag nil, :method => "get", :class => "form-inline"
+              .form-group
+                label.sr-only for="query" Search Query
+                = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
+              .form-group.m-l-5px
+                label.sr-only for="product_kind" Type
+                = select_tag :product_kind, options_for_select(@product_kinds, params[:product_kind]), prompt: "Search by Type", class: "form-control"
+              - if @mercantile_embed.company_list.sort_by == 1
+                .form-group.m-l-5px
+                  label.sr-only for="category" Category
+                  = select_tag :category, options_from_collection_for_select(@categories, "id", "label", params[:category]), prompt: "Search by Category", class: "form-control"
+              .form-group.m-l-5px
+                label.sr-only for="merchant" Merchant
+                = select_tag :merchant, options_from_collection_for_select(@merchants, "id", "name", params[:merchant]), prompt: "Search by Merchant", class: "form-control", style: "width: 300px;"
+              .form-group.m-l-5px
+                = submit_tag "Search", class: "btn btn-primary"
+              =link_to 'Clear', request.path, class: "btn btn-default"
+      .m-t-lg
+        - if @products.present?
+          .row.full-list
+            - reach_occurences = []
+            - if @mercantile_embed.company_list.sort_by == 0
+              - i = 0
+              - @products.each do |product|
+                / - reach_occurences << company.business.id
+                = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
+                - i += 1
+                - if (i%4 == 0)
+                  .clearfix
+              - if @mercantile_embed.link_version == 'link_paginate'
+                .text-center.clear-container
+                  = paginate @products, param_name: :product_page
+              / TODO fix internal linking for widgets to include subdomain
+              / TODO- having trouble with links because it set 'X-Frame-Options' to 'sameorigin' error Need to address this after site modal refactor is completed
+              - elsif @mercantile_embed.link_version == 'link_internal'
+                p.clear-container.text-center = link_to @mercantile_embed.link_label, "#{@mercantile_embed.link_internal_url}", class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+              - elsif @mercantile_embed.link_version == 'link_external'
+                p.clear-container.text-center = link_to @mercantile_embed.link_label, @mercantile_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+            - else
+              - @filtered_categories.each do |category|
+                - products = @products.where(business_id: category.companies.pluck(:company_business_id))
+                - if products.size > 0
+                  .row.categories-view
+                    .col-md-12
+                      h2 = category.label
+                    - i = 0
+                    - products.each do |product|
+                      = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
+                    - i += 1
+                    - if (i%4 == 0)
+                      .clearfix
+
+        - else
+          .row
+            .col-md-12
+              h3.text-muted.text-center No Products Found
+  - else
     .row
       .col-md-12
-        h1.text-center= @mercantile_embed.public_label
+        h2.text-muted.text-center.m-b-lg Mercantile Not Enabled
 
-  div
-    a name="blog-feed"
-    - if @mercantile_embed.enable_search
-      .row
-        .col-md-12.m-b-5px
-          = form_tag nil, :method => "get", :class => "form-inline"
-            .form-group
-              label.sr-only for="query" Search Query
-              = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
-            .form-group.m-l-5px
-              label.sr-only for="product_kind" Type
-              = select_tag :product_kind, options_for_select(@product_kinds, params[:product_kind]), prompt: "Search by Type", class: "form-control"
-            - if @mercantile_embed.company_list.sort_by == 1
-              .form-group.m-l-5px
-                label.sr-only for="category" Category
-                = select_tag :category, options_from_collection_for_select(@categories, "id", "label", params[:category]), prompt: "Search by Category", class: "form-control"
-            .form-group.m-l-5px
-              label.sr-only for="merchant" Merchant
-              = select_tag :merchant, options_from_collection_for_select(@merchants, "id", "name", params[:merchant]), prompt: "Search by Merchant", class: "form-control", style: "width: 300px;"
-            .form-group.m-l-5px
-              = submit_tag "Search", class: "btn btn-primary"
-            =link_to 'Clear', request.path, class: "btn btn-default"
-    .m-t-lg
-      - if @products.present?
-        .row.full-list
-          - reach_occurences = []
-          - if @mercantile_embed.company_list.sort_by == 0
-            - i = 0
-            - @products.each do |product|
-              / - reach_occurences << company.business.id
-              = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
-              - i += 1
-              - if (i%4 == 0)
-                .clearfix
-            - if @mercantile_embed.link_version == 'link_paginate'
-              .text-center.clear-container
-                = paginate @products, param_name: :product_page
-            / TODO fix internal linking for widgets to include subdomain
-            / TODO- having trouble with links because it set 'X-Frame-Options' to 'sameorigin' error Need to address this after site modal refactor is completed
-            - elsif @mercantile_embed.link_version == 'link_internal'
-              p.clear-container.text-center = link_to @mercantile_embed.link_label, "#{@mercantile_embed.link_internal_url}", class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
-            - elsif @mercantile_embed.link_version == 'link_external'
-              p.clear-container.text-center = link_to @mercantile_embed.link_label, @mercantile_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
-          - else
-            - @filtered_categories.each do |category|
-              - products = @products.where(business_id: category.companies.pluck(:company_business_id))
-              - if products.size > 0
-                .row.categories-view
-                  .col-md-12
-                    h2 = category.label
-                  - i = 0
-                  - products.each do |product|
-                    = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
-                  - i += 1
-                  - if (i%4 == 0)
-                    .clearfix
-
-      - else
-        .row
-          .col-md-12
-            h3.text-muted.text-center No Products Found
-
-    div.text-center
-      p
-        span Powered by
-        = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-content", target: "_blank"
+  div.text-center
+    p
+      span Powered by
+      = link_to image_tag("Locable_Dark_Logo.png", alt: "Locable's Marketing Platform"), "https://impact.locable.com/users/sign_up?utm_source=powered-by-content", target: "_blank"
 
 // javascript:
 //   console.log("Recording Reach");

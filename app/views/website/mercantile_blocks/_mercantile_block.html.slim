@@ -1,97 +1,102 @@
 = render partial: "website/shared/block_assets"
 
 - @mercantile_embed = MercantileEmbed.find_by(id: mercantile_block.widget_id)
-- if @mercantile_embed.present?
+- if @mercantile_embed.business.mercantile_enabled
+  - if @mercantile_embed.present?
 
-  - @filtered_categories = @categories = @mercantile_embed.company_list.company_list_categories
-  - unless params[:category].blank?
-    - @filtered_categories = @filtered_categories.where("company_list_categories.id = ?", params[:category])
+    - @filtered_categories = @categories = @mercantile_embed.company_list.company_list_categories
+    - unless params[:category].blank?
+      - @filtered_categories = @filtered_categories.where("company_list_categories.id = ?", params[:category])
 
-  - business_ids =[]
-  - business_ids << CompanyList.where(id: @mercantile_embed.company_list_id).includes(:companies).pluck('companies.company_business_id').compact if @mercantile_embed.company_list_id.present?
-  - business_ids << @mercantile_embed.business.id if @mercantile_embed.show_our_content
+    - business_ids =[]
+    - business_ids << CompanyList.where(id: @mercantile_embed.company_list_id).includes(:companies).pluck('companies.company_business_id').compact if @mercantile_embed.company_list_id.present?
+    - business_ids << @mercantile_embed.business.id if @mercantile_embed.show_our_content
 
-  - scope = Product.where(business_id: business_ids.uniq).where("products.product_kind IN (?)", @mercantile_embed.product_kinds.reject(&:blank?)).joins(:business).where.not(businesses: {stripe_connected_account_id: nil }).active.order('products.name asc')
-  / For Testing without Stripe connection
-  / - scope = Product.where(business_id: business_ids.uniq).joins(:business).active.order('products.name asc')
+    - scope = Product.where(business_id: business_ids.uniq).where("products.product_kind IN (?)", @mercantile_embed.product_kinds.reject(&:blank?)).joins(:business).where.not(businesses: {stripe_connected_account_id: nil }).active.order('products.name asc')
+    / For Testing without Stripe connection
+    / - scope = Product.where(business_id: business_ids.uniq).joins(:business).active.order('products.name asc')
 
-  - @merchants = Business.where(id: scope.pluck(:business_id)).select(:id, :name)
-  - @product_kinds = Product.product_kinds.map { |k,v| [k.humanize.titleize, v] if @mercantile_embed.product_kinds.reject(&:blank?).include?(v.to_s) }.compact
+    - @merchants = Business.where(id: scope.pluck(:business_id)).select(:id, :name)
+    - @product_kinds = Product.product_kinds.map { |k,v| [k.humanize.titleize, v] if @mercantile_embed.product_kinds.reject(&:blank?).include?(v.to_s) }.compact
 
-  - unless params[:product_kind].blank?
-    - scope = scope.where("products.product_kind = ?", params[:product_kind])
+    - unless params[:product_kind].blank?
+      - scope = scope.where("products.product_kind = ?", params[:product_kind])
 
-  - unless params[:query].blank?
-    - scope = scope.where("products.name ILIKE ?", "%#{params[:query].downcase}%")
+    - unless params[:query].blank?
+      - scope = scope.where("products.name ILIKE ?", "%#{params[:query].downcase}%")
 
-  - unless params[:merchant].blank?
-    - scope = scope.where("products.business_id = ?", params[:merchant])
+    - unless params[:merchant].blank?
+      - scope = scope.where("products.business_id = ?", params[:merchant])
 
-  - if @mercantile_embed.company_list.sort_by == 0
-    - scope = scope.page(params[:product_page]).per(@mercantile_embed.max_items)
+    - if @mercantile_embed.company_list.sort_by == 0
+      - scope = scope.page(params[:product_page]).per(@mercantile_embed.max_items)
 
-  - @products = scope
-  #reach
-    - if @mercantile_embed.public_label.present?
+    - @products = scope
+    #reach
+      - if @mercantile_embed.public_label.present?
+        .row
+          .col-md-12
+            h1.text-center= @mercantile_embed.public_label
+      - if @mercantile_embed.enable_search
+        .row
+          .col-md-12.m-b-5px
+            = form_tag nil, :method => "get", :class => "form-inline"
+              .form-group
+                label.sr-only for="query" Search Query
+                = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
+              .form-group.m-l-5px
+                label.sr-only for="product_kind" Type
+                = select_tag :product_kind, options_for_select(@product_kinds, params[:product_kind]), prompt: "Search by Type", class: "form-control"
+              - if @mercantile_embed.company_list.sort_by == 1
+                .form-group.m-l-5px
+                  label.sr-only for="category" Category
+                  = select_tag :category, options_from_collection_for_select(@categories, "id", "label", params[:category]), prompt: "Search by Category", class: "form-control"
+              .form-group.m-l-5px
+                label.sr-only for="merchant" Merchant
+                = select_tag :merchant, options_from_collection_for_select(@merchants, "id", "name", params[:merchant]), prompt: "Search by Merchant", class: "form-control", style: "width: 300px;"
+              .form-group.m-l-5px
+                = submit_tag "Search", class: "btn btn-primary"
+              =link_to 'Clear', request.path, class: "btn btn-default"
+    - if @products.present?
+      .row.full-list
+        - reach_occurences = []
+        - if @mercantile_embed.company_list.sort_by == 0
+          - i = 0
+          - @products.each do |product|
+            / - reach_occurences << company.business.id
+            = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
+            - i += 1
+            - if (i%4 == 0)
+              .clearfix
+          - if @mercantile_embed.link_version == 'link_paginate'
+            .text-center.clear-container
+              = paginate @products, param_name: :product_page
+          - elsif @mercantile_embed.link_version == 'link_internal'
+            p.clear-container.text-center = link_to @mercantile_embed.link_label, "#{@mercantile_embed.link_internal_url}", class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+          - elsif @mercantile_embed.link_version == 'link_external'
+            p.clear-container.text-center = link_to @mercantile_embed.link_label, @mercantile_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+        - else
+          - @filtered_categories.each do |category|
+            - products = @products.where(business_id: category.companies.pluck(:company_business_id))
+            - if products.size > 0
+              .row.categories-view
+                .col-md-12
+                  h2 = category.label
+                - i = 0
+                - products.each do |product|
+                  = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
+                - i += 1
+                - if (i%4 == 0)
+                  .clearfix
+    - else
       .row
         .col-md-12
-          h1.text-center= @mercantile_embed.public_label
-    - if @mercantile_embed.enable_search
-      .row
-        .col-md-12.m-b-5px
-          = form_tag nil, :method => "get", :class => "form-inline"
-            .form-group
-              label.sr-only for="query" Search Query
-              = text_field_tag :query, params[:query], :placeholder => "Search By Name", class: "form-control"
-            .form-group.m-l-5px
-              label.sr-only for="product_kind" Type
-              = select_tag :product_kind, options_for_select(@product_kinds, params[:product_kind]), prompt: "Search by Type", class: "form-control"
-            - if @mercantile_embed.company_list.sort_by == 1
-              .form-group.m-l-5px
-                label.sr-only for="category" Category
-                = select_tag :category, options_from_collection_for_select(@categories, "id", "label", params[:category]), prompt: "Search by Category", class: "form-control"
-            .form-group.m-l-5px
-              label.sr-only for="merchant" Merchant
-              = select_tag :merchant, options_from_collection_for_select(@merchants, "id", "name", params[:merchant]), prompt: "Search by Merchant", class: "form-control", style: "width: 300px;"
-            .form-group.m-l-5px
-              = submit_tag "Search", class: "btn btn-primary"
-            =link_to 'Clear', request.path, class: "btn btn-default"
-  - if @products.present?
-    .row.full-list
-      - reach_occurences = []
-      - if @mercantile_embed.company_list.sort_by == 0
-        - i = 0
-        - @products.each do |product|
-          / - reach_occurences << company.business.id
-          = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
-          - i += 1
-          - if (i%4 == 0)
-            .clearfix
-        - if @mercantile_embed.link_version == 'link_paginate'
-          .text-center.clear-container
-            = paginate @products, param_name: :product_page
-        - elsif @mercantile_embed.link_version == 'link_internal'
-          p.clear-container.text-center = link_to @mercantile_embed.link_label, "#{@mercantile_embed.link_internal_url}", class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
-        - elsif @mercantile_embed.link_version == 'link_external'
-          p.clear-container.text-center = link_to @mercantile_embed.link_label, @mercantile_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
-      - else
-        - @filtered_categories.each do |category|
-          - products = @products.where(business_id: category.companies.pluck(:company_business_id))
-          - if products.size > 0
-            .row.categories-view
-              .col-md-12
-                h2 = category.label
-              - i = 0
-              - products.each do |product|
-                = render partial: "businesses/#{product.to_partial_path}", object: product, locals: { request_url: listing_path_product_url(product.business, product) }
-              - i += 1
-              - if (i%4 == 0)
-                .clearfix
-  - else
-    .row
-      .col-md-12
-        h3.text-muted.text-center No Products Found
+          h3.text-muted.text-center No Products Found
 
+- else
+  .row
+    .col-md-12
+      h2.text-muted.text-center.m-b-lg Mercantile Not Enabled
 div.text-center
   p
     span Powered by

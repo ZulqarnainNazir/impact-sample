@@ -1,4 +1,12 @@
 class Widgets::MercantileEmbedsController < Widgets::BaseController
+
+  # before_action do
+  #   @mercantile_embed = MercantileEmbed.where(:uuid => params[:uuid]).first
+  #   unless @mercantile_embed.business.mercantile_enabled
+  #     redirect_to :back, alert: 'You are not permitted there.'
+  #   end
+  # end
+
   def index
     @mercantile_embed = MercantileEmbed.where(:uuid => params[:uuid]).first
     if @mercantile_embed.present?

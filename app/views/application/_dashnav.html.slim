@@ -67,10 +67,11 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
             = link_to [@business, :tools_directory_widgets] do
               | Directory Embeds
-          li class=('active' if controller_path.match(/\Abusinesses\/tools\/mercantile_embeds/))
-            = link_to [@business, :tools_mercantile_embeds] do
-              | Mercantile Embeds
-              span< class="badge" New
+          -if @business.mercantile_enabled
+            li class=('active' if controller_path.match(/\Abusinesses\/tools\/mercantile_embeds/))
+              = link_to [@business, :tools_mercantile_embeds] do
+                | Mercantile Embeds
+                span< class="badge" New
           / Add import companies option
           / li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
           /   = link_to "Import Contacts", [@business, :crm_imports]
