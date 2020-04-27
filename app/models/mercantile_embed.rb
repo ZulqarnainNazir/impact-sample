@@ -13,13 +13,6 @@ class MercantileEmbed < ActiveRecord::Base
     self.uuid ||= SecureRandom.uuid
   end
 
-    # enum product_kind: {
-    #   product: 0,
-    #   service: 1,
-    #   gift_card: 2,
-    #   ticket: 3,
-    #   other: 4,
-    # }
   def self.product_kinds
     [["Products", "0"],
      ["Services", "1"],

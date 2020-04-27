@@ -2,7 +2,7 @@
 
 = render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Content', :sp => :tools_content_feed_widgets, :an => 'Add Mercantile Embed'}
 
-wrapper.wrapper-content.new-content-embed
+wrapper.wrapper-content.new-mercantile-embed
 .row.animated.fadeInRight
   .col-md-6
     = form_for @mercantile_embed, url: [@business, :tools_mercantile_embeds] do |form|
@@ -82,13 +82,13 @@ wrapper.wrapper-content.new-content-embed
             label.radio-inline
               = form.radio_button :enable_search, false
               | No
-          / .form-group.content-type-checkboxes
-          /   = form.label :content_types, "What Types of Content Do You Want to Include?", class: 'control-label'
-          /   br
-          /   = form.collection_check_boxes(:content_types, ContentFeedWidget.content_types, :first, :last) do |b|
-          /     = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
-          /   br style="clear:both;"
-          /
+          .form-group.product-kind-checkboxes
+            = form.label :product_kinds, "What Types of Products Do You Want to Include?", class: 'control-label'
+            br
+            = form.collection_check_boxes(:product_kinds, MercantileEmbed.product_kinds, :last, :first) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
+
           /
           / .form-group
           /   = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
@@ -129,9 +129,9 @@ wrapper.wrapper-content.new-content-embed
     });
 
     // Select all content types by default
-    var contentTypes = $('input[name="content_feed_widget[content_types][]"]')
-        contentTypes.prop('checked', 'checked');
+    var productKinds = $('input[name="mercantile_embed[product_kinds][]"]')
+        productKinds.prop('checked', 'checked');
 
     $(function() {
-      $(".new-content-embed select").chosen();
+      $(".new-mercantile-embed select").chosen();
     });

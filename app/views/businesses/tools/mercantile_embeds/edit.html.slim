@@ -85,7 +85,7 @@ wrapper.wrapper-content.edit-menu-embed
             label.radio-inline
               = form.radio_button :enable_search, false
               | No
-          .form-group.content-type-checkboxes
+          .form-group.product-kind-checkboxes
             = form.label :product_kinds, "What Types of Products Do You Want to Include?", class: 'control-label'
             br
             = form.collection_check_boxes(:product_kinds, MercantileEmbed.product_kinds, :last, :first) do |b|
