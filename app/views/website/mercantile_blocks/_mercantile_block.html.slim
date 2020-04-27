@@ -71,9 +71,9 @@
           .text-center.clear-container
             = paginate @products, param_name: :product_page
         - elsif @mercantile_embed.link_version == 'link_internal'
-          p.clear-container = link_to @mercantile_embed.link_label, "#{@mercantile_embed.link_internal_url}", class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+          p.clear-container.text-center = link_to @mercantile_embed.link_label, "#{@mercantile_embed.link_internal_url}", class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
         - elsif @mercantile_embed.link_version == 'link_external'
-          p.clear-container = link_to @mercantile_embed.link_label, @mercantile_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
+          p.clear-container.text-center = link_to @mercantile_embed.link_label, @mercantile_embed.link_external_url, class: 'btn btn-default', role: 'button', target: (@mercantile_embed.link_target_blank ? :_blank : nil), rel: (@mercantile_embed.link_no_follow ? 'no-follow' : nil)
       - else
         - @filtered_categories.each do |category|
           - products = @products.where(business_id: category.companies.pluck(:company_business_id))
