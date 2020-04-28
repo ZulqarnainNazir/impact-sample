@@ -1,0 +1,137 @@
+- title 'Add Mercantile Embed'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Content', :sp => :tools_content_feed_widgets, :an => 'Add Mercantile Embed'}
+
+wrapper.wrapper-content.new-mercantile-embed
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @mercantile_embed, url: [@business, :tools_mercantile_embeds] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h3 Create a Mercantile Embed
+        .ibox-content
+          = errors_for @mercantile_embed
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+          .form-group
+            = form.label "Show content from:"
+            .form-group
+              = form.label :show_our_content, class: 'i-checks' do
+                = form.check_box :show_our_content, {checked: true}
+                i
+                |  Our Content
+              br
+              | - And / Or -
+              .form-group
+                = form.label :company_list_id, "Choose or Add Local Network to Display", class: 'control-label'
+                = form.select :company_list_id, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
+                a.text-center data-toggle="modal" data-target="#modal"
+                  => icon 'cog'
+                  span.advanced-button Manage Businesses
+
+          .form-group
+            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
+            = form.text_field :max_items, class: 'form-control', :value => 12
+
+            .link-versions{data = {webpages: @business.website.webpages.count}}
+              .radio
+                label
+                  = form.radio_button :link_version, 'link_none', checked: true
+                  | Don‘t include a linked button (web builder only)
+              .radio
+                label
+                  = form.radio_button :link_version, 'link_paginate'
+                  | Paginate current page
+              .radio#internal
+                label
+                  = form.radio_button :link_version, 'link_internal'
+                  | Link to an internal webpage on your site (web builder only)
+              .radio
+                label
+                  = form.radio_button :link_version, 'link_external'
+                  | Link to an external webpage (web builder only)
+              .form-group#internal-link
+                = form.label :link_id, "Locable's Marketing Suite Webpage"
+                br
+                = form.select :link_id, options_from_collection_for_select(@business.website.webpages.where(active: true), 'id', 'name')
+              .form-group#external-link
+                = form.label :link_external_url, "External URL"
+                = form.text_field :link_external_url, class: 'form-control', placeholder: "http://"
+
+            .form-group#link-options
+              br
+              = form.check_box :link_target_blank
+              = form.label :link_target_blank, "Open link in a new window?", class: 'control-checkbox-label'
+              br
+              = form.check_box :link_no_follow
+              = form.label :link_no_follow, "Add 'no-follow' to the link?", class: 'control-checkbox-label'
+
+          .form-group#view-more-button
+            = form.label :link_label, "View More Button Label", class: 'control-label'
+            = form.text_field :link_label, class: 'form-control', :value => "View More"
+          .form-group
+            label Enable Search Bar
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
+          .form-group.product-kind-checkboxes
+            = form.label :product_kinds, "What Types of Products Do You Want to Include?", class: 'control-label'
+            br
+            = form.collection_check_boxes(:product_kinds, MercantileEmbed.product_kinds, :last, :first) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
+
+          /
+          / .form-group
+          /   = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
+          /   = form.select :content_category_ids, options_from_collection_for_select(@business.content_categories.all, 'id', 'name', @content_feed_widget.content_category_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+          / .form-group
+          /   = form.label :content_tag_ids, "Only Include Content for Tags (Leave blank to include all)", class: 'control-label'
+          /   = form.select :content_tag_ids, options_from_collection_for_select(@business.content_tags.all, 'id', 'name', @content_feed_widget.content_tag_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+
+        .ibox-content
+          = form.button 'Create Embed', class: 'btn btn-primary'
+
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        / <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        h3 Create a Local Network
+      .modal-body
+        = render partial: 'businesses/crm/company_lists/new', locals: { company_list: @business.company_lists.new}
+
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'content_feed_widget_company_list_ids'}
+
+- content_for :javascript do
+  javascript:
+    new MutationObserver(function () {
+      $(".company_ids:enabled").chosen({width: "100%"});
+    }).observe($('#modal')[0], { attributes: true, childList: true });
+    $(".modal-dialog").css({"height":"90%"});
+
+    $('#content_feed_widget_company_list_ids').change(function() {
+      var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
+      clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
+      $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
+        $('#company_list_partial').html($(data)[0])
+      });
+    });
+
+    // Select all content types by default
+    var productKinds = $('input[name="mercantile_embed[product_kinds][]"]')
+        productKinds.prop('checked', 'checked');
+
+    $(function() {
+      $(".new-mercantile-embed select").chosen();
+    });

@@ -4,7 +4,8 @@
   # controller_path.match(/\Abusinesses\/crm\/(company_lists|companies|contacts|imports)/) ||\
   controller_path.match(/\Abusinesses\/crm\/company_lists/) ||\
   controller_path.match(/\Abusinesses\/crm\/following/) ||\
-  controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
+  controller_path.match(/\Abusinesses\/tools\/directory_widgets/) ||\
+  controller_path.match(/\Abusinesses\/tools\/mercantile_embeds/))
 
 - contents_active = (\
   (controller_path.match(/\Abusinesses\/content/) &&\
@@ -66,6 +67,11 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           li class=('active' if controller_path.match(/\Abusinesses\/tools\/directory_widgets/))
             = link_to [@business, :tools_directory_widgets] do
               | Directory Embeds
+          -if @business.mercantile_enabled
+            li class=('active' if controller_path.match(/\Abusinesses\/tools\/mercantile_embeds/))
+              = link_to [@business, :tools_mercantile_embeds] do
+                | Mercantile Embeds
+                span< class="badge" New
           / Add import companies option
           / li class=('active' if controller_path.match(/\Abusinesses\/crm\/imports/))
           /   = link_to "Import Contacts", [@business, :crm_imports]
@@ -183,6 +189,7 @@ nav.navbar-default.navbar-static-side[role="navigation"]
           i.fa.fa-filter
           span.nav-label[data-i18n="nav.funnel"]
             | Sales Funnel
+            span< class="badge" New
           span.fa.arrow
         ul.nav.nav-second-level class=('collapse' unless funnel_active)
           li

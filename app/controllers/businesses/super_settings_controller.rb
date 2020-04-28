@@ -114,6 +114,7 @@ class Businesses::SuperSettingsController < Businesses::BaseController
     params.require(:business).permit(
       :plan,
       :to_dos_enabled,
+      :mercantile_enabled,
       :bill_online,
       :subscription_billing_roadblock,
       :affiliate_activated

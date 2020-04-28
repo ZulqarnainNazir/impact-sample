@@ -4,6 +4,8 @@ WebpageContainer = React.createClass
   getInitialState: () ->
     return {
       directoryWidgets: this.props.directoryWidgets,
+      mercantileEmbeds: this.props.mercantileEmbeds,
+      mercantileEnabled: this.props.mercantileEnabled,
       calendarWidgets: this.props.calendarWidgets,
       contactForms: this.props.contactForms,
       companyLists: this.props.companyLists,
@@ -30,6 +32,7 @@ WebpageContainer = React.createClass
       imagesPath: this.props.imagesPath,
       reviewsPath: this.props.reviewsPath,
       newSupportLocalPath: this.props.newSupportLocalPath,
+      newMercantilePath: this.props.newMercantilePath,
       newCalendarPath: this.props.newCalendarPath,
       newContactFormPath: this.props.newContactFormPath,
 
@@ -176,7 +179,7 @@ WebpageContainer = React.createClass
       blocks =
         "#{block_uuid}": { uuid: block_uuid, type: block_type, position: 0 }
 
-    if group_type is 'CalendarGroup' || group_type is 'SupportLocalGroup'
+    if group_type is 'CalendarGroup' || group_type is 'SupportLocalGroup' || group_type is 'MercantileGroup'
       message = null;
     else
       message = 'Success, block appended to page'
@@ -322,6 +325,10 @@ WebpageContainer = React.createClass
     event.preventDefault()
     supportLocalHelpers.updateSupportLocalSettings this
 
+  updateMercantileSettings: (event) ->
+    event.preventDefault()
+    mercantileHelpers.updateMercantileSettings this
+
   updateCalendarSettings: (event) ->
     event.preventDefault()
     calendarHelpers.updateCalendarSettings this
@@ -381,6 +388,7 @@ WebpageContainer = React.createClass
       updateFeedSettings: this.updateFeedSettings,
       updateReviewsSettings: this.updateReviewsSettings,
       updateSupportLocalSettings: this.updateSupportLocalSettings,
+      updateMercantileSettings: this.updateMercantileSettings,
       updateCalendarSettings: this.updateCalendarSettings,
       updateContactFormSettings: this.updateContactFormSettings,
       updateCustomGroup: this.updateCustomGroup,
@@ -410,6 +418,7 @@ WebpageContainer.propTypes = {
 
   showOnlyLocalMediaLibraryOption: React.PropTypes.bool,
   hasMultipleBusinesses: React.PropTypes.bool,
+  mercantileEnabled: React.PropTypes.bool,
 
   browserButtonsSrc: React.PropTypes.string,
   bulkUploadPath: React.PropTypes.string,
@@ -417,6 +426,7 @@ WebpageContainer.propTypes = {
   contactFormsPath: React.PropTypes.string,
   companyListsPath: React.PropTypes.string,
   directoryWidgetsPath: React.PropTypes.string,
+  mercantileEmbedPath: React.PropTypes.string,
   calendarWidgetsPath: React.PropTypes.string,
   imagesPath: React.PropTypes.string,
   reviewsPath: React.PropTypes.string,

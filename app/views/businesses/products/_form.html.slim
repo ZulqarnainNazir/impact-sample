@@ -26,6 +26,10 @@
   => form.label :price, "* Price", class: 'control-label'
   = form.text_field :price, disabled: form.object.locked?, class: 'form-control'
 .form-group
+  = form.label :product_kind, class: 'control-label' do
+    => form.select :product_kind, Product.product_kinds.keys.map { |t| [t.humanize.titleize, t] }, {}, {disabled: form.object.locked?}
+    | Product Type
+.form-group
   = form.label :delivery_type, class: 'control-label' do
     => form.select :delivery_type, Product.delivery_types.keys.map { |t| [t.humanize, t] }, {}, {disabled: form.object.locked?}
     | Delivery Type

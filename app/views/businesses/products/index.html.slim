@@ -37,7 +37,7 @@
                         th Status
                         th
                     tbody
-                      = render @products
+                      = render partial: "product_row", collection: @products, as: :product
               - else
                 h3.text-uppercase.text-muted= link_to 'Add your first product', [:new, @business, :product]
 
@@ -61,4 +61,4 @@
                         th Status
                         th
                     tbody
-                      = render @archived_products
+                      = render partial: "product_row", collection: @archived_products, as: :product

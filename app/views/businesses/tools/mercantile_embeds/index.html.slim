@@ -1,0 +1,77 @@
+- title 'Mercantile Embeds'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :an => 'Mercantile Embeds'}
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-content
+          .pull-right
+            = form_tag [@business, :tools_mercantile_embeds], method: :get, style: 'float:left; margin-right:0.5em' do
+              .form-group
+                = label_tag :query, 'Query', class: 'sr-only'
+                .input-group
+                  = text_field_tag :query, params[:query], class: 'form-control'
+                  span.input-group-btn
+                    = button_tag icon('search'), class: 'btn btn-default'
+            = link_to [:new, @business, :tools_mercantile_embed], class: 'btn btn-sm btn-primary' do
+              => icon 'plus-circle'
+              | Add Mercantile Embed
+            / <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-Kjip2iZDWHjSmajfUPL')">What is this?</a>
+
+          - if @mercantile_embeds.empty?
+            .row
+              .col-lg-4.col-lg-offset-4
+                .p-a-3.text-center
+                  = image_tag('https://assets.locable.com/r/thumbnail/09856f82-489e-4ef1-97ad-4aed4413e8d5/Content%20blog%20marketing%20posts.png', style: 'max-height: 220px', class: 'img-responsive center-block')
+                  h2 No Mercantile Embeds Found
+                  h4
+                    = link_to 'Create a New Mercantile Embed', [:new, @business, :tools_mercantile_embed], class: 'text-navy'
+                  p.text-left.m-t-md.strong Promote Your Members
+                  p.text-left Create any number of embeddable mercantile feeds to highlight products from your Local Networks.
+          - else
+            p style="margin:2em 0" = page_entries_info @mercantile_embeds
+            table.table.table-stripped
+              thead
+                tr
+                  th Name
+                  th Public Label
+                  td
+              tbody
+                = render @mercantile_embeds
+            = paginate @mercantile_embeds
+
+- content_for :javascript do
+  javascript:
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This action cannot be reversed.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };

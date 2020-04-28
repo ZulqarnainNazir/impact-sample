@@ -1,0 +1,7 @@
+tr
+  td = link_to mercantile_embed.name, [:edit, @business, :tools, mercantile_embed]
+  td = mercantile_embed.public_label
+  td
+    = link_to [@business, :tools, mercantile_embed], class: 'btn btn-xs btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+      => icon 'times-circle'
+      | Delete

@@ -14,7 +14,7 @@ class Listing::ProductsController < Listing::BaseController
 
   def index
     # @business = Business.listing_lookup(params[:lookup])
-    @products = @business.products.active
+    @products = @business.products.active.order('name asc')
   end
 
   def show

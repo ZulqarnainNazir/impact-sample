@@ -13,6 +13,7 @@ ModalsContainer = React.createClass
       <ReviewSettingsModal {...this.props.webpageState} updateReviewsSettings={this.props.updateReviewsSettings}/>
       <FeedContentModal {...this.props.webpageState} {...this.props.callbacks} />
       <SupportLocalSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateSupportLocalSettings={this.props.updateSupportLocalSettings} />
+      <MercantileSettingsModal {...this.props.webpageState} {...this.props.callbacks} updateMercantileSettings={this.props.updateMercantileSettings} />
       <CalendarSettingsModal
         calendarWidgets={this.props.calendarWidgets}
         newCalendarPath={this.props.newCalendarPath}

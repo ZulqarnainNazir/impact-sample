@@ -1,24 +1,28 @@
-tr.product-row
-  - unless product.archived?
-    td
-      - if product.image.present?
-        = image_tag product.image&.attachment_thumbnail_url, alt: "#{product.name} Image", class: 'img-responsive'
-      - else
-        = image_tag "http://placehold.it/260x260&text=No Image", alt: '', class: 'lazy'
-  td= product.name
-  td style="width: 250px;"= product.description.html_safe
-  td= number_to_currency(product.price)
-  td= product.delivery_type.titleize
-  td.product-status= product.status.titleize
-  td
-    .btn-group
-      - if product.locked?
-        = link_to 'View Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'
-        - if product.archived?
-          = link_to 'Un-Archive', business_product_archive_path(@business.id, product.id), method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
-        - else
-          = link_to 'Archive', business_product_archive_path(@business.id, product.id), method: :post, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
-      - else
-        = link_to 'Edit Details', [:edit, product.business, product], class: 'btn btn-default btn-xs'
-        = link_to 'Delete', [product.business, product], method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
-      .js-msg
+/ div.grid-item
+/   div.ibox-blog
+/     div.ibox-content.product-box
+/ - cache product do
+
+.col-xs-12.col-md-3
+  .product-imitation
+    = link_to request_url, target: :_blank do
+      - if product.image
+        = image_tag product.image.attachment_url(:small)
+      / - else
+      /   - placement = product.sections_placement
+      /   - if placement
+      /     - cache placement do
+      /       - if placement.try(:embeds?)
+      /         = placement.embed.html_safe
+      /       - elsif placement.try(:image)
+      /         = image_tag placement.image.attachment_url(:small)
+      /       - else
+      /         = image_tag "impact_gs.jpg", alt: "image", title: "image"
+      /   - else
+      /     = image_tag "impact_gs.jpg", alt: "image", title: "image"
+  .product-desc
+    = link_to request_url, target: :_blank, class: 'grid-feed-title' do
+      = truncate sanitize_simple(product.name.titleize), length: 60, omission: '... '
+    .mt-text.rt
+      =number_to_currency(product.price)
+    small.text-center.text-muted Sold by #{product.business.name}

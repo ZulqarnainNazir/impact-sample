@@ -1,0 +1,231 @@
+- title 'Edit Mercantile Embed'
+
+= render :partial => 'dashbreadcrumb', :locals => { :fn => 'Website Tools', :fp => :tools_root, :sn => 'Content', :sp => :tools_content_feed_widgets, :an => 'Edit Mercantile Embed'}
+
+wrapper.wrapper-content.edit-menu-embed
+.row.animated.fadeInRight
+  .col-md-6
+    = form_for @mercantile_embed, url: [@business, :tools, @mercantile_embed] do |form|
+      .ibox.float-e-margins
+        .ibox-title
+          h3 Edit Mercantile Embed
+        .ibox-content
+          = errors_for @mercantile_embed
+          .form-group
+            = form.label :name, class: 'control-label'
+            = form.text_field :name, class: 'form-control'
+          .form-group
+            = form.label :public_label, "Publicly Visible Label (optional)", class: 'control-label'
+            = form.text_field :public_label, class: 'form-control'
+
+          .form-group
+            = form.label "Show content from:"
+            .form-group
+              = form.label :show_our_content, class: 'i-checks' do
+                = form.check_box :show_our_content
+                i
+                |  Our Content
+              br
+              | - And / Or -
+              .form-group
+                = form.label :company_list_id, "Choose or Add Local Network to Display", class: 'control-label'
+                = form.select :company_list_id, options_from_collection_for_select(@business.company_lists, 'id', 'name', @mercantile_embed.company_list_id), {:include_blank => "~ Add New Network ~"}, {:class => 'form-control'}
+
+                a.text-center data-toggle="modal" data-target="#modal"
+                  => icon 'cog'
+                  span.advanced-button Manage Businesses
+
+
+
+          .link-versions{data = {webpages: @business.website.webpages.count}}
+            .radio
+              label
+                = form.radio_button :link_version, 'link_none', checked: true
+                | Don‘t include a linked button (web builder only)
+            .radio
+              label
+                = form.radio_button :link_version, 'link_paginate'
+                | Paginate current page
+            .radio#internal
+              label
+                = form.radio_button :link_version, 'link_internal'
+                | Link to an internal webpage on your site (web builder only)
+            .radio
+              label
+                = form.radio_button :link_version, 'link_external'
+                | Link to an external webpage (web builder only)
+            .form-group#internal-link
+              = form.label :link_id, "Locable's Marketing Suite Webpage"
+              br
+              = form.select :link_id, options_from_collection_for_select(@business.website.webpages.where(active: true), 'id', 'name', @mercantile_embed.link_id)
+            .form-group#external-link
+              = form.label :link_external_url, "External URL"
+              = form.text_field :link_external_url, class: 'form-control', placeholder: "http://"
+
+          .form-group#link-options
+            br
+            = form.check_box :link_target_blank
+            = form.label :link_target_blank, "Open link in a new window?", class: 'control-checkbox-label'
+            br
+            = form.check_box :link_no_follow
+            = form.label :link_no_follow, "Add 'no-follow' to the link?", class: 'control-checkbox-label'
+
+          .form-group#view-more-button
+            = form.label :link_label, "View More Button Label", class: 'control-label'
+            = form.text_field :link_label, class: 'form-control'
+          .form-group
+            = form.label :max_items, "Max Number of Feed Items Per Page", class: 'control-label'
+            = form.text_field :max_items, class: 'form-control'
+          .form-group
+            label Enable Search Bar
+            br
+            label.radio-inline
+              = form.radio_button :enable_search, true
+              | Yes
+            label.radio-inline
+              = form.radio_button :enable_search, false
+              | No
+          .form-group.product-kind-checkboxes
+            = form.label :product_kinds, "What Types of Products Do You Want to Include?", class: 'control-label'
+            br
+            = form.collection_check_boxes(:product_kinds, MercantileEmbed.product_kinds, :last, :first) do |b|
+              = content_tag 'div', "#{b.check_box} #{b.label}".html_safe, class: "checkbox-wrap"
+            br style="clear:both;"
+
+
+          / hr
+          / .form-group
+          /   = form.label :content_category_ids, "Only Include Content for Categories (Leave blank to include all)", class: 'control-label'
+          /   = form.select :content_category_ids, options_from_collection_for_select(@business.content_categories.all, 'id', 'name', @content_feed_widget.content_category_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+          / .form-group
+          /   = form.label :content_tag_ids, "Only Include Content for Tags (Leave blank to include all)", class: 'control-label'
+          /   = form.select :content_tag_ids, options_from_collection_for_select(@business.content_tags.all, 'id', 'name', @content_feed_widget.content_tag_ids), {:include_blank => true}, {:class => 'form-control', :multiple => true}
+
+        .ibox-content
+          .btn-group
+            = form.button 'Save Embed', class: 'btn btn-primary'
+            = link_to [@business, :tools, @mercantile_embed], class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } do
+              => icon 'times-circle'
+              | Delete
+        - #  a.btn.btn-success#preview style="margin-left: 20px;" href="#{website_root_url()}widgets/content_feed_widgets/#{@content_feed_widget.uuid}?widget_layout=#{@content_feed_widget.layout}" data-toggle="lightbox" data-width="" Preview
+  .col-md-6
+    .ibox.float-e-margins
+      .ibox-title
+        / <a class="btn btn-primary btn-outline btn-sm pull-right" href="javascript:Appcues.show('-KjiuC6C3qdzgx4DJFq5')">Installation Hints</a>
+        h3 Embed Code
+      .ibox-content
+        .panel-group#accordian
+          .panel.panel-default
+            .panel-heading
+              h2.h4.panel-title
+                a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" Script Embed Tag (Preferred Method)
+            .panel-body.panel-collapse.collapse.in#collapseOne
+              button.btn.btn-primary#btn-script data-clipboard-target="#copy-script" Copy
+              pre#copy-script
+                = h "<div id=\"mercantile-embed-#{@mercantile_embed.uuid}\"></div>\n\
+                  <script src=\"#{website_root_url()}javascripts/website_embed.js\"></script>\n\
+                  <script async=\"true\">\n  \
+                    MercantileEmbed.load(\"#{@mercantile_embed.uuid}\", \"#{website_root_url()}\");\n\
+                  </script>"
+          .panel.panel-default
+            .panel-heading
+              h2.h4.panel-title
+                a.collapsed role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" iFrame Embed Code
+            .panel-body.panel-collapse.collapse#collapseTwo
+              p If your crm/webmaster doesn't allow you to include script tags you can use this iframe tag. You may need to manually adjust to height and width for this method to appear correctly in your website
+              p
+                button.btn.btn-primary#btn-iframe data-clipboard-target="#copy-iframe" Copy
+              pre#copy-iframe
+                = h "<iframe width=\"100%\" height=\"400px\" frameBorder=\"0\" height src=\"#{website_root_url()}widgets/mercantile_embeds/#{@mercantile_embed.uuid}\" id=\"mercantile-embed-#{@mercantile_embed.uuid}\"></iframe>"
+
+
+.modal.fade#modal tabindex="-1" aria-hidden="true" role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        / <a class="btn btn-primary btn-outline btn-sm pull-right" style="margin-right: 25px;" href="javascript:Appcues.show('-KjikJfwNMxFdG7owebl')">Show Me How</a>
+        h3 Create a Local Network
+      .modal-body
+        - if @mercantile_embed.company_list_id.nil?
+          = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: CompanyList.new }
+        - else
+          = render partial: 'businesses/crm/company_lists/edit', locals: { company_list: CompanyList.find(@mercantile_embed.company_list_id)}
+
+= render partial: 'businesses/crm/company_lists/shared', locals: {widget_selector: 'mercantile_embed_company_list_id'}
+
+- content_for :javascript do
+  javascript:
+    new MutationObserver(function () {
+      $(".company_ids:enabled").chosen({width: "100%"});
+    }).observe($('#modal')[0], { attributes: true, childList: true });
+    $(".modal-dialog").css({"height":"90%"});
+
+    $('#mercantile_embed_company_list_id').change(function() {
+      var clUrl = "/businesses/#{j = @business.id}/crm/company_lists/"
+      clUrl = clUrl + (this.value ? this.value + '/edit' : 'new')
+      $.ajax({ url: clUrl, data: {json: true} }).done(function(data) {
+        $('#company_list_partial').html($(data)[0])
+      });
+    });
+
+    //Override the default confirm dialog by rails
+    $.rails.allowAction = function(link){
+      if (link.data("confirm") == undefined){
+        return true;
+      }
+      $.rails.showConfirmationDialog(link);
+      return false;
+    }
+
+    //User click confirm button
+    $.rails.confirmed = function(link){
+      link.data("confirm", null);
+      link.trigger("click.rails");
+    }
+
+    //Display the confirmation dialog
+    $.rails.showConfirmationDialog = function(link){
+      var message = link.data("confirm");
+      swal({
+        title: message,
+        text:  'This action cannot be reversed.',
+        type: 'warning',
+        confirmButtonText: 'Delete',
+        confirmButtonColor: '#DD6B55',
+        showCancelButton: true
+      }, function(confirmed) {
+        if (confirmed) {
+          $.rails.confirmed(link);
+        }
+      });
+    };
+
+    $(function() {
+      $(".edit-mercantile-embed select").chosen();
+      new Clipboard('.btn');
+      $('#btn-script').click(function(){
+          swal({
+              title: "Success",
+              text: "The script code has been copied to your clipboard",
+              type: "success"
+          });
+      });
+      $('#btn-iframe').click(function(){
+          swal({
+              title: "Success",
+              text: "The iframe code has been copied to your clipboard",
+              type: "success"
+          });
+      });
+      $("#preview").data('width', $(window).width()-100);
+      $("select#mercantile_embed_widget_layout").change(function() {
+        var layout = $(this).find("option:selected").val();
+        var href = $("#preview").attr("href");
+        $("#preview").attr("href", href.replace(/\=[A-Za-z]*$/, "="+layout));
+      });
+      $("#preview").click(function () {
+        setTimeout(function() { $("iframe").css('height', '500px'); }, 1000);
+      });
+    });

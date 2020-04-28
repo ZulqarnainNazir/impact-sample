@@ -10,6 +10,29 @@ $.fn.showWhenClicked = ->
 
 $(document).ready ->
 
+  if $('#mercantile_embed_link_version_link_internal').prop('checked')
+    $('#internal-link, #link-options, #view-more-button').show()
+  else if $('#mercantile_embed_link_version_link_external').prop('checked')
+    $('#external-link, #link-options, #view-more-button').show()
+
+  $('.link-versions').on 'click', ->
+    if $('#mercantile_embed_link_version_link_none').prop('checked') or $('#mercantile_embed_link_version_link_paginate').prop('checked')
+      $('#internal-link, #external-link, #link-options, #view-more-button').hide()
+
+    if $('#mercantile_embed_link_version_link_internal').prop('checked')
+      $('#internal-link, #link-options, #view-more-button').show()
+      $('#external-link').hide()
+
+    if $('#mercantile_embed_link_version_link_external').prop('checked')
+      $('#external-link, #link-options, #view-more-button').show()
+      $('#internal-link').hide()
+
+
+    return
+  return
+
+$(document).ready ->
+
   if $('#content_feed_widget_link_version_link_internal').prop('checked')
     $('#internal-link, #link-options, #view-more-button').show()
   else if $('#content_feed_widget_link_version_link_external').prop('checked')

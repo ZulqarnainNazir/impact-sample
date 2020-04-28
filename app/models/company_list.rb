@@ -8,6 +8,7 @@ class CompanyList < ActiveRecord::Base
   has_many :companies, :through => :company_list_companies
 
   has_many :directory_widgets
+  has_many :mercantile_embeds
 
   accepts_nested_attributes_for :company_list_categories, allow_destroy: true, reject_if: proc { |a|
     a['_destroy'] == '1' || (

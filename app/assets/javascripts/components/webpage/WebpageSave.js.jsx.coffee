@@ -58,10 +58,11 @@ WebpageSave = React.createClass
            this.props.groupTypes.indexOf('ReviewsGroup') is -1 ||
            this.props.groupTypes.indexOf('SupportLocalGroup') is -1 ||
            this.props.groupTypes.indexOf('ContactFormGroup') is -1 ||
-           this.props.groupTypes.indexOf('CalendarGroup') is -1
+           this.props.groupTypes.indexOf('CalendarGroup') is -1 ||
+           this.props.groupTypes.indexOf('MercantileGroup') is -1
 
       `<span className="btn btn-sm btn-default" onClick={this.props.showFeedContentModal} style={{marginRight: '0.3em', marginBottom: '0.3em'}} title="Choose and configure dynamic content" data-content="Incorporate content feeds, forms, reviews, and your SupportLocal Network.">
-        Feed Content
+        Embeds
       </span>`
 
   render: ->

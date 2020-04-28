@@ -39,6 +39,7 @@ class Businesses::ProductsController < Businesses::BaseController
       :price,
       :delivery_type,
       :status,
+      :product_kind,
       image_placement_attributes: placement_attributes,
     ).deep_merge(
       image_placement_attributes: {
