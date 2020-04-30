@@ -77,6 +77,10 @@ video {
   height: auto !important;
 }
 
+.img-circle .img-responsive {
+ border-radius: 50%;
+}
+
 /* GALLERY */
 .gallery > .row > div {
   margin-bottom: 15px;
