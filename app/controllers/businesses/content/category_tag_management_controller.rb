@@ -38,7 +38,7 @@ class Businesses::Content::CategoryTagManagementController < Businesses::Content
   end
 
   def create_content_category
-    @content_category = @business.content_categories.new    
+    @content_category = @business.content_categories.new
     @content_category.assign_attributes(content_category_params)
 
     if @content_category.save
