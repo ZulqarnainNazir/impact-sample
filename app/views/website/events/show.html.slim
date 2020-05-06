@@ -41,7 +41,7 @@
         - location = @event.event_definition.try(:location)
         .well.well-transparent
           .event-details
-            - if location
+            - if !@event.event_definition.virtual_event? && location 
                 span.font-bold.mg-l-md itemprop="location" itemtype="http://schema.org/Place" = location.name
                 small (Location)
 
