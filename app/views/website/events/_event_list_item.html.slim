@@ -40,7 +40,7 @@
             = event.start_time(@business&.time_zone).strftime('%-l:%M %p %Z, ')
           = event.occurs_on.strftime('%b %d, %Y')
       .location
-        - if event.event_definition.location.present? && event.event_definition.location.city.present? && event.event_definition.location.state.present?
+        - if !event.event_definition.virtual_event? && event.event_definition.location.present? && event.event_definition.location.city.present? && event.event_definition.location.state.present?
           .city-state
             i.fa.fa-map-marker.m-r-xs
             = truncate sanitize(event.event_definition.location.city.titleize) + ', '

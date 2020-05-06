@@ -34,19 +34,19 @@
         - location = event.event_definition.try(:location)
         .well.well-transparent
           .event-details.m-t-0
-            - if location
+            - if !event.event_definition.virtual_event? && location
                 span.font-bold.mg-l-md = location.name
                 small (Location)
 
-            - unless event.event_definition.hide_full_address? || event.event_definition.virtual_event?
-              - if !event.event_definition.hide_full_address? && !event.event_definition.show_city_only?
-                .block
-                  i.fa.fa-map-marker
-                  = location.full_address
-              - if event.event_definition.show_city_only?
-                .block
-                  i.fa.fa-map-marker
-                  = location.city_and_state
+              - unless event.event_definition.hide_full_address? || event.event_definition.virtual_event?
+                - if !event.event_definition.hide_full_address? && !event.event_definition.show_city_only?
+                  .block
+                    i.fa.fa-map-marker
+                    = location.full_address
+                - if event.event_definition.show_city_only?
+                  .block
+                    i.fa.fa-map-marker
+                    = location.city_and_state
             .block
               i.fa.fa-calendar
               = event.occurs_on.strftime('%b %d, %Y')

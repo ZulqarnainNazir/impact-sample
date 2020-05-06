@@ -26,7 +26,7 @@
                   = event_definition.start_time&.strftime(' %-l:%M %p %Z')
               = link_to listing_content_type_path(business.generate_listing_segment, event, content: 'event'), target: :_blank, class: 'grid-feed-title'
                  = truncate sanitize(event_definition.title.titleize), length: 60, omission: '... '
-              - if event_definition.try(:location)
+              - if !event_definition.virtual_event? && event_definition.try(:location)
                 small.m-t-xs.block
                   i.fa.fa-map-marker.m-r-xs
                   = truncate sanitize(event_definition.location.street1.titleize)

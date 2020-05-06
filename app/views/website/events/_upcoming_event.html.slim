@@ -29,7 +29,7 @@ div class=(stacked ?  'col-xs-12' : 'col-xs-12 col-sm-6 col-md-4')
               i.fa.fa-clock-o.m-r-xs
               = upcoming_event.event_definition.start_time(@business&.time_zone).strftime('%I:%M %p %Z')
       .location
-        - if upcoming_event.event_definition.location.present?
+        - if !upcoming_event.event_definition.virtual_event? && upcoming_event.event_definition.location.present?
           .street1
             i.fa.fa-map-marker.m-r-xs
             = truncate sanitize(upcoming_event.event_definition.location.street1&.titleize)

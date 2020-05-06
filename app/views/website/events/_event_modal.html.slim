@@ -30,7 +30,7 @@
       = event.event_definition.start_time(@business&.time_zone).strftime('%I:%M %p %Z')
 
 - location = capture do
-  - if event.event_definition.location.present?
+  - if !event.event_definition.virtual_event? && event.event_definition.location.present?
     small.m-t-xs.block
       i.fa.fa-map-marker.m-r-xs
       = truncate sanitize(event.event_definition.location.street1.titleize)
