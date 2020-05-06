@@ -36,7 +36,7 @@
   = event.occurs_on.strftime('%B&nbsp;%Y').html_safe
 
 - location = capture do
-  - if event.event_definition.location.present? && event.event_definition.location.city.present? && event.event_definition.location.state.present?
+  - if !event.event_definition.virtual_event? && event.event_definition.location.present? && event.event_definition.location.city.present? && event.event_definition.location.state.present?
     .city-state
       i.fa.fa-map-marker.m-r-xs
       = truncate sanitize_simple(event.event_definition.location.city.titleize) + ', '
