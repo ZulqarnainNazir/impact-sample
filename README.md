@@ -1,10 +1,10 @@
 # Impact
 
-Impact is a Ruby on Rails 4.2.x application with the following system
+Impact is a Ruby on Rails 4.2.6 application with the following system
 dependencies:
 
 **Dependencies**
-* Ruby 2.3.0
+* Ruby 2.3.5
 * PostgreSQL
 * AWS S3
 * Redis
