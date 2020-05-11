@@ -76,7 +76,7 @@
 
   - if @calendar_widget.public_label.present?
     .col-xs-12
-      h1 = @calendar_widget.public_label
+      h2 = @calendar_widget.public_label
 
   - if @calendar_widget.enable_search == true
     = render partial: 'website/calendar_blocks/calendar_search', locals: {request_url: request_url, event_kinds: event_kinds}
