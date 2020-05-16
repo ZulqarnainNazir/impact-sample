@@ -15,7 +15,7 @@
 module Feeds
   class ImportError < StandardError; end
 
-  class ImportService
+  class ImportService 
     attr_reader :event_feed, :parser, :stats, :always_notify
 
     def initialize(args = {})
@@ -168,6 +168,8 @@ module Feeds
       when /google\.com\/calendar\/v3/
         # Base Google Calendar Parser
         Feeds::Parsers::GoogleCalendarParser.new
+      when /visitcharlevoix\.com\/\w*\.cfm$/
+        Feeds::Parsers::VisitCharleVoixParser.new
       end
     end
 

@@ -10,8 +10,8 @@ module Feeds
 
     def get_location(location_search)
       searches = MultiGeocoderService.search(location_search)
-      search = searches.first
-
+      # search = searches.first
+      search = searches
       return {} unless search.present?
 
       Feeds::Location.new({
