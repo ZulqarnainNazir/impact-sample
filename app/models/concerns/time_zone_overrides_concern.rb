@@ -3,7 +3,7 @@ module TimeZoneOverridesConcern
 
   def associated_time_zone
     if type == 'ImportedEventDefinition'
-      business&.time_zone || event_feed&.time_zone || Time.zone
+      event_feed&.time_zone || business&.time_zone || Time.zone
     else
       business&.time_zone || Time.zone
     end
@@ -60,6 +60,7 @@ module TimeZoneOverridesConcern
   end
 
   def build_date_time_with_zone(date, time, zone, offset = nil)
+    date = time.to_date if time.to_date > date
     datetime = DateTime.new(
       date.year,
       date.month,
@@ -67,7 +68,6 @@ module TimeZoneOverridesConcern
       time.hour,
       time.min
     )
-
     if offset
       datetime.change(offset: offset)
     else
