@@ -16,6 +16,7 @@ module Feeds
           event_id: event["id_events"],
           title: event["name"].to_s,
           summary: event["description"].to_s,
+          categories: [event["primary_category"]] + event["secondary_categories"].split(","),
           start_date: event["start_date"].to_datetime.strftime("%Y-%m-%d"), 
           start_time: parse_time(feed, event["start_date"].to_datetime.strftime("%H:%M"), event["start_date"].to_datetime.strftime("%Y-%m-%d")),
           end_date: event["end_date"].to_date.strftime("%Y-%m-%d"),

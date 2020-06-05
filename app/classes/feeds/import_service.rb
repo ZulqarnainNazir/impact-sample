@@ -115,6 +115,7 @@ module Feeds
             event_definition: event_definition,
             location: location
           )
+          event.try(:categories)&.each { |category| event_definition.content_categories.create(name: category, business_id: event_feed.business_id)}
           event_definition
         end
         stats[:imported] += 1
