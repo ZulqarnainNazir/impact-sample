@@ -88,7 +88,7 @@ class Businesses::Events::FeedsController < Businesses::Events::BaseController
     content_classes = [EventDefinition]
     @results =
       Kaminari.paginate_array(
-        Elasticsearch::Model.search(dsl1, content_classes).response.records.to_a
+        Elasticsearch::Model.search(dsl1, content_classes).records.to_a
       ).page(params[:page]).per(20)
 
     # @graph = FacebookAnalytics.new(facebook_token: @business.facebook_token)

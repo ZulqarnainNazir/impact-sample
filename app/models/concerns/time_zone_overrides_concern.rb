@@ -3,7 +3,7 @@ module TimeZoneOverridesConcern
 
   def associated_time_zone
     if type == 'ImportedEventDefinition'
-      event_feed&.time_zone || business&.time_zone || Time.zone
+      business&.time_zone || event_feed&.time_zone || Time.zone
     else
       business&.time_zone || Time.zone
     end
@@ -41,6 +41,7 @@ module TimeZoneOverridesConcern
     offset = date.in_time_zone(associated_time_zone).formatted_offset
     datetime = build_date_time_with_zone(date, Time.parse(value), associated_time_zone, offset)
     write_attribute :start_time, datetime.utc
+    write_attribute :start_date, datetime.utc.strftime("%Y-%m-%d")
   ensure
     Time.zone = before_zone
   end
@@ -55,12 +56,12 @@ module TimeZoneOverridesConcern
     offset = date.in_time_zone(associated_time_zone).formatted_offset
     datetime = build_date_time_with_zone(date, Time.parse(value), associated_time_zone, offset)
     write_attribute :end_time, datetime.utc
+    write_attribute :end_date, datetime.utc.strftime("%Y-%m-%d")
   ensure
     Time.zone = before_zone
   end
 
   def build_date_time_with_zone(date, time, zone, offset = nil)
-    date = time.to_date if time.to_date > date
     datetime = DateTime.new(
       date.year,
       date.month,
