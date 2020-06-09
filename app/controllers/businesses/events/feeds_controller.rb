@@ -86,6 +86,7 @@ class Businesses::Events::FeedsController < Businesses::Events::BaseController
     end
 
     content_classes = [EventDefinition]
+
     @results =
       Kaminari.paginate_array(
         Elasticsearch::Model.search(dsl1, content_classes).records.to_a

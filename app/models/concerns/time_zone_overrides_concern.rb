@@ -67,6 +67,7 @@ module TimeZoneOverridesConcern
       time.hour,
       time.min
     )
+
     if offset
       datetime.change(offset: offset)
     else
