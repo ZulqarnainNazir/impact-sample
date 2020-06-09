@@ -19,10 +19,9 @@ module Feeds
     attr_reader :event_feed, :parser, :stats, :always_notify
 
     def initialize(args = {})
-      @event_feed    = args.fetch :event_feed
-      @parser        = args.fetch :parser, parser_from_url
-      @always_notify = args.fetch :always_notify, true
-
+      @event_feed     = args.fetch :event_feed
+      @parser         = args.fetch :parser, parser_from_url
+      @always_notify  = args.fetch :always_notify, true
       # These statistics are filled in as the service is run. This data is used
       # for notification emails about the feed later on.
       @stats = {
@@ -85,7 +84,8 @@ module Feeds
       elsif event_feed.location.present?
         location = event_feed.location
       end
-
+      picture_url  = event.try(:img).to_s
+      picture_name = File.basename(URI.parse(picture_url).path).to_s
       event_definition = ImportedEventDefinition.new(
         business_id: event_feed.business_id,
         event_feed_id: event_feed.id,
@@ -93,7 +93,7 @@ module Feeds
         subtitle: event.try(:subtitle),
         description: event.try(:summary),
         price: event.try(:price),
-        url: event.try(:url),
+        url: event.try(:img),
         phone: event.try(:phone),
         start_date: event.try(:start_date),
         end_date: event.try(:end_date),
@@ -108,6 +108,18 @@ module Feeds
         EventDefinition.transaction do
           # Records should be created even with partial data that fail validations.
           # We want owners of the feed to have the opportunity to fill in the rest.
+          image = open(picture_url)
+          event_definition.event_image_placement_attributes = {
+            image_alt: "event_image",
+            image_title: "event_import",
+            kind: "images",
+            image_attachment_content_type: image.content_type,
+            image_attachment_file_size: image.size,
+            image_attachment_cache_url: picture_url,
+            image_attachment_file_name: picture_name,
+            image_user: User.find(event_feed.creator_id),
+            image_business: event_feed.business,
+          }
           event_definition.save validate: false
           location ||= ::Location.new(business_id: event_feed.business_id, name: '')
           location.save validate: false
