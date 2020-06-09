@@ -41,7 +41,6 @@ module TimeZoneOverridesConcern
     offset = date.in_time_zone(associated_time_zone).formatted_offset
     datetime = build_date_time_with_zone(date, Time.parse(value), associated_time_zone, offset)
     write_attribute :start_time, datetime.utc
-    write_attribute :start_date, datetime.utc.strftime("%Y-%m-%d")
   ensure
     Time.zone = before_zone
   end
@@ -56,7 +55,6 @@ module TimeZoneOverridesConcern
     offset = date.in_time_zone(associated_time_zone).formatted_offset
     datetime = build_date_time_with_zone(date, Time.parse(value), associated_time_zone, offset)
     write_attribute :end_time, datetime.utc
-    write_attribute :end_date, datetime.utc.strftime("%Y-%m-%d")
   ensure
     Time.zone = before_zone
   end
